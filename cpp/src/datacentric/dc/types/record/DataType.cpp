@@ -1,0 +1,170 @@
+/*
+Copyright (C) 2013-present The DataCentric Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+#include <dc/implement.hpp>
+#include <dc/types/record/DataType.hpp>
+#include <dc/serialization/ITreeWriter.hpp>
+#include <dot/system/reflection/Activator.hpp>
+#include <dc/types/record/KeyType.hpp>
+
+
+namespace dc
+{
+
+    void SerializeTo(dot::IObjectEnumerable obj, dot::String elementName, ITreeWriter writer)
+    {
+        // Write start element tag
+        writer->WriteStartArrayElement(elementName);
+
+        // Iterate over sequence elements
+        for (dot::Object item : obj)
+        {
+            // Write array item start tag
+            writer->WriteStartArrayItem();
+
+            if (item.IsEmpty())
+            {
+                writer->WriteStartValue();
+                writer->WriteValue(item);
+                writer->WriteEndValue();
+                writer->WriteEndArrayItem();
+                continue;
+            }
+
+            // Serialize based on type of the item
+            dot::Type itemType = item->GetType();
+
+            if (itemType->Equals(dot::typeof<dot::String>())
+                || itemType->Equals(dot::typeof<double>())
+                || itemType->Equals(dot::typeof<bool>())
+                || itemType->Equals(dot::typeof<int>())
+                || itemType->Equals(dot::typeof<int64_t>())
+                || itemType->Equals(dot::typeof<dot::LocalDate>())
+                || itemType->Equals(dot::typeof<dot::LocalDateTime>())
+                || itemType->Equals(dot::typeof<dot::LocalTime>())
+                || itemType->Equals(dot::typeof<dot::LocalMinute>())
+                || itemType->IsEnum
+                || itemType->Equals(dot::typeof<ObjectId>())
+                )
+            {
+                writer->WriteStartValue();
+                writer->WriteValue(item);
+                writer->WriteEndValue();
+            }
+            else
+            if (!itemType->GetInterface("IObjectEnumerable").IsEmpty())
+            {
+                throw dot::new_Exception(dot::String::Format("Serialization is not supported for element {0} "
+                    "which is collection containing another collection.", elementName));
+            }
+            else
+            if (item.is<Data>())
+            {
+                if (itemType->Name->EndsWith("Key"))
+                {
+                    // Embedded as string key
+                    writer->WriteStartValue();
+                    writer->WriteValue(item->ToString());
+                    writer->WriteEndValue();
+                }
+                else
+                {
+                    ((Data)item)->SerializeTo(writer);
+                }
+            }
+            else
+            {
+                throw dot::new_Exception(dot::String::Format(
+                    "Element type {0} is not supported for tree serialization.", itemType->Name));
+            }
+
+
+            // Write array item end tag
+            writer->WriteEndArrayItem();
+        }
+
+        // Write matching end element tag
+        writer->WriteEndArrayElement(elementName);
+    }
+
+
+    void DataImpl::SerializeTo(ITreeWriter writer)
+    {
+        // Write start tag
+        writer->WriteStartDict();
+
+        // Iterate over the list of elements
+        dot::Array1D<dot::PropertyInfo> innerElementInfoList = GetType()->GetProperties();
+        for (dot::PropertyInfo innerElementInfo : innerElementInfoList)
+        {
+            // Get element name and value
+            dot::String innerElementName = innerElementInfo->Name;
+            dot::Object innerElementValue = innerElementInfo->GetValue(this);
+
+            if (innerElementValue.IsEmpty())
+            {
+                continue;
+            }
+
+            dot::Type elementType = innerElementValue->GetType();
+
+            if (   elementType->Equals(dot::typeof<dot::String>())
+                || elementType->Equals(dot::typeof<double>())
+                || elementType->Equals(dot::typeof<bool>())
+                || elementType->Equals(dot::typeof<int>())
+                || elementType->Equals(dot::typeof<int64_t>())
+                || elementType->Equals(dot::typeof<dot::LocalDate>())
+                || elementType->Equals(dot::typeof<dot::LocalDateTime>())
+                || elementType->Equals(dot::typeof<dot::LocalTime>())
+                || elementType->Equals(dot::typeof<dot::LocalMinute>())
+                || elementType->IsEnum
+                || elementType->Equals(dot::typeof<ObjectId>())
+                )
+            {
+                writer->WriteValueElement(innerElementName, innerElementValue);
+            }
+            else
+            if (!elementType->GetInterface("IObjectEnumerable").IsEmpty())
+            {
+                dc::SerializeTo((dot::IObjectEnumerable)innerElementValue, innerElementName, writer);
+            }
+            else
+            if (innerElementValue.is<Data>())
+            {
+                if (innerElementValue->GetType()->Name->EndsWith("Key"))
+                {
+                    // Embedded as string key
+                    writer->WriteValueElement(innerElementName, innerElementValue->ToString());
+                }
+                else
+                {
+                    // Embedded as data
+                    writer->WriteStartElement(innerElementName);
+                    ((Data)innerElementValue)->SerializeTo(writer);
+                    writer->WriteEndElement(innerElementName);
+                }
+            }
+            else
+            {
+                throw dot::new_Exception(dot::String::Format("Element type {0} is not supported for tree serialization.", innerElementInfo->PropertyType));
+            }
+        }
+
+        // Write end tag
+        writer->WriteEndDict();
+    }
+
+}

@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="platform\activator\ActivatorSettingsData.cpp" />
+    <ClCompile Include="platform\activator\ActivatorSettingsKey.cpp" />
+    <ClCompile Include="platform\context\Context.cpp" />
+    <ClCompile Include="platform\context\IContext.cpp" />
+    <ClCompile Include="platform\dataset\DataSetData.cpp" />
+    <ClCompile Include="platform\dataset\DataSetKey.cpp" />
+    <ClCompile Include="platform\data_source\DatabaseData.cpp" />
+    <ClCompile Include="platform\data_source\DatabaseKey.cpp" />
+    <ClCompile Include="platform\data_source\DatabaseServerData.cpp" />
+    <ClCompile Include="platform\data_source\DataSourceData.cpp" />
+    <ClCompile Include="platform\data_source\DataSourceKey.cpp" />
+    <ClCompile Include="platform\data_source\DatabaseServerKey.cpp" />
+    <ClCompile Include="platform\data_source\IDataSource.cpp" />
+    <ClCompile Include="platform\data_source\mongo\MongoDataSourceBaseData.cpp" />
+    <ClCompile Include="platform\data_source\mongo\MongoDataSourceData.cpp" />
+    <ClCompile Include="platform\data_source\mongo\MongoDefaultServerData.cpp" />
+    <ClCompile Include="platform\data_source\mongo\MongoServerData.cpp" />
+    <ClCompile Include="platform\data_source\mongo\MongoStandardFormatServerData.cpp" />
+    <ClCompile Include="platform\data_source\mongo\ObjectId.cpp" />
+    <ClCompile Include="platform\locale\CustomLocaleSettingsData.cpp" />
+    <ClCompile Include="platform\locale\DefaultLocaleSettingsData.cpp" />
+    <ClCompile Include="platform\locale\LocaleSettingsData.cpp" />
+    <ClCompile Include="platform\locale\LocaleSettingsKey.cpp" />
+    <ClCompile Include="platform\logging\DefaultLogSettingsData.cpp" />
+    <ClCompile Include="platform\logging\LogSettingsData.cpp" />
+    <ClCompile Include="platform\logging\LogSettingsKey.cpp" />
+    <ClCompile Include="platform\query\Query.cpp" />
+    <ClCompile Include="platform\query\IQuery.cpp" />
+    <ClCompile Include="platform\reflection\ClassInfo.cpp" />
+    <ClCompile Include="platform\settings\Settings.cpp" />
+    <ClCompile Include="platform\workflow\JobData.cpp" />
+    <ClCompile Include="platform\workflow\JobKey.cpp" />
+    <ClCompile Include="platform\workflow\JobQueueData.cpp" />
+    <ClCompile Include="platform\workflow\JobQueueKey.cpp" />
+    <ClCompile Include="platform\workflow\JobTypeData.cpp" />
+    <ClCompile Include="platform\workflow\JobTypeKey.cpp" />
+    <ClCompile Include="platform\workflow\LinkedTypeData.cpp" />
+    <ClCompile Include="platform\workflow\LinkedTypeKey.cpp" />
+    <ClCompile Include="platform\workflow\PhaseData.cpp" />
+    <ClCompile Include="platform\workflow\PhaseKey.cpp" />
+    <ClCompile Include="platform\workflow\TaskData.cpp" />
+    <ClCompile Include="platform\workflow\TaskKey.cpp" />
+    <ClCompile Include="platform\workflow\WorkflowData.cpp" />
+    <ClCompile Include="platform\workflow\WorkflowKey.cpp" />
+    <ClCompile Include="precompiled.cpp" />
+    <ClCompile Include="serialization\BsonRecordSerializer.cpp" />
+    <ClCompile Include="serialization\BsonWriter.cpp" />
+    <ClCompile Include="serialization\CsvWriter.cpp" />
+    <ClCompile Include="serialization\DataWriter.cpp" />
+    <ClCompile Include="serialization\JsonRecordSerializer.cpp" />
+    <ClCompile Include="serialization\JsonWriter.cpp" />
+    <ClCompile Include="serialization\TupleWriter.cpp" />
+    <ClCompile Include="serialization\ITreeWriter.cpp" />
+    <ClCompile Include="settings\CustomSystemSettingsData.cpp" />
+    <ClCompile Include="settings\DefaultSystemSettingsData.cpp" />
+    <ClCompile Include="settings\SettingsData.cpp" />
+    <ClCompile Include="settings\SettingsKey.cpp" />
+    <ClCompile Include="settings\SystemSettingsData.cpp" />
+    <ClCompile Include="settings\SystemSettingsKey.cpp" />
+    <ClCompile Include="types\local_date_time\LocalDateTime.cpp" />
+    <ClCompile Include="types\local_date\LocalDate.cpp" />
+    <ClCompile Include="types\local_minute\LocalMinute.cpp" />
+    <ClCompile Include="types\local_time\LocalTime.cpp" />
+    <ClCompile Include="types\record\CachedRecord.cpp" />
+    <ClCompile Include="types\record\DataType.cpp" />
+    <ClCompile Include="types\record\DeleteMarker.cpp" />
+    <ClCompile Include="types\record\KeyType.cpp" />
+    <ClCompile Include="types\record\RecordType.cpp" />
+    <ClCompile Include="types\variant\Variant.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core.hpp" />
+    <ClInclude Include="declare.hpp" />
+    <ClInclude Include="implement.hpp" />
+    <ClInclude Include="import.hpp" />
+    <ClInclude Include="platform\activator\ActivatorSettingsData.hpp" />
+    <ClInclude Include="platform\activator\ActivatorSettingsKey.hpp" />
+    <ClInclude Include="platform\context\Context.hpp" />
+    <ClInclude Include="platform\context\IContext.hpp" />
+    <ClInclude Include="platform\cursor\CursorWrapper.hpp" />
+    <ClInclude Include="platform\dataset\DataSetData.hpp" />
+    <ClInclude Include="platform\dataset\DataSetKey.hpp" />
+    <ClInclude Include="platform\data_source\DatabaseData.hpp" />
+    <ClInclude Include="platform\data_source\DatabaseKey.hpp" />
+    <ClInclude Include="platform\data_source\DatabaseServerData.hpp" />
+    <ClInclude Include="platform\data_source\DatabaseServerKey.hpp" />
+    <ClInclude Include="platform\data_source\DataSourceData.hpp" />
+    <ClInclude Include="platform\data_source\DataSourceKey.hpp" />
+    <ClInclude Include="platform\data_source\InstanceType.hpp" />
+    <ClInclude Include="platform\data_source\IDataSource.hpp" />
+    <ClInclude Include="platform\data_source\mongo\MongoDataSourceBaseData.hpp" />
+    <ClInclude Include="platform\data_source\mongo\MongoDataSourceData.hpp" />
+    <ClInclude Include="platform\data_source\mongo\MongoDefaultServerData.hpp" />
+    <ClInclude Include="platform\data_source\mongo\MongoServerData.hpp" />
+    <ClInclude Include="platform\data_source\mongo\MongoStandardFormatServerData.hpp" />
+    <ClInclude Include="platform\data_source\mongo\ObjectId.hpp" />
+    <ClInclude Include="platform\data_source\mongo\QueryBuilder.hpp" />
+    <ClInclude Include="platform\locale\CustomLocaleSettingsData.hpp" />
+    <ClInclude Include="platform\locale\DefaultLocaleSettingsData.hpp" />
+    <ClInclude Include="platform\locale\LocaleSettingsData.hpp" />
+    <ClInclude Include="platform\locale\LocaleSettingsKey.hpp" />
+    <ClInclude Include="platform\logging\DefaultLogSettingsData.hpp" />
+    <ClInclude Include="platform\logging\LogEntryType.hpp" />
+    <ClInclude Include="platform\logging\LogSettingsData.hpp" />
+    <ClInclude Include="platform\logging\LogSettingsKey.hpp" />
+    <ClInclude Include="platform\logging\LogVerbosity.hpp" />
+    <ClInclude Include="platform\query\Query.hpp" />
+    <ClInclude Include="platform\query\IQuery.hpp" />
+    <ClInclude Include="platform\reflection\ClassInfo.hpp" />
+    <ClInclude Include="platform\reflection\DefaultClassMapSettings.hpp" />
+    <ClInclude Include="platform\reflection\IClassMapSettings.hpp" />
+    <ClInclude Include="platform\settings\DefaultSettings.hpp" />
+    <ClInclude Include="platform\settings\Settings.hpp" />
+    <ClInclude Include="platform\settings\ISettings.hpp" />
+    <ClInclude Include="platform\workflow\JobData.hpp" />
+    <ClInclude Include="platform\workflow\JobKey.hpp" />
+    <ClInclude Include="platform\workflow\JobQueueData.hpp" />
+    <ClInclude Include="platform\workflow\JobQueueKey.hpp" />
+    <ClInclude Include="platform\workflow\JobTypeData.hpp" />
+    <ClInclude Include="platform\workflow\JobTypeKey.hpp" />
+    <ClInclude Include="platform\workflow\LinkedTypeData.hpp" />
+    <ClInclude Include="platform\workflow\LinkedTypeKey.hpp" />
+    <ClInclude Include="platform\workflow\PhaseData.hpp" />
+    <ClInclude Include="platform\workflow\PhaseKey.hpp" />
+    <ClInclude Include="platform\workflow\TaskData.hpp" />
+    <ClInclude Include="platform\workflow\TaskKey.hpp" />
+    <ClInclude Include="platform\workflow\WorkflowData.hpp" />
+    <ClInclude Include="platform\workflow\WorkflowKey.hpp" />
+    <ClInclude Include="precompiled.hpp" />
+    <ClInclude Include="serialization\BsonRecordSerializer.hpp" />
+    <ClInclude Include="serialization\BsonWriter.hpp" />
+    <ClInclude Include="serialization\CsvWriter.hpp" />
+    <ClInclude Include="serialization\DataWriter.hpp" />
+    <ClInclude Include="serialization\JsonRecordSerializer.hpp" />
+    <ClInclude Include="serialization\JsonWriter.hpp" />
+    <ClInclude Include="serialization\TupleWriter.hpp" />
+    <ClInclude Include="serialization\ICsvReader.hpp" />
+    <ClInclude Include="serialization\ICsvWriter.hpp" />
+    <ClInclude Include="serialization\ITreeWriter.hpp" />
+    <ClInclude Include="settings\CustomSystemSettingsData.hpp" />
+    <ClInclude Include="settings\DefaultSystemSettingsData.hpp" />
+    <ClInclude Include="settings\OperatingSystem.hpp" />
+    <ClInclude Include="settings\SettingsData.hpp" />
+    <ClInclude Include="settings\SettingsKey.hpp" />
+    <ClInclude Include="settings\SystemSettingsData.hpp" />
+    <ClInclude Include="settings\SystemSettingsKey.hpp" />
+    <ClInclude Include="types\local_date\LocalDate.hpp" />
+    <ClInclude Include="types\local_date_time\LocalDateTime.hpp" />
+    <ClInclude Include="types\double\Double.hpp" />
+    <ClInclude Include="types\record\CachedRecord.hpp" />
+    <ClInclude Include="types\record\DeleteMarker.hpp" />
+    <ClInclude Include="types\record\KeyFor.hpp" />
+    <ClInclude Include="types\record\RecordFor.hpp" />
+    <ClInclude Include="types\record\RootKeyFor.hpp" />
+    <ClInclude Include="types\record\RootRecordFor.hpp" />
+    <ClInclude Include="types\record\IKeyFor.hpp" />
+    <ClInclude Include="types\local_minute\LocalMinute.hpp" />
+    <ClInclude Include="types\local_time\LocalTime.hpp" />
+    <ClInclude Include="types\enum\Flag.hpp" />
+    <ClInclude Include="types\record\DataType.hpp" />
+    <ClInclude Include="types\record\KeyType.hpp" />
+    <ClInclude Include="types\record\RecordType.hpp" />
+    <ClInclude Include="types\record\ValueType.hpp" />
+    <ClInclude Include="types\variant\Variant.hpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B3B7D5B9-3965-40E0-814A-74F2BFE874E9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(WindowsTargetPlatformVersion)'==''">
+    <!-- Latest Target Version property -->
+    <LatestTargetPlatformVersion>$([Microsoft.Build.Utilities.ToolLocationHelper]::GetLatestSDKTargetPlatformVersion('Windows', '10.0'))</LatestTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(WindowsTargetPlatformVersion)' == ''">$(LatestTargetPlatformVersion)</WindowsTargetPlatformVersion>
+    <TargetPlatformVersion>$(WindowsTargetPlatformVersion)</TargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\vc141-x64-debug\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\vc141-x64-release\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..;..\..\dotcpp;..\..\..\third_party</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>NotSet</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Mongo.Cpp.lib;DotCpp.Cpp.lib;libboost_date_time-vc141-mt-gd-x64-1_70.lib;secur32.lib;ws2_32.lib;crypt32.lib;Bcrypt.lib;Dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..;..\..\dotcpp;..\..\..\third_party</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>NotSet</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Mongo.Cpp.lib;DotCpp.Cpp.lib;libboost_date_time-vc141-mt-x64-1_70.lib;secur32.lib;ws2_32.lib;crypt32.lib;Bcrypt.lib;Dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

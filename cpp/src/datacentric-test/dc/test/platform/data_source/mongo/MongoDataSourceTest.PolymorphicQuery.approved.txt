@@ -1,0 +1,42 @@
+Load all types by key to type A
+    Key=A;0 Type=MongoTestData
+    Key=B;0 Type=MongoTestDerivedData
+    Key=C;0 Type=MongoTestOtherDerivedData
+    Key=D;0 Type=MongoTestDerivedFromDerivedData
+Query by MongoTestData, unconstrained
+    Key=A;0 Type=MongoTestData
+    Key=A;1 Type=MongoTestData
+    Key=A;2 Type=MongoTestData
+    Key=A;3 Type=MongoTestData
+    Key=B;0 Type=MongoTestDerivedData
+    Key=B;1 Type=MongoTestDerivedData
+    Key=B;2 Type=MongoTestDerivedData
+    Key=B;3 Type=MongoTestDerivedData
+    Key=C;0 Type=MongoTestOtherDerivedData
+    Key=C;1 Type=MongoTestOtherDerivedData
+    Key=C;2 Type=MongoTestOtherDerivedData
+    Key=C;3 Type=MongoTestOtherDerivedData
+    Key=D;0 Type=MongoTestDerivedFromDerivedData
+    Key=D;1 Type=MongoTestDerivedFromDerivedData
+    Key=D;2 Type=MongoTestDerivedFromDerivedData
+    Key=D;3 Type=MongoTestDerivedFromDerivedData
+Query by MongoTestDerivedData : MongoTestData which also picks up MongoTestDerivedFromDerivedData : MongoTestDerivedData, unconstrained
+    Key=B;0 Type=MongoTestDerivedData
+    Key=B;1 Type=MongoTestDerivedData
+    Key=B;2 Type=MongoTestDerivedData
+    Key=B;3 Type=MongoTestDerivedData
+    Key=D;0 Type=MongoTestDerivedFromDerivedData
+    Key=D;1 Type=MongoTestDerivedFromDerivedData
+    Key=D;2 Type=MongoTestDerivedFromDerivedData
+    Key=D;3 Type=MongoTestDerivedFromDerivedData
+Query by MongoTestOtherDerivedData : MongoTestData, unconstrained
+    Key=C;0 Type=MongoTestOtherDerivedData
+    Key=C;1 Type=MongoTestOtherDerivedData
+    Key=C;2 Type=MongoTestOtherDerivedData
+    Key=C;3 Type=MongoTestOtherDerivedData
+Query by MongoTestDerivedFromDerivedData : MongoTestDerivedData, where MongoTestDerivedData : MongoTestData, unconstrained
+    Key=D;0 Type=MongoTestDerivedFromDerivedData
+    Key=D;1 Type=MongoTestDerivedFromDerivedData
+    Key=D;2 Type=MongoTestDerivedFromDerivedData
+    Key=D;3 Type=MongoTestDerivedFromDerivedData
+

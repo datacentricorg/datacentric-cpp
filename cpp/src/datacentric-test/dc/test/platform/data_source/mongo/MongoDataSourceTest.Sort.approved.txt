@@ -1,0 +1,18 @@
+Query by MongoTestData, sort by RecordIndex descending, then by DoubleElement ascending
+    RecordIndex=3 DoubleElement=100 Key=A;3 Type=MongoTestData
+    RecordIndex=3 DoubleElement=300 Key=B;3 Type=MongoTestDerivedData
+    RecordIndex=3 DoubleElement=300 Key=C;3 Type=MongoTestOtherDerivedData
+    RecordIndex=3 DoubleElement=300 Key=D;3 Type=MongoTestDerivedFromDerivedData
+    RecordIndex=2 DoubleElement=100 Key=A;2 Type=MongoTestData
+    RecordIndex=2 DoubleElement=300 Key=B;2 Type=MongoTestDerivedData
+    RecordIndex=2 DoubleElement=300 Key=C;2 Type=MongoTestOtherDerivedData
+    RecordIndex=2 DoubleElement=300 Key=D;2 Type=MongoTestDerivedFromDerivedData
+    RecordIndex=1 DoubleElement=100 Key=A;1 Type=MongoTestData
+    RecordIndex=1 DoubleElement=300 Key=B;1 Type=MongoTestDerivedData
+    RecordIndex=1 DoubleElement=300 Key=C;1 Type=MongoTestOtherDerivedData
+    RecordIndex=1 DoubleElement=300 Key=D;1 Type=MongoTestDerivedFromDerivedData
+    RecordIndex=0 DoubleElement=100 Key=A;0 Type=MongoTestData
+    RecordIndex=0 DoubleElement=300 Key=B;0 Type=MongoTestDerivedData
+    RecordIndex=0 DoubleElement=300 Key=C;0 Type=MongoTestOtherDerivedData
+    RecordIndex=0 DoubleElement=300 Key=D;0 Type=MongoTestDerivedFromDerivedData
+

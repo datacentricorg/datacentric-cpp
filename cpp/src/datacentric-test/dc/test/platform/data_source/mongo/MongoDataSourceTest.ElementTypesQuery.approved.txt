@@ -1,0 +1,5 @@
+Key=B;0 Type=MongoTestDerivedData
+Key=B;1 Type=MongoTestDerivedData
+Key=B;2 Type=MongoTestDerivedData
+Key=B;3 Type=MongoTestDerivedData
+

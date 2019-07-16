@@ -1,0 +1,26 @@
+Load records by ObjectId without constraint
+    Found by ObjectId=A0 = true
+    Found by ObjectId=A1 = true
+    Found by ObjectId=A2 = true
+    Found by ObjectId=C0 = true
+Load records by string key without constraint
+    Version found for key=A;0: 2
+    Version found for key=C;0: 0
+Query records without constraint
+    Key=A;0 DataSet=A Version=2
+    Key=B;0 DataSet=B Version=2
+    Key=C;0 DataSet=A Version=0
+    Key=D;0 DataSet=B Version=0
+Load records by ObjectId with RevisedBeforeId constraint
+    Found by ObjectId=A0 = true
+    Found by ObjectId=A1 = true
+    Found by ObjectId=A2 = false
+    Found by ObjectId=C0 = false
+Load records by string key with RevisedBeforeId constraint
+    Version found for key=A;0: 2
+Query records with RevisedBeforeId constraint
+    Key=A;0 DataSet=A Version=2
+    Key=B;0 DataSet=B Version=2
+    Key=C;0 DataSet=A Version=0
+    Key=D;0 DataSet=B Version=0
+

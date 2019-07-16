@@ -1,0 +1,107 @@
+/*
+Copyright (C) 2013-present The DataCentric Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+#pragma once
+
+#include <dc/declare.hpp>
+#include <dot/system/Ptr.hpp>
+#include <bsoncxx/oid.hpp>
+
+namespace dc
+{
+    class DC_CLASS ObjectId
+    {
+
+    public:
+
+        ObjectId();
+
+        ObjectId(bsoncxx::oid id);
+
+        ObjectId(dot::Object obj);
+
+        ObjectId(dot::String str);
+
+        explicit ObjectId(const char* bytes, std::size_t len);
+
+        explicit ObjectId(dot::LocalDateTime value);
+
+        bool operator==(const ObjectId& rhs) const;
+
+        bool operator!=(const ObjectId& rhs) const;
+
+        bool operator>=(const ObjectId& rhs) const;
+
+        bool operator<=(const ObjectId& rhs) const;
+
+        bool IsEmpty();
+
+        bool operator<(const ObjectId& rhs) const;
+
+        //LocalDateTime GetTimeStamp();
+
+        static ObjectId GenerateNewId();
+
+        dot::String ToString();
+
+        bsoncxx::oid _id;
+
+        static ObjectId Empty;
+
+        operator dot::Object()
+        {
+            if (_id != Empty._id)
+                return dot::Object(new dot::StructWrapperImpl<ObjectId>(*this));
+            else return dot::Object();
+        }
+
+    };
+
+}
+
+namespace dot
+{
+    template <>
+    inline Type typeof<dc::ObjectId>()
+    {
+        static dot::Type type_ = dot::new_TypeBuilder<dc::ObjectId>("Mongo", "ObjectId")->Build();
+        return type_;
+    }
+
+}
+
+namespace std
+{
+    /// <summary>Implements hash struct used by STL unordered_map for ObjectId.</summary>
+    template <>
+    struct hash<dc::ObjectId>
+    {
+        size_t operator()(const dc::ObjectId& id) const
+        {
+            return hash<string>()(id._id.to_string());
+        }
+    };
+
+    /// <summary>Implements equal_to struct used by STL unordered_map for ObjectId.</summary>
+    template <>
+    struct equal_to<dc::ObjectId>
+    {
+        bool operator()(const dc::ObjectId& lhs, const dc::ObjectId& rhs) const
+        {
+            return lhs == rhs;
+        }
+    };
+}

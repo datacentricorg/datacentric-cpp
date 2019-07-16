@@ -1,0 +1,52 @@
+/*
+Copyright (C) 2013-present The DataCentric Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+#pragma once
+
+#include <dc/declare.hpp>
+#include <dc/types/record/RecordFor.hpp>
+#include <dc/platform/workflow/JobQueueData.hpp>
+
+namespace dc
+{
+    class JobQueueKeyImpl; using JobQueueKey = dot::Ptr<JobQueueKeyImpl>;
+    class JobQueueDataImpl; using JobQueueData = dot::Ptr<JobQueueDataImpl>;
+    class JobTypeKeyImpl; using JobTypeKey = dot::Ptr<JobTypeKeyImpl>;
+    class LinkedTypeKeyImpl; using LinkedTypeKey = dot::Ptr<LinkedTypeKeyImpl>;
+    class JobDataImpl; using JobData = dot::Ptr<JobDataImpl>;
+
+
+    JobQueueKey new_JobQueueKey();
+
+    /// <summary>Job.</summary>
+    class DC_CLASS JobQueueKeyImpl : public KeyForImpl<JobQueueKeyImpl, JobQueueDataImpl>
+    {
+        typedef JobQueueKeyImpl self;
+
+    public: // PROPERTIES
+
+        DOT_AUTO_PROP(ObjectId, ID)
+
+        DOT_TYPE_BEGIN(".Analyst", "JobQueueKey")
+            ->WithProperty("_id", &self::ID)
+            DOT_TYPE_BASE(KeyFor<JobQueueKeyImpl, JobQueueDataImpl>)
+            DOT_TYPE_CTOR(new_JobQueueKey)
+        DOT_TYPE_END()
+
+    };
+
+    inline JobQueueKey new_JobQueueKey() { return new JobQueueKeyImpl; }
+}

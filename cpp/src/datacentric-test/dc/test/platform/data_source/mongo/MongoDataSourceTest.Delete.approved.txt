@@ -1,0 +1,29 @@
+Initial load
+Record A;0 in dataset A found and has Type=MongoTestData.
+Record A;0 in dataset B found and has Type=MongoTestData.
+Record B;0 in dataset A not found.
+Record B;0 in dataset B found and has Type=MongoTestDerivedData.
+Query in dataset A
+Record A;0 returned by query in dataset A and has Type=MongoTestData.
+Query in dataset B
+Record A;0 returned by query in dataset B and has Type=MongoTestData.
+Record B;0 returned by query in dataset B and has Type=MongoTestDerivedData.
+Delete A0 record in B dataset
+Record A;0 in dataset A found and has Type=MongoTestData.
+Record A;0 in dataset B not found.
+Query in dataset A
+Record A;0 returned by query in dataset A and has Type=MongoTestData.
+Query in dataset B
+Record B;0 returned by query in dataset B and has Type=MongoTestDerivedData.
+Delete A0 record in A dataset
+Record A;0 in dataset A not found.
+Record A;0 in dataset B not found.
+Query in dataset A
+Query in dataset B
+Record B;0 returned by query in dataset B and has Type=MongoTestDerivedData.
+Delete B0 record in B dataset
+Record B;0 in dataset A not found.
+Record B;0 in dataset B not found.
+Query in dataset A
+Query in dataset B
+
