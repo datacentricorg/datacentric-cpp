@@ -55,6 +55,9 @@ namespace dc
         /// </summary>
         ObjectId DataSet;
 
+        /// <summary>Use context to access resources.</summary>
+        IContext Context;
+
     public: // PROPERTIES
 
         /// <summary>
@@ -66,15 +69,6 @@ namespace dc
         /// can have any atomic type except Double.
         /// </summary>
         virtual dot::String getKey() = 0;
-
-        /// <summary>Use context to access resources.</summary>
-        IContext getContext()
-        {
-            // Check that context is set
-            if (context_ == nullptr) throw dot::new_Exception(
-                dot::String::Format("Init(...) method has not been called for {0}.", GetType()->Name));
-            return context_;
-        }
 
     public: // METHODS
 

@@ -233,7 +233,7 @@ namespace dc
         ObjectId dataSet = context->GetDataSetOrEmpty(dataSetName);
 
         dot::IEnumerable<PerformanceTestData> query = context->DataSource->GetQuery<PerformanceTestData>(dataSet)
-            ->Where(make_prop(&PerformanceTestDataImpl::Key) == recordID)
+      // TODO - fix compilation      ->Where(make_prop(&PerformanceTestDataImpl::Key) == recordID)
             //->Where(make_prop(&PerformanceTestDataImpl::Version) == recordVersions - 1)
             ->AsEnumerable<PerformanceTestData>();
 

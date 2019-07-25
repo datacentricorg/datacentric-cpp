@@ -124,20 +124,20 @@ namespace dc
         rec->DataElementList->Add(elementList1);
 
         // Key element
-        rec->getKey()Element = new_MongoTestKey();
-        rec->getKey()Element->RecordID = "BB";
-        rec->getKey()Element->RecordIndex = 2;
+        rec->KeyElement = new_MongoTestKey();
+        rec->KeyElement->RecordID = "BB";
+        rec->KeyElement->RecordIndex = 2;
 
         // Key element list
-        rec->getKey()ElementList = dot::new_List<MongoTestKey>();
+        rec->KeyElementList = dot::new_List<MongoTestKey>();
         MongoTestKey keyList0 = new_MongoTestKey();
         keyList0->RecordID = "B0";
         keyList0->RecordIndex = 3;
-        rec->getKey()ElementList->Add(keyList0);
+        rec->KeyElementList->Add(keyList0);
         MongoTestKey keyList1 = new_MongoTestKey();
         keyList1->RecordID = "B1";
         keyList1->RecordIndex = 4;
-        rec->getKey()ElementList->Add(keyList1);
+        rec->KeyElementList->Add(keyList1);
 
         ObjectId dataSet = context->GetDataSet(dataSetID, context->GetCommon());
         context->Save(rec, dataSet);

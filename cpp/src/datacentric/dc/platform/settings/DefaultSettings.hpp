@@ -46,7 +46,7 @@ namespace dc
 
         DefaultSettingsImpl()
         {
-            ClassMap.ClassMap = new_DefaultClassMapSettings();
+            ClassMap = new_DefaultClassMapSettings();
         }
     };
 

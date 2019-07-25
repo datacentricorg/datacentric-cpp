@@ -143,7 +143,7 @@ namespace dc
         /// class may not be ordered chronologically unless they are at
         /// least one second apart.
         /// </summary>
-        ObjectId CreateOrderedObjectId() = 0;
+        virtual ObjectId CreateOrderedObjectId() = 0;
 
         template <class TRecord>
         TRecord LoadOrNull(ObjectId id)

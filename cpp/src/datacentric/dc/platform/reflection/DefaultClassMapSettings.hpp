@@ -57,12 +57,12 @@ namespace dc
 
         DefaultClassMapSettingsImpl()
         {
-            IgnoredNamespacePrefixes.IgnoredNamespacePrefixes =   dot::new_List<dot::String>({ "." });
-            IgnoredNamespaceSuffixes.IgnoredNamespaceSuffixes =   dot::new_List<dot::String>({ ".Api", ".Impl" });
-            IgnoredClassNamePrefixes.IgnoredClassNamePrefixes =   dot::new_List<dot::String>({ });
-            IgnoredClassNameSuffixes.IgnoredClassNameSuffixes =   dot::new_List<dot::String>({ "Data", "Key" });
-            IgnoredMethodNamePrefixes.IgnoredMethodNamePrefixes = dot::new_List<dot::String>();
-            IgnoredMethodNameSuffixes.IgnoredMethodNameSuffixes = dot::new_List<dot::String>();
+            IgnoredNamespacePrefixes = dot::new_List<dot::String>({ "." });
+            IgnoredNamespaceSuffixes = dot::new_List<dot::String>({ ".Api", ".Impl" });
+            IgnoredClassNamePrefixes = dot::new_List<dot::String>({ });
+            IgnoredClassNameSuffixes =  dot::new_List<dot::String>({ "Data", "Key" });
+            IgnoredMethodNamePrefixes = dot::new_List<dot::String>();
+            IgnoredMethodNameSuffixes = dot::new_List<dot::String>();
         }
     };
 
