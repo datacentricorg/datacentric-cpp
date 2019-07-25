@@ -36,22 +36,22 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Namespace prefixes including dot separators ignored by class mapping.</summary>
-        DOT_AUTO_GET(dot::ICollection<dot::String>, IgnoredNamespacePrefixes)
+        dot::ICollection<dot::String> IgnoredNamespacePrefixes;
 
         /// <summary>Namespace suffixes including dot separators ignored by class mapping.</summary>
-        DOT_AUTO_GET(dot::ICollection<dot::String>, IgnoredNamespaceSuffixes)
+        dot::ICollection<dot::String> IgnoredNamespaceSuffixes;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        DOT_AUTO_GET(dot::ICollection<dot::String>, IgnoredClassNamePrefixes)
+        dot::ICollection<dot::String> IgnoredClassNamePrefixes;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        DOT_AUTO_GET(dot::ICollection<dot::String>, IgnoredClassNameSuffixes)
+        dot::ICollection<dot::String> IgnoredClassNameSuffixes;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        DOT_AUTO_GET(dot::ICollection<dot::String>, IgnoredMethodNamePrefixes)
+        dot::ICollection<dot::String> IgnoredMethodNamePrefixes;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        DOT_AUTO_GET(dot::ICollection<dot::String>, IgnoredMethodNameSuffixes)
+        dot::ICollection<dot::String> IgnoredMethodNameSuffixes;
 
     private: // CONSTRUCTORS
 

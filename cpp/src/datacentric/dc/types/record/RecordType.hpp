@@ -36,9 +36,6 @@ namespace dc
         /// <summary>Backing variable for the ID property.</summary>
         ObjectId id_;
 
-        /// <summary>Backing variable for the DataSet property.</summary>
-        ObjectId dataSet_;
-
     public: // PROPERTIES
 
         /// <summary>
@@ -48,37 +45,17 @@ namespace dc
         /// update operations must assign a new ObjectId with the
         /// timestamp that matches update time.
         /// </summary>
-        DOT_PROP(ObjectId, ID,
-            {
-                if (id_.IsEmpty())
-                {
-                    dot::String key = Key;
-                    if (!key.IsEmpty()) throw dot::new_Exception(dot::String::Format("ID property is not set for the record with class name {0} and key {1}.", this->ClassName, this->Key));
-                    else throw dot::new_Exception(dot::String::Format("ID property is not set for class {0}.", this->ClassName));
-                }
-                return id_;
-            }
-        , { id_ = value; });
+        ObjectId ID;
 
         /// <summary>
-       /// ObjectId of the dataset where the record is stored.
-       ///
-       /// The records that may be stored in root dataset (including
-       /// data source, database, database server, and Common dataset
-       /// records) must override this property to avoid an error about
-       /// dataset not being set for the record.
-       /// </summary>
-       DOT_PROP(ObjectId, DataSet,
-           {
-               if (dataSet_.IsEmpty())
-               {
-                   dot::String key = Key;
-                   if (!key.IsEmpty()) throw dot::new_Exception(dot::String::Format("DataSet property is not set for the record with class name {0} and key {1}.", this->ClassName, this->Key));
-                   else throw dot::new_Exception(dot::String::Format("DataSet property is not set for class {0}.", this->ClassName));
-               }
-               return dataSet_;
-           }
-           , { dataSet_ = value; });
+        /// ObjectId of the dataset where the record is stored.
+        ///
+        /// The records that may be stored in root dataset (including
+        /// data source, database, database server, and Common dataset
+        /// records) must override this property to avoid an error about
+        /// dataset not being set for the record.
+        /// </summary>
+        ObjectId DataSet;
 
         /// <summary>
         /// dot::String key consists of semicolon delimited primary key elements:

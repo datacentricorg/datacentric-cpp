@@ -171,8 +171,8 @@ namespace dot
             this->generic_args_ = new_Array1D<Type>(0);
 
         this->base_ = data->base_;
-        this->IsClass.IsClass = data->is_class_;
-        this->IsEnum.IsEnum = data->is_enum_;
+        this->IsClass = data->is_class_;
+        this->IsEnum = data->is_enum_;
     }
 
     /// <summary>
@@ -182,8 +182,8 @@ namespace dot
     /// </summary>
     TypeImpl::TypeImpl(String nspace, String name)
     {
-        this->Namespace.Namespace = nspace;
-        this->Name.Name = name;
+        this->Namespace = nspace;
+        this->Name = name;
     }
 
 

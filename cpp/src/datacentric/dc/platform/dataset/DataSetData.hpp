@@ -36,14 +36,6 @@ namespace dc
         typedef DataSetDataImpl self;
         friend DataSetData new_DataSetData();
 
-    private: // PROPERTIES
-
-        /// <summary>Backing variable for the DataSet property.</summary>
-        ObjectId dataSet_;
-
-        /// <summary>Backing variable for the DataSetID property.</summary>
-        dot::String dataSetID_;
-
     public:
 
         /// <summary>
@@ -52,18 +44,7 @@ namespace dc
         /// This override for the DataSetData record sets DataSet to
         /// ObjectId.Empty for the Common dataset.
         /// </summary>
-        DOT_IMPL_PROP(ObjectId, DataSet,
-            {
-                if (dot::String::IsNullOrEmpty(DataSetID)) throw dot::new_Exception("DataSetID property is not set.");
-
-                // Common dataset is always stored in root dataset
-                if (DataSetID == DataSetKeyImpl::Common->DataSetID) dataSet_ = ObjectId::Empty;
-                return this->dataSet_;
-            },
-            {
-                dataSet_ = value;
-            });
-
+        ObjectId DataSet;
 
         /// <summary>Unique dataset identifier.</summary>
         dot::String DataSetID;

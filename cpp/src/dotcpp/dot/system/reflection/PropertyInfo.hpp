@@ -71,7 +71,7 @@ namespace dot
     public: // METHODS
 
         /// <summary>Gets the type of this property.</summary>
-        DOT_AUTO_GET(Type, PropertyType)
+        Type PropertyType;
 
         /// <summary>A string representing the name of the current type.</summary>
         virtual String ToString() override { return "PropertyInfo"; }
@@ -93,7 +93,7 @@ namespace dot
         PropertyInfoImpl(String name, Type declaringType, Type propertyType)
             : MemberInfoImpl(name, declaringType)
         {
-            PropertyType.PropertyType = propertyType;
+            PropertyType = propertyType;
         }
     };
 

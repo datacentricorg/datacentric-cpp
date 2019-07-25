@@ -294,10 +294,10 @@ namespace dot
     public: // PROPERTIES
 
         /// <summary>Gets the name of the current type, excluding namespace.</summary>
-        DOT_AUTO_GET(String, Name)
+        String Name;
 
         /// <summary>Gets the fully qualified name of the type, including its namespace but not its assembly.</summary>
-        DOT_AUTO_GET(String, Namespace)
+        String Namespace;
 
         /// <summary>Gets the fully qualified name of the type, including its namespace but not its assembly.</summary>
         DOT_GET(String, FullName, { return String::Format("{0}.{1}", this->Namespace, this->Name); }) // TODO - replace by String::Join
@@ -306,10 +306,10 @@ namespace dot
         DOT_GET(Type, BaseType, { return base_; })
 
         /// <summary>Gets a value indicating whether the System.Type is a class or a delegate; that is, not a value type or interface.</summary>
-        DOT_AUTO_GET(bool, IsClass);
+        bool IsClass;
 
         /// <summary>Gets a value indicating whether the current System.Type represents an enumeration.</summary>
-        DOT_AUTO_GET(bool, IsEnum);
+        bool IsEnum;
 
     public: // METHODS
 
@@ -608,13 +608,13 @@ namespace dot
                     else return GetItemImpl<I + 1>::Impl(tuple, index);
             }
         };
-        
+
         template <typename Dummy>
         struct GetItemImpl<sizeof...(T), Dummy>
         {
             static Object Impl(Object tuple, int index)
             {
-                throw new_Exception("Tuple index out of bounds");            
+                throw new_Exception("Tuple index out of bounds");
             }
         };
 

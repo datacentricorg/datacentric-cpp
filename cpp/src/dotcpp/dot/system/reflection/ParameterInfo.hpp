@@ -41,13 +41,13 @@ namespace dot
     public: // METHODS
 
         /// <summary>Gets the type of this parameter.</summary>
-        DOT_AUTO_GET(Type, ParameterType)
+        Type ParameterType;
 
         /// <summary>Gets the name of this parameter.</summary>
-        DOT_AUTO_GET(String, Name)
+        String Name;
 
         /// <summary>Gets the zero-based position of the parameter in the formal parameter list.</summary>
-        DOT_AUTO_GET(int, Position)
+        int Position;
 
     private: // CONSTRUCTORS
 
@@ -59,9 +59,9 @@ namespace dot
         /// </summary>
         ParameterInfoImpl(String name, Type parameterType, int position)
         {
-            ParameterType.ParameterType = parameterType;
-            Name.Name = name;
-            Position.Position = position;
+            ParameterType = parameterType;
+            Name = name;
+            Position = position;
         }
     };
 

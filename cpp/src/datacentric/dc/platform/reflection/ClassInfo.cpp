@@ -53,18 +53,18 @@ namespace dc
     ClassInfoImpl::ClassInfoImpl(Type_ type)
     {
         // Set type, raw full name, class name, and namespace
-        Type.Type = type;
-        RawFullName.RawFullName = type->FullName;
-        RawClassName.RawClassName = type->Name;
-        RawNamespace.RawNamespace = type->Namespace;
+        Type = type;
+        RawFullName = type->FullName;
+        RawClassName = type->Name;
+        RawNamespace = type->Namespace;
 
         // Remove ignored class name prefix
-        MappedClassName.MappedClassName = RawClassName;
+        MappedClassName = RawClassName;
         for (dot::String ignoredTypeNamePrefix : Settings::Default->ClassMap->IgnoredClassNamePrefixes)
         {
             if (MappedClassName->StartsWith(ignoredTypeNamePrefix))
             {
-                MappedClassName.MappedClassName = MappedClassName->Remove(0, ignoredTypeNamePrefix->Length);
+                MappedClassName = MappedClassName->Remove(0, ignoredTypeNamePrefix->Length);
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -76,7 +76,7 @@ namespace dc
         {
             if (MappedClassName->EndsWith(ignoredTypeNameSuffix))
             {
-                MappedClassName.MappedClassName = MappedClassName->SubString(0, MappedClassName->Length - ignoredTypeNameSuffix->Length);
+                MappedClassName = MappedClassName->SubString(0, MappedClassName->Length - ignoredTypeNameSuffix->Length);
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -84,12 +84,12 @@ namespace dc
         }
 
         // Remove ignored namespace prefix
-        MappedNamespace.MappedNamespace = RawNamespace;
+        MappedNamespace = RawNamespace;
         for (dot::String ignoredModuleNamePrefix : Settings::Default->ClassMap->IgnoredNamespacePrefixes)
         {
             if (MappedNamespace->StartsWith(ignoredModuleNamePrefix))
             {
-                MappedNamespace.MappedNamespace = MappedNamespace->Remove(0, ignoredModuleNamePrefix->Length);
+                MappedNamespace = MappedNamespace->Remove(0, ignoredModuleNamePrefix->Length);
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -101,7 +101,7 @@ namespace dc
         {
             if (MappedNamespace->EndsWith(ignoredModuleNameSuffix))
             {
-                MappedNamespace.MappedNamespace = MappedNamespace->SubString(0, MappedNamespace->Length - ignoredModuleNameSuffix->Length);
+                MappedNamespace = MappedNamespace->SubString(0, MappedNamespace->Length - ignoredModuleNameSuffix->Length);
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -109,7 +109,7 @@ namespace dc
         }
 
         // Create mapped full name by combining mapped namespace and mapped class name
-        MappedFullName.MappedFullName = MappedNamespace + dot::String(".") + MappedClassName;
+        MappedFullName = MappedNamespace + dot::String(".") + MappedClassName;
     }
 
     dot::Dictionary<dot::Type, ClassInfo>& ClassInfoImpl::GetTypeDict()

@@ -61,10 +61,10 @@ namespace dot
     public: // METHODS
 
         /// <summary>Gets the name of the current member.</summary>
-        DOT_AUTO_GET(String, Name)
+        String Name;
 
         /// <summary>Gets the class that declares this member.</summary>
-        DOT_AUTO_GET(Type, DeclaringType)
+        Type DeclaringType;
 
         /// <summary>A string representing the name of the current type.</summary>
         virtual String ToString() override { return "MemberInfo"; }
@@ -78,8 +78,8 @@ namespace dot
         /// </summary>
         MemberInfoImpl(const String& name, Type declaringType)
         {
-            Name.Name = name;
-            DeclaringType.DeclaringType = declaringType;
+            Name = name;
+            DeclaringType = declaringType;
         }
     };
 }

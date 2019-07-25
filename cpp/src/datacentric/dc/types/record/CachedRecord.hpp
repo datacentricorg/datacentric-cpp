@@ -56,13 +56,13 @@ namespace dc
     public:
 
         /// <summary>Dataset for which the record is cached.</summary>
-        DOT_AUTO_GET(ObjectId, DataSet);
+        ObjectId DataSet;
 
         /// <summary>
         /// Record passed to the constructor, or null for an
         /// empty cached record or a delete marker.
         /// </summary>
-        DOT_AUTO_GET(RecordType, Record);
+        RecordType Record;
 
     private:
         /// <summary>
@@ -73,14 +73,14 @@ namespace dc
         CachedRecordImpl(ObjectId dataSet, RecordType record = nullptr)
         {
             // Dataset for which the record is cached
-            DataSet.DataSet = dataSet;
+            DataSet = dataSet;
 
             if (!record.IsEmpty() && !record.is<DeleteMarker>())
             {
                 // Cache only if not a delete marker,
                 // otherwise Record will remain null
                 // after the constructor exits
-                Record.Record = record;
+                Record = record;
             }
         }
 

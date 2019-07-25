@@ -39,7 +39,7 @@ namespace dc
         DataSourceData DataSource;
 
         /// <summary>Returns ObjectId of the context dataset.</summary>
-        DOT_AUTO_GET(ObjectId, DataSet);
+        ObjectId DataSet;
 
     public: // CONSTRUCTORS
 

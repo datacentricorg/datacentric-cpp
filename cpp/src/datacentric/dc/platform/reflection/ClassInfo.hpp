@@ -34,25 +34,25 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Type for which class info is provided.</summary>
-        DOT_AUTO_GET(Type_, Type)
+        Type_ Type;
 
         /// <summary>Namespace before mapping.</summary>
-        DOT_AUTO_GET(dot::String, RawNamespace)
+        dot::String RawNamespace;
 
         /// <summary>Namespace after mapping.</summary>
-        DOT_AUTO_GET(dot::String, MappedNamespace)
+        dot::String MappedNamespace;
 
         /// <summary>Class name without namespace before mapping.</summary>
-        DOT_AUTO_GET(dot::String, RawClassName)
+        dot::String RawClassName;
 
         /// <summary>Class name without namespace after mapping.</summary>
-        DOT_AUTO_GET(dot::String, MappedClassName)
+        dot::String MappedClassName;
 
         /// <summary>Fully qualified class name before mapping.</summary>
-        DOT_AUTO_GET(dot::String, RawFullName)
+        dot::String RawFullName;
 
         /// <summary>Fully qualified class name after mapping.</summary>
-        DOT_AUTO_GET(dot::String, MappedFullName)
+        dot::String MappedFullName;
 
     public: // METHODS
 

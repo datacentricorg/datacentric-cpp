@@ -24,7 +24,7 @@ namespace dc
 {
     void IContextImpl::SetDataSource(DataSourceData dataSource)
     {
-        DataSource.DataSource = dataSource;
+        DataSource = dataSource;
     }
 
     RecordType IContextImpl::LoadOrNull(ObjectId id, dot::Type dataType)

@@ -57,7 +57,7 @@ namespace dot
         virtual Object Invoke(Object, Array1D<Object>) = 0;
 
         /// <summary>Gets the return type of this method.</summary>
-        DOT_AUTO_GET(Type, ReturnType);
+        Type ReturnType;
 
     protected: // FIELDS
 
@@ -73,7 +73,7 @@ namespace dot
         MethodInfoImpl(const String& name, Type declaringType, Type returnType)
             : MemberInfoImpl(name, declaringType)
         {
-            ReturnType.ReturnType = returnType;
+            ReturnType = returnType;
         }
     };
 
