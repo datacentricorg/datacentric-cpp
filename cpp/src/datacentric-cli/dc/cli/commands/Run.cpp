@@ -9,7 +9,7 @@ void SetupRun(CLI::App& app)
     run_command->add_option("-s,--source", opt->Source, "Source")->required();
     run_command->add_option("-e,--environment", opt->Environment, "Environment")->required();
     run_command->add_option("-d,--dataset", opt->Dataset, "Dataset")->required();
-    run_command->add_option("-k,--key", opt->Key, "Key")->required();
+    run_command->add_option("-k,--key", opt->getKey(), "Key")->required();
     run_command->add_option("-t,--type", opt->Type, "Type")->required();
     run_command->add_option("-n,--handler", opt->Handler, "Handler")->required();
     run_command->add_option("-a,--arguments", opt->Arguments, "Handler arguments");

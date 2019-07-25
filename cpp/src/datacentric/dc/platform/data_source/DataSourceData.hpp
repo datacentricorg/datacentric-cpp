@@ -378,7 +378,7 @@ namespace dc
         /// </summary>
         void BuildDataSetLookupList(DataSetData dataSetData, dot::HashSet<ObjectId> result);
 
-        dot::String ToString() { return Key; }
+        dot::String ToString() { return getKey(); }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DataSourceData")
             DOT_TYPE_PROP(DataSourceID)

@@ -124,20 +124,20 @@ namespace dc
         rec->DataElementList->Add(elementList1);
 
         // Key element
-        rec->KeyElement = new_MongoTestKey();
-        rec->KeyElement->RecordID = "BB";
-        rec->KeyElement->RecordIndex = 2;
+        rec->getKey()Element = new_MongoTestKey();
+        rec->getKey()Element->RecordID = "BB";
+        rec->getKey()Element->RecordIndex = 2;
 
         // Key element list
-        rec->KeyElementList = dot::new_List<MongoTestKey>();
+        rec->getKey()ElementList = dot::new_List<MongoTestKey>();
         MongoTestKey keyList0 = new_MongoTestKey();
         keyList0->RecordID = "B0";
         keyList0->RecordIndex = 3;
-        rec->KeyElementList->Add(keyList0);
+        rec->getKey()ElementList->Add(keyList0);
         MongoTestKey keyList1 = new_MongoTestKey();
         keyList1->RecordID = "B1";
         keyList1->RecordIndex = 4;
-        rec->KeyElementList->Add(keyList1);
+        rec->getKey()ElementList->Add(keyList1);
 
         ObjectId dataSet = context->GetDataSet(dataSetID, context->GetCommon());
         context->Save(rec, dataSet);
@@ -261,7 +261,7 @@ namespace dc
         else
         {
             // Found, also checks that the key matches
-            REQUIRE(record->Key == key->ToString());
+            REQUIRE(record->getKey() == key->ToString());
             received
                 << *dot::String::Format("Record {0} in dataset {1} found and has Type={2}.",
                     key->ToString(), dataSetID, record->GetType()->Name)
@@ -283,7 +283,7 @@ namespace dc
             received
                 << *dot::String::Format(
                     "Record {0} returned by query in dataset {1} and has Type={2}.",
-                    record->Key, dataSetID, record->GetType()->Name)
+                    record->getKey(), dataSetID, record->GetType()->Name)
                 << std::endl;
         }
     }
@@ -381,7 +381,7 @@ namespace dc
         for (MongoTestData obj : query)
         {
             dot::String dataSetID = context->DataSource->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
-            received << *dot::String::Format("Key={0} DataSet={1} Version={2}", obj->Key, dataSetID, obj->Version) << std::endl;
+            received << *dot::String::Format("Key={0} DataSet={1} Version={2}", obj->getKey(), dataSetID, obj->Version) << std::endl;
         }
 
         std::string toVerify = received.str();
@@ -567,7 +567,7 @@ namespace dc
 
         for (MongoTestData obj : testQuery)
         {
-            received << *dot::String::Format("Key={0} Type={1}", obj->Key, obj->GetType()->Name) << std::endl;
+            received << *dot::String::Format("Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
 
         std::string toVerify = received.str();
@@ -593,35 +593,35 @@ namespace dc
             key->RecordID = "A";
             key->RecordIndex = dot::Nullable<int>(0);
             RecordType obj = key->LoadOrNull(context, dataSetD);
-            received << *dot::String::Format("    Key={0} Type={1}", obj->Key, obj->GetType()->Name) << std::endl;
+            received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "B";
             key->RecordIndex = dot::Nullable<int>(0);
             RecordType obj = key->LoadOrNull(context, dataSetD);
-            received << *dot::String::Format("    Key={0} Type={1}", obj->Key, obj->GetType()->Name) << std::endl;
+            received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "C";
             key->RecordIndex = dot::Nullable<int>(0);
             RecordType obj = key->LoadOrNull(context, dataSetD);
-            received << *dot::String::Format("    Key={0} Type={1}", obj->Key, obj->GetType()->Name) << std::endl;
+            received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "D";
             key->RecordIndex = dot::Nullable<int>(0);
             RecordType obj = key->LoadOrNull(context, dataSetD);
-            received << *dot::String::Format("    Key={0} Type={1}", obj->Key, obj->GetType()->Name) << std::endl;
+            received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
         {
             received << "Query by MongoTestData, unconstrained" << std::endl;
             IQuery query = context->DataSource->GetQuery<MongoTestData>(dataSetD);
             for (RecordType obj : query->AsEnumerable<RecordType>())
             {
-                received << *dot::String::Format("    Key={0} Type={1}", obj->Key, obj->GetType()->Name) << std::endl;
+                received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
             }
         }
         {
@@ -629,7 +629,7 @@ namespace dc
             IQuery query = context->DataSource->GetQuery<MongoTestDerivedData>(dataSetD);
             for (RecordType obj : query->AsEnumerable<RecordType>())
             {
-                received << *dot::String::Format("    Key={0} Type={1}", obj->Key, obj->GetType()->Name) << std::endl;
+                received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
             }
         }
         {
@@ -638,7 +638,7 @@ namespace dc
             IQuery query = context->DataSource->GetQuery<MongoTestOtherDerivedData>(dataSetD);
             for (RecordType obj : query->AsEnumerable<RecordType>())
             {
-                received << *dot::String::Format("    Key={0} Type={1}", obj->Key, obj->GetType()->Name) << std::endl;
+                received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
             }
         }
         {
@@ -646,7 +646,7 @@ namespace dc
             IQuery query = context->DataSource->GetQuery<MongoTestDerivedFromDerivedData>(dataSetD);
             for (RecordType obj : query->AsEnumerable<RecordType>())
             {
-                received << *dot::String::Format("    Key={0} Type={1}", obj->Key, obj->GetType()->Name) << std::endl;
+                received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
             }
         }
 
@@ -677,7 +677,7 @@ namespace dc
             received
                 << *dot::String::Format(
                     "    RecordIndex={0} DoubleElement={1} Key={2} Type={3}",
-                    obj->RecordIndex, obj->DoubleElement, obj->Key, obj->GetType()->Name)
+                    obj->RecordIndex, obj->DoubleElement, obj->getKey(), obj->GetType()->Name)
                 << std::endl;
         }
 
@@ -747,7 +747,7 @@ namespace dc
             for (MongoTestData obj : query)
             {
                 dot::String dataSetID = context->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
-                received << *dot::String::Format("    Key={0} DataSet={1} Version={2}", obj->Key, dataSetID, obj->Version) << std::endl;
+                received << *dot::String::Format("    Key={0} DataSet={1} Version={2}", obj->getKey(), dataSetID, obj->Version) << std::endl;
             }
         }
 
@@ -793,7 +793,7 @@ namespace dc
             for (MongoTestData obj : query)
             {
                 dot::String dataSetID = context->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
-                received << *dot::String::Format("    Key={0} DataSet={1} Version={2}", obj->Key, dataSetID, obj->Version) << std::endl;
+                received << *dot::String::Format("    Key={0} DataSet={1} Version={2}", obj->getKey(), dataSetID, obj->Version) << std::endl;
             }
         }
 

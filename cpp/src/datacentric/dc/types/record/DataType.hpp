@@ -31,21 +31,16 @@ namespace dc
     {
         typedef DataImpl self;
 
-    public:
-
-        DOT_GET(dot::String, ClassName, { return this->GetType()->Name; })
-
     public: // METHODS
 
         /// <summary>Creates dictionary at current writer level.</summary>
         void SerializeTo(ITreeWriter writer);
 
         DOT_TYPE_BEGIN(".Runtime.Main", "Data")
-            ->WithProperty("_t", &self::ClassName)
         DOT_TYPE_END()
 
     protected:
-        static const char separator = ';';
 
+        static const char separator = ';';
     };
 }

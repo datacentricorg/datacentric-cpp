@@ -35,7 +35,6 @@ namespace dc
     {
         typedef RootRecordForImpl<TKey, TRecord> self;
     public:
-        DOT_IMPL_PROP(ObjectId, DataSet, { return ObjectId::Empty; }, {})
 
         DOT_TYPE_BEGIN(".Runtime.Main", "RootRecordFor")
             DOT_TYPE_BASE(RecordFor<TKey, TRecord>)

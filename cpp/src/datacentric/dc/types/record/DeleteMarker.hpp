@@ -46,7 +46,7 @@ namespace dc
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
         /// </summary>
-        dot::String Key;
+        virtual dot::String getKey() { return dot::String::Empty; }
 
     public: // CONSTRUCTORS
 

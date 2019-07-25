@@ -29,14 +29,12 @@ namespace dc
     {
         typedef RecordTypeImpl self;
 
-    protected:
+    private:
+
         /// <summary>Use context to access resources.</summary>
         IContext context_;
 
-        /// <summary>Backing variable for the ID property.</summary>
-        ObjectId id_;
-
-    public: // PROPERTIES
+    public: // FIELDS
 
         /// <summary>
         /// ObjectId of the record is specific to its version.
@@ -57,6 +55,8 @@ namespace dc
         /// </summary>
         ObjectId DataSet;
 
+    public: // PROPERTIES
+
         /// <summary>
         /// dot::String key consists of semicolon delimited primary key elements:
         ///
@@ -65,15 +65,16 @@ namespace dc
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
         /// </summary>
-        DOT_DECL_PROP(dot::String, Key);
+        virtual dot::String getKey() = 0;
 
         /// <summary>Use context to access resources.</summary>
-        DOT_GET(IContext, Context, {
+        IContext getContext()
+        {
             // Check that context is set
             if (context_ == nullptr) throw dot::new_Exception(
                 dot::String::Format("Init(...) method has not been called for {0}.", GetType()->Name));
             return context_;
-            })
+        }
 
     public: // METHODS
 
@@ -83,12 +84,12 @@ namespace dc
         /// </summary>
         virtual void Init(IContext context);
 
-        dot::String ToString() { return Key; }
+        dot::String ToString() { return getKey(); }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "RecordType")
             ->WithProperty("_id", &self::ID)
             ->WithProperty("_dataset", &self::DataSet)
-            ->WithProperty("_key", &self::Key)
+          //  ->WithProperty("_key", &self::Key)
             DOT_TYPE_BASE(Data)
         DOT_TYPE_END()
 

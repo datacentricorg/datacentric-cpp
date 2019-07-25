@@ -257,7 +257,7 @@ namespace dc
     {
         // Create delete marker with the specified key
         auto record = new_DeleteMarker();
-        record->Key = key->Value;
+        record->getKey() = key->Value;
 
         // Get collection
         auto collection = GetCollection(key->GetType());

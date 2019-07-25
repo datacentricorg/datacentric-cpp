@@ -58,7 +58,7 @@ namespace dc
         Save(dataSetData, saveTo);
 
         // Update dataset dictionary with the new ID
-        dataSetDict_[dataSetData->Key] = dataSetData->ID;
+        dataSetDict_[dataSetData->getKey()] = dataSetData->ID;
 
         // Update lookup list dictionary
         dot::HashSet<ObjectId> lookupList = BuildDataSetLookupList(dataSetData);
@@ -176,7 +176,7 @@ namespace dc
 
         // Error message if dataset has no ID or Key
         //dataSetData->ID->CheckHasValue();
-        //dataSetData->Key->CheckHasValue();
+        //dataSetData->getKey()->CheckHasValue();
         //! TODO uncomment
 
         // Add self to the result
@@ -190,7 +190,7 @@ namespace dc
                 // Dataset cannot include itself as parent
                 if (dataSetData->ID == dataSetId)
                     throw dot::new_Exception(
-                        dot::String::Format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::String)dataSetData->Key, ObjectId(dataSetData->ID).ToString()));
+                        dot::String::Format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::String)dataSetData->getKey(), ObjectId(dataSetData->ID).ToString()));
 
                 // The Add method returns true if the argument is not yet present in the list
                 if (!result->Contains(dataSetId))

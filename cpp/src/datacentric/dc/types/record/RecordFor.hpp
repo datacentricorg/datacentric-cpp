@@ -37,44 +37,41 @@ namespace dc
 
     public:
 
-        DOT_IMPL_PROP(dot::String, Key,
+        dot::String getKey() override
+        {
+            dot::Array1D<dot::PropertyInfo> props =  dot::typeof<dot::Ptr<TKey>>()->GetProperties();
+            dot::Type type = GetType();
+
+            std::stringstream ss;
+
+            for (int i = 0; i < props->Count; ++i)
             {
-                dot::Array1D<dot::PropertyInfo> props =  dot::typeof<dot::Ptr<TKey>>()->GetProperties();
-                dot::Type type = GetType();
+                dot::PropertyInfo key_prop = props[i];
 
-                std::stringstream ss;
+                dot::PropertyInfo prop = type->GetProperty(key_prop->Name);
 
-                for (int i = 0; i < props->Count; ++i)
+                dot::Object value = prop->GetValue(this);
+
+                if (i) ss << separator;
+
+                if (!value.IsEmpty())
                 {
-                    dot::PropertyInfo key_prop = props[i];
-
-                    dot::PropertyInfo prop = type->GetProperty(key_prop->Name);
-
-                    dot::Object value = prop->GetValue(this);
-
-                    if (i) ss << separator;
-
-                    if (!value.IsEmpty())
+                    ss << *value->ToString();
+                }
+                else
+                {
+                    if (prop->PropertyType->Name->EndsWith("Key")) // TODO check using parents list
                     {
-                        ss << *value->ToString();
+                        dot::Object emptyKey = dot::Activator::CreateInstance(prop->PropertyType);
+                        ss << *emptyKey->ToString();
                     }
-                    else
-                    {
-                        if (prop->PropertyType->Name->EndsWith("Key")) // TODO check using parents list
-                        {
-                            dot::Object emptyKey = dot::Activator::CreateInstance(prop->PropertyType);
-                            ss << *emptyKey->ToString();
-                        }
-                    }
-
                 }
 
-                return ss.str();
             }
-            ,
-            {
-                // Do nothing
-            });
+
+            return ss.str();
+        }
+
     public:
 
         /// <summary>
@@ -116,8 +113,6 @@ namespace dc
             DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TRecord>)
         DOT_TYPE_END()
-
-
     };
 
 
