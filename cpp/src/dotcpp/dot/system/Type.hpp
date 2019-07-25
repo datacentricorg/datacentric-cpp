@@ -97,7 +97,7 @@ namespace dot
              {
                  properties_ = new_List<PropertyInfo>();
              }
-             properties_->Add(new PropertyInfoPropertyImpl<Prop, Class>(name, type_, dot::typeof<typename Prop::value_type>(), prop));
+            // properties_->Add(new PropertyInfoPropertyImpl<Prop, Class>(name, type_, dot::typeof<typename Prop::value_type>(), prop));
              return this;
         }
 
