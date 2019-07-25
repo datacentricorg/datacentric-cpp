@@ -37,10 +37,10 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Workflow under which the task is running.</summary>
-        DOT_AUTO_PROP(WorkflowKey, Workflow)
+        WorkflowKey Workflow;
 
         /// <summary>Job which created the task.</summary>
-        DOT_AUTO_PROP(JobKey, Job)
+        JobKey Job;
 
         DOT_TYPE_BEGIN(".Analyst", "TaskKey")
             DOT_TYPE_PROP(Workflow)

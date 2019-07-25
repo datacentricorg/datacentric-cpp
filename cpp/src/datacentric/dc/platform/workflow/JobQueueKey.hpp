@@ -38,7 +38,7 @@ namespace dc
 
     public: // PROPERTIES
 
-        DOT_AUTO_PROP(ObjectId, ID)
+        ObjectId ID;
 
         DOT_TYPE_BEGIN(".Analyst", "JobQueueKey")
             ->WithProperty("_id", &self::ID)

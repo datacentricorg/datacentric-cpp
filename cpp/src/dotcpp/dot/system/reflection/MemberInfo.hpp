@@ -39,7 +39,7 @@ namespace dot
     public: // PROPERTIES
 
         /// <summary>Gets the name of the current member.</summary>
-        DOT_AUTO_PROP(String, Name)
+        String Name;
 
     protected: // CONSTRUCTORS
 

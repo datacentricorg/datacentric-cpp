@@ -73,7 +73,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique data source identifier.</summary>
-        DOT_AUTO_PROP(dot::String, DataSourceID)
+        dot::String DataSourceID;
 
         /// <summary>
         /// This class enforces strict naming conventions
@@ -83,12 +83,12 @@ namespace dc
         /// The meaning of InstanceName and EnvName tokens depends on
         /// the value of InstanceType enumeration.
         /// </summary>
-        DOT_AUTO_PROP(DbNameKey, DbName)
+        DbNameKey DbName;
 
         /// <summary>
         /// Identifies the database server used by this data source.
         /// </summary>
-        DOT_AUTO_PROP(DbServerKey, DbServer)
+        DbServerKey DbServer;
 
         /// <summary>
         /// Use this flag to mark dataset as readonly, but use either
@@ -99,7 +99,7 @@ namespace dc
         /// * ReadOnly flag is true; or
         /// * One of RevisedBefore or RevisedBeforeId is set
         /// </summary>
-        DOT_AUTO_PROP(bool, ReadOnly)
+        bool ReadOnly;
 
         /// <summary>
         /// The data source will return records revised strictly before
@@ -116,7 +116,7 @@ namespace dc
         /// If either RevisedBefore or RevisedBeforeId is specified, the
         /// data source is readonly and its IsReadOnly() method returns true.
         /// </summary>
-        DOT_AUTO_PROP(dot::Nullable<dot::LocalDateTime>, RevisedBefore)
+        dot::Nullable<dot::LocalDateTime> RevisedBefore;
 
         /// <summary>
         /// The data source will return records for which _id is strictly
@@ -128,7 +128,7 @@ namespace dc
         /// If either RevisedBefore or RevisedBeforeId is specified, the
         /// data source is readonly and its IsReadOnly() method returns true.
         /// </summary>
-        DOT_AUTO_PROP(dot::Nullable<ObjectId>, RevisedBeforeId)
+        dot::Nullable<ObjectId> RevisedBeforeId;
 
     public: // ABSTRACT
 

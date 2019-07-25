@@ -40,7 +40,7 @@ namespace dc
         /// hostnames with optional port in ``host'' or ``host::port''
         /// format.
         /// </summary>
-        DOT_AUTO_PROP(dot::List<dot::String>, Hosts)
+        dot::List<dot::String> Hosts;
 
     public: // METHODS
 

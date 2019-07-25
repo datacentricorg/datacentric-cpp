@@ -40,7 +40,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Queue to which the job is submitted.</summary>
-        DOT_AUTO_PROP(JobQueueKey, Queue)
+        JobQueueKey Queue;
 
         //DOT_IMPL_PROP(ObjectId, ID, { return id_; }, { id_ = value; });
 

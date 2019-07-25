@@ -69,7 +69,7 @@ namespace dc
         /// the unit test class (test fixture).
         /// \end{itemize}
         /// </summary>
-        DOT_AUTO_PROP(dot::String, InstanceName)
+        dot::String InstanceName;
 
         /// <summary>
         /// The meaning of environment name depends on the instance type.
@@ -83,7 +83,7 @@ namespace dc
         /// For TEST instance type, it is the test method name.
         /// \end{itemize}
         /// </summary>
-        DOT_AUTO_PROP(dot::String, EnvName)
+        dot::String EnvName;
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DbNameData")
             DOT_TYPE_PROP(InstanceType)

@@ -56,8 +56,8 @@ namespace dc
 
     public:
 
-        DOT_AUTO_PROP(dot::String, RecordID)
-        DOT_AUTO_PROP(dot::Nullable<int>, RecordIndex)
+        dot::String RecordID;
+        dot::Nullable<int> RecordIndex;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestKey")
             DOT_TYPE_PROP(RecordID)
@@ -78,15 +78,15 @@ namespace dc
 
     public:
 
-        DOT_AUTO_PROP(dot::String, RecordID)
-        DOT_AUTO_PROP(dot::Nullable<int>, RecordIndex)
-        DOT_AUTO_PROP(dot::Nullable<double>, DoubleElement)
-        DOT_AUTO_PROP(dot::Nullable<dot::LocalDate>, LocalDateElement)
-        DOT_AUTO_PROP(dot::Nullable<dot::LocalTime>, LocalTimeElement)
-        DOT_AUTO_PROP(dot::Nullable<dot::LocalMinute>, LocalMinuteElement)
-        DOT_AUTO_PROP(dot::Nullable<dot::LocalDateTime>, LocalDateTimeElement)
-        DOT_AUTO_PROP(MongoTestEnum, EnumValue)
-        DOT_AUTO_PROP(dot::Nullable<int>, Version)
+        dot::String RecordID;
+        dot::Nullable<int> RecordIndex;
+        dot::Nullable<double> DoubleElement;
+        dot::Nullable<dot::LocalDate> LocalDateElement;
+        dot::Nullable<dot::LocalTime> LocalTimeElement;
+        dot::Nullable<dot::LocalMinute> LocalMinuteElement;
+        dot::Nullable<dot::LocalDateTime> LocalDateTimeElement;
+        MongoTestEnum EnumValue;
+        dot::Nullable<int> Version;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestData")
             DOT_TYPE_PROP(RecordID)
@@ -114,8 +114,8 @@ namespace dc
     {
         typedef ElementSampleDataImpl self;
     public:
-        DOT_AUTO_PROP(dot::Nullable<double>, DoubleElement3)
-        DOT_AUTO_PROP(dot::String, StringElement3)
+        dot::Nullable<double> DoubleElement3;
+        dot::String StringElement3;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "ElementSampleData")
             DOT_TYPE_PROP(DoubleElement3)
@@ -136,18 +136,18 @@ namespace dc
     {
         typedef MongoTestDerivedDataImpl self;
     public:
-        DOT_AUTO_PROP(dot::Nullable<double>, DoubleElement2)
-        DOT_AUTO_PROP(dot::String, StringElement2)
-        DOT_AUTO_PROP(dot::Array1D<dot::String>, ArrayOfString)
-        DOT_AUTO_PROP(dot::List<dot::String>, ListOfString)
-        DOT_AUTO_PROP(dot::Array1D<double>, ArrayOfDouble)
-        DOT_AUTO_PROP(dot::Array1D<dot::Nullable<double>>, ArrayOfNullableDouble)
-        DOT_AUTO_PROP(dot::List<double>, ListOfDouble)
-        DOT_AUTO_PROP(dot::List<dot::Nullable<double>>, ListOfNullableDouble)
-        DOT_AUTO_PROP(ElementSampleData, DataElement)
-        DOT_AUTO_PROP(dot::List<ElementSampleData>, DataElementList)
-        DOT_AUTO_PROP(MongoTestKey, KeyElement)
-        DOT_AUTO_PROP(dot::List<MongoTestKey>, KeyElementList)
+        dot::Nullable<double> DoubleElement2;
+        dot::String StringElement2;
+        dot::Array1D<dot::String> ArrayOfString;
+        dot::List<dot::String> ListOfString;
+        dot::Array1D<double> ArrayOfDouble;
+        dot::Array1D<dot::Nullable<double>> ArrayOfNullableDouble;
+        dot::List<double> ListOfDouble;
+        dot::List<dot::Nullable<double>> ListOfNullableDouble;
+        ElementSampleData DataElement;
+        dot::List<ElementSampleData> DataElementList;
+        MongoTestKey KeyElement;
+        dot::List<MongoTestKey> KeyElementList;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestDerivedData")
             DOT_TYPE_PROP(DoubleElement2)
@@ -180,8 +180,8 @@ namespace dc
 
     public:
 
-        DOT_AUTO_PROP(dot::Nullable<double>, OtherDoubleElement2)
-        DOT_AUTO_PROP(dot::String, OtherStringElement2)
+        dot::Nullable<double> OtherDoubleElement2;
+        dot::String OtherStringElement2;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestOtherDerivedData")
             DOT_TYPE_PROP(OtherDoubleElement2)
@@ -204,8 +204,8 @@ namespace dc
 
     public:
 
-        DOT_AUTO_PROP(dot::Nullable<double>, OtherDoubleElement3)
-        DOT_AUTO_PROP(dot::String, OtherStringElement3)
+        dot::Nullable<double> OtherDoubleElement3;
+        dot::String OtherStringElement3;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestDerivedFromDerivedData")
             DOT_TYPE_PROP(OtherDoubleElement3)

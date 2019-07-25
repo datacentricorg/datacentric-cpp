@@ -34,13 +34,13 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Class map settings.</summary>
-        DOT_AUTO_PROP(IClassMapSettings, ClassMap)
+        IClassMapSettings ClassMap;
 
         /// <summary>Activator settings.</summary>
-        //DOT_AUTO_PROP(IActivatorSettings, Activator)
+        //IActivatorSettings Activator;
 
         /// <summary>Locale settings.</summary>
-        //DOT_AUTO_PROP(ILocaleSettings, Locale)
+        //ILocaleSettings Locale;
 
     private: // CONSTRUCTORS
 

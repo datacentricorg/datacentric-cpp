@@ -45,7 +45,7 @@ namespace dc
         /// This field is the user friendly name used to
         /// identify the server. It is not the server URI.
         /// </summary>
-        DOT_AUTO_PROP(dot::String, DbServerID)
+        dot::String DbServerID;
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DbServerData")
             DOT_TYPE_PROP(DbServerID)

@@ -46,7 +46,7 @@ namespace dc
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
         /// </summary>
-        DOT_AUTO_PROP(dot::String, Key)
+        dot::String Key;
 
     public: // CONSTRUCTORS
 

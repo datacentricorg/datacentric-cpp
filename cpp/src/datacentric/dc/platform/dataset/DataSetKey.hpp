@@ -38,7 +38,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique dataset identifier.</summary>
-        DOT_AUTO_PROP(dot::String, DataSetID)
+        dot::String DataSetID;
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetKey")
             DOT_TYPE_PROP(DataSetID)

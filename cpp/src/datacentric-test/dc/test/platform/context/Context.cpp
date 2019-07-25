@@ -42,11 +42,11 @@ namespace dc
         // is actually used to access data.
         dot::String mappedClassName = classInstance->GetType()->Name;
 
-        DataSource.DataSource = new MongoDataSourceDataImpl();
+        DataSource = new MongoDataSourceDataImpl();
         //DataSource->DbServer = new DbServerKeyImpl;
         //DataSource->DbServer->DbServerID = (new MongoDefaultServerDataImpl())->DbServerID;
         DataSource->DbServer = (new_MongoDefaultServerData())->ToKey();
-        DataSource->DbName.DbName = new DbNameKeyImpl();
+        DataSource->DbName = new DbNameKeyImpl();
 
         DataSource->DbName->InstanceType = InstanceType::TEST;
         DataSource->DbName->InstanceName = mappedClassName;

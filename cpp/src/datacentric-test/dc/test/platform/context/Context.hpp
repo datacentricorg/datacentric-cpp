@@ -41,7 +41,7 @@ namespace dc
         /// the test database will not be dropped so that its
         /// data can be examined after the test.
         /// </summary>
-        DOT_AUTO_PROP(bool, KeepDb)
+        bool KeepDb;
     };
 
     class UnitTestContextImpl; using UnitTestContext = dot::Ptr<UnitTestContextImpl>;

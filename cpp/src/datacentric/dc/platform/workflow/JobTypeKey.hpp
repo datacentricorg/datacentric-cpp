@@ -37,7 +37,7 @@ namespace dc
         /// <summary>Unique job type identifier.</summary>
         //String JobTypeID;
 
-        DOT_AUTO_PROP(dot::String, JobTypeID)
+        dot::String JobTypeID;
 
         DOT_TYPE_BEGIN(".Analyst", "JobTypeKey")
             DOT_TYPE_PROP(JobTypeID)

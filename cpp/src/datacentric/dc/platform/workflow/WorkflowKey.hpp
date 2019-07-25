@@ -41,7 +41,7 @@ namespace dc
         DOT_TYPE_END()
 
         /// <summary>Unique workflow identifier.</summary>
-        DOT_AUTO_PROP(dot::String, WorkflowID)
+        dot::String WorkflowID;
     };
 
     inline WorkflowKey new_WorkflowKey() { return new WorkflowKeyImpl; }

@@ -37,7 +37,7 @@ namespace dc
         /// <summary>Unique record type identifier is the default table or folder name in storage.</summary>
         //String TypeID;
 
-        DOT_AUTO_PROP(dot::String, TypeID)
+        dot::String TypeID;
 
             DOT_TYPE_BEGIN(".Analyst", "LinkedTypeKey")
             DOT_TYPE_PROP(TypeID)

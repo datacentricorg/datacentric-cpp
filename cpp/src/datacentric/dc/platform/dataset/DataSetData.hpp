@@ -65,8 +65,8 @@ namespace dc
             });
 
 
-         /// <summary>Unique dataset identifier.</summary>
-         DOT_AUTO_PROP(dot::String, DataSetID)
+        /// <summary>Unique dataset identifier.</summary>
+        dot::String DataSetID;
 
         /// <summary>
         /// Set context and perform initialization or validation of object data.
@@ -77,7 +77,7 @@ namespace dc
         virtual void Init(IContext context);
 
         /// <summary>DataSet parents.</summary>
-        DOT_AUTO_PROP(dot::List<ObjectId>, Parents)
+        dot::List<ObjectId> Parents;
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetData")
             DOT_TYPE_PROP(DataSetID)

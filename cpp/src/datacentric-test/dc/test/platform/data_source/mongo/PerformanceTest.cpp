@@ -93,8 +93,9 @@ namespace dc
 
     public:
 
-        DOT_AUTO_PROP(dot::String, RecordID)
-            DOT_TYPE_BEGIN(".Runtime.Test", "PerformanceTestKey")
+        dot::String RecordID;
+
+        DOT_TYPE_BEGIN(".Runtime.Test", "PerformanceTestKey")
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_BASE(KeyFor<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
             DOT_TYPE_CTOR(new_PerformanceTestKey)
@@ -112,9 +113,9 @@ namespace dc
 
     public:
 
-        DOT_AUTO_PROP(dot::String, RecordID)
-        DOT_AUTO_PROP(dot::List<double>, DoubleList)
-        DOT_AUTO_PROP(int, Version)
+        dot::String RecordID;
+        dot::List<double> DoubleList;
+        dot::Nullable<int> Version;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "PerformanceTestData")
             DOT_TYPE_PROP(RecordID)

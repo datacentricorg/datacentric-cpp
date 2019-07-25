@@ -33,7 +33,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique phase identifier.</summary>
-        DOT_AUTO_PROP(dot::String, PhaseID)
+        dot::String PhaseID;
 
 
         DOT_TYPE_BEGIN(".Runtime.Main", "PhaseData")

@@ -36,7 +36,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Get the default data source of the context.</summary>
-        DOT_AUTO_GET(DataSourceData, DataSource);
+        DataSourceData DataSource;
 
         /// <summary>Returns ObjectId of the context dataset.</summary>
         DOT_AUTO_GET(ObjectId, DataSet);

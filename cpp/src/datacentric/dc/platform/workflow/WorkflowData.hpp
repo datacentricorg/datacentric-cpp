@@ -38,35 +38,35 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique workflow identifier.</summary>
-        DOT_AUTO_PROP(dot::String, WorkflowID)
+        dot::String WorkflowID;
 
         /// <summary>Unique workflow identifier.</summary>
-        DOT_AUTO_PROP(WorkflowKey, Workflow)
+        WorkflowKey Workflow;
 
         /// <summary>Jobs included in the workflow directly.</summary>
-        DOT_AUTO_PROP(dot::List<JobKey>, Jobs)
+        dot::List<JobKey> Jobs;
 
         /// <summary>Jobs are taken from the specified workflows except those on the exclude list.</summary>
-        DOT_AUTO_PROP(dot::List<WorkflowKey>, Workflows)
+        dot::List<WorkflowKey> Workflows;
 
         /// <summary>Jobs on the exclude list are not not imported from the specified workflows.</summary>
-        DOT_AUTO_PROP(dot::List<JobKey>, Exclude)
+        dot::List<JobKey> Exclude;
 
         /// <summary>Phases are executed in the order of this list. Jobs whose phase is not included in this list are skipped.</summary>
-        DOT_AUTO_PROP(dot::List<PhaseKey>, Phases)
+        dot::List<PhaseKey> Phases;
 
         /// <summary>LocalDate.</summary>
-        DOT_AUTO_PROP(dot::LocalDate, LDate)
+        dot::LocalDate LDate;
 
         /// <summary>LocalDate.</summary>
-        DOT_AUTO_PROP(dot::LocalTime, LTime)
+        dot::LocalTime LTime;
 
         /// <summary>LocalDate.</summary>
-        DOT_AUTO_PROP(dot::LocalDateTime, LDateTime)
+        dot::LocalDateTime LDateTime;
 
-        DOT_AUTO_PROP(double, dbl)
+        dot::Nullable<double> dbl;
 
-        DOT_AUTO_PROP(WorkflowData, data)
+        WorkflowData data;
 
         DOT_TYPE_BEGIN(".Analyst", "WorkflowData")
             DOT_TYPE_PROP(WorkflowID)
