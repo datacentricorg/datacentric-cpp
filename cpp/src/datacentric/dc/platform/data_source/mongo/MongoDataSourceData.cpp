@@ -139,7 +139,14 @@ namespace dc
         serializer->Serialize(writer, record);
 
         // By design, insert will fail if ObjectId is not unique within the collection
-        collection.insert_one(writer->view());
+        //collection.insert_one(writer->view());
+
+        bsoncxx::builder::basic::document doc{}; //!! Temporary fix
+        doc.append(bsoncxx::builder::basic::kvp("_t", * record->GetType()->Name) );
+        doc.append(bsoncxx::builder::basic::kvp("_key", * record->getKey()));
+        doc.append(bsoncxx::builder::concatenate(writer->view()));
+
+        collection.insert_one(doc.view());
     }
 
     IQuery MongoDataSourceDataImpl::GetQuery(ObjectId dataSet, dot::Type type)
@@ -279,6 +286,14 @@ namespace dc
         serializer->Serialize(writer, record);
 
         // By design, insert will fail if ObjectId is not unique within the collection
-        collection.insert_one(writer->view());
+        //collection.insert_one(writer->view());
+
+        bsoncxx::builder::basic::document doc{}; //!! Temporary fix
+        doc.append(bsoncxx::builder::basic::kvp("_t", *record->GetType()->Name));
+        doc.append(bsoncxx::builder::basic::kvp("_key", *key->getValue()));
+        doc.append(bsoncxx::builder::concatenate(writer->view()));
+
+        collection.insert_one(doc.view());
+
     }
 }
