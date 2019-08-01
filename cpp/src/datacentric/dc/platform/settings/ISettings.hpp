@@ -32,7 +32,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Class map settings.</summary>
-        DOT_DECL_PROP(IClassMapSettings, ClassMap)
+        virtual IClassMapSettings getClassMap() = 0;
 
         /// <summary>Activator settings.</summary>
         //DOT_DECL_PROP(IActivatorSettings, Activator)

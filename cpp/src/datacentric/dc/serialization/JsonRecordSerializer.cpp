@@ -210,7 +210,7 @@ namespace dc
     void JsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
     {
         // Root name is written in JSON as _t element
-        dot::String rootName = value->GetType()->FullName;
+        dot::String rootName = value->GetType()->getFullName();
 
         writer->WriteStartDocument(rootName);
         value->SerializeTo(writer);

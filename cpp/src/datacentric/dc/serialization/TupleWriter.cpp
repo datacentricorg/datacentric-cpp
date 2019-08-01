@@ -49,7 +49,7 @@ namespace dc
         }
         else
         {
-            for (int i = 0; i < props_->Count; ++i)
+            for (int i = 0; i < props_->getCount(); ++i)
             {
                 if (elementName == "_key" || elementName == "_id")
                 {

@@ -52,7 +52,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique data source identifier.</summary>
-        // DOT_DECL_GET(dot::String, DataSourceID)
+        dot::String DataSourceID;
 
     public: // METHODS
 

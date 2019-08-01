@@ -148,7 +148,7 @@ namespace dc
         rec->RecordID = recordId;
         rec->Version = recordVersion;
         rec->DoubleList = dot::new_List<double>();
-        rec->DoubleList->Capacity = recordSize;
+        rec->DoubleList->setCapacity(recordSize);
 
         for (int i = 0; i < recordSize; ++i)
             rec->DoubleList->Add(std::rand());

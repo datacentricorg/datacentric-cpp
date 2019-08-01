@@ -33,7 +33,44 @@ namespace dc
 
         friend DefaultClassMapSettings new_DefaultClassMapSettings();
 
-    public: // PROPERTIES
+    public:
+        /// <summary>Namespace prefixes including dot separators ignored by class mapping.</summary>
+        virtual dot::ICollection<dot::String> getIgnoredNamespacePrefixes()
+        {
+            return IgnoredNamespacePrefixes;
+        }
+
+        /// <summary>Namespace suffixes including dot separators ignored by class mapping.</summary>
+        virtual dot::ICollection<dot::String> getIgnoredNamespaceSuffixes()
+        {
+            return IgnoredNamespaceSuffixes;
+        }
+
+        /// <summary>Class name prefixes ignored by class mapping.</summary>
+        virtual dot::ICollection<dot::String> getIgnoredClassNamePrefixes()
+        {
+            return IgnoredClassNamePrefixes;
+        }
+
+        /// <summary>Class name prefixes ignored by class mapping.</summary>
+        virtual dot::ICollection<dot::String> getIgnoredClassNameSuffixes()
+        {
+            return IgnoredClassNameSuffixes;
+        }
+
+        /// <summary>Method name prefixes ignored by class mapping.</summary>
+        virtual dot::ICollection<dot::String> getIgnoredMethodNamePrefixes()
+        {
+            return IgnoredMethodNamePrefixes;
+        }
+
+        /// <summary>Method name prefixes ignored by class mapping.</summary>
+        virtual dot::ICollection<dot::String> getIgnoredMethodNameSuffixes()
+        {
+            return IgnoredMethodNameSuffixes;
+        }
+
+    private: // PROPERTIES
 
         /// <summary>Namespace prefixes including dot separators ignored by class mapping.</summary>
         dot::ICollection<dot::String> IgnoredNamespacePrefixes;

@@ -130,7 +130,7 @@ namespace dc
         dot::Object createdDictObj = dot::Activator::CreateInstance(createdDictType);
         if (!(createdDictObj.is<Data>())) // TODO Also support native dictionaries
         {
-            dot::String mappedClassName = currentElementInfo_->PropertyType->FullName;
+            dot::String mappedClassName = currentElementInfo_->PropertyType->getFullName();
             throw dot::new_Exception(dot::String::Format(
                 "Element {0} of type {1} does not implement Data.", currentElementInfo_->Name, mappedClassName));
         }
@@ -193,7 +193,7 @@ namespace dc
 //                "Type {0} cannot be serialized because it implements only IList but not IList<T>.", listType));
 //            Array1D<Type> genericParameterTypes = listType->GenericTypeArguments;
             dot::Array1D<dot::Type> genericParameterTypes = listType->GetGenericArguments();
-            if (genericParameterTypes->Count != 1) throw dot::new_Exception(
+            if (genericParameterTypes->getCount() != 1) throw dot::new_Exception(
                 dot::String::Format("Generic parameter type list {0} has more than ", genericParameterTypes) +
                 "one element creating an ambiguity for deserialization code.");
             currentArrayItemType_ = genericParameterTypes[0];
@@ -203,7 +203,7 @@ namespace dc
             currentDictElements_ = nullptr;
         }
         else {
-            dot::String mappedClassName = currentElementInfo_->PropertyType->FullName;
+            dot::String mappedClassName = currentElementInfo_->PropertyType->getFullName();
             throw dot::new_Exception(dot::String::Format(
                 "Element {0} of type {1} does not implement ICollection.", currentElementInfo_->Name, mappedClassName));
         }

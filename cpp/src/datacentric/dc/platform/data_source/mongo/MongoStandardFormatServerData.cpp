@@ -22,7 +22,7 @@ namespace dc
 {
     dot::String MongoStandardFormatServerDataImpl::GetMongoServerUri()
     {
-        if (Hosts == nullptr || Hosts->Count == 0) throw dot::new_Exception(
+        if (Hosts == nullptr || Hosts->getCount() == 0) throw dot::new_Exception(
             dot::String::Format("The list of hosts provided for MongoDB server {0} is null or empty.", DbServerID));
 
         // TODO uncoment when implemented

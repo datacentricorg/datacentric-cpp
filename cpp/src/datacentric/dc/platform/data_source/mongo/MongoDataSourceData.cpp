@@ -36,7 +36,7 @@ namespace dc
         {
             // If RevisionTimeConstraint is not null, return null for any
             // ID that is not strictly before the constraint ObjectId
-            if (id >= revisionTimeConstraint.Value) return nullptr;
+            if (id >= revisionTimeConstraint.getValue()) return nullptr;
         }
 
         bsoncxx::builder::basic::document filter{};
@@ -257,7 +257,7 @@ namespace dc
     {
         // Create delete marker with the specified key
         auto record = new_DeleteMarker();
-        record->getKey() = key->Value;
+        record->getKey() = key->getValue();
 
         // Get collection
         auto collection = GetCollection(key->GetType());

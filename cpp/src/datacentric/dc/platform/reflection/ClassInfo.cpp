@@ -54,17 +54,17 @@ namespace dc
     {
         // Set type, raw full name, class name, and namespace
         Type = type;
-        RawFullName = type->FullName;
+        RawFullName = type->getFullName();
         RawClassName = type->Name;
         RawNamespace = type->Namespace;
 
         // Remove ignored class name prefix
         MappedClassName = RawClassName;
-        for (dot::String ignoredTypeNamePrefix : Settings::Default->ClassMap->IgnoredClassNamePrefixes)
+        for (dot::String ignoredTypeNamePrefix : Settings::Default->getClassMap()->getIgnoredClassNamePrefixes())
         {
             if (MappedClassName->StartsWith(ignoredTypeNamePrefix))
             {
-                MappedClassName = MappedClassName->Remove(0, ignoredTypeNamePrefix->Length);
+                MappedClassName = MappedClassName->Remove(0, ignoredTypeNamePrefix->getLength());
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -72,11 +72,11 @@ namespace dc
         }
 
         // Remove ignored class name suffix
-        for (dot::String ignoredTypeNameSuffix : Settings::Default->ClassMap->IgnoredClassNameSuffixes)
+        for (dot::String ignoredTypeNameSuffix : Settings::Default->getClassMap()->getIgnoredClassNameSuffixes())
         {
             if (MappedClassName->EndsWith(ignoredTypeNameSuffix))
             {
-                MappedClassName = MappedClassName->SubString(0, MappedClassName->Length - ignoredTypeNameSuffix->Length);
+                MappedClassName = MappedClassName->SubString(0, MappedClassName->getLength() - ignoredTypeNameSuffix->getLength());
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -85,11 +85,11 @@ namespace dc
 
         // Remove ignored namespace prefix
         MappedNamespace = RawNamespace;
-        for (dot::String ignoredModuleNamePrefix : Settings::Default->ClassMap->IgnoredNamespacePrefixes)
+        for (dot::String ignoredModuleNamePrefix : Settings::Default->getClassMap()->getIgnoredNamespacePrefixes())
         {
             if (MappedNamespace->StartsWith(ignoredModuleNamePrefix))
             {
-                MappedNamespace = MappedNamespace->Remove(0, ignoredModuleNamePrefix->Length);
+                MappedNamespace = MappedNamespace->Remove(0, ignoredModuleNamePrefix->getLength());
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -97,11 +97,11 @@ namespace dc
         }
 
         // Remove ignored namespace suffix
-        for (dot::String ignoredModuleNameSuffix : Settings::Default->ClassMap->IgnoredNamespaceSuffixes)
+        for (dot::String ignoredModuleNameSuffix : Settings::Default->getClassMap()->getIgnoredNamespaceSuffixes())
         {
             if (MappedNamespace->EndsWith(ignoredModuleNameSuffix))
             {
-                MappedNamespace = MappedNamespace->SubString(0, MappedNamespace->Length - ignoredModuleNameSuffix->Length);
+                MappedNamespace = MappedNamespace->SubString(0, MappedNamespace->getLength() - ignoredModuleNameSuffix->getLength());
 
                 // Break to prevent more than one prefix removed
                 break;

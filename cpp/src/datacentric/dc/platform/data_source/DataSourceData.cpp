@@ -117,7 +117,7 @@ namespace dc
             //RevisedBefore.CheckHasValue(); // TODO uncomment
 
             // Convert to the least value of ObjectId with the specified timestamp
-            dot::LocalDateTime date = ((dot::Nullable<dot::LocalDateTime>) RevisedBefore).Value;
+            dot::LocalDateTime date = ((dot::Nullable<dot::LocalDateTime>) RevisedBefore).getValue();
             return ObjectId(date);
         }
         else if (RevisedBefore == nullptr && RevisedBeforeId != nullptr)

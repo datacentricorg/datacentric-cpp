@@ -164,7 +164,7 @@ namespace dc
         return !Equals(other);
     }
 
-    Variant Variant::Parse(ValueType_ valueType, dot::String value)
+    Variant Variant::Parse(ValueType valueType, dot::String value)
     {
         if (dot::String::IsNullOrEmpty(value))
         {
@@ -175,16 +175,16 @@ namespace dc
         // Switch on type of default value
         switch (valueType)
         {
-        case ValueType_::String:           return Variant(value);
-        case ValueType_::Double:           return Variant(dot::Double::Parse(value));
-        case ValueType_::Bool:             return Variant(dot::Bool::Parse(value));
-        case ValueType_::Int:              return Variant(dot::Int::Parse(value));
-        case ValueType_::Long:             return Variant(dot::Long::Parse(value));
-        case ValueType_::LocalDate:        return Variant(LocalDateHelper::Parse(value));
-        case ValueType_::LocalTime:        return Variant(LocalTimeHelper::Parse(value));
-        case ValueType_::LocalMinute:      return Variant(LocalMinuteHelper::Parse(value));
-        case ValueType_::LocalDateTime:    return Variant(LocalDateTimeHelper::Parse(value));
-        case ValueType_::Enum:
+        case ValueType::String:           return Variant(value);
+        case ValueType::Double:           return Variant(dot::Double::Parse(value));
+        case ValueType::Bool:             return Variant(dot::Bool::Parse(value));
+        case ValueType::Int:              return Variant(dot::Int::Parse(value));
+        case ValueType::Long:             return Variant(dot::Long::Parse(value));
+        case ValueType::LocalDate:        return Variant(LocalDateHelper::Parse(value));
+        case ValueType::LocalTime:        return Variant(LocalTimeHelper::Parse(value));
+        case ValueType::LocalMinute:      return Variant(LocalMinuteHelper::Parse(value));
+        case ValueType::LocalDateTime:    return Variant(LocalDateTimeHelper::Parse(value));
+        case ValueType::Enum:
             throw dot::new_Exception("Variant cannot be created as enum without specifying enum typename.");
         default:
             // Error message if any other type

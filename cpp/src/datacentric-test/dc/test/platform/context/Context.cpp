@@ -58,7 +58,7 @@ namespace dc
         DataSource->DeleteDb();
 
         // Create common dataset and assign it to DataSet property of this context
-        DataSet.DataSet = DataSource->CreateCommon();
+        DataSet = DataSource->CreateCommon();
     }
 
     UnitTestContextImpl::~UnitTestContextImpl()

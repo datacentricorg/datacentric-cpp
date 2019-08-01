@@ -72,9 +72,6 @@ namespace dc
 
     public: // PROPERTIES
 
-        /// <summary>Unique data source identifier.</summary>
-        dot::String DataSourceID;
-
         /// <summary>
         /// This class enforces strict naming conventions
         /// for database naming. While format of the resulting database

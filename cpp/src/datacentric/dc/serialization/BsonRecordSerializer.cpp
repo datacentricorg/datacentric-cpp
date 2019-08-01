@@ -97,6 +97,11 @@ namespace dc
                 {
                     // TODO Handle dataset
                 }
+                else if (elementName == "_key")
+                {
+                    continue;
+                }
+
                 else
                 {
                     writer->WriteValueElement(elementName, value);
@@ -225,7 +230,7 @@ namespace dc
     void BsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
     {
         // Root name is written in JSON as _t element
-        dot::String rootName = value->GetType()->FullName;
+        dot::String rootName = value->GetType()->getFullName();
 
         writer->WriteStartDocument(rootName);
         value->SerializeTo(writer);

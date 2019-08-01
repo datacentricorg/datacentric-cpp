@@ -44,7 +44,7 @@ namespace dc
 
             std::stringstream ss;
 
-            for (int i = 0; i < props->Count; ++i)
+            for (int i = 0; i < props->getCount(); ++i)
             {
                 dot::PropertyInfo key_prop = props[i];
 

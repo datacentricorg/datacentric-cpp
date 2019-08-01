@@ -42,8 +42,8 @@ namespace dc
     int64_t LocalDateTimeHelper::ToIsoLong(dot::LocalDateTime value)
     {
         // LocalDateTime is serialized as readable ISO int64 in yyyymmddhhmmsssss format
-        int isoDate = value.Year * 10'000 + value.Month * 100 + value.Day;
-        int isoTime = value.Hour * 100'00'000 + value.Minute * 100'000 + value.Second * 1000 + value.Millisecond;
+        int isoDate = value.getYear() * 10'000 + value.getMonth() * 100 + value.getDay();
+        int isoTime = value.getHour() * 100'00'000 + value.getMinute() * 100'000 + value.getSecond() * 1000 + value.getMillisecond();
         int64_t result = ((int64_t)isoDate) * 100'00'00'000 + (int64_t)isoTime;
         return result;
     }

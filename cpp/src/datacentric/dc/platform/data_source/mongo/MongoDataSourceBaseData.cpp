@@ -49,7 +49,7 @@ namespace dc
             throw dot::new_Exception(
                 dot::String::Format("MongoDB database name {0} contains a space or another ", dbName_) +
                 "prohibited character from the following list: /\\.\"$*<>:|?");
-        if (dbName_->Length > maxDbNameLength_)
+        if (dbName_->getLength() > maxDbNameLength_)
             throw dot::new_Exception(
                 dot::String::Format("MongoDB database name {0} exceeds the maximum length of 64 characters.", dbName_));
 
@@ -130,7 +130,7 @@ namespace dc
         dot::Type curr = dataType;
         while (curr->Name != "RecordFor" && curr->Name != "KeyFor")
         {
-            curr = curr->BaseType;
+            curr = curr->getBaseType();
             if (curr.IsEmpty())
                 throw dot::new_Exception(dot::String::Format("Couldn't detect collection name for type {0}", dataType->Name));
         }

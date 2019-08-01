@@ -35,7 +35,6 @@ namespace dc
     class DC_CLASS Variant
     {
         typedef Variant self;
-        typedef ValueType ValueType_;
 
     private: // FIELDS
 
@@ -52,31 +51,34 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Type of the value held by the variant.</summary>
-        DOT_GET(ValueType_, ValueType,
+        ValueType getValueType()
         {
             if (value_ == nullptr)
-                return ValueType_::Empty;
+                return ValueType::Empty;
 
             dot::Type valueType = value_->GetType();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
-            if (valueType->Equals(dot::typeof<dot::String>()))        return ValueType_::String;
-            if (valueType->Equals(dot::typeof<double>()))             return ValueType_::Double;
-            if (valueType->Equals(dot::typeof<bool>()))               return ValueType_::Bool;
-            if (valueType->Equals(dot::typeof<int>()))                return ValueType_::Int;
-            if (valueType->Equals(dot::typeof<int64_t>()))            return ValueType_::Long;
-            if (valueType->Equals(dot::typeof<dot::LocalDate>()))     return ValueType_::LocalDate;
-            if (valueType->Equals(dot::typeof<dot::LocalTime>()))     return ValueType_::LocalTime;
-            if (valueType->Equals(dot::typeof<dot::LocalMinute>()))   return ValueType_::LocalMinute;
-            if (valueType->Equals(dot::typeof<dot::LocalDateTime>())) return ValueType_::LocalDateTime;
-            if (valueType->IsEnum)                                    return ValueType_::Enum;
+            if (valueType->Equals(dot::typeof<dot::String>()))        return ValueType::String;
+            if (valueType->Equals(dot::typeof<double>()))             return ValueType::Double;
+            if (valueType->Equals(dot::typeof<bool>()))               return ValueType::Bool;
+            if (valueType->Equals(dot::typeof<int>()))                return ValueType::Int;
+            if (valueType->Equals(dot::typeof<int64_t>()))            return ValueType::Long;
+            if (valueType->Equals(dot::typeof<dot::LocalDate>()))     return ValueType::LocalDate;
+            if (valueType->Equals(dot::typeof<dot::LocalTime>()))     return ValueType::LocalTime;
+            if (valueType->Equals(dot::typeof<dot::LocalMinute>()))   return ValueType::LocalMinute;
+            if (valueType->Equals(dot::typeof<dot::LocalDateTime>())) return ValueType::LocalDateTime;
+            if (valueType->IsEnum)                                    return ValueType::Enum;
 
             // Error message if any other type, should normally not get to here
             throw dot::new_Exception(GetWrongTypeErrorMessage(value_));
-        })
+        }
 
         /// <summary>Value held by the variant, which may be null.</summary>
-        DOT_GET(dot::Object, Value, { return value_; })
+        dot::Object getValue()
+        {
+            return value_;
+        }
 
     public: // METHODS
 
@@ -105,7 +107,7 @@ namespace dc
 
     public: // STATIC
 
-        static Variant Parse(ValueType_ valueType, dot::String value);
+        static Variant Parse(ValueType valueType, dot::String value);
 
         template <class T>
         static Variant Parse(dot::String value)

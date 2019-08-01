@@ -31,8 +31,10 @@ namespace dc
 
     public:
 
-        DOT_GET(dot::String, Value, { return ToString(); })
-
+        dot::String getValue()
+        {
+            return ToString();
+        }
 
     public: // METHODS
 

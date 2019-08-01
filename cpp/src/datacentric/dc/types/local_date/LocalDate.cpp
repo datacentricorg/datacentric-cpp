@@ -41,7 +41,7 @@ namespace dc
 
     int LocalDateHelper::ToIsoInt(dot::LocalDate value)
     {
-        int result = value.Year * 10'000 + value.Month * 100 + value.Day;
+        int result = value.getYear() * 10'000 + value.getMonth() * 100 + value.getDay();
         return result;
     }
 

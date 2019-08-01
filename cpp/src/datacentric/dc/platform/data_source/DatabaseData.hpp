@@ -49,9 +49,7 @@ namespace dc
         ///
         /// Some API functions are restricted based on the instance type.
         /// </summary>
-        DOT_PROP(InstanceType_, InstanceType, { return instanceType_; }, { instanceType_ = value; })
-
-        InstanceType_ instanceType_;
+        InstanceType_ InstanceType;
 
         /// <summary>
         /// The meaning of instance name depends on the instance type.

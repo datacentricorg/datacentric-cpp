@@ -34,13 +34,18 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Class map settings.</summary>
-        IClassMapSettings ClassMap;
+        virtual IClassMapSettings getClassMap()
+        {
+            return ClassMap;
+        }
 
         /// <summary>Activator settings.</summary>
         //IActivatorSettings Activator;
 
         /// <summary>Locale settings.</summary>
         //ILocaleSettings Locale;
+    private:
+        IClassMapSettings ClassMap;
 
     private: // CONSTRUCTORS
 

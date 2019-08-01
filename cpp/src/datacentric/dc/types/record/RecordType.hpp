@@ -29,11 +29,6 @@ namespace dc
     {
         typedef RecordTypeImpl self;
 
-    private:
-
-        /// <summary>Use context to access resources.</summary>
-        IContext context_;
-
     public: // FIELDS
 
         /// <summary>

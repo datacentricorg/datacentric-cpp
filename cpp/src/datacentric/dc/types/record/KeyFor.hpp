@@ -198,10 +198,10 @@ namespace dc
                 {
                     // If not null, it is a delete marker;
                     // check that has a matching key
-                    if (result != nullptr && Value != result->getKey())
+                    if (result != nullptr && getValue() != result->getKey())
                         throw dot::new_Exception(dot::String::Format(
                             "Delete marker with Type={0} stored "
-                            "for Key={1} has a non-matching Key={2}.", result->GetType()->Name, Value, result->getKey()));
+                            "for Key={1} has a non-matching Key={2}.", result->GetType()->Name, getValue(), result->getKey()));
 
                     // Record not found or is a delete marker,
                     // cache an empty record and return null
@@ -211,10 +211,10 @@ namespace dc
                 else
                 {
                     // Check that the found record has a matching key
-                    if (Value != result->getKey())
+                    if (getValue() != result->getKey())
                         throw dot::new_Exception(dot::String::Format(
                             "Record with Type={0} stored "
-                            "for Key={1} has a non-matching Key={2}.", result->GetType()->Name, Value, result->getKey()));
+                            "for Key={1} has a non-matching Key={2}.", result->GetType()->Name, getValue(), result->getKey()));
 
                     // Cache the record; the ctor of CachedRecord
                     // will cache null if the record is a delete marker
@@ -330,7 +330,7 @@ namespace dc
 
             // Check that TRecord has the same or greater number of elements
             // as TKey (all elements of TKey must also be present in TRecord)
-            if (recordElementInfoArray->Count < keyElementInfoArray->Count) throw dot::new_Exception(dot::String::Format(
+            if (recordElementInfoArray->getCount() < keyElementInfoArray->getCount()) throw dot::new_Exception(dot::String::Format(
                 "Record type {0} has fewer elements than key type {1}.", dot::typeof<dot::Ptr<TRecord>>()->Name, dot::typeof<dot::Ptr<TKey>>()->Name));
 
             // Iterate over the key properties

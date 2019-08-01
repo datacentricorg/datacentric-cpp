@@ -143,11 +143,11 @@ namespace dc
         append(builder, rhs->ToString());
     }
 
-    template <class Key>
-    inline void append(bsoncxx::builder::core& builder, Key rhs, typename std::enable_if<std::is_base_of<KeyTypeImpl, typename Key::value_type::element_type>::value >::type * p = 0)
-    {
-        append(builder, rhs->ToString());
-    }
+    //template <class Key>
+    //inline void append(bsoncxx::builder::core& builder, Key rhs, typename std::enable_if<std::is_base_of<KeyTypeImpl, typename Key::value_type::element_type>::value >::type * p = 0)
+    //{
+    //    append(builder, rhs->ToString());
+    //}
 
     template <class T>
     struct operator_wrapper
@@ -224,12 +224,12 @@ namespace dc
         std::deque<dot::String> props_;
 
         template <class ClassR, class PropR>
-        props_list<typename PropR::value_type> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
+        props_list<PropR> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
         {
             // Compile time check
             static_assert(std::is_same<LastProp::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
 
-            props_list<typename PropR::value_type> ret;
+            props_list<PropR> ret;
             ret.props_.swap(props_);
             ret.props_.push_back(rhs.prop_->Name);
             return ret;
@@ -312,11 +312,11 @@ namespace dc
         dot::PropertyInfo prop_;
 
         template <class ClassR, class PropR>
-        props_list<typename PropR::value_type> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
+        props_list<PropR> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
         {
             // Compile time check
-            static_assert(std::is_same<typename Prop::value_type::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
-            return props_list<typename PropR::value_type>{{ prop_->Name, rhs.prop_->Name }};
+            static_assert(std::is_same<Prop::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
+            return props_list<PropR>{{ prop_->Name, rhs.prop_->Name }};
         }
 
         auto operator[](int rhs)
@@ -431,7 +431,7 @@ namespace dc
 
         for (dot::PropertyInfo const& prop : props)
         {
-            dot::Ptr<dot::PropertyInfoPropertyImpl<Prop, Class>> casted_prop = prop.as<dot::Ptr<dot::PropertyInfoPropertyImpl<Prop, Class>>>();
+            dot::Ptr<dot::PropertyInfoFieldImpl<Prop, Class>> casted_prop = prop.as<dot::Ptr<dot::PropertyInfoFieldImpl<Prop, Class>>>();
             if (!casted_prop.IsEmpty() && casted_prop->prop_ == prop_)
                 return prop_wrapper<Class, Prop>{ prop };
 

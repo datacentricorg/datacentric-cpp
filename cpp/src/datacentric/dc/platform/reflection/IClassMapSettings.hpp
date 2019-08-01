@@ -36,21 +36,21 @@ namespace dc
         //DOT_DECL_GET(ISettings, Settings) // pointer loop
 
         /// <summary>Namespace prefixes including dot separators ignored by class mapping.</summary>
-        DOT_DECL_GET(dot::ICollection<dot::String>, IgnoredNamespacePrefixes)
+        virtual dot::ICollection<dot::String> getIgnoredNamespacePrefixes() = 0;
 
         /// <summary>Namespace suffixes including dot separators ignored by class mapping.</summary>
-        DOT_DECL_GET(dot::ICollection<dot::String>, IgnoredNamespaceSuffixes)
+        virtual dot::ICollection<dot::String> getIgnoredNamespaceSuffixes() = 0;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        DOT_DECL_GET(dot::ICollection<dot::String>, IgnoredClassNamePrefixes)
+        virtual dot::ICollection<dot::String> getIgnoredClassNamePrefixes() = 0;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        DOT_DECL_GET(dot::ICollection<dot::String>, IgnoredClassNameSuffixes)
+        virtual dot::ICollection<dot::String> getIgnoredClassNameSuffixes() = 0;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        DOT_DECL_GET(dot::ICollection<dot::String>, IgnoredMethodNamePrefixes)
+        virtual dot::ICollection<dot::String> getIgnoredMethodNamePrefixes() = 0;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        DOT_DECL_GET(dot::ICollection<dot::String>, IgnoredMethodNameSuffixes)
+        virtual dot::ICollection<dot::String> getIgnoredMethodNameSuffixes() = 0;
     };
 }
