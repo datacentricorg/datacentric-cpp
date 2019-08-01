@@ -23,12 +23,12 @@ limitations under the License.
 
 #include <dot/implement.hpp>
 #include <dot/system/Enum.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/type.hpp>
 #include <dot/system/reflection/Activator.hpp>
 
 namespace dot
 {
-    String Enum::ToString()
+    string Enum::to_string()
     {
         auto valuesMap = GetEnumMap();
 
@@ -42,14 +42,14 @@ namespace dot
         return std::to_string(value_);
     }
 
-    size_t Enum::GetHashCode()
+    size_t Enum::hash_code()
     {
         return std::hash<int>()(value_);
     }
 
-    bool Enum::Equals(Object obj)
+    bool Enum::equals(object obj)
     {
-        if (obj->GetType()->Equals(GetType()))
+        if (obj->type()->equals(type()))
         {
             Enum* en = dynamic_cast<Enum*>(obj.operator->());
             return en->value_ == value_;
@@ -57,14 +57,14 @@ namespace dot
         return false;
     }
 
-    Object Enum::Parse(Type enumType, String value)
+    object Enum::Parse(type_t enumType, string value)
     {
-        Object enum_obj = Activator::CreateInstance(enumType);
+        object enum_obj = Activator::CreateInstance(enumType);
         Enum* en = dynamic_cast<Enum*>(enum_obj.operator->());
         auto valuesMap = en->GetEnumMap();
 
         int intValue = 0;
-        if(!valuesMap->TryGetValue(value, intValue))
+        if(!valuesMap->try_get_value(value, intValue))
         {
             throw new_Exception("value is outside the range of the underlying type of enumType.");
         }

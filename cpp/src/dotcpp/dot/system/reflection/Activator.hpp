@@ -24,12 +24,12 @@ limitations under the License.
 #pragma once
 
 #include <dot/declare.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/type.hpp>
 
 namespace dot
 {
     /// <summary>
-    /// Contains methods to create types of objects locally or remotely, or obtain 
+    /// contains methods to create types of objects locally or remotely, or obtain 
     /// references to existing remote objects. This class cannot be inherited.
     /// </summary>
     class DOT_CLASS Activator final
@@ -43,15 +43,15 @@ namespace dot
     public: // METHODS
 
         /// <summary>Creates an instance of the specified type using that type's default constructor.</summary>
-        static Object CreateInstance(Type type);
+        static object CreateInstance(type_t type);
 
         /// <summary>Creates an instance of the specified type using the constructor that best matches the specified parameters.</summary>
-        static Object CreateInstance(Type type, Array1D<Object> params);
+        static object CreateInstance(type_t type, array<object> params);
 
         /// <summary>Creates an instance of the type whose name is specified, using the named assembly and default constructor.</summary>
-        static Object CreateInstance(String assemblyName, String typeName);
+        static object CreateInstance(string assemblyName, string typeName);
 
         /// <summary>Creates an instance of the type whose name is specified, using the named assembly and default constructor.</summary>
-        static Object CreateInstance(String assemblyName, String typeName, Array1D<Object> params);
+        static object CreateInstance(string assemblyName, string typeName, array<object> params);
     };
 }

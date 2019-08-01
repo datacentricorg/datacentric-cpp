@@ -32,10 +32,10 @@ namespace dot
     using boost::posix_time::time_duration;
     using boost::gregorian::date_duration;
 
-    class LocalTime;
-    class LocalDate;
-    class LocalDateTime;
-    class Object;
+    class local_time;
+    class local_date;
+    class local_date_time;
+    class object;
 
     /// <summary>
     /// Represents a period of time expressed in human chronological terms:
@@ -44,6 +44,7 @@ namespace dot
     class DOT_CLASS Period : public time_duration
     {
         typedef Period self;
+        typedef time_duration base;
 
     public:
         Period(const time_duration& d);
@@ -54,32 +55,35 @@ namespace dot
 
     public:
         /// <summary>Gets the number of days within this period.</summary>
-        int getDays() { return static_cast<int>(hours() / 24); }
+        int days() const
+        {
+            return static_cast<int>(base::hours() / 24);
+        }
 
         /// <summary>Gets the number of hours within this period.</summary>
-        int64_t getHours() { return hours() % 24; }
+        int64_t hours() const
+        {
+            return base::hours() % 24; // base::hours() returns total number of hours
+        }
 
         /// <summary>Gets the number of milliseconds within this period.</summary>
-        int64_t getMilliseconds() { return fractional_seconds() / 1000; }
-
-        /// <summary>Gets the number of minutes within this period.</summary>
-        int64_t getMinutes() { return minutes(); }
-
-        /// <summary>Gets the number of seconds within this period.</summary>
-        int64_t getSeconds() { return seconds(); }
+        int64_t milliseconds() const
+        {
+            return fractional_seconds() / 1000;
+        }
 
     public:
         /// <summary>Returns the exact difference between two dates.</summary>
-        static Period Between(const LocalDate& start, const LocalDate& end);
+        static Period Between(const local_date& start, const local_date& end);
 
         /// <summary>Returns the exact difference between two date/times.</summary>
-        static Period Between(const LocalDateTime& start, const LocalDateTime& end);
+        static Period Between(const local_date_time& start, const local_date_time& end);
 
         /// <summary>Returns the exact difference between two times.</summary>
-        static Period Between(const LocalTime& start, const LocalTime& end);
+        static Period Between(const local_time& start, const local_time& end);
 
         /// <summary>Compares the given period for equality with this one.</summary>
-        bool Equals(const Period& other) const;
+        bool equals(const Period& other) const;
 
         /// <summary>Creates a period representing the specified number of days.</summary>
         static Period FromDays(int days);
@@ -108,7 +112,7 @@ namespace dot
 
         /// <summary>Compares two periods for equality.</summary>
         bool operator==(const Period& other) const;
-        
+
         /// <summary>Compares two periods for inequality.</summary>
         bool operator!=(const Period& other) const;
 

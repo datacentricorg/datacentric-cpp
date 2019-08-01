@@ -24,14 +24,14 @@ limitations under the License.
 #pragma once
 
 #include <dot/declare.hpp>
-#include <dot/system/ObjectImpl.hpp>
+#include <dot/system/objectimpl.hpp>
 
 namespace dot
 {
-    /// <summary>Wrapper around double to make it convertible to Object (boxing).</summary>
-    class DoubleImpl : public virtual ObjectImpl
+    /// <summary>Wrapper around double to make it convertible to object (boxing).</summary>
+    class DoubleImpl : public virtual object_impl
     {
-        friend Object;
+        friend object;
         double value_;
 
     public: // CONSTRUCTORS
@@ -42,18 +42,18 @@ namespace dot
     public: // METHODS
 
         /// <summary>Returns a value indicating whether this instance is equal to a specified object.</summary>
-        virtual bool Equals(Object obj) override;
+        bool equals(object obj) override;
 
         /// <summary>Returns the hash code for this instance.</summary>
-        virtual size_t GetHashCode() override;
+        virtual size_t hash_code() override;
 
         /// <summary>Converts the numeric value of this instance to its equivalent string representation.</summary>
-        virtual String ToString() override;
+        virtual string to_string() override;
 
     public: // REFLECTION
 
-        static Type typeof();
-        virtual Type GetType() override;
+        static type_t typeof();
+        virtual type_t type() override;
     };
 
     /// <summary>
@@ -72,7 +72,7 @@ namespace dot
     public: // STATIC
 
         /// <summary>Converts the string representation of a number to its double-precision floating-point number equivalent.</summary>
-        static double Parse(String s);
+        static double Parse(string s);
     };
 }
 

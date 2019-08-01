@@ -26,20 +26,19 @@ limitations under the License.
 #include <unordered_set>
 #include <dot/system/Exception.hpp>
 #include <dot/system/collections/generic/ISet.hpp>
-#include <dot/system/collections/generic/List.hpp>
+#include <dot/system/collections/generic/list.hpp>
 
 namespace dot
 {
-    template <class T> class Array1DImpl; template <class T> using Array1D = Ptr<Array1DImpl<T>>;
+    template <class T> class array_impl; template <class T> using array = ptr<array_impl<T>>;
 
     template <class T> class HashSetImpl;
-    template <class T> using HashSet = Ptr<HashSetImpl<T>>;
+    template <class T> using HashSet = ptr<HashSetImpl<T>>;
 
     /// <summary>Represents a set of values.</summary>
     template <class T>
     class HashSetImpl
-        : public virtual ObjectImpl
-        , public ISetImpl<T>
+        : public virtual object_impl
         , public std::unordered_set<T>
     {
         typedef HashSetImpl<T> self;
@@ -67,41 +66,35 @@ namespace dot
 
     public: // PROPERTIES
 
-        /// <summary>Gets the number of elements that are contained in a set.</summary>
-         virtual int getCount() override { return this->size(); }
+        /// <summary>Gets the number of elements that are contained in the set.</summary>
+        int count() { return this->size(); }
 
     public: // METHODS
 
         /// <summary>Adds the specified element to a set.</summary>
-        virtual void Add(const T& item) override
+        void Add(const T& item)
         {
             std::pair<typename base::iterator, bool> res = this->insert(item);
             //return res.second;
         }
 
         /// <summary>Removes all elements from a HashSet object.</summary>
-        virtual void Clear() override
+        virtual void Clear()
         {
             this->clear();
         }
 
         /// <summary>Determines whether a HashSet object contains the specified element.</summary>
-        virtual bool Contains(const T& item) override
+        virtual bool contains(const T& item)
         {
             auto iter = this->find(item);
             return iter != this->end();
         }
 
         /// <summary>Removes the specified element from a HashSet object.</summary>
-        virtual bool Remove(const T& item) override
+        virtual bool Remove(const T& item)
         {
             return this->erase(item) != 0;
-        }
-
-        /// <summary>Returns an enumerator that iterates through the HashSet.</summary>
-        virtual IEnumerator<T> GetEnumerator() override
-        {
-            return new_Enumerator(base::begin(), base::end());
         }
 
         /// <summary>Returns random access begin iterator of the underlying std::unordered_set.</summary>
@@ -118,7 +111,7 @@ namespace dot
         }
 
         /// <summary>Searches the set for a given value and returns the equal value it finds, if any.</summary>
-        bool TryGetValue(const T& equalValue, T& actualValue)
+        bool try_get_value(const T& equalValue, T& actualValue)
         {
             auto iter = this->find(equalValue);
             if (iter != this->end())
@@ -142,11 +135,11 @@ namespace dot
         /// that are present in that object and in the specified collection.</summary>
         virtual void IntersectWith(IEnumerable<T> other) override
         {
-            List<T> left = new_List<T>();
+            list<T> left = make_list<T>();
             for (T const& item : other)
             {
-                if (this->Contains(item))
-                    left->Add(item);
+                if (this->contains(item))
+                    left->add(item);
             }
 
             this->Clear();

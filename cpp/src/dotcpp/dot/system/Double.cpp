@@ -23,44 +23,44 @@ limitations under the License.
 
 #include <dot/implement.hpp>
 #include <dot/system/Double.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/type.hpp>
 
 namespace dot
 {
-    bool DoubleImpl::Equals(Object obj)
+    bool DoubleImpl::equals(object obj)
     {
         if (this == &(*obj)) return true;
 
-        if (obj.is<Ptr<DoubleImpl>>())
+        if (obj.is<ptr<DoubleImpl>>())
         {
-            return value_ == obj.as<Ptr<DoubleImpl>>()->value_;
+            return value_ == obj.as<ptr<DoubleImpl>>()->value_;
         }
 
         return false;
     }
 
-    size_t DoubleImpl::GetHashCode()
+    size_t DoubleImpl::hash_code()
     {
         return std::hash<double>()(value_);
     }
 
-    String DoubleImpl::ToString()
+    string DoubleImpl::to_string()
     {
         return std::to_string(value_);
     }
 
-    Type DoubleImpl::typeof()
+    type_t DoubleImpl::typeof()
     {
         return dot::typeof<double>();
     }
 
-    Type DoubleImpl::GetType()
+    type_t DoubleImpl::type()
     {
         return typeof();
     }
 
-    double Double::Parse(String s)
+    double Double::Parse(string s)
     {
         return std::stod(*s);
     }

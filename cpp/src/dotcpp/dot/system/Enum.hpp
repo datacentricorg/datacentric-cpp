@@ -25,8 +25,8 @@ limitations under the License.
 
 #include <dot/declare.hpp>
 #include <dot/detail/enum_macro.hpp>
-#include <dot/system/Type.hpp>
-#include <dot/system/collections/generic/Dictionary.hpp>
+#include <dot/system/type.hpp>
+#include <dot/system/collections/generic/dictionary.hpp>
 
 namespace dot
 {
@@ -56,8 +56,8 @@ namespace dot
         /// <summary>Copy constructor.</summary>
         Enum(const Enum& rhs) : value_(rhs.value_) {}
 
-        /// <summary>Constructor from Object.</summary>
-        Enum(Object rhs)
+        /// <summary>Constructor from object.</summary>
+        Enum(object rhs)
         {
             value_ = dynamic_cast<Enum&>(*rhs).value_;
         }
@@ -65,13 +65,13 @@ namespace dot
     public: // METHODS
 
         /// <summary>Converts the value of this instance to its equivalent string representation.</summary>
-        String ToString();
+        string to_string();
 
         /// <summary>Returns the hash code for the value of this instance.</summary>
-        size_t GetHashCode();
+        size_t hash_code();
 
         /// <summary>Returns a value indicating whether this instance is equal to a specified object.</summary>
-        bool Equals(Object obj);
+        bool equals(object obj);
 
     public: // STATIC
 
@@ -79,11 +79,11 @@ namespace dot
         /// Converts the string representation of the name or numeric value of
         /// one or more enumerated constants to an equivalent enumerated object.
         /// </summary>
-        static Object Parse(Type enumType, String value);
+        static object Parse(type_t enumType, string value);
 
     protected: // PROTECTED
 
-        virtual Dictionary<String, int> GetEnumMap() = 0;
+        virtual dictionary<string, int> GetEnumMap() = 0;
 
     public: // OPERATORS
 

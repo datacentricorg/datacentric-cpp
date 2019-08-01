@@ -42,22 +42,22 @@ namespace dot
         *this = other;
     }
 
-    Period Period::Between(const LocalDate& start, const LocalDate& end)
+    Period Period::Between(const local_date& start, const local_date& end)
     {
         return end - start;
     }
 
-    Period Period::Between(const LocalDateTime& start, const LocalDateTime& end)
+    Period Period::Between(const local_date_time& start, const local_date_time& end)
     {
         return end - start;
     }
 
-    Period Period::Between(const LocalTime& start, const LocalTime& end)
+    Period Period::Between(const local_time& start, const local_time& end)
     {
         return end - start;
     }
 
-    bool Period::Equals(const Period& other) const
+    bool Period::equals(const Period& other) const
     {
         return *this == other;
     }
@@ -114,6 +114,6 @@ namespace dot
 
     Period::operator date_duration() const
     {
-        return date_duration(hours() / 24);
+        return date_duration(base::hours() / 24);
     }
 }

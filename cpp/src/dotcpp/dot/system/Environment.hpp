@@ -25,26 +25,26 @@ limitations under the License.
 
 #include <dot/declare.hpp>
 #include <fmt/core.h>
-#include <dot/system/String.hpp>
+#include <dot/system/string.hpp>
 
 namespace dot
 {
     /// <summary>
     /// Provides information about, and means to manipulate, the current environment and platform.
     /// </summary>
-    class DOT_CLASS Environment final
+    class DOT_CLASS environment final
     {
     private: // CONSTRUCTORS
 
-        Environment() = delete;
-        Environment(const Environment&) = delete;
-        Environment& operator=(const Environment&) = delete;
+        environment() = delete;
+        environment(const environment&) = delete;
+        environment& operator=(const environment&) = delete;
 
     public: // STATIC
 
         /// <summary>
         /// Gets the newline string defined for this environment.
         /// </summary>
-        static String NewLine;
+        static string new_line;
     };
 }

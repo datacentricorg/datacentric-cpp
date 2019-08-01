@@ -23,37 +23,36 @@ limitations under the License.
 
 
 #include <dot/implement.hpp>
-#include <dot/system/Type.hpp>
-#include <dot/system/ObjectImpl.hpp>
-#include <dot/system/reflection/PropertyInfo.hpp>
+#include <dot/system/type.hpp>
+#include <dot/system/objectimpl.hpp>
 #include <dot/system/reflection/MethodInfo.hpp>
 #include <dot/system/reflection/ConstructorInfo.hpp>
-#include <dot/system/Array1D.hpp>
-#include <dot/system/collections/generic/List.hpp>
-#include <dot/system/String.hpp>
+#include <dot/system/array1d.hpp>
+#include <dot/system/collections/generic/list.hpp>
+#include <dot/system/string.hpp>
 
 namespace dot
 {
-    /// <summary>Built Type from the current object.</summary>
-    Type TypeBuilderImpl::Build()
+    /// <summary>Built type_t from the current object.</summary>
+    type_t TypeBuilderImpl::Build()
     {
         type_->Fill(this);
 
         // Fill derived types map
-        Type baseType = base_;
-        while (baseType != nullptr)
+        type_t base_type = base_;
+        while (base_type != nullptr)
         {
-            auto iter = TypeImpl::GetDerivedTypesMap().find(baseType->getFullName());
-            if (iter == TypeImpl::GetDerivedTypesMap().end())
+            auto iter = type_impl::GetDerivedTypesMap().find(base_type->FullName());
+            if (iter == type_impl::GetDerivedTypesMap().end())
             {
-                iter = TypeImpl::GetDerivedTypesMap().insert({baseType->getFullName(), new_List<Type>()}).first;
+                iter = type_impl::GetDerivedTypesMap().insert({base_type->FullName(), make_list<type_t>()}).first;
             }
             else if (iter->second == nullptr)
             {
-                iter->second = new_List<Type>();
+                iter->second = make_list<type_t>();
             }
-            iter->second->Add(type_);
-            baseType = baseType->getBaseType();
+            iter->second->add(type_);
+            base_type = base_type->BaseType();
         }
 
         return type_;
@@ -62,61 +61,26 @@ namespace dot
     /// <summary>
     /// Fill data from builder.
     /// </summary>
-    void TypeImpl::Fill(const TypeBuilder& data)
+    void type_impl::Fill(const TypeBuilder& data)
     {
-        if (!data->base_.IsEmpty() && data->base_->GetProperties()->getCount())
-        {
-            if (data->properties_.IsEmpty())
-            {
-                data->properties_ = new_List<PropertyInfo>();
-            }
-
-            Array1D<PropertyInfo> baseProps = data->base_->GetProperties();
-            List<PropertyInfo> newProsp = new_List<PropertyInfo>();
-            for (PropertyInfo propInfoData : baseProps)
-            {
-
-                newProsp->Add(propInfoData);
-            }
-
-            for (PropertyInfo propInfoData : data->properties_)
-            {
-                newProsp->Add(propInfoData);
-            }
-
-            data->properties_ = newProsp;
-        }
-
-        if (!data->properties_.IsEmpty())
-        {
-            this->properties_ = new_Array1D<PropertyInfo>(data->properties_->getCount());
-            int i = 0;
-            for (PropertyInfo propInfoData : data->properties_)
-            {
-                this->properties_[i++] = propInfoData;
-            }
-        }
-        else
-            this->properties_ = new_Array1D<PropertyInfo>(0);
-
-        if (!data->base_.IsEmpty() && data->base_->GetMethods()->getCount())
+        if (!data->base_.IsEmpty() && data->base_->GetMethods()->count())
         {
             if (data->methods_.IsEmpty())
             {
-                data->methods_ = new_List<MethodInfo>();
+                data->methods_ = make_list<MethodInfo>();
             }
 
-            Array1D<MethodInfo> baseMethods = data->base_->GetMethods();
-            List<MethodInfo> newMethods = new_List<MethodInfo>();
+            array<MethodInfo> baseMethods = data->base_->GetMethods();
+            list<MethodInfo> newMethods = make_list<MethodInfo>();
             for (MethodInfo methInfoData : baseMethods)
             {
 
-                newMethods->Add(methInfoData);
+                newMethods->add(methInfoData);
             }
 
             for (MethodInfo methInfoData : data->methods_)
             {
-                newMethods->Add(methInfoData);
+                newMethods->add(methInfoData);
             }
 
             data->methods_ = newMethods;
@@ -124,7 +88,7 @@ namespace dot
 
         if (!data->methods_.IsEmpty())
         {
-            this->methods_ = new_Array1D<MethodInfo>(data->methods_->getCount());
+            this->methods_ = make_array<MethodInfo>(data->methods_->count());
             int i = 0;
             for (MethodInfo methInfoData : data->methods_)
             {
@@ -132,11 +96,11 @@ namespace dot
             }
         }
         else
-            this->methods_ = new_Array1D<MethodInfo>(0);
+            this->methods_ = make_array<MethodInfo>(0);
 
         if (!data->ctors_.IsEmpty())
         {
-            this->ctors_ = new_Array1D<ConstructorInfo>(data->ctors_->getCount());
+            this->ctors_ = make_array<ConstructorInfo>(data->ctors_->count());
             int i = 0;
             for (ConstructorInfo ctorInfoData : data->ctors_)
             {
@@ -144,31 +108,31 @@ namespace dot
             }
         }
         else
-            this->ctors_ = new_Array1D<ConstructorInfo>(0);
+            this->ctors_ = make_array<ConstructorInfo>(0);
 
         if (!data->interfaces_.IsEmpty())
         {
-            this->interfaces_ = new_Array1D<Type>(data->interfaces_->getCount());
+            this->interfaces_ = make_array<type_t>(data->interfaces_->count());
             int i = 0;
-            for (Type interface : data->interfaces_)
+            for (type_t interface : data->interfaces_)
             {
                 this->interfaces_[i++] = interface;
             }
         }
         else
-            this->interfaces_ = new_Array1D<Type>(0);
+            this->interfaces_ = make_array<type_t>(0);
 
         if (!data->generic_args_.IsEmpty())
         {
-            this->generic_args_ = new_Array1D<Type>(data->generic_args_->getCount());
+            this->generic_args_ = make_array<type_t>(data->generic_args_->count());
             int i = 0;
-            for (Type arg : data->generic_args_)
+            for (type_t arg : data->generic_args_)
             {
                 this->generic_args_[i++] = arg;
             }
         }
         else
-            this->generic_args_ = new_Array1D<Type>(0);
+            this->generic_args_ = make_array<type_t>(0);
 
         this->base_ = data->base_;
         this->IsClass = data->is_class_;
@@ -180,36 +144,23 @@ namespace dot
     ///
     /// This constructor is private. Use TypeBuilder->Build() method instead.
     /// </summary>
-    TypeImpl::TypeImpl(String nspace, String name)
+    type_impl::type_impl(string nspace, string name)
     {
         this->Namespace = nspace;
         this->Name = name;
     }
 
 
-    TypeBuilderImpl::TypeBuilderImpl(String Namespace, String Name, String CppName)
+    TypeBuilderImpl::TypeBuilderImpl(string Namespace, string Name, string CppName)
         : fullName_(Namespace + "." + Name)
     {
-        type_ = new TypeImpl(Namespace, Name);
-        TypeImpl::GetTypeMap()[fullName_] = type_;
-        TypeImpl::GetTypeMap()[Name] = type_;
-        TypeImpl::GetTypeMap()[CppName] = type_;
+        type_ = new type_impl(Namespace, Name);
+        type_impl::GetTypeMap()[fullName_] = type_;
+        type_impl::GetTypeMap()[Name] = type_;
+        type_impl::GetTypeMap()[CppName] = type_;
     }
 
-    PropertyInfo TypeImpl::GetProperty(String name)
-    {
-        if (properties_.IsEmpty()) return nullptr;
-
-        for (auto prop : properties_)
-        {
-            if (prop->Name == name)
-                return prop;
-        }
-
-        return nullptr;
-    }
-
-    MethodInfo TypeImpl::GetMethod(String name)
+    MethodInfo type_impl::GetMethod(string name)
     {
         if (methods_.IsEmpty()) return nullptr;
 
@@ -222,7 +173,7 @@ namespace dot
         return nullptr;
     }
 
-    Type TypeImpl::GetInterface(String name)
+    type_t type_impl::GetInterface(string name)
     {
         if (interfaces_.IsEmpty()) return nullptr;
 
@@ -235,16 +186,16 @@ namespace dot
         return nullptr;
     }
 
-    bool TypeImpl::Equals(Object obj)
+    bool type_impl::equals(object obj)
     {
-        if (obj.is<Type>())
-            return this->getFullName() == ((Type)obj)->getFullName();
+        if (obj.is<type_t>())
+            return this->FullName() == ((type_t)obj)->FullName();
 
         return false;
     }
 
-    size_t TypeImpl::GetHashCode()
+    size_t type_impl::hash_code()
     {
-        return this->getFullName()->GetHashCode();
+        return this->FullName()->hash_code();
     }
 }

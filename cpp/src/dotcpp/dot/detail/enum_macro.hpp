@@ -25,23 +25,23 @@ limitations under the License.
 
 #define DOT_ENUM_BEGIN(nspace, name)                                    \
 private:                                                                \
-    static dot::Object new_Self() { return self(); }                         \
+    static dot::object new_Self() { return self(); }                         \
                                                                         \
 public:                                                                 \
     typedef self element_type;                                          \
     typedef dot::StructWrapperImpl<self>* pointer_type;                      \
     using dot::Enum::Enum;                                                   \
                                                                         \
-    operator dot::Object() { return new dot::StructWrapperImpl<self>(*this); }    \
+    operator dot::object() { return new dot::StructWrapperImpl<self>(*this); }    \
     operator int() const { return value_; }                             \
     self& operator=(int rhs) { value_ = rhs; return *this; }            \
     self& operator=(const self& other) { value_ = other.value_; return *this; } \
-    virtual dot::Type GetType() { return typeof(); }                         \
-    static dot::Type typeof()                                                \
+    virtual dot::type_t type() { return typeof(); }                         \
+    static dot::type_t typeof()                                                \
     {                                                                   \
-        static dot::Type type = []()->dot::Type                                   \
+        static dot::type_t type = []()->dot::type_t                                   \
         {                                                               \
-            dot::Type type = dot::new_TypeBuilder<self>(nspace, name)             \
+            dot::type_t type = dot::make_type_builder<self>(nspace, name)             \
                 ->IsEnum()                                              \
                 ->WithConstructor(&self::new_Self, {})                  \
                 ->WithBase<Enum>()                                      \
@@ -52,11 +52,11 @@ public:                                                                 \
     }                                                                   \
                                                                         \
 protected:                                                              \
-    virtual dot::Dictionary<dot::String, int> GetEnumMap() override               \
+    virtual dot::dictionary<dot::string, int> GetEnumMap() override               \
     {                                                                   \
-        static dot::Dictionary<dot::String, int> enumMap_ = []()                  \
+        static dot::dictionary<dot::string, int> enumMap_ = []()                  \
         {                                                               \
-            auto map_ = dot::new_Dictionary<dot::String, int>();
+            auto map_ = dot::make_dictionary<dot::string, int>();
 
 
 #define DOT_ENUM_VALUE(value) \

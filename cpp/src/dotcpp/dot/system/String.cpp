@@ -24,58 +24,58 @@ limitations under the License.
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 #include <dot/implement.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Object.hpp>
-#include <dot/system/Nullable.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/object.hpp>
+#include <dot/system/nullable.hpp>
+#include <dot/system/type.hpp>
 
 namespace dot
 {
     /// <summary>Empty string.</summary>
-    String String::Empty = new_String("");
+    string string::Empty = make_string("");
 
-    dot::Type StringImpl::typeof()
+    dot::type_t string_impl::typeof()
     {
-        static dot::Type type = []()->dot::Type
+        static dot::type_t type = []()->dot::type_t
         {
-            dot::Type type = dot::new_TypeBuilder<StringImpl>("System", "String")
+            dot::type_t type = dot::make_type_builder<string_impl>("System", "string")
                 ->Build();
             return type;
         }();
         return type;
     }
 
-    dot::Type StringImpl::GetType()
+    dot::type_t string_impl::type()
     {
         return typeof();
     }
 
 
-    bool StringImpl::Equals(Object obj)
+    bool string_impl::equals(object obj)
     {
         if (this == &(*obj)) return true;
 
-        if (obj.is<String>())
+        if (obj.is<string>())
         {
-            return *this == *obj.as<String>();
+            return *this == *obj.as<string>();
         }
 
         return false;
     }
 
-    size_t StringImpl::GetHashCode()
+    size_t string_impl::hash_code()
     {
         return std::hash<std::string>()(*this);
     }
 
-    String StringImpl::ToString()
+    string string_impl::to_string()
     {
         return this;
     }
 
     /// <summary>Determines whether the end of this
     /// string matches the specified string.</summary>
-    bool StringImpl::EndsWith(const String& value)
+    bool string_impl::ends_with(const string& value)
     {
         int p = length() - value->length();
         if (p >= 0 && substr(p, value->length()) == *value)
@@ -85,7 +85,7 @@ namespace dot
 
     /// <summary>Determines whether the beginning of this
     /// string matches the specified string.</summary>
-    bool StringImpl::StartsWith(const String& value)
+    bool string_impl::starts_with(const string& value)
     {
         int p = length() - value->length();
         if (p >= 0 && substr(0, value->length()) == *value)
@@ -95,19 +95,12 @@ namespace dot
 
     /// <summary>Retrieves a substring which starts at the specified
     /// character position and has the specified length.</summary>
-    String StringImpl::SubString(int startIndex, int length)
+    string string_impl::substring(int startIndex, int length)
     {
-        return new_String(this->substr(startIndex, length));
+        return make_string(this->substr(startIndex, length));
     }
 
-    /// <summary>Gets the number of characters in the current string.
-    /// Note that for Unicode this is not the same as the number of bytes.</summary>
-    int StringImpl::GetLength()
-    {
-        return length(); //!!! This has to be corrected for Unicode
-    }
-
-    int StringImpl::IndexOfAny(Array1D<char> anyOf)
+    int string_impl::index_of_any(array<char> anyOf)
     {
         size_t pos = find_first_of(anyOf->data(), 0, anyOf->size());
         if (pos != std::string::npos)
@@ -115,39 +108,32 @@ namespace dot
         return -1;
     }
 
-    String StringImpl::Remove(int startIndex)
+    string string_impl::remove(int startIndex)
     {
-        return new_String(*this)->erase(startIndex);
+        return make_string(*this)->erase(startIndex);
     }
 
-    String StringImpl::Remove(int startIndex, int count)
+    string string_impl::remove(int startIndex, int count)
     {
-        return new_String(*this)->erase(startIndex, count);
+        return make_string(*this)->erase(startIndex, count);
     }
 
-    String StringImpl::Replace(const char oldChar, const char newChar) const
+    string string_impl::replace(const char oldChar, const char newChar) const
     {
-        String new_str = *this;
+        string new_str = *this;
         std::replace(new_str->begin(), new_str->end(), oldChar, newChar);
         return new_str;
     }
 
-    ///<summary>Indicates whether the argument occurs within this string.</summary>
-    bool StringImpl::Contains(String const& s) const
-    {
-        throw std::runtime_error("Not implemented");
-       // TODO - fix return this->find(s) != std::string::npos;
-    }
-
-    bool String::IsNullOrEmpty(String value)
+    bool string::is_null_or_empty(string value)
     {
         if (value == nullptr || value->empty())
             return true;
         return false;
     }
 
-    /// <summary>Case sensitive comparison to Object.</summary>
-    bool String::operator==(const Object& rhs) const
+    /// <summary>Case sensitive comparison to object.</summary>
+    bool string::operator==(const object& rhs) const
     {
         // If rhs is null, return false. Otherwise, check if
         // the other object is a string. If yes, compare by value.
@@ -158,14 +144,14 @@ namespace dot
         }
         else
         {
-            String rhsStr = rhs.as<String>();
+            string rhsStr = rhs.as<string>();
             if (rhsStr != nullptr) return operator==(rhsStr);
             else return false;
         }
     }
 
-    /// <summary>Non-template implementation of String.Format.</summary>
-    std::string String::format_impl(fmt::string_view format_str, fmt::format_args args)
+    /// <summary>Non-template implementation of string.Format.</summary>
+    std::string string::format_impl(fmt::string_view format_str, fmt::format_args args)
     {
         return fmt::vformat(format_str, args);
     }

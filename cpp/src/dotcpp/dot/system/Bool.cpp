@@ -23,51 +23,51 @@ limitations under the License.
 
 #include <dot/implement.hpp>
 #include <dot/system/Bool.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/type.hpp>
 
 namespace dot
 {
-    const String Bool::FalseString = "False";
+    const string Bool::false_string = "False";
 
-    const String Bool::TrueString = "True";
+    const string Bool::true_string = "True";
 
-    bool BoolImpl::Equals(Object obj)
+    bool BoolImpl::equals(object obj)
     {
         if (this == &(*obj)) return true;
-        if (obj.is<Ptr<BoolImpl>>())
+        if (obj.is<ptr<BoolImpl>>())
         {
-            return value_ == obj.as<Ptr<BoolImpl>>()->value_;
+            return value_ == obj.as<ptr<BoolImpl>>()->value_;
         }
 
         return false;
     }
 
-    size_t BoolImpl::GetHashCode()
+    size_t BoolImpl::hash_code()
     {
         return std::hash<bool>()(value_);
     }
 
-    String BoolImpl::ToString()
+    string BoolImpl::to_string()
     {
-        return value_ ? Bool::TrueString : Bool::FalseString;
+        return value_ ? Bool::true_string : Bool::false_string;
     }
 
-    Type BoolImpl::typeof()
+    type_t BoolImpl::typeof()
     {
         return dot::typeof<bool>();
     }
 
-    Type BoolImpl::GetType()
+    type_t BoolImpl::type()
     {
         return typeof();
     }
 
-    bool Bool::Parse(String s)
+    bool Bool::Parse(string s)
     {
-        if (s == Bool::FalseString) return false;
-        if (s == Bool::TrueString) return true;
+        if (s == Bool::false_string) return false;
+        if (s == Bool::true_string) return true;
 
-        throw new_Exception("value is not equivalent to TrueString or FalseString.");
+        throw new_Exception("value is not equivalent to true_string or false_string.");
     }
 }

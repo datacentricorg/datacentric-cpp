@@ -23,39 +23,39 @@ limitations under the License.
 
 #include <dot/implement.hpp>
 #include <dot/system/Int.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/type.hpp>
 
 namespace dot
 {
-    bool CharImpl::Equals(Object obj)
+    bool CharImpl::equals(object obj)
     {
         if (this == &(*obj)) return true;
 
-        if (obj.is<Ptr<CharImpl>>())
+        if (obj.is<ptr<CharImpl>>())
         {
-            return value_ == obj.as<Ptr<CharImpl>>()->value_;
+            return value_ == obj.as<ptr<CharImpl>>()->value_;
         }
 
         return false;
     }
 
-    size_t CharImpl::GetHashCode()
+    size_t CharImpl::hash_code()
     {
         return std::hash<char>()(value_);
     }
 
-    String CharImpl::ToString()
+    string CharImpl::to_string()
     {
         return std::to_string(value_);
     }
 
-    Type CharImpl::typeof()
+    type_t CharImpl::typeof()
     {
         return dot::typeof<char>();
     }
 
-    Type CharImpl::GetType()
+    type_t CharImpl::type()
     {
         return typeof();
     }

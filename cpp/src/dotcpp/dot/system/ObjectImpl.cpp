@@ -22,20 +22,20 @@ limitations under the License.
 */
 
 #include <dot/implement.hpp>
-#include <dot/system/ObjectImpl.hpp>
-#include <dot/system/Object.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/objectimpl.hpp>
+#include <dot/system/object.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/type.hpp>
 
 namespace dot
 {
     /// <summary>
     /// Determines whether the specified object is equal to the current object.
     ///
-    /// Default implementation in Object compares pointers. Derived classes
+    /// Default implementation in object compares pointers. Derived classes
     /// can override this method to compare by value.
     /// </summary>
-    bool ObjectImpl::Equals(Object obj)
+    bool object_impl::equals(object obj)
     {
         return this == &(*obj);
     }
@@ -43,27 +43,27 @@ namespace dot
     /// <summary>
     /// Serves as the default hash function.
     ///
-    /// Default implementation in Object uses hash based on the pointer.
+    /// Default implementation in object uses hash based on the pointer.
     /// Derived classes can override this method to provide value based hash.
     ///
-    /// Methods Equals() and GetHashCode() must always be overriden together
+    /// Methods Equals() and hash_code() must always be overriden together
     /// to avoid the situation when objects are equal but hash is not.
     /// </summary>
-    size_t ObjectImpl::GetHashCode()
+    size_t object_impl::hash_code()
     {
         return size_t(this);
     }
 
     /// <summary>
-    /// String that represents the current object.
+    /// string that represents the current object.
     ///
-    /// Default implementation in Object returns full name
-    /// of the class by calling GetType().FullName. Derived types
+    /// Default implementation in object returns full name
+    /// of the class by calling type().FullName. Derived types
     /// can override this method to provide custom conversion
     /// to string.
     /// </summary>
-    String ObjectImpl::ToString()
+    string object_impl::to_string()
     {
-        return GetType()->getFullName();
+        return type()->FullName();
     }
 }

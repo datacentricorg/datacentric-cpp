@@ -23,44 +23,44 @@ limitations under the License.
 
 #include <dot/implement.hpp>
 #include <dot/system/Long.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/type.hpp>
 
 namespace dot
 {
-    bool LongImpl::Equals(Object obj)
+    bool LongImpl::equals(object obj)
     {
         if (this == &(*obj)) return true;
 
-        if (obj.is<Ptr<LongImpl>>())
+        if (obj.is<ptr<LongImpl>>())
         {
-            return value_ == obj.as<Ptr<LongImpl>>()->value_;
+            return value_ == obj.as<ptr<LongImpl>>()->value_;
         }
 
         return false;
     }
 
-    size_t LongImpl::GetHashCode()
+    size_t LongImpl::hash_code()
     {
         return std::hash<int64_t>()(value_);
     }
 
-    String LongImpl::ToString()
+    string LongImpl::to_string()
     {
         return std::to_string(value_);
     }
 
-    Type LongImpl::typeof()
+    type_t LongImpl::typeof()
     {
         return dot::typeof<int64_t>();
     }
 
-    Type LongImpl::GetType()
+    type_t LongImpl::type()
     {
         return typeof();
     }
 
-    int64_t Long::Parse(String s)
+    int64_t Long::Parse(string s)
     {
         return std::stoll(*s);
     }

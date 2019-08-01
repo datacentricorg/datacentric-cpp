@@ -23,30 +23,29 @@ limitations under the License.
 
 #include <dot/implement.hpp>
 #include <dot/system/reflection/Activator.hpp>
-#include <dot/system/ObjectImpl.hpp>
-#include <dot/system/Array1D.hpp>
+#include <dot/system/objectimpl.hpp>
+#include <dot/system/array1d.hpp>
 #include <dot/system/Exception.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/collections/generic/List.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/collections/generic/list.hpp>
 #include <dot/system/reflection/MethodInfo.hpp>
 #include <dot/system/reflection/ConstructorInfo.hpp>
-#include <dot/system/reflection/PropertyInfo.hpp>
 
 namespace dot
 {
-    Object Activator::CreateInstance(Type type)
+    object Activator::CreateInstance(type_t type)
     {
         return CreateInstance(type, nullptr);
     }
 
-    Object Activator::CreateInstance(Type type, Array1D<Object> params)
+    object Activator::CreateInstance(type_t type, array<object> params)
     {
-        Array1D<ConstructorInfo> ctors = type->GetConstructors();
+        array<ConstructorInfo> ctors = type->GetConstructors();
 
         // If no constructors
-        if (ctors.IsEmpty() || ctors->getCount() == 0)
+        if (ctors.IsEmpty() || ctors->count() == 0)
         {
-            throw new_Exception(String::Format("Type {0}.{1} does not have registered constructors", type->Namespace, type->Name));
+            throw new_Exception(string::format("type_t {0}.{1} does not have registered constructors", type->Namespace, type->Name));
         }
 
         // Search for best matched constructor
@@ -54,7 +53,7 @@ namespace dot
         int paramsCount = 0;
         if (!params.IsEmpty())
         {
-            paramsCount = params->getCount();
+            paramsCount = params->count();
         }
 
         for (auto ctor : ctors)
@@ -63,13 +62,13 @@ namespace dot
             bool matches = true;
 
             // Continue if different parameters count
-            if (ctorParams->getCount() != paramsCount)
+            if (ctorParams->count() != paramsCount)
                 continue;
 
             // Compare all parameters types
             for (int i = 0; i < paramsCount; ++i)
             {
-                if ((String)ctorParams[i]->ParameterType->Name != params[i]->GetType()->Name)
+                if ((string)ctorParams[i]->ParameterType->Name != params[i]->type()->Name)
                 {
                     matches = false;
                     break;
@@ -93,13 +92,13 @@ namespace dot
         return best_ctor->Invoke(params);
     }
 
-    Object Activator::CreateInstance(String assemblyName, String typeName)
+    object Activator::CreateInstance(string assemblyName, string typeName)
     {
-        return CreateInstance(TypeImpl::GetType(typeName), nullptr);
+        return CreateInstance(type_impl::GetType(typeName), nullptr);
     }
 
-    Object Activator::CreateInstance(String assemblyName, String typeName, Array1D<Object> params)
+    object Activator::CreateInstance(string assemblyName, string typeName, array<object> params)
     {
-        return CreateInstance(TypeImpl::GetType(typeName), params);
+        return CreateInstance(type_impl::GetType(typeName), params);
     }
 }

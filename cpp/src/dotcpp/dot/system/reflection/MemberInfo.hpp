@@ -23,23 +23,23 @@ limitations under the License.
 
 #pragma once
 
-#include <dot/system/Object.hpp>
+#include <dot/system/object.hpp>
 
 namespace dot
 {
-    class MemberInfoImpl; using MemberInfo = Ptr<MemberInfoImpl>;
-    class MemberInfoDataImpl; using MemberInfoData = Ptr<MemberInfoDataImpl>;
-    class TypeImpl; using Type = Ptr<TypeImpl>;
+    class MemberInfoImpl; using MemberInfo = ptr<MemberInfoImpl>;
+    class MemberInfoDataImpl; using MemberInfoData = ptr<MemberInfoDataImpl>;
+    class type_impl; using type_t = ptr<type_impl>;
 
     /// <summary>Data for MemberInfo.</summary>
-    class DOT_CLASS MemberInfoDataImpl : public virtual ObjectImpl
+    class DOT_CLASS MemberInfoDataImpl : public virtual object_impl
     {
         typedef MemberInfoDataImpl self;
 
     public: // PROPERTIES
 
         /// <summary>Gets the name of the current member.</summary>
-        String Name;
+        string Name; // TODO - replace by method
 
     protected: // CONSTRUCTORS
 
@@ -54,20 +54,20 @@ namespace dot
     /// <summary>
     /// Obtains information about the attributes of a member and provides access to member metadata.
     /// </summary>
-    class MemberInfoImpl : public virtual ObjectImpl
+    class MemberInfoImpl : public virtual object_impl
     {
         typedef MemberInfoImpl self;
 
     public: // METHODS
 
         /// <summary>Gets the name of the current member.</summary>
-        String Name;
+        string Name; // TODO - convert to method
 
         /// <summary>Gets the class that declares this member.</summary>
-        Type DeclaringType;
+        type_t DeclaringType; // TODO - convert to method
 
         /// <summary>A string representing the name of the current type.</summary>
-        virtual String ToString() override { return "MemberInfo"; }
+        virtual string to_string() override { return "MemberInfo"; }
 
     protected: // CONSTRUCTORS
 
@@ -76,7 +76,7 @@ namespace dot
         ///
         /// This constructor is protected. It is used by derived classes only.
         /// </summary>
-        MemberInfoImpl(const String& name, Type declaringType)
+        MemberInfoImpl(const string& name, type_t declaringType)
         {
             Name = name;
             DeclaringType = declaringType;

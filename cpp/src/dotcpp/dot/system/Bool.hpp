@@ -24,14 +24,14 @@ limitations under the License.
 #pragma once
 
 #include <dot/declare.hpp>
-#include <dot/system/ObjectImpl.hpp>
+#include <dot/system/objectimpl.hpp>
 
 namespace dot
 {
-    /// <summary>Wrapper around bool to make it convertible to Object (boxing).</summary>
-    class BoolImpl : public virtual ObjectImpl
+    /// <summary>Wrapper around bool to make it convertible to object (boxing).</summary>
+    class BoolImpl : public virtual object_impl
     {
-        friend Object;
+        friend object;
         bool value_;
 
     public: // CONSTRUCTORS
@@ -42,16 +42,16 @@ namespace dot
     public: // METHODS
 
         /// <summary>Returns a value indicating whether this instance is equal to a specified object.</summary>
-        virtual bool Equals(Object obj) override;
+        bool equals(object obj) override;
 
         /// <summary>Returns the hash code for this instance.</summary>
-        virtual size_t GetHashCode() override;
+        virtual size_t hash_code() override;
 
         /// <summary>Converts the value of this instance to its equivalent string representation (either "True" or "False").</summary>
-        virtual String ToString() override;
+        virtual string to_string() override;
 
-        static Type typeof();
-        virtual Type GetType() override;
+        static type_t typeof();
+        virtual type_t type() override;
     };
 
     /// <summary>
@@ -65,14 +65,14 @@ namespace dot
         static constexpr int Empty = INT32_MIN;
 
         /// <summary>Represents the Boolean value false as a string. This field is read-only.</summary>
-        static const String FalseString;
+        static const string false_string;
 
         /// <summary>Represents the Boolean value true as a string. This field is read-only.</summary>
-        static const String TrueString;
+        static const string true_string;
 
     public: // STATIC
 
         /// <summary>Converts the specified string representation of a logical value to its Boolean equivalent.</summary>
-        static bool Parse(String s);
+        static bool Parse(string s);
     };
 }

@@ -29,8 +29,8 @@ limitations under the License.
 
 namespace dot
 {
-    class ConstructorInfoImpl; using ConstructorInfo = Ptr<ConstructorInfoImpl>;
-    class TypeImpl; using Type = Ptr<TypeImpl>;
+    class ConstructorInfoImpl; using ConstructorInfo = ptr<ConstructorInfoImpl>;
+    class type_impl; using type_t = ptr<type_impl>;
 
     /// <summary>
     /// Obtains information about the attributes of a constructor and provides access to constructor metadata.
@@ -42,27 +42,27 @@ namespace dot
     public: // METHODS
 
         /// <summary>A string representing the name of the current type.</summary>
-        virtual String ToString() override { return "ConstructorInfo"; }
+        virtual string to_string() override { return "ConstructorInfo"; }
 
         /// <summary>Gets the parameters of this constructor.</summary>
-        virtual Array1D<ParameterInfo> GetParameters()
+        virtual array<ParameterInfo> GetParameters()
         {
             return Parameters;
         }
 
         /// <summary>Invokes specified constructor with given parameters.</summary>
-        virtual Object Invoke(Array1D<Object>) = 0;
+        virtual object Invoke(array<object>) = 0;
 
     protected: // CONSTRUCTORS
 
-        Array1D<ParameterInfo> Parameters;
+        array<ParameterInfo> Parameters;
 
         /// <summary>
         /// Create from declaring type
         ///
         /// This constructor is protected. It is used by derived classes only.
         /// </summary>
-        ConstructorInfoImpl(Type declaringType)
+        ConstructorInfoImpl(type_t declaringType)
             : MemberInfoImpl(".ctor", declaringType)
         {}
     };
@@ -84,19 +84,19 @@ namespace dot
     public: // METHODS
 
         /// <summary>A string representing the name of the current type.</summary>
-        virtual String ToString() override { return "MemberConstructorInfo"; }
+        virtual string to_string() override { return "MemberConstructorInfo"; }
 
         /// <summary>Invokes the constructor reflected by this ConstructorInfo instance.</summary>
         template <int ... I>
-        Object Invoke_impl(Array1D<Object> params, detail::index_sequence<I...>)
+        object Invoke_impl(array<object> params, detail::index_sequence<I...>)
         {
             return (*ptr_)(params[I]...);
         }
 
         /// <summary>Invokes the constructor reflected by this ConstructorInfo instance.</summary>
-        virtual Object Invoke(Array1D<Object> params)
+        virtual object Invoke(array<object> params)
         {
-            if ((params.IsEmpty() && Parameters->getCount() != 0) || (!params.IsEmpty() && (params->getCount() != Parameters->getCount())))
+            if ((params.IsEmpty() && Parameters->count() != 0) || (!params.IsEmpty() && (params->count() != Parameters->count())))
                 throw new_Exception("Wrong number of parameters for constructor " + this->DeclaringType->Name + "." + this->Name);
 
             return Invoke_impl(params, typename detail::make_index_sequence<sizeof...(Args)>::type());
@@ -110,9 +110,9 @@ namespace dot
         /// This constructor is private. Use new_ConstructorInfo(...)
         /// function with matching signature instead.
         /// </summary>
-        MemberConstructorInfoImpl(Type declaringType, ctor_type ptr)
+        MemberConstructorInfoImpl(type_t declaringType, ctor_type p)
             : ConstructorInfoImpl(declaringType)
-            , ptr_(ptr)
+            , ptr_(p)
         {}
     };
 }

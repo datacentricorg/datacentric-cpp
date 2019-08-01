@@ -29,75 +29,75 @@ limitations under the License.
 #include <dot/system/Int.hpp>
 #include <dot/system/Long.hpp>
 #include <dot/system/Double.hpp>
-#include <dot/system/Object.hpp>
+#include <dot/system/object.hpp>
 
 namespace dot
 {
     /// <summary>Represents a value type that can be assigned null.</summary>
     template <class T>
-    class Nullable : public std::optional<T>
+    class nullable : public std::optional<T>
     {
-        typedef Nullable self;
+        typedef nullable self;
         typedef std::optional<T> base;
 
     public: // PROPERTIES
 
         typedef T value_type;
 
-        /// <summary>Gets the value of the current Nullable object
+        /// <summary>Gets the value of the current nullable object
         /// if it has been assigned a valid underlying value.</summary>
-        T getValue() const { return this->value(); }
+        T value() const { return this->value(); }
 
-        /// <summary>Gets a value indicating whether the current Nullable
+        /// <summary>Gets a value indicating whether the current nullable
         /// object has a valid value of its underlying type.</summary>
-        bool getHasValue() const { return this->has_value(); }
+        bool has_value() const { return this->has_value(); }
 
     public: // CONSTRUCTORS
 
-        /// <summary>Default constructor of Nullable.</summary>
-        Nullable() = default;
+        /// <summary>Default constructor of nullable.</summary>
+        nullable() = default;
 
-        /// <summary>Construct Nullable from nullptr.</summary>
-        Nullable(nullptr_t) {}
+        /// <summary>Construct nullable from nullptr.</summary>
+        nullable(nullptr_t) {}
 
-        /// <summary>Initializes a new instance of the Nullable
+        /// <summary>Initializes a new instance of the nullable
         /// structure to the specified value.</summary>
-        Nullable(T value) : base(value) {}
+        nullable(T value) : base(value) {}
 
         /// <summary>
-        /// Supports cast (explicit constructor) from Object.
+        /// Supports cast (explicit constructor) from object.
         ///
-        /// Error if Object does is not a boxed T.
-        /// Null Object becomes empty Nullable.
+        /// Error if object does is not a boxed T.
+        /// Null object becomes empty nullable.
         /// </summary>
-        explicit Nullable(Object rhs) { if (!rhs.IsEmpty()) *this = (T) rhs; }
+        explicit nullable(object rhs) { if (!rhs.IsEmpty()) *this = (T) rhs; }
 
         /// <summary>Copy constructor.</summary>
-        Nullable(const Nullable& other) { *this = other; }
+        nullable(const nullable& other) { *this = other; }
 
     public: // METHODS
 
-        /// <summary>Retrieves the value of the current Nullable object,
+        /// <summary>Retrieves the value of the current nullable object,
         /// or the default value of the underlying type.</summary>
-        T GetValueOrDefault() const { return GetValueOrDefault(T()); }
+        T value_or_default() const { return value_or_default(T()); }
 
-        /// <summary>Retrieves the value of the current Nullable<T> object,
+        /// <summary>Retrieves the value of the current nullable<T> object,
         /// or the specified default value.</summary>
-        T GetValueOrDefault(T defaultValue) const { return value_or(defaultValue); }
+        T value_or_default(T default_value) const { return value_or(default_value); }
 
     public: // OPERATORS
 
-        /// <summary>Defines an explicit conversion of a Nullable
+        /// <summary>Defines an explicit conversion of a nullable
         /// instance to its underlying value.</summary>
-        explicit operator T() const { return getValue(); }
+        explicit operator T() const { return value(); }
 
-        Nullable& operator=(nullptr_t) { this->reset(); return *this; }
+        nullable& operator=(nullptr_t) { this->reset(); return *this; }
 
-        bool operator==(nullptr_t) { return !this->getHasValue(); }
-        bool operator!=(nullptr_t) { return this->getHasValue(); }
+        bool operator==(nullptr_t) { return !this->has_value(); }
+        bool operator!=(nullptr_t) { return this->has_value(); }
 
-        bool operator ==(T rhs) { return GetValueOrDefault() == rhs; }
-        bool operator ==(Nullable<T> rhs) { return GetValueOrDefault() == rhs.GetValueOrDefault(); }
+        bool operator ==(T rhs) { return value_or_default() == rhs; }
+        bool operator ==(nullable<T> rhs) { return value_or_default() == rhs.value_or_default(); }
     };
 
     /// <summary>
@@ -109,9 +109,9 @@ namespace dot
     /// ensuring no size overhead compared to the native bool type.
     /// </summary>
     template <>
-    class Nullable<bool>
+    class nullable<bool>
     {
-        typedef Nullable self;
+        typedef nullable self;
 
     private:
         int value_ = Bool::Empty;
@@ -121,59 +121,56 @@ namespace dot
         typedef bool value_type;
 
         /// <summary>Convert to native bool, error if the object is in uninitialized (empty) state.</summary>
-        bool getValue() const
+        bool value() const
         {
             switch (value_)
             {
                 case 1: return true;
                 case 0: return false;
                 case Bool::Empty: throw std::runtime_error("Bool value is empty");
-                default: throw std::runtime_error("Unknown internal value in Nullable<bool>.");
+                default: throw std::runtime_error("Unknown internal value in nullable<bool>.");
             }
         }
 
         /// <summary>Returns true if the object is in uninitialized (empty) state.</summary>
-        bool getHasValue() const { return value_ != Bool::Empty; }
+        bool has_value() const { return value_ != Bool::Empty; }
 
     public: // CONSTRUCTORS
 
         /// <summary>Creates in uninitialized (empty) state.</summary>
-        Nullable() : value_(Bool::Empty) {}
+        nullable() : value_(Bool::Empty) {}
 
         /// <summary>Create from native bool.</summary>
-        Nullable(bool value) : value_(value ? 1 : 0) {}
+        nullable(bool value) : value_(value ? 1 : 0) {}
 
         /// <summary>
-        /// Supports cast (explicit constructor) from Object.
+        /// Supports cast (explicit constructor) from object.
         ///
-        /// Error if Object does is not a boxed boolean.
-        /// Null Object becomes empty Nullable.
+        /// Error if object does is not a boxed boolean.
+        /// Null object becomes empty nullable.
         /// </summary>
-        explicit Nullable(Object rhs) { if (!rhs.IsEmpty()) *this = (bool) rhs; }
+        explicit nullable(object rhs) { if (!rhs.IsEmpty()) *this = (bool) rhs; }
 
         /// <summary>Copy constructor.</summary>
-        Nullable(const Nullable& other) { *this = other; }
+        nullable(const nullable& other) { *this = other; }
 
     public: // METHODS
 
-        /// <summary>Retrieves the value of the current Nullable object,
+        /// <summary>Retrieves the value of the current nullable object,
         /// or the default value of the underlying type.</summary>
-        bool GetValueOrDefault() const { return GetValueOrDefault(bool()); }
+        bool value_or_default() const { return value_or_default(bool()); }
 
-        /// <summary>Retrieves the value of the current Nullable<T> object,
+        /// <summary>Retrieves the value of the current nullable<T> object,
         /// or the specified default value.</summary>
-        bool GetValueOrDefault(bool defaultValue) const { return getHasValue() ? value_ : defaultValue; }
-
-        /// <summary>Clear the value and revert to uninitialized (empty) state.</summary>
-        void Clear() { value_ = Bool::Empty; }
+        bool value_or_default(bool default_value) const { return has_value() ? value_ : default_value; }
 
     public: // OPERATORS
 
         /// <summary>Convert to native bool, error if the object is in uninitialized (empty) state.</summary>
-        explicit operator bool() const { return getValue(); }
+        explicit operator bool() const { return value(); }
 
         /// <summary>Assign native bool.</summary>
-        Nullable& operator=(bool rhs) { value_ = rhs ? 1 : 0; return *this; }
+        nullable& operator=(bool rhs) { value_ = rhs ? 1 : 0; return *this; }
     };
 
     /// <summary>
@@ -185,9 +182,9 @@ namespace dot
     /// ensuring no size overhead compared to the native int type.
     /// </summary>
     template <>
-    class Nullable<int>
+    class nullable<int>
     {
-        typedef Nullable self;
+        typedef nullable self;
 
     private:
         int value_ = Int::Empty;
@@ -197,15 +194,15 @@ namespace dot
         typedef int value_type;
 
         /// <summary>Convert to native double, error if the object is in uninitialized (empty) state.</summary>
-        int getValue() const { if (value_ == Int::Empty) throw std::runtime_error("Int value is empty"); return value_; }
+        int value() const { if (value_ == Int::Empty) throw std::runtime_error("Int value is empty"); return value_; }
 
         /// <summary>Returns true if the object is in uninitialized (empty) state.</summary>
-        bool getHasValue() const { return value_ != Int::Empty; }
+        bool has_value() const { return value_ != Int::Empty; }
 
     public: // CONSTRUCTORS
 
         /// <summary>Creates in uninitialized (empty) state.</summary>
-        Nullable() : value_(Int::Empty) {}
+        nullable() : value_(Int::Empty) {}
 
         /// <summary>
         /// Create from native int.
@@ -213,36 +210,33 @@ namespace dot
         /// If sentinel value for uninitialized state is passed to this constructor,
         /// no error occurs and the object is constructed in uninitialized state.
         /// </summary>
-        Nullable(int value) : value_(value) {}
+        nullable(int value) : value_(value) {}
 
         /// <summary>
-        /// Supports cast (explicit constructor) from Object.
+        /// Supports cast (explicit constructor) from object.
         ///
-        /// Error if Object does is not a boxed int.
-        /// Null Object becomes empty Nullable.
+        /// Error if object does is not a boxed int.
+        /// Null object becomes empty nullable.
         /// </summary>
-        explicit Nullable(Object rhs) { if (!rhs.IsEmpty()) *this = (int) rhs; }
+        explicit nullable(object rhs) { if (!rhs.IsEmpty()) *this = (int) rhs; }
 
         /// <summary>Copy constructor.</summary>
-        Nullable(const Nullable& other) { *this = other; }
+        nullable(const nullable& other) { *this = other; }
 
     public: // METHODS
 
-        /// <summary>Retrieves the value of the current Nullable object,
+        /// <summary>Retrieves the value of the current nullable object,
         /// or the default value of the underlying type.</summary>
-        int GetValueOrDefault() const { return GetValueOrDefault(int()); }
+        int value_or_default() const { return value_or_default(int()); }
 
-        /// <summary>Retrieves the value of the current Nullable<T> object,
+        /// <summary>Retrieves the value of the current nullable<T> object,
         /// or the specified default value.</summary>
-        int GetValueOrDefault(int defaultValue) const { return getHasValue() ? value_ : defaultValue; }
-
-        /// <summary>Clear the value and revert to uninitialized (empty) state.</summary>
-        void Clear() { value_ = Int::Empty; }
+        int value_or_default(int default_value) const { return has_value() ? value_ : default_value; }
 
     public: // OPERATORS
 
         /// <summary>Convert to native int, error if the object is in uninitialized (empty) state.</summary>
-        explicit operator int() const { return getValue(); }
+        explicit operator int() const { return value(); }
 
         /// <summary>
         /// Assign native int.
@@ -250,7 +244,7 @@ namespace dot
         /// If sentinel value for uninitialized state is passed to this operator,
         /// no error occurs and the object reverts to uninitialized (empty) state.
         /// </summary>
-        Nullable& operator=(int rhs) { value_ = rhs; return *this; }
+        nullable& operator=(int rhs) { value_ = rhs; return *this; }
     };
 
     /// <summary>
@@ -262,9 +256,9 @@ namespace dot
     /// ensuring no size overhead compared to the native long type.
     /// </summary>
     template <>
-    class Nullable<int64_t>
+    class nullable<int64_t>
     {
-        typedef Nullable self;
+        typedef nullable self;
 
     private:
         int64_t value_ = Long::Empty;
@@ -274,23 +268,15 @@ namespace dot
         typedef int64_t value_type;
 
         /// <summary>Convert to native long, error if the object is in uninitialized (empty) state.</summary>
-        int64_t getValue() const
-        {
-            if (value_ == Long::Empty)
-                throw std::runtime_error("Long value is empty");
-            return value_;
-        }
+        int64_t value() const { if (value_ == Long::Empty) throw std::runtime_error("Long value is empty"); return value_; }
 
         /// <summary>Returns true if the object is in uninitialized (empty) state.</summary>
-        bool getHasValue() const
-        {
-            return value_ != Long::Empty;
-        }
+        bool has_value() const { return value_ != Long::Empty; }
 
     public: // CONSTRUCTORS
 
         /// <summary>Creates in uninitialized (empty) state.</summary>
-        Nullable() : value_(Long::Empty) {}
+        nullable() : value_(Long::Empty) {}
 
         /// <summary>
         /// Create from native long.
@@ -298,36 +284,33 @@ namespace dot
         /// If sentinel value for uninitialized state is passed to this constructor,
         /// no error occurs and the object is constructed in uninitialized state.
         /// </summary>
-        Nullable(int64_t value) : value_(value) {}
+        nullable(int64_t value) : value_(value) {}
 
         /// <summary>
-        /// Supports cast (explicit constructor) from Object.
+        /// Supports cast (explicit constructor) from object.
         ///
-        /// Error if Object does is not a boxed long.
-        /// Null Object becomes empty Nullable.
+        /// Error if object does is not a boxed long.
+        /// Null object becomes empty nullable.
         /// </summary>
-        explicit Nullable(Object rhs) { if (!rhs.IsEmpty()) *this = (int64_t) rhs; }
+        explicit nullable(object rhs) { if (!rhs.IsEmpty()) *this = (int64_t) rhs; }
 
         /// <summary>Copy constructor.</summary>
-        Nullable(const Nullable& other) { *this = other; }
+        nullable(const nullable& other) { *this = other; }
 
     public: // METHODS
 
-        /// <summary>Retrieves the value of the current Nullable object,
+        /// <summary>Retrieves the value of the current nullable object,
         /// or the default value of the underlying type.</summary>
-        int64_t GetValueOrDefault() const { return GetValueOrDefault(int64_t()); }
+        int64_t value_or_default() const { return value_or_default(int64_t()); }
 
-        /// <summary>Retrieves the value of the current Nullable<T> object,
+        /// <summary>Retrieves the value of the current nullable<T> object,
         /// or the specified default value.</summary>
-        int64_t GetValueOrDefault(int64_t defaultValue) const { return getHasValue() ? value_ : defaultValue; }
-
-        /// <summary>Clear the value and revert to uninitialized (empty) state.</summary>
-        void Clear() { value_ = Long::Empty; }
+        int64_t value_or_default(int64_t default_value) const { return has_value() ? value_ : default_value; }
 
     public: // OPERATORS
 
         /// <summary>Convert to native long, error if the object is in uninitialized (empty) state.</summary>
-        explicit operator int64_t() const { return getValue(); }
+        explicit operator int64_t() const { return value(); }
 
         /// <summary>
         /// Assign native long.
@@ -335,20 +318,20 @@ namespace dot
         /// If sentinel value for uninitialized state is passed to this operator,
         /// no error occurs and the object reverts to uninitialized (empty) state.
         /// </summary>
-        Nullable& operator=(int64_t rhs) { value_ = rhs; return *this; }
+        nullable& operator=(int64_t rhs) { value_ = rhs; return *this; }
     };
 
     /// <summary>
-    /// Nullable double is initialized to null (empty) by default ctor.
+    /// nullable double is initialized to null (empty) by default ctor.
     /// Conversion to double when in null state results in an error.
     ///
     /// This class uses a sentinel to represent null (empty) state,
     /// ensuring no size overhead compared to the native double type.
     /// </summary>
     template <>
-    class Nullable<double>
+    class nullable<double>
     {
-        typedef Nullable self;
+        typedef nullable self;
 
     private:
         double value_ = Double::Empty;
@@ -358,20 +341,15 @@ namespace dot
         typedef double value_type;
 
         /// <summary>Convert to native double, error if the object is in null (empty) state.</summary>
-        double getValue() const
-        {
-            if (value_ == Double::Empty)
-                throw std::runtime_error("Double value is empty");
-            return value_;
-        }
+        double value() const { if (value_ == Double::Empty) throw std::runtime_error("Double value is empty"); return value_; }
 
         /// <summary>Returns true if the object is in uninitialized (empty) state.</summary>
-        bool getHasValue() const { return value_ != Double::Empty; }
+        bool has_value() const { return value_ != Double::Empty; }
 
     public: // CONSTRUCTORS
 
         /// <summary>Creates in uninitialized (empty) state.</summary>
-        Nullable() : value_(Double::Empty) {}
+        nullable() : value_(Double::Empty) {}
 
         /// <summary>
         /// Create from native double.
@@ -379,36 +357,33 @@ namespace dot
         /// If sentinel value for null state is passed to this constructor,
         /// no error occurs and the object is constructed in null state.
         /// </summary>
-        Nullable(double value) : value_(value) {}
+        nullable(double value) : value_(value) {}
 
         /// <summary>
-        /// Supports cast (explicit constructor) from Object.
+        /// Supports cast (explicit constructor) from object.
         ///
-        /// Error if Object does is not a boxed double.
-        /// Null Object becomes empty Nullable.
+        /// Error if object does is not a boxed double.
+        /// Null object becomes empty nullable.
         /// </summary>
-        explicit Nullable(Object rhs) { if (!rhs.IsEmpty()) *this = (double) rhs; }
+        explicit nullable(object rhs) { if (!rhs.IsEmpty()) *this = (double) rhs; }
 
         /// <summary>Copy constructor.</summary>
-        Nullable(const Nullable& other) { *this = other; }
+        nullable(const nullable& other) { *this = other; }
 
     public: // METHODS
 
-        /// <summary>Retrieves the value of the current Nullable object,
+        /// <summary>Retrieves the value of the current nullable object,
         /// or the default value of the underlying type.</summary>
-        double GetValueOrDefault() const { return GetValueOrDefault(double()); }
+        double value_or_default() const { return value_or_default(double()); }
 
-        /// <summary>Retrieves the value of the current Nullable<T> object,
+        /// <summary>Retrieves the value of the current nullable<T> object,
         /// or the specified default value.</summary>
-        double GetValueOrDefault(double defaultValue) const { return getHasValue() ? value_ : defaultValue; }
-
-        /// <summary>Clear the value and revert to uninitialized (empty) state.</summary>
-        void Clear() { value_ = Double::Empty; }
+        double value_or_default(double default_value) const { return has_value() ? value_ : default_value; }
 
     public: // OPERATORS
 
         /// <summary>Convert to native double, error if the object is in null (empty) state.</summary>
-        explicit operator double() const { return getValue(); }
+        explicit operator double() const { return value(); }
 
         /// <summary>
         /// Assign native double.
@@ -416,10 +391,10 @@ namespace dot
         /// If sentinel value for null state is passed to this operator,
         /// no error occurs and the object reverts to null (empty) state.
         /// </summary>
-        Nullable& operator=(double rhs) { value_ = rhs; return *this; }
+        nullable& operator=(double rhs) { value_ = rhs; return *this; }
 
         bool operator ==(double rhs) const { return value_ == rhs; }
-        bool operator ==(Nullable<double> rhs) const { return value_ == rhs.GetValueOrDefault(); }
+        bool operator ==(nullable<double> rhs) const { return value_ == rhs.value_or_default(); }
 
     };
 }
