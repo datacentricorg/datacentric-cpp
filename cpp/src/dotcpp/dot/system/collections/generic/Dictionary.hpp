@@ -58,21 +58,23 @@ namespace dot
     public: // PROPERTIES
 
         /// <summary>Gets the number of key/value pairs contained in the Dictionary.</summary>
-        DOT_IMPL_GET(int, Count, { return this->size(); })
+        virtual int getCount() override { return this->size(); }
 
         /// <summary>Gets a collection containing the keys in the Dictionary.</summary>
-        DOT_IMPL_GET(ICollection<TKey>, Keys, {
+        virtual ICollection<TKey> getKeys() override
+        {
             ICollection<TKey> list = new_List<TKey>();
             for (auto& x : *this) list->Add(x.first);
             return list;
-        })
+        }
 
         /// <summary>Gets a collection containing the values in the Dictionary.</summary>
-        DOT_IMPL_GET(ICollection<TValue>, Values, {
+        virtual ICollection<TValue> getValues() override
+        {
             ICollection<TValue> list = new_List<TValue>();
             for (auto& x : *this) list->Add(x.second);
             return list;
-        })
+        }
 
     public: // METHODS
 

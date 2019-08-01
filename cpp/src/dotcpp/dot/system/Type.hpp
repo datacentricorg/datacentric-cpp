@@ -98,6 +98,7 @@ namespace dot
                  properties_ = new_List<PropertyInfo>();
              }
             // properties_->Add(new PropertyInfoPropertyImpl<Prop, Class>(name, type_, dot::typeof<typename Prop::value_type>(), prop));
+             properties_->Add(new_PropertyInfo<Prop, Class>(name, type_, dot::typeof<Prop>(), prop));
              return this;
         }
 
@@ -300,10 +301,13 @@ namespace dot
         String Namespace;
 
         /// <summary>Gets the fully qualified name of the type, including its namespace but not its assembly.</summary>
-        DOT_GET(String, FullName, { return String::Format("{0}.{1}", this->Namespace, this->Name); }) // TODO - replace by String::Join
+        String getFullName()
+        {
+            return String::Format("{0}.{1}", this->Namespace, this->Name); // TODO - replace by String::Join
+        }
 
         /// <summary>Gets the base type if current type.</summary>
-        DOT_GET(Type, BaseType, { return base_; })
+        Type getBaseType() { return base_; }
 
         /// <summary>Gets a value indicating whether the System.Type is a class or a delegate; that is, not a value type or interface.</summary>
         bool IsClass;
@@ -338,7 +342,7 @@ namespace dot
         Type GetInterface(String name);
 
         /// <summary>A string representing the name of the current type.</summary>
-        virtual String ToString() override { return FullName; }
+        virtual String ToString() override { return getFullName(); }
 
         /// <summary>Get Type object for the name.</summary>
         static Type GetType(String name) { return GetTypeMap()[name]; }
@@ -347,7 +351,7 @@ namespace dot
         static List<Type> GetDerivedTypes(String name) { return GetDerivedTypesMap()[name]; }
 
         /// <summary>Get derived types list for the type.</summary>
-        static List<Type> GetDerivedTypes(Type type) { return GetDerivedTypesMap()[type->FullName]; }
+        static List<Type> GetDerivedTypes(Type type) { return GetDerivedTypesMap()[type->getFullName()]; }
 
         virtual bool Equals(Object obj) override;
 

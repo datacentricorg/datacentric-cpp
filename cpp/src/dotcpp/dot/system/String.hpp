@@ -54,7 +54,10 @@ namespace dot
     public: // PROPERTIES
 
         /// <summary>Gets the number of characters in the current System.String object.</summary>
-        DOT_GET(int, Length, { return this->GetLength(); })
+        int getLength()
+        {
+            return this->GetLength();
+        }
 
     public: // CONSTRUCTORS
 
@@ -450,19 +453,7 @@ namespace dot
     template <class T>
     struct format_forward {
 
-        static inline auto convert_impl(const T& t, std::true_type)
-        {
-	        return format_forward<typename T::value_type>::convert(t.operator typename T::value_type()); 
-        }
-        static inline const T& convert_impl(const T& t, std::false_type) { return t; }
-
-        static inline auto convert(const T& t) { return convert_impl(t, typename std::is_base_of<detail::decl_get, T>::type() ); }
-    };
-
-    /// <summary>Helper class for fmt::format arguments conversion</summary>
-    template<class T>
-    struct format_forward<detail::auto_get<T>> {
-        static inline std::string convert(const T& o) { return format_forward<T>::convert(o); }
+        static inline auto convert(const T& t) { return t; }
     };
 
     /// <summary>Helper class for fmt::format arguments conversion</summary>

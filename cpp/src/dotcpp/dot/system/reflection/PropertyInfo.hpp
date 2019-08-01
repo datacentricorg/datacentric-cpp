@@ -106,10 +106,9 @@ namespace dot
         typedef PropType Class::* property_ptr_type;
 
         template <class PropType1, class Class1>
-        friend PropertyInfo new_PropertyInfo(String , Type , Type , PropType1 Class1::*
-            , typename std::enable_if<!std::is_base_of<detail::decl_get, PropType>::value>::type *);
+        friend PropertyInfo new_PropertyInfo(String , Type , Type , PropType1 Class1::*);
 
-    private: // FIELDS
+    public: // FIELDS
 
         /// <summary>Pointer to property defined as a field.</summary>
         property_ptr_type prop_;
@@ -148,80 +147,11 @@ namespace dot
     /// and pointer to property defined as a field (member variable).
     /// </summary>
     template <class PropType, class Class>
-    PropertyInfo new_PropertyInfo(String name, Type declaringType, Type propertyType, PropType Class::* prop
-        , typename std::enable_if<!std::is_base_of<detail::decl_get, PropType>::value>::type * p = 0)
+    PropertyInfo new_PropertyInfo(String name, Type declaringType, Type propertyType, PropType Class::* prop)
     {
         return new PropertyInfoFieldImpl<PropType, Class>(name, declaringType, propertyType, prop);
     }
 
     class TypeBuilderImpl;
 
-    /// <summary>
-    /// Implementation of PropertyInfo for a property defined using a macro.
-    /// </summary>
-    template <class PropType, class Class>
-    class PropertyInfoPropertyImpl : public PropertyInfoImpl
-    {
-        typedef PropType Class::* property_ptr_type;
-
-        template <class PropType1, class Class1>
-        friend PropertyInfo new_PropertyInfo(String, Type, Type, PropType1 Class1::*
-            , typename std::enable_if<std::is_base_of<detail::decl_get, PropType>::value>::type *);
-        friend TypeBuilderImpl;
-
-    public: // FIELDS //! TODO make private
-
-        /// <summary>Pointer to property defined using a macro.</summary>
-        property_ptr_type prop_;
-
-    private: // CONSTRUCTORS
-
-        /// <summary>
-        /// Create from field name, declaring type, property type,
-        /// and pointer to property defined using a macro.
-        ///
-        /// This constructor is private. Use new_PropertyInfo(...)
-        /// function with matching signature instead.
-        /// </summary>
-        PropertyInfoPropertyImpl(String name, Type declaringType, Type propertyType, property_ptr_type prop)
-            : PropertyInfoImpl(name, declaringType, propertyType)
-            , prop_(prop)
-        {}
-
-        /// <summary>Returns the property value of a specified object.</summary>
-        virtual Object GetValue(Object obj) override
-        {
-            return (typename PropType::value_type)((*Ptr<Class>(obj)).*prop_);
-        }
-
-        // Prop has operator =
-        void SetValue_impl(Object obj, Object value, std::true_type)
-        {
-            (*Ptr<Class>(obj)).*prop_ = (typename PropType::value_type)(value);
-        }
-
-        // Prop does not have operator =
-        void SetValue_impl(Object obj, Object value, std::false_type)
-        {
-            throw new_Exception("Attempting to use SetValue on read-only property.");
-        }
-
-        // Property might be read-only (operator =(value) = delete; )
-        // SetValue throws exception in case of setting read-only DOT_PROP
-        virtual void SetValue(Object obj, Object value) override
-        {
-            SetValue_impl(obj, value, typename std::is_base_of<detail::decl_prop, PropType>::type());
-        }
-    };
-
-    /// <summary>
-    /// Create from field name, declaring type, property type,
-    /// and pointer to property defined using a macro.
-    /// </summary>
-    template <class PropType, class Class>
-    PropertyInfo new_PropertyInfo(String name, Type declaringType, Type propertyType, PropType Class::* prop
-        , typename std::enable_if<std::is_base_of<detail::decl_get, PropType>::value>::type * p = 0)
-    {
-        return new PropertyInfoPropertyImpl<PropType, Class>(name, declaringType, propertyType, prop);
-    }
 }

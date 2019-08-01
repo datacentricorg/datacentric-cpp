@@ -43,17 +43,17 @@ namespace dot
         Type baseType = base_;
         while (baseType != nullptr)
         {
-            auto iter = TypeImpl::GetDerivedTypesMap().find(baseType->FullName);
+            auto iter = TypeImpl::GetDerivedTypesMap().find(baseType->getFullName());
             if (iter == TypeImpl::GetDerivedTypesMap().end())
             {
-                iter = TypeImpl::GetDerivedTypesMap().insert({baseType->FullName, new_List<Type>()}).first;
+                iter = TypeImpl::GetDerivedTypesMap().insert({baseType->getFullName(), new_List<Type>()}).first;
             }
             else if (iter->second == nullptr)
             {
                 iter->second = new_List<Type>();
             }
             iter->second->Add(type_);
-            baseType = baseType->BaseType;
+            baseType = baseType->getBaseType();
         }
 
         return type_;
@@ -64,7 +64,7 @@ namespace dot
     /// </summary>
     void TypeImpl::Fill(const TypeBuilder& data)
     {
-        if (!data->base_.IsEmpty() && data->base_->GetProperties()->Count)
+        if (!data->base_.IsEmpty() && data->base_->GetProperties()->getCount())
         {
             if (data->properties_.IsEmpty())
             {
@@ -89,7 +89,7 @@ namespace dot
 
         if (!data->properties_.IsEmpty())
         {
-            this->properties_ = new_Array1D<PropertyInfo>(data->properties_->Count);
+            this->properties_ = new_Array1D<PropertyInfo>(data->properties_->getCount());
             int i = 0;
             for (PropertyInfo propInfoData : data->properties_)
             {
@@ -99,7 +99,7 @@ namespace dot
         else
             this->properties_ = new_Array1D<PropertyInfo>(0);
 
-        if (!data->base_.IsEmpty() && data->base_->GetMethods()->Count)
+        if (!data->base_.IsEmpty() && data->base_->GetMethods()->getCount())
         {
             if (data->methods_.IsEmpty())
             {
@@ -124,7 +124,7 @@ namespace dot
 
         if (!data->methods_.IsEmpty())
         {
-            this->methods_ = new_Array1D<MethodInfo>(data->methods_->Count);
+            this->methods_ = new_Array1D<MethodInfo>(data->methods_->getCount());
             int i = 0;
             for (MethodInfo methInfoData : data->methods_)
             {
@@ -136,7 +136,7 @@ namespace dot
 
         if (!data->ctors_.IsEmpty())
         {
-            this->ctors_ = new_Array1D<ConstructorInfo>(data->ctors_->Count);
+            this->ctors_ = new_Array1D<ConstructorInfo>(data->ctors_->getCount());
             int i = 0;
             for (ConstructorInfo ctorInfoData : data->ctors_)
             {
@@ -148,7 +148,7 @@ namespace dot
 
         if (!data->interfaces_.IsEmpty())
         {
-            this->interfaces_ = new_Array1D<Type>(data->interfaces_->Count);
+            this->interfaces_ = new_Array1D<Type>(data->interfaces_->getCount());
             int i = 0;
             for (Type interface : data->interfaces_)
             {
@@ -160,7 +160,7 @@ namespace dot
 
         if (!data->generic_args_.IsEmpty())
         {
-            this->generic_args_ = new_Array1D<Type>(data->generic_args_->Count);
+            this->generic_args_ = new_Array1D<Type>(data->generic_args_->getCount());
             int i = 0;
             for (Type arg : data->generic_args_)
             {
@@ -238,13 +238,13 @@ namespace dot
     bool TypeImpl::Equals(Object obj)
     {
         if (obj.is<Type>())
-            return this->FullName == ((Type)obj)->FullName;
+            return this->getFullName() == ((Type)obj)->getFullName();
 
         return false;
     }
 
     size_t TypeImpl::GetHashCode()
     {
-        return this->FullName->GetHashCode();
+        return this->getFullName()->GetHashCode();
     }
 }

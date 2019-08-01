@@ -68,7 +68,7 @@ namespace dot
     public: // PROPERTIES
 
         /// <summary>Gets the number of elements that are contained in a set.</summary>
-        DOT_IMPL_GET(int, Count, { return this->size(); })
+         virtual int getCount() override { return this->size(); }
 
     public: // METHODS
 

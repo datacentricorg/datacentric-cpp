@@ -74,7 +74,7 @@ namespace dot
     public: // PROPERTIES
 
         /// <summary>The number of items contained in the list.</summary>
-        DOT_IMPL_GET(int, Count, { return this->size(); })
+        virtual int getCount() override { return this->size(); }
 
     public: // METHODS
 

@@ -107,7 +107,7 @@ namespace dot
 
         /// <summary>Construct Object from Nullable by boxing.</summary>
         template <class T>
-        Object(const Nullable<T>& value) { if (value.HasValue) *this = value.Value; }
+        Object(const Nullable<T>& value) { if (value.getHasValue()) *this = value.getValue(); }
 
         /// <summary>Construct Object from LocalMinute by boxing.</summary>
         Object(const LocalMinute & value);
@@ -120,10 +120,6 @@ namespace dot
 
         /// <summary>Construct Object from LocalDateTime by boxing.</summary>
         Object(const LocalDateTime& value);
-
-        /// <summary>Construct Object from auto property, boxing the value if necessary.</summary>
-        template <typename T>
-        Object(detail::auto_prop<T> & value) : Object(value.operator T()) {}
 
         /// <summary>Construct Object from struct wrapper, boxing the value if necessary.</summary>
         template <typename T>

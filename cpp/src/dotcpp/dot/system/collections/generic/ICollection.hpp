@@ -40,7 +40,7 @@ namespace dot
     public: // METHODS
 
         /// <summary>The number of items contained in the list.</summary>
-        DOT_DECL_GET(int, Count)
+        virtual int getCount() = 0;
 
         /// <summary>Adds an item to the end of the lisIt.</summary>
         virtual void Add(const T& item) = 0;

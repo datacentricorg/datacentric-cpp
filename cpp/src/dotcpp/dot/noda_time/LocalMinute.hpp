@@ -56,10 +56,10 @@ namespace dot
         int Minute;
 
         /// <summary>The minute of the day, in the range 0 to 59 inclusive.</summary>
-        DOT_GET(int, MinuteOfDay,
+        int getMinuteOfDay() const
         {
             return 60 * this->Hour + this->Minute;
-        })
+        }
 
     public: // METHODS
 

@@ -54,19 +54,19 @@ namespace dot
 
     public:
         /// <summary>Gets the number of days within this period.</summary>
-        DOT_GET(int, Days, { return static_cast<int>(hours() / 24); })
+        int getDays() { return static_cast<int>(hours() / 24); }
 
         /// <summary>Gets the number of hours within this period.</summary>
-        DOT_GET(int64_t, Hours, { return hours() % 24; })
+        int64_t getHours() { return hours() % 24; }
 
         /// <summary>Gets the number of milliseconds within this period.</summary>
-        DOT_GET(int64_t, Milliseconds, { return fractional_seconds() / 1000; })
+        int64_t getMilliseconds() { return fractional_seconds() / 1000; }
 
         /// <summary>Gets the number of minutes within this period.</summary>
-        DOT_GET(int64_t, Minutes, { return minutes(); })
+        int64_t getMinutes() { return minutes(); }
 
         /// <summary>Gets the number of seconds within this period.</summary>
-        DOT_GET(int64_t, Seconds, { return seconds(); })
+        int64_t getSeconds() { return seconds(); }
 
     public:
         /// <summary>Returns the exact difference between two dates.</summary>

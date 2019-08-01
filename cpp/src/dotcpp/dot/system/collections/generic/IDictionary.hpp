@@ -42,10 +42,10 @@ namespace dot
     public: // PROPERTIES
 
         /// <summary>Gets an ICollection containing the keys of the IDictionary.</summary>
-        DOT_DECL_GET(ICollection<TKey>, Keys)
+        virtual ICollection<TKey> getKeys() = 0;
 
         /// <summary>Gets an ICollection containing the values in the IDictionary.</summary>
-        DOT_DECL_GET(ICollection<TValue>, Values)
+        virtual ICollection<TValue> getValues() = 0;
 
     public: // METHODS
 

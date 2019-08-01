@@ -50,14 +50,14 @@ namespace dot
 
     int LocalMinute::CompareTo(const LocalMinute& other) const
     {
-        if (MinuteOfDay > other.MinuteOfDay) return 1;
-        if (MinuteOfDay < other.MinuteOfDay) return -1;
+        if (getMinuteOfDay() > other.getMinuteOfDay()) return 1;
+        if (getMinuteOfDay() < other.getMinuteOfDay()) return -1;
         return 0;
     }
 
     size_t LocalMinute::GetHashCode() const
     {
-        return std::hash<int>()(MinuteOfDay);
+        return std::hash<int>()(getMinuteOfDay());
     }
 
     bool LocalMinute::Equals(const LocalMinute& other) const
@@ -74,31 +74,31 @@ namespace dot
 
     bool LocalMinute::operator==(const LocalMinute& other) const
     {
-        return MinuteOfDay == other.MinuteOfDay;
+        return getMinuteOfDay() == other.getMinuteOfDay();
     }
 
     bool LocalMinute::operator!=(const LocalMinute& other) const
     {
-        return MinuteOfDay != other.MinuteOfDay;
+        return getMinuteOfDay() != other.getMinuteOfDay();
     }
 
     bool LocalMinute::operator<(const LocalMinute& other) const
     {
-        return MinuteOfDay < other.MinuteOfDay;
+        return getMinuteOfDay() < other.getMinuteOfDay();
     }
 
     bool LocalMinute::operator<=(const LocalMinute& other) const
     {
-        return MinuteOfDay <= other.MinuteOfDay;
+        return getMinuteOfDay() <= other.getMinuteOfDay();
     }
 
     bool LocalMinute::operator>(const LocalMinute& other) const
     {
-        return MinuteOfDay > other.MinuteOfDay;
+        return getMinuteOfDay() > other.getMinuteOfDay();
     }
 
     bool LocalMinute::operator>=(const LocalMinute& other) const
     {
-        return MinuteOfDay >= other.MinuteOfDay;
+        return getMinuteOfDay() >= other.getMinuteOfDay();
     }
 }

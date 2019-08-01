@@ -64,6 +64,6 @@ namespace dot
     /// </summary>
     String ObjectImpl::ToString()
     {
-        return GetType()->FullName;
+        return GetType()->getFullName();
     }
 }

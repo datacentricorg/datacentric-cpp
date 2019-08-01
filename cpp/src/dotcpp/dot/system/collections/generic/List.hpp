@@ -88,10 +88,11 @@ namespace dot
         }
 
         /// <summary>The number of items contained in the list.</summary>
-        DOT_IMPL_GET(int, Count, { return this->size(); })
+        virtual int getCount() override { return this->size(); }
 
         /// <summary>The total number of elements the internal data structure can hold without resizing.</summary>
-        DOT_PROP(int, Capacity, { return this->capacity(); }, { this->reserve(value); });
+        int getCapacity() { return this->capacity(); }
+        void setCapacity(int value) { this->reserve(value); }
 
         /// <summary>Adds an object to the end of the list.</summary>
         virtual void Add(const T& item) { this->push_back(item); }
