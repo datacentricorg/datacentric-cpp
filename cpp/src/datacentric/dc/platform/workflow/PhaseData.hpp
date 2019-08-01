@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class PhaseDataImpl; using PhaseData = dot::Ptr<PhaseDataImpl>;
-    class PhaseKeyImpl; using PhaseKey = dot::Ptr<PhaseKeyImpl>;
+    class PhaseDataImpl; using PhaseData = dot::ptr<PhaseDataImpl>;
+    class PhaseKeyImpl; using PhaseKey = dot::ptr<PhaseKeyImpl>;
 
     /// <summary>Workflow phase record. Jobs are executed in the order of phases and in parallel within each phase.</summary>
     class DC_CLASS PhaseDataImpl : public RecordForImpl<PhaseKeyImpl, PhaseDataImpl>
@@ -33,7 +33,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique phase identifier.</summary>
-        dot::String PhaseID;
+        dot::string PhaseID;
 
 
         DOT_TYPE_BEGIN(".Runtime.Main", "PhaseData")

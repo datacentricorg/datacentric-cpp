@@ -26,7 +26,7 @@ namespace dc
         : value_(nullptr)
     {}
 
-    Variant::Variant(dot::Object value)
+    Variant::Variant(dot::object value)
     {
         if (value == nullptr)
         {
@@ -34,9 +34,9 @@ namespace dc
             return;
         }
 
-        dot::Type valueType = value->GetType();
+        dot::type_t valueType = value->GetType();
 
-        if (valueType->Equals(dot::typeof<dot::String>())
+        if (valueType->Equals(dot::typeof<dot::string>())
             || valueType->Equals(dot::typeof<double>())
             || valueType->Equals(dot::typeof<bool>())
             || valueType->Equals(dot::typeof<int>())
@@ -44,10 +44,10 @@ namespace dc
         {
             value_ = value;
         }
-        else if (valueType->Equals(dot::typeof<dot::LocalDate>())
-            || valueType->Equals(dot::typeof<dot::LocalTime>())
-            || valueType->Equals(dot::typeof<dot::LocalMinute>())
-            || valueType->Equals(dot::typeof<dot::LocalDateTime>()))
+        else if (valueType->Equals(dot::typeof<dot::local_date>())
+            || valueType->Equals(dot::typeof<dot::local_time>())
+            || valueType->Equals(dot::typeof<dot::local_minute>())
+            || valueType->Equals(dot::typeof<dot::local_date_time>()))
         {
             value_ = value;
         }
@@ -68,7 +68,7 @@ namespace dc
         return value_ == nullptr;
     }
 
-    dot::String Variant::ToString()
+    dot::string Variant::ToString()
     {
         if (value_ != nullptr)
         {
@@ -78,7 +78,7 @@ namespace dc
         else
         {
             // Returns empty string as per standard ToString() convention, rather than null like AsString() does
-            return dot::String::Empty;
+            return dot::string::Empty;
         }
     }
 
@@ -93,14 +93,14 @@ namespace dc
         if (value_ == nullptr)
             return other.value_ == nullptr;
 
-        dot::Type valueType = value_->GetType();
-        dot::Type otherValueType = other.value_->GetType();
+        dot::type_t valueType = value_->GetType();
+        dot::type_t otherValueType = other.value_->GetType();
 
         // The purpose of this check is to ensure that variant holds only one of the supported types
-        if (valueType->Equals(dot::typeof<dot::String>()))
+        if (valueType->Equals(dot::typeof<dot::string>()))
         {
-            return otherValueType->Equals(dot::typeof<dot::String>())
-                && (dot::String) value_ == (dot::String) other.value_;
+            return otherValueType->Equals(dot::typeof<dot::string>())
+                && (dot::string) value_ == (dot::string) other.value_;
         }
         if (valueType->Equals(dot::typeof<double>()))
         {
@@ -123,25 +123,25 @@ namespace dc
             return otherValueType->Equals(dot::typeof<int64_t>())
                 && (int64_t) value_ == (int64_t) other.value_;
         }
-        if (valueType->Equals(dot::typeof<dot::LocalDate>()))
+        if (valueType->Equals(dot::typeof<dot::local_date>()))
         {
-            return otherValueType->Equals(dot::typeof<dot::LocalDate>())
-                && (dot::LocalDate) value_ == (dot::LocalDate) other.value_;
+            return otherValueType->Equals(dot::typeof<dot::local_date>())
+                && (dot::local_date) value_ == (dot::local_date) other.value_;
         }
-        if (valueType->Equals(dot::typeof<dot::LocalTime>()))
+        if (valueType->Equals(dot::typeof<dot::local_time>()))
         {
-            return otherValueType->Equals(dot::typeof<dot::LocalTime>())
-                && (dot::LocalTime) value_ == (dot::LocalTime) other.value_;
+            return otherValueType->Equals(dot::typeof<dot::local_time>())
+                && (dot::local_time) value_ == (dot::local_time) other.value_;
         }
-        if (valueType->Equals(dot::typeof<dot::LocalMinute>()))
+        if (valueType->Equals(dot::typeof<dot::local_minute>()))
         {
-            return otherValueType->Equals(dot::typeof<dot::LocalMinute>())
-                && (dot::LocalMinute) value_ == (dot::LocalMinute) other.value_;
+            return otherValueType->Equals(dot::typeof<dot::local_minute>())
+                && (dot::local_minute) value_ == (dot::local_minute) other.value_;
         }
-        if (valueType->Equals(dot::typeof<dot::LocalDateTime>()))
+        if (valueType->Equals(dot::typeof<dot::local_date_time>()))
         {
-            return otherValueType->Equals(dot::typeof<dot::LocalDateTime>())
-                && (dot::LocalDateTime) value_ == (dot::LocalDateTime) other.value_;
+            return otherValueType->Equals(dot::typeof<dot::local_date_time>())
+                && (dot::local_date_time) value_ == (dot::local_date_time) other.value_;
         }
         if (valueType->IsEnum)
         {
@@ -164,9 +164,9 @@ namespace dc
         return !Equals(other);
     }
 
-    Variant Variant::Parse(ValueType valueType, dot::String value)
+    Variant Variant::Parse(ValueType valueType, dot::string value)
     {
-        if (dot::String::IsNullOrEmpty(value))
+        if (dot::string::IsNullOrEmpty(value))
         {
             // Empty value
             return Variant();
@@ -192,9 +192,9 @@ namespace dc
         }
     }
 
-    dot::String Variant::GetWrongTypeErrorMessage(dot::Object value)
+    dot::string Variant::GetWrongTypeErrorMessage(dot::object value)
     {
-        return dot::String::Format(
+        return dot::string::Format(
             "Variant cannot hold {0} type. Available types are "
             "string, double, bool, int, long, LocalDate, LocalTime, LocalMinute, LocalDateTime, or Enum.",
             value->GetType());

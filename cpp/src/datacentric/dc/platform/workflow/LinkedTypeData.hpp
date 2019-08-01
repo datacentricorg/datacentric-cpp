@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class LinkedTypeDataImpl; using LinkedTypeData = dot::Ptr<LinkedTypeDataImpl>;
-    class LinkedTypeKeyImpl; using LinkedTypeKey = dot::Ptr<LinkedTypeKeyImpl>;
+    class LinkedTypeDataImpl; using LinkedTypeData = dot::ptr<LinkedTypeDataImpl>;
+    class LinkedTypeKeyImpl; using LinkedTypeKey = dot::ptr<LinkedTypeKeyImpl>;
 
     /// <summary>Linked record type.</summary>
     class DC_CLASS LinkedTypeDataImpl : public RecordForImpl<LinkedTypeKeyImpl, LinkedTypeDataImpl>
@@ -31,6 +31,6 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique record type identifier is the default table or folder name in storage.</summary>
-        dot::String TypeID;
+        dot::string TypeID;
     };
 }

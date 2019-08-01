@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class DbServerKeyImpl; using DbServerKey = dot::Ptr<DbServerKeyImpl>;
-    class DbServerDataImpl; using DbServerData = dot::Ptr<DbServerDataImpl>;
+    class DbServerKeyImpl; using DbServerKey = dot::ptr<DbServerKeyImpl>;
+    class DbServerDataImpl; using DbServerData = dot::ptr<DbServerDataImpl>;
 
     inline DbServerKey new_DbServerKey();
 
@@ -44,7 +44,7 @@ namespace dc
         /// This field is the user friendly name used to
         /// identify the server. It is not the server URI.
         /// </summary>
-        dot::String DbServerID;
+        dot::string DbServerID;
 
     public: // STATIC
 
@@ -59,7 +59,7 @@ namespace dc
         DbServerKeyImpl() = default;
 
         /// <summary>Keys in which string ID is the only element support implicit conversion from value.</summary>
-        DbServerKeyImpl(dot::String value);
+        DbServerKeyImpl(dot::string value);
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DbServerKey")
             DOT_TYPE_PROP(DbServerID)

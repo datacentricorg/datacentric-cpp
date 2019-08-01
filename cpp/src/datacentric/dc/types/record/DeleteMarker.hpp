@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class DeleteMarkerImpl; using DeleteMarker = dot::Ptr<DeleteMarkerImpl>;
+    class DeleteMarkerImpl; using DeleteMarker = dot::ptr<DeleteMarkerImpl>;
 
     inline DeleteMarker new_DeleteMarker();
 
@@ -39,14 +39,14 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>
-        /// dot::String key consists of semicolon delimited primary key elements:
+        /// dot::string key consists of semicolon delimited primary key elements:
         ///
         /// KeyElement1;KeyElement2
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
         /// </summary>
-        virtual dot::String getKey() { return dot::String::Empty; }
+        virtual dot::string getKey() { return dot::string::Empty; }
 
     public: // CONSTRUCTORS
 

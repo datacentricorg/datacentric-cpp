@@ -21,8 +21,8 @@ limitations under the License.
 
 namespace dc
 {
-    class RecordTypeImpl; using RecordType = dot::Ptr<RecordTypeImpl>;
-    class IContextImpl; using IContext = dot::Ptr<IContextImpl>;
+    class RecordTypeImpl; using RecordType = dot::ptr<RecordTypeImpl>;
+    class IContextImpl; using IContext = dot::ptr<IContextImpl>;
 
     /// <summary>Record objects must derive from this type.</summary>
     class DC_CLASS RecordTypeImpl : public virtual DataImpl
@@ -56,14 +56,14 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>
-        /// dot::String key consists of semicolon delimited primary key elements:
+        /// dot::string key consists of semicolon delimited primary key elements:
         ///
         /// KeyElement1;KeyElement2
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
         /// </summary>
-        virtual dot::String getKey() = 0;
+        virtual dot::string getKey() = 0;
 
     public: // METHODS
 
@@ -73,11 +73,11 @@ namespace dc
         /// </summary>
         virtual void Init(IContext context);
 
-        dot::String ToString() { return getKey(); }
+        dot::string ToString() { return getKey(); }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "RecordType")
-            ->WithProperty("_id", &self::ID)
-            ->WithProperty("_dataset", &self::DataSet)
+           // ->WithProperty("_id", &self::ID)
+         //   ->WithProperty("_dataset", &self::DataSet)
           //  ->WithProperty("_key", &self::Key)
             DOT_TYPE_BASE(Data)
         DOT_TYPE_END()

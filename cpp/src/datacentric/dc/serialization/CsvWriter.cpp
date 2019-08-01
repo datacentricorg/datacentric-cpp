@@ -19,7 +19,7 @@ limitations under the License.
 
 namespace dc
 {
-    class ICsvWriterImpl; using ICsvWriter = dot::Ptr<ICsvWriterImpl>;
+    class ICsvWriterImpl; using ICsvWriter = dot::ptr<ICsvWriterImpl>;
 
     int CsvWriterImpl::rowCount()
     {

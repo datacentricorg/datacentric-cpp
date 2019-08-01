@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class DefaultSystemSettingsDataImpl; using DefaultSystemSettingsData = dot::Ptr<DefaultSystemSettingsDataImpl>;
+    class DefaultSystemSettingsDataImpl; using DefaultSystemSettingsData = dot::ptr<DefaultSystemSettingsDataImpl>;
 
     /// <summary>Default system settings data.</summary>
     class DC_CLASS DefaultSystemSettingsDataImpl : public SystemSettingsDataImpl

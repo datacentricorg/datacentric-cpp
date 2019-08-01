@@ -26,7 +26,7 @@ namespace dc
         DbServerID = DbServerKeyImpl::Default->DbServerID;
     }
 
-    dot::String MongoDefaultServerDataImpl::GetMongoServerUri()
+    dot::string MongoDefaultServerDataImpl::GetMongoServerUri()
     {
         return "mongodb://localhost/";
     }

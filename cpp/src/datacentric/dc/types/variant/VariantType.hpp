@@ -27,7 +27,7 @@ namespace dc
         Empty,
 
         /// <summary>String value.</summary>
-        dot::String,
+        dot::string,
 
         /// <summary>Double value.</summary>
         Double,

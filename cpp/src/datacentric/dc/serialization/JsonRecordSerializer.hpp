@@ -26,11 +26,11 @@ limitations under the License.
 
 namespace dc
 {
-    class JsonRecordSerializerImpl; using JsonRecordSerializer = dot::Ptr<JsonRecordSerializerImpl>;
-    class DataImpl; using Data = dot::Ptr<DataImpl>;
+    class JsonRecordSerializerImpl; using JsonRecordSerializer = dot::ptr<JsonRecordSerializerImpl>;
+    class DataImpl; using Data = dot::ptr<DataImpl>;
 
     /// <summary>Implementation of IBsonWriter using MongoDB IBsonWriter.</summary>
-    class DC_CLASS JsonRecordSerializerImpl : public virtual dot::ObjectImpl
+    class DC_CLASS JsonRecordSerializerImpl : public virtual dot::object_impl
     {
         friend JsonRecordSerializer new_JsonRecordSerializer();
 
@@ -40,7 +40,7 @@ namespace dc
         Data Deserialize(const rapidjson::Document& doc);
 
         /// <summary>Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.</summary>
-        dot::Object DeserializeTuple(rapidjson::Document::ConstObject doc, dot::List<dot::PropertyInfo> props, dot::Type tupleType);
+        dot::object DeserializeTuple(rapidjson::Document::ConstObject doc, dot::List<dot::PropertyInfo> props, dot::type_t tupleType);
 
         /// <summary>Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.</summary>
         void DeserializeDocument(rapidjson::Document::ConstObject doc, ITreeWriter writer);

@@ -28,12 +28,12 @@ namespace dc
         /// <summary>Parse string using standard ISO 8601 time pattern hh:mm:ss.fff, throw if invalid format.
         /// No variations from the standard format are accepted and no delimiters can be changed or omitted.
         /// Specifically, ISO int-like string using hhmmssfff format without delimiters is not accepted.</summary>
-        static dot::LocalTime Parse(dot::String value);
+        static dot::local_time Parse(dot::string value);
 
         /// <summary>Convert LocalTime to ISO 8601 9 digit int hhmmssfff format.</summary>
-        static int ToIsoInt(dot::LocalTime value);
+        static int ToIsoInt(dot::local_time value);
 
         /// <summary>Parse ISO 8601 9 digit int in hhmmssfff format, throw if invalid format.</summary>
-        static dot::LocalTime ParseIsoInt(int value);
+        static dot::local_time ParseIsoInt(int value);
     };
 }

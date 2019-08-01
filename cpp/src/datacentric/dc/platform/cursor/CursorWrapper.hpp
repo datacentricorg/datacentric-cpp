@@ -18,17 +18,15 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 //#include <dc/platform/context/IContext.hpp>
-#include <dot/system/collections/IObjectEnumerable.hpp>
-#include <dot/system/collections/generic/IEnumerable.hpp>
 #include <mongocxx/cursor.hpp>
 #include <bsoncxx/types.hpp>
 
 namespace dc
 {
 
-    class ObjectCursorWrapperImpl; using ObjectCursorWrapper = dot::Ptr<ObjectCursorWrapperImpl>;
+    class ObjectCursorWrapperImpl; using ObjectCursorWrapper = dot::ptr<ObjectCursorWrapperImpl>;
     template <class T> class CursorWrapperImpl;
-    template <class T> using CursorWrapper = dot::Ptr<CursorWrapperImpl<T>>;
+    template <class T> using CursorWrapper = dot::ptr<CursorWrapperImpl<T>>;
 
     template <class T>
     inline ObjectCursorWrapper new_ObjectCursorWrapper(mongocxx::cursor && cursor, const std::function<T(const bsoncxx::document::view&)>& f);
@@ -58,7 +56,7 @@ namespace dc
         IteratorWrappper& operator++()
         {
             //String currKey = (*iterator_)["_key"].get_utf8().value.to_string();
-            //while (!iterator_->empty() && dot::String((*iterator_)["_key"].get_utf8().value.to_string()) == currKey)
+            //while (!iterator_->empty() && dot::string((*iterator_)["_key"].get_utf8().value.to_string()) == currKey)
                 ++iterator_;
             return *this;
         }
@@ -80,20 +78,20 @@ namespace dc
 
     class ObjectCursorWrapperImpl : public dot::IObjectEnumerableImpl//, public IEnumerableImpl<T>
     {
-        friend ObjectCursorWrapper new_ObjectCursorWrapper(mongocxx::cursor &&, const std::function<dot::Object(const bsoncxx::document::view&)>&);
+        friend ObjectCursorWrapper new_ObjectCursorWrapper(mongocxx::cursor &&, const std::function<dot::object(const bsoncxx::document::view&)>&);
 
     public:
 
         /// <summary>Returns forward begin object iterator.</summary>
         virtual dot::detail::std_object_iterator_wrapper object_begin()
         {
-            return dot::detail::make_obj_iterator(IteratorWrappper<dot::Object>(cursor_->begin(), f_));
+            return dot::detail::make_obj_iterator(IteratorWrappper<dot::object>(cursor_->begin(), f_));
         }
 
         /// <summary>Returns forward end object iterator.</summary>
         virtual dot::detail::std_object_iterator_wrapper object_end()
         {
-            return dot::detail::make_obj_iterator(IteratorWrappper<dot::Object>(cursor_->end(), f_));
+            return dot::detail::make_obj_iterator(IteratorWrappper<dot::object>(cursor_->end(), f_));
         }
 
         /// <summary>Returns random access begin iterator of the underlying std::vector.</summary>
@@ -105,7 +103,7 @@ namespace dc
         template <class T>
         inline dot::IEnumerable<T> AsEnumerable()
         {
-            std::function<dot::Object(const bsoncxx::document::view&)> f = f_;
+            std::function<dot::object(const bsoncxx::document::view&)> f = f_;
             return new CursorWrapperImpl<T>(cursor_, [f](const bsoncxx::document::view& item)->T
                 {
                     return T(f(item));
@@ -115,14 +113,14 @@ namespace dc
 
     private:
 
-        ObjectCursorWrapperImpl(mongocxx::cursor && cursor, const std::function<dot::Object(const bsoncxx::document::view&)>& f)
+        ObjectCursorWrapperImpl(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)
             : cursor_(std::make_shared<mongocxx::cursor>(std::move(cursor)))
             , f_(f)
         {
         }
 
         std::shared_ptr<mongocxx::cursor> cursor_;
-        std::function<dot::Object(const bsoncxx::document::view&)> f_;
+        std::function<dot::object(const bsoncxx::document::view&)> f_;
     };
 
     template <class T>
@@ -158,7 +156,7 @@ namespace dc
 
 
 
-    inline ObjectCursorWrapper new_ObjectCursorWrapper(mongocxx::cursor && cursor, const std::function<dot::Object(const bsoncxx::document::view&)>& f)
+    inline ObjectCursorWrapper new_ObjectCursorWrapper(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)
     {
         return new ObjectCursorWrapperImpl(std::move(cursor), f);
     }

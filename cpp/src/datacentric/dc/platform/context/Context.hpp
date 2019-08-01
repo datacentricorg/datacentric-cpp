@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class ContextImpl; using Context = dot::Ptr<ContextImpl>;
+    class ContextImpl; using Context = dot::ptr<ContextImpl>;
 
     /// <summary>Context defines dataset and provides access to data,
     /// logging, and other supporting functionality.</summary>
@@ -36,7 +36,7 @@ namespace dc
     public: // METHODS
 
         /// <summary>Initialize connection.</summary>
-        void Init(dot::String connectionString, dot::String environment)
+        void Init(dot::string connectionString, dot::string environment)
         {
             //MongoFactory fact = new MongoFactoryImpl;
             //MongoDataSource ds = (MongoDataSource)fact->Create(this, connectionString, environment);

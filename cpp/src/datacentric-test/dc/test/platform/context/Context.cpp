@@ -24,23 +24,23 @@ limitations under the License.
 
 namespace dc
 {
-    UnitTestContextImpl::UnitTestContextImpl(dot::Object classInstance,
-        dot::String methodName,
-        dot::String sourceFilePath)
+    UnitTestContextImpl::UnitTestContextImpl(dot::object classInstance,
+        dot::string methodName,
+        dot::string sourceFilePath)
     {
         //if (methodName == nullptr) throw dot::new_Exception("Method name passed to UnitTestContext is null.");
         //if (sourceFilePath == nullptr) throw dot::new_Exception("Source file path passed to UnitTestContext is null.");
 
         // Test class path is the path to source file followed by
         // subfolder whose name is source file name without extension
-        //if (!sourceFilePath->EndsWith(".cs")) throw dot::new_Exception(dot::String::Format("Source file path '{0}' does not end with '.cs'", sourceFilePath));
-        dot::String testClassPath = sourceFilePath->SubString(0, sourceFilePath->size() - 3);
+        //if (!sourceFilePath->EndsWith(".cs")) throw dot::new_Exception(dot::string::Format("Source file path '{0}' does not end with '.cs'", sourceFilePath));
+        dot::string testClassPath = sourceFilePath->SubString(0, sourceFilePath->size() - 3);
 
         // Create and initialize data source with TEST instance type.
         //
         // This does not create the database until the data source
         // is actually used to access data.
-        dot::String mappedClassName = classInstance->GetType()->Name;
+        dot::string mappedClassName = classInstance->GetType()->Name;
 
         DataSource = new MongoDataSourceDataImpl();
         //DataSource->DbServer = new DbServerKeyImpl;

@@ -29,13 +29,13 @@ namespace dc
     void DataSourceDataImpl::CheckNotReadOnly()
     {
         if (IsReadOnly())
-            throw dot::new_Exception(dot::String::Format(
+            throw dot::new_Exception(dot::string::Format(
                 "Attempting write operation for readonly data source {0}. "
                 "A data source is readonly if either (a) its ReadOnly flag is set, or (b) "
                 "one of RevisedBefore or RevisedBeforeId is set.", DataSourceID));
     }
 
-    ObjectId DataSourceDataImpl::GetDataSetOrEmpty(dot::String dataSetID, ObjectId loadFrom)
+    ObjectId DataSourceDataImpl::GetDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom)
     {
         ObjectId result;
 
@@ -87,8 +87,8 @@ namespace dc
             // Otherwise load from storage (returns null if not found)
             DataSetData dataSetData = LoadOrNull<DataSetData>(loadFrom).as<DataSetData>();
 
-            if (dataSetData == nullptr) throw dot::new_Exception(dot::String::Format("Dataset with ObjectId={0} is not found.", loadFrom.ToString()));
-            if ((ObjectId) dataSetData->DataSet != ObjectId::Empty) throw dot::new_Exception(dot::String::Format("Dataset with ObjectId={0} is not stored in root dataset.", loadFrom.ToString()));
+            if (dataSetData == nullptr) throw dot::new_Exception(dot::string::Format("Dataset with ObjectId={0} is not found.", loadFrom.ToString()));
+            if ((ObjectId) dataSetData->DataSet != ObjectId::Empty) throw dot::new_Exception(dot::string::Format("Dataset with ObjectId={0} is not stored in root dataset.", loadFrom.ToString()));
 
             // Build the lookup list
             result = BuildDataSetLookupList(dataSetData);
@@ -117,7 +117,7 @@ namespace dc
             //RevisedBefore.CheckHasValue(); // TODO uncomment
 
             // Convert to the least value of ObjectId with the specified timestamp
-            dot::LocalDateTime date = ((dot::Nullable<dot::LocalDateTime>) RevisedBefore).getValue();
+            dot::local_date_time date = ((dot::Nullable<dot::local_date_time>) RevisedBefore).getValue();
             return ObjectId(date);
         }
         else if (RevisedBefore == nullptr && RevisedBeforeId != nullptr)
@@ -137,7 +137,7 @@ namespace dc
         }
     }
 
-    ObjectId DataSourceDataImpl::LoadDataSetOrEmpty(dot::String dataSetID, ObjectId loadFrom)
+    ObjectId DataSourceDataImpl::LoadDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom)
     {
         // Always load even if present in cache
         DataSetKey dataSetKey = new_DataSetKey();
@@ -190,7 +190,7 @@ namespace dc
                 // Dataset cannot include itself as parent
                 if (dataSetData->ID == dataSetId)
                     throw dot::new_Exception(
-                        dot::String::Format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::String)dataSetData->getKey(), ObjectId(dataSetData->ID).ToString()));
+                        dot::string::Format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::string)dataSetData->getKey(), ObjectId(dataSetData->ID).ToString()));
 
                 // The Add method returns true if the argument is not yet present in the list
                 if (!result->Contains(dataSetId))

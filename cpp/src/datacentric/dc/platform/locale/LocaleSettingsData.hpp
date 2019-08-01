@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class LocaleSettingsKeyImpl; using LocaleSettingsKey = dot::Ptr<LocaleSettingsKeyImpl>;
-    class LocaleSettingsDataImpl; using LocaleSettingsData = dot::Ptr<LocaleSettingsDataImpl>;
+    class LocaleSettingsKeyImpl; using LocaleSettingsKey = dot::ptr<LocaleSettingsKeyImpl>;
+    class LocaleSettingsDataImpl; using LocaleSettingsData = dot::ptr<LocaleSettingsDataImpl>;
 
     /// <summary>Locale settings records must derive from this type.</summary>
     class DC_CLASS LocaleSettingsDataImpl : public RecordForImpl<LocaleSettingsKeyImpl, LocaleSettingsDataImpl>
@@ -31,6 +31,6 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique locale settings identifier.</summary>
-        dot::String LocaleSettingsID;
+        dot::string LocaleSettingsID;
     };
 }

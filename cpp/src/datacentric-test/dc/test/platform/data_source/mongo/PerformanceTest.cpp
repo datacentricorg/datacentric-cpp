@@ -51,11 +51,11 @@ namespace dc
     class TestDurationCounter
     {
         std::chrono::steady_clock::time_point startTime;
-        dot::String message;
+        dot::string message;
 
     public:
 
-        TestDurationCounter(dot::String msg)
+        TestDurationCounter(dot::string msg)
             : startTime(std::chrono::steady_clock::now())
             , message(msg)
         {}
@@ -69,9 +69,9 @@ namespace dc
         }
     };
 
-    class PerformanceTestImpl; using PerformanceTest = dot::Ptr<PerformanceTestImpl>;
+    class PerformanceTestImpl; using PerformanceTest = dot::ptr<PerformanceTestImpl>;
 
-    class PerformanceTestImpl : public dot::ObjectImpl
+    class PerformanceTestImpl : public dot::object_impl
     {
         typedef PerformanceTestImpl self;
 
@@ -81,8 +81,8 @@ namespace dc
         DOT_TYPE_END()
     };
 
-    class PerformanceTestKeyImpl; using PerformanceTestKey = dot::Ptr<PerformanceTestKeyImpl>;
-    class PerformanceTestDataImpl; using PerformanceTestData = dot::Ptr<PerformanceTestDataImpl>;
+    class PerformanceTestKeyImpl; using PerformanceTestKey = dot::ptr<PerformanceTestKeyImpl>;
+    class PerformanceTestDataImpl; using PerformanceTestData = dot::ptr<PerformanceTestDataImpl>;
 
     PerformanceTestKey new_PerformanceTestKey();
 
@@ -93,7 +93,7 @@ namespace dc
 
     public:
 
-        dot::String RecordID;
+        dot::string RecordID;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "PerformanceTestKey")
             DOT_TYPE_PROP(RecordID)
@@ -113,7 +113,7 @@ namespace dc
 
     public:
 
-        dot::String RecordID;
+        dot::string RecordID;
         dot::List<double> DoubleList;
         dot::Nullable<int> Version;
 
@@ -130,19 +130,19 @@ namespace dc
 
 
     // HELPER FUNCTIONS
-    dot::String GetRecordKey(int index)
+    dot::string GetRecordKey(int index)
     {
-        static const dot::String recordIdPattern = "Key{0}";
-        return dot::String::Format(recordIdPattern, index);
+        static const dot::string recordIdPattern = "Key{0}";
+        return dot::string::Format(recordIdPattern, index);
     }
 
-    dot::String GetDataSet(int index)
+    dot::string GetDataSet(int index)
     {
-        static const dot::String dataSetPattern = "DS{0}";
-        return dot::String::Format(dataSetPattern, index);
+        static const dot::string dataSetPattern = "DS{0}";
+        return dot::string::Format(dataSetPattern, index);
     }
 
-    ObjectId SaveRecord(IUnitTestContext context, dot::String dataSetID, dot::String recordId, int recordSize, int recordVersion)
+    ObjectId SaveRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordId, int recordSize, int recordVersion)
     {
         PerformanceTestData rec = new_PerformanceTestData();
         rec->RecordID = recordId;
@@ -164,19 +164,19 @@ namespace dc
         ObjectId commonDataSet = context->GetCommon();
         for (int i = 0; i < dataSetsCount; ++i)
         {
-            dot::String dataSetName = GetDataSet(i);
+            dot::string dataSetName = GetDataSet(i);
             context->CreateDataSet(dataSetName, dot::new_List<ObjectId>({ commonDataSet }));
         }
 
         // Create records
         for (int i = 0; i < recordsCount; ++i)
         {
-            dot::String recordId = GetRecordKey(i);
+            dot::string recordId = GetRecordKey(i);
             SaveRecord(context, DataSetKeyImpl::Common->DataSetID, recordId, recordSize, 0);
 
             for (int dsI = 0; dsI < dataSetsCount; ++dsI)
             {
-                dot::String dataSetName = GetDataSet(dsI);
+                dot::string dataSetName = GetDataSet(dsI);
 
                 for (int version = 1; version < recordVersions; ++version)
                 {
@@ -214,7 +214,7 @@ namespace dc
 
             for (int dsI = 0; dsI < dataSetsCount; ++dsI)
             {
-                dot::String dataSetName = GetDataSet(dsI);
+                dot::string dataSetName = GetDataSet(dsI);
                 ObjectId dataSet = context->GetDataSetOrEmpty(dataSetName);
                 context->ReloadOrNull(key, dataSet);
             }
@@ -228,8 +228,8 @@ namespace dc
         TestDurationCounter td("Query loading");
 
         auto startTime = std::chrono::steady_clock::now();
-        dot::String recordID = GetRecordKey(2);
-        dot::String dataSetName = GetDataSet(2);
+        dot::string recordID = GetRecordKey(2);
+        dot::string dataSetName = GetDataSet(2);
         ObjectId dataSet = context->GetDataSetOrEmpty(dataSetName);
 
         dot::IEnumerable<PerformanceTestData> query = context->DataSource->GetQuery<PerformanceTestData>(dataSet)

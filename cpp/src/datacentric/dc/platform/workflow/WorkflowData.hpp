@@ -22,10 +22,10 @@ limitations under the License.
 
 namespace dc
 {
-    class WorkflowDataImpl; using WorkflowData = dot::Ptr<WorkflowDataImpl>;
-    class JobKeyImpl; using JobKey = dot::Ptr<JobKeyImpl>;
-    class WorkflowKeyImpl; using WorkflowKey = dot::Ptr<WorkflowKeyImpl>;
-    class PhaseKeyImpl; using PhaseKey = dot::Ptr<PhaseKeyImpl>;
+    class WorkflowDataImpl; using WorkflowData = dot::ptr<WorkflowDataImpl>;
+    class JobKeyImpl; using JobKey = dot::ptr<JobKeyImpl>;
+    class WorkflowKeyImpl; using WorkflowKey = dot::ptr<WorkflowKeyImpl>;
+    class PhaseKeyImpl; using PhaseKey = dot::ptr<PhaseKeyImpl>;
 
     inline WorkflowData new_WorkflowData();
 
@@ -38,7 +38,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique workflow identifier.</summary>
-        dot::String WorkflowID;
+        dot::string WorkflowID;
 
         /// <summary>Unique workflow identifier.</summary>
         WorkflowKey Workflow;
@@ -56,13 +56,13 @@ namespace dc
         dot::List<PhaseKey> Phases;
 
         /// <summary>LocalDate.</summary>
-        dot::LocalDate LDate;
+        dot::local_date LDate;
 
         /// <summary>LocalDate.</summary>
-        dot::LocalTime LTime;
+        dot::local_time LTime;
 
         /// <summary>LocalDate.</summary>
-        dot::LocalDateTime LDateTime;
+        dot::local_date_time LDateTime;
 
         dot::Nullable<double> dbl;
 

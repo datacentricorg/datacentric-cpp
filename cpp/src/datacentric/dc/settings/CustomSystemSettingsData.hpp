@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class CustomSystemSettingsDataImpl; using CustomSystemSettingsData = dot::Ptr<CustomSystemSettingsDataImpl>;
+    class CustomSystemSettingsDataImpl; using CustomSystemSettingsData = dot::ptr<CustomSystemSettingsDataImpl>;
 
     /// <summary>Custom system settings data.</summary>
     class DC_CLASS CustomSystemSettingsDataImpl : public SystemSettingsDataImpl

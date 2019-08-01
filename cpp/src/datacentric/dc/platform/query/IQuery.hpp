@@ -24,7 +24,7 @@ limitations under the License.
 namespace dc
 {
     class IQueryImpl;
-    using IQuery = dot::Ptr<IQueryImpl>;
+    using IQuery = dot::ptr<IQueryImpl>;
     template <class Class, class Prop>
     struct prop_wrapper;
 
@@ -32,7 +32,7 @@ namespace dc
     /// Holds expressions for Where, Select, and OrderBy/ThenBy
     /// parts of a query.
     /// </summary>
-    class DC_CLASS IQueryImpl :public virtual dot::ObjectImpl
+    class DC_CLASS IQueryImpl :public virtual dot::object_impl
     {
     public:
 
@@ -62,7 +62,7 @@ namespace dc
             return AsEnumerable().template as<ObjectCursorWrapper>()->template AsEnumerable<TRecord>();
         }
 
-        virtual dot::IObjectEnumerable Select(dot::List<dot::PropertyInfo> props, dot::Type elementType) = 0;
+        virtual dot::IObjectEnumerable Select(dot::List<dot::PropertyInfo> props, dot::type_t elementType) = 0;
 
         template <class Element>
         dot::IEnumerable<Element> Select(dot::List<dot::PropertyInfo> props)

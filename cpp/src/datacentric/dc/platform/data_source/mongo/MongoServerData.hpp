@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    class MongoServerDataImpl; using MongoServerData = dot::Ptr<MongoServerDataImpl>;
+    class MongoServerDataImpl; using MongoServerData = dot::ptr<MongoServerDataImpl>;
 
     /// <summary>
     /// Database server definition for MongoDB. This class is responsible
@@ -39,6 +39,6 @@ namespace dc
     public: // METHODS
 
         /// <summary>Get Mongo server URI without database name.</summary>
-        virtual dot::String GetMongoServerUri() = 0;
+        virtual dot::string GetMongoServerUri() = 0;
     };
 }

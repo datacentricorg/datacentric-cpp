@@ -23,13 +23,13 @@ limitations under the License.
 
 namespace dc
 {
-    class IContextImpl; using IContext = dot::Ptr<IContextImpl>;
-    class DataSourceDataImpl; using DataSourceData = dot::Ptr<DataSourceDataImpl>;
-    class DataSetDataImpl; using DataSetData = dot::Ptr<DataSetDataImpl>;
+    class IContextImpl; using IContext = dot::ptr<IContextImpl>;
+    class DataSourceDataImpl; using DataSourceData = dot::ptr<DataSourceDataImpl>;
+    class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
 
     /// <summary>Context defines dataset and provides access to data,
     /// logging, and other supporting functionality.</summary>
-    class DC_CLASS IContextImpl : public virtual dot::ObjectImpl
+    class DC_CLASS IContextImpl : public virtual dot::object_impl
     {
         typedef IContextImpl self;
 
@@ -66,7 +66,7 @@ namespace dc
         ///
         /// Return null if not found.
         /// </summary>
-        RecordType LoadOrNull(ObjectId id, dot::Type dataType);
+        RecordType LoadOrNull(ObjectId id, dot::type_t dataType);
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -189,7 +189,7 @@ namespace dc
         /// if not found in cache. Use LoadDataSet method to
         /// force reloading the dataset from storage.
         /// </summary>
-        ObjectId GetDataSet(dot::String dataSetID);
+        ObjectId GetDataSet(dot::string dataSetID);
 
         /// <summary>
         /// Return ObjectId for the latest dataset record with
@@ -207,7 +207,7 @@ namespace dc
         /// if not found in cache. Use LoadDataSet method to
         /// force reloading the dataset from storage.
         /// </summary>
-        ObjectId GetDataSet(dot::String dataSetID, ObjectId loadFrom);
+        ObjectId GetDataSet(dot::string dataSetID, ObjectId loadFrom);
 
         /// <summary>
         /// Return ObjectId for the latest dataset record with
@@ -229,7 +229,7 @@ namespace dc
         /// Error message if no matching dataSetID string is found
         /// or a delete marker is found instead.
         /// </summary>
-        ObjectId GetDataSetOrEmpty(dot::String dataSetID);
+        ObjectId GetDataSetOrEmpty(dot::string dataSetID);
 
         /// <summary>
         /// Return ObjectId for the latest dataset record with
@@ -250,7 +250,7 @@ namespace dc
         /// Error message if no matching dataSetID string is found
         /// or a delete marker is found instead.
         /// </summary>
-        ObjectId GetDataSetOrEmpty(dot::String dataSetID, ObjectId loadFrom);
+        ObjectId GetDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom);
 
         /// <summary>
         /// Create new version of the Common dataset. By convention,
@@ -277,7 +277,7 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId CreateDataSet(dot::String dataSetID);
+        ObjectId CreateDataSet(dot::string dataSetID);
 
         /// <summary>
         /// Create new version of the dataset with the specified dataSetID
@@ -288,7 +288,7 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId CreateDataSet(dot::String dataSetID, ObjectId saveTo);
+        ObjectId CreateDataSet(dot::string dataSetID, ObjectId saveTo);
 
         /// <summary>
         /// Create new version of the dataset with the specified dataSetID
@@ -301,7 +301,7 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId CreateDataSet(dot::String dataSetID, dot::IEnumerable<ObjectId> parentDataSets);
+        ObjectId CreateDataSet(dot::string dataSetID, dot::IEnumerable<ObjectId> parentDataSets);
 
         /// <summary>
         /// Create new version of the dataset with the specified dataSetID
@@ -313,7 +313,7 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId CreateDataSet(dot::String dataSetID, dot::IEnumerable<ObjectId> parentDataSets, ObjectId saveTo);
+        ObjectId CreateDataSet(dot::string dataSetID, dot::IEnumerable<ObjectId> parentDataSets, ObjectId saveTo);
 
         /// <summary>
         /// Save new version of the dataset.

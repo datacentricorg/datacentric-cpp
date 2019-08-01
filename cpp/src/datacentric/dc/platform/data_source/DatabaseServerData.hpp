@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class DbServerKeyImpl; using DbServerKey = dot::Ptr<DbServerKeyImpl>;
-    class DbServerDataImpl; using DbServerData = dot::Ptr<DbServerDataImpl>;
+    class DbServerKeyImpl; using DbServerKey = dot::ptr<DbServerKeyImpl>;
+    class DbServerDataImpl; using DbServerData = dot::ptr<DbServerDataImpl>;
     template <typename TKey, typename TRecord> class RootRecordForImpl;
 
     inline DbServerData new_DbServerData();
@@ -45,7 +45,7 @@ namespace dc
         /// This field is the user friendly name used to
         /// identify the server. It is not the server URI.
         /// </summary>
-        dot::String DbServerID;
+        dot::string DbServerID;
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DbServerData")
             DOT_TYPE_PROP(DbServerID)

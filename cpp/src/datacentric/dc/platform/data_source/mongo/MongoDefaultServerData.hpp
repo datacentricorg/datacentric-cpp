@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    class MongoDefaultServerDataImpl; using MongoDefaultServerData = dot::Ptr<MongoDefaultServerDataImpl>;
+    class MongoDefaultServerDataImpl; using MongoDefaultServerData = dot::ptr<MongoDefaultServerDataImpl>;
 
     /// <summary>
     /// Returns MongoDB URI for the server running
@@ -47,7 +47,7 @@ namespace dc
     public: // METHODS
 
         /// <summary>Get Mongo server URI without database name.</summary>
-        dot::String GetMongoServerUri() override;
+        dot::string GetMongoServerUri() override;
     };
 
     inline MongoDefaultServerData new_MongoDefaultServerData() { return new MongoDefaultServerDataImpl; }

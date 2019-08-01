@@ -30,12 +30,12 @@ namespace dc
 
     ObjectId::ObjectId(bsoncxx::oid id) : _id(id) {}
 
-    ObjectId::ObjectId(dot::Object obj)
+    ObjectId::ObjectId(dot::object obj)
     {
         _id = ((dot::StructWrapper<ObjectId>)obj)->_id;
     }
 
-    ObjectId::ObjectId(dot::String str)
+    ObjectId::ObjectId(dot::string str)
         : _id(*str)
     {}
 
@@ -44,7 +44,7 @@ namespace dc
     {
     }
 
-    ObjectId::ObjectId(dot::LocalDateTime value)
+    ObjectId::ObjectId(dot::local_date_time value)
     {
         char bytes[12] = { 0 };
 
@@ -100,7 +100,7 @@ namespace dc
         return bsoncxx::oid();
     }
 
-    dot::String ObjectId::ToString()
+    dot::string ObjectId::ToString()
     {
         return _id.to_string();
     }

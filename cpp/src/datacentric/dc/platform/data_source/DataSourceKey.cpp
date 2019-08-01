@@ -24,7 +24,7 @@ namespace dc
 
     DataSourceKey DataSourceKeyImpl::Master = new DataSourceKeyImpl("Master");
 
-    DataSourceKeyImpl::DataSourceKeyImpl(dot::String value)
+    DataSourceKeyImpl::DataSourceKeyImpl(dot::string value)
     {
         DataSourceID = value;
     }

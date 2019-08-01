@@ -24,13 +24,13 @@ limitations under the License.
 
 namespace dc
 {
-    class IDataSourceImpl; using IDataSource = dot::Ptr<IDataSourceImpl>;
-    class IContextImpl; using IContext = dot::Ptr<IContextImpl>;
-    class KeyTypeImpl; using KeyType = dot::Ptr<KeyTypeImpl>;
-    class DataImpl; using Data = dot::Ptr<DataImpl>;
-    class RecordTypeImpl; using RecordType = dot::Ptr<RecordTypeImpl>;
+    class IDataSourceImpl; using IDataSource = dot::ptr<IDataSourceImpl>;
+    class IContextImpl; using IContext = dot::ptr<IContextImpl>;
+    class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
+    class DataImpl; using Data = dot::ptr<DataImpl>;
+    class RecordTypeImpl; using RecordType = dot::ptr<RecordTypeImpl>;
     class ObjectId;
-    class DataSetDataImpl; using DataSetData = dot::Ptr<DataSetDataImpl>;
+    class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
 
     /// <summary>
     /// Data source is a logical concept similar to database
@@ -45,14 +45,14 @@ namespace dc
     ///
     /// This record is stored in root dataset.
     /// </summary>
-    class DC_CLASS IDataSourceImpl : public virtual dot::ObjectImpl
+    class DC_CLASS IDataSourceImpl : public virtual dot::object_impl
     {
         typedef IDataSourceImpl self;
 
     public: // PROPERTIES
 
         /// <summary>Unique data source identifier.</summary>
-        dot::String DataSourceID;
+        dot::string DataSourceID;
 
     public: // METHODS
 
@@ -89,7 +89,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual RecordType LoadOrNull(ObjectId id, dot::Type dataType) = 0;
+        virtual RecordType LoadOrNull(ObjectId id, dot::type_t dataType) = 0;
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -176,7 +176,7 @@ namespace dc
         /// Error message if no matching dataSetID string is found
         /// or a delete marker is found instead.
         /// </summary>
-        virtual ObjectId GetDataSetOrEmpty(dot::String dataSetID, ObjectId loadFrom) = 0;
+        virtual ObjectId GetDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom) = 0;
 
         /// <summary>
         /// Save new version of the dataset.
@@ -211,14 +211,14 @@ namespace dc
         /// if not found in cache. Use LoadDataSet method to
         /// force reloading the dataset from storage.
         /// </summary>
-        ObjectId GetDataSet(dot::String dataSetID, ObjectId loadFrom);
+        ObjectId GetDataSet(dot::string dataSetID, ObjectId loadFrom);
 
         /// <summary>
         /// Create new version of the dataset with the specified dataSetID.
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId CreateDataSet(dot::String dataSetID, ObjectId saveTo);
+        ObjectId CreateDataSet(dot::string dataSetID, ObjectId saveTo);
 
         /// <summary>
         /// Create new version of the dataset with the specified dataSetID
@@ -227,7 +227,7 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId CreateDataSet(dot::String dataSetID, dot::IEnumerable<ObjectId> parentDataSets, ObjectId saveTo);
+        ObjectId CreateDataSet(dot::string dataSetID, dot::list<ObjectId> parentDataSets, ObjectId saveTo);
 
         /// <summary>
         /// Create new version of the Common dataset. By convention,

@@ -24,7 +24,7 @@ limitations under the License.
 namespace dc
 {
     class QueryImpl;
-    using Query = dot::Ptr<QueryImpl>;
+    using Query = dot::ptr<QueryImpl>;
     class MongoDataSourceDataImpl;
 
     /// <summary>
@@ -33,7 +33,7 @@ namespace dc
     /// </summary>
     class DC_CLASS QueryImpl : public IQueryImpl
     {
-        friend Query new_Query(DataSourceData dataSource, ObjectId dataSet, dot::Type type);
+        friend Query new_Query(DataSourceData dataSource, ObjectId dataSet, dot::type_t type);
         friend MongoDataSourceDataImpl;
 
     public:
@@ -46,7 +46,7 @@ namespace dc
 
         virtual dot::IObjectEnumerable AsEnumerable();
 
-        virtual dot::IObjectEnumerable Select(dot::List<dot::PropertyInfo> props, dot::Type elementType);
+        virtual dot::IObjectEnumerable Select(dot::List<dot::PropertyInfo> props, dot::type_t elementType);
 
     private:
 
@@ -54,12 +54,12 @@ namespace dc
         ObjectId dataSet_;
         bsoncxx::builder::basic::document where_;
         bsoncxx::builder::basic::document sort_;
-        dot::Type type_;
-        dot::Type elementType_;
+        dot::type_t type_;
+        dot::type_t elementType_;
         dot::List<dot::PropertyInfo> select_;
 
 
-        QueryImpl(DataSourceData dataSource, ObjectId dataSet, dot::Type type)
+        QueryImpl(DataSourceData dataSource, ObjectId dataSet, dot::type_t type)
             : dataSource_(dataSource)
             , dataSet_(dataSet)
             , type_(type)
@@ -69,7 +69,7 @@ namespace dc
     };
 
 
-    inline Query new_Query(DataSourceData dataSource, ObjectId dataSet, dot::Type type)
+    inline Query new_Query(DataSourceData dataSource, ObjectId dataSet, dot::type_t type)
     {
         return new QueryImpl(dataSource, dataSet, type);
     }

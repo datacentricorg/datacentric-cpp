@@ -21,10 +21,10 @@ limitations under the License.
 
 namespace dc
 {
-    class RecordTypeImpl; using RecordType = dot::Ptr<RecordTypeImpl>;
+    class RecordTypeImpl; using RecordType = dot::ptr<RecordTypeImpl>;
 
     template <typename TKey, typename TRecord> class RecordForImpl;
-    template <typename TKey, typename TRecord> using RecordFor = dot::Ptr<RecordForImpl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> using RecordFor = dot::ptr<RecordForImpl<TKey, TRecord>>;
 
 
     /// <summary>
@@ -37,10 +37,10 @@ namespace dc
 
     public:
 
-        dot::String getKey() override
+        dot::string getKey() override
         {
-            dot::Array1D<dot::PropertyInfo> props =  dot::typeof<dot::Ptr<TKey>>()->GetProperties();
-            dot::Type type = GetType();
+            dot::Array1D<dot::PropertyInfo> props =  dot::typeof<dot::ptr<TKey>>()->GetProperties();
+            dot::type_t type = GetType();
 
             std::stringstream ss;
 
@@ -50,7 +50,7 @@ namespace dc
 
                 dot::PropertyInfo prop = type->GetProperty(key_prop->Name);
 
-                dot::Object value = prop->GetValue(this);
+                dot::object value = prop->GetValue(this);
 
                 if (i) ss << separator;
 
@@ -62,7 +62,7 @@ namespace dc
                 {
                     if (prop->PropertyType->Name->EndsWith("Key")) // TODO check using parents list
                     {
-                        dot::Object emptyKey = dot::Activator::CreateInstance(prop->PropertyType);
+                        dot::object emptyKey = dot::Activator::CreateInstance(prop->PropertyType);
                         ss << *emptyKey->ToString();
                     }
                 }
@@ -86,10 +86,10 @@ namespace dc
         /// record A has property that is a key for record B, and both records are
         /// created in-memory without any need to save them to storage.
         /// </summary>
-        dot::Ptr<TKey> ToKey()
+        dot::ptr<TKey> ToKey()
         {
-            dot::Type keyType = dot::typeof<dot::Ptr<TKey>>();
-            dot::Ptr<TKey> result = (dot::Ptr<TKey>)dot::Activator::CreateInstance(keyType);
+            dot::type_t keyType = dot::typeof<dot::ptr<TKey>>();
+            dot::ptr<TKey> result = (dot::ptr<TKey>)dot::Activator::CreateInstance(keyType);
 
             // The cached value will be used only for lookup in the dataset
             // passed to this method, but not for lookup in another dataset
@@ -106,12 +106,12 @@ namespace dc
         /// and reading it back when record A has property that is a key for record B,
         /// and both records are created in-memory without any need to save them to storage.
         /// </summary>
-        operator dot::Ptr<TKey>() { return ToKey(); }
+        operator dot::ptr<TKey>() { return ToKey(); }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "RecordFor")
             DOT_TYPE_BASE(RecordType)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TKey>)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TRecord>)
+            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
+            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
         DOT_TYPE_END()
     };
 

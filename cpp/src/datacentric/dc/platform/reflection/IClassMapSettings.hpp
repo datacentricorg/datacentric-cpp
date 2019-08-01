@@ -23,10 +23,10 @@ limitations under the License.
 
 namespace dc
 {
-    class IClassMapSettingsImpl; using IClassMapSettings = dot::Ptr<IClassMapSettingsImpl>;
+    class IClassMapSettingsImpl; using IClassMapSettings = dot::ptr<IClassMapSettingsImpl>;
 
     /// <summary>Provides settings for mapping namespaces, class names, and method names to storage and CLI.</summary>
-    class DC_CLASS IClassMapSettingsImpl : public virtual dot::ObjectImpl
+    class DC_CLASS IClassMapSettingsImpl : public virtual dot::object_impl
     {
         typedef IClassMapSettingsImpl self;
 
@@ -36,21 +36,21 @@ namespace dc
         //DOT_DECL_GET(ISettings, Settings) // pointer loop
 
         /// <summary>Namespace prefixes including dot separators ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::String> getIgnoredNamespacePrefixes() = 0;
+        virtual dot::ICollection<dot::string> getIgnoredNamespacePrefixes() = 0;
 
         /// <summary>Namespace suffixes including dot separators ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::String> getIgnoredNamespaceSuffixes() = 0;
+        virtual dot::ICollection<dot::string> getIgnoredNamespaceSuffixes() = 0;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::String> getIgnoredClassNamePrefixes() = 0;
+        virtual dot::ICollection<dot::string> getIgnoredClassNamePrefixes() = 0;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::String> getIgnoredClassNameSuffixes() = 0;
+        virtual dot::ICollection<dot::string> getIgnoredClassNameSuffixes() = 0;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::String> getIgnoredMethodNamePrefixes() = 0;
+        virtual dot::ICollection<dot::string> getIgnoredMethodNamePrefixes() = 0;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::String> getIgnoredMethodNameSuffixes() = 0;
+        virtual dot::ICollection<dot::string> getIgnoredMethodNameSuffixes() = 0;
     };
 }

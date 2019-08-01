@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    class MongoDataSourceDataImpl; using MongoNonVersionedDataSourceData = dot::Ptr<MongoDataSourceDataImpl>;
+    class MongoDataSourceDataImpl; using MongoNonVersionedDataSourceData = dot::ptr<MongoDataSourceDataImpl>;
 
     /// <summary>Data source implementation for MongoDB.</summary>
     class DC_CLASS MongoDataSourceDataImpl : public MongoDataSourceBaseDataImpl
@@ -38,7 +38,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual RecordType LoadOrNull(ObjectId id, dot::Type dataType) override;
+        virtual RecordType LoadOrNull(ObjectId id, dot::type_t dataType) override;
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -91,7 +91,7 @@ namespace dc
         /// than any other ObjectId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         /// </summary>
-        virtual IQuery GetQuery(ObjectId dataSet, dot::Type type) override;
+        virtual IQuery GetQuery(ObjectId dataSet, dot::type_t type) override;
 
         /// <summary>
         /// Load enumeration of record by query

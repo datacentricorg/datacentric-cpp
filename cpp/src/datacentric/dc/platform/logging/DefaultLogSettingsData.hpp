@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class DefaultLogSettingsDataImpl; using DefaultLogSettingsData = dot::Ptr<DefaultLogSettingsDataImpl>;
+    class DefaultLogSettingsDataImpl; using DefaultLogSettingsData = dot::ptr<DefaultLogSettingsDataImpl>;
     enum class LogVerbosity : int;
 
     /// <summary>Custom log settings data.</summary>

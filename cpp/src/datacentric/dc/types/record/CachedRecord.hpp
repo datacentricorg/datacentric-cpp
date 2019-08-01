@@ -22,9 +22,9 @@ limitations under the License.
 
 namespace dc
 {
-    class CachedRecordImpl; using CachedRecord = dot::Ptr<CachedRecordImpl>;
+    class CachedRecordImpl; using CachedRecord = dot::ptr<CachedRecordImpl>;
     class ObjectId;
-    class RecordTypeImpl; using RecordType = dot::Ptr<RecordTypeImpl>;
+    class RecordTypeImpl; using RecordType = dot::ptr<RecordTypeImpl>;
 
     /// <summary>
     /// Reference to a cached record inside the key.
@@ -47,7 +47,7 @@ namespace dc
     /// of the elements of the key to the corresponding values
     /// of the record.
     /// </summary>
-    class DC_CLASS CachedRecordImpl : public dot::ObjectImpl
+    class DC_CLASS CachedRecordImpl : public dot::object_impl
     {
         typedef CachedRecordImpl self;
 

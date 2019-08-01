@@ -44,8 +44,8 @@ namespace dc
         DOT_ENUM_END()
     };
 
-    class MongoTestKeyImpl; using MongoTestKey = dot::Ptr<MongoTestKeyImpl>;
-    class MongoTestDataImpl; using MongoTestData = dot::Ptr<MongoTestDataImpl>;
+    class MongoTestKeyImpl; using MongoTestKey = dot::ptr<MongoTestKeyImpl>;
+    class MongoTestDataImpl; using MongoTestData = dot::ptr<MongoTestDataImpl>;
 
     MongoTestKey new_MongoTestKey();
 
@@ -56,7 +56,7 @@ namespace dc
 
     public:
 
-        dot::String RecordID;
+        dot::string RecordID;
         dot::Nullable<int> RecordIndex;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestKey")
@@ -78,13 +78,13 @@ namespace dc
 
     public:
 
-        dot::String RecordID;
+        dot::string RecordID;
         dot::Nullable<int> RecordIndex;
         dot::Nullable<double> DoubleElement;
-        dot::Nullable<dot::LocalDate> LocalDateElement;
-        dot::Nullable<dot::LocalTime> LocalTimeElement;
-        dot::Nullable<dot::LocalMinute> LocalMinuteElement;
-        dot::Nullable<dot::LocalDateTime> LocalDateTimeElement;
+        dot::Nullable<dot::local_date> LocalDateElement;
+        dot::Nullable<dot::local_time> LocalTimeElement;
+        dot::Nullable<dot::local_minute> LocalMinuteElement;
+        dot::Nullable<dot::local_date_time> LocalDateTimeElement;
         MongoTestEnum EnumValue;
         dot::Nullable<int> Version;
 
@@ -105,7 +105,7 @@ namespace dc
 
     inline MongoTestData new_MongoTestData() { return new MongoTestDataImpl; }
 
-    class ElementSampleDataImpl; using ElementSampleData = dot::Ptr<ElementSampleDataImpl>;
+    class ElementSampleDataImpl; using ElementSampleData = dot::ptr<ElementSampleDataImpl>;
 
     ElementSampleData new_ElementSampleData();
 
@@ -115,7 +115,7 @@ namespace dc
         typedef ElementSampleDataImpl self;
     public:
         dot::Nullable<double> DoubleElement3;
-        dot::String StringElement3;
+        dot::string StringElement3;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "ElementSampleData")
             DOT_TYPE_PROP(DoubleElement3)
@@ -127,7 +127,7 @@ namespace dc
 
     inline ElementSampleData new_ElementSampleData() { return new ElementSampleDataImpl; }
 
-    class MongoTestDerivedDataImpl; using MongoTestDerivedData = dot::Ptr<MongoTestDerivedDataImpl>;
+    class MongoTestDerivedDataImpl; using MongoTestDerivedData = dot::ptr<MongoTestDerivedDataImpl>;
 
     MongoTestDerivedData new_MongoTestDerivedData();
 
@@ -137,9 +137,9 @@ namespace dc
         typedef MongoTestDerivedDataImpl self;
     public:
         dot::Nullable<double> DoubleElement2;
-        dot::String StringElement2;
-        dot::Array1D<dot::String> ArrayOfString;
-        dot::List<dot::String> ListOfString;
+        dot::string StringElement2;
+        dot::Array1D<dot::string> ArrayOfString;
+        dot::List<dot::string> ListOfString;
         dot::Array1D<double> ArrayOfDouble;
         dot::Array1D<dot::Nullable<double>> ArrayOfNullableDouble;
         dot::List<double> ListOfDouble;
@@ -169,7 +169,7 @@ namespace dc
 
     inline MongoTestDerivedData new_MongoTestDerivedData() { return new MongoTestDerivedDataImpl; }
 
-    class MongoTestOtherDerivedDataImpl; using MongoTestOtherDerivedData = dot::Ptr<MongoTestOtherDerivedDataImpl>;
+    class MongoTestOtherDerivedDataImpl; using MongoTestOtherDerivedData = dot::ptr<MongoTestOtherDerivedDataImpl>;
 
     MongoTestOtherDerivedData new_MongoTestOtherDerivedData();
 
@@ -181,7 +181,7 @@ namespace dc
     public:
 
         dot::Nullable<double> OtherDoubleElement2;
-        dot::String OtherStringElement2;
+        dot::string OtherStringElement2;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestOtherDerivedData")
             DOT_TYPE_PROP(OtherDoubleElement2)
@@ -193,7 +193,7 @@ namespace dc
 
     inline MongoTestOtherDerivedData new_MongoTestOtherDerivedData() { return new MongoTestOtherDerivedDataImpl; }
 
-    class MongoTestDerivedFromDerivedDataImpl; using MongoTestDerivedFromDerivedData = dot::Ptr<MongoTestDerivedFromDerivedDataImpl>;
+    class MongoTestDerivedFromDerivedDataImpl; using MongoTestDerivedFromDerivedData = dot::ptr<MongoTestDerivedFromDerivedDataImpl>;
 
     MongoTestDerivedFromDerivedData new_MongoTestDerivedFromDerivedData();
 
@@ -205,7 +205,7 @@ namespace dc
     public:
 
         dot::Nullable<double> OtherDoubleElement3;
-        dot::String OtherStringElement3;
+        dot::string OtherStringElement3;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestDerivedFromDerivedData")
             DOT_TYPE_PROP(OtherDoubleElement3)

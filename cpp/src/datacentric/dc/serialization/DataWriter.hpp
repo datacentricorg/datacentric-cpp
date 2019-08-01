@@ -28,8 +28,8 @@ limitations under the License.
 
 namespace dc
 {
-    class DataWriterImpl; using DataWriter = dot::Ptr<DataWriterImpl>;
-    class TupleWriterImpl; using TupleWriter = dot::Ptr<TupleWriterImpl>;
+    class DataWriterImpl; using DataWriter = dot::ptr<DataWriterImpl>;
+    class TupleWriterImpl; using TupleWriter = dot::ptr<TupleWriterImpl>;
 
     /// <summary>Implementation of ITreeWriter for Data.</summary>
     class DC_CLASS DataWriterImpl : public ITreeWriterImpl
@@ -40,26 +40,26 @@ namespace dc
     private:
         struct DataWriterPosition
         {
-            dot::String CurrentElementName;
+            dot::string CurrentElementName;
             TreeWriterState CurrentState;
             Data CurrentDict;
-            dot::Dictionary<dot::String, dot::PropertyInfo> CurrentDictElements;
+            dot::Dictionary<dot::string, dot::PropertyInfo> CurrentDictElements;
             dot::PropertyInfo CurrentElementInfo;
             dot::IObjectCollection CurrentArray;
-            dot::Type CurrentArrayItemType;
+            dot::type_t CurrentArrayItemType;
         };
 
     private: // FIELDS
 
         std::stack<DataWriterPosition> elementStack_; // TODO make dot::Stack
-        dot::String rootElementName_;
-        dot::String currentElementName_;
+        dot::string rootElementName_;
+        dot::string currentElementName_;
         TreeWriterState currentState_;
         Data currentDict_;
-        dot::Dictionary<dot::String, dot::PropertyInfo> currentDictElements_;
+        dot::Dictionary<dot::string, dot::PropertyInfo> currentDictElements_;
         dot::PropertyInfo currentElementInfo_;
         dot::IObjectCollection currentArray_;
-        dot::Type currentArrayItemType_;
+        dot::type_t currentArrayItemType_;
 
     private: // CONSTRUCTORS
 
@@ -69,23 +69,23 @@ namespace dc
 
         /// <summary>Write start document tags. This method
         /// should be called only once for the entire document.</summary>
-        void WriteStartDocument(dot::String rootElementName) override;
+        void WriteStartDocument(dot::string rootElementName) override;
 
         /// <summary>Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to WriteStartDocument(...).</summary>
-        void WriteEndDocument(dot::String rootElementName) override;
+        void WriteEndDocument(dot::string rootElementName) override;
 
         /// <summary>Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.</summary>
-        void WriteStartElement(dot::String elementName) override;
+        void WriteStartElement(dot::string elementName) override;
 
         /// <summary>Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching WriteStartElement(...) call at the same indent level.</summary>
-        void WriteEndElement(dot::String elementName) override;
+        void WriteEndElement(dot::string elementName) override;
 
         /// <summary>Write dictionary start tag. A call to this method
         /// must follow WriteStartElement(...) or WriteStartArrayItem().</summary>
@@ -121,11 +121,11 @@ namespace dc
 
         /// <summary>Write atomic value. Value type
         /// will be inferred from object.GetType().</summary>
-        void WriteValue(dot::Object value) override;
+        void WriteValue(dot::object value) override;
 
         /// <summary>Convert to BSON string without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.</summary>
-        dot::String ToString() override;
+        dot::string ToString() override;
 
     private:
         /// <summary>Push state to the stack.</summary>

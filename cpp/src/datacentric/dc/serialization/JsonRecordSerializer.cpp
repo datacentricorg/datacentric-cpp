@@ -37,7 +37,7 @@ namespace dc
     Data JsonRecordSerializerImpl::Deserialize(const rapidjson::Document& doc)
     {
         // Create instance to which JSON will be deserialized
-        dot::String typeName = doc["_t"].GetString();
+        dot::string typeName = doc["_t"].GetString();
         Data result = (Data)dot::Activator::CreateInstance("", typeName);
         ITreeWriter writer = new_DataWriter(result);
 
@@ -47,11 +47,11 @@ namespace dc
         return result;
     }
 
-    dot::Object JsonRecordSerializerImpl::DeserializeTuple(rapidjson::Document::ConstObject doc, dot::List<dot::PropertyInfo> props, dot::Type tupleType)
+    dot::object JsonRecordSerializerImpl::DeserializeTuple(rapidjson::Document::ConstObject doc, dot::List<dot::PropertyInfo> props, dot::type_t tupleType)
     {
         // Create instance to which JSON will be deserialized
-        dot::String typeName = tupleType->Name;
-        dot::Object result = dot::Activator::CreateInstance(tupleType);
+        dot::string typeName = tupleType->Name;
+        dot::object result = dot::Activator::CreateInstance(tupleType);
         ITreeWriter writer = new_TupleWriter(result, props);
 
         writer->WriteStartDocument(typeName);
@@ -73,14 +73,14 @@ namespace dc
             rapidjson::Type jsonType = elem.value.GetType();
 
             // Read element name and value
-            dot::String elementName = elem.name.GetString();
+            dot::string elementName = elem.name.GetString();
             if (jsonType == rapidjson::Type::kNullType)
             {
                 //reader.ReadNull();
             }
             else if (jsonType == rapidjson::Type::kStringType)
             {
-                dot::String value = elem.value.GetString();
+                dot::string value = elem.value.GetString();
 
                 if (elementName == "_t")
                 {
@@ -161,7 +161,7 @@ namespace dc
             }
             else if (jsonType == rapidjson::Type::kStringType)
             {
-                dot::String value = elem.GetString();
+                dot::string value = elem.GetString();
                 writer->WriteValueArrayItem(value);
             }
             else if (jsonType == rapidjson::Type::kNumberType)
@@ -210,7 +210,7 @@ namespace dc
     void JsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
     {
         // Root name is written in JSON as _t element
-        dot::String rootName = value->GetType()->getFullName();
+        dot::string rootName = value->GetType()->getFullName();
 
         writer->WriteStartDocument(rootName);
         value->SerializeTo(writer);

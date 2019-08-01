@@ -22,10 +22,10 @@ limitations under the License.
 
 namespace dc
 {
-    class TaskKeyImpl; using TaskKey = dot::Ptr<TaskKeyImpl>;
-    class TaskDataImpl; using TaskData = dot::Ptr<TaskDataImpl>;
-    class WorkflowKeyImpl; using WorkflowKey = dot::Ptr<WorkflowKeyImpl>;
-    class JobKeyImpl; using JobKey = dot::Ptr<JobKeyImpl>;
+    class TaskKeyImpl; using TaskKey = dot::ptr<TaskKeyImpl>;
+    class TaskDataImpl; using TaskData = dot::ptr<TaskDataImpl>;
+    class WorkflowKeyImpl; using WorkflowKey = dot::ptr<WorkflowKeyImpl>;
+    class JobKeyImpl; using JobKey = dot::ptr<JobKeyImpl>;
 
     TaskKey new_TaskKey();
 

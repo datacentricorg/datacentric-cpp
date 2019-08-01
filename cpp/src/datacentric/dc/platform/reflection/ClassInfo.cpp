@@ -20,12 +20,12 @@ limitations under the License.
 
 namespace dc
 {
-    dot::String ClassInfoImpl::ToString()
+    dot::string ClassInfoImpl::ToString()
     {
         return MappedFullName;
     }
 
-    ClassInfo ClassInfoImpl::GetOrCreate(dot::Object value)
+    ClassInfo ClassInfoImpl::GetOrCreate(dot::object value)
     {
         return GetOrCreate(value->GetType());
     }
@@ -60,7 +60,7 @@ namespace dc
 
         // Remove ignored class name prefix
         MappedClassName = RawClassName;
-        for (dot::String ignoredTypeNamePrefix : Settings::Default->getClassMap()->getIgnoredClassNamePrefixes())
+        for (dot::string ignoredTypeNamePrefix : Settings::Default->getClassMap()->getIgnoredClassNamePrefixes())
         {
             if (MappedClassName->StartsWith(ignoredTypeNamePrefix))
             {
@@ -72,7 +72,7 @@ namespace dc
         }
 
         // Remove ignored class name suffix
-        for (dot::String ignoredTypeNameSuffix : Settings::Default->getClassMap()->getIgnoredClassNameSuffixes())
+        for (dot::string ignoredTypeNameSuffix : Settings::Default->getClassMap()->getIgnoredClassNameSuffixes())
         {
             if (MappedClassName->EndsWith(ignoredTypeNameSuffix))
             {
@@ -85,7 +85,7 @@ namespace dc
 
         // Remove ignored namespace prefix
         MappedNamespace = RawNamespace;
-        for (dot::String ignoredModuleNamePrefix : Settings::Default->getClassMap()->getIgnoredNamespacePrefixes())
+        for (dot::string ignoredModuleNamePrefix : Settings::Default->getClassMap()->getIgnoredNamespacePrefixes())
         {
             if (MappedNamespace->StartsWith(ignoredModuleNamePrefix))
             {
@@ -97,7 +97,7 @@ namespace dc
         }
 
         // Remove ignored namespace suffix
-        for (dot::String ignoredModuleNameSuffix : Settings::Default->getClassMap()->getIgnoredNamespaceSuffixes())
+        for (dot::string ignoredModuleNameSuffix : Settings::Default->getClassMap()->getIgnoredNamespaceSuffixes())
         {
             if (MappedNamespace->EndsWith(ignoredModuleNameSuffix))
             {
@@ -109,10 +109,10 @@ namespace dc
         }
 
         // Create mapped full name by combining mapped namespace and mapped class name
-        MappedFullName = MappedNamespace + dot::String(".") + MappedClassName;
+        MappedFullName = MappedNamespace + dot::string(".") + MappedClassName;
     }
 
-    dot::Dictionary<dot::Type, ClassInfo>& ClassInfoImpl::GetTypeDict()
+    dot::Dictionary<dot::type_t, ClassInfo>& ClassInfoImpl::GetTypeDict()
     {
         static dot::Dictionary<Type_, ClassInfo> dict_ = dot::new_Dictionary<Type_, ClassInfo>();
         return dict_;

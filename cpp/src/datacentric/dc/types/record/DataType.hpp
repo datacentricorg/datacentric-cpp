@@ -22,12 +22,12 @@ limitations under the License.
 
 namespace dc
 {
-    class ITreeWriterImpl; using ITreeWriter = dot::Ptr<ITreeWriterImpl>;
-    class DataImpl; using Data = dot::Ptr<DataImpl>;
-    class KeyTypeImpl; using KeyType = dot::Ptr<KeyTypeImpl>;
+    class ITreeWriterImpl; using ITreeWriter = dot::ptr<ITreeWriterImpl>;
+    class DataImpl; using Data = dot::ptr<DataImpl>;
+    class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
 
     /// <summary>Data objects must derive from this type.</summary>
-    class DC_CLASS DataImpl : public virtual dot::ObjectImpl
+    class DC_CLASS DataImpl : public virtual dot::object_impl
     {
         typedef DataImpl self;
 

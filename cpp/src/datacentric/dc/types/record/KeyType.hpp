@@ -21,8 +21,8 @@ limitations under the License.
 
 namespace dc
 {
-    class KeyTypeImpl; using KeyType = dot::Ptr<KeyTypeImpl>;
-    class DataImpl; using Data = dot::Ptr<DataImpl>;
+    class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
+    class DataImpl; using Data = dot::ptr<DataImpl>;
 
     /// <summary>Key objects must derive from this type.</summary>
     class DC_CLASS KeyTypeImpl : public DataImpl
@@ -31,16 +31,16 @@ namespace dc
 
     public:
 
-        dot::String getValue()
+        dot::string getValue()
         {
             return ToString();
         }
 
     public: // METHODS
 
-        dot::String ToString();
+        dot::string ToString();
 
-        void AssignString(dot::String value);
+        void AssignString(dot::string value);
 
         ObjectId _id;
 

@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    dot::LocalDateTime LocalDateTimeHelper::Parse(dot::String value)
+    dot::local_date_time LocalDateTimeHelper::Parse(dot::string value)
     {
         boost::posix_time::time_input_facet* facet = new boost::posix_time::time_input_facet();
         facet->format("%Y-%m-%d %H:%M:%S%f");
@@ -32,14 +32,14 @@ namespace dc
         stream >> ptime;
 
         // If default constructed datetime is passed, error message
-        if (ptime == boost::posix_time::not_a_date_time) throw dot::new_Exception(dot::String::Format(
+        if (ptime == boost::posix_time::not_a_date_time) throw dot::new_Exception(dot::string::Format(
             "String representation of default constructed datetime {0} "
             "passed to LocalDateTime.Parse(datetime) method.", value));
 
         return ptime;
     }
 
-    int64_t LocalDateTimeHelper::ToIsoLong(dot::LocalDateTime value)
+    int64_t LocalDateTimeHelper::ToIsoLong(dot::local_date_time value)
     {
         // LocalDateTime is serialized as readable ISO int64 in yyyymmddhhmmsssss format
         int isoDate = value.getYear() * 10'000 + value.getMonth() * 100 + value.getDay();
@@ -48,7 +48,7 @@ namespace dc
         return result;
     }
 
-    dot::LocalDateTime LocalDateTimeHelper::ParseIsoLong(int64_t value)
+    dot::local_date_time LocalDateTimeHelper::ParseIsoLong(int64_t value)
     {
         // Split into date and time using int64 arithmetic
         int64_t isoDateLong = value / 100'00'00'000;
@@ -56,9 +56,9 @@ namespace dc
 
         // Check that it will fit into Int32 range
         if (isoDateLong < INT32_MIN || isoDateLong > INT32_MAX)
-            throw dot::new_Exception(dot::String::Format("Date portion of datetime {0} has invalid format.", value));
+            throw dot::new_Exception(dot::string::Format("Date portion of datetime {0} has invalid format.", value));
         if (isoTimeLong < INT32_MIN || isoTimeLong > INT32_MAX)
-            throw dot::new_Exception(dot::String::Format("Time portion of datetime {0} has invalid format.", value));
+            throw dot::new_Exception(dot::string::Format("Time portion of datetime {0} has invalid format.", value));
 
         // Convert to Int32
         int isoDate = (int)isoDateLong;
@@ -81,17 +81,17 @@ namespace dc
         int millisecond = isoTime;
 
         // Create LocalDateTime object
-        return dot::LocalDateTime(year, month, day, hour, minute, second, millisecond);
+        return dot::local_date_time(year, month, day, hour, minute, second, millisecond);
     }
 
-    std::chrono::milliseconds LocalDateTimeHelper::ToStdChrono(dot::LocalDateTime value)
+    std::chrono::milliseconds LocalDateTimeHelper::ToStdChrono(dot::local_date_time value)
     {
         boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
         boost::posix_time::time_duration d = (boost::posix_time::ptime)value - epoch;
         return std::chrono::milliseconds(d.total_milliseconds());
     }
 
-    dot::LocalDateTime LocalDateTimeHelper::FromStdChrono(std::chrono::milliseconds value)
+    dot::local_date_time LocalDateTimeHelper::FromStdChrono(std::chrono::milliseconds value)
     {
         boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
         boost::posix_time::time_duration d = boost::posix_time::milliseconds(value.count());

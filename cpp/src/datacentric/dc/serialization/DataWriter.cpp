@@ -34,7 +34,7 @@ namespace dc
         : currentDict_(data)
         , currentState_(TreeWriterState::Empty) {}
 
-    void DataWriterImpl::WriteStartDocument(dot::String rootElementName)
+    void DataWriterImpl::WriteStartDocument(dot::string rootElementName)
     {
         if (currentState_ == TreeWriterState::Empty && elementStack_.size() == 0)
         {
@@ -45,21 +45,21 @@ namespace dc
             throw dot::new_Exception("A call to WriteStartDocument(...) must be the first call to the tree writer.");
         }
 
-        dot::String rootName = currentDict_->GetType()->Name;
+        dot::string rootName = currentDict_->GetType()->Name;
         // Check that the name matches
         if (rootElementName != rootName) throw dot::new_Exception(
-            dot::String::Format("Attempting to deserialize data for type {0} into type {1}.", rootElementName, rootName));
+            dot::string::Format("Attempting to deserialize data for type {0} into type {1}.", rootElementName, rootName));
 
         rootElementName_ = rootElementName;
         currentElementName_ = rootElementName;
         auto currentDictInfoList = currentDict_->GetType()->GetProperties();
-        currentDictElements_ = dot::new_Dictionary<dot::String, dot::PropertyInfo>();
+        currentDictElements_ = dot::new_Dictionary<dot::string, dot::PropertyInfo>();
         for(auto elementInfo : currentDictInfoList) currentDictElements_->Add(elementInfo->Name, elementInfo);
         currentArray_ = nullptr;
         currentArrayItemType_ = nullptr;
     }
 
-    void DataWriterImpl::WriteEndDocument(dot::String rootElementName)
+    void DataWriterImpl::WriteEndDocument(dot::string rootElementName)
     {
         // Check state transition matrix
         if (currentState_ == TreeWriterState::DocumentStarted && elementStack_.size() == 0) currentState_ = TreeWriterState::DocumentCompleted;
@@ -69,11 +69,11 @@ namespace dc
         // Check that the current element name matches the specified name. Writing the actual end tag
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (rootElementName != rootElementName_)
-            throw dot::new_Exception(dot::String::Format(
+            throw dot::new_Exception(dot::string::Format(
                 "WriteEndDocument({0}) follows WriteStartDocument({1}), root element name mismatch.", rootElementName, rootElementName_));
     }
 
-    void DataWriterImpl::WriteStartElement(dot::String elementName)
+    void DataWriterImpl::WriteStartElement(dot::string elementName)
     {
         if (currentState_ == TreeWriterState::DocumentStarted) currentState_ = TreeWriterState::ElementStarted;
         else if (currentState_ == TreeWriterState::ElementCompleted) currentState_ = TreeWriterState::ElementStarted;
@@ -86,7 +86,7 @@ namespace dc
         currentElementInfo_ = currentDictElements_[elementName];
     }
 
-    void DataWriterImpl::WriteEndElement(dot::String elementName)
+    void DataWriterImpl::WriteEndElement(dot::string elementName)
     {
         // Check state transition matrix
         if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::ElementCompleted;
@@ -99,7 +99,7 @@ namespace dc
         // Check that the current element name matches the specified name. Writing the actual end tag
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (elementName != currentElementName_)
-            throw dot::new_Exception(dot::String::Format(
+            throw dot::new_Exception(dot::string::Format(
                 "EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName_));
     }
 
@@ -122,16 +122,16 @@ namespace dc
             "A call to WriteStartDict() must follow WriteStartElement(...) or WriteStartArrayItem().");
 
         // Set dictionary info
-        dot::Type createdDictType = nullptr;
+        dot::type_t createdDictType = nullptr;
         if (currentArray_ != nullptr) createdDictType = currentArrayItemType_;
         else if (currentDict_ != nullptr) createdDictType = currentElementInfo_->PropertyType;
         else throw dot::new_Exception("Value can only be added to a dictionary or array.");
 
-        dot::Object createdDictObj = dot::Activator::CreateInstance(createdDictType);
+        dot::object createdDictObj = dot::Activator::CreateInstance(createdDictType);
         if (!(createdDictObj.is<Data>())) // TODO Also support native dictionaries
         {
-            dot::String mappedClassName = currentElementInfo_->PropertyType->getFullName();
-            throw dot::new_Exception(dot::String::Format(
+            dot::string mappedClassName = currentElementInfo_->PropertyType->getFullName();
+            throw dot::new_Exception(dot::string::Format(
                 "Element {0} of type {1} does not implement Data.", currentElementInfo_->Name, mappedClassName));
         }
 
@@ -144,7 +144,7 @@ namespace dc
 
         currentDict_ = (Data) createdDict;
         auto currentDictInfoList = createdDictType->GetProperties();
-        currentDictElements_ = dot::new_Dictionary<dot::String, dot::PropertyInfo>();
+        currentDictElements_ = dot::new_Dictionary<dot::string, dot::PropertyInfo>();
         for (auto elementInfo : currentDictInfoList) currentDictElements_->Add(elementInfo->Name, elementInfo);
         currentArray_ = nullptr;
         currentArrayItemType_ = nullptr;
@@ -175,7 +175,7 @@ namespace dc
                 "A call to WriteStartArray() must follow WriteStartElement(...).");
 
         // Create the array
-        dot::Object createdArrayObj = dot::Activator::CreateInstance(currentElementInfo_->PropertyType);
+        dot::object createdArrayObj = dot::Activator::CreateInstance(currentElementInfo_->PropertyType);
         if (createdArrayObj.is<dot::IObjectCollection>()) // TODO Also support native arrays
         {
             dot::IObjectCollection createdArray = (dot::IObjectCollection) createdArrayObj;
@@ -188,13 +188,13 @@ namespace dc
             currentArray_ = createdArray;
 
             // Get array item type from array type using reflection
-            dot::Type listType = currentElementInfo_->PropertyType;      // TODO fix
-//            if (!listType->IsGenericType) throw dot::new_Exception(dot::String::Format(
+            dot::type_t listType = currentElementInfo_->PropertyType;      // TODO fix
+//            if (!listType->IsGenericType) throw dot::new_Exception(dot::string::Format(
 //                "Type {0} cannot be serialized because it implements only IList but not IList<T>.", listType));
 //            Array1D<Type> genericParameterTypes = listType->GenericTypeArguments;
-            dot::Array1D<dot::Type> genericParameterTypes = listType->GetGenericArguments();
+            dot::Array1D<dot::type_t> genericParameterTypes = listType->GetGenericArguments();
             if (genericParameterTypes->getCount() != 1) throw dot::new_Exception(
-                dot::String::Format("Generic parameter type list {0} has more than ", genericParameterTypes) +
+                dot::string::Format("Generic parameter type list {0} has more than ", genericParameterTypes) +
                 "one element creating an ambiguity for deserialization code.");
             currentArrayItemType_ = genericParameterTypes[0];
 
@@ -203,8 +203,8 @@ namespace dc
             currentDictElements_ = nullptr;
         }
         else {
-            dot::String mappedClassName = currentElementInfo_->PropertyType->getFullName();
-            throw dot::new_Exception(dot::String::Format(
+            dot::string mappedClassName = currentElementInfo_->PropertyType->getFullName();
+            throw dot::new_Exception(dot::string::Format(
                 "Element {0} of type {1} does not implement ICollection.", currentElementInfo_->Name, mappedClassName));
         }
     }
@@ -245,7 +245,7 @@ namespace dc
         //else if (currentArrayItemType_ == dot::typeof<LocalDateTime>()) addedItem = LocalDateTime();
         //else if (currentArrayItemType_ == dot::typeof<Nullable<LocalDateTime>>()) addedItem = nullptr;
         //else if (currentArrayItemType_->IsClass) addedItem = nullptr;
-        //else throw dot::new_Exception(dot::String::Format("Value type {0} is not supported for serialization.", currentArrayItemType_->Name));
+        //else throw dot::new_Exception(dot::string::Format("Value type {0} is not supported for serialization.", currentArrayItemType_->Name));
 
         //currentArray_->ObjectAdd(addedItem);
         //currentArrayItem_ = addedItem;
@@ -283,7 +283,7 @@ namespace dc
         // Nothing to write here
     }
 
-    void DataWriterImpl::WriteValue(dot::Object value)
+    void DataWriterImpl::WriteValue(dot::object value)
     {
         // Check state transition matrix
         if (currentState_ == TreeWriterState::ValueStarted) currentState_ = TreeWriterState::ValueWritten;
@@ -292,11 +292,11 @@ namespace dc
             "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
 
         // Check that we are either inside dictionary or array
-        dot::Type elementType = nullptr;
+        dot::type_t elementType = nullptr;
         if (currentArray_ != nullptr) elementType = currentArrayItemType_;
         else if (currentDict_ != nullptr) elementType = currentElementInfo_->PropertyType;
         else throw dot::new_Exception(
-            dot::String::Format("Cannot WriteValue(...)for element {0} ", currentElementName_) +
+            dot::string::Format("Cannot WriteValue(...)for element {0} ", currentElementName_) +
             "is called outside dictionary or array.");
 
         if (value.IsEmpty())  // TODO IsEmpty method should be implemented according to c# extension
@@ -308,8 +308,8 @@ namespace dc
         }
 
         // Write based on element type
-        dot::Type valueType = value->GetType();
-        if (elementType->Equals(dot::typeof<dot::String>()) ||
+        dot::type_t valueType = value->GetType();
+        if (elementType->Equals(dot::typeof<dot::string>()) ||
             elementType->Equals(dot::typeof<double>()) || elementType->Equals(dot::typeof<dot::Nullable<double>>()) ||
             elementType->Equals(dot::typeof<bool>()) || elementType->Equals(dot::typeof<dot::Nullable<bool>>()) ||
             elementType->Equals(dot::typeof<int>()) || elementType->Equals(dot::typeof<dot::Nullable<int>>()) ||
@@ -320,10 +320,10 @@ namespace dc
             // Check type match
             //if (!elementType->Equals(valueType)) // TODO change to !elementType->IsAssignableFrom(valueType)
             //    throw dot::new_Exception(
-            //        dot::String::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
-            //        dot::String::Format("into element of type {0}.", elementType->Name));
+            //        dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+            //        dot::string::Format("into element of type {0}.", elementType->Name));
 
-            dot::Object convertedValue = value;
+            dot::object convertedValue = value;
             if (elementType->Equals(dot::typeof<double>()))
             {
                 if (valueType->Equals(dot::typeof<int>())) convertedValue = static_cast<double>((int) value);
@@ -337,9 +337,9 @@ namespace dc
             {
                 convertedValue = static_cast<int>((int64_t) value);
             }
-            else if (elementType->Equals(dot::typeof<ObjectId>()) && valueType->Equals(dot::typeof<dot::String>()))
+            else if (elementType->Equals(dot::typeof<ObjectId>()) && valueType->Equals(dot::typeof<dot::string>()))
             {
-                convertedValue = ObjectId((dot::String) value);
+                convertedValue = ObjectId((dot::string) value);
             }
 
             // Add to array or dictionary, depending on what we are inside of
@@ -347,9 +347,9 @@ namespace dc
             else if (currentDict_ != nullptr) currentElementInfo_->SetValue(currentDict_, convertedValue);
             else throw dot::new_Exception("Value can only be added to a dictionary or array.");
         }
-        else if (elementType->Equals(dot::typeof<dot::LocalDate>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::LocalDate>>()))
+        else if (elementType->Equals(dot::typeof<dot::local_date>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_date>>()))
         {
-            dot::LocalDate dateValue;
+            dot::local_date dateValue;
 
             // Check type match
             if (valueType->Equals(dot::typeof<int>()))
@@ -363,7 +363,7 @@ namespace dc
                 dateValue = LocalDateHelper::ParseIsoInt((int64_t) value);
             }
             else throw dot::new_Exception(
-                    dot::String::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                    dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                     "into LocalDate; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
@@ -371,9 +371,9 @@ namespace dc
             else if (currentDict_ != nullptr) currentElementInfo_->SetValue(currentDict_, dateValue);
             else throw dot::new_Exception("Value can only be added to a dictionary or array.");
         }
-        else if (elementType->Equals(dot::typeof<dot::LocalTime>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::LocalTime>>()))
+        else if (elementType->Equals(dot::typeof<dot::local_time>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_time>>()))
         {
-            dot::LocalTime timeValue;
+            dot::local_time timeValue;
 
             // Check type match
             if (valueType->Equals(dot::typeof<int>()))
@@ -387,7 +387,7 @@ namespace dc
                 timeValue = LocalTimeHelper::ParseIsoInt((int64_t) value);
             }
             else throw dot::new_Exception(
-                    dot::String::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                    dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                     "into LocalTime; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
@@ -395,9 +395,9 @@ namespace dc
             else if (currentDict_ != nullptr) currentElementInfo_->SetValue(currentDict_, timeValue);
             else throw dot::new_Exception("Value can only be added to a dictionary or array.");
         }
-        else if (elementType->Equals(dot::typeof<dot::LocalMinute>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::LocalMinute>>()))
+        else if (elementType->Equals(dot::typeof<dot::local_minute>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_minute>>()))
         {
-            dot::LocalMinute minuteValue;
+            dot::local_minute minuteValue;
 
             // Check type match
             if (valueType->Equals(dot::typeof<int>()))
@@ -411,7 +411,7 @@ namespace dc
                 minuteValue = LocalMinuteHelper::ParseIsoInt((int64_t) value);
             }
             else throw dot::new_Exception(
-                dot::String::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                 "into LocalMinute; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
@@ -419,14 +419,14 @@ namespace dc
             else if (currentDict_ != nullptr) currentElementInfo_->SetValue(currentDict_, minuteValue);
             else throw dot::new_Exception("Value can only be added to a dictionary or array.");
         }
-        else if (elementType->Equals(dot::typeof<dot::LocalDateTime>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::LocalDateTime>>()))
+        else if (elementType->Equals(dot::typeof<dot::local_date_time>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_date_time>>()))
         {
-        dot::LocalDateTime dateTimeValue;
+        dot::local_date_time dateTimeValue;
 
             // Check type match
-            if (valueType->Equals(dot::typeof<dot::LocalDateTime>()))
+            if (valueType->Equals(dot::typeof<dot::local_date_time>()))
             {
-                dateTimeValue = (dot::LocalDateTime) value;
+                dateTimeValue = (dot::local_date_time) value;
             }
             else if (valueType->Equals(dot::typeof<int64_t>()))
             {
@@ -438,13 +438,13 @@ namespace dc
                 // Deserialize LocalDateTime as ISO long in yyyymmddhhmmssfff format
                 dateTimeValue = LocalDateTimeHelper::ParseIsoLong((int) value);
             }
-            else if (valueType->Equals(dot::typeof<dot::String>()))
+            else if (valueType->Equals(dot::typeof<dot::string>()))
             {
                 // Deserialize LocalDateTime as ISO string
-                dateTimeValue = LocalDateTimeHelper::Parse((dot::String) value);
+                dateTimeValue = LocalDateTimeHelper::Parse((dot::string) value);
             }
             else throw dot::new_Exception(
-                    dot::String::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                    dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                     "into LocalDateTime; type should be LocalDateTime.");
 
             // Add to array or dictionary, depending on what we are inside of
@@ -455,14 +455,14 @@ namespace dc
         else if (elementType->IsEnum)
         {
             // Check type match
-            if (!valueType->Equals(dot::typeof<dot::String>()))
+            if (!valueType->Equals(dot::typeof<dot::string>()))
                 throw dot::new_Exception(
-                    dot::String::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
-                    dot::String::Format("into enum {0}; type should be string.", elementType->Name));
+                    dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                    dot::string::Format("into enum {0}; type should be string.", elementType->Name));
 
             // Deserialize enum as string
-            dot::String enumString = (dot::String) value;
-            dot::Object enumValue = dot::Enum::Parse(elementType, enumString);
+            dot::string enumString = (dot::string) value;
+            dot::object enumValue = dot::Enum::Parse(elementType, enumString);
 
             // Add to array or dictionary, depending on what we are inside of
             if (currentArray_ != nullptr) currentArray_->ObjectAdd(enumValue);
@@ -473,19 +473,19 @@ namespace dc
         {
             // We run out of value types at this point, now we can create
             // a reference type and check that it implements KeyType
-            dot::Object keyObj = (KeyType)dot::Activator::CreateInstance(elementType);
+            dot::object keyObj = (KeyType)dot::Activator::CreateInstance(elementType);
             if (keyObj.is<KeyType>())
             {
                 KeyType key = (KeyType) keyObj;
 
                 // Check type match
-                if (!valueType->Equals(dot::typeof<dot::String>()) && !valueType->Equals(elementType))
+                if (!valueType->Equals(dot::typeof<dot::string>()) && !valueType->Equals(elementType))
                     throw dot::new_Exception(
-                        dot::String::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
-                        dot::String::Format("into key type {0}; keys should be serialized into semicolon delimited string.", elementType->Name));
+                        dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                        dot::string::Format("into key type {0}; keys should be serialized into semicolon delimited string.", elementType->Name));
 
                 // Populate from semicolon delimited string
-                dot::String stringValue = value->ToString();
+                dot::string stringValue = value->ToString();
                 key->AssignString(stringValue);
 
                 // Add to array or dictionary, depending on what we are inside of
@@ -496,12 +496,12 @@ namespace dc
             else
             {
                 // Argument type is unsupported, error message
-                throw dot::new_Exception(dot::String::Format("Element type {0} is not supported for serialization.", value->GetType()));
+                throw dot::new_Exception(dot::string::Format("Element type {0} is not supported for serialization.", value->GetType()));
             }
         }
     }
 
-    dot::String DataWriterImpl::ToString()
+    dot::string DataWriterImpl::ToString()
     {
         if (currentArray_ != nullptr) return currentArray_->ToString();
         else if (currentDict_ != nullptr) return currentDict_->ToString();

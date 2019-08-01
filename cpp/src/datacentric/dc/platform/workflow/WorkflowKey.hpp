@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class WorkflowKeyImpl; using WorkflowKey = dot::Ptr<WorkflowKeyImpl>;
-    class WorkflowDataImpl; using WorkflowData = dot::Ptr<WorkflowDataImpl>;
+    class WorkflowKeyImpl; using WorkflowKey = dot::ptr<WorkflowKeyImpl>;
+    class WorkflowDataImpl; using WorkflowData = dot::ptr<WorkflowDataImpl>;
 
     inline WorkflowKey new_WorkflowKey();
 
@@ -41,7 +41,7 @@ namespace dc
         DOT_TYPE_END()
 
         /// <summary>Unique workflow identifier.</summary>
-        dot::String WorkflowID;
+        dot::string WorkflowID;
     };
 
     inline WorkflowKey new_WorkflowKey() { return new WorkflowKeyImpl; }

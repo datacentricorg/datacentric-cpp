@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    dot::LocalDate LocalDateHelper::Parse(dot::String value)
+    dot::local_date LocalDateHelper::Parse(dot::string value)
     {
         boost::posix_time::time_input_facet* facet = new boost::posix_time::time_input_facet();
         facet->format("%Y-%m-%d");
@@ -32,20 +32,20 @@ namespace dc
         stream >> ptime;
 
         // If default constructed date is passed, error message
-        if (ptime == boost::posix_time::not_a_date_time) throw dot::new_Exception(dot::String::Format(
+        if (ptime == boost::posix_time::not_a_date_time) throw dot::new_Exception(dot::string::Format(
             "String representation of default constructed date {0} "
             "passed to LocalDate.Parse(date) method.", value));
 
         return ptime.date();
     }
 
-    int LocalDateHelper::ToIsoInt(dot::LocalDate value)
+    int LocalDateHelper::ToIsoInt(dot::local_date value)
     {
         int result = value.getYear() * 10'000 + value.getMonth() * 100 + value.getDay();
         return result;
     }
 
-    dot::LocalDate LocalDateHelper::ParseIsoInt(int value)
+    dot::local_date LocalDateHelper::ParseIsoInt(int value)
     {
         // Extract year, month, day
         int year = value / 100'00;
@@ -55,6 +55,6 @@ namespace dc
         int day = value;
 
         // Create LocalDate object
-        return dot::LocalDate(year, month, day);
+        return dot::local_date(year, month, day);
     }
 }

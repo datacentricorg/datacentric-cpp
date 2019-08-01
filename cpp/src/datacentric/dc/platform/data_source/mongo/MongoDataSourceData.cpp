@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dc
 {
-    RecordType MongoDataSourceDataImpl::LoadOrNull(ObjectId id, dot::Type dataType)
+    RecordType MongoDataSourceDataImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
     {
         auto revisionTimeConstraint = GetRevisionTimeConstraint();
         if (revisionTimeConstraint != nullptr)
@@ -60,8 +60,8 @@ namespace dc
         // with duplicates and cyclic references removed
         dot::IEnumerable<ObjectId> lookupList = GetDataSetLookupList(loadFrom);
 
-        // dot::String key in semicolon delimited format used in the lookup
-        dot::String keyValue = key->ToString();
+        // dot::string key in semicolon delimited format used in the lookup
+        dot::string keyValue = key->ToString();
 
         // Look for exact match of the key in the specified list of datasets,
         // then order by dataset ObjectId in descending order
@@ -123,7 +123,7 @@ namespace dc
         // ObjectId of the record must be strictly later
         // than ObjectId of the dataset where it is stored
         if (objectId <= saveTo)
-            throw dot::new_Exception(dot::String::Format(
+            throw dot::new_Exception(dot::string::Format(
                 "Attempting to save a record with ObjectId={0} that is later "
                 "than ObjectId={1} of the dataset where it is being saved.", objectId.ToString(), saveTo.ToString()));
 
@@ -149,7 +149,7 @@ namespace dc
         collection.insert_one(doc.view());
     }
 
-    IQuery MongoDataSourceDataImpl::GetQuery(ObjectId dataSet, dot::Type type)
+    IQuery MongoDataSourceDataImpl::GetQuery(ObjectId dataSet, dot::type_t type)
     {
         return new_Query(this, dataSet, type);
     }
@@ -198,14 +198,14 @@ namespace dc
         bsoncxx::builder::basic::array typeList;
 
         // append given type and DeleteMarker
-        typeList.append(*(dot::String) q->type_->Name);
+        typeList.append(*(dot::string) q->type_->Name);
 
         // append derived types
-        dot::List<dot::Type> derivedTypes = dot::TypeImpl::GetDerivedTypes(q->type_);
+        dot::List<dot::type_t> derivedTypes = dot::type_tImpl::GetDerivedTypes(q->type_);
         if (derivedTypes != nullptr)
         {
-            for (dot::Type derType : derivedTypes)
-                typeList.append(*(dot::String) derType->Name);
+            for (dot::type_t derType : derivedTypes)
+                typeList.append(*(dot::string) derType->Name);
         }
 
         pipeline.replace_root(bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("newRoot", "$doc")));
@@ -228,7 +228,7 @@ namespace dc
         {
             IContext context = this->Context;
             return new_ObjectCursorWrapper(std::move(GetCollection(q->type_).aggregate(pipeline)),
-                [context](const bsoncxx::document::view& item)->dot::Object
+                [context](const bsoncxx::document::view& item)->dot::object
                 {
                     BsonRecordSerializer serializer = new_BsonRecordSerializer();
                     RecordType record = (RecordType)serializer->Deserialize(item);
@@ -242,17 +242,17 @@ namespace dc
         {
             bsoncxx::builder::basic::document selectList{};
             for (dot::PropertyInfo prop : q->select_)
-                selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::String) prop->Name, 1));
+                selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->Name, 1));
             selectList.append(bsoncxx::builder::basic::kvp("_key", 1));
 
             pipeline.project(selectList.view());
 
             IContext context = this->Context;
             return new_ObjectCursorWrapper(std::move(GetCollection(q->type_).aggregate(pipeline)),
-                [context, q](const bsoncxx::document::view& item)->dot::Object
+                [context, q](const bsoncxx::document::view& item)->dot::object
                 {
                     BsonRecordSerializer serializer = new_BsonRecordSerializer();
-                    dot::Object record = serializer->DeserializeTuple(item, q->select_, q->elementType_);
+                    dot::object record = serializer->DeserializeTuple(item, q->select_, q->elementType_);
                     return record;
                 }
             );

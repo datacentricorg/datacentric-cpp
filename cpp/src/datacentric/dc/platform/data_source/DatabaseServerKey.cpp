@@ -22,7 +22,7 @@ namespace dc
 {
     DbServerKey DbServerKeyImpl::Default = new DbServerKeyImpl("Default");
 
-    DbServerKeyImpl::DbServerKeyImpl(dot::String value)
+    DbServerKeyImpl::DbServerKeyImpl(dot::string value)
     {
         DbServerID = value;
     }

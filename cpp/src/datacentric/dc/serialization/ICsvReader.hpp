@@ -21,7 +21,7 @@ limitations under the License.
 namespace dc
 {
     /// <summary>Interface used by IXmlInputImpl to read XML data.</summary>
-    class DC_CLASS ICsvReader : public virtual dot::ObjectImpl
+    class DC_CLASS ICsvReader : public virtual dot::object_impl
     {
     public: // METHODS
 

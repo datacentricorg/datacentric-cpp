@@ -24,13 +24,13 @@ limitations under the License.
 namespace dc
 {
 
-    void SerializeTo(dot::IObjectEnumerable obj, dot::String elementName, ITreeWriter writer)
+    void SerializeTo(dot::IObjectEnumerable obj, dot::string elementName, ITreeWriter writer)
     {
         // Write start element tag
         writer->WriteStartArrayElement(elementName);
 
         // Iterate over sequence elements
-        for (dot::Object item : obj)
+        for (dot::object item : obj)
         {
             // Write array item start tag
             writer->WriteStartArrayItem();
@@ -45,17 +45,17 @@ namespace dc
             }
 
             // Serialize based on type of the item
-            dot::Type itemType = item->GetType();
+            dot::type_t itemType = item->GetType();
 
-            if (itemType->Equals(dot::typeof<dot::String>())
+            if (itemType->Equals(dot::typeof<dot::string>())
                 || itemType->Equals(dot::typeof<double>())
                 || itemType->Equals(dot::typeof<bool>())
                 || itemType->Equals(dot::typeof<int>())
                 || itemType->Equals(dot::typeof<int64_t>())
-                || itemType->Equals(dot::typeof<dot::LocalDate>())
-                || itemType->Equals(dot::typeof<dot::LocalDateTime>())
-                || itemType->Equals(dot::typeof<dot::LocalTime>())
-                || itemType->Equals(dot::typeof<dot::LocalMinute>())
+                || itemType->Equals(dot::typeof<dot::local_date>())
+                || itemType->Equals(dot::typeof<dot::local_date_time>())
+                || itemType->Equals(dot::typeof<dot::local_time>())
+                || itemType->Equals(dot::typeof<dot::local_minute>())
                 || itemType->IsEnum
                 || itemType->Equals(dot::typeof<ObjectId>())
                 )
@@ -67,7 +67,7 @@ namespace dc
             else
             if (!itemType->GetInterface("IObjectEnumerable").IsEmpty())
             {
-                throw dot::new_Exception(dot::String::Format("Serialization is not supported for element {0} "
+                throw dot::new_Exception(dot::string::Format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", elementName));
             }
             else
@@ -87,7 +87,7 @@ namespace dc
             }
             else
             {
-                throw dot::new_Exception(dot::String::Format(
+                throw dot::new_Exception(dot::string::Format(
                     "Element type {0} is not supported for tree serialization.", itemType->Name));
             }
 
@@ -111,25 +111,25 @@ namespace dc
         for (dot::PropertyInfo innerElementInfo : innerElementInfoList)
         {
             // Get element name and value
-            dot::String innerElementName = innerElementInfo->Name;
-            dot::Object innerElementValue = innerElementInfo->GetValue(this);
+            dot::string innerElementName = innerElementInfo->Name;
+            dot::object innerElementValue = innerElementInfo->GetValue(this);
 
             if (innerElementValue.IsEmpty())
             {
                 continue;
             }
 
-            dot::Type elementType = innerElementValue->GetType();
+            dot::type_t elementType = innerElementValue->GetType();
 
-            if (   elementType->Equals(dot::typeof<dot::String>())
+            if (   elementType->Equals(dot::typeof<dot::string>())
                 || elementType->Equals(dot::typeof<double>())
                 || elementType->Equals(dot::typeof<bool>())
                 || elementType->Equals(dot::typeof<int>())
                 || elementType->Equals(dot::typeof<int64_t>())
-                || elementType->Equals(dot::typeof<dot::LocalDate>())
-                || elementType->Equals(dot::typeof<dot::LocalDateTime>())
-                || elementType->Equals(dot::typeof<dot::LocalTime>())
-                || elementType->Equals(dot::typeof<dot::LocalMinute>())
+                || elementType->Equals(dot::typeof<dot::local_date>())
+                || elementType->Equals(dot::typeof<dot::local_date_time>())
+                || elementType->Equals(dot::typeof<dot::local_time>())
+                || elementType->Equals(dot::typeof<dot::local_minute>())
                 || elementType->IsEnum
                 || elementType->Equals(dot::typeof<ObjectId>())
                 )
@@ -159,7 +159,7 @@ namespace dc
             }
             else
             {
-                throw dot::new_Exception(dot::String::Format("Element type {0} is not supported for tree serialization.", innerElementInfo->PropertyType));
+                throw dot::new_Exception(dot::string::Format("Element type {0} is not supported for tree serialization.", innerElementInfo->PropertyType));
             }
         }
 

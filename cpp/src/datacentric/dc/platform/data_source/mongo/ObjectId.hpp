@@ -31,13 +31,13 @@ namespace dc
 
         ObjectId(bsoncxx::oid id);
 
-        ObjectId(dot::Object obj);
+        ObjectId(dot::object obj);
 
-        ObjectId(dot::String str);
+        ObjectId(dot::string str);
 
         explicit ObjectId(const char* bytes, std::size_t len);
 
-        explicit ObjectId(dot::LocalDateTime value);
+        explicit ObjectId(dot::local_date_time value);
 
         bool operator==(const ObjectId& rhs) const;
 
@@ -55,17 +55,17 @@ namespace dc
 
         static ObjectId GenerateNewId();
 
-        dot::String ToString();
+        dot::string ToString();
 
         bsoncxx::oid _id;
 
         static ObjectId Empty;
 
-        operator dot::Object()
+        operator dot::object()
         {
             if (_id != Empty._id)
-                return dot::Object(new dot::StructWrapperImpl<ObjectId>(*this));
-            else return dot::Object();
+                return dot::object(new dot::StructWrapperImpl<ObjectId>(*this));
+            else return dot::object();
         }
 
     };
@@ -75,9 +75,9 @@ namespace dc
 namespace dot
 {
     template <>
-    inline Type typeof<dc::ObjectId>()
+    inline type_t typeof<dc::ObjectId>()
     {
-        static dot::Type type_ = dot::new_TypeBuilder<dc::ObjectId>("Mongo", "ObjectId")->Build();
+        static dot::type_t type_ = dot::make_type_builder<dc::ObjectId>("Mongo", "ObjectId")->Build();
         return type_;
     }
 

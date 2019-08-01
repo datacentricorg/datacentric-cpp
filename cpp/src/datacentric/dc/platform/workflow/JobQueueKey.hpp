@@ -22,11 +22,11 @@ limitations under the License.
 
 namespace dc
 {
-    class JobQueueKeyImpl; using JobQueueKey = dot::Ptr<JobQueueKeyImpl>;
-    class JobQueueDataImpl; using JobQueueData = dot::Ptr<JobQueueDataImpl>;
-    class JobTypeKeyImpl; using JobTypeKey = dot::Ptr<JobTypeKeyImpl>;
-    class LinkedTypeKeyImpl; using LinkedTypeKey = dot::Ptr<LinkedTypeKeyImpl>;
-    class JobDataImpl; using JobData = dot::Ptr<JobDataImpl>;
+    class JobQueueKeyImpl; using JobQueueKey = dot::ptr<JobQueueKeyImpl>;
+    class JobQueueDataImpl; using JobQueueData = dot::ptr<JobQueueDataImpl>;
+    class JobTypeKeyImpl; using JobTypeKey = dot::ptr<JobTypeKeyImpl>;
+    class LinkedTypeKeyImpl; using LinkedTypeKey = dot::ptr<LinkedTypeKeyImpl>;
+    class JobDataImpl; using JobData = dot::ptr<JobDataImpl>;
 
 
     JobQueueKey new_JobQueueKey();

@@ -27,7 +27,7 @@ namespace dc
         DataSource = dataSource;
     }
 
-    RecordType IContextImpl::LoadOrNull(ObjectId id, dot::Type dataType)
+    RecordType IContextImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
     {
         return DataSource->LoadOrNull(id, dataType);
     }
@@ -67,22 +67,22 @@ namespace dc
         return DataSource->GetCommon();
     }
 
-    ObjectId IContextImpl::GetDataSet(dot::String dataSetID)
+    ObjectId IContextImpl::GetDataSet(dot::string dataSetID)
     {
         return DataSource->GetDataSet(dataSetID, DataSet);
     }
 
-    ObjectId IContextImpl::GetDataSet(dot::String dataSetID, ObjectId loadFrom)
+    ObjectId IContextImpl::GetDataSet(dot::string dataSetID, ObjectId loadFrom)
     {
         return DataSource->GetDataSet(dataSetID, loadFrom);
     }
 
-    ObjectId IContextImpl::GetDataSetOrEmpty(dot::String dataSetID)
+    ObjectId IContextImpl::GetDataSetOrEmpty(dot::string dataSetID)
     {
         return DataSource->GetDataSetOrEmpty(dataSetID, DataSet);
     }
 
-    ObjectId IContextImpl::GetDataSetOrEmpty(dot::String dataSetID, ObjectId loadFrom)
+    ObjectId IContextImpl::GetDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom)
     {
         return DataSource->GetDataSetOrEmpty(dataSetID, loadFrom);
     }
@@ -92,22 +92,22 @@ namespace dc
         return DataSource->CreateCommon();
     }
 
-    ObjectId IContextImpl::CreateDataSet(dot::String dataSetID)
+    ObjectId IContextImpl::CreateDataSet(dot::string dataSetID)
     {
         return DataSource->CreateDataSet(dataSetID, DataSet);
     }
 
-    ObjectId IContextImpl::CreateDataSet(dot::String dataSetID, ObjectId saveTo)
+    ObjectId IContextImpl::CreateDataSet(dot::string dataSetID, ObjectId saveTo)
     {
         return DataSource->CreateDataSet(dataSetID, saveTo);
     }
 
-    ObjectId IContextImpl::CreateDataSet(dot::String dataSetID, dot::IEnumerable<ObjectId> parentDataSets)
+    ObjectId IContextImpl::CreateDataSet(dot::string dataSetID, dot::IEnumerable<ObjectId> parentDataSets)
     {
         return DataSource->CreateDataSet(dataSetID, parentDataSets, DataSet);
     }
 
-    ObjectId IContextImpl::CreateDataSet(dot::String dataSetID, dot::IEnumerable<ObjectId> parentDataSets, ObjectId saveTo)
+    ObjectId IContextImpl::CreateDataSet(dot::string dataSetID, dot::IEnumerable<ObjectId> parentDataSets, ObjectId saveTo)
     {
         return DataSource->CreateDataSet(dataSetID, parentDataSets, saveTo);
     }

@@ -26,10 +26,10 @@ limitations under the License.
 namespace dc
 {
     template <typename TKey, typename TRecord> class KeyForImpl;
-    template <typename TKey, typename TRecord> using KeyFor = dot::Ptr<KeyForImpl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> using KeyFor = dot::ptr<KeyForImpl<TKey, TRecord>>;
 
-    class CachedRecordImpl; using CachedRecord = dot::Ptr<CachedRecordImpl>;
-    class IContextImpl; using IContext = dot::Ptr<IContextImpl>;
+    class CachedRecordImpl; using CachedRecord = dot::ptr<CachedRecordImpl>;
+    class IContextImpl; using IContext = dot::ptr<IContextImpl>;
 
     /// <summary>
     /// Record derived from KeyType rather than KeyType is recorded without a dataset.
@@ -76,11 +76,11 @@ namespace dc
         ///
         /// Error message if the record is not found or is a delete marker.
         /// </summary>
-        dot::Ptr<TRecord> Load(IContext context)
+        dot::ptr<TRecord> Load(IContext context)
         {
             auto result = LoadOrNull(context, context->DataSet);
             if (result == nullptr) throw dot::new_Exception(
-                dot::String::Format("Record with key {0} is not found.", this->ToString()));
+                dot::string::Format("Record with key {0} is not found.", this->ToString()));
             return result;
         }
 
@@ -106,14 +106,14 @@ namespace dc
         ///
         /// Error message if the record is not found or is a delete marker.
         /// </summary>
-        dot::Ptr<TRecord> Load(IContext context, ObjectId dataSet)
+        dot::ptr<TRecord> Load(IContext context, ObjectId dataSet)
         {
             // This method will return null if the record is
             // not found or the found record is a delete marker
-            dot::Ptr<TRecord> result = LoadOrNull(context, dataSet);
+            dot::ptr<TRecord> result = LoadOrNull(context, dataSet);
 
             // Error message if null, otherwise return
-            if (result == nullptr) throw dot::new_Exception(dot::String::Format(
+            if (result == nullptr) throw dot::new_Exception(dot::string::Format(
                 "Record with key {0} is not found in dataset with ObjectId={1}.", this->ToString(), dataSet.ToString()));
 
             return result;
@@ -138,7 +138,7 @@ namespace dc
         ///
         /// Return null if the record is not found or is a delete marker.
         /// </summary>
-        dot::Ptr<TRecord> LoadOrNull(IContext context)
+        dot::ptr<TRecord> LoadOrNull(IContext context)
         {
             return LoadOrNull(context, context->DataSet);
         }
@@ -165,7 +165,7 @@ namespace dc
         ///
         /// Return null if the record is not found or is a delete marker.
         /// </summary>
-        dot::Ptr<TRecord> LoadOrNull(IContext context, ObjectId loadFrom)
+        dot::ptr<TRecord> LoadOrNull(IContext context, ObjectId loadFrom)
         {
             // First check if the record has been
             // cached for the same dataset as the
@@ -179,7 +179,7 @@ namespace dc
                 // value unless it is the delete marker, in which case
                 // return null
                 if (cachedRecord_->Record == nullptr) return nullptr;
-                else return (dot::Ptr<TRecord>)(RecordType)(cachedRecord_->Record);
+                else return (dot::ptr<TRecord>)(RecordType)(cachedRecord_->Record);
             }
             else
             {
@@ -192,14 +192,14 @@ namespace dc
 
                 // This method will return null if the record is
                 // not found or the found record has Deleted flag set
-                dot::Ptr<TRecord> result = (dot::Ptr<TRecord>) context->ReloadOrNull(this, loadFrom);
+                dot::ptr<TRecord> result = (dot::ptr<TRecord>) context->ReloadOrNull(this, loadFrom);
 
                 if (result == nullptr || result.template is<DeleteMarker>())
                 {
                     // If not null, it is a delete marker;
                     // check that has a matching key
                     if (result != nullptr && getValue() != result->getKey())
-                        throw dot::new_Exception(dot::String::Format(
+                        throw dot::new_Exception(dot::string::Format(
                             "Delete marker with Type={0} stored "
                             "for Key={1} has a non-matching Key={2}.", result->GetType()->Name, getValue(), result->getKey()));
 
@@ -212,7 +212,7 @@ namespace dc
                 {
                     // Check that the found record has a matching key
                     if (getValue() != result->getKey())
-                        throw dot::new_Exception(dot::String::Format(
+                        throw dot::new_Exception(dot::string::Format(
                             "Record with Type={0} stored "
                             "for Key={1} has a non-matching Key={2}.", result->GetType()->Name, getValue(), result->getKey()));
 
@@ -325,13 +325,13 @@ namespace dc
             // proper value for the record.
             //
             // Get PropertyInfo arrays for TKey and TRecord
-            dot::Array1D<dot::PropertyInfo> keyElementInfoArray = dot::typeof<dot::Ptr<TKey>>()->GetProperties();
-            dot::Array1D<dot::PropertyInfo> recordElementInfoArray = dot::typeof<dot::Ptr<TRecord>>()->GetProperties();
+            dot::Array1D<dot::PropertyInfo> keyElementInfoArray = dot::typeof<dot::ptr<TKey>>()->GetProperties();
+            dot::Array1D<dot::PropertyInfo> recordElementInfoArray = dot::typeof<dot::ptr<TRecord>>()->GetProperties();
 
             // Check that TRecord has the same or greater number of elements
             // as TKey (all elements of TKey must also be present in TRecord)
-            if (recordElementInfoArray->getCount() < keyElementInfoArray->getCount()) throw dot::new_Exception(dot::String::Format(
-                "Record type {0} has fewer elements than key type {1}.", dot::typeof<dot::Ptr<TRecord>>()->Name, dot::typeof<dot::Ptr<TKey>>()->Name));
+            if (recordElementInfoArray->getCount() < keyElementInfoArray->getCount()) throw dot::new_Exception(dot::string::Format(
+                "Record type {0} has fewer elements than key type {1}.", dot::typeof<dot::ptr<TRecord>>()->Name, dot::typeof<dot::ptr<TKey>>()->Name));
 
             // Iterate over the key properties
             for (dot::PropertyInfo keyElementInfo : keyElementInfoArray)
@@ -343,38 +343,38 @@ namespace dc
                     } );
 
                 // Check that names match
-                if (recordElementInfoIterator == recordElementInfoArray->end()) throw dot::new_Exception(dot::String::Format(
+                if (recordElementInfoIterator == recordElementInfoArray->end()) throw dot::new_Exception(dot::string::Format(
                     "Element {0} of key type {1} "
-                    "is not found in the root data type {2}.", keyElementInfo->Name, dot::typeof<dot::Ptr<TKey>>()->Name, GetType()->Name
+                    "is not found in the root data type {2}.", keyElementInfo->Name, dot::typeof<dot::ptr<TKey>>()->Name, GetType()->Name
                 ));
 
                 dot::PropertyInfo recordElementInfo = *recordElementInfoIterator;
 
                 // Check that types match
                 if (keyElementInfo->PropertyType != recordElementInfo->PropertyType)
-                    throw dot::new_Exception(dot::String::Format(
+                    throw dot::new_Exception(dot::string::Format(
                         "Property {0} of key type {1} "
                         "has type {2} "
                         "while property {3} of record type {4} "
                         "has type {5}."
                         , keyElementInfo->Name
-                        , dot::typeof<dot::Ptr<TKey>>()->Name
+                        , dot::typeof<dot::ptr<TKey>>()->Name
                         , keyElementInfo->PropertyType->Name
                         , recordElementInfo->Name
-                        , dot::typeof<dot::Ptr<TRecord>>()->Name
+                        , dot::typeof<dot::ptr<TRecord>>()->Name
                         , recordElementInfo->PropertyType->Name
                         ));
 
                 // Read from the record and assign to the key
-                dot::Object elementValue = recordElementInfo->GetValue(record);
+                dot::object elementValue = recordElementInfo->GetValue(record);
                 keyElementInfo->SetValue(this, elementValue);
             }
         }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "KeyFor")
             DOT_TYPE_BASE(KeyType)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TKey>)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TRecord>)
+            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
+            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
         DOT_TYPE_END()
 
     };

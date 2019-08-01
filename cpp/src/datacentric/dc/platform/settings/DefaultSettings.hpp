@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    class DefaultSettingsImpl; using DefaultSettings = dot::Ptr<DefaultSettingsImpl>;
+    class DefaultSettingsImpl; using DefaultSettings = dot::ptr<DefaultSettingsImpl>;
 
     /// <summary>Create temporary context with logging to the current output.</summary>
     class DC_CLASS DefaultSettingsImpl : public ISettingsImpl

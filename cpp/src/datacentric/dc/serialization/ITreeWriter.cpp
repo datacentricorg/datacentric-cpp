@@ -24,28 +24,28 @@ namespace dc
 {
 
     /// <summary>WriteStartElement(...) followed by WriteStartDict().</summary>
-    void ITreeWriterImpl::WriteStartDictElement(dot::String elementName)
+    void ITreeWriterImpl::WriteStartDictElement(dot::string elementName)
     {
         this->WriteStartElement(elementName);
         this->WriteStartDict();
     }
 
     /// <summary>WriteEndDict(...) followed by WriteEndElement(...).</summary>
-    void ITreeWriterImpl::WriteEndDictElement(dot::String elementName)
+    void ITreeWriterImpl::WriteEndDictElement(dot::string elementName)
     {
         this->WriteEndDict();
         this->WriteEndElement(elementName);
     }
 
     /// <summary>WriteStartElement(...) followed by WriteStartArray().</summary>
-    void ITreeWriterImpl::WriteStartArrayElement(dot::String elementName)
+    void ITreeWriterImpl::WriteStartArrayElement(dot::string elementName)
     {
         this->WriteStartElement(elementName);
         this->WriteStartArray();
     }
 
     /// <summary>WriteEndArray(...) followed by WriteEndElement(...).</summary>
-    void ITreeWriterImpl::WriteEndArrayElement(dot::String elementName)
+    void ITreeWriterImpl::WriteEndArrayElement(dot::string elementName)
     {
         this->WriteEndArray();
         this->WriteEndElement(elementName);
@@ -67,7 +67,7 @@ namespace dc
 
     /// <summary>Write an element with no inner nodes.
     /// Element type is inferred by calling obj.GetType().</summary>
-    void ITreeWriterImpl::WriteValueElement(dot::String elementName, dot::Object value)
+    void ITreeWriterImpl::WriteValueElement(dot::string elementName, dot::object value)
     {
         // Do not serialize null or empty value
         if (!value.IsEmpty())
@@ -82,7 +82,7 @@ namespace dc
 
     /// <summary>Write an array item with no inner nodes.
     /// Element type is inferred by calling obj.GetType().</summary>
-    void ITreeWriterImpl::WriteValueArrayItem(dot::Object value)
+    void ITreeWriterImpl::WriteValueArrayItem(dot::object value)
     {
         // Writes null or empty value as BSON null
         this->WriteStartArrayItem();
@@ -93,7 +93,7 @@ namespace dc
     }
 
     /// <summary>Write a single array item.</summary>
-    void ITreeWriterImpl::WriteArrayItem(dot::Object value)
+    void ITreeWriterImpl::WriteArrayItem(dot::object value)
     {
         // Will serialize null or empty value
         this->WriteStartArrayItem();
@@ -105,10 +105,10 @@ namespace dc
 
     /// <summary>Write an array of elements with no inner nodes.
     /// Element type is inferred by calling obj.GetType().</summary>
-    void ITreeWriterImpl::WriteValueArray(dot::String elementName, dot::IObjectEnumerable values)
+    void ITreeWriterImpl::WriteValueArray(dot::string elementName, dot::IObjectEnumerable values)
     {
         this->WriteStartArrayElement(elementName);
-        for (dot::Object value : values)
+        for (dot::object value : values)
         {
             this->WriteArrayItem(value);
         }

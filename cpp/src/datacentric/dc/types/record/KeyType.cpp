@@ -21,7 +21,7 @@ limitations under the License.
 namespace dc
 {
 
-    dot::String KeyTypeImpl::ToString()
+    dot::string KeyTypeImpl::ToString()
     {
         dot::Array1D<dot::PropertyInfo> props = GetType()->GetProperties();
 
@@ -31,7 +31,7 @@ namespace dc
         {
             dot::PropertyInfo prop = props[i];
 
-            dot::Object value = prop->GetValue(this);
+            dot::object value = prop->GetValue(this);
 
             if (i) ss << separator;
 
@@ -43,7 +43,7 @@ namespace dc
             {
                 if (prop->PropertyType->Name->EndsWith("Key")) // TODO check using parents list
                 {
-                    dot::Object emptyKey = dot::Activator::CreateInstance(prop->PropertyType);
+                    dot::object emptyKey = dot::Activator::CreateInstance(prop->PropertyType);
                     ss << *emptyKey->ToString();
                 }
             }
@@ -78,9 +78,9 @@ namespace dc
                 {
                     prop->SetValue(this, std::stoi(token));
                 }
-                else if (prop->PropertyType->Equals(dot::typeof<dot::String>()))
+                else if (prop->PropertyType->Equals(dot::typeof<dot::string>()))
                 {
-                    prop->SetValue(this, dot::String(token));
+                    prop->SetValue(this, dot::string(token));
                 }
                 else if (prop->PropertyType->Equals(dot::typeof<ObjectId>()))
                 {
@@ -96,7 +96,7 @@ namespace dc
 
     }
 
-    void KeyTypeImpl::AssignString(dot::String value)
+    void KeyTypeImpl::AssignString(dot::string value)
     {
         std::stringstream ss;
         ss.str(*value);

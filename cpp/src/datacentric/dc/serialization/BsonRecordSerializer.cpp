@@ -35,7 +35,7 @@ namespace dc
     Data BsonRecordSerializerImpl::Deserialize(bsoncxx::document::view doc)
     {
         // Create instance to which BSON will be deserialized
-        dot::String typeName = doc["_t"].get_utf8().value.to_string();
+        dot::string typeName = doc["_t"].get_utf8().value.to_string();
         Data result = (Data)dot::Activator::CreateInstance("", typeName);
         ITreeWriter writer = new_DataWriter(result);
 
@@ -45,11 +45,11 @@ namespace dc
         return result;
     }
 
-    dot::Object BsonRecordSerializerImpl::DeserializeTuple(bsoncxx::document::view doc, dot::List<dot::PropertyInfo> props, dot::Type tupleType)
+    dot::object BsonRecordSerializerImpl::DeserializeTuple(bsoncxx::document::view doc, dot::List<dot::PropertyInfo> props, dot::type_t tupleType)
     {
         // Create instance to which BSON will be deserialized
-        dot::String typeName = tupleType->Name;
-        dot::Object result = dot::Activator::CreateInstance(tupleType);
+        dot::string typeName = tupleType->Name;
+        dot::object result = dot::Activator::CreateInstance(tupleType);
         ITreeWriter writer = new_TupleWriter(result, props);
 
         writer->WriteStartDocument(typeName);
@@ -71,7 +71,7 @@ namespace dc
             bsoncxx::type bsonType = elem.type();
 
             // Read element name and value
-            dot::String elementName = elem.key().to_string();
+            dot::string elementName = elem.key().to_string();
             if (bsonType == bsoncxx::type::k_null)
             {
                 //reader.ReadNull();
@@ -83,7 +83,7 @@ namespace dc
             }
             else if (bsonType == bsoncxx::type::k_utf8)
             {
-                dot::String value = elem.get_utf8().value.to_string();
+                dot::string value = elem.get_utf8().value.to_string();
 
                 if (elementName == "_id")
                 {
@@ -179,7 +179,7 @@ namespace dc
             }
             else if (bsonType == bsoncxx::type::k_utf8)
             {
-                dot::String value = elem.get_utf8().value.to_string();
+                dot::string value = elem.get_utf8().value.to_string();
                 writer->WriteValueArrayItem(value);
             }
             else if (bsonType == bsoncxx::type::k_double)
@@ -230,7 +230,7 @@ namespace dc
     void BsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
     {
         // Root name is written in JSON as _t element
-        dot::String rootName = value->GetType()->getFullName();
+        dot::string rootName = value->GetType()->getFullName();
 
         writer->WriteStartDocument(rootName);
         value->SerializeTo(writer);

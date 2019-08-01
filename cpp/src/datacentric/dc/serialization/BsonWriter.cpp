@@ -37,7 +37,7 @@ limitations under the License.
 namespace dc
 {
 
-    void BsonWriterImpl::WriteStartDocument(dot::String rootElementName)
+    void BsonWriterImpl::WriteStartDocument(dot::string rootElementName)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
@@ -53,7 +53,7 @@ namespace dc
 
     }
 
-    void BsonWriterImpl::WriteEndDocument(dot::String rootElementName)
+    void BsonWriterImpl::WriteEndDocument(dot::string rootElementName)
     {
         // Check state transition matrix
         if (currentState_ == TreeWriterState::DictCompleted && elementStack_.size() == 1)
@@ -65,8 +65,8 @@ namespace dc
                 "A call to WriteEndDocument(...) does not follow  WriteEndElement(...) at at root level.");
 
         // Pop the outer element name and state from the element stack
-        dot::String currentElementName;
-        std::pair<dot::String, TreeWriterState> top = elementStack_.top();
+        dot::string currentElementName;
+        std::pair<dot::string, TreeWriterState> top = elementStack_.top();
         elementStack_.pop();
         currentElementName = top.first;
         currentState_ = top.second;
@@ -74,11 +74,11 @@ namespace dc
         // Check that the current element name matches the specified name. Writing the actual end tag
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (rootElementName != currentElementName)
-            throw dot::new_Exception(dot::String::Format(
+            throw dot::new_Exception(dot::string::Format(
                 "WriteEndDocument({0}) follows WriteStartDocument({1}), root element name mismatch.", rootElementName, currentElementName));
     }
 
-    void BsonWriterImpl::WriteStartElement(dot::String elementName)
+    void BsonWriterImpl::WriteStartElement(dot::string elementName)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
@@ -96,7 +96,7 @@ namespace dc
         bsonWriter_.key_owned(*(elementStack_.top().first));
     }
 
-    void BsonWriterImpl::WriteEndElement(dot::String elementName)
+    void BsonWriterImpl::WriteEndElement(dot::string elementName)
     {
         // Check state transition matrix
         if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::ElementCompleted;
@@ -108,8 +108,8 @@ namespace dc
 
         // Pop the outer element name and state from the element stack
         //(currentElementName, currentState_) = elementStack_.Pop();
-        dot::String currentElementName;
-        std::pair<dot::String, TreeWriterState> top = elementStack_.top();
+        dot::string currentElementName;
+        std::pair<dot::string, TreeWriterState> top = elementStack_.top();
         elementStack_.pop();
         currentElementName = top.first;
         currentState_ = top.second;
@@ -118,7 +118,7 @@ namespace dc
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (elementName != currentElementName)
             throw dot::new_Exception(
-                dot::String::Format("EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName));
+                dot::string::Format("EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName));
 
         // Nothing to write here but array closing bracket was written above
     }
@@ -144,7 +144,7 @@ namespace dc
         // If prev state is DocumentStarted, write _t tag
         //if (prevState == TreeWriterState::DocumentStarted)
         //{
-        //    dot::String rootElementName = elementStack_.top().first;
+        //    dot::string rootElementName = elementStack_.top().first;
         //    if (!rootElementName->EndsWith("Key"))  // TODO remove it
         //        this->WriteValueElement("_t", rootElementName);
         //}
@@ -237,7 +237,7 @@ namespace dc
         // Nothing to write here
     }
 
-    void BsonWriterImpl::WriteValue(dot::Object value)
+    void BsonWriterImpl::WriteValue(dot::object value)
     {
         // Check state transition matrix
         if (currentState_ == TreeWriterState::ValueStarted) currentState_ = TreeWriterState::ValueWritten;
@@ -256,10 +256,10 @@ namespace dc
         }
 
         // Serialize based on value type
-        dot::Type valueType = value->GetType();
+        dot::type_t valueType = value->GetType();
 
-        if (valueType->Equals(dot::typeof<dot::String>()))
-            bsonWriter_.append(*(dot::String)value);
+        if (valueType->Equals(dot::typeof<dot::string>()))
+            bsonWriter_.append(*(dot::string)value);
         else
         if (valueType->Equals(dot::typeof<double>())) // ? TODO check dot::typeof<Double>() dot::typeof<NullableDouble>()
             bsonWriter_.append((double)value);
@@ -273,17 +273,17 @@ namespace dc
         if (valueType->Equals(dot::typeof<int64_t>()))
             bsonWriter_.append((int64_t)value);
         else
-        if (valueType->Equals(dot::typeof<dot::LocalDate>()))
-            bsonWriter_.append(LocalDateHelper::ToIsoInt((dot::LocalDate)value));
+        if (valueType->Equals(dot::typeof<dot::local_date>()))
+            bsonWriter_.append(LocalDateHelper::ToIsoInt((dot::local_date)value));
         else
-        if (valueType->Equals(dot::typeof<dot::LocalTime>()))
-            bsonWriter_.append(LocalTimeHelper::ToIsoInt((dot::LocalTime)value));
+        if (valueType->Equals(dot::typeof<dot::local_time>()))
+            bsonWriter_.append(LocalTimeHelper::ToIsoInt((dot::local_time)value));
         else
-        if (valueType->Equals(dot::typeof<dot::LocalMinute>()))
-            bsonWriter_.append(LocalMinuteHelper::ToIsoInt((dot::LocalMinute) value));
+        if (valueType->Equals(dot::typeof<dot::local_minute>()))
+            bsonWriter_.append(LocalMinuteHelper::ToIsoInt((dot::local_minute) value));
         else
-        if (valueType->Equals(dot::typeof<dot::LocalDateTime>()))
-            bsonWriter_.append(bsoncxx::types::b_date{ LocalDateTimeHelper::ToStdChrono((dot::LocalDateTime)value) });
+        if (valueType->Equals(dot::typeof<dot::local_date_time>()))
+            bsonWriter_.append(bsoncxx::types::b_date{ LocalDateTimeHelper::ToStdChrono((dot::local_date_time)value) });
         else
         if (valueType->Equals(dot::typeof<ObjectId>()))
             bsonWriter_.append(((dot::StructWrapper<ObjectId>)value)->_id);
@@ -294,10 +294,10 @@ namespace dc
         //if (valueType.is<Object>()) // TODO KeyType
         //    bsonWriter_.append(*(valueType->ToString())); // TODO semicolonDelimitedKeyString = keyElement.AsString();
         else
-            throw dot::new_Exception(dot::String::Format("Element type {0} is not supported for BSON serialization.", valueType));
+            throw dot::new_Exception(dot::string::Format("Element type {0} is not supported for BSON serialization.", valueType));
     }
 
-    dot::String BsonWriterImpl::ToString()
+    dot::string BsonWriterImpl::ToString()
     {
         return bsoncxx::to_json(bsonWriter_.view_array()[0].get_document().view());
     }

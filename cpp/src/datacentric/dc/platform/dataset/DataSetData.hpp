@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class DataSetKeyImpl; using DataSetKey = dot::Ptr<DataSetKeyImpl>;
-    class DataSetDataImpl; using DataSetData = dot::Ptr<DataSetDataImpl>;
+    class DataSetKeyImpl; using DataSetKey = dot::ptr<DataSetKeyImpl>;
+    class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
     class ObjectId;
 
     inline DataSetData new_DataSetData();
@@ -47,7 +47,7 @@ namespace dc
         ObjectId DataSet;
 
         /// <summary>Unique dataset identifier.</summary>
-        dot::String DataSetID;
+        dot::string DataSetID;
 
         /// <summary>
         /// Set context and perform initialization or validation of object data.

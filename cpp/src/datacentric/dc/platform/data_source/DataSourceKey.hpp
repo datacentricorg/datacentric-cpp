@@ -24,8 +24,8 @@ limitations under the License.
 
 namespace dc
 {
-    class DataSourceKeyImpl; using DataSourceKey = dot::Ptr<DataSourceKeyImpl>;
-    class DataSourceDataImpl; using DataSourceData = dot::Ptr<DataSourceDataImpl>;
+    class DataSourceKeyImpl; using DataSourceKey = dot::ptr<DataSourceKeyImpl>;
+    class DataSourceDataImpl; using DataSourceData = dot::ptr<DataSourceDataImpl>;
 
     /// <summary>
     /// Data source is a logical concept similar to database
@@ -47,7 +47,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique data source identifier.</summary>
-        dot::String DataSourceID;
+        dot::string DataSourceID;
 
     public: // STATIC
 
@@ -65,7 +65,7 @@ namespace dc
 
         DataSourceKeyImpl() = default;
 
-        DataSourceKeyImpl(dot::String value);
+        DataSourceKeyImpl(dot::string value);
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DataSourceKey")
             DOT_TYPE_PROP(DataSourceID)

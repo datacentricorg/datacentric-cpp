@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class SystemSettingsKeyImpl; using SystemSettingsKey = dot::Ptr<SystemSettingsKeyImpl>;
-    class SystemSettingsDataImpl; using SystemSettingsData = dot::Ptr<SystemSettingsDataImpl>;
+    class SystemSettingsKeyImpl; using SystemSettingsKey = dot::ptr<SystemSettingsKeyImpl>;
+    class SystemSettingsDataImpl; using SystemSettingsData = dot::ptr<SystemSettingsDataImpl>;
 
     /// <summary>Key for a system settings record.</summary>
     class DC_CLASS SystemSettingsKeyImpl : public KeyForImpl<SystemSettingsKeyImpl, SystemSettingsDataImpl>
@@ -31,6 +31,6 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique system settings identifier.</summary>
-        dot::String SystemSettingsID;
+        dot::string SystemSettingsID;
     };
 }

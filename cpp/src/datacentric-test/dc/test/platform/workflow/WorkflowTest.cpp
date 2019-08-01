@@ -55,9 +55,9 @@ namespace dc
         wf->WorkflowID = "ABCBB";
         wf->Workflow = new WorkflowKeyImpl();
         wf->Workflow->WorkflowID = "CBA";
-        wf->LDate = dot::LocalDate(2005, 1, 1);
-        wf->LTime = dot::LocalTime(12, 10, 20, 444);
-        wf->LDateTime = dot::LocalDateTime(2005, 1, 1, 12, 10, 20, 444);
+        wf->LDate = dot::local_date(2005, 1, 1);
+        wf->LTime = dot::local_time(12, 10, 20, 444);
+        wf->LDateTime = dot::local_date_time(2005, 1, 1, 12, 10, 20, 444);
         wf->dbl = 1.1;
         wf->Workflows = dot::new_List<WorkflowKey>();
         wf->Workflows->Add(new WorkflowKeyImpl());
@@ -66,13 +66,13 @@ namespace dc
         wf->data = new_WorkflowData();
         wf->data->ID = ObjectId::GenerateNewId();
         wf->data->DataSet = ObjectId::GenerateNewId();
-        wf->data->LDate = dot::LocalDate(2005, 1, 1);
+        wf->data->LDate = dot::local_date(2005, 1, 1);
 
         JsonWriter jsonWriter = new_JsonWriter();
         JsonRecordSerializer serializer = new_JsonRecordSerializer();
 
         serializer->Serialize(jsonWriter, wf);
-        dot::String json = jsonWriter->ToString();
+        dot::string json = jsonWriter->ToString();
 
         rapidjson::Document doc;
         doc.Parse(json->data());
@@ -128,15 +128,15 @@ namespace dc
         IObjectEnumerable en = (IObjectEnumerable)(List<WorkflowKey>)wf->Workflows;
 
 
-        dot::String str = wf->Workflows[0]->WorkflowID;
+        dot::string str = wf->Workflows[0]->WorkflowID;
         REQUIRE(str == "ABC");
 
         BsonWriter wr = new_BsonWriter();
         wr->WriteStartDocument(wf->GetType()->Name);
         wf->SerializeTo(wr);
         wr->WriteEndDocument(wf->GetType()->Name);
-        dot::String s = wr->ToString();
-        // Key == dot::String
+        dot::string s = wr->ToString();
+        // Key == dot::string
 
         wf->Workflow->GetType();
 

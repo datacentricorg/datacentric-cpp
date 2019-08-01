@@ -22,9 +22,9 @@ limitations under the License.
 namespace dc
 {
     template <typename TKey, typename TRecord> class RootRecordForImpl;
-    template <typename TKey, typename TRecord> using RootRecordFor = dot::Ptr<RootRecordForImpl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> using RootRecordFor = dot::ptr<RootRecordForImpl<TKey, TRecord>>;
     template <typename TKey, typename TRecord> class RecordForImpl;
-    template <typename TKey, typename TRecord> using RecordFor = dot::Ptr<RecordForImpl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> using RecordFor = dot::ptr<RecordForImpl<TKey, TRecord>>;
 
 
     /// <summary>

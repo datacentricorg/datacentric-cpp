@@ -22,10 +22,10 @@ limitations under the License.
 
 namespace dc
 {
-    class ISettingsImpl; using ISettings = dot::Ptr<ISettingsImpl>;
+    class ISettingsImpl; using ISettings = dot::ptr<ISettingsImpl>;
 
     /// <summary>Provides access component settings via the root settings object.</summary>
-    class DC_CLASS ISettingsImpl : public virtual dot::ObjectImpl
+    class DC_CLASS ISettingsImpl : public virtual dot::object_impl
     {
         typedef ISettingsImpl self;
 

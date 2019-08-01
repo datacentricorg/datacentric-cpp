@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class CustomLocaleSettingsDataImpl; using CustomLocaleSettingsData = dot::Ptr<CustomLocaleSettingsDataImpl>;
+    class CustomLocaleSettingsDataImpl; using CustomLocaleSettingsData = dot::ptr<CustomLocaleSettingsDataImpl>;
 
     /// <summary>Custom locale settings data.</summary>
     class DC_CLASS CustomLocaleSettingsDataImpl : public LocaleSettingsDataImpl

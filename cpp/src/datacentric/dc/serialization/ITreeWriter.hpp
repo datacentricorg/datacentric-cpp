@@ -82,34 +82,34 @@ namespace dc
         ValueArrayItemCompleted
     };
 
-    class ITreeWriterImpl; using ITreeWriter = dot::Ptr<ITreeWriterImpl>;
-    class dot::Object;
-    class dot::String;
+    class ITreeWriterImpl; using ITreeWriter = dot::ptr<ITreeWriterImpl>;
+    class dot::object;
+    class dot::string;
 
     /// <summary>Interface for writing tree data.</summary>
-    class DC_CLASS ITreeWriterImpl : public dot::ObjectImpl
+    class DC_CLASS ITreeWriterImpl : public dot::object_impl
     {
     public:
 
         /// <summary>Write start document tags. This method
         /// should be called only once for the entire document.</summary>
-        virtual void WriteStartDocument(dot::String rootElementName) = 0;
+        virtual void WriteStartDocument(dot::string rootElementName) = 0;
 
         /// <summary>Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to WriteStartDocument(...).</summary>
-        virtual void WriteEndDocument(dot::String rootElementName) = 0;
+        virtual void WriteEndDocument(dot::string rootElementName) = 0;
 
         /// <summary>Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.</summary>
-        virtual void WriteStartElement(dot::String elementName) = 0;
+        virtual void WriteStartElement(dot::string elementName) = 0;
 
         /// <summary>Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching WriteStartElement(name) call at the same indent level.</summary>
-        virtual void WriteEndElement(dot::String elementName) = 0;
+        virtual void WriteEndElement(dot::string elementName) = 0;
 
         /// <summary>Write dictionary start tag. A call to this method
         /// must follow WriteStartElement(name).</summary>
@@ -145,7 +145,7 @@ namespace dc
 
         /// <summary>Write atomic value. Value type
         /// will be inferred from object.GetType().</summary>
-        virtual void WriteValue(dot::Object value) = 0;
+        virtual void WriteValue(dot::object value) = 0;
 
         /// <summary>Cast to IXmlWriter (throws if the cast fails).</summary>
         //IXmlWriter AsXmlWriter() { return (IXmlWriter)obj; }
@@ -154,16 +154,16 @@ namespace dc
         //IBsonWriter AsBsonWriter() { return (IBsonWriter)obj; }
 
         /// <summary>WriteStartElement(...) followed by WriteStartDict().</summary>
-        void WriteStartDictElement(dot::String elementName);
+        void WriteStartDictElement(dot::string elementName);
 
         /// <summary>WriteEndDict(...) followed by WriteEndElement(...).</summary>
-        void WriteEndDictElement(dot::String elementName);
+        void WriteEndDictElement(dot::string elementName);
 
         /// <summary>WriteStartElement(...) followed by WriteStartArray().</summary>
-        void WriteStartArrayElement(dot::String elementName);
+        void WriteStartArrayElement(dot::string elementName);
 
         /// <summary>WriteEndArray(...) followed by WriteEndElement(...).</summary>
-        void WriteEndArrayElement(dot::String elementName);
+        void WriteEndArrayElement(dot::string elementName);
 
         /// <summary>WriteStartArrayItem(...) followed by WriteStartDict().</summary>
         void WriteStartDictArrayItem();
@@ -173,18 +173,18 @@ namespace dc
 
         /// <summary>Write an element with no inner nodes.
         /// Element type is inferred by calling obj.GetType().</summary>
-        void WriteValueElement(dot::String elementName, dot::Object value);
+        void WriteValueElement(dot::string elementName, dot::object value);
 
         /// <summary>Write an array item with no inner nodes.
         /// Element type is inferred by calling obj.GetType().</summary>
-        void WriteValueArrayItem(dot::Object value);
+        void WriteValueArrayItem(dot::object value);
 
         /// <summary>Write a single array item.</summary>
-        void WriteArrayItem(dot::Object value);
+        void WriteArrayItem(dot::object value);
 
         /// <summary>Write an array of elements with no inner nodes.
         /// Element type is inferred by calling obj.GetType().</summary>
-        void WriteValueArray(dot::String elementName, dot::IObjectEnumerable values);
+        void WriteValueArray(dot::string elementName, dot::IObjectEnumerable values);
     };
 
 }

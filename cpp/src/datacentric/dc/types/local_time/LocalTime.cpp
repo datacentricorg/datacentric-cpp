@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    dot::LocalTime LocalTimeHelper::Parse(dot::String value)
+    dot::local_time LocalTimeHelper::Parse(dot::string value)
     {
         boost::posix_time::time_input_facet* facet = new boost::posix_time::time_input_facet();
         facet->format("%H:%M:%S%f");
@@ -32,21 +32,21 @@ namespace dc
         stream >> ptime;
 
         // If default constructed time is passed, error message
-        if (ptime == boost::posix_time::not_a_date_time) throw dot::new_Exception(dot::String::Format(
+        if (ptime == boost::posix_time::not_a_date_time) throw dot::new_Exception(dot::string::Format(
             "String representation of default constructed time {0} "
             "passed to LocalTime.Parse(time) method.", value));
 
         return ptime;
     }
 
-    int LocalTimeHelper::ToIsoInt(dot::LocalTime value)
+    int LocalTimeHelper::ToIsoInt(dot::local_time value)
     {
         // LocalTime is serialized to millisecond precision in ISO 8601 9 digit int hhmmssfff format
         int result = value.getHour() * 100'00'000 + value.getMinute() * 100'000 + value.getSecond() * 1000 + value.getMillisecond();
         return result;
     }
 
-    dot::LocalTime LocalTimeHelper::ParseIsoInt(int value)
+    dot::local_time LocalTimeHelper::ParseIsoInt(int value)
     {
         // Extract year, month, day
         int hour = value / 100'00'000;
@@ -58,6 +58,6 @@ namespace dc
         int millisecond = value;
 
         // Create new LocalTime object, validates values on input
-        return dot::LocalTime(hour, minute, second, millisecond);
+        return dot::local_time(hour, minute, second, millisecond);
     }
 }

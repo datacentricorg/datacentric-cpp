@@ -20,14 +20,14 @@ limitations under the License.
 
 namespace dc
 {
-    dot::String MongoStandardFormatServerDataImpl::GetMongoServerUri()
+    dot::string MongoStandardFormatServerDataImpl::GetMongoServerUri()
     {
         if (Hosts == nullptr || Hosts->getCount() == 0) throw dot::new_Exception(
-            dot::String::Format("The list of hosts provided for MongoDB server {0} is null or empty.", DbServerID));
+            dot::string::Format("The list of hosts provided for MongoDB server {0} is null or empty.", DbServerID));
 
         // TODO uncoment when implemented
-        //String hostNames = dot::String::Join(",", Hosts);
-        //String result = dot::String::Concat("mongodb://", hostNames, "/");
+        //String hostNames = dot::string::Join(",", Hosts);
+        //String result = dot::string::Concat("mongodb://", hostNames, "/");
         //return result;
         throw dot::new_Exception("Not implemented.");
     }

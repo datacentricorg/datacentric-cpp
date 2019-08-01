@@ -33,17 +33,17 @@ namespace dc
 
     IQuery QueryImpl::SortBy(dot::PropertyInfo keySelector)
     {
-        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::String)keySelector->Name, 1));
+        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)keySelector->Name, 1));
         return this;
     }
 
     IQuery QueryImpl::SortByDescending(dot::PropertyInfo keySelector)
     {
-        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::String)keySelector->Name, -1));
+        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)keySelector->Name, -1));
         return this;
     }
 
-    dot::IObjectEnumerable QueryImpl::Select(dot::List<dot::PropertyInfo> props, dot::Type elementType)
+    dot::IObjectEnumerable QueryImpl::Select(dot::List<dot::PropertyInfo> props, dot::type_t elementType)
     {
         this->elementType_ = elementType;
         this->select_ = props;

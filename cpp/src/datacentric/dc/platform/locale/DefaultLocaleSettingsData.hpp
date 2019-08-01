@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class DefaultLocaleSettingsDataImpl; using DefaultLocaleSettingsData = dot::Ptr<DefaultLocaleSettingsDataImpl>;
+    class DefaultLocaleSettingsDataImpl; using DefaultLocaleSettingsData = dot::ptr<DefaultLocaleSettingsDataImpl>;
 
     /// <summary>Default locale settings data.</summary>
     class DC_CLASS DefaultLocaleSettingsDataImpl : public LocaleSettingsDataImpl

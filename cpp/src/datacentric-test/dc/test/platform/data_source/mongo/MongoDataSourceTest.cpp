@@ -39,9 +39,9 @@ namespace dc
 {
     static std::stringstream received;
 
-    class MongoDataSourceTestImpl; using MongoDataSourceTest = dot::Ptr<MongoDataSourceTestImpl>;
+    class MongoDataSourceTestImpl; using MongoDataSourceTest = dot::ptr<MongoDataSourceTestImpl>;
 
-    class MongoDataSourceTestImpl : public virtual dot::ObjectImpl
+    class MongoDataSourceTestImpl : public virtual dot::object_impl
     {
         typedef MongoDataSourceTestImpl self;
     public:
@@ -51,7 +51,7 @@ namespace dc
     };
 
     /// <summary>Save record with minimal data for testing how the records are found. </summary>
-    ObjectId SaveMinimalRecord(IUnitTestContext context, dot::String dataSetID, dot::String recordID, int recordIndex, dot::Nullable<int> version = dot::Nullable<int>())
+    ObjectId SaveMinimalRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::Nullable<int> version = dot::Nullable<int>())
     {
         MongoTestData rec = new_MongoTestData();
         rec->RecordID = recordID;
@@ -64,16 +64,16 @@ namespace dc
     }
 
     /// <summary>Save base record</summary>
-    ObjectId SaveBaseRecord(IUnitTestContext context, dot::String dataSetID, dot::String recordID, int recordIndex)
+    ObjectId SaveBaseRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestData rec = new MongoTestDataImpl();
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 100.0;
-        rec->LocalDateElement = dot::LocalDate(2003, 5, 1);
-        rec->LocalTimeElement = dot::LocalTime(10, 15, 30); // 10:15:30
-        rec->LocalMinuteElement = dot::LocalMinute(10, 15); // 10:15
-        rec->LocalDateTimeElement = dot::LocalDateTime(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->LocalDateElement = dot::local_date(2003, 5, 1);
+        rec->LocalTimeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->LocalMinuteElement = dot::local_minute(10, 15); // 10:15
+        rec->LocalDateTimeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->EnumValue = MongoTestEnum::EnumValue2;
 
         ObjectId dataSet = context->GetDataSet(dataSetID, context->GetCommon());
@@ -82,22 +82,22 @@ namespace dc
     }
 
     /// <summary>Save derived record</summary>
-    ObjectId SaveDerivedRecord(IUnitTestContext context, dot::String dataSetID, dot::String recordID, int recordIndex)
+    ObjectId SaveDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestDerivedData rec = new_MongoTestDerivedData();
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
-        rec->LocalDateElement = dot::LocalDate(2003, 5, 1);
-        rec->LocalTimeElement = dot::LocalTime(10, 15, 30); // 10:15:30
-        rec->LocalMinuteElement = dot::LocalMinute(10, 15); // 10:15
-        rec->LocalDateTimeElement = dot::LocalDateTime(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
-        rec->StringElement2 = dot::String::Empty; // Test how empty value is recorded
+        rec->LocalDateElement = dot::local_date(2003, 5, 1);
+        rec->LocalTimeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->LocalMinuteElement = dot::local_minute(10, 15); // 10:15
+        rec->LocalDateTimeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->StringElement2 = dot::string::Empty; // Test how empty value is recorded
         rec->DoubleElement2 = 200.0;
 
-        // dot::String collections
-        rec->ArrayOfString = dot::new_Array1D<dot::String>({ "A", "B", "C" });
-        rec->ListOfString = dot::new_List<dot::String>({ "A", "B", "C" });
+        // dot::string collections
+        rec->ArrayOfString = dot::new_Array1D<dot::string>({ "A", "B", "C" });
+        rec->ListOfString = dot::new_List<dot::string>({ "A", "B", "C" });
 
         // Double collections
         rec->ArrayOfDouble = dot::new_Array1D<double>({ 1.0, 2.0, 3.0 });
@@ -145,17 +145,17 @@ namespace dc
     }
 
     /// <summary>Save other derived record.</summary>
-    ObjectId SaveOtherDerivedRecord(IUnitTestContext context, dot::String dataSetID, dot::String recordID, int recordIndex)
+    ObjectId SaveOtherDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestOtherDerivedData rec = new_MongoTestOtherDerivedData();
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
-        rec->LocalDateElement = dot::LocalDate(2003, 5, 1);
-        rec->LocalTimeElement = dot::LocalTime(10, 15, 30); // 10:15:30
-        rec->LocalMinuteElement = dot::LocalMinute(10, 15); // 10:15
-        rec->LocalDateTimeElement = dot::LocalDateTime(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
-        rec->OtherStringElement2 = dot::String::Empty; // Test how empty value is recorded
+        rec->LocalDateElement = dot::local_date(2003, 5, 1);
+        rec->LocalTimeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->LocalMinuteElement = dot::local_minute(10, 15); // 10:15
+        rec->LocalDateTimeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->OtherStringElement2 = dot::string::Empty; // Test how empty value is recorded
         rec->OtherDoubleElement2 = 200.0;
 
         ObjectId dataSet = context->GetDataSet(dataSetID, context->DataSet);
@@ -170,11 +170,11 @@ namespace dc
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
-        rec->LocalDateElement = dot::LocalDate(2003, 5, 1);
-        rec->LocalTimeElement = dot::LocalTime(10, 15, 30); // 10:15:30
-        rec->LocalMinuteElement = dot::LocalMinute(10, 15); // 10:15
-        rec->LocalDateTimeElement = dot::LocalDateTime(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
-        rec->OtherStringElement3 = dot::String::Empty; // Test how empty value is recorded
+        rec->LocalDateElement = dot::local_date(2003, 5, 1);
+        rec->LocalTimeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->LocalMinuteElement = dot::local_minute(10, 15); // 10:15
+        rec->LocalDateTimeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->OtherStringElement3 = dot::string::Empty; // Test how empty value is recorded
         rec->OtherDoubleElement3 = 200.0;
 
         ObjectId dataSet = context->GetDataSet(dataSetID, context->DataSet);
@@ -247,23 +247,23 @@ namespace dc
 
     /// <summary>Load the object and verify the outcome.</summary>
     template <class TKey, class TRecord>
-    void VerifyLoad(IUnitTestContext context, KeyFor<TKey, TRecord> key, dot::String dataSetID)
+    void VerifyLoad(IUnitTestContext context, KeyFor<TKey, TRecord> key, dot::string dataSetID)
     {
         // Get dataset and try loading the record
         ObjectId dataSet = context->GetDataSet(dataSetID, context->GetCommon());
-        dot::Ptr<TRecord> record = key->LoadOrNull(context, dataSet);
+        dot::ptr<TRecord> record = key->LoadOrNull(context, dataSet);
 
         if (record == nullptr)
         {
             // Not found
-            received << * dot::String::Format("Record {0} in dataset {1} not found.", key->ToString(), dataSetID) << std::endl;
+            received << * dot::string::Format("Record {0} in dataset {1} not found.", key->ToString(), dataSetID) << std::endl;
         }
         else
         {
             // Found, also checks that the key matches
             REQUIRE(record->getKey() == key->ToString());
             received
-                << *dot::String::Format("Record {0} in dataset {1} found and has Type={2}.",
+                << *dot::string::Format("Record {0} in dataset {1} found and has Type={2}.",
                     key->ToString(), dataSetID, record->GetType()->Name)
                 << std::endl;
         }
@@ -271,7 +271,7 @@ namespace dc
 
     /// <summary>Query over all records of the specified type in the specified dataset.</summary>
     template <class TRecord>
-    void VerifyQuery(IUnitTestContext context, dot::String dataSetID)
+    void VerifyQuery(IUnitTestContext context, dot::string dataSetID)
     {
         // Get dataset and query
         ObjectId dataSet = context->GetDataSet(dataSetID, context->DataSet);
@@ -281,7 +281,7 @@ namespace dc
         for (TRecord record : query->AsEnumerable<TRecord>())
         {
             received
-                << *dot::String::Format(
+                << *dot::string::Format(
                     "Record {0} returned by query in dataset {1} and has Type={2}.",
                     record->getKey(), dataSetID, record->GetType()->Name)
                 << std::endl;
@@ -364,7 +364,7 @@ namespace dc
         SaveMinimalRecord(context, "A", "A", 2, 2);
         SaveMinimalRecord(context, "A", "B", 3, 2);
 
-        dot::List<dot::String> in_list = dot::new_List<dot::String>();
+        dot::List<dot::string> in_list = dot::new_List<dot::string>();
         in_list->Add("B");
 
         // Query for RecordID=B
@@ -380,8 +380,8 @@ namespace dc
 
         for (MongoTestData obj : query)
         {
-            dot::String dataSetID = context->DataSource->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
-            received << *dot::String::Format("Key={0} DataSet={1} Version={2}", obj->getKey(), dataSetID, obj->Version) << std::endl;
+            dot::string dataSetID = context->DataSource->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
+            received << *dot::string::Format("Key={0} DataSet={1} Version={2}", obj->getKey(), dataSetID, obj->Version) << std::endl;
         }
 
         std::string toVerify = received.str();
@@ -552,22 +552,22 @@ namespace dc
         dot::IEnumerable<MongoTestDerivedData> testQuery = context->DataSource->GetQuery<MongoTestDerivedData>(dataSetB)
             ->Where(make_prop(&MongoTestDerivedDataImpl::DataElementList)[0]->*make_prop(&ElementSampleDataImpl::DoubleElement3) == 1.0)
             ->Where(make_prop(&MongoTestDerivedDataImpl::DataElementList)[0]->*make_prop(&ElementSampleDataImpl::StringElement3) == "A0")
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateElement) < dot::LocalDate(2003, 5, 2))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateElement) > dot::LocalDate(2003, 4, 30))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateElement) == dot::LocalDate(2003, 5, 1))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalTimeElement) < dot::LocalTime(10, 15, 31))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalTimeElement) > dot::LocalTime(10, 15, 29))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalTimeElement) == dot::LocalTime(10, 15, 30))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateTimeElement) < dot::LocalDateTime(2003, 5, 1, 10, 15, 01))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateTimeElement) > dot::LocalDateTime(2003, 5, 1, 10, 14, 59))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateTimeElement) == dot::LocalDateTime(2003, 5, 1, 10, 15))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::StringElement2) == dot::String::Empty)
+            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateElement) < dot::local_date(2003, 5, 2))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateElement) > dot::local_date(2003, 4, 30))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateElement) == dot::local_date(2003, 5, 1))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalTimeElement) < dot::local_time(10, 15, 31))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalTimeElement) > dot::local_time(10, 15, 29))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalTimeElement) == dot::local_time(10, 15, 30))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateTimeElement) < dot::local_date_time(2003, 5, 1, 10, 15, 01))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateTimeElement) > dot::local_date_time(2003, 5, 1, 10, 14, 59))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateTimeElement) == dot::local_date_time(2003, 5, 1, 10, 15))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::StringElement2) == dot::string::Empty)
             ->Where(make_prop(&MongoTestDerivedDataImpl::KeyElement) == key->ToString())
             ->AsEnumerable<MongoTestDerivedData>();
 
         for (MongoTestData obj : testQuery)
         {
-            received << *dot::String::Format("Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
+            received << *dot::string::Format("Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
 
         std::string toVerify = received.str();
@@ -593,35 +593,35 @@ namespace dc
             key->RecordID = "A";
             key->RecordIndex = dot::Nullable<int>(0);
             RecordType obj = key->LoadOrNull(context, dataSetD);
-            received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
+            received << *dot::string::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "B";
             key->RecordIndex = dot::Nullable<int>(0);
             RecordType obj = key->LoadOrNull(context, dataSetD);
-            received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
+            received << *dot::string::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "C";
             key->RecordIndex = dot::Nullable<int>(0);
             RecordType obj = key->LoadOrNull(context, dataSetD);
-            received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
+            received << *dot::string::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "D";
             key->RecordIndex = dot::Nullable<int>(0);
             RecordType obj = key->LoadOrNull(context, dataSetD);
-            received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
+            received << *dot::string::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
         }
         {
             received << "Query by MongoTestData, unconstrained" << std::endl;
             IQuery query = context->DataSource->GetQuery<MongoTestData>(dataSetD);
             for (RecordType obj : query->AsEnumerable<RecordType>())
             {
-                received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
+                received << *dot::string::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
             }
         }
         {
@@ -629,7 +629,7 @@ namespace dc
             IQuery query = context->DataSource->GetQuery<MongoTestDerivedData>(dataSetD);
             for (RecordType obj : query->AsEnumerable<RecordType>())
             {
-                received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
+                received << *dot::string::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
             }
         }
         {
@@ -638,7 +638,7 @@ namespace dc
             IQuery query = context->DataSource->GetQuery<MongoTestOtherDerivedData>(dataSetD);
             for (RecordType obj : query->AsEnumerable<RecordType>())
             {
-                received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
+                received << *dot::string::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
             }
         }
         {
@@ -646,7 +646,7 @@ namespace dc
             IQuery query = context->DataSource->GetQuery<MongoTestDerivedFromDerivedData>(dataSetD);
             for (RecordType obj : query->AsEnumerable<RecordType>())
             {
-                received << *dot::String::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
+                received << *dot::string::Format("    Key={0} Type={1}", obj->getKey(), obj->GetType()->Name) << std::endl;
             }
         }
 
@@ -675,7 +675,7 @@ namespace dc
         for (MongoTestData obj : baseQuery)
         {
             received
-                << *dot::String::Format(
+                << *dot::string::Format(
                     "    RecordIndex={0} DoubleElement={1} Key={2} Type={3}",
                     obj->RecordIndex, obj->DoubleElement, obj->getKey(), obj->GetType()->Name)
                 << std::endl;
@@ -714,10 +714,10 @@ namespace dc
         ObjectId objD0 = SaveMinimalRecord(context, "B", "D", 0, 0);
 
         received << "Load records by ObjectId without constraint" << std::endl;
-        received << *dot::String::Format("    Found by ObjectId=A0 = {0}", context->LoadOrNull<MongoTestData>(objA0) != nullptr) << std::endl;
-        received << *dot::String::Format("    Found by ObjectId=A1 = {0}", context->LoadOrNull<MongoTestData>(objA1) != nullptr) << std::endl;
-        received << *dot::String::Format("    Found by ObjectId=A2 = {0}", context->LoadOrNull<MongoTestData>(objA2) != nullptr) << std::endl;
-        received << *dot::String::Format("    Found by ObjectId=C0 = {0}", context->LoadOrNull<MongoTestData>(objC0) != nullptr) << std::endl;
+        received << *dot::string::Format("    Found by ObjectId=A0 = {0}", context->LoadOrNull<MongoTestData>(objA0) != nullptr) << std::endl;
+        received << *dot::string::Format("    Found by ObjectId=A1 = {0}", context->LoadOrNull<MongoTestData>(objA1) != nullptr) << std::endl;
+        received << *dot::string::Format("    Found by ObjectId=A2 = {0}", context->LoadOrNull<MongoTestData>(objA2) != nullptr) << std::endl;
+        received << *dot::string::Format("    Found by ObjectId=C0 = {0}", context->LoadOrNull<MongoTestData>(objC0) != nullptr) << std::endl;
 
         // Load each record by string key
         {
@@ -732,8 +732,8 @@ namespace dc
             MongoTestData loadedC0 = loadedC0Key->LoadOrNull(context, dataSetB);
 
             received << "Load records by string key without constraint" << std::endl;
-            if (loadedA0 != nullptr) received << *dot::String::Format("    Version found for key=A;0: {0}", loadedA0->Version) << std::endl;
-            if (loadedC0 != nullptr) received << *dot::String::Format("    Version found for key=C;0: {0}", loadedC0->Version) << std::endl;
+            if (loadedA0 != nullptr) received << *dot::string::Format("    Version found for key=A;0: {0}", loadedA0->Version) << std::endl;
+            if (loadedC0 != nullptr) received << *dot::string::Format("    Version found for key=C;0: {0}", loadedC0->Version) << std::endl;
         }
 
         // Query for all records
@@ -746,8 +746,8 @@ namespace dc
             received << "Query records without constraint" << std::endl;
             for (MongoTestData obj : query)
             {
-                dot::String dataSetID = context->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
-                received << *dot::String::Format("    Key={0} DataSet={1} Version={2}", obj->getKey(), dataSetID, obj->Version) << std::endl;
+                dot::string dataSetID = context->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
+                received << *dot::string::Format("    Key={0} DataSet={1} Version={2}", obj->getKey(), dataSetID, obj->Version) << std::endl;
             }
         }
 
@@ -760,10 +760,10 @@ namespace dc
 
         // Get each record by ObjectId
         received << "Load records by ObjectId with RevisedBeforeId constraint" << std::endl;
-        received << *dot::String::Format("    Found by ObjectId=A0 = {0}", context->LoadOrNull<MongoTestData>(objA0) != nullptr) << std::endl;
-        received << *dot::String::Format("    Found by ObjectId=A1 = {0}", context->LoadOrNull<MongoTestData>(objA1) != nullptr) << std::endl;
-        received << *dot::String::Format("    Found by ObjectId=A2 = {0}", context->LoadOrNull<MongoTestData>(objA2) != nullptr) << std::endl;
-        received << *dot::String::Format("    Found by ObjectId=C0 = {0}", context->LoadOrNull<MongoTestData>(objC0) != nullptr) << std::endl;
+        received << *dot::string::Format("    Found by ObjectId=A0 = {0}", context->LoadOrNull<MongoTestData>(objA0) != nullptr) << std::endl;
+        received << *dot::string::Format("    Found by ObjectId=A1 = {0}", context->LoadOrNull<MongoTestData>(objA1) != nullptr) << std::endl;
+        received << *dot::string::Format("    Found by ObjectId=A2 = {0}", context->LoadOrNull<MongoTestData>(objA2) != nullptr) << std::endl;
+        received << *dot::string::Format("    Found by ObjectId=C0 = {0}", context->LoadOrNull<MongoTestData>(objC0) != nullptr) << std::endl;
 
         // Load each record by string key
         {
@@ -778,8 +778,8 @@ namespace dc
             MongoTestData loadedC0 = loadedC0Key->LoadOrNull(context, dataSetB);
 
             received << "Load records by string key with RevisedBeforeId constraint" << std::endl;
-            if (loadedA0 != nullptr) received << *dot::String::Format("    Version found for key=A;0: {0}", loadedA0->Version) << std::endl;
-            if (loadedC0 != nullptr) received << *dot::String::Format("    Version found for key=C;0: {0}", loadedC0->Version) << std::endl;
+            if (loadedA0 != nullptr) received << *dot::string::Format("    Version found for key=A;0: {0}", loadedA0->Version) << std::endl;
+            if (loadedC0 != nullptr) received << *dot::string::Format("    Version found for key=C;0: {0}", loadedC0->Version) << std::endl;
         }
 
         // Query for revised before the cutoff time
@@ -792,8 +792,8 @@ namespace dc
             received << "Query records with RevisedBeforeId constraint" << std::endl;
             for (MongoTestData obj : query)
             {
-                dot::String dataSetID = context->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
-                received << *dot::String::Format("    Key={0} DataSet={1} Version={2}", obj->getKey(), dataSetID, obj->Version) << std::endl;
+                dot::string dataSetID = context->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
+                received << *dot::string::Format("    Key={0} DataSet={1} Version={2}", obj->getKey(), dataSetID, obj->Version) << std::endl;
             }
         }
 

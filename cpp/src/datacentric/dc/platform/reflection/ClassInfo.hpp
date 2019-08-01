@@ -23,13 +23,13 @@ limitations under the License.
 
 namespace dc
 {
-    class ClassInfoImpl; using ClassInfo = dot::Ptr<ClassInfoImpl>;
+    class ClassInfoImpl; using ClassInfo = dot::ptr<ClassInfoImpl>;
 
     /// <summary>Provides the result of applying class map settings to a class.</summary>
-    class DC_CLASS ClassInfoImpl : public virtual dot::ObjectImpl
+    class DC_CLASS ClassInfoImpl : public virtual dot::object_impl
     {
         typedef ClassInfoImpl self;
-        typedef dot::Type Type_;
+        typedef dot::type_t Type_;
 
     public: // PROPERTIES
 
@@ -37,27 +37,27 @@ namespace dc
         Type_ Type;
 
         /// <summary>Namespace before mapping.</summary>
-        dot::String RawNamespace;
+        dot::string RawNamespace;
 
         /// <summary>Namespace after mapping.</summary>
-        dot::String MappedNamespace;
+        dot::string MappedNamespace;
 
         /// <summary>Class name without namespace before mapping.</summary>
-        dot::String RawClassName;
+        dot::string RawClassName;
 
         /// <summary>Class name without namespace after mapping.</summary>
-        dot::String MappedClassName;
+        dot::string MappedClassName;
 
         /// <summary>Fully qualified class name before mapping.</summary>
-        dot::String RawFullName;
+        dot::string RawFullName;
 
         /// <summary>Fully qualified class name after mapping.</summary>
-        dot::String MappedFullName;
+        dot::string MappedFullName;
 
     public: // METHODS
 
         /// <summary>Returns fully qualified class name.</summary>
-        virtual dot::String ToString() override;
+        virtual dot::string ToString() override;
 
     public: // STATIC
 
@@ -69,7 +69,7 @@ namespace dc
         /// This object contains information about the
         /// class including its name, namespace, etc.
         /// </summary>
-        static ClassInfo GetOrCreate(dot::Object value);
+        static ClassInfo GetOrCreate(dot::object value);
 
         /// <summary>
         /// Get cached instance for the specified type, or create

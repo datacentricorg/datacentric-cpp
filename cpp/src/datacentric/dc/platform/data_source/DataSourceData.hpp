@@ -30,15 +30,15 @@ limitations under the License.
 
 namespace dc
 {
-    class DataSourceKeyImpl; using DataSourceKey = dot::Ptr<DataSourceKeyImpl>;
-    class DataSourceDataImpl; using DataSourceData = dot::Ptr<DataSourceDataImpl>;
+    class DataSourceKeyImpl; using DataSourceKey = dot::ptr<DataSourceKeyImpl>;
+    class DataSourceDataImpl; using DataSourceData = dot::ptr<DataSourceDataImpl>;
 
-    class KeyTypeImpl; using KeyType = dot::Ptr<KeyTypeImpl>;
-    class DataImpl; using Data = dot::Ptr<DataImpl>;
+    class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
+    class DataImpl; using Data = dot::ptr<DataImpl>;
     template <typename TKey, typename TRecord> class RootRecordForImpl;
-    class DbNameKeyImpl; using DbNameKey = dot::Ptr<DbNameKeyImpl>;
-    class DbServerKeyImpl; using DbServerKey = dot::Ptr<DbServerKeyImpl>;
-    class IQueryImpl; using IQuery = dot::Ptr<IQueryImpl>;
+    class DbNameKeyImpl; using DbNameKey = dot::ptr<DbNameKeyImpl>;
+    class DbServerKeyImpl; using DbServerKey = dot::ptr<DbServerKeyImpl>;
+    class IQueryImpl; using IQuery = dot::ptr<IQueryImpl>;
 
     class ObjectId;
 
@@ -62,7 +62,7 @@ namespace dc
     private: // FIELDS
 
         /// <summary>Dictionary of dataset ObjectIds stored under string dataSetID.</summary>
-        dot::Dictionary<dot::String, ObjectId> dataSetDict_ = dot::new_Dictionary<dot::String, ObjectId>();
+        dot::Dictionary<dot::string, ObjectId> dataSetDict_ = dot::new_Dictionary<dot::string, ObjectId>();
 
         /// <summary>
         /// Dictionary of the expanded list of parent ObjectIds of dataset, including
@@ -113,7 +113,7 @@ namespace dc
         /// If either RevisedBefore or RevisedBeforeId is specified, the
         /// data source is readonly and its IsReadOnly() method returns true.
         /// </summary>
-        dot::Nullable<dot::LocalDateTime> RevisedBefore;
+        dot::Nullable<dot::local_date_time> RevisedBefore;
 
         /// <summary>
         /// The data source will return records for which _id is strictly
@@ -153,7 +153,7 @@ namespace dc
         ///
         /// Return null if not found.
         /// </summary>
-        virtual RecordType LoadOrNull(ObjectId id, dot::Type dataType) = 0;
+        virtual RecordType LoadOrNull(ObjectId id, dot::type_t dataType) = 0;
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -206,7 +206,7 @@ namespace dc
         /// than any other ObjectId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         /// </summary>
-        virtual IQuery GetQuery(ObjectId dataSet, dot::Type type) = 0;
+        virtual IQuery GetQuery(ObjectId dataSet, dot::type_t type) = 0;
 
         template <class DataType>
         IQuery GetQuery(ObjectId dataSet)
@@ -274,7 +274,7 @@ namespace dc
         /// Error message if no matching dataSetID string is found
         /// or a delete marker is found instead.
         /// </summary>
-        ObjectId GetDataSetOrEmpty(dot::String dataSetID, ObjectId loadFrom);
+        ObjectId GetDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom);
 
         /// <summary>
         /// Save new version of the dataset.
@@ -347,7 +347,7 @@ namespace dc
         /// because it will return the value from in-memory
         /// cache when present.
         /// </summary>
-        ObjectId LoadDataSetOrEmpty(dot::String dataSetID, ObjectId loadFrom);
+        ObjectId LoadDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom);
 
         /// <summary>
         /// Builds hashset of parent datasets for specified dataset data,
@@ -375,7 +375,7 @@ namespace dc
         /// </summary>
         void BuildDataSetLookupList(DataSetData dataSetData, dot::HashSet<ObjectId> result);
 
-        dot::String ToString() { return getKey(); }
+        dot::string ToString() { return getKey(); }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DataSourceData")
             DOT_TYPE_PROP(DataSourceID)

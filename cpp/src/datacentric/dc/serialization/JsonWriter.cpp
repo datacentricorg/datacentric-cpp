@@ -40,7 +40,7 @@ namespace dc
         , currentState_(TreeWriterState::Empty)
     {}
 
-    void JsonWriterImpl::WriteStartDocument(dot::String rootElementName)
+    void JsonWriterImpl::WriteStartDocument(dot::string rootElementName)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
@@ -55,7 +55,7 @@ namespace dc
                 "A call to WriteStartDocument(...) must be the first call to the tree writer.");
     }
 
-    void JsonWriterImpl::WriteEndDocument(dot::String rootElementName)
+    void JsonWriterImpl::WriteEndDocument(dot::string rootElementName)
     {
         // Check state transition matrix
         if (currentState_ == TreeWriterState::DictCompleted && elementStack_.size() == 1)
@@ -67,8 +67,8 @@ namespace dc
                 "A call to WriteEndDocument(...) does not follow  WriteEndElement(...) at at root level.");
 
         // Pop the outer element name and state from the element stack
-        dot::String currentElementName;
-        std::pair<dot::String, TreeWriterState> top = elementStack_.top();
+        dot::string currentElementName;
+        std::pair<dot::string, TreeWriterState> top = elementStack_.top();
         elementStack_.pop();
         currentElementName = top.first;
         currentState_ = top.second;
@@ -76,11 +76,11 @@ namespace dc
         // Check that the current element name matches the specified name. Writing the actual end tag
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (rootElementName != currentElementName)
-            throw dot::new_Exception(dot::String::Format(
+            throw dot::new_Exception(dot::string::Format(
                 "WriteEndDocument({0}) follows WriteStartDocument({1}), root element name mismatch.", rootElementName, currentElementName));
     }
 
-    void JsonWriterImpl::WriteStartElement(dot::String elementName)
+    void JsonWriterImpl::WriteStartElement(dot::string elementName)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
@@ -98,7 +98,7 @@ namespace dc
         jsonWriter_.Key(*elementStack_.top().first);
     }
 
-    void JsonWriterImpl::WriteEndElement(dot::String elementName)
+    void JsonWriterImpl::WriteEndElement(dot::string elementName)
     {
         // Check state transition matrix
         if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::ElementCompleted;
@@ -110,8 +110,8 @@ namespace dc
 
         // Pop the outer element name and state from the element stack
         //(currentElementName, currentState_) = elementStack_.Pop();
-        dot::String currentElementName;
-        std::pair<dot::String, TreeWriterState> top = elementStack_.top();
+        dot::string currentElementName;
+        std::pair<dot::string, TreeWriterState> top = elementStack_.top();
         elementStack_.pop();
         currentElementName = top.first;
         currentState_ = top.second;
@@ -120,7 +120,7 @@ namespace dc
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (elementName != currentElementName)
             throw dot::new_Exception(
-                dot::String::Format("EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName));
+                dot::string::Format("EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName));
 
         // Nothing to write here but array closing bracket was written above
     }
@@ -144,7 +144,7 @@ namespace dc
         // If prev state is DocumentStarted, write _t tag
         //if (prevState == TreeWriterState::DocumentStarted)
         //{
-        //    dot::String rootElementName = elementStack_.top().first;
+        //    dot::string rootElementName = elementStack_.top().first;
         //    if (!rootElementName->EndsWith("Key"))  // TODO remove it
         //        this->WriteValueElement("_t", rootElementName);
         //}
@@ -237,7 +237,7 @@ namespace dc
         // Nothing to write here
     }
 
-    void JsonWriterImpl::WriteValue(dot::Object value)
+    void JsonWriterImpl::WriteValue(dot::object value)
     {
         // Check state transition matrix
         if (currentState_ == TreeWriterState::ValueStarted) currentState_ = TreeWriterState::ValueWritten;
@@ -256,10 +256,10 @@ namespace dc
         }
 
         // Serialize based on value type
-        dot::Type valueType = value->GetType();
+        dot::type_t valueType = value->GetType();
 
-        if (valueType->Equals(dot::typeof<dot::String>()))
-            jsonWriter_.String(*(dot::String)value);
+        if (valueType->Equals(dot::typeof<dot::string>()))
+            jsonWriter_.String(*(dot::string)value);
         else
         if (valueType->Equals(dot::typeof<double>())) // ? TODO check dot::typeof<Double>() dot::typeof<NullableDouble>()
             jsonWriter_.Double((double)value);
@@ -273,17 +273,17 @@ namespace dc
         if (valueType->Equals(dot::typeof<int64_t>()))
             jsonWriter_.Int64((int64_t)value);
         else
-        if (valueType->Equals(dot::typeof<dot::LocalDate>()))
-            jsonWriter_.Int(LocalDateHelper::ToIsoInt((dot::LocalDate)value));
+        if (valueType->Equals(dot::typeof<dot::local_date>()))
+            jsonWriter_.Int(LocalDateHelper::ToIsoInt((dot::local_date)value));
         else
-        if (valueType->Equals(dot::typeof<dot::LocalTime>()))
-            jsonWriter_.Int(LocalTimeHelper::ToIsoInt((dot::LocalTime)value));
+        if (valueType->Equals(dot::typeof<dot::local_time>()))
+            jsonWriter_.Int(LocalTimeHelper::ToIsoInt((dot::local_time)value));
         else
-        if (valueType->Equals(dot::typeof<dot::LocalMinute>()))
-            jsonWriter_.Int(LocalMinuteHelper::ToIsoInt((dot::LocalMinute) value));
+        if (valueType->Equals(dot::typeof<dot::local_minute>()))
+            jsonWriter_.Int(LocalMinuteHelper::ToIsoInt((dot::local_minute) value));
         else
-        if (valueType->Equals(dot::typeof<dot::LocalDateTime>()))
-            jsonWriter_.Int64(LocalDateTimeHelper::ToIsoLong((dot::LocalDateTime)value));
+        if (valueType->Equals(dot::typeof<dot::local_date_time>()))
+            jsonWriter_.Int64(LocalDateTimeHelper::ToIsoLong((dot::local_date_time)value));
         else
         if (valueType->Equals(dot::typeof<ObjectId>()))
             jsonWriter_.String(*value->ToString());
@@ -294,10 +294,10 @@ namespace dc
         //if (valueType.is<Object>()) // TODO KeyType
         //    jsonWriter_.String(*valueType->ToString()); // TODO semicolonDelimitedKeyString = keyElement.AsString();
         else
-            throw dot::new_Exception(dot::String::Format("Element type {0} is not supported for JSON serialization.", valueType));
+            throw dot::new_Exception(dot::string::Format("Element type {0} is not supported for JSON serialization.", valueType));
     }
 
-    dot::String JsonWriterImpl::ToString()
+    dot::string JsonWriterImpl::ToString()
     {
         return buffer_.GetString();
     }

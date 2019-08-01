@@ -27,10 +27,10 @@ limitations under the License.
 
 namespace dc
 {
-    class MongoDataSourceBaseDataImpl; using MongoDataSourceData = dot::Ptr<MongoDataSourceBaseDataImpl>;
-    class IContextImpl; using IContext = dot::Ptr<IContextImpl>;
-    class KeyTypeImpl; using KeyType = dot::Ptr<KeyTypeImpl>;
-    class DataImpl; using Data = dot::Ptr<DataImpl>;
+    class MongoDataSourceBaseDataImpl; using MongoDataSourceData = dot::ptr<MongoDataSourceBaseDataImpl>;
+    class IContextImpl; using IContext = dot::ptr<IContextImpl>;
+    class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
+    class DataImpl; using Data = dot::ptr<DataImpl>;
 
     /// <summary>
     /// Abstract base class for data source implementations based on MongoDB.
@@ -58,7 +58,7 @@ namespace dc
         InstanceType instanceType_;
 
         /// <summary>Full name of the database on Mongo server including delimiters.</summary>
-        dot::String dbName_;
+        dot::string dbName_;
 
         /// <summary>Interface to Mongo client in MongoDB C++ driver.</summary>
         mongocxx::client client_;
@@ -110,11 +110,11 @@ namespace dc
         /// <summary>
         /// Get collection with name based on the type.
         /// </summary>
-        mongocxx::collection GetCollection(dot::Type dataType);
+        mongocxx::collection GetCollection(dot::type_t dataType);
 
         /// <summary>
         /// Get collection with name based on the type.
         /// </summary>
-        mongocxx::collection GetCollection(dot::String typeName);
+        mongocxx::collection GetCollection(dot::string typeName);
     };
 }

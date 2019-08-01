@@ -29,18 +29,18 @@ namespace dc
         /// <summary>Parse string using standard ISO 8601 date pattern yyyy-mm-ddThh:mm::ss.fff, throw if invalid format.
         /// No variations from the standard format are accepted and no delimiters can be changed or omitted.
         /// Specifically, ISO int-like string using yyyymmddhhmmssfff format without delimiters is not accepted.</summary>
-        static dot::LocalDateTime Parse(dot::String value);
+        static dot::local_date_time Parse(dot::string value);
 
         /// <summary>Convert LocalDateTime to ISO 8601 8 digit long in yyyymmddhhmmssfff format.</summary>
-        static int64_t ToIsoLong(dot::LocalDateTime value);
+        static int64_t ToIsoLong(dot::local_date_time value);
 
         /// <summary>Parse ISO 8601 17 digit long in yyyymmddhhmmssfff format, throw if invalid format.</summary>
-        static dot::LocalDateTime ParseIsoLong(int64_t value);
+        static dot::local_date_time ParseIsoLong(int64_t value);
 
         /// <summary>Convert LocalDateTime to std::chrono::milliseconds.</summary>
-        static std::chrono::milliseconds ToStdChrono(dot::LocalDateTime value);
+        static std::chrono::milliseconds ToStdChrono(dot::local_date_time value);
 
         /// <summary>Convert std::chrono::milliseconds to LocalDateTime.</summary>
-        static dot::LocalDateTime FromStdChrono(std::chrono::milliseconds value);
+        static dot::local_date_time FromStdChrono(std::chrono::milliseconds value);
     };
 }

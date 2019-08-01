@@ -65,7 +65,7 @@ namespace dc
 
     };
 
-    inline void append(bsoncxx::builder::core& builder, const dot::String & rhs)
+    inline void append(bsoncxx::builder::core& builder, const dot::string & rhs)
     {
         builder.append(*rhs);
     }
@@ -90,17 +90,17 @@ namespace dc
         builder.append(rhs);
     }
 
-    inline void append(bsoncxx::builder::core& builder, dot::LocalDate rhs)
+    inline void append(bsoncxx::builder::core& builder, dot::local_date rhs)
     {
         builder.append(LocalDateHelper::ToIsoInt(rhs));
     }
 
-    inline void append(bsoncxx::builder::core& builder, dot::LocalTime rhs)
+    inline void append(bsoncxx::builder::core& builder, dot::local_time rhs)
     {
         builder.append(LocalTimeHelper::ToIsoInt(rhs));
     }
 
-    inline void append(bsoncxx::builder::core& builder, dot::LocalDateTime rhs)
+    inline void append(bsoncxx::builder::core& builder, dot::local_date_time rhs)
     {
         builder.append(bsoncxx::types::b_date(LocalDateTimeHelper::ToStdChrono(rhs)));
     }
@@ -124,7 +124,7 @@ namespace dc
     }
 
     template <class T>
-    inline void append(bsoncxx::builder::core& builder, dot::Ptr<T> rhs)
+    inline void append(bsoncxx::builder::core& builder, dot::ptr<T> rhs)
     {
         bsoncxx::builder::basic::array arr;
 
@@ -221,7 +221,7 @@ namespace dc
     template <class LastProp>
     struct props_list
     {
-        std::deque<dot::String> props_;
+        std::deque<dot::string> props_;
 
         template <class ClassR, class PropR>
         props_list<PropR> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
@@ -300,7 +300,7 @@ namespace dc
         {
             std::stringstream ss;
             ss << *props_.front();
-            std::for_each(props_.begin() + 1, props_.end(), [&ss](const dot::String& prop) { ss << "." << *prop; });
+            std::for_each(props_.begin() + 1, props_.end(), [&ss](const dot::string& prop) { ss << "." << *prop; });
             return ss.str();
         }
 
@@ -328,49 +328,49 @@ namespace dc
         template <class T>
         operator_wrapper<T> operator==(T rhs) const
         {
-            return operator_wrapper<T>(*dot::String(prop_->Name), "$eq", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->Name), "$eq", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator!=(T rhs) const
         {
-            return operator_wrapper<T>(*dot::String(prop_->Name), "$ne", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->Name), "$ne", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator<(T rhs) const
         {
-            return operator_wrapper<T>(*dot::String(prop_->Name), "$lt", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->Name), "$lt", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator<=(T rhs) const
         {
-            return operator_wrapper<T>(*dot::String(prop_->Name), "$lte", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->Name), "$lte", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator>(T rhs) const
         {
-            return operator_wrapper<T>(*dot::String(prop_->Name), "$gt", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->Name), "$gt", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator>=(T rhs) const
         {
-            return operator_wrapper<T>(*dot::String(prop_->Name), "$gte", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->Name), "$gte", rhs);
         }
 
         template <class T>
         operator_wrapper<T> in(T const& rhs)
         {
-            return operator_wrapper<T>(*dot::String(prop_->Name), "$in", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->Name), "$in", rhs);
         }
 
         template <class T>
         operator_wrapper<std::initializer_list<T>> in(std::initializer_list<T> const& rhs)
         {
-            return operator_wrapper<std::initializer_list<T>>(*dot::String(prop_->Name), "$in", rhs);
+            return operator_wrapper<std::initializer_list<T>>(*dot::string(prop_->Name), "$in", rhs);
         }
 
     };
@@ -378,7 +378,7 @@ namespace dc
     template <class Class>
     struct prop_wrapper<Class, dc::ObjectId>
     {
-        operator_wrapper<bsoncxx::oid> operator==(dot::LocalDateTime rhs) const
+        operator_wrapper<bsoncxx::oid> operator==(dot::local_date_time rhs) const
         {
             char bytes[12] = { 0 };
 
@@ -389,7 +389,7 @@ namespace dc
             return operator_wrapper<bsoncxx::oid>("_id", "$eq", bsoncxx::oid(bytes, 12));
         }
 
-        operator_wrapper<bsoncxx::oid> operator<(dot::LocalDateTime rhs) const
+        operator_wrapper<bsoncxx::oid> operator<(dot::local_date_time rhs) const
         {
             char bytes[12] = { 0 };
 
@@ -426,12 +426,12 @@ namespace dc
     template <class Prop, class Class>
     prop_wrapper<Class, Prop> make_prop(Prop Class::*prop_)
     {
-        dot::Type type = dot::typeof<dot::Ptr<Class>>();
+        dot::type_t type = dot::typeof<dot::ptr<Class>>();
         dot::Array1D<dot::PropertyInfo> props = type->GetProperties();
 
         for (dot::PropertyInfo const& prop : props)
         {
-            dot::Ptr<dot::PropertyInfoFieldImpl<Prop, Class>> casted_prop = prop.as<dot::Ptr<dot::PropertyInfoFieldImpl<Prop, Class>>>();
+            dot::ptr<dot::PropertyInfoFieldImpl<Prop, Class>> casted_prop = prop.as<dot::ptr<dot::PropertyInfoFieldImpl<Prop, Class>>>();
             if (!casted_prop.IsEmpty() && casted_prop->prop_ == prop_)
                 return prop_wrapper<Class, Prop>{ prop };
 

@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class DataSetKeyImpl; using DataSetKey = dot::Ptr<DataSetKeyImpl>;
-    class DataSetDataImpl; using DataSetData = dot::Ptr<DataSetDataImpl>;
+    class DataSetKeyImpl; using DataSetKey = dot::ptr<DataSetKeyImpl>;
+    class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
 
     inline DataSetKey new_DataSetKey();
 
@@ -38,7 +38,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique dataset identifier.</summary>
-        dot::String DataSetID;
+        dot::string DataSetID;
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetKey")
             DOT_TYPE_PROP(DataSetID)

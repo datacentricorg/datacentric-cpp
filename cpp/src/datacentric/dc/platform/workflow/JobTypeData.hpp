@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class JobTypeKeyImpl; using JobTypeKey = dot::Ptr<JobTypeKeyImpl>;
-    class JobTypeDataImpl; using JobTypeData = dot::Ptr<JobTypeDataImpl>;
+    class JobTypeKeyImpl; using JobTypeKey = dot::ptr<JobTypeKeyImpl>;
+    class JobTypeDataImpl; using JobTypeData = dot::ptr<JobTypeDataImpl>;
 
     /// <summary>Job type.</summary>
     class DC_CLASS JobTypeDataImpl : public RecordForImpl<JobTypeKeyImpl, JobTypeDataImpl>
@@ -31,6 +31,6 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique job type identifier.</summary>
-        dot::String JobTypeID;
+        dot::string JobTypeID;
     };
 }

@@ -24,8 +24,8 @@ limitations under the License.
 
 namespace dc
 {
-    class DbNameKeyImpl; using DbNameKey = dot::Ptr<DbNameKeyImpl>;
-    class DbNameDataImpl; using DbNameData = dot::Ptr<DbNameDataImpl>;
+    class DbNameKeyImpl; using DbNameKey = dot::ptr<DbNameKeyImpl>;
+    class DbNameDataImpl; using DbNameData = dot::ptr<DbNameDataImpl>;
 
     /// <summary>
     /// This class enforces strict naming conventions
@@ -67,7 +67,7 @@ namespace dc
         /// the unit test class (test fixture).
         /// \end{itemize}
         /// </summary>
-        dot::String InstanceName;
+        dot::string InstanceName;
 
         /// <summary>
         /// The meaning of environment name depends on the instance type.
@@ -81,7 +81,7 @@ namespace dc
         /// For TEST instance type, it is the test method name.
         /// \end{itemize}
         /// </summary>
-        dot::String EnvName;
+        dot::string EnvName;
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DbNameKey")
             DOT_TYPE_PROP(InstanceType)

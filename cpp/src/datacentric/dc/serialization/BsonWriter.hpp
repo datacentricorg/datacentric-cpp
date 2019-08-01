@@ -26,7 +26,7 @@ limitations under the License.
 
 namespace dc
 {
-    class BsonWriterImpl; using BsonWriter = dot::Ptr<BsonWriterImpl>;
+    class BsonWriterImpl; using BsonWriter = dot::ptr<BsonWriterImpl>;
 
     /// <summary>Implementation of IBsonWriter using MongoDB IBsonWriter.</summary>
     class DC_CLASS BsonWriterImpl : public ITreeWriterImpl
@@ -37,7 +37,7 @@ namespace dc
     private:
 
         bsoncxx::builder::core bsonWriter_;
-        std::stack<std::pair<dot::String, TreeWriterState>> elementStack_; // TODO make dot::Stack
+        std::stack<std::pair<dot::string, TreeWriterState>> elementStack_; // TODO make dot::Stack
         TreeWriterState currentState_;
 
     public:
@@ -45,23 +45,23 @@ namespace dc
 
         /// <summary>Write start document tags. This method
         /// should be called only once for the entire document.</summary>
-        void WriteStartDocument(dot::String rootElementName);
+        void WriteStartDocument(dot::string rootElementName);
 
         /// <summary>Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to WriteStartDocument(...).</summary>
-        void WriteEndDocument(dot::String rootElementName);
+        void WriteEndDocument(dot::string rootElementName);
 
         /// <summary>Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.</summary>
-        void WriteStartElement(dot::String elementName);
+        void WriteStartElement(dot::string elementName);
 
         /// <summary>Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching WriteStartElement(...) call at the same indent level.</summary>
-        void WriteEndElement(dot::String elementName);
+        void WriteEndElement(dot::string elementName);
 
         /// <summary>Write dictionary start tag. A call to this method
         /// must follow WriteStartElement(...) or WriteStartArrayItem().</summary>
@@ -97,11 +97,11 @@ namespace dc
 
         /// <summary>Write atomic value. Value type
         /// will be inferred from object.GetType().</summary>
-        void WriteValue(dot::Object value);
+        void WriteValue(dot::object value);
 
         /// <summary>Convert to BSON string without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.</summary>
-        dot::String ToString() override;
+        dot::string ToString() override;
 
         bsoncxx::document::view view();
 

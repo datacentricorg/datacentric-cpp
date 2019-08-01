@@ -23,7 +23,7 @@ limitations under the License.
 
 namespace dc
 {
-    class MongoStandardFormatServerDataImpl; using MongoStandardFormatServerData = dot::Ptr<MongoStandardFormatServerDataImpl>;
+    class MongoStandardFormatServerDataImpl; using MongoStandardFormatServerData = dot::ptr<MongoStandardFormatServerDataImpl>;
 
     /// <summary>
     /// Assembles MongoDB URI using the standard (``mongodb'') connection
@@ -40,11 +40,11 @@ namespace dc
         /// hostnames with optional port in ``host'' or ``host::port''
         /// format.
         /// </summary>
-        dot::List<dot::String> Hosts;
+        dot::List<dot::string> Hosts;
 
     public: // METHODS
 
         /// <summary>Get Mongo server URI without database name.</summary>
-        dot::String GetMongoServerUri() override;
+        dot::string GetMongoServerUri() override;
     };
 }

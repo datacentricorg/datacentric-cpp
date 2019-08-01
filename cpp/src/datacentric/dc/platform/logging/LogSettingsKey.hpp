@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class LogSettingsKeyImpl; using LogSettingsKey = dot::Ptr<LogSettingsKeyImpl>;
-    class LogSettingsDataImpl; using LogSettingsData = dot::Ptr<LogSettingsDataImpl>;
+    class LogSettingsKeyImpl; using LogSettingsKey = dot::ptr<LogSettingsKeyImpl>;
+    class LogSettingsDataImpl; using LogSettingsData = dot::ptr<LogSettingsDataImpl>;
 
     /// <summary>Log settings key.</summary>
     class DC_CLASS LogSettingsKeyImpl : public KeyForImpl<LogSettingsKeyImpl, LogSettingsDataImpl>
@@ -31,6 +31,6 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique log settings identifier.</summary>
-        dot::String LogSettingsID;
+        dot::string LogSettingsID;
     };
 }

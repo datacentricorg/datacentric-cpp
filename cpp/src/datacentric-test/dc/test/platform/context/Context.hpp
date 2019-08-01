@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class IUnitTestContextImpl; using IUnitTestContext = dot::Ptr<IUnitTestContextImpl>;
+    class IUnitTestContextImpl; using IUnitTestContext = dot::ptr<IUnitTestContextImpl>;
 
     /// <summary>
     /// Extends IContext with approval test functionality.
@@ -44,7 +44,7 @@ namespace dc
         bool KeepDb;
     };
 
-    class UnitTestContextImpl; using UnitTestContext = dot::Ptr<UnitTestContextImpl>;
+    class UnitTestContextImpl; using UnitTestContext = dot::ptr<UnitTestContextImpl>;
 
     /// <summary>
     /// Context for use in test fixtures that do not require MongoDB.
@@ -66,9 +66,9 @@ namespace dc
         /// constructor, the latter two arguments are provided by
         /// the compiler.
         /// </summary>
-        UnitTestContextImpl(dot::Object classInstance,
-            dot::String methodName,
-            dot::String sourceFilePath);
+        UnitTestContextImpl(dot::object classInstance,
+            dot::string methodName,
+            dot::string sourceFilePath);
 
         /// <summary>
         /// Releases resources and calls base.Dispose().

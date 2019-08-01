@@ -22,11 +22,11 @@ limitations under the License.
 
 namespace dc
 {
-    class TaskDataImpl; using TaskData = dot::Ptr<TaskDataImpl>;
-    class TaskKeyImpl; using TaskKey = dot::Ptr<TaskKeyImpl>;
-    class WorkflowKeyImpl; using WorkflowKey = dot::Ptr<WorkflowKeyImpl>;
-    class JobKeyImpl; using JobKey = dot::Ptr<JobKeyImpl>;
-    class PhaseKeyImpl; using PhaseKey = dot::Ptr<PhaseKeyImpl>;
+    class TaskDataImpl; using TaskData = dot::ptr<TaskDataImpl>;
+    class TaskKeyImpl; using TaskKey = dot::ptr<TaskKeyImpl>;
+    class WorkflowKeyImpl; using WorkflowKey = dot::ptr<WorkflowKeyImpl>;
+    class JobKeyImpl; using JobKey = dot::ptr<JobKeyImpl>;
+    class PhaseKeyImpl; using PhaseKey = dot::ptr<PhaseKeyImpl>;
 
     /// <summary>Task record. Tasks are created by jobs and executed in parallel within each phase.</summary>
     class DC_CLASS TaskDataImpl : public RecordForImpl<TaskKeyImpl, TaskDataImpl>

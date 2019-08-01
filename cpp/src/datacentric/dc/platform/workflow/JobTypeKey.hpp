@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class JobTypeKeyImpl; using JobTypeKey = dot::Ptr<JobTypeKeyImpl>;
-    class JobTypeDataImpl; using JobTypeData = dot::Ptr<JobTypeDataImpl>;
+    class JobTypeKeyImpl; using JobTypeKey = dot::ptr<JobTypeKeyImpl>;
+    class JobTypeDataImpl; using JobTypeData = dot::ptr<JobTypeDataImpl>;
 
     JobTypeKey new_JobTypeKey();
 
@@ -37,7 +37,7 @@ namespace dc
         /// <summary>Unique job type identifier.</summary>
         //String JobTypeID;
 
-        dot::String JobTypeID;
+        dot::string JobTypeID;
 
         DOT_TYPE_BEGIN(".Analyst", "JobTypeKey")
             DOT_TYPE_PROP(JobTypeID)

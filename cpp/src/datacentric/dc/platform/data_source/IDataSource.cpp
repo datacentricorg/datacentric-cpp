@@ -26,21 +26,21 @@ namespace dc
         return GetDataSet(DataSetKeyImpl::Common->DataSetID, ObjectId::Empty);
     }
 
-    ObjectId IDataSourceImpl::GetDataSet(dot::String dataSetID, ObjectId loadFrom)
+    ObjectId IDataSourceImpl::GetDataSet(dot::string dataSetID, ObjectId loadFrom)
     {
         auto result = GetDataSetOrEmpty(dataSetID, loadFrom);
         if (result == ObjectId::Empty) throw dot::new_Exception(
-            dot::String::Format("Dataset {0} is not found in data store {1}.", dataSetID, DataSourceID));
+            dot::string::Format("Dataset {0} is not found in data store {1}.", dataSetID, DataSourceID));
         return result;
     }
 
-    ObjectId IDataSourceImpl::CreateDataSet(dot::String dataSetID, ObjectId saveTo)
+    ObjectId IDataSourceImpl::CreateDataSet(dot::string dataSetID, ObjectId saveTo)
     {
         // Delegate to the overload taking IEnumerable as second parameter
         return CreateDataSet(dataSetID, nullptr, saveTo);
     }
 
-    ObjectId IDataSourceImpl::CreateDataSet(dot::String dataSetID, dot::IEnumerable<ObjectId> parentDataSets, ObjectId saveTo)
+    ObjectId IDataSourceImpl::CreateDataSet(dot::string dataSetID, dot::IEnumerable<ObjectId> parentDataSets, ObjectId saveTo)
     {
         // Create dataset record
         auto result = new_DataSetData();

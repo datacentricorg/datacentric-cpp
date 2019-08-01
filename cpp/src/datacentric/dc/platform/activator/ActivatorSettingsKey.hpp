@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class ActivatorSettingsKeyImpl; using ActivatorSettingsKey = dot::Ptr<ActivatorSettingsKeyImpl>;
-    class ActivatorSettingsDataImpl; using ActivatorSettingsData = dot::Ptr<ActivatorSettingsDataImpl>;
+    class ActivatorSettingsKeyImpl; using ActivatorSettingsKey = dot::ptr<ActivatorSettingsKeyImpl>;
+    class ActivatorSettingsDataImpl; using ActivatorSettingsData = dot::ptr<ActivatorSettingsDataImpl>;
 
     /// <summary>Activator settings key.</summary>
     class DC_CLASS ActivatorSettingsKeyImpl : public KeyForImpl<ActivatorSettingsKeyImpl, ActivatorSettingsDataImpl>
@@ -31,6 +31,6 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Unique activator settings identifier.</summary>
-        dot::String ActivatorSettingsID;
+        dot::string ActivatorSettingsID;
     };
 }
