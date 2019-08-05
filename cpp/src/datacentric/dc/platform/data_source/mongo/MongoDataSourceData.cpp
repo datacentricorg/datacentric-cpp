@@ -29,14 +29,14 @@ limitations under the License.
 
 namespace dc
 {
-    record_type MongoDataSourceDataImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
+    record_type MongoDataSourceDataImpl::load_or_null(ObjectId id, dot::type_t dataType)
     {
-        auto revisionTimeConstraint = GetRevisionTimeConstraint();
+        auto revisionTimeConstraint = get_revision_time_constraint();
         if (revisionTimeConstraint != nullptr)
         {
             // If RevisionTimeConstraint is not null, return null for any
             // ID that is not strictly before the constraint ObjectId
-            if (id >= revisionTimeConstraint.getValue()) return nullptr;
+            if (id >= revisionTimeConstraint.value()) return nullptr;
         }
 
         bsoncxx::builder::basic::document filter{};
@@ -54,29 +54,29 @@ namespace dc
         return nullptr;
     }
 
-    record_type MongoDataSourceDataImpl::ReloadOrNull(KeyType key, ObjectId loadFrom)
+    record_type MongoDataSourceDataImpl::reload_or_null(KeyType key, ObjectId loadFrom)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
-        dot::IEnumerable<ObjectId> lookupList = GetDataSetLookupList(loadFrom);
+        dot::hash_set<ObjectId> lookup_list = get_data_set_lookup_list(loadFrom);
 
         // dot::string key in semicolon delimited format used in the lookup
-        dot::string keyValue = key->ToString();
+        dot::string key_value = key->to_string();
 
         // Look for exact match of the key in the specified list of datasets,
         // then order by dataset ObjectId in descending order
         bsoncxx::builder::basic::document filter{};
-        filter.append(bsoncxx::builder::basic::kvp("_key", *keyValue));
+        filter.append(bsoncxx::builder::basic::kvp("_key", *key_value));
 
         // filter by dataset
-        bsoncxx::builder::basic::array filterDatasetList{};
-        for (ObjectId id : lookupList)
-            filterDatasetList.append(id._id);
+        bsoncxx::builder::basic::array filter_dataset_list{};
+        for (ObjectId id : lookup_list)
+            filter_dataset_list.append(id._id);
 
-        bsoncxx::builder::basic::document filterDataset{};
-        filterDataset.append(bsoncxx::builder::basic::kvp("$in", filterDatasetList.view()));
+        bsoncxx::builder::basic::document filter_dataset{};
+        filter_dataset.append(bsoncxx::builder::basic::kvp("$in", filter_dataset_list.view()));
 
-        filter.append(bsoncxx::builder::basic::kvp("_dataset", filterDataset.view()));
+        filter.append(bsoncxx::builder::basic::kvp("_dataset", filter_dataset.view()));
 
         bsoncxx::builder::basic::document sort_ds{};
         bsoncxx::builder::basic::document sort_id{};
@@ -108,9 +108,9 @@ namespace dc
         return nullptr;
     }
 
-    void MongoDataSourceDataImpl::Save(record_type record, ObjectId saveTo)
+    void MongoDataSourceDataImpl::save(record_type record, ObjectId saveTo)
     {
-        CheckNotReadOnly();
+        check_not_read_only();
 
         auto collection = GetCollection(record->type());
 
@@ -118,7 +118,7 @@ namespace dc
         // order for this instance of the data source class always, and across
         // all processes and machine if they are not created within the same
         // second.
-        ObjectId objectId = CreateOrderedObjectId();
+        ObjectId objectId = create_ordered_object_id();
 
         // ObjectId of the record must be strictly later
         // than ObjectId of the dataset where it is stored
@@ -143,22 +143,22 @@ namespace dc
 
         bsoncxx::builder::basic::document doc{}; //!! Temporary fix
         doc.append(bsoncxx::builder::basic::kvp("_t", * record->type()->name) );
-        doc.append(bsoncxx::builder::basic::kvp("_key", * record->getKey()));
+        doc.append(bsoncxx::builder::basic::kvp("_key", * record->get_key()));
         doc.append(bsoncxx::builder::concatenate(writer->view()));
 
         collection.insert_one(doc.view());
     }
 
-    query MongoDataSourceDataImpl::GetQuery(ObjectId dataSet, dot::type_t type)
+    query MongoDataSourceDataImpl::get_query(ObjectId dataSet, dot::type_t type)
     {
         return make_query(this, dataSet, type);
     }
 
-    object_cursor_wrapper MongoDataSourceDataImpl::LoadByQuery(query query)
+    object_cursor_wrapper MongoDataSourceDataImpl::load_by_query(query query)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
-        dot::list<ObjectId> lookupList = GetDataSetLookupList(query->data_set_);
+        dot::hash_set<ObjectId> lookupList = get_data_set_lookup_list(query->data_set_);
 
         // filter by dataset
         bsoncxx::builder::basic::array filterDatasetList{};
@@ -199,7 +199,7 @@ namespace dc
         typeList.append(*(dot::string) query->type_->name);
 
         // append derived types
-        dot::list<dot::type_t> derivedTypes = dot::type_impl::GetDerivedTypes(query->type_);
+        dot::list<dot::type_t> derivedTypes = dot::type_impl::get_derived_types(query->type_);
         if (derivedTypes != nullptr)
         {
             for (dot::type_t derType : derivedTypes)
@@ -222,7 +222,7 @@ namespace dc
 
         std::string s = bsoncxx::to_json(pipeline.view());
 
-        if (query->select_.IsEmpty())
+        if (query->select_.is_empty())
         {
             IContext context = this->Context;
             return make_object_cursor_wrapper(std::move(GetCollection(query->type_).aggregate(pipeline)),
@@ -258,11 +258,11 @@ namespace dc
         }
     }
 
-    void MongoDataSourceDataImpl::Delete(KeyType key, ObjectId deleteIn)
+    void MongoDataSourceDataImpl::delete_record(KeyType key, ObjectId deleteIn)
     {
         // Create delete marker with the specified key
         auto record = new_DeleteMarker();
-        record->getKey() = key->getValue();
+        record->get_key() = key->getValue();
 
         // Get collection
         auto collection = GetCollection(key->type());
@@ -271,7 +271,7 @@ namespace dc
         // order for this instance of the data source class always, and across
         // all processes and machine if they are not created within the same
         // second.
-        auto objectId = CreateOrderedObjectId();
+        auto objectId = create_ordered_object_id();
         record->ID = objectId;
 
         // Assign dataset and then initialize, as the results of

@@ -58,25 +58,25 @@ namespace dc
         save(data_set_data, save_to);
 
         // Update dataset dictionary with the new ID
-        data_set_dict_[data_set_data->getKey()] = data_set_data->ID;
+        data_set_dict_[data_set_data->get_key()] = data_set_data->ID;
 
         // Update lookup list dictionary
-        dot::HashSet<ObjectId> lookupList = build_data_set_lookup_list(data_set_data);
+        dot::hash_set<ObjectId> lookupList = build_data_set_lookup_list(data_set_data);
         data_set_parent_dict_->add(data_set_data->ID, lookupList);
     }
 
-    dot::HashSet<ObjectId> data_source_data_impl::get_data_set_lookup_list(ObjectId load_from)
+    dot::hash_set<ObjectId> data_source_data_impl::get_data_set_lookup_list(ObjectId load_from)
     {
         // Root dataset has no parents, return list containing
         // root dataset identifier only (ObjectId.Empty) and exit
         if (load_from == ObjectId::Empty)
         {
-            dot::HashSet<ObjectId> res = dot::new_HashSet<ObjectId>();
-            res->Add(ObjectId::Empty);
+            dot::hash_set<ObjectId> res = dot::make_hash_set<ObjectId>();
+            res->add(ObjectId::Empty);
             return res;
         }
 
-        dot::HashSet<ObjectId> result;
+        dot::hash_set<ObjectId> result;
         if (data_set_parent_dict_->try_get_value(load_from, result))
         {
             // Check if the lookup list is already cached, return if yes
@@ -153,7 +153,7 @@ namespace dc
         data_set_dict_[data_set_id] = data_set_data->ID;
 
         // Build and cache dataset lookup list if not found
-        dot::HashSet<ObjectId> parent_set;
+        dot::hash_set<ObjectId> parent_set;
         if (!data_set_parent_dict_->try_get_value(data_set_data->ID, parent_set))
         {
             parent_set = build_data_set_lookup_list(data_set_data);
@@ -163,15 +163,15 @@ namespace dc
         return data_set_data->ID;
     }
 
-    dot::HashSet<ObjectId> data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data)
+    dot::hash_set<ObjectId> data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data)
     {
         // Delegate to the second overload
-        dot::HashSet<ObjectId> result = dot::new_HashSet<ObjectId>();
+        dot::hash_set<ObjectId> result = dot::make_hash_set<ObjectId>();
         build_data_set_lookup_list(data_set_data, result);
         return result;
     }
 
-    void data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data, dot::HashSet<ObjectId> result)
+    void data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data, dot::hash_set<ObjectId> result)
     {
         // Return if the dataset is null or has no parents
         if (data_set_data == nullptr) return;
@@ -182,27 +182,27 @@ namespace dc
         //! TODO uncomment
 
         // Add self to the result
-        result->Add(data_set_data->ID);
+        result->add(data_set_data->ID);
 
         // Add parents to the result
-        if (!((dot::list<ObjectId>)data_set_data->Parents).IsEmpty())
+        if (!((dot::list<ObjectId>)data_set_data->Parents).is_empty())
         {
             for(ObjectId data_set_id : data_set_data->Parents)
             {
                 // Dataset cannot include itself as parent
                 if (data_set_data->ID == data_set_id)
                     throw dot::exception(
-                        dot::string::format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::string)data_set_data->getKey(), ObjectId(data_set_data->ID).ToString()));
+                        dot::string::format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::string)data_set_data->get_key(), ObjectId(data_set_data->ID).ToString()));
 
                 // The Add method returns true if the argument is not yet present in the list
                 if (!result->contains(data_set_id))
                 {
-                    result->Add(data_set_id);
+                    result->add(data_set_id);
                     // Add recursively if not already present in the hashset
-                    dot::HashSet<ObjectId> cached_parent_set = get_data_set_lookup_list(data_set_id);
+                    dot::hash_set<ObjectId> cached_parent_set = get_data_set_lookup_list(data_set_id);
                     for (ObjectId cached_parent_id : cached_parent_set)
                     {
-                        result->Add(cached_parent_id);
+                        result->add(cached_parent_id);
                     }
                 }
             }

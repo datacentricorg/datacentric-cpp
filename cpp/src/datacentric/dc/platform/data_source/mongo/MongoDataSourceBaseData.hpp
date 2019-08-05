@@ -55,7 +55,7 @@ namespace dc
         /// Type of instance controls the ability to do certain
         /// actions such as deleting (dropping) the database.
         /// </summary>
-        InstanceType instanceType_;
+        instance_type instance_type_;
 
         /// <summary>Full name of the database on Mongo server including delimiters.</summary>
         dot::string dbName_;
@@ -90,7 +90,7 @@ namespace dc
         /// class may not be ordered chronologically unless they are at
         /// least one second apart.
         /// </summary>
-        virtual ObjectId CreateOrderedObjectId() override;
+        virtual ObjectId create_ordered_object_id() override;
 
         /// <summary>
         /// Permanently deletes (drops) the database with all records
@@ -103,7 +103,7 @@ namespace dc
         /// ATTENTION - THIS METHOD WILL DELETE ALL DATA WITHOUT
         /// THE POSSIBILITY OF RECOVERY. USE WITH CAUTION.
         /// </summary>
-        virtual void DeleteDb() override;
+        virtual void delete_db() override;
 
     protected: // PROTECTED
 

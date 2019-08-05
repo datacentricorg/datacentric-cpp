@@ -32,7 +32,7 @@ namespace dc
     /// and seedlist (``mongodb+srv'') connection formats as well as for
     /// the default server running on localhost.
     /// </summary>
-    class DC_CLASS MongoServerDataImpl : public DbServerDataImpl
+    class DC_CLASS MongoServerDataImpl : public db_server_data_impl
     {
         typedef MongoServerDataImpl self;
 

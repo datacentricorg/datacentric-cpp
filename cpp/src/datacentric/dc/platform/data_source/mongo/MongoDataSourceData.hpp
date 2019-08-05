@@ -38,7 +38,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual record_type LoadOrNull(ObjectId id, dot::type_t dataType) override;
+        virtual record_type load_or_null(ObjectId id, dot::type_t dataType) override;
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -66,7 +66,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual record_type ReloadOrNull(KeyType key, ObjectId loadFrom) override;
+        virtual record_type reload_or_null(KeyType key, ObjectId loadFrom) override;
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
@@ -77,7 +77,7 @@ namespace dc
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        virtual void Save(record_type record, ObjectId saveTo) override;
+        virtual void save(record_type record, ObjectId saveTo) override;
 
         /// <summary>
         /// Get query for the specified type.
@@ -91,7 +91,7 @@ namespace dc
         /// than any other ObjectId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         /// </summary>
-        virtual IQuery GetQuery(ObjectId dataSet, dot::type_t type) override;
+        virtual query get_query(ObjectId dataSet, dot::type_t type) override;
 
         /// <summary>
         /// Load enumeration of record by query
@@ -108,7 +108,7 @@ namespace dc
         /// if no records are found or if delete marker is the first
         /// record.
         /// </summary>
-        virtual object_cursor_wrapper LoadByQuery(query query) override;
+        virtual object_cursor_wrapper load_by_query(query query) override;
 
         /// <summary>
         /// Write a delete marker for the specified dataSet and dataKey
@@ -119,6 +119,6 @@ namespace dc
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
         /// </summary>
-        virtual void Delete(KeyType key, ObjectId deleteIn) override;
+        virtual void delete_record(KeyType key, ObjectId deleteIn) override;
     };
 }

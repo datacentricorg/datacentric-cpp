@@ -23,7 +23,7 @@ limitations under the License.
 
 namespace dc
 {
-    dot::array<char> MongoDataSourceBaseDataImpl::prohibitedDbNameSymbols_ = dot::new_Array1D<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
+    dot::array<char> MongoDataSourceBaseDataImpl::prohibitedDbNameSymbols_ = dot::make_array<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
 
     int MongoDataSourceBaseDataImpl::maxDbNameLength_ = 64;
 
@@ -35,35 +35,35 @@ namespace dc
         data_source_data_impl::Init(context);
 
         // Configures serialization conventions for standard types
-        if (DbName == nullptr) throw dot::exception("DB key is null or empty.");
-        if (DbName->InstanceType == InstanceType::Empty) throw dot::exception("DB instance type is not specified.");
-        if (dot::string::IsNullOrEmpty(DbName->InstanceName)) throw dot::exception("DB instance name is not specified.");
-        if (dot::string::IsNullOrEmpty(DbName->EnvName)) throw dot::exception("DB environment name is not specified.");
+        if (db_name == nullptr) throw dot::exception("DB key is null or empty.");
+        if (db_name->instance_type == instance_type::Empty) throw dot::exception("DB instance type is not specified.");
+        if (dot::string::is_null_or_empty(db_name->instance_name)) throw dot::exception("DB instance name is not specified.");
+        if (dot::string::is_null_or_empty(db_name->env_name)) throw dot::exception("DB environment name is not specified.");
 
         // The name is the database key in the standard semicolon delimited format.
-        dbName_ = DbName->ToString();
-        instanceType_ = DbName->InstanceType;
+        dbName_ = db_name->to_string();
+        instance_type_ = db_name->instance_type;
 
         // Perform additional validation for restricted characters and database name length.
-        if (dbName_->IndexOfAny(prohibitedDbNameSymbols_) != -1)
+        if (dbName_->index_of_any(prohibitedDbNameSymbols_) != -1)
             throw dot::exception(
                 dot::string::format("MongoDB database name {0} contains a space or another ", dbName_) +
                 "prohibited character from the following list: /\\.\"$*<>:|?");
-        if (dbName_->getLength() > maxDbNameLength_)
+        if (dbName_->length() > maxDbNameLength_)
             throw dot::exception(
                 dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", dbName_));
 
         // Get client interface using the server
-        dot::string dbUri = DbServer->Load(Context).as<MongoServerData>()->GetMongoServerUri();
+        dot::string dbUri = db_server->Load(Context).as<MongoServerData>()->GetMongoServerUri();
         client_ = mongocxx::client{ mongocxx::uri(*dbUri) };
 
         // Get database interface using the client and database name
         db_ = client_[*dbName_];
     }
 
-    ObjectId MongoDataSourceBaseDataImpl::CreateOrderedObjectId()
+    ObjectId MongoDataSourceBaseDataImpl::create_ordered_object_id()
     {
-        CheckNotReadOnly();
+        check_not_read_only();
 
         // Generate ObjectId and check that it is later
         // than the previous generated ObjectId
@@ -92,9 +92,9 @@ namespace dc
         return result;
     }
 
-    void MongoDataSourceBaseDataImpl::DeleteDb()
+    void MongoDataSourceBaseDataImpl::delete_db()
     {
-        CheckNotReadOnly();
+        check_not_read_only();
 
         // Do not delete (drop) the database this class did not create
         if (client_ && db_)
@@ -105,9 +105,9 @@ namespace dc
             //
             // Use other tokens such as UAT or PROD to protect the
             // database from accidental deletion
-            if (instanceType_ == InstanceType::DEV
-                || instanceType_ == InstanceType::USER
-                || instanceType_ == InstanceType::TEST)
+            if (instance_type_ == instance_type::DEV
+                || instance_type_ == instance_type::USER
+                || instance_type_ == instance_type::TEST)
             {
                 // The name is the database key in the standard
                 // semicolon delimited format. However this method
@@ -120,7 +120,7 @@ namespace dc
                 throw dot::exception(
                     dot::string::format("As an extra safety measure, database {0} cannot be ", dbName_) +
                     "dropped because this operation is not permitted for database " +
-                    dot::string::format("instance type {0}.", instanceType_.ToString()));
+                    dot::string::format("instance type {0}.", instance_type_.to_string()));
             }
         }
     }
@@ -130,11 +130,11 @@ namespace dc
         dot::type_t curr = dataType;
         while (curr->name != "RecordFor" && curr->name != "KeyFor")
         {
-            curr = curr->getBaseType();
-            if (curr.IsEmpty())
+            curr = curr->base_type();
+            if (curr.is_empty())
                 throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", dataType->name));
         }
-        dot::string typeName = curr->GetGenericArguments()[0]->name;
+        dot::string typeName = curr->get_generic_arguments()[0]->name;
         return GetCollection(typeName);
     }
 
@@ -142,10 +142,10 @@ namespace dc
     {
         int prefixSize = 0; //! TODO change to ClassInfo.MappedName
         dot::string collectionName;
-        if (typeName->EndsWith("Data"))
-            collectionName = typeName->SubString(prefixSize, typeName->length() - std::string("Data").length() - prefixSize);
-        else if (typeName->EndsWith("Key"))
-            collectionName = typeName->SubString(prefixSize, typeName->length() - std::string("Key").length() - prefixSize);
+        if (typeName->ends_with("Data"))
+            collectionName = typeName->substring(prefixSize, typeName->length() - std::string("Data").length() - prefixSize);
+        else if (typeName->ends_with("Key"))
+            collectionName = typeName->substring(prefixSize, typeName->length() - std::string("Key").length() - prefixSize);
         else throw dot::exception("Unknown type");
 
         return db_[*collectionName];

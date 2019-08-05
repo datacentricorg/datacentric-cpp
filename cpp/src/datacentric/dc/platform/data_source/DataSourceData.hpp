@@ -20,7 +20,7 @@ limitations under the License.
 #include <dot/system/ptr.hpp>
 #include <dot/system/nullable.hpp>
 #include <dot/system/collections/generic/Dictionary.hpp>
-#include <dot/system/collections/generic/HashSet.hpp>
+#include <dot/system/collections/generic/hash_set.hpp>
 #include <dot/system/collections/generic/list.hpp>
 #include <dc/types/record/RecordFor.hpp>
 #include <dc/platform/data_source/DatabaseKey.hpp>
@@ -39,6 +39,7 @@ namespace dc
     class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;
     class query_impl; using query = dot::ptr<query_impl>;
     class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
+    class object_cursor_wrapper_impl; using object_cursor_wrapper = dot::ptr<object_cursor_wrapper_impl>;
 
     class ObjectId;
 

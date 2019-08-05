@@ -32,7 +32,7 @@ namespace dc
 
     ObjectId::ObjectId(dot::object obj)
     {
-        _id = ((dot::StructWrapper<ObjectId>)obj)->_id;
+        _id = ((dot::struct_wrapper<ObjectId>)obj)->_id;
     }
 
     ObjectId::ObjectId(dot::string str)
