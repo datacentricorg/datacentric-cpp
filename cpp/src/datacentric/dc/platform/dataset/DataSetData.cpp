@@ -35,14 +35,14 @@ namespace dc
                 {
                     throw dot::exception(dot::string::format(
                         "Dataset {0} has a parent with the same ObjectId={1} "
-                        "as its own ObjectId. Each ObjectId must be unique.", DataSetID, parent.ToString()));
+                        "as its own ObjectId. Each ObjectId must be unique.", DataSetID, parent.to_string()));
                 }
                 else
                 {
                     throw dot::exception(dot::string::format(
                         "Dataset {0} has a parent whose ObjectId={1} is greater "
                         "than its own ObjectId={2}. The ObjectId of each parent must be strictly "
-                        "less than the ObjectId of the dataset itself.", DataSetID, parent.ToString(), ObjectId(ID).ToString()));
+                        "less than the ObjectId of the dataset itself.", DataSetID, parent.to_string(), ObjectId(ID).to_string()));
                 }
             }
         }

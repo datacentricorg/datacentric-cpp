@@ -59,7 +59,7 @@ namespace dc
         wf->LTime = dot::local_time(12, 10, 20, 444);
         wf->LDateTime = dot::local_date_time(2005, 1, 1, 12, 10, 20, 444);
         wf->dbl = 1.1;
-        wf->Workflows = dot::new_List<WorkflowKey>();
+        wf->Workflows = dot::make_list<WorkflowKey>();
         wf->Workflows->Add(new WorkflowKeyImpl());
         wf->Workflows[0]->WorkflowID = "ABC";
 
@@ -72,14 +72,14 @@ namespace dc
         JsonRecordSerializer serializer = new_JsonRecordSerializer();
 
         serializer->Serialize(jsonWriter, wf);
-        dot::string json = jsonWriter->ToString();
+        dot::string json = jsonWriter->to_string();
 
         rapidjson::Document doc;
         doc.Parse(json->data());
 
         //!! TODO uncomment after fixing seralization of _t and _key
         //WorkflowData wf2 = (WorkflowData) serializer->Deserialize(doc);
-        //wf2->ToString();
+        //wf2->to_string();
     }
 }
 
@@ -91,7 +91,7 @@ namespace dc
         std::cout << "Hello world" << std::endl;
 
         TaskKey k = new TaskKeyImpl;
-        std::string sk = * k->ToString();
+        std::string sk = * k->to_string();
 
         k->Workflow = new_WorkflowKey();
         k->Workflow->WorkflowID = "wid";
@@ -106,10 +106,10 @@ namespace dc
 
         k->Job->LinkedTo = "lto";
 
-        std::string sk2 = *k->ToString();
+        std::string sk2 = *k->to_string();
         TaskKey k2 = new TaskKeyImpl;
         k2->PopulateFrom(sk2);
-        std::string sk3 = *k2->ToString();
+        std::string sk3 = *k2->to_string();
 
         WorkflowData wf = new_WorkflowData();
         wf->WorkflowID = "ABCBB";
@@ -118,7 +118,7 @@ namespace dc
         wf->LDate = local_date(2005, 1, 1);
         wf->LTime = local_time(12, 10, 20, 444);
         wf->LDateTime = local_date_time(2005, 1, 1, 12, 10, 20, 444);
-        wf->Workflows = new_List<WorkflowKey>();
+        wf->Workflows = make_list<WorkflowKey>();
         wf->Workflows->Add(new WorkflowKeyImpl());
         wf->Workflows[0]->WorkflowID = "ABC";
 
@@ -135,7 +135,7 @@ namespace dc
         wr->WriteStartDocument(wf->type()->name);
         wf->SerializeTo(wr);
         wr->WriteEndDocument(wf->type()->name);
-        dot::string s = wr->ToString();
+        dot::string s = wr->to_string();
         // Key == dot::string
 
         wf->Workflow->type();
@@ -177,13 +177,13 @@ namespace dc
         BsonRecordSerializer sser = new_BsonRecordSerializer();
         BsonWriter writer = new_BsonWriter();
         sser->Serialize(writer, wf5);
-        std::string ggg = * writer->ToString();
+        std::string ggg = * writer->to_string();
         std::cout << ggg << std::endl;
 
         BsonRecordSerializer sser2 = new_BsonRecordSerializer();
         BsonWriter writer2 = new_BsonWriter();
         sser2->Serialize(writer2, wf2);
-        std::string ggg2 = *writer2->ToString();
+        std::string ggg2 = *writer2->to_string();
     }
 
     TEST_CASE("DataSet")
@@ -199,7 +199,7 @@ namespace dc
 
         DataSetData dataSet1 = new_DataSetData();
         dataSet1->DataSetID = "DataSet1";
-        dataSet1->Parents = new_List<DataSetKey>();
+        dataSet1->Parents = make_list<DataSetKey>();
         dataSet1->Parents->Add(new_DataSetKey());
         dataSet1->Parents[0]->DataSetID = dataSet->DataSetID;
         ds->Save(dataSet1);

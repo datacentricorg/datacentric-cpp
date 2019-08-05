@@ -35,7 +35,7 @@ namespace dc
             // Write array item start tag
             writer->WriteStartArrayItem();
 
-            if (item.IsEmpty())
+            if (item.is_empty())
             {
                 writer->WriteStartValue();
                 writer->WriteValue(item);
@@ -47,17 +47,17 @@ namespace dc
             // Serialize based on type of the item
             dot::type_t itemType = item->type();
 
-            if (itemType->Equals(dot::typeof<dot::string>())
-                || itemType->Equals(dot::typeof<double>())
-                || itemType->Equals(dot::typeof<bool>())
-                || itemType->Equals(dot::typeof<int>())
-                || itemType->Equals(dot::typeof<int64_t>())
-                || itemType->Equals(dot::typeof<dot::local_date>())
-                || itemType->Equals(dot::typeof<dot::local_date_time>())
-                || itemType->Equals(dot::typeof<dot::local_time>())
-                || itemType->Equals(dot::typeof<dot::local_minute>())
-                || itemType->IsEnum
-                || itemType->Equals(dot::typeof<ObjectId>())
+            if (itemType->equals(dot::typeof<dot::string>())
+                || itemType->equals(dot::typeof<double>())
+                || itemType->equals(dot::typeof<bool>())
+                || itemType->equals(dot::typeof<int>())
+                || itemType->equals(dot::typeof<int64_t>())
+                || itemType->equals(dot::typeof<dot::local_date>())
+                || itemType->equals(dot::typeof<dot::local_date_time>())
+                || itemType->equals(dot::typeof<dot::local_time>())
+                || itemType->equals(dot::typeof<dot::local_minute>())
+                || itemType->is_enum()
+                || itemType->equals(dot::typeof<ObjectId>())
                 )
             {
                 writer->WriteStartValue();
@@ -65,7 +65,7 @@ namespace dc
                 writer->WriteEndValue();
             }
             else
-            if (!itemType->GetInterface("IObjectEnumerable").IsEmpty())
+            if (!itemType->get_interface("IObjectEnumerable").is_empty())
             {
                 throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", elementName));
@@ -73,11 +73,11 @@ namespace dc
             else
             if (item.is<Data>())
             {
-                if (itemType->name->EndsWith("Key"))
+                if (itemType->name->ends_with("Key"))
                 {
                     // Embedded as string key
                     writer->WriteStartValue();
-                    writer->WriteValue(item->ToString());
+                    writer->WriteValue(item->to_string());
                     writer->WriteEndValue();
                 }
                 else
@@ -112,42 +112,42 @@ namespace dc
         {
             // Get element name and value
             dot::string innerElementName = innerElementInfo->name;
-            dot::object innerElementValue = innerElementInfo->GetValue(this);
+            dot::object innerElementValue = innerElementInfo->get_value(this);
 
-            if (innerElementValue.IsEmpty())
+            if (innerElementValue.is_empty())
             {
                 continue;
             }
 
             dot::type_t elementType = innerElementValue->type();
 
-            if (   elementType->Equals(dot::typeof<dot::string>())
-                || elementType->Equals(dot::typeof<double>())
-                || elementType->Equals(dot::typeof<bool>())
-                || elementType->Equals(dot::typeof<int>())
-                || elementType->Equals(dot::typeof<int64_t>())
-                || elementType->Equals(dot::typeof<dot::local_date>())
-                || elementType->Equals(dot::typeof<dot::local_date_time>())
-                || elementType->Equals(dot::typeof<dot::local_time>())
-                || elementType->Equals(dot::typeof<dot::local_minute>())
-                || elementType->IsEnum
-                || elementType->Equals(dot::typeof<ObjectId>())
+            if (   elementType->equals(dot::typeof<dot::string>())
+                || elementType->equals(dot::typeof<double>())
+                || elementType->equals(dot::typeof<bool>())
+                || elementType->equals(dot::typeof<int>())
+                || elementType->equals(dot::typeof<int64_t>())
+                || elementType->equals(dot::typeof<dot::local_date>())
+                || elementType->equals(dot::typeof<dot::local_date_time>())
+                || elementType->equals(dot::typeof<dot::local_time>())
+                || elementType->equals(dot::typeof<dot::local_minute>())
+                || elementType->is_enum
+                || elementType->equals(dot::typeof<ObjectId>())
                 )
             {
                 writer->WriteValueElement(innerElementName, innerElementValue);
             }
             else
-            if (!elementType->GetInterface("IObjectEnumerable").IsEmpty())
+            if (!elementType->get_interface("IObjectEnumerable").is_empty())
             {
                 dc::SerializeTo((dot::IObjectEnumerable)innerElementValue, innerElementName, writer);
             }
             else
             if (innerElementValue.is<Data>())
             {
-                if (innerElementValue->type()->name->EndsWith("Key"))
+                if (innerElementValue->type()->name->ends_with("Key"))
                 {
                     // Embedded as string key
-                    writer->WriteValueElement(innerElementName, innerElementValue->ToString());
+                    writer->WriteValueElement(innerElementName, innerElementValue->to_string());
                 }
                 else
                 {

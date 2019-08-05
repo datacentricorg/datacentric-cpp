@@ -146,6 +146,7 @@
     <ClInclude Include="settings\SystemSettingsData.hpp" />
     <ClInclude Include="settings\SystemSettingsKey.hpp" />
     <ClInclude Include="types\double\Double.hpp" />
+    <ClInclude Include="types\double\double_compare.hpp" />
     <ClInclude Include="types\record\CachedRecord.hpp" />
     <ClInclude Include="types\record\DeleteMarker.hpp" />
     <ClInclude Include="types\record\KeyFor.hpp" />

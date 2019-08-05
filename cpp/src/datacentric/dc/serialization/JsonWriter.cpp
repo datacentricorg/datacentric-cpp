@@ -145,7 +145,7 @@ namespace dc
         //if (prevState == TreeWriterState::DocumentStarted)
         //{
         //    dot::string rootElementName = elementStack_.top().first;
-        //    if (!rootElementName->EndsWith("Key"))  // TODO remove it
+        //    if (!rootElementName->ends_with("Key"))  // TODO remove it
         //        this->WriteValueElement("_t", rootElementName);
         //}
     }
@@ -246,7 +246,7 @@ namespace dc
             throw dot::exception(
                 "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
 
-        if (value.IsEmpty())
+        if (value.is_empty())
         {
             // Null or empty value is serialized as null JSON value.
             // We should only get her for an array as for dictionaries
@@ -258,46 +258,46 @@ namespace dc
         // Serialize based on value type
         dot::type_t valueType = value->type();
 
-        if (valueType->Equals(dot::typeof<dot::string>()))
+        if (valueType->equals(dot::typeof<dot::string>()))
             jsonWriter_.String(*(dot::string)value);
         else
-        if (valueType->Equals(dot::typeof<double>())) // ? TODO check dot::typeof<Double>() dot::typeof<NullableDouble>()
+        if (valueType->equals(dot::typeof<double>())) // ? TODO check dot::typeof<Double>() dot::typeof<NullableDouble>()
             jsonWriter_.Double((double)value);
         else
-        if (valueType->Equals(dot::typeof<bool>()))
+        if (valueType->equals(dot::typeof<bool>()))
             jsonWriter_.Bool((bool)value);
         else
-        if (valueType->Equals(dot::typeof<int>()))
+        if (valueType->equals(dot::typeof<int>()))
             jsonWriter_.Int((int)value);
         else
-        if (valueType->Equals(dot::typeof<int64_t>()))
+        if (valueType->equals(dot::typeof<int64_t>()))
             jsonWriter_.Int64((int64_t)value);
         else
-        if (valueType->Equals(dot::typeof<dot::local_date>()))
-            jsonWriter_.Int(local_date_util::ToIsoInt((dot::local_date)value));
+        if (valueType->equals(dot::typeof<dot::local_date>()))
+            jsonWriter_.Int(dot::local_date_util::to_iso_int((dot::local_date)value));
         else
-        if (valueType->Equals(dot::typeof<dot::local_time>()))
-            jsonWriter_.Int(local_time_util::ToIsoInt((dot::local_time)value));
+        if (valueType->equals(dot::typeof<dot::local_time>()))
+            jsonWriter_.Int(dot::local_time_util::to_iso_int((dot::local_time)value));
         else
-        if (valueType->Equals(dot::typeof<dot::local_minute>()))
-            jsonWriter_.Int(local_minute_util::ToIsoInt((dot::local_minute) value));
+        if (valueType->equals(dot::typeof<dot::local_minute>()))
+            jsonWriter_.Int(dot::local_minute_util::to_iso_int((dot::local_minute) value));
         else
-        if (valueType->Equals(dot::typeof<dot::local_date_time>()))
-            jsonWriter_.Int64(local_date_time_util::ToIsoLong((dot::local_date_time)value));
+        if (valueType->equals(dot::typeof<dot::local_date_time>()))
+            jsonWriter_.Int64(dot::local_date_time_util::to_iso_long((dot::local_date_time)value));
         else
-        if (valueType->Equals(dot::typeof<ObjectId>()))
-            jsonWriter_.String(*value->ToString());
+        if (valueType->equals(dot::typeof<ObjectId>()))
+            jsonWriter_.String(*value->to_string());
         else
-        if (valueType->IsEnum)
-            jsonWriter_.String(*value->ToString());
+        if (valueType->is_enum())
+            jsonWriter_.String(*value->to_string());
         //else
         //if (valueType.is<Object>()) // TODO KeyType
-        //    jsonWriter_.String(*valueType->ToString()); // TODO semicolonDelimitedKeyString = keyElement.AsString();
+        //    jsonWriter_.String(*valueType->to_string()); // TODO semicolonDelimitedKeyString = keyElement.AsString();
         else
             throw dot::exception(dot::string::format("Element type {0} is not supported for JSON serialization.", valueType));
     }
 
-    dot::string JsonWriterImpl::ToString()
+    dot::string JsonWriterImpl::to_string()
     {
         return buffer_.GetString();
     }

@@ -81,10 +81,10 @@ namespace dc
         dot::string RecordID;
         dot::nullable<int> RecordIndex;
         dot::nullable<double> DoubleElement;
-        dot::nullable<dot::local_date> local_dateElement;
-        dot::nullable<dot::local_time> local_timeElement;
-        dot::nullable<dot::local_minute> local_minuteElement;
-        dot::nullable<dot::local_date_time> local_date_timeElement;
+        dot::nullable<dot::local_date> local_date_element;
+        dot::nullable<dot::local_time> local_time_element;
+        dot::nullable<dot::local_minute> local_minute_element;
+        dot::nullable<dot::local_date_time> local_date_time_element;
         MongoTestEnum EnumValue;
         dot::nullable<int> Version;
 
@@ -92,10 +92,10 @@ namespace dc
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_PROP(RecordIndex)
             DOT_TYPE_PROP(DoubleElement)
-            DOT_TYPE_PROP(local_dateElement)
-            DOT_TYPE_PROP(local_timeElement)
-            DOT_TYPE_PROP(local_minuteElement)
-            DOT_TYPE_PROP(local_date_timeElement)
+            DOT_TYPE_PROP(local_date_element)
+            DOT_TYPE_PROP(local_time_element)
+            DOT_TYPE_PROP(local_minute_element)
+            DOT_TYPE_PROP(local_date_time_element)
             DOT_TYPE_PROP(EnumValue)
             DOT_TYPE_PROP(Version)
             DOT_TYPE_BASE(record_for<MongoTestKeyImpl, MongoTestDataImpl>)

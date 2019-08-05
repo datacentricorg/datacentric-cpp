@@ -297,7 +297,7 @@ namespace dc
             dot::string::format("Cannot WriteValue(...)for element {0} ", currentElementName_) +
             "is called outside dictionary or array.");
 
-        if (value.is_empty())  // TODO IsEmpty method should be implemented according to c# extension
+        if (value.is_empty())  // TODO is_empty method should be implemented according to c# extension
         {
             // Do not record null or empty value into dictionary, but add it to an array
             // Add to dictionary or array, depending on what we are inside of
@@ -353,12 +353,12 @@ namespace dc
             if (valueType->equals(dot::typeof<int>()))
             {
                 // Deserialize local_date as ISO int in yyyymmdd format
-                dateValue = dot::local_date_util::ParseIsoInt((int) value);
+                dateValue = dot::local_date_util::parse_iso_int((int) value);
             }
             else if (valueType->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_date as ISO int in yyyymmdd format
-                dateValue = dot::local_date_util::ParseIsoInt((int64_t) value);
+                dateValue = dot::local_date_util::parse_iso_int((int64_t) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
@@ -377,12 +377,12 @@ namespace dc
             if (valueType->equals(dot::typeof<int>()))
             {
                 // Deserialize local_time as ISO int in hhmmssfff format
-                timeValue = dot::local_time_util::ParseIsoInt((int) value);
+                timeValue = dot::local_time_util::parse_iso_int((int) value);
             }
             else if (valueType->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_time as ISO int in hhmmssfff format
-                timeValue = dot::local_time_util::ParseIsoInt((int64_t) value);
+                timeValue = dot::local_time_util::parse_iso_int((int64_t) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
@@ -401,12 +401,12 @@ namespace dc
             if (valueType->equals(dot::typeof<int>()))
             {
                 // Deserialize local_minute as ISO int in hhmmssfff format
-                minuteValue = dot::local_minute_util::ParseIsoInt((int) value);
+                minuteValue = dot::local_minute_util::parse_iso_int((int) value);
             }
             else if (valueType->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_minute as ISO int in hhmmssfff format
-                minuteValue = dot::local_minute_util::ParseIsoInt((int64_t) value);
+                minuteValue = dot::local_minute_util::parse_iso_int((int64_t) value);
             }
             else throw dot::exception(
                 dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
@@ -429,17 +429,17 @@ namespace dc
             else if (valueType->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
-                dateTimeValue = dot::local_date_time_util::ParseIsoLong((int64_t) value);
+                dateTimeValue = dot::local_date_time_util::parse_iso_long((int64_t) value);
             }
             else if (valueType->equals(dot::typeof<int>()))
             {
                 // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
-                dateTimeValue = dot::local_date_time_util::ParseIsoLong((int) value);
+                dateTimeValue = dot::local_date_time_util::parse_iso_long((int) value);
             }
             else if (valueType->equals(dot::typeof<dot::string>()))
             {
                 // Deserialize local_date_time as ISO string
-                dateTimeValue = dot::local_date_time_util::Parse((dot::string) value);
+                dateTimeValue = dot::local_date_time_util::parse((dot::string) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +

@@ -129,7 +129,7 @@ namespace dc
             else if (bsonType == bsoncxx::type::k_date)
             {
                 bsoncxx::types::b_date value = elem.get_date();
-                writer->WriteValueElement(elementName, local_date_time_util::FromStdChrono(value.value));
+                writer->WriteValueElement(elementName, dot::local_date_time_util::from_std_chrono(value.value));
             }
             else if (bsonType == bsoncxx::type::k_document)
             {

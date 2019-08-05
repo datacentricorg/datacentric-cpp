@@ -70,8 +70,8 @@ namespace dc
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 100.0;
-        rec->local_dateElement = dot::local_date(2003, 5, 1);
-        rec->local_timeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->local_date_element = dot::local_date(2003, 5, 1);
+        rec->local_time_element = dot::local_time(10, 15, 30); // 10:15:30
         rec->local_minuteElement = dot::local_minute(10, 15); // 10:15
         rec->local_date_timeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->EnumValue = MongoTestEnum::EnumValue2;
@@ -88,21 +88,21 @@ namespace dc
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
-        rec->local_dateElement = dot::local_date(2003, 5, 1);
-        rec->local_timeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->local_date_element = dot::local_date(2003, 5, 1);
+        rec->local_time_element = dot::local_time(10, 15, 30); // 10:15:30
         rec->local_minuteElement = dot::local_minute(10, 15); // 10:15
         rec->local_date_timeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->StringElement2 = dot::string::Empty; // Test how empty value is recorded
         rec->DoubleElement2 = 200.0;
 
         // dot::string collections
-        rec->ArrayOfString = dot::new_Array1D<dot::string>({ "A", "B", "C" });
-        rec->ListOfString = dot::new_List<dot::string>({ "A", "B", "C" });
+        rec->ArrayOfString = dot::make_array<dot::string>({ "A", "B", "C" });
+        rec->ListOfString = dot::make_list<dot::string>({ "A", "B", "C" });
 
         // Double collections
-        rec->ArrayOfDouble = dot::new_Array1D<double>({ 1.0, 2.0, 3.0 });
-        rec->ListOfDouble = dot::new_List<double>({ 1.0, 2.0, 3.0 });
-        rec->ListOfNullableDouble = dot::new_List<dot::nullable<double>>();
+        rec->ArrayOfDouble = dot::make_array<double>({ 1.0, 2.0, 3.0 });
+        rec->ListOfDouble = dot::make_list<double>({ 1.0, 2.0, 3.0 });
+        rec->ListOfNullableDouble = dot::make_list<dot::nullable<double>>();
         rec->ListOfNullableDouble->Add(10.0);
         rec->ListOfNullableDouble->Add(dot::nullable<double>());
         rec->ListOfNullableDouble->Add(30.0);
@@ -113,7 +113,7 @@ namespace dc
         rec->DataElement->StringElement3 = "AA";
 
         // Data element list
-        rec->DataElementList = dot::new_List<ElementSampleData>();
+        rec->DataElementList = dot::make_list<ElementSampleData>();
         ElementSampleData elementList0 = new_ElementSampleData();
         elementList0->DoubleElement3 = 1.0;
         elementList0->StringElement3 = "A0";
@@ -129,7 +129,7 @@ namespace dc
         rec->KeyElement->RecordIndex = 2;
 
         // Key element list
-        rec->KeyElementList = dot::new_List<MongoTestKey>();
+        rec->KeyElementList = dot::make_list<MongoTestKey>();
         MongoTestKey keyList0 = new_MongoTestKey();
         keyList0->RecordID = "B0";
         keyList0->RecordIndex = 3;
@@ -151,8 +151,8 @@ namespace dc
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
-        rec->local_dateElement = dot::local_date(2003, 5, 1);
-        rec->local_timeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->local_date_element = dot::local_date(2003, 5, 1);
+        rec->local_time_element = dot::local_time(10, 15, 30); // 10:15:30
         rec->local_minuteElement = dot::local_minute(10, 15); // 10:15
         rec->local_date_timeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->OtherStringElement2 = dot::string::Empty; // Test how empty value is recorded
@@ -170,8 +170,8 @@ namespace dc
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
-        rec->local_dateElement = dot::local_date(2003, 5, 1);
-        rec->local_timeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->local_date_element = dot::local_date(2003, 5, 1);
+        rec->local_time_element = dot::local_time(10, 15, 30); // 10:15:30
         rec->local_minuteElement = dot::local_minute(10, 15); // 10:15
         rec->local_date_timeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->OtherStringElement3 = dot::string::Empty; // Test how empty value is recorded
@@ -187,7 +187,7 @@ namespace dc
     {
         // Create datasets
         ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        dot::list<ObjectId> parents = dot::new_List<ObjectId>();
+        dot::list<ObjectId> parents = dot::make_list<ObjectId>();
         parents->Add(dataSetA);
 
         ObjectId dataSetB = context->CreateDataSet("B", parents, context->DataSet);
@@ -202,9 +202,9 @@ namespace dc
     {
         // Create datasets
         ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::new_List<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetC = context->CreateDataSet("C", dot::new_List<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetD = context->CreateDataSet("D", dot::new_List<ObjectId>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
+        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
+        ObjectId dataSetC = context->CreateDataSet("C", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
+        ObjectId dataSetD = context->CreateDataSet("D", dot::make_list<ObjectId>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
 
         // Create records with minimal data
         SaveBaseRecord(context, "A", "A", 0);
@@ -230,9 +230,9 @@ namespace dc
     {
         // Create datasets
         ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::new_List<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetC = context->CreateDataSet("C", dot::new_List<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetD = context->CreateDataSet("D", dot::new_List<ObjectId>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
+        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
+        ObjectId dataSetC = context->CreateDataSet("C", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
+        ObjectId dataSetD = context->CreateDataSet("D", dot::make_list<ObjectId>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
 
         // Create records
         SaveMinimalRecord(context, "A", "A", 0);
@@ -256,15 +256,15 @@ namespace dc
         if (record == nullptr)
         {
             // Not found
-            received << * dot::string::format("Record {0} in dataset {1} not found.", key->ToString(), dataSetID) << std::endl;
+            received << * dot::string::format("Record {0} in dataset {1} not found.", key->to_string(), dataSetID) << std::endl;
         }
         else
         {
             // Found, also checks that the key matches
-            REQUIRE(record->getKey() == key->ToString());
+            REQUIRE(record->getKey() == key->to_string());
             received
                 << *dot::string::format("Record {0} in dataset {1} found and has Type={2}.",
-                    key->ToString(), dataSetID, record->type()->name)
+                    key->to_string(), dataSetID, record->type()->name)
                 << std::endl;
         }
     }
@@ -330,9 +330,9 @@ namespace dc
 
         // Create datasets
         ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::new_List<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetC = context->CreateDataSet("C", dot::new_List<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetD = context->CreateDataSet("D", dot::new_List<ObjectId>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
+        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
+        ObjectId dataSetC = context->CreateDataSet("C", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
+        ObjectId dataSetD = context->CreateDataSet("D", dot::make_list<ObjectId>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
 
         // Create initial version of the records
         SaveMinimalRecord(context, "A", "A", 0, 0);
@@ -364,7 +364,7 @@ namespace dc
         SaveMinimalRecord(context, "A", "A", 2, 2);
         SaveMinimalRecord(context, "A", "B", 3, 2);
 
-        dot::list<dot::string> in_list = dot::new_List<dot::string>();
+        dot::list<dot::string> in_list = dot::make_list<dot::string>();
         in_list->Add("B");
 
         // Query for RecordID=B
@@ -472,7 +472,7 @@ namespace dc
 
         // Create datasets
         ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::new_List<ObjectId>({ dataSetA }), context->DataSet);
+        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
 
         // Create records with minimal data
         SaveDerivedRecord(context, "A", "A", 0);
@@ -552,17 +552,17 @@ namespace dc
         dot::IEnumerable<MongoTestDerivedData> testQuery = context->DataSource->GetQuery<MongoTestDerivedData>(dataSetB)
             ->Where(make_prop(&MongoTestDerivedDataImpl::DataElementList)[0]->*make_prop(&ElementSampleDataImpl::DoubleElement3) == 1.0)
             ->Where(make_prop(&MongoTestDerivedDataImpl::DataElementList)[0]->*make_prop(&ElementSampleDataImpl::StringElement3) == "A0")
-            ->Where(make_prop(&MongoTestDerivedDataImpl::local_dateElement) < dot::local_date(2003, 5, 2))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::local_dateElement) > dot::local_date(2003, 4, 30))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::local_dateElement) == dot::local_date(2003, 5, 1))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::local_timeElement) < dot::local_time(10, 15, 31))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::local_timeElement) > dot::local_time(10, 15, 29))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::local_timeElement) == dot::local_time(10, 15, 30))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_date_element) < dot::local_date(2003, 5, 2))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_date_element) > dot::local_date(2003, 4, 30))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_date_element) == dot::local_date(2003, 5, 1))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_time_element) < dot::local_time(10, 15, 31))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_time_element) > dot::local_time(10, 15, 29))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_time_element) == dot::local_time(10, 15, 30))
             ->Where(make_prop(&MongoTestDerivedDataImpl::local_date_timeElement) < dot::local_date_time(2003, 5, 1, 10, 15, 01))
             ->Where(make_prop(&MongoTestDerivedDataImpl::local_date_timeElement) > dot::local_date_time(2003, 5, 1, 10, 14, 59))
             ->Where(make_prop(&MongoTestDerivedDataImpl::local_date_timeElement) == dot::local_date_time(2003, 5, 1, 10, 15))
             ->Where(make_prop(&MongoTestDerivedDataImpl::StringElement2) == dot::string::Empty)
-            ->Where(make_prop(&MongoTestDerivedDataImpl::KeyElement) == key->ToString())
+            ->Where(make_prop(&MongoTestDerivedDataImpl::KeyElement) == key->to_string())
             ->AsEnumerable<MongoTestDerivedData>();
 
         for (MongoTestData obj : testQuery)
@@ -693,7 +693,7 @@ namespace dc
 
         // Create datasets
         ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::new_List<ObjectId>({ dataSetA }), context->DataSet);
+        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
 
         // Create initial version of the records
         ObjectId objA0 = SaveMinimalRecord(context, "A", "A", 0, 0);

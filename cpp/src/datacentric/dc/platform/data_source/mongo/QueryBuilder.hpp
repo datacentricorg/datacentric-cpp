@@ -92,17 +92,17 @@ namespace dc
 
     inline void append(bsoncxx::builder::core& builder, dot::local_date rhs)
     {
-        builder.append(local_date_util::ToIsoInt(rhs));
+        builder.append(dot::local_date_util::to_iso_int(rhs));
     }
 
     inline void append(bsoncxx::builder::core& builder, dot::local_time rhs)
     {
-        builder.append(local_time_util::ToIsoInt(rhs));
+        builder.append(dot::local_time_util::to_iso_int(rhs));
     }
 
     inline void append(bsoncxx::builder::core& builder, dot::local_date_time rhs)
     {
-        builder.append(bsoncxx::types::b_date(local_date_time_util::ToStdChrono(rhs)));
+        builder.append(bsoncxx::types::b_date(dot::local_date_time_util::to_std_chrono(rhs)));
     }
 
     inline void append(bsoncxx::builder::core& builder, bsoncxx::oid rhs)
@@ -140,13 +140,13 @@ namespace dc
     template <class Key>
     inline void append(bsoncxx::builder::core& builder, Key rhs, typename std::enable_if<std::is_base_of<KeyTypeImpl, typename Key::element_type>::value >::type * p = 0)
     {
-        append(builder, rhs->ToString());
+        append(builder, rhs->to_string());
     }
 
     //template <class Key>
     //inline void append(bsoncxx::builder::core& builder, Key rhs, typename std::enable_if<std::is_base_of<KeyTypeImpl, typename Key::value_type::element_type>::value >::type * p = 0)
     //{
-    //    append(builder, rhs->ToString());
+    //    append(builder, rhs->to_string());
     //}
 
     template <class T>
@@ -432,7 +432,7 @@ namespace dc
         for (dot::field_info const& prop : props)
         {
             dot::ptr<dot::field_infoFieldImpl<Prop, Class>> casted_prop = prop.as<dot::ptr<dot::field_infoFieldImpl<Prop, Class>>>();
-            if (!casted_prop.IsEmpty() && casted_prop->prop_ == prop_)
+            if (!casted_prop.is_empty() && casted_prop->prop_ == prop_)
                 return prop_wrapper<Class, Prop>{ prop };
 
         }

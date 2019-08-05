@@ -125,7 +125,7 @@ namespace dc
         if (objectId <= saveTo)
             throw dot::exception(dot::string::format(
                 "Attempting to save a record with ObjectId={0} that is later "
-                "than ObjectId={1} of the dataset where it is being saved.", objectId.ToString(), saveTo.ToString()));
+                "than ObjectId={1} of the dataset where it is being saved.", objectId.to_string(), saveTo.to_string()));
 
         // Assign ID and DataSet, and only then initialize, because
         // initialization code may use record.ID and record.DataSet

@@ -75,7 +75,7 @@ namespace dc
         return _id <= rhs._id;
     }
 
-    bool ObjectId::IsEmpty()
+    bool ObjectId::is_empty()
     {
         return *_id.bytes() == 0; // TODO check
     }
@@ -100,7 +100,7 @@ namespace dc
         return bsoncxx::oid();
     }
 
-    dot::string ObjectId::ToString()
+    dot::string ObjectId::to_string()
     {
         return _id.to_string();
     }

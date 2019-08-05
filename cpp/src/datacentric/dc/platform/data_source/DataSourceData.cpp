@@ -88,9 +88,9 @@ namespace dc
             DataSetData data_set_data = load_or_null<DataSetData>(load_from).template as<DataSetData>();
 
             if (data_set_data == nullptr)
-                throw dot::exception(dot::string::format("Dataset with ObjectId={0} is not found.", load_from.ToString()));
+                throw dot::exception(dot::string::format("Dataset with ObjectId={0} is not found.", load_from.to_string()));
             if ((ObjectId) data_set_data->DataSet != ObjectId::Empty)
-                throw dot::exception(dot::string::format("Dataset with ObjectId={0} is not stored in root dataset.", load_from.ToString()));
+                throw dot::exception(dot::string::format("Dataset with ObjectId={0} is not stored in root dataset.", load_from.to_string()));
 
             // Build the lookup list
             result = build_data_set_lookup_list(data_set_data);
@@ -192,7 +192,7 @@ namespace dc
                 // Dataset cannot include itself as parent
                 if (data_set_data->ID == data_set_id)
                     throw dot::exception(
-                        dot::string::format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::string)data_set_data->get_key(), ObjectId(data_set_data->ID).ToString()));
+                        dot::string::format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::string)data_set_data->get_key(), ObjectId(data_set_data->ID).to_string()));
 
                 // The Add method returns true if the argument is not yet present in the list
                 if (!result->contains(data_set_id))

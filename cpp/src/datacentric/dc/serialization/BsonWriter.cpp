@@ -145,7 +145,7 @@ namespace dc
         //if (prevState == TreeWriterState::DocumentStarted)
         //{
         //    dot::string rootElementName = elementStack_.top().first;
-        //    if (!rootElementName->EndsWith("Key"))  // TODO remove it
+        //    if (!rootElementName->ends_with("Key"))  // TODO remove it
         //        this->WriteValueElement("_t", rootElementName);
         //}
     }
@@ -246,7 +246,7 @@ namespace dc
             throw dot::exception(
                 "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
 
-        if (value.IsEmpty())
+        if (value.is_empty())
         {
             // Null or empty value is serialized as null BSON value.
             // We should only get her for an array as for dictionaries
@@ -258,46 +258,46 @@ namespace dc
         // Serialize based on value type
         dot::type_t valueType = value->type();
 
-        if (valueType->Equals(dot::typeof<dot::string>()))
+        if (valueType->equals(dot::typeof<dot::string>()))
             bsonWriter_.append(*(dot::string)value);
         else
-        if (valueType->Equals(dot::typeof<double>())) // ? TODO check dot::typeof<Double>() dot::typeof<NullableDouble>()
+        if (valueType->equals(dot::typeof<double>())) // ? TODO check dot::typeof<Double>() dot::typeof<NullableDouble>()
             bsonWriter_.append((double)value);
         else
-        if (valueType->Equals(dot::typeof<bool>()))
+        if (valueType->equals(dot::typeof<bool>()))
             bsonWriter_.append((bool)value);
         else
-        if (valueType->Equals(dot::typeof<int>()))
+        if (valueType->equals(dot::typeof<int>()))
             bsonWriter_.append((int)value);
         else
-        if (valueType->Equals(dot::typeof<int64_t>()))
+        if (valueType->equals(dot::typeof<int64_t>()))
             bsonWriter_.append((int64_t)value);
         else
-        if (valueType->Equals(dot::typeof<dot::local_date>()))
-            bsonWriter_.append(local_date_util::ToIsoInt((dot::local_date)value));
+        if (valueType->equals(dot::typeof<dot::local_date>()))
+            bsonWriter_.append(dot::local_date_util::to_iso_int((dot::local_date)value));
         else
-        if (valueType->Equals(dot::typeof<dot::local_time>()))
-            bsonWriter_.append(local_time_util::ToIsoInt((dot::local_time)value));
+        if (valueType->equals(dot::typeof<dot::local_time>()))
+            bsonWriter_.append(dot::local_time_util::to_iso_int((dot::local_time)value));
         else
-        if (valueType->Equals(dot::typeof<dot::local_minute>()))
-            bsonWriter_.append(local_minute_util::ToIsoInt((dot::local_minute) value));
+        if (valueType->equals(dot::typeof<dot::local_minute>()))
+            bsonWriter_.append(dot::local_minute_util::to_iso_int((dot::local_minute) value));
         else
-        if (valueType->Equals(dot::typeof<dot::local_date_time>()))
-            bsonWriter_.append(bsoncxx::types::b_date{ local_date_time_util::ToStdChrono((dot::local_date_time)value) });
+        if (valueType->equals(dot::typeof<dot::local_date_time>()))
+            bsonWriter_.append(bsoncxx::types::b_date{ local_date_time_util::to_std_chrono((dot::local_date_time)value) });
         else
-        if (valueType->Equals(dot::typeof<ObjectId>()))
+        if (valueType->equals(dot::typeof<ObjectId>()))
             bsonWriter_.append(((dot::struct_wrapper<ObjectId>)value)->_id);
         else
-        if (valueType->IsEnum)
-            bsonWriter_.append(*value->ToString());
+        if (valueType->is_enum())
+            bsonWriter_.append(*value->to_string());
         //else
         //if (valueType.is<Object>()) // TODO KeyType
-        //    bsonWriter_.append(*(valueType->ToString())); // TODO semicolonDelimitedKeyString = keyElement.AsString();
+        //    bsonWriter_.append(*(valueType->to_string())); // TODO semicolonDelimitedKeyString = keyElement.AsString();
         else
             throw dot::exception(dot::string::format("Element type {0} is not supported for BSON serialization.", valueType));
     }
 
-    dot::string BsonWriterImpl::ToString()
+    dot::string BsonWriterImpl::to_string()
     {
         return bsoncxx::to_json(bsonWriter_.view_array()[0].get_document().view());
     }

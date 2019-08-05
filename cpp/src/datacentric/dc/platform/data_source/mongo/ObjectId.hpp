@@ -47,7 +47,7 @@ namespace dc
 
         bool operator<=(const ObjectId& rhs) const;
 
-        bool IsEmpty();
+        bool is_empty();
 
         bool operator<(const ObjectId& rhs) const;
 
@@ -55,7 +55,7 @@ namespace dc
 
         static ObjectId GenerateNewId();
 
-        dot::string ToString();
+        dot::string to_string();
 
         bsoncxx::oid _id;
 

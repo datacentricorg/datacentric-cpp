@@ -147,7 +147,7 @@ namespace dc
         PerformanceTestData rec = new_PerformanceTestData();
         rec->RecordID = recordId;
         rec->Version = recordVersion;
-        rec->DoubleList = dot::new_List<double>();
+        rec->DoubleList = dot::make_list<double>();
         rec->DoubleList->setCapacity(recordSize);
 
         for (int i = 0; i < recordSize; ++i)
@@ -165,7 +165,7 @@ namespace dc
         for (int i = 0; i < dataSetsCount; ++i)
         {
             dot::string dataSetName = GetDataSet(i);
-            context->CreateDataSet(dataSetName, dot::new_List<ObjectId>({ commonDataSet }));
+            context->CreateDataSet(dataSetName, dot::make_list<ObjectId>({ commonDataSet }));
         }
 
         // Create records
@@ -239,7 +239,7 @@ namespace dc
 
         for (PerformanceTestData data : query)
         {
-            std::cout << *data->ToString() << std::endl;
+            std::cout << *data->to_string() << std::endl;
         }
     }
 }

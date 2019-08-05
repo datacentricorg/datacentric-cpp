@@ -114,7 +114,7 @@ namespace dc
 
             // Error message if null, otherwise return
             if (result == nullptr) throw dot::exception(dot::string::format(
-                "Record with key {0} is not found in dataset with ObjectId={1}.", this->to_string(), dataSet.ToString()));
+                "Record with key {0} is not found in dataset with ObjectId={1}.", this->to_string(), dataSet.to_string()));
 
             return result;
         }

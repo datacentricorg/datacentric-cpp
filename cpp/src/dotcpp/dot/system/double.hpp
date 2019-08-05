@@ -44,7 +44,7 @@ namespace dot
         /// <summary>Sentinel value representing uninitialized state.</summary>
         static constexpr double empty = -1e100;
 
-        /// <summary>Tolerance used in comparison.</summary>
+        /// <summary>tolerance used in comparison.</summary>
         static constexpr double tolerance = 1e-10;
 
     public: // STATIC

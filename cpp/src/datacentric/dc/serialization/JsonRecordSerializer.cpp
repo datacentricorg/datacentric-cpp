@@ -69,7 +69,7 @@ namespace dc
 
         for (auto& elem : doc)
         {
-            rapidjson::Type jsonType = elem.value.type();
+            rapidjson::Type jsonType = elem.value.GetType();
 
             // Read element name and value
             dot::string elementName = elem.name.GetString();
@@ -151,7 +151,7 @@ namespace dc
         // Loop over elements until
         for (auto& elem : arr)
         {
-            rapidjson::Type jsonType = elem.type();
+            rapidjson::Type jsonType = elem.GetType();
 
             if (jsonType == rapidjson::Type::kNullType)
             {
