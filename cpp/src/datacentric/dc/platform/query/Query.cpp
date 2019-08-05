@@ -20,34 +20,34 @@ limitations under the License.
 
 namespace dc
 {
-    IQuery QueryImpl::Where(bsoncxx::document::view_or_value value)
+    query query_impl::where(bsoncxx::document::view_or_value value)
     {
         where_.append(bsoncxx::builder::basic::concatenate(value));
         return this;
     }
 
-    dot::IObjectEnumerable QueryImpl::AsEnumerable()
+    object_cursor_wrapper query_impl::get_cursor()
     {
-        return dataSource_->LoadByQuery(this);
+        return data_source_->LoadByQuery(this);
     }
 
-    IQuery QueryImpl::SortBy(dot::field_info keySelector)
+    query query_impl::sort_by(dot::field_info key_selector)
     {
-        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)keySelector->Name, 1));
+        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)key_selector->Name, 1));
         return this;
     }
 
-    IQuery QueryImpl::SortByDescending(dot::field_info keySelector)
+    query query_impl::sort_by_descending(dot::field_info key_selector)
     {
-        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)keySelector->Name, -1));
+        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)key_selector->Name, -1));
         return this;
     }
 
-    dot::IObjectEnumerable QueryImpl::Select(dot::List<dot::field_info> props, dot::type_t elementType)
+    object_cursor_wrapper query_impl::select(dot::list<dot::field_info> props, dot::type_t element_type)
     {
-        this->elementType_ = elementType;
+        this->element_type_ = element_type;
         this->select_ = props;
-        return dataSource_->LoadByQuery(this);
+        return data_source_->LoadByQuery(this);
     }
 
 }

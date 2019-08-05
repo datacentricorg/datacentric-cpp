@@ -26,7 +26,7 @@ limitations under the License.
 #include <dc/platform/data_source/IDataSource.hpp>
 #include <dc/platform/data_source/DatabaseKey.hpp>
 #include <dc/platform/data_source/DatabaseServerKey.hpp>
-#include <dc/platform/query/IQuery.hpp>
+#include <dc/platform/query/Query.hpp>
 
 namespace dc
 {

@@ -24,21 +24,21 @@ limitations under the License.
 namespace dc
 {
 
-    class ObjectCursorWrapperImpl; using ObjectCursorWrapper = dot::ptr<ObjectCursorWrapperImpl>;
-    template <class T> class CursorWrapperImpl;
-    template <class T> using CursorWrapper = dot::ptr<CursorWrapperImpl<T>>;
+    class object_cursor_wrapper_impl; using object_cursor_wrapper = dot::ptr<object_cursor_wrapper_impl>;
+    template <class T> class cursor_wrapper_impl;
+    template <class T> using cursor_wrapper = dot::ptr<cursor_wrapper_impl<T>>;
 
     template <class T>
-    inline ObjectCursorWrapper new_ObjectCursorWrapper(mongocxx::cursor && cursor, const std::function<T(const bsoncxx::document::view&)>& f);
+    inline object_cursor_wrapper make_object_cursor_wrapper(mongocxx::cursor && cursor, const std::function<T(const bsoncxx::document::view&)>& f);
 
     template <class T>
-    class IteratorWrappper
+    class iterator_wrappper
     {
     public:
 
         typedef T value_type;
 
-        IteratorWrappper(const mongocxx::cursor::iterator & iterator, const std::function<T(const bsoncxx::document::view&)>& f)
+        iterator_wrappper(const mongocxx::cursor::iterator & iterator, const std::function<T(const bsoncxx::document::view&)>& f)
             :iterator_(iterator)
             ,f_(f)
         {}
@@ -53,7 +53,7 @@ namespace dc
             return f_(*iterator_);
         }
 
-        IteratorWrappper& operator++()
+        iterator_wrappper& operator++()
         {
             //String currKey = (*iterator_)["_key"].get_utf8().value.to_string();
             //while (!iterator_->empty() && dot::string((*iterator_)["_key"].get_utf8().value.to_string()) == currKey)
@@ -61,12 +61,12 @@ namespace dc
             return *this;
         }
 
-        bool operator!=(IteratorWrappper const& rhs)
+        bool operator!=(iterator_wrappper const& rhs)
         {
             return iterator_ != rhs.iterator_;
         }
 
-        bool operator==(IteratorWrappper const& rhs)
+        bool operator==(iterator_wrappper const& rhs)
         {
             return iterator_ == rhs.iterator_;
         }
@@ -76,35 +76,23 @@ namespace dc
     };
 
 
-    class ObjectCursorWrapperImpl : public dot::IObjectEnumerableImpl//, public IEnumerableImpl<T>
+    class object_cursor_wrapper_impl : public dot::object_impl
     {
-        friend ObjectCursorWrapper new_ObjectCursorWrapper(mongocxx::cursor &&, const std::function<dot::object(const bsoncxx::document::view&)>&);
+        friend object_cursor_wrapper make_object_cursor_wrapper(mongocxx::cursor &&, const std::function<dot::object(const bsoncxx::document::view&)>&);
 
     public:
 
-        /// <summary>Returns forward begin object iterator.</summary>
-        virtual dot::detail::std_object_iterator_wrapper object_begin()
-        {
-            return dot::detail::make_obj_iterator(IteratorWrappper<dot::object>(cursor_->begin(), f_));
-        }
+        /// <summary>Returns begin iterator of the underlying std::vector.</summary>
+        iterator_wrappper<dot::object> begin() { return iterator_wrappper<dot::object>(cursor_->begin(), f_); }
 
-        /// <summary>Returns forward end object iterator.</summary>
-        virtual dot::detail::std_object_iterator_wrapper object_end()
-        {
-            return dot::detail::make_obj_iterator(IteratorWrappper<dot::object>(cursor_->end(), f_));
-        }
-
-        /// <summary>Returns random access begin iterator of the underlying std::vector.</summary>
-        typename mongocxx::cursor::iterator begin() { return cursor_->begin(); }
-
-        /// <summary>Returns random access end iterator of the underlying std::vector.</summary>
-        typename mongocxx::cursor::iterator end() { return cursor_->end(); }
+        /// <summary>Returns end iterator of the underlying std::vector.</summary>
+        iterator_wrappper<dot::object> end() { return iterator_wrappper<dot::object>(cursor_->end(), f_); }
 
         template <class T>
-        inline dot::IEnumerable<T> AsEnumerable()
+        inline cursor_wrapper<T> to_cursor_wrapper()
         {
             std::function<dot::object(const bsoncxx::document::view&)> f = f_;
-            return new CursorWrapperImpl<T>(cursor_, [f](const bsoncxx::document::view& item)->T
+            return new cursor_wrapper_impl<T>(cursor_, [f](const bsoncxx::document::view& item)->T
                 {
                     return T(f(item));
                 }
@@ -113,7 +101,7 @@ namespace dc
 
     private:
 
-        ObjectCursorWrapperImpl(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)
+        object_cursor_wrapper_impl(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)
             : cursor_(std::make_shared<mongocxx::cursor>(std::move(cursor)))
             , f_(f)
         {
@@ -124,27 +112,21 @@ namespace dc
     };
 
     template <class T>
-    class CursorWrapperImpl : public dot::IEnumerableImpl<T>
+    class cursor_wrapper_impl : public dot::object_impl
     {
-        friend class ObjectCursorWrapperImpl;
+        friend class object_cursor_wrapper_impl;
 
     public:
 
-        /// <summary>Returns an enumerator that iterates through the collection.</summary>
-        virtual dot::IEnumerator<T> GetEnumerator()
-        {
-            return new_Enumerator(IteratorWrappper<T>(cursor_->begin(), f_), IteratorWrappper<T>(cursor_->end(), f_));
-        }
+        /// <summary>Returns begin iterator of the underlying std::vector.</summary>
+        iterator_wrappper<T> begin() { return iterator_wrappper<T>(cursor_->begin(), f_); }
 
-        ///// <summary>Returns random access begin iterator of the underlying std::vector.</summary>
-        //typename mongocxx::cursor::iterator begin() { return cursor_->begin(); }
-        //
-        ///// <summary>Returns random access end iterator of the underlying std::vector.</summary>
-        //typename mongocxx::cursor::iterator end() { return cursor_->end(); }
+        /// <summary>Returns end iterator of the underlying std::vector.</summary>
+        iterator_wrappper<T> end() { return iterator_wrappper<T>(cursor_->end(), f_); }
 
     private:
 
-        CursorWrapperImpl(std::shared_ptr<mongocxx::cursor> cursor, const std::function<T(const bsoncxx::document::view&)>& f)
+        cursor_wrapper_impl(std::shared_ptr<mongocxx::cursor> cursor, const std::function<T(const bsoncxx::document::view&)>& f)
             : cursor_(cursor)
             , f_(f)
         {
@@ -156,9 +138,9 @@ namespace dc
 
 
 
-    inline ObjectCursorWrapper new_ObjectCursorWrapper(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)
+    inline object_cursor_wrapper make_object_cursor_wrapper(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)
     {
-        return new ObjectCursorWrapperImpl(std::move(cursor), f);
+        return new object_cursor_wrapper_impl(std::move(cursor), f);
     }
 
 }

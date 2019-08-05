@@ -38,7 +38,6 @@
     <ClCompile Include="platform\logging\LogSettingsData.cpp" />
     <ClCompile Include="platform\logging\LogSettingsKey.cpp" />
     <ClCompile Include="platform\query\Query.cpp" />
-    <ClCompile Include="platform\query\IQuery.cpp" />
     <ClCompile Include="platform\reflection\ClassInfo.cpp" />
     <ClCompile Include="platform\settings\Settings.cpp" />
     <ClCompile Include="platform\workflow\JobData.cpp" />
@@ -118,7 +117,6 @@
     <ClInclude Include="platform\logging\LogSettingsKey.hpp" />
     <ClInclude Include="platform\logging\LogVerbosity.hpp" />
     <ClInclude Include="platform\query\Query.hpp" />
-    <ClInclude Include="platform\query\IQuery.hpp" />
     <ClInclude Include="platform\reflection\ClassInfo.hpp" />
     <ClInclude Include="platform\reflection\DefaultClassMapSettings.hpp" />
     <ClInclude Include="platform\reflection\IClassMapSettings.hpp" />
