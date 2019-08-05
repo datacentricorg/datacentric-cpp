@@ -45,7 +45,7 @@ namespace dc
         return result;
     }
 
-    dot::object BsonRecordSerializerImpl::DeserializeTuple(bsoncxx::document::view doc, dot::List<dot::PropertyInfo> props, dot::type_t tupleType)
+    dot::object BsonRecordSerializerImpl::DeserializeTuple(bsoncxx::document::view doc, dot::List<dot::field_info> props, dot::type_t tupleType)
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = tupleType->Name;

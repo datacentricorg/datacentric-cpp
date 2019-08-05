@@ -309,7 +309,7 @@ namespace dc
     template <class Class, class Prop>
     struct prop_wrapper
     {
-        dot::PropertyInfo prop_;
+        dot::field_info prop_;
 
         template <class ClassR, class PropR>
         props_list<PropR> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
@@ -427,11 +427,11 @@ namespace dc
     prop_wrapper<Class, Prop> make_prop(Prop Class::*prop_)
     {
         dot::type_t type = dot::typeof<dot::ptr<Class>>();
-        dot::Array1D<dot::PropertyInfo> props = type->GetProperties();
+        dot::Array1D<dot::field_info> props = type->GetProperties();
 
-        for (dot::PropertyInfo const& prop : props)
+        for (dot::field_info const& prop : props)
         {
-            dot::ptr<dot::PropertyInfoFieldImpl<Prop, Class>> casted_prop = prop.as<dot::ptr<dot::PropertyInfoFieldImpl<Prop, Class>>>();
+            dot::ptr<dot::field_infoFieldImpl<Prop, Class>> casted_prop = prop.as<dot::ptr<dot::field_infoFieldImpl<Prop, Class>>>();
             if (!casted_prop.IsEmpty() && casted_prop->prop_ == prop_)
                 return prop_wrapper<Class, Prop>{ prop };
 

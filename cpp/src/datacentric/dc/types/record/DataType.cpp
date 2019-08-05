@@ -107,8 +107,8 @@ namespace dc
         writer->WriteStartDict();
 
         // Iterate over the list of elements
-        dot::Array1D<dot::PropertyInfo> innerElementInfoList = GetType()->GetProperties();
-        for (dot::PropertyInfo innerElementInfo : innerElementInfoList)
+        dot::Array1D<dot::field_info> innerElementInfoList = GetType()->GetProperties();
+        for (dot::field_info innerElementInfo : innerElementInfoList)
         {
             // Get element name and value
             dot::string innerElementName = innerElementInfo->Name;

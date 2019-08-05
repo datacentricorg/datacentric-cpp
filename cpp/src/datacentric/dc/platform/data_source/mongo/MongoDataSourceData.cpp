@@ -241,7 +241,7 @@ namespace dc
         else
         {
             bsoncxx::builder::basic::document selectList{};
-            for (dot::PropertyInfo prop : q->select_)
+            for (dot::field_info prop : q->select_)
                 selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->Name, 1));
             selectList.append(bsoncxx::builder::basic::kvp("_key", 1));
 

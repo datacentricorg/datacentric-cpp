@@ -23,13 +23,13 @@ namespace dc
 
     dot::string KeyTypeImpl::ToString()
     {
-        dot::Array1D<dot::PropertyInfo> props = GetType()->GetProperties();
+        dot::Array1D<dot::field_info> props = GetType()->GetProperties();
 
         std::stringstream ss;
 
         for (int i = 0; i < props->getCount(); ++i)
         {
-            dot::PropertyInfo prop = props[i];
+            dot::field_info prop = props[i];
 
             dot::object value = prop->GetValue(this);
 
@@ -55,9 +55,9 @@ namespace dc
 
     void KeyTypeImpl::AssignString(std::stringstream & value)
     {
-        dot::Array1D<dot::PropertyInfo> props = GetType()->GetProperties();
+        dot::Array1D<dot::field_info> props = GetType()->GetProperties();
 
-        for (dot::PropertyInfo prop : props)
+        for (dot::field_info prop : props)
         {
             if (prop->PropertyType->Name->EndsWith("Key")) // TODO check using parents list
             {

@@ -53,7 +53,7 @@ namespace dc
         rootElementName_ = rootElementName;
         currentElementName_ = rootElementName;
         auto currentDictInfoList = currentDict_->GetType()->GetProperties();
-        currentDictElements_ = dot::new_Dictionary<dot::string, dot::PropertyInfo>();
+        currentDictElements_ = dot::new_Dictionary<dot::string, dot::field_info>();
         for(auto elementInfo : currentDictInfoList) currentDictElements_->Add(elementInfo->Name, elementInfo);
         currentArray_ = nullptr;
         currentArrayItemType_ = nullptr;
@@ -144,7 +144,7 @@ namespace dc
 
         currentDict_ = (Data) createdDict;
         auto currentDictInfoList = createdDictType->GetProperties();
-        currentDictElements_ = dot::new_Dictionary<dot::string, dot::PropertyInfo>();
+        currentDictElements_ = dot::new_Dictionary<dot::string, dot::field_info>();
         for (auto elementInfo : currentDictInfoList) currentDictElements_->Add(elementInfo->Name, elementInfo);
         currentArray_ = nullptr;
         currentArrayItemType_ = nullptr;

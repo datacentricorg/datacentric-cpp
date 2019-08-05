@@ -23,7 +23,7 @@ limitations under the License.
 #include <dot/system/Type.hpp>
 #include <dot/system/collections/generic/List.hpp>
 #include <dot/system/collections/generic/Dictionary.hpp>
-#include <dot/system/reflection/PropertyInfo.hpp>
+#include <dot/system/reflection/field_info.hpp>
 #include <dc/serialization/DataWriter.hpp>
 #include <stack>
 
@@ -35,7 +35,7 @@ namespace dc
     /// <summary>Implementation of ITreeWriter for Data.</summary>
     class DC_CLASS TupleWriterImpl : public ITreeWriterImpl
     {
-        friend TupleWriter new_TupleWriter(dot::object tuple, dot::List<dot::PropertyInfo> props);
+        friend TupleWriter new_TupleWriter(dot::object tuple, dot::List<dot::field_info> props);
 
     public:
 
@@ -101,17 +101,17 @@ namespace dc
 
     private:
 
-        TupleWriterImpl(dot::object tuple, dot::List<dot::PropertyInfo> props);
+        TupleWriterImpl(dot::object tuple, dot::List<dot::field_info> props);
 
     private:
 
         dot::object tuple_;
-        dot::List<dot::PropertyInfo> props_;
+        dot::List<dot::field_info> props_;
         int indexOfCurrent_;
         DataWriter dataWriter_;
         Data data_;
 
     };
 
-    inline TupleWriter new_TupleWriter(dot::object tuple, dot::List<dot::PropertyInfo> props) { return new TupleWriterImpl(tuple, props); }
+    inline TupleWriter new_TupleWriter(dot::object tuple, dot::List<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
 }

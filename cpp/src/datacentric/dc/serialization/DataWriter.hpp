@@ -23,7 +23,7 @@ limitations under the License.
 #include <dot/system/Type.hpp>
 #include <dot/system/collections/generic/List.hpp>
 #include <dot/system/collections/generic/Dictionary.hpp>
-#include <dot/system/reflection/PropertyInfo.hpp>
+#include <dot/system/reflection/field_info.hpp>
 #include <stack>
 
 namespace dc
@@ -43,8 +43,8 @@ namespace dc
             dot::string CurrentElementName;
             TreeWriterState CurrentState;
             Data CurrentDict;
-            dot::Dictionary<dot::string, dot::PropertyInfo> CurrentDictElements;
-            dot::PropertyInfo CurrentElementInfo;
+            dot::Dictionary<dot::string, dot::field_info> CurrentDictElements;
+            dot::field_info CurrentElementInfo;
             dot::IObjectCollection CurrentArray;
             dot::type_t CurrentArrayItemType;
         };
@@ -56,8 +56,8 @@ namespace dc
         dot::string currentElementName_;
         TreeWriterState currentState_;
         Data currentDict_;
-        dot::Dictionary<dot::string, dot::PropertyInfo> currentDictElements_;
-        dot::PropertyInfo currentElementInfo_;
+        dot::Dictionary<dot::string, dot::field_info> currentDictElements_;
+        dot::field_info currentElementInfo_;
         dot::IObjectCollection currentArray_;
         dot::type_t currentArrayItemType_;
 

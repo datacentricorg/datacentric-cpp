@@ -47,7 +47,7 @@ namespace dc
         return result;
     }
 
-    dot::object JsonRecordSerializerImpl::DeserializeTuple(rapidjson::Document::ConstObject doc, dot::List<dot::PropertyInfo> props, dot::type_t tupleType)
+    dot::object JsonRecordSerializerImpl::DeserializeTuple(rapidjson::Document::ConstObject doc, dot::List<dot::field_info> props, dot::type_t tupleType)
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = tupleType->Name;

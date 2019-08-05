@@ -39,16 +39,16 @@ namespace dc
 
         dot::string getKey() override
         {
-            dot::Array1D<dot::PropertyInfo> props =  dot::typeof<dot::ptr<TKey>>()->GetProperties();
+            dot::Array1D<dot::field_info> props =  dot::typeof<dot::ptr<TKey>>()->GetProperties();
             dot::type_t type = GetType();
 
             std::stringstream ss;
 
             for (int i = 0; i < props->getCount(); ++i)
             {
-                dot::PropertyInfo key_prop = props[i];
+                dot::field_info key_prop = props[i];
 
-                dot::PropertyInfo prop = type->GetProperty(key_prop->Name);
+                dot::field_info prop = type->GetProperty(key_prop->Name);
 
                 dot::object value = prop->GetValue(this);
 

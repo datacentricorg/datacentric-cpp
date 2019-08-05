@@ -379,7 +379,7 @@ namespace dc
     }
 
 
-    TupleWriterImpl::TupleWriterImpl(dot::object tuple, dot::List<dot::PropertyInfo> props)
+    TupleWriterImpl::TupleWriterImpl(dot::object tuple, dot::List<dot::field_info> props)
         : tuple_(tuple)
         , props_(props)
     {

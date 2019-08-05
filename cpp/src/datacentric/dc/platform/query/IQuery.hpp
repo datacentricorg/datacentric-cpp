@@ -38,7 +38,7 @@ namespace dc
 
         virtual IQuery Where(bsoncxx::document::view_or_value value) = 0;
 
-        virtual IQuery SortBy(dot::PropertyInfo keySelector) = 0;
+        virtual IQuery SortBy(dot::field_info keySelector) = 0;
 
         template <class Class, class Prop>
         IQuery SortBy(prop_wrapper<Class, Prop> keySelector)
@@ -46,7 +46,7 @@ namespace dc
             return SortBy(keySelector.prop_);
         }
 
-        virtual IQuery SortByDescending(dot::PropertyInfo keySelector) = 0;
+        virtual IQuery SortByDescending(dot::field_info keySelector) = 0;
 
         template <class Class, class Prop>
         IQuery SortByDescending(prop_wrapper<Class, Prop> keySelector)
@@ -62,10 +62,10 @@ namespace dc
             return AsEnumerable().template as<ObjectCursorWrapper>()->template AsEnumerable<TRecord>();
         }
 
-        virtual dot::IObjectEnumerable Select(dot::List<dot::PropertyInfo> props, dot::type_t elementType) = 0;
+        virtual dot::IObjectEnumerable Select(dot::List<dot::field_info> props, dot::type_t elementType) = 0;
 
         template <class Element>
-        dot::IEnumerable<Element> Select(dot::List<dot::PropertyInfo> props)
+        dot::IEnumerable<Element> Select(dot::List<dot::field_info> props)
         {
             return Select(props, dot::typeof<Element>()).template as<ObjectCursorWrapper>()->template AsEnumerable<Element>();
         }

@@ -324,9 +324,9 @@ namespace dc
             // make string representation of the key return the
             // proper value for the record.
             //
-            // Get PropertyInfo arrays for TKey and TRecord
-            dot::Array1D<dot::PropertyInfo> keyElementInfoArray = dot::typeof<dot::ptr<TKey>>()->GetProperties();
-            dot::Array1D<dot::PropertyInfo> recordElementInfoArray = dot::typeof<dot::ptr<TRecord>>()->GetProperties();
+            // Get field_info arrays for TKey and TRecord
+            dot::Array1D<dot::field_info> keyElementInfoArray = dot::typeof<dot::ptr<TKey>>()->GetProperties();
+            dot::Array1D<dot::field_info> recordElementInfoArray = dot::typeof<dot::ptr<TRecord>>()->GetProperties();
 
             // Check that TRecord has the same or greater number of elements
             // as TKey (all elements of TKey must also be present in TRecord)
@@ -334,10 +334,10 @@ namespace dc
                 "Record type {0} has fewer elements than key type {1}.", dot::typeof<dot::ptr<TRecord>>()->Name, dot::typeof<dot::ptr<TKey>>()->Name));
 
             // Iterate over the key properties
-            for (dot::PropertyInfo keyElementInfo : keyElementInfoArray)
+            for (dot::field_info keyElementInfo : keyElementInfoArray)
             {
                 auto recordElementInfoIterator = std::find_if(recordElementInfoArray->begin(), recordElementInfoArray->end()
-                    , [&keyElementInfo](dot::PropertyInfo recordProp) -> bool
+                    , [&keyElementInfo](dot::field_info recordProp) -> bool
                     {
                         return keyElementInfo->Name == recordProp->Name;
                     } );
@@ -348,7 +348,7 @@ namespace dc
                     "is not found in the root data type {2}.", keyElementInfo->Name, dot::typeof<dot::ptr<TKey>>()->Name, GetType()->Name
                 ));
 
-                dot::PropertyInfo recordElementInfo = *recordElementInfoIterator;
+                dot::field_info recordElementInfo = *recordElementInfoIterator;
 
                 // Check that types match
                 if (keyElementInfo->PropertyType != recordElementInfo->PropertyType)

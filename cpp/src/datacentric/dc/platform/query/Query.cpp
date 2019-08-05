@@ -31,19 +31,19 @@ namespace dc
         return dataSource_->LoadByQuery(this);
     }
 
-    IQuery QueryImpl::SortBy(dot::PropertyInfo keySelector)
+    IQuery QueryImpl::SortBy(dot::field_info keySelector)
     {
         sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)keySelector->Name, 1));
         return this;
     }
 
-    IQuery QueryImpl::SortByDescending(dot::PropertyInfo keySelector)
+    IQuery QueryImpl::SortByDescending(dot::field_info keySelector)
     {
         sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)keySelector->Name, -1));
         return this;
     }
 
-    dot::IObjectEnumerable QueryImpl::Select(dot::List<dot::PropertyInfo> props, dot::type_t elementType)
+    dot::IObjectEnumerable QueryImpl::Select(dot::List<dot::field_info> props, dot::type_t elementType)
     {
         this->elementType_ = elementType;
         this->select_ = props;

@@ -40,13 +40,13 @@ namespace dc
 
         virtual IQuery Where(bsoncxx::document::view_or_value value);
 
-        virtual IQuery SortBy(dot::PropertyInfo keySelector);
+        virtual IQuery SortBy(dot::field_info keySelector);
 
-        virtual IQuery SortByDescending(dot::PropertyInfo keySelector);
+        virtual IQuery SortByDescending(dot::field_info keySelector);
 
         virtual dot::IObjectEnumerable AsEnumerable();
 
-        virtual dot::IObjectEnumerable Select(dot::List<dot::PropertyInfo> props, dot::type_t elementType);
+        virtual dot::IObjectEnumerable Select(dot::List<dot::field_info> props, dot::type_t elementType);
 
     private:
 
@@ -56,7 +56,7 @@ namespace dc
         bsoncxx::builder::basic::document sort_;
         dot::type_t type_;
         dot::type_t elementType_;
-        dot::List<dot::PropertyInfo> select_;
+        dot::List<dot::field_info> select_;
 
 
         QueryImpl(DataSourceData dataSource, ObjectId dataSet, dot::type_t type)
