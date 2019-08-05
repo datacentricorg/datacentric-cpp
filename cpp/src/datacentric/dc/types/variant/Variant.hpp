@@ -112,7 +112,7 @@ namespace dc
         template <class T>
         static Variant Parse(dot::string value)
         {
-            if (dot::string::IsNullOrEmpty(value))
+            if (dot::string::is_null_or_empty(value))
             {
                 // Empty value
                 return Variant();

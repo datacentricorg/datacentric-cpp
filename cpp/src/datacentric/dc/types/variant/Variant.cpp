@@ -166,7 +166,7 @@ namespace dc
 
     Variant Variant::Parse(ValueType valueType, dot::string value)
     {
-        if (dot::string::IsNullOrEmpty(value))
+        if (dot::string::is_null_or_empty(value))
         {
             // Empty value
             return Variant();
