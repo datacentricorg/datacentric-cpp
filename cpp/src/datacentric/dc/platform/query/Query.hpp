@@ -26,6 +26,9 @@ namespace dc
     class query_impl;
     using query = dot::ptr<query_impl>;
     class MongoDataSourceDataImpl;
+    template <class class_, class prop>
+    struct prop_wrapper;
+    class DataSourceDataImpl; using DataSourceData = dot::ptr<DataSourceDataImpl>;
 
     /// <summary>
     /// Holds expressions for Where, Select, and OrderBy/ThenBy
@@ -38,38 +41,38 @@ namespace dc
 
     public:
 
-        virtual IQuery where(bsoncxx::document::view_or_value value);
+        virtual query where(bsoncxx::document::view_or_value value);
 
-        virtual IQuery sort_by(dot::field_info keySelector);
+        virtual query sort_by(dot::field_info keySelector);
 
-        virtual IQuery sort_by_descending(dot::field_info keySelector);
+        virtual query sort_by_descending(dot::field_info keySelector);
 
         virtual object_cursor_wrapper get_cursor();
 
         virtual object_cursor_wrapper select(dot::list<dot::field_info> props, dot::type_t element_type);
 
-        template <class Class, class Prop>
-        query sort_by(prop_wrapper<Class, Prop> key_selector)
+        template <class class_, class prop>
+        query sort_by(prop_wrapper<class_, prop> key_selector)
         {
             return sort_by(key_selector.prop_);
         }
 
-        template <class Class, class Prop>
-        query sort_by_descending(prop_wrapper<Class, Prop> key_selector)
+        template <class class_, class prop>
+        query sort_by_descending(prop_wrapper<class_, prop> key_selector)
         {
             return sort_by_descending(keySelector.prop_);
         }
 
-        template <class TRecord>
-        cursor_wrapper<TRecord> get_cursor()
+        template <class t_record>
+        cursor_wrapper<t_record> get_cursor()
         {
-            return get_cursor()->template to_cursor_wrapper<TRecord>();
+            return get_cursor()->template to_cursor_wrapper<t_record>();
         }
 
-        template <class Element>
-        cursor_wrapper<Element> select(dot::list<dot::field_info> props)
+        template <class element>
+        cursor_wrapper<element> select(dot::list<dot::field_info> props)
         {
-            return select(props, dot::typeof<Element>())->template to_cursor_wrapper<Element>();
+            return select(props, dot::typeof<element>())->template to_cursor_wrapper<element>();
         }
 
     private:

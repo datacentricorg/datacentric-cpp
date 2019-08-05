@@ -108,7 +108,7 @@ namespace dc
         /// if no records are found or if delete marker is the first
         /// record.
         /// </summary>
-        virtual dot::IObjectEnumerable LoadByQuery(IQuery query) override;
+        virtual object_cursor_wrapper LoadByQuery(query query) override;
 
         /// <summary>
         /// Write a delete marker for the specified dataSet and dataKey

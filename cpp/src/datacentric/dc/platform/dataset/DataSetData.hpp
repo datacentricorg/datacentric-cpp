@@ -58,7 +58,7 @@ namespace dc
         virtual void Init(IContext context);
 
         /// <summary>DataSet parents.</summary>
-        dot::List<ObjectId> Parents;
+        dot::list<ObjectId> Parents;
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetData")
             DOT_TYPE_PROP(DataSetID)

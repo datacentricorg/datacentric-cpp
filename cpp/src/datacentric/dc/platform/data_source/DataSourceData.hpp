@@ -62,13 +62,13 @@ namespace dc
     private: // FIELDS
 
         /// <summary>Dictionary of dataset ObjectIds stored under string dataSetID.</summary>
-        dot::Dictionary<dot::string, ObjectId> dataSetDict_ = dot::new_Dictionary<dot::string, ObjectId>();
+        dot::dictionary<dot::string, ObjectId> dataSetDict_ = dot::make_dictionary<dot::string, ObjectId>();
 
         /// <summary>
         /// Dictionary of the expanded list of parent ObjectIds of dataset, including
         /// parents of parents to unlimited depth with cyclic references and duplicates
         /// removed, under ObjectId of the dataset.</summary>
-        dot::Dictionary<ObjectId, dot::HashSet<ObjectId>> dataSetParentDict_ = dot::new_Dictionary<ObjectId, dot::HashSet<ObjectId>>();
+        dot::dictionary<ObjectId, dot::HashSet<ObjectId>> dataSetParentDict_ = dot::make_dictionary<ObjectId, dot::HashSet<ObjectId>>();
 
     public: // PROPERTIES
 
@@ -113,7 +113,7 @@ namespace dc
         /// If either RevisedBefore or RevisedBeforeId is specified, the
         /// data source is readonly and its IsReadOnly() method returns true.
         /// </summary>
-        dot::Nullable<dot::local_date_time> RevisedBefore;
+        dot::nullable<dot::local_date_time> RevisedBefore;
 
         /// <summary>
         /// The data source will return records for which _id is strictly
@@ -125,7 +125,7 @@ namespace dc
         /// If either RevisedBefore or RevisedBeforeId is specified, the
         /// data source is readonly and its IsReadOnly() method returns true.
         /// </summary>
-        dot::Nullable<ObjectId> RevisedBeforeId;
+        dot::nullable<ObjectId> RevisedBeforeId;
 
     public: // ABSTRACT
 
@@ -302,7 +302,7 @@ namespace dc
         /// if no records are found or if delete marker is the first
         /// record.
         /// </summary>
-        virtual dot::IObjectEnumerable LoadByQuery(IQuery query) = 0;
+        virtual object_cursor_wrapper LoadByQuery(query query) = 0;
 
         /// <summary>
         /// Returns enumeration of parent datasets for specified dataset data,
@@ -317,7 +317,7 @@ namespace dc
         /// than RevisionTimeConstraint, or their parents (even if the parents
         /// are earlier than the constraint)
         /// </summary>
-        dot::IEnumerable<ObjectId> GetDataSetLookupList(ObjectId loadFrom);
+        dot::list<ObjectId> GetDataSetLookupList(ObjectId loadFrom);
 
     protected: // PROTECTED
 
@@ -328,7 +328,7 @@ namespace dc
         /// This field is set based on either RevisedBefore and RevisedBeforeId
         /// elements that are alternates; only one of them can be specified.
         /// </summary>
-        dot::Nullable<ObjectId> GetRevisionTimeConstraint();
+        dot::nullable<ObjectId> GetRevisionTimeConstraint();
 
     private: // PRIVATE
 

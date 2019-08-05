@@ -149,18 +149,16 @@ namespace dc
         collection.insert_one(doc.view());
     }
 
-    IQuery MongoDataSourceDataImpl::GetQuery(ObjectId dataSet, dot::type_t type)
+    query MongoDataSourceDataImpl::GetQuery(ObjectId dataSet, dot::type_t type)
     {
-        return new_Query(this, dataSet, type);
+        return make_query(this, dataSet, type);
     }
 
-    dot::IObjectEnumerable MongoDataSourceDataImpl::LoadByQuery(IQuery query)
+    object_cursor_wrapper MongoDataSourceDataImpl::LoadByQuery(query query)
     {
-        Query q = (Query)query;
-
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
-        dot::IEnumerable<ObjectId> lookupList = GetDataSetLookupList(q->dataSet_);
+        dot::list<ObjectId> lookupList = GetDataSetLookupList(query->data_set_);
 
         // filter by dataset
         bsoncxx::builder::basic::array filterDatasetList{};
@@ -173,7 +171,7 @@ namespace dc
         bsoncxx::builder::basic::document filter{};
 
         filter.append(bsoncxx::builder::basic::kvp("_dataset", filterDataset.view()));
-        filter.append(bsoncxx::builder::basic::concatenate(q->where_.view()));
+        filter.append(bsoncxx::builder::basic::concatenate(query->where_.view()));
 
         bsoncxx::builder::basic::document sort{};
         sort.append(bsoncxx::builder::basic::kvp("_key", 1));
@@ -198,10 +196,10 @@ namespace dc
         bsoncxx::builder::basic::array typeList;
 
         // append given type and DeleteMarker
-        typeList.append(*(dot::string) q->type_->Name);
+        typeList.append(*(dot::string) query->type_->Name);
 
         // append derived types
-        dot::List<dot::type_t> derivedTypes = dot::type_tImpl::GetDerivedTypes(q->type_);
+        dot::list<dot::type_t> derivedTypes = dot::type_impl::GetDerivedTypes(query->type_);
         if (derivedTypes != nullptr)
         {
             for (dot::type_t derType : derivedTypes)
@@ -211,7 +209,7 @@ namespace dc
         pipeline.replace_root(bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("newRoot", "$doc")));
 
         bsoncxx::builder::basic::document custom_sort{};
-        custom_sort.append(bsoncxx::builder::basic::concatenate(q->sort_.view()));
+        custom_sort.append(bsoncxx::builder::basic::concatenate(query->sort_.view()));
         custom_sort.append(bsoncxx::builder::basic::kvp("_key", 1));
         custom_sort.append(bsoncxx::builder::basic::kvp("_dataset", -1));
         custom_sort.append(bsoncxx::builder::basic::kvp("_id", -1));
@@ -224,10 +222,10 @@ namespace dc
 
         std::string s = bsoncxx::to_json(pipeline.view());
 
-        if (q->select_.IsEmpty())
+        if (query->select_.IsEmpty())
         {
             IContext context = this->Context;
-            return new_ObjectCursorWrapper(std::move(GetCollection(q->type_).aggregate(pipeline)),
+            return make_object_cursor_wrapper(std::move(GetCollection(query->type_).aggregate(pipeline)),
                 [context](const bsoncxx::document::view& item)->dot::object
                 {
                     BsonRecordSerializer serializer = new_BsonRecordSerializer();
@@ -241,18 +239,18 @@ namespace dc
         else
         {
             bsoncxx::builder::basic::document selectList{};
-            for (dot::field_info prop : q->select_)
+            for (dot::field_info prop : query->select_)
                 selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->Name, 1));
             selectList.append(bsoncxx::builder::basic::kvp("_key", 1));
 
             pipeline.project(selectList.view());
 
             IContext context = this->Context;
-            return new_ObjectCursorWrapper(std::move(GetCollection(q->type_).aggregate(pipeline)),
-                [context, q](const bsoncxx::document::view& item)->dot::object
+            return make_object_cursor_wrapper(std::move(GetCollection(query->type_).aggregate(pipeline)),
+                [context, query](const bsoncxx::document::view& item)->dot::object
                 {
                     BsonRecordSerializer serializer = new_BsonRecordSerializer();
-                    dot::object record = serializer->DeserializeTuple(item, q->select_, q->elementType_);
+                    dot::object record = serializer->DeserializeTuple(item, query->select_, query->element_type_);
                     return record;
                 }
             );
