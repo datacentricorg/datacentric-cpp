@@ -43,9 +43,9 @@ namespace dc
             dot::string CurrentElementName;
             TreeWriterState CurrentState;
             Data CurrentDict;
-            dot::Dictionary<dot::string, dot::field_info> CurrentDictElements;
+            dot::dictionary<dot::string, dot::field_info> CurrentDictElements;
             dot::field_info CurrentElementInfo;
-            dot::IObjectCollection CurrentArray;
+            dot::object CurrentArray;
             dot::type_t CurrentArrayItemType;
         };
 
@@ -56,9 +56,9 @@ namespace dc
         dot::string currentElementName_;
         TreeWriterState currentState_;
         Data currentDict_;
-        dot::Dictionary<dot::string, dot::field_info> currentDictElements_;
+        dot::dictionary<dot::string, dot::field_info> currentDictElements_;
         dot::field_info currentElementInfo_;
-        dot::IObjectCollection currentArray_;
+        dot::object currentArray_;
         dot::type_t currentArrayItemType_;
 
     private: // CONSTRUCTORS
@@ -125,7 +125,7 @@ namespace dc
 
         /// <summary>Convert to BSON string without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.</summary>
-        dot::string ToString() override;
+        dot::string to_string() override;
 
     private:
         /// <summary>Push state to the stack.</summary>
@@ -133,6 +133,9 @@ namespace dc
 
         /// <summary>Pop state from the stack.</summary>
         void PopState();
+
+        /// <summary>Add object to end of container via reflection.</summary>
+        void add_to_container(dot::object container, dot::object item);
     };
 
     inline DataWriter new_DataWriter(Data data) { return new DataWriterImpl(data); }

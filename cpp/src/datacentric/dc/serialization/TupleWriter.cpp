@@ -200,10 +200,10 @@ namespace dc
         // Write based on element type
         dot::type_t valueType = value->type();
         if (elementType->Equals(dot::typeof<dot::string>()) ||
-            elementType->Equals(dot::typeof<double>()) || elementType->Equals(dot::typeof<dot::Nullable<double>>()) ||
-            elementType->Equals(dot::typeof<bool>()) || elementType->Equals(dot::typeof<dot::Nullable<bool>>()) ||
-            elementType->Equals(dot::typeof<int>()) || elementType->Equals(dot::typeof<dot::Nullable<int>>()) ||
-            elementType->Equals(dot::typeof<int64_t>()) || elementType->Equals(dot::typeof<dot::Nullable<int64_t>>()) ||
+            elementType->Equals(dot::typeof<double>()) || elementType->Equals(dot::typeof<dot::nullable<double>>()) ||
+            elementType->Equals(dot::typeof<bool>()) || elementType->Equals(dot::typeof<dot::nullable<bool>>()) ||
+            elementType->Equals(dot::typeof<int>()) || elementType->Equals(dot::typeof<dot::nullable<int>>()) ||
+            elementType->Equals(dot::typeof<int64_t>()) || elementType->Equals(dot::typeof<dot::nullable<int64_t>>()) ||
             elementType->Equals(dot::typeof<ObjectId>())
             )
         {
@@ -235,7 +235,7 @@ namespace dc
             // Add to array or dictionary, depending on what we are inside of
             tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, convertedValue }));
         }
-        else if (elementType->Equals(dot::typeof<dot::local_date>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_date>>()))
+        else if (elementType->Equals(dot::typeof<dot::local_date>()) || elementType->Equals(dot::typeof<dot::nullable<dot::local_date>>()))
         {
             dot::local_date dateValue;
 
@@ -256,7 +256,7 @@ namespace dc
 
             tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, dateValue }));
         }
-        else if (elementType->Equals(dot::typeof<dot::local_time>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_time>>()))
+        else if (elementType->Equals(dot::typeof<dot::local_time>()) || elementType->Equals(dot::typeof<dot::nullable<dot::local_time>>()))
         {
             dot::local_time timeValue;
 
@@ -277,7 +277,7 @@ namespace dc
 
             tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, timeValue }));
         }
-        else if (elementType->Equals(dot::typeof<dot::local_minute>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_minute>>()))
+        else if (elementType->Equals(dot::typeof<dot::local_minute>()) || elementType->Equals(dot::typeof<dot::nullable<dot::local_minute>>()))
         {
             dot::local_minute minuteValue;
 
@@ -298,7 +298,7 @@ namespace dc
 
             tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, minuteValue }));
         }
-        else if (elementType->Equals(dot::typeof<dot::local_date_time>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_date_time>>()))
+        else if (elementType->Equals(dot::typeof<dot::local_date_time>()) || elementType->Equals(dot::typeof<dot::nullable<dot::local_date_time>>()))
         {
         dot::local_date_time dateTimeValue;
 
@@ -379,7 +379,7 @@ namespace dc
     }
 
 
-    TupleWriterImpl::TupleWriterImpl(dot::object tuple, dot::List<dot::field_info> props)
+    TupleWriterImpl::TupleWriterImpl(dot::object tuple, dot::list<dot::field_info> props)
         : tuple_(tuple)
         , props_(props)
     {

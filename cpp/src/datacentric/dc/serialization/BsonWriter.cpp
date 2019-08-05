@@ -286,7 +286,7 @@ namespace dc
             bsonWriter_.append(bsoncxx::types::b_date{ local_date_time_util::ToStdChrono((dot::local_date_time)value) });
         else
         if (valueType->Equals(dot::typeof<ObjectId>()))
-            bsonWriter_.append(((dot::StructWrapper<ObjectId>)value)->_id);
+            bsonWriter_.append(((dot::struct_wrapper<ObjectId>)value)->_id);
         else
         if (valueType->IsEnum)
             bsonWriter_.append(*value->ToString());

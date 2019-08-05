@@ -101,7 +101,7 @@ namespace dc
 
         /// <summary>Convert to BSON string without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.</summary>
-        dot::string ToString() override;
+        dot::string to_string() override;
 
         bsoncxx::document::view view();
 

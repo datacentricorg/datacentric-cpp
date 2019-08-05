@@ -35,7 +35,7 @@ namespace dc
     /// <summary>Implementation of ITreeWriter for Data.</summary>
     class DC_CLASS TupleWriterImpl : public ITreeWriterImpl
     {
-        friend TupleWriter new_TupleWriter(dot::object tuple, dot::List<dot::field_info> props);
+        friend TupleWriter new_TupleWriter(dot::object tuple, dot::list<dot::field_info> props);
 
     public:
 
@@ -97,21 +97,21 @@ namespace dc
 
         /// <summary>Convert to BSON string without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.</summary>
-        dot::string ToString() override;
+        dot::string to_string() override;
 
     private:
 
-        TupleWriterImpl(dot::object tuple, dot::List<dot::field_info> props);
+        TupleWriterImpl(dot::object tuple, dot::list<dot::field_info> props);
 
     private:
 
         dot::object tuple_;
-        dot::List<dot::field_info> props_;
+        dot::list<dot::field_info> props_;
         int indexOfCurrent_;
         DataWriter dataWriter_;
         Data data_;
 
     };
 
-    inline TupleWriter new_TupleWriter(dot::object tuple, dot::List<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
+    inline TupleWriter new_TupleWriter(dot::object tuple, dot::list<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
 }

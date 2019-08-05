@@ -18,7 +18,6 @@ limitations under the License.
 #include <dc/serialization/ITreeWriter.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/object.hpp>
-#include <dot/system/collections/IObjectEnumerable.hpp>
 
 namespace dc
 {
@@ -70,7 +69,7 @@ namespace dc
     void ITreeWriterImpl::WriteValueElement(dot::string elementName, dot::object value)
     {
         // Do not serialize null or empty value
-        if (!value.IsEmpty())
+        if (!value.is_empty())
         {
             this->WriteStartElement(elementName);
             this->WriteStartValue();
@@ -102,18 +101,5 @@ namespace dc
         this->WriteEndValue();
         this->WriteEndArrayItem();
     }
-
-    /// <summary>Write an array of elements with no inner nodes.
-    /// Element type is inferred by calling obj.type().</summary>
-    void ITreeWriterImpl::WriteValueArray(dot::string elementName, dot::IObjectEnumerable values)
-    {
-        this->WriteStartArrayElement(elementName);
-        for (dot::object value : values)
-        {
-            this->WriteArrayItem(value);
-        }
-        this->WriteEndArrayElement(elementName);
-    }
-
 
 }

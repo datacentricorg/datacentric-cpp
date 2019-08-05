@@ -19,7 +19,6 @@ limitations under the License.
 #include <dot/system/string.hpp>
 #include <dc/serialization/BsonWriter.hpp>
 #include <dot/system/object.hpp>
-#include <dot/system/collections/IObjectEnumerable.hpp>
 #include <dot/system/type.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_time.hpp>
@@ -36,7 +35,7 @@ namespace dc
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = doc["_t"].get_utf8().value.to_string();
-        Data result = (Data)dot::activator::CreateInstance("", typeName);
+        Data result = (Data)dot::activator::create_instance("", typeName);
         ITreeWriter writer = new_DataWriter(result);
 
         writer->WriteStartDocument(typeName);
@@ -45,11 +44,11 @@ namespace dc
         return result;
     }
 
-    dot::object BsonRecordSerializerImpl::DeserializeTuple(bsoncxx::document::view doc, dot::List<dot::field_info> props, dot::type_t tupleType)
+    dot::object BsonRecordSerializerImpl::DeserializeTuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type_t tupleType)
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = tupleType->name;
-        dot::object result = dot::activator::CreateInstance(tupleType);
+        dot::object result = dot::activator::create_instance(tupleType);
         ITreeWriter writer = new_TupleWriter(result, props);
 
         writer->WriteStartDocument(typeName);
@@ -230,7 +229,7 @@ namespace dc
     void BsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
     {
         // Root name is written in JSON as _t element
-        dot::string rootName = value->type()->getFullName();
+        dot::string rootName = value->type()->full_name();
 
         writer->WriteStartDocument(rootName);
         value->SerializeTo(writer);

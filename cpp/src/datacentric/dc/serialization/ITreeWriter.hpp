@@ -184,7 +184,16 @@ namespace dc
 
         /// <summary>Write an array of elements with no inner nodes.
         /// Element type is inferred by calling obj.type().</summary>
-        void WriteValueArray(dot::string elementName, dot::IObjectEnumerable values);
+        template <class container>
+        void WriteValueArray(dot::string elementName, container values)
+        {
+            this->WriteStartArrayElement(elementName);
+            for (dot::object value : values)
+            {
+                this->WriteArrayItem(value);
+            }
+            this->WriteEndArrayElement(elementName);
+        }
     };
 
 }
