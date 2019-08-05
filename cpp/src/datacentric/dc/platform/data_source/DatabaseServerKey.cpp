@@ -20,10 +20,10 @@ limitations under the License.
 
 namespace dc
 {
-    DbServerKey DbServerKeyImpl::Default = new DbServerKeyImpl("Default");
+    db_server_key db_server_key_impl::default = new db_server_key_impl("Default");
 
-    DbServerKeyImpl::DbServerKeyImpl(dot::string value)
+    db_server_key_impl::db_server_key_impl(dot::string value)
     {
-        DbServerID = value;
+        db_server_id = value;
     }
 }

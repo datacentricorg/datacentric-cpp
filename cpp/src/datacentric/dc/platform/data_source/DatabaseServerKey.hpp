@@ -22,19 +22,19 @@ limitations under the License.
 
 namespace dc
 {
-    class DbServerKeyImpl; using DbServerKey = dot::ptr<DbServerKeyImpl>;
-    class DbServerDataImpl; using DbServerData = dot::ptr<DbServerDataImpl>;
+    class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;
+    class db_server_data_impl; using db_server_data = dot::ptr<db_server_data_impl>;
 
-    inline DbServerKey new_DbServerKey();
+    inline db_server_key make_db_server_key();
 
     /// <summary>
     /// Provides a standard way to identify a database server.
     ///
     /// This record is stored in root dataset.
     /// </summary>
-    class DC_CLASS DbServerKeyImpl : public RootKeyForImpl<DbServerKeyImpl, DbServerDataImpl>
+    class DC_CLASS db_server_key_impl : public root_key_for_impl<db_server_key_impl, db_server_data_impl>
     {
-        typedef DbServerKeyImpl self;
+        typedef db_server_key_impl self;
 
     public: // PROPERTIES
 
@@ -44,31 +44,31 @@ namespace dc
         /// This field is the user friendly name used to
         /// identify the server. It is not the server URI.
         /// </summary>
-        dot::string DbServerID;
+        dot::string db_server_id;
 
     public: // STATIC
 
         /// <summary>
         /// By convention, Default is the Mongo server running on the default port of localhost.
         /// </summary>
-        static DbServerKey Default;
+        static db_server_key default;
 
     public: // CONSTRUCTORS
 
         /// <summary>Default constructor.</summary>
-        DbServerKeyImpl() = default;
+        db_server_key_impl() = default;
 
         /// <summary>Keys in which string ID is the only element support implicit conversion from value.</summary>
-        DbServerKeyImpl(dot::string value);
+        db_server_key_impl(dot::string value);
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DbServerKey")
             DOT_TYPE_PROP(DbServerID)
-            DOT_TYPE_CTOR(new_DbServerKey)
+            DOT_TYPE_CTOR(make_db_server_key)
         DOT_TYPE_END()
     };
 
-    inline DbServerKey new_DbServerKey()
+    inline db_server_key make_db_server_key()
     {
-        return new DbServerKeyImpl;
+        return new db_server_key_impl;
     }
 }

@@ -22,20 +22,20 @@ limitations under the License.
 
 namespace dc
 {
-    class DbServerKeyImpl; using DbServerKey = dot::ptr<DbServerKeyImpl>;
-    class DbServerDataImpl; using DbServerData = dot::ptr<DbServerDataImpl>;
-    template <typename TKey, typename TRecord> class RootRecordForImpl;
+    class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;
+    class db_server_data_impl; using db_server_data = dot::ptr<db_server_data_impl>;
+    template <typename t_key, typename t_record> class root_record_for_impl;
 
-    inline DbServerData new_DbServerData();
+    inline db_server_data make_db_server_data();
 
     /// <summary>
     /// Provides a standard way to identify a database server.
     ///
     /// This record is stored in root dataset.
     /// </summary>
-    class DC_CLASS DbServerDataImpl : public RootRecordForImpl<DbServerKeyImpl, DbServerDataImpl>
+    class DC_CLASS db_server_data_impl : public root_record_for_impl<db_server_key_impl, db_server_data_impl>
     {
-        typedef DbServerDataImpl self;
+        typedef db_server_data_impl self;
 
     public: // PROPERTIES
 
@@ -45,16 +45,16 @@ namespace dc
         /// This field is the user friendly name used to
         /// identify the server. It is not the server URI.
         /// </summary>
-        dot::string DbServerID;
+        dot::string db_server_id;
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DbServerData")
-            DOT_TYPE_PROP(DbServerID)
-            DOT_TYPE_CTOR(new_DbServerData)
+            DOT_TYPE_PROP(db_server_id)
+            DOT_TYPE_CTOR(make_db_server_data)
         DOT_TYPE_END()
     };
 
-    inline DbServerData new_DbServerData()
+    inline db_server_data make_db_server_data()
     {
-        return new DbServerDataImpl;
+        return new db_server_data_impl;
     }
 }

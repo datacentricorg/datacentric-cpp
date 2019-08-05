@@ -26,9 +26,9 @@ namespace dc
     ///
     /// Some API functions are restricted based on the instance type.
     /// </summary>
-    class InstanceType : public dot::Enum
+    class instance_type : public dot::Enum
     {
-        typedef InstanceType self;
+        typedef instance_type self;
 
     public:
 
