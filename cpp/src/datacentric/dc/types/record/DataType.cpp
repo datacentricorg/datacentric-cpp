@@ -45,7 +45,7 @@ namespace dc
             }
 
             // Serialize based on type of the item
-            dot::type_t itemType = item->GetType();
+            dot::type_t itemType = item->type();
 
             if (itemType->Equals(dot::typeof<dot::string>())
                 || itemType->Equals(dot::typeof<double>())
@@ -67,13 +67,13 @@ namespace dc
             else
             if (!itemType->GetInterface("IObjectEnumerable").IsEmpty())
             {
-                throw dot::exception(dot::string::Format("Serialization is not supported for element {0} "
+                throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", elementName));
             }
             else
             if (item.is<Data>())
             {
-                if (itemType->Name->EndsWith("Key"))
+                if (itemType->name->EndsWith("Key"))
                 {
                     // Embedded as string key
                     writer->WriteStartValue();
@@ -87,8 +87,8 @@ namespace dc
             }
             else
             {
-                throw dot::exception(dot::string::Format(
-                    "Element type {0} is not supported for tree serialization.", itemType->Name));
+                throw dot::exception(dot::string::format(
+                    "Element type {0} is not supported for tree serialization.", itemType->name));
             }
 
 
@@ -107,11 +107,11 @@ namespace dc
         writer->WriteStartDict();
 
         // Iterate over the list of elements
-        dot::Array1D<dot::field_info> innerElementInfoList = GetType()->GetProperties();
+        dot::array<dot::field_info> innerElementInfoList = type()->get_fields();
         for (dot::field_info innerElementInfo : innerElementInfoList)
         {
             // Get element name and value
-            dot::string innerElementName = innerElementInfo->Name;
+            dot::string innerElementName = innerElementInfo->name;
             dot::object innerElementValue = innerElementInfo->GetValue(this);
 
             if (innerElementValue.IsEmpty())
@@ -119,7 +119,7 @@ namespace dc
                 continue;
             }
 
-            dot::type_t elementType = innerElementValue->GetType();
+            dot::type_t elementType = innerElementValue->type();
 
             if (   elementType->Equals(dot::typeof<dot::string>())
                 || elementType->Equals(dot::typeof<double>())
@@ -144,7 +144,7 @@ namespace dc
             else
             if (innerElementValue.is<Data>())
             {
-                if (innerElementValue->GetType()->Name->EndsWith("Key"))
+                if (innerElementValue->type()->name->EndsWith("Key"))
                 {
                     // Embedded as string key
                     writer->WriteValueElement(innerElementName, innerElementValue->ToString());
@@ -159,7 +159,7 @@ namespace dc
             }
             else
             {
-                throw dot::exception(dot::string::Format("Element type {0} is not supported for tree serialization.", innerElementInfo->PropertyType));
+                throw dot::exception(dot::string::format("Element type {0} is not supported for tree serialization.", innerElementInfo->field_type));
             }
         }
 

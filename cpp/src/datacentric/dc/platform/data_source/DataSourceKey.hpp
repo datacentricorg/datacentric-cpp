@@ -40,7 +40,7 @@ namespace dc
     ///
     /// This record is stored in root dataset.
     /// </summary>
-    class DC_CLASS data_source_key_impl : public RootKeyForImpl<data_source_key_impl, data_source_data_impl>
+    class DC_CLASS data_source_key_impl : public root_key_for_impl<data_source_key_impl, data_source_data_impl>
     {
         typedef data_source_key_impl self;
 
@@ -69,7 +69,7 @@ namespace dc
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DataSourceKey")
             DOT_TYPE_PROP(data_source_id)
-            DOT_TYPE_BASE(RootKeyFor<data_source_key_impl, data_source_data_impl>)
+            DOT_TYPE_BASE(root_key_for<data_source_key_impl, data_source_data_impl>)
         DOT_TYPE_END()
     };
 }

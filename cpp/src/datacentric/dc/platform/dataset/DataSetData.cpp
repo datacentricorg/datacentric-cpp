@@ -22,7 +22,7 @@ namespace dc
 {
     void DataSetDataImpl::Init(IContext context)
     {
-        RecordForImpl<DataSetKeyImpl, DataSetDataImpl>::Init(context);
+        record_for_impl<DataSetKeyImpl, DataSetDataImpl>::Init(context);
 
         if (dot::string::IsNullOrEmpty(DataSetID)) throw dot::exception("DataSetID has not been set.");
 
@@ -33,13 +33,13 @@ namespace dc
             {
                 if (ID == parent)
                 {
-                    throw dot::exception(dot::string::Format(
+                    throw dot::exception(dot::string::format(
                         "Dataset {0} has a parent with the same ObjectId={1} "
                         "as its own ObjectId. Each ObjectId must be unique.", DataSetID, parent.ToString()));
                 }
                 else
                 {
-                    throw dot::exception(dot::string::Format(
+                    throw dot::exception(dot::string::format(
                         "Dataset {0} has a parent whose ObjectId={1} is greater "
                         "than its own ObjectId={2}. The ObjectId of each parent must be strictly "
                         "less than the ObjectId of the dataset itself.", DataSetID, parent.ToString(), ObjectId(ID).ToString()));

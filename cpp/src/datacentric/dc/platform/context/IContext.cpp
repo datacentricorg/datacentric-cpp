@@ -22,27 +22,27 @@ limitations under the License.
 
 namespace dc
 {
-    void IContextImpl::SetDataSource(DataSourceData dataSource)
+    void IContextImpl::SetDataSource(data_source_data dataSource)
     {
         DataSource = dataSource;
     }
 
-    RecordType IContextImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
+    record_type IContextImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
     {
         return DataSource->LoadOrNull(id, dataType);
     }
 
-    RecordType IContextImpl::ReloadOrNull(KeyType key, ObjectId loadFrom)
+    record_type IContextImpl::ReloadOrNull(KeyType key, ObjectId loadFrom)
     {
         return DataSource->ReloadOrNull(key, loadFrom);
     }
 
-    void IContextImpl::Save(RecordType record)
+    void IContextImpl::Save(record_type record)
     {
         DataSource->Save(record, DataSet);
     }
 
-    void IContextImpl::Save(RecordType record, ObjectId saveTo)
+    void IContextImpl::Save(record_type record, ObjectId saveTo)
     {
         DataSource->Save(record, saveTo);
     }

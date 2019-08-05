@@ -30,7 +30,7 @@ namespace dc
     inline WorkflowData new_WorkflowData();
 
     /// <summary>Workflow is a collection of jobs executed in the order of phases.</summary>
-    class DC_CLASS WorkflowDataImpl : public RecordForImpl<WorkflowKeyImpl, WorkflowDataImpl>
+    class DC_CLASS WorkflowDataImpl : public record_for_impl<WorkflowKeyImpl, WorkflowDataImpl>
     {
         typedef WorkflowDataImpl self;
         friend WorkflowData new_WorkflowData();
@@ -81,7 +81,7 @@ namespace dc
             DOT_TYPE_PROP(dbl)
             DOT_TYPE_PROP(data)
             DOT_TYPE_CTOR(new_WorkflowData)
-            DOT_TYPE_BASE(RecordFor<WorkflowKeyImpl, WorkflowDataImpl>)
+            DOT_TYPE_BASE(record_for<WorkflowKeyImpl, WorkflowDataImpl>)
         DOT_TYPE_END()
 
     protected: // CONSTRUCTORS

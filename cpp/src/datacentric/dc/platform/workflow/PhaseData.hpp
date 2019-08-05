@@ -26,7 +26,7 @@ namespace dc
     class PhaseKeyImpl; using PhaseKey = dot::ptr<PhaseKeyImpl>;
 
     /// <summary>Workflow phase record. Jobs are executed in the order of phases and in parallel within each phase.</summary>
-    class DC_CLASS PhaseDataImpl : public RecordForImpl<PhaseKeyImpl, PhaseDataImpl>
+    class DC_CLASS PhaseDataImpl : public record_for_impl<PhaseKeyImpl, PhaseDataImpl>
     {
         typedef PhaseDataImpl self;
 
@@ -37,7 +37,7 @@ namespace dc
 
 
         DOT_TYPE_BEGIN(".Runtime.Main", "PhaseData")
-            DOT_TYPE_BASE(RecordFor<PhaseKeyImpl, PhaseDataImpl>)
+            DOT_TYPE_BASE(record_for<PhaseKeyImpl, PhaseDataImpl>)
             DOT_TYPE_PROP(PhaseID)
         DOT_TYPE_END()
 

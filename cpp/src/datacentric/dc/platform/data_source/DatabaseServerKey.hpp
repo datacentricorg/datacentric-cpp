@@ -62,7 +62,7 @@ namespace dc
         db_server_key_impl(dot::string value);
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DbServerKey")
-            DOT_TYPE_PROP(DbServerID)
+            DOT_TYPE_PROP(db_server_id)
             DOT_TYPE_CTOR(make_db_server_key)
         DOT_TYPE_END()
     };

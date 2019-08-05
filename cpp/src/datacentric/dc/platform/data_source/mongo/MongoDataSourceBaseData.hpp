@@ -37,14 +37,14 @@ namespace dc
     ///
     /// This class provides functionality shared by all MongoDB data source types.
     /// </summary>
-    class DC_CLASS MongoDataSourceBaseDataImpl : public DataSourceDataImpl
+    class DC_CLASS MongoDataSourceBaseDataImpl : public data_source_data_impl
     {
         typedef MongoDataSourceBaseDataImpl self;
 
     protected: // FIELDS
 
         /// <summary>Prohibited characters in database name.</summary>
-        static dot::Array1D<char> prohibitedDbNameSymbols_;
+        static dot::array<char> prohibitedDbNameSymbols_;
 
         /// <summary>Maximum length of the database on Mongo server including delimiters.</summary>
         static int maxDbNameLength_;

@@ -21,30 +21,30 @@ limitations under the License.
 namespace dc
 {
 
-    dot::string KeyTypeImpl::ToString()
+    dot::string KeyTypeImpl::to_string()
     {
-        dot::Array1D<dot::field_info> props = GetType()->GetProperties();
+        dot::array<dot::field_info> props = type()->get_fields();
 
         std::stringstream ss;
 
-        for (int i = 0; i < props->getCount(); ++i)
+        for (int i = 0; i < props->count(); ++i)
         {
             dot::field_info prop = props[i];
 
-            dot::object value = prop->GetValue(this);
+            dot::object value = prop->get_value(this);
 
             if (i) ss << separator;
 
-            if (!value.IsEmpty())
+            if (!value.is_empty())
             {
-                ss << *value->ToString();
+                ss << *value->to_string();
             }
             else
             {
-                if (prop->PropertyType->Name->EndsWith("Key")) // TODO check using parents list
+                if (prop->field_type->name->ends_with("Key")) // TODO check using parents list
                 {
-                    dot::object emptyKey = dot::Activator::CreateInstance(prop->PropertyType);
-                    ss << *emptyKey->ToString();
+                    dot::object empty_key = dot::activator::create_instance(prop->field_type);
+                    ss << *empty_key->to_string();
                 }
             }
 
@@ -55,16 +55,16 @@ namespace dc
 
     void KeyTypeImpl::AssignString(std::stringstream & value)
     {
-        dot::Array1D<dot::field_info> props = GetType()->GetProperties();
+        dot::array<dot::field_info> props = type()->get_fields();
 
         for (dot::field_info prop : props)
         {
-            if (prop->PropertyType->Name->EndsWith("Key")) // TODO check using parents list
+            if (prop->field_type->name->ends_with("Key")) // TODO check using parents list
             {
-                KeyType subKey = (KeyType)dot::Activator::CreateInstance(prop->PropertyType);
+                KeyType subKey = (KeyType)dot::activator::create_instance(prop->field_type);
                 subKey->AssignString(value);
 
-                prop->SetValue(this, subKey);
+                prop->set_value(this, subKey);
             }
             else
             {
@@ -74,17 +74,17 @@ namespace dc
                 if (token.empty())
                     continue;
 
-                if (prop->PropertyType->Equals(dot::typeof<int>()) || prop->PropertyType->Equals(dot::typeof<dot::Nullable<int>>()))
+                if (prop->field_type->equals(dot::typeof<int>()) || prop->field_type->equals(dot::typeof<dot::nullable<int>>()))
                 {
-                    prop->SetValue(this, std::stoi(token));
+                    prop->set_value(this, std::stoi(token));
                 }
-                else if (prop->PropertyType->Equals(dot::typeof<dot::string>()))
+                else if (prop->field_type->equals(dot::typeof<dot::string>()))
                 {
-                    prop->SetValue(this, dot::string(token));
+                    prop->set_value(this, dot::string(token));
                 }
-                else if (prop->PropertyType->Equals(dot::typeof<ObjectId>()))
+                else if (prop->field_type->equals(dot::typeof<ObjectId>()))
                 {
-                    prop->SetValue(this, ObjectId(token));
+                    prop->set_value(this, ObjectId(token));
                 }
                 else
                 {

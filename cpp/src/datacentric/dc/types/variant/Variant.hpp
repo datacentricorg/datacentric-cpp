@@ -56,19 +56,19 @@ namespace dc
             if (value_ == nullptr)
                 return ValueType::Empty;
 
-            dot::type_t valueType = value_->GetType();
+            dot::type_t valueType = value_->type();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
-            if (valueType->Equals(dot::typeof<dot::string>()))        return ValueType::String;
-            if (valueType->Equals(dot::typeof<double>()))             return ValueType::Double;
-            if (valueType->Equals(dot::typeof<bool>()))               return ValueType::Bool;
-            if (valueType->Equals(dot::typeof<int>()))                return ValueType::Int;
-            if (valueType->Equals(dot::typeof<int64_t>()))            return ValueType::Long;
-            if (valueType->Equals(dot::typeof<dot::local_date>()))     return ValueType::LocalDate;
-            if (valueType->Equals(dot::typeof<dot::local_time>()))     return ValueType::LocalTime;
-            if (valueType->Equals(dot::typeof<dot::local_minute>()))   return ValueType::LocalMinute;
-            if (valueType->Equals(dot::typeof<dot::local_date_time>())) return ValueType::LocalDateTime;
-            if (valueType->IsEnum)                                    return ValueType::Enum;
+            if (valueType->equals(dot::typeof<dot::string>()))        return ValueType::String;
+            if (valueType->equals(dot::typeof<double>()))             return ValueType::Double;
+            if (valueType->equals(dot::typeof<bool>()))               return ValueType::Bool;
+            if (valueType->equals(dot::typeof<int>()))                return ValueType::Int;
+            if (valueType->equals(dot::typeof<int64_t>()))            return ValueType::Long;
+            if (valueType->equals(dot::typeof<dot::local_date>()))     return ValueType::LocalDate;
+            if (valueType->equals(dot::typeof<dot::local_time>()))     return ValueType::LocalTime;
+            if (valueType->equals(dot::typeof<dot::local_minute>()))   return ValueType::LocalMinute;
+            if (valueType->equals(dot::typeof<dot::local_date_time>())) return ValueType::LocalDateTime;
+            if (valueType->is_enum)                                    return ValueType::Enum;
 
             // Error message if any other type, should normally not get to here
             throw dot::exception(GetWrongTypeErrorMessage(value_));
@@ -121,16 +121,16 @@ namespace dc
             Type valueType = dot::typeof<T>();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
-            if (valueType->Equals(dot::typeof<String>()))        return Variant(value);
-            if (valueType->Equals(dot::typeof<double>()))        return Variant(Double::Parse(value));
-            if (valueType->Equals(dot::typeof<bool>()))          return Variant(Bool::Parse(value));
-            if (valueType->Equals(dot::typeof<int>()))           return Variant(Int::Parse(value));
-            if (valueType->Equals(dot::typeof<int64_t>()))       return Variant(Long::Parse(value));
-            if (valueType->Equals(dot::typeof<LocalDate>()))     return Variant(LocalDate::Parse(value));
-            if (valueType->Equals(dot::typeof<LocalTime>()))     return Variant(LocalTime::Parse(value));
-            if (valueType->Equals(dot::typeof<LocalMinute>()))   return Variant(LocalMinute::Parse(value));
-            if (valueType->Equals(dot::typeof<LocalDateTime>())) return Variant(LocalDateTime::Parse(value));
-            if (valueType->IsEnum)                               return Variant(Enum::Parse(valueType, value));
+            if (valueType->equals(dot::typeof<string>()))        return Variant(value);
+            if (valueType->equals(dot::typeof<double>()))        return Variant(Double::Parse(value));
+            if (valueType->equals(dot::typeof<bool>()))          return Variant(Bool::Parse(value));
+            if (valueType->equals(dot::typeof<int>()))           return Variant(Int::Parse(value));
+            if (valueType->equals(dot::typeof<int64_t>()))       return Variant(Long::Parse(value));
+            if (valueType->equals(dot::typeof<local_date>()))     return Variant(LocalDate::Parse(value));
+            if (valueType->equals(dot::typeof<local_time>()))     return Variant(LocalTime::Parse(value));
+            if (valueType->equals(dot::typeof<local_minute>()))   return Variant(LocalMinute::Parse(value));
+            if (valueType->equals(dot::typeof<local_date_time>())) return Variant(LocalDateTime::Parse(value));
+            if (valueType->is_enum)                               return Variant(Enum::Parse(valueType, value));
 
             // Error message if any other type
             throw dot::exception(GetWrongTypeErrorMessage(T()));

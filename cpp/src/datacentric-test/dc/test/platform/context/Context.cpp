@@ -33,14 +33,14 @@ namespace dc
 
         // Test class path is the path to source file followed by
         // subfolder whose name is source file name without extension
-        //if (!sourceFilePath->EndsWith(".cs")) throw dot::exception(dot::string::Format("Source file path '{0}' does not end with '.cs'", sourceFilePath));
+        //if (!sourceFilePath->EndsWith(".cs")) throw dot::exception(dot::string::format("Source file path '{0}' does not end with '.cs'", sourceFilePath));
         dot::string testClassPath = sourceFilePath->SubString(0, sourceFilePath->size() - 3);
 
         // Create and initialize data source with TEST instance type.
         //
         // This does not create the database until the data source
         // is actually used to access data.
-        dot::string mappedClassName = classInstance->GetType()->Name;
+        dot::string mappedClassName = classInstance->type()->name;
 
         DataSource = new MongoDataSourceDataImpl();
         //DataSource->DbServer = new DbServerKeyImpl;

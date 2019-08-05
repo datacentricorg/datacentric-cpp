@@ -21,23 +21,23 @@ limitations under the License.
 
 namespace dc
 {
-    template <typename TKey, typename TRecord> class RootRecordForImpl;
-    template <typename TKey, typename TRecord> using RootRecordFor = dot::ptr<RootRecordForImpl<TKey, TRecord>>;
-    template <typename TKey, typename TRecord> class RecordForImpl;
-    template <typename TKey, typename TRecord> using RecordFor = dot::ptr<RecordForImpl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class root_record_for_impl;
+    template <typename TKey, typename TRecord> using root_record_for = dot::ptr<root_record_for_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class record_for_impl;
+    template <typename TKey, typename TRecord> using record_for = dot::ptr<record_for_impl<TKey, TRecord>>;
 
 
     /// <summary>
     /// Record derived from KeyType rather than KeyType is recorded without a dataset.
     /// </summary>
     template <typename TKey, typename TRecord>
-    class RootRecordForImpl : public virtual RecordForImpl<TKey, TRecord>
+    class root_record_for_impl : public virtual record_for_impl<TKey, TRecord>
     {
-        typedef RootRecordForImpl<TKey, TRecord> self;
+        typedef root_record_for_impl<TKey, TRecord> self;
     public:
 
         DOT_TYPE_BEGIN(".Runtime.Main", "RootRecordFor")
-            DOT_TYPE_BASE(RecordFor<TKey, TRecord>)
+            DOT_TYPE_BASE(record_for<TKey, TRecord>)
         DOT_TYPE_END()
 
     };

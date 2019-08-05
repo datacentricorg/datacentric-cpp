@@ -33,12 +33,12 @@ namespace dc
 
         dot::string getValue()
         {
-            return ToString();
+            return to_string();
         }
 
     public: // METHODS
 
-        dot::string ToString();
+        dot::string to_string();
 
         void AssignString(dot::string value);
 

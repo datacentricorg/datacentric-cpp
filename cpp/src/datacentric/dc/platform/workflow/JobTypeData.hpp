@@ -26,7 +26,7 @@ namespace dc
     class JobTypeDataImpl; using JobTypeData = dot::ptr<JobTypeDataImpl>;
 
     /// <summary>Job type.</summary>
-    class DC_CLASS JobTypeDataImpl : public RecordForImpl<JobTypeKeyImpl, JobTypeDataImpl>
+    class DC_CLASS JobTypeDataImpl : public record_for_impl<JobTypeKeyImpl, JobTypeDataImpl>
     {
     public: // PROPERTIES
 

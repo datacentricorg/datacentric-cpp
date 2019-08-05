@@ -107,7 +107,7 @@ namespace dc
     PerformanceTestData new_PerformanceTestData();
 
     /// <summary>Data class.</summary>
-    class PerformanceTestDataImpl : public RecordForImpl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
+    class PerformanceTestDataImpl : public record_for_impl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
     {
         typedef PerformanceTestDataImpl self;
 
@@ -121,7 +121,7 @@ namespace dc
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_PROP(DoubleList)
             DOT_TYPE_PROP(Version)
-            DOT_TYPE_BASE(RecordFor<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
+            DOT_TYPE_BASE(record_for<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
             DOT_TYPE_CTOR(new_PerformanceTestData)
         DOT_TYPE_END()
     };
@@ -133,13 +133,13 @@ namespace dc
     dot::string GetRecordKey(int index)
     {
         static const dot::string recordIdPattern = "Key{0}";
-        return dot::string::Format(recordIdPattern, index);
+        return dot::string::format(recordIdPattern, index);
     }
 
     dot::string GetDataSet(int index)
     {
         static const dot::string dataSetPattern = "DS{0}";
-        return dot::string::Format(dataSetPattern, index);
+        return dot::string::format(dataSetPattern, index);
     }
 
     ObjectId SaveRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordId, int recordSize, int recordVersion)

@@ -132,13 +132,13 @@ namespace dc
         REQUIRE(str == "ABC");
 
         BsonWriter wr = new_BsonWriter();
-        wr->WriteStartDocument(wf->GetType()->Name);
+        wr->WriteStartDocument(wf->type()->name);
         wf->SerializeTo(wr);
-        wr->WriteEndDocument(wf->GetType()->Name);
+        wr->WriteEndDocument(wf->type()->name);
         dot::string s = wr->ToString();
         // Key == dot::string
 
-        wf->Workflow->GetType();
+        wf->Workflow->type();
 
         Context context = new_Context();
         context->Init("mongodb://localhost:27017/test", "test");

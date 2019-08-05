@@ -21,13 +21,13 @@ limitations under the License.
 
 namespace dc
 {
-    class RecordTypeImpl; using RecordType = dot::ptr<RecordTypeImpl>;
+    class record_type_impl; using record_type = dot::ptr<record_type_impl>;
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
 
     /// <summary>Record objects must derive from this type.</summary>
-    class DC_CLASS RecordTypeImpl : public virtual DataImpl
+    class DC_CLASS record_type_impl : public virtual DataImpl
     {
-        typedef RecordTypeImpl self;
+        typedef record_type_impl self;
 
     public: // FIELDS
 
@@ -63,7 +63,7 @@ namespace dc
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
         /// </summary>
-        virtual dot::string getKey() = 0;
+        virtual dot::string get_key() = 0;
 
     public: // METHODS
 
@@ -73,9 +73,9 @@ namespace dc
         /// </summary>
         virtual void Init(IContext context);
 
-        dot::string ToString() { return getKey(); }
+        dot::string to_string() { return get_key(); }
 
-        DOT_TYPE_BEGIN(".Runtime.Main", "RecordType")
+        DOT_TYPE_BEGIN(".Runtime.Main", "record_type")
            // ->WithProperty("_id", &self::ID)
          //   ->WithProperty("_dataset", &self::DataSet)
           //  ->WithProperty("_key", &self::Key)

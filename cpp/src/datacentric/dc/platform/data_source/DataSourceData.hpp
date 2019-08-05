@@ -35,8 +35,8 @@ namespace dc
     class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
     class DataImpl; using Data = dot::ptr<DataImpl>;
     template <typename TKey, typename TRecord> class RootRecordForImpl;
-    class DbNameKeyImpl; using DbNameKey = dot::ptr<DbNameKeyImpl>;
-    class DbServerKeyImpl; using DbServerKey = dot::ptr<DbServerKeyImpl>;
+    class db_name_key_impl; using db_name_key = dot::ptr<db_name_key_impl>;
+    class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;
     class query_impl; using query = dot::ptr<query_impl>;
     class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
 
@@ -55,7 +55,7 @@ namespace dc
     ///
     /// This record is stored in root dataset.
     /// </summary>
-    class DC_CLASS data_source_data_impl : public RootRecordForImpl<data_source_key_impl, data_source_data_impl>
+    class DC_CLASS data_source_data_impl : public root_record_for_impl<data_source_key_impl, data_source_data_impl>
     {
         typedef data_source_data_impl self;
 
@@ -85,7 +85,7 @@ namespace dc
         ///
         /// Return null if not found.
         /// </summary>
-        virtual RecordType load_or_null(ObjectId id, dot::type_t data_type) = 0;
+        virtual record_type load_or_null(ObjectId id, dot::type_t data_type) = 0;
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -113,7 +113,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual RecordType reload_or_null(KeyType key, ObjectId load_from) = 0;
+        virtual record_type reload_or_null(KeyType key, ObjectId load_from) = 0;
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
@@ -124,7 +124,7 @@ namespace dc
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        virtual void save(RecordType record, ObjectId data_set) = 0;
+        virtual void save(record_type record, ObjectId data_set) = 0;
 
         /// <summary>
         /// Get query for the specified type.
@@ -249,7 +249,7 @@ namespace dc
         /// than RevisionTimeConstraint, or their parents (even if the parents
         /// are earlier than the constraint)
         /// </summary>
-        dot::HashSet<ObjectId> get_data_set_lookup_list(ObjectId load_from);
+        dot::hash_set<ObjectId> get_data_set_lookup_list(ObjectId load_from);
 
     public: // METHODS
 
@@ -347,7 +347,7 @@ namespace dc
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
         /// </summary>
-        dot::HashSet<ObjectId> build_data_set_lookup_list(DataSetData data_set_data);
+        dot::hash_set<ObjectId> build_data_set_lookup_list(DataSetData data_set_data);
 
         /// <summary>
         /// Builds hashset of parent datasets for specified dataset data,
@@ -360,9 +360,9 @@ namespace dc
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
         /// </summary>
-        void build_data_set_lookup_list(DataSetData data_set_data, dot::HashSet<ObjectId> result);
+        void build_data_set_lookup_list(DataSetData data_set_data, dot::hash_set<ObjectId> result);
 
-        dot::string to_string() { return getKey(); }
+        dot::string to_string() { return get_key(); }
 
     private: // FIELDS
 
@@ -373,7 +373,7 @@ namespace dc
         /// Dictionary of the expanded list of parent ObjectIds of dataset, including
         /// parents of parents to unlimited depth with cyclic references and duplicates
         /// removed, under ObjectId of the dataset.</summary>
-        dot::dictionary<ObjectId, dot::HashSet<ObjectId>> data_set_parent_dict_ = dot::make_dictionary<ObjectId, dot::HashSet<ObjectId>>();
+        dot::dictionary<ObjectId, dot::hash_set<ObjectId>> data_set_parent_dict_ = dot::make_dictionary<ObjectId, dot::hash_set<ObjectId>>();
 
     public: // PROPERTIES
 
@@ -385,12 +385,12 @@ namespace dc
         /// The meaning of InstanceName and EnvName tokens depends on
         /// the value of InstanceType enumeration.
         /// </summary>
-        DbNameKey db_name;
+        db_name_key db_name;
 
         /// <summary>
         /// Identifies the database server used by this data source.
         /// </summary>
-        DbServerKey db_server;
+        db_server_key db_server;
 
         /// <summary>
         /// Use this flag to mark dataset as readonly, but use either
@@ -439,7 +439,7 @@ namespace dc
             DOT_TYPE_PROP(data_source_id)
             DOT_TYPE_PROP(db_name)
             DOT_TYPE_PROP(db_server)
-            DOT_TYPE_BASE(RootRecordFor<data_source_key_impl, data_source_data_impl>)
+            DOT_TYPE_BASE(root_record_for<data_source_key_impl, data_source_data_impl>)
         DOT_TYPE_END()
     };
 }

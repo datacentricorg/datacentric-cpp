@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dc
 {
-    RecordType MongoDataSourceDataImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
+    record_type MongoDataSourceDataImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
     {
         auto revisionTimeConstraint = GetRevisionTimeConstraint();
         if (revisionTimeConstraint != nullptr)
@@ -46,7 +46,7 @@ namespace dc
         if (res != bsoncxx::stdx::nullopt)
         {
             BsonRecordSerializer serializer = new_BsonRecordSerializer();
-            RecordType record = (RecordType) serializer->Deserialize(res->view());
+            record_type record = (record_type) serializer->Deserialize(res->view());
             record->Init(Context);
             return record;
         }
@@ -54,7 +54,7 @@ namespace dc
         return nullptr;
     }
 
-    RecordType MongoDataSourceDataImpl::ReloadOrNull(KeyType key, ObjectId loadFrom)
+    record_type MongoDataSourceDataImpl::ReloadOrNull(KeyType key, ObjectId loadFrom)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
@@ -90,14 +90,14 @@ namespace dc
 
         query.limit(1); // Only the first document is needed
 
-        mongocxx::cursor res = GetCollection(key->GetType()).aggregate(query);
+        mongocxx::cursor res = GetCollection(key->type()).aggregate(query);
 
         std::string s = bsoncxx::to_json(query.view());
 
         if (res.begin() != res.end())
         {
             BsonRecordSerializer serializer = new_BsonRecordSerializer();
-            RecordType result = (RecordType) serializer->Deserialize(*res.begin());
+            record_type result = (record_type) serializer->Deserialize(*res.begin());
             result->Init(Context);
 
             // Check not only for null but also for the delete marker
@@ -108,11 +108,11 @@ namespace dc
         return nullptr;
     }
 
-    void MongoDataSourceDataImpl::Save(RecordType record, ObjectId saveTo)
+    void MongoDataSourceDataImpl::Save(record_type record, ObjectId saveTo)
     {
         CheckNotReadOnly();
 
-        auto collection = GetCollection(record->GetType());
+        auto collection = GetCollection(record->type());
 
         // This method guarantees that ObjectIds will be in strictly increasing
         // order for this instance of the data source class always, and across
@@ -123,7 +123,7 @@ namespace dc
         // ObjectId of the record must be strictly later
         // than ObjectId of the dataset where it is stored
         if (objectId <= saveTo)
-            throw dot::exception(dot::string::Format(
+            throw dot::exception(dot::string::format(
                 "Attempting to save a record with ObjectId={0} that is later "
                 "than ObjectId={1} of the dataset where it is being saved.", objectId.ToString(), saveTo.ToString()));
 
@@ -142,7 +142,7 @@ namespace dc
         //collection.insert_one(writer->view());
 
         bsoncxx::builder::basic::document doc{}; //!! Temporary fix
-        doc.append(bsoncxx::builder::basic::kvp("_t", * record->GetType()->Name) );
+        doc.append(bsoncxx::builder::basic::kvp("_t", * record->type()->name) );
         doc.append(bsoncxx::builder::basic::kvp("_key", * record->getKey()));
         doc.append(bsoncxx::builder::concatenate(writer->view()));
 
@@ -196,14 +196,14 @@ namespace dc
         bsoncxx::builder::basic::array typeList;
 
         // append given type and DeleteMarker
-        typeList.append(*(dot::string) query->type_->Name);
+        typeList.append(*(dot::string) query->type_->name);
 
         // append derived types
         dot::list<dot::type_t> derivedTypes = dot::type_impl::GetDerivedTypes(query->type_);
         if (derivedTypes != nullptr)
         {
             for (dot::type_t derType : derivedTypes)
-                typeList.append(*(dot::string) derType->Name);
+                typeList.append(*(dot::string) derType->name);
         }
 
         pipeline.replace_root(bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("newRoot", "$doc")));
@@ -229,7 +229,7 @@ namespace dc
                 [context](const bsoncxx::document::view& item)->dot::object
                 {
                     BsonRecordSerializer serializer = new_BsonRecordSerializer();
-                    RecordType record = (RecordType)serializer->Deserialize(item);
+                    record_type record = (record_type)serializer->Deserialize(item);
 
                     record->Init(context);
                     return record;
@@ -240,7 +240,7 @@ namespace dc
         {
             bsoncxx::builder::basic::document selectList{};
             for (dot::field_info prop : query->select_)
-                selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->Name, 1));
+                selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->name, 1));
             selectList.append(bsoncxx::builder::basic::kvp("_key", 1));
 
             pipeline.project(selectList.view());
@@ -265,7 +265,7 @@ namespace dc
         record->getKey() = key->getValue();
 
         // Get collection
-        auto collection = GetCollection(key->GetType());
+        auto collection = GetCollection(key->type());
 
         // This method guarantees that ObjectIds will be in strictly increasing
         // order for this instance of the data source class always, and across
@@ -287,7 +287,7 @@ namespace dc
         //collection.insert_one(writer->view());
 
         bsoncxx::builder::basic::document doc{}; //!! Temporary fix
-        doc.append(bsoncxx::builder::basic::kvp("_t", *record->GetType()->Name));
+        doc.append(bsoncxx::builder::basic::kvp("_t", *record->type()->name));
         doc.append(bsoncxx::builder::basic::kvp("_key", *key->getValue()));
         doc.append(bsoncxx::builder::concatenate(writer->view()));
 

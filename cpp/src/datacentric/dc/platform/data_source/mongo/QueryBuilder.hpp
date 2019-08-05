@@ -231,7 +231,7 @@ namespace dc
 
             props_list<PropR> ret;
             ret.props_.swap(props_);
-            ret.props_.push_back(rhs.prop_->Name);
+            ret.props_.push_back(rhs.prop_->name);
             return ret;
         }
 
@@ -316,61 +316,61 @@ namespace dc
         {
             // Compile time check
             static_assert(std::is_same<Prop::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
-            return props_list<PropR>{{ prop_->Name, rhs.prop_->Name }};
+            return props_list<PropR>{{ prop_->name, rhs.prop_->name }};
         }
 
         auto operator[](int rhs)
         {
             using ReturnType = typename std::remove_reference<decltype(std::declval<Prop>().operator[](rhs))>::type;
-            return props_list<ReturnType>{{ prop_->Name, std::to_string(rhs) }};
+            return props_list<ReturnType>{{ prop_->name, std::to_string(rhs) }};
         }
 
         template <class T>
         operator_wrapper<T> operator==(T rhs) const
         {
-            return operator_wrapper<T>(*dot::string(prop_->Name), "$eq", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->name), "$eq", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator!=(T rhs) const
         {
-            return operator_wrapper<T>(*dot::string(prop_->Name), "$ne", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->name), "$ne", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator<(T rhs) const
         {
-            return operator_wrapper<T>(*dot::string(prop_->Name), "$lt", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->name), "$lt", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator<=(T rhs) const
         {
-            return operator_wrapper<T>(*dot::string(prop_->Name), "$lte", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->name), "$lte", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator>(T rhs) const
         {
-            return operator_wrapper<T>(*dot::string(prop_->Name), "$gt", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->name), "$gt", rhs);
         }
 
         template <class T>
         operator_wrapper<T> operator>=(T rhs) const
         {
-            return operator_wrapper<T>(*dot::string(prop_->Name), "$gte", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->name), "$gte", rhs);
         }
 
         template <class T>
         operator_wrapper<T> in(T const& rhs)
         {
-            return operator_wrapper<T>(*dot::string(prop_->Name), "$in", rhs);
+            return operator_wrapper<T>(*dot::string(prop_->name), "$in", rhs);
         }
 
         template <class T>
         operator_wrapper<std::initializer_list<T>> in(std::initializer_list<T> const& rhs)
         {
-            return operator_wrapper<std::initializer_list<T>>(*dot::string(prop_->Name), "$in", rhs);
+            return operator_wrapper<std::initializer_list<T>>(*dot::string(prop_->name), "$in", rhs);
         }
 
     };
@@ -427,7 +427,7 @@ namespace dc
     prop_wrapper<Class, Prop> make_prop(Prop Class::*prop_)
     {
         dot::type_t type = dot::typeof<dot::ptr<Class>>();
-        dot::Array1D<dot::field_info> props = type->GetProperties();
+        dot::array<dot::field_info> props = type->get_fields();
 
         for (dot::field_info const& prop : props)
         {

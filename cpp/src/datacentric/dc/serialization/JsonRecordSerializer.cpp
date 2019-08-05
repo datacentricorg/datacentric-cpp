@@ -50,7 +50,7 @@ namespace dc
     dot::object JsonRecordSerializerImpl::DeserializeTuple(rapidjson::Document::ConstObject doc, dot::List<dot::field_info> props, dot::type_t tupleType)
     {
         // Create instance to which JSON will be deserialized
-        dot::string typeName = tupleType->Name;
+        dot::string typeName = tupleType->name;
         dot::object result = dot::Activator::CreateInstance(tupleType);
         ITreeWriter writer = new_TupleWriter(result, props);
 
@@ -70,7 +70,7 @@ namespace dc
 
         for (auto& elem : doc)
         {
-            rapidjson::Type jsonType = elem.value.GetType();
+            rapidjson::Type jsonType = elem.value.type();
 
             // Read element name and value
             dot::string elementName = elem.name.GetString();
@@ -152,7 +152,7 @@ namespace dc
         // Loop over elements until
         for (auto& elem : arr)
         {
-            rapidjson::Type jsonType = elem.GetType();
+            rapidjson::Type jsonType = elem.type();
 
             if (jsonType == rapidjson::Type::kNullType)
             {
@@ -210,7 +210,7 @@ namespace dc
     void JsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
     {
         // Root name is written in JSON as _t element
-        dot::string rootName = value->GetType()->getFullName();
+        dot::string rootName = value->type()->getFullName();
 
         writer->WriteStartDocument(rootName);
         value->SerializeTo(writer);

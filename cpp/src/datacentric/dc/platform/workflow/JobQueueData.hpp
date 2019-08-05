@@ -31,14 +31,14 @@ namespace dc
     JobQueueData new_JobQueueData();
 
     /// <summary>Job.</summary>
-    class DC_CLASS JobQueueDataImpl : public RecordForImpl<JobQueueKeyImpl, JobQueueDataImpl>
+    class DC_CLASS JobQueueDataImpl : public record_for_impl<JobQueueKeyImpl, JobQueueDataImpl>
     {
         typedef JobQueueDataImpl self;
 
     public: // PROPERTIES
 
         DOT_TYPE_BEGIN(".Analyst", "JobQueueData")
-            DOT_TYPE_BASE(RecordFor<JobQueueKeyImpl, JobQueueDataImpl>)
+            DOT_TYPE_BASE(record_for<JobQueueKeyImpl, JobQueueDataImpl>)
             DOT_TYPE_CTOR(new_JobQueueData)
         DOT_TYPE_END()
     };

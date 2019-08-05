@@ -49,7 +49,7 @@ namespace dc
         }
         else
         {
-            for (int i = 0; i < props_->getCount(); ++i)
+            for (int i = 0; i < props_->count(); ++i)
             {
                 if (elementName == "_key" || elementName == "_id")
                 {
@@ -57,26 +57,26 @@ namespace dc
                     return;
                 }
 
-                if (props_[i]->Name == elementName)
+                if (props_[i]->name == elementName)
                 {
                     indexOfCurrent_ = i;
-                    if (props_[i]->PropertyType->Name->EndsWith("Data")) //! TODO change EndsWith
+                    if (props_[i]->field_type->name->EndsWith("Data")) //! TODO change EndsWith
                     {
-                        Data result = (Data)dot::Activator::CreateInstance(props_[i]->PropertyType);
+                        Data result = (Data)dot::Activator::CreateInstance(props_[i]->field_type);
                         dataWriter_ = new_DataWriter(result);
-                        dataWriter_->WriteStartDocument(props_[i]->PropertyType->Name);
+                        dataWriter_->WriteStartDocument(props_[i]->field_type->name);
 
-                        tuple_->GetType()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, result }));
+                        tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, result }));
 
                         //dataWriter_->WriteStartElement(elementName);
                         //DeserializeDocument(doc, writer);
                         //writer->WriteEndDocument(typeName);
                     }
-                    if (! props_[i]->PropertyType->GetInterface("IObjectEnumerable").IsEmpty())
+                    if (! props_[i]->field_type->GetInterface("IObjectEnumerable").IsEmpty())
                     {
                         dataWriter_ = new_DataWriter(nullptr);
                         dataWriter_->currentElementInfo_ = props_[i];
-                        dataWriter_->currentElementName_ = props_[i]->Name;
+                        dataWriter_->currentElementName_ = props_[i]->name;
                         dataWriter_->currentState_ = TreeWriterState::ElementStarted;
 
                         dataWriter_->currentArray_ = dot::new_List<dot::IObjectCollection>();
@@ -89,7 +89,7 @@ namespace dc
                     return;
                 }
             }
-            throw dot::exception(dot::string::Format("Unknown element {0} in tuple writer.", elementName));
+            throw dot::exception(dot::string::format("Unknown element {0} in tuple writer.", elementName));
         }
     }
 
@@ -133,7 +133,7 @@ namespace dc
     {
         if (dataWriter_ != nullptr)
         {
-            tuple_->GetType()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, dataWriter_->currentArray_ }));
+            tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, dataWriter_->currentArray_ }));
             dataWriter_->WriteEndArray();
             dataWriter_ = nullptr;
         }
@@ -188,7 +188,7 @@ namespace dc
             return;
 
         // Check that we are either inside dictionary or array
-        dot::type_t elementType = tuple_->GetType()->GetGenericArguments()[indexOfCurrent_];
+        dot::type_t elementType = tuple_->type()->GetGenericArguments()[indexOfCurrent_];
 
         if (value.IsEmpty())  // TODO IsEmpty method should be implemented according to c# extension
         {
@@ -198,7 +198,7 @@ namespace dc
         }
 
         // Write based on element type
-        dot::type_t valueType = value->GetType();
+        dot::type_t valueType = value->type();
         if (elementType->Equals(dot::typeof<dot::string>()) ||
             elementType->Equals(dot::typeof<double>()) || elementType->Equals(dot::typeof<dot::Nullable<double>>()) ||
             elementType->Equals(dot::typeof<bool>()) || elementType->Equals(dot::typeof<dot::Nullable<bool>>()) ||
@@ -210,8 +210,8 @@ namespace dc
             // Check type match
             //if (!elementType->Equals(valueType)) // TODO change to !elementType->IsAssignableFrom(valueType)
             //    throw dot::exception(
-            //        dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
-            //        dot::string::Format("into element of type {0}.", elementType->Name));
+            //        dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+            //        dot::string::format("into element of type {0}.", elementType->name));
 
             dot::object convertedValue = value;
             if (elementType->Equals(dot::typeof<double>()))
@@ -233,7 +233,7 @@ namespace dc
             }
 
             // Add to array or dictionary, depending on what we are inside of
-            tuple_->GetType()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, convertedValue }));
+            tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, convertedValue }));
         }
         else if (elementType->Equals(dot::typeof<dot::local_date>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_date>>()))
         {
@@ -251,10 +251,10 @@ namespace dc
                 dateValue = LocalDateHelper::ParseIsoInt((int64_t)value);
             }
             else throw dot::exception(
-                    dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
                     "into LocalDate; type should be int32.");
 
-            tuple_->GetType()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, dateValue }));
+            tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, dateValue }));
         }
         else if (elementType->Equals(dot::typeof<dot::local_time>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_time>>()))
         {
@@ -272,10 +272,10 @@ namespace dc
                 timeValue = LocalTimeHelper::ParseIsoInt((int64_t)value);
             }
             else throw dot::exception(
-                    dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
                     "into LocalTime; type should be int32.");
 
-            tuple_->GetType()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, timeValue }));
+            tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, timeValue }));
         }
         else if (elementType->Equals(dot::typeof<dot::local_minute>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_minute>>()))
         {
@@ -293,10 +293,10 @@ namespace dc
                 minuteValue = LocalMinuteHelper::ParseIsoInt((int64_t)value);
             }
             else throw dot::exception(
-                dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
                 "into LocalMinute; type should be int32.");
 
-            tuple_->GetType()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, minuteValue }));
+            tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, minuteValue }));
         }
         else if (elementType->Equals(dot::typeof<dot::local_date_time>()) || elementType->Equals(dot::typeof<dot::Nullable<dot::local_date_time>>()))
         {
@@ -323,24 +323,24 @@ namespace dc
                 dateTimeValue = LocalDateTimeHelper::Parse((dot::string)value);
             }
             else throw dot::exception(
-                    dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
                     "into LocalDateTime; type should be LocalDateTime.");
 
-            tuple_->GetType()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, dateTimeValue }));
+            tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, dateTimeValue }));
         }
         else if (elementType->IsEnum)
         {
             // Check type match
             if (!valueType->Equals(dot::typeof<dot::string>()))
                 throw dot::exception(
-                    dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
-                    dot::string::Format("into enum {0}; type should be string.", elementType->Name));
+                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                    dot::string::format("into enum {0}; type should be string.", elementType->name));
 
             // Deserialize enum as string
             dot::string enumString = (dot::string) value;
-            dot::object enumValue = dot::Enum::Parse(elementType, enumString);
+            dot::object enumValue = dot::enum_base::Parse(elementType, enumString);
 
-            tuple_->GetType()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, enumValue }));
+            tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, enumValue }));
         }
         else
         {
@@ -354,21 +354,21 @@ namespace dc
                 // Check type match
                 if (!valueType->Equals(dot::typeof<dot::string>()) && !valueType->Equals(elementType))
                     throw dot::exception(
-                        dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
-                        dot::string::Format("into key type {0}; keys should be serialized into semicolon delimited string.", elementType->Name));
+                        dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                        dot::string::format("into key type {0}; keys should be serialized into semicolon delimited string.", elementType->name));
 
                 // Populate from semicolon delimited string
                 dot::string stringValue = value->ToString();
                 key->AssignString(stringValue);
 
                 // Add to array or dictionary, depending on what we are inside of
-                tuple_->GetType()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, key }));
+                tuple_->type()->GetMethod("SetItem")->Invoke(tuple_, dot::new_Array1D<dot::object>({ tuple_, indexOfCurrent_, key }));
 
             }
             else
             {
                 // Argument type is unsupported, error message
-                throw dot::exception(dot::string::Format("Element type {0} is not supported for serialization.", value->GetType()));
+                throw dot::exception(dot::string::format("Element type {0} is not supported for serialization.", value->type()));
             }
         }
     }

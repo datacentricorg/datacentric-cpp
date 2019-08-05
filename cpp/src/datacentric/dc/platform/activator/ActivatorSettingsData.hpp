@@ -26,7 +26,7 @@ namespace dc
     class ActivatorSettingsKeyImpl; using ActivatorSettingsKey = dot::ptr<ActivatorSettingsKeyImpl>;
 
     /// <summary>Activator settings data records must derive from this type.</summary>
-    class DC_CLASS ActivatorSettingsDataImpl : public RecordForImpl<ActivatorSettingsKeyImpl, ActivatorSettingsDataImpl>
+    class DC_CLASS ActivatorSettingsDataImpl : public record_for_impl<ActivatorSettingsKeyImpl, ActivatorSettingsDataImpl>
     {
     public: // PROPERTIES
 

@@ -72,7 +72,7 @@ namespace dc
     MongoTestData new_MongoTestData();
 
     /// <summary>Base data class.</summary>
-    class MongoTestDataImpl : public RecordForImpl<MongoTestKeyImpl, MongoTestDataImpl>
+    class MongoTestDataImpl : public record_for_impl<MongoTestKeyImpl, MongoTestDataImpl>
     {
         typedef MongoTestDataImpl self;
 
@@ -98,7 +98,7 @@ namespace dc
             DOT_TYPE_PROP(LocalDateTimeElement)
             DOT_TYPE_PROP(EnumValue)
             DOT_TYPE_PROP(Version)
-            DOT_TYPE_BASE(RecordFor<MongoTestKeyImpl, MongoTestDataImpl>)
+            DOT_TYPE_BASE(record_for<MongoTestKeyImpl, MongoTestDataImpl>)
             DOT_TYPE_CTOR(new_MongoTestData)
         DOT_TYPE_END()
     };
@@ -138,10 +138,10 @@ namespace dc
     public:
         dot::Nullable<double> DoubleElement2;
         dot::string StringElement2;
-        dot::Array1D<dot::string> ArrayOfString;
+        dot::array<dot::string> ArrayOfString;
         dot::List<dot::string> ListOfString;
-        dot::Array1D<double> ArrayOfDouble;
-        dot::Array1D<dot::Nullable<double>> ArrayOfNullableDouble;
+        dot::array<double> ArrayOfDouble;
+        dot::array<dot::Nullable<double>> ArrayOfNullableDouble;
         dot::List<double> ListOfDouble;
         dot::List<dot::Nullable<double>> ListOfNullableDouble;
         ElementSampleData DataElement;

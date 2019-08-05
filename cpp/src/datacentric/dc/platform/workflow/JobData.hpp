@@ -33,7 +33,7 @@ namespace dc
     JobData new_JobData();
 
     /// <summary>Job.</summary>
-    class DC_CLASS JobDataImpl : public RecordForImpl<JobKeyImpl, JobDataImpl>
+    class DC_CLASS JobDataImpl : public record_for_impl<JobKeyImpl, JobDataImpl>
     {
         typedef JobDataImpl self;
 
@@ -46,7 +46,7 @@ namespace dc
 
         DOT_TYPE_BEGIN(".Analyst", "JobData")
             DOT_TYPE_PROP(Queue)
-            DOT_TYPE_BASE(RecordFor<JobKeyImpl, JobDataImpl>)
+            DOT_TYPE_BASE(record_for<JobKeyImpl, JobDataImpl>)
             DOT_TYPE_CTOR(new_JobData)
         DOT_TYPE_END()
     };

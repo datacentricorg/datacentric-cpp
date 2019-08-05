@@ -21,7 +21,7 @@ limitations under the License.
 namespace dc
 {
 
-    void RecordTypeImpl::Init(IContext context)
+    void record_type_impl::Init(IContext context)
     {
         // The line below is an example of calling Init(...) method for base class.
         // It should be uncommented for all classes derived from this class.
@@ -30,7 +30,7 @@ namespace dc
 
         Context = context;
         if (context == nullptr) throw dot::exception(
-            dot::string::Format("Null context is passed to the Init(...) method for {0}.", GetType()->Name));
+            dot::string::format("Null context is passed to the Init(...) method for {0}.", type()->name));
     }
 
 }

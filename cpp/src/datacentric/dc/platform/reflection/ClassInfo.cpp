@@ -27,7 +27,7 @@ namespace dc
 
     ClassInfo ClassInfoImpl::GetOrCreate(dot::object value)
     {
-        return GetOrCreate(value->GetType());
+        return GetOrCreate(value->type());
     }
 
     ClassInfo ClassInfoImpl::GetOrCreate(Type_ type)
@@ -55,7 +55,7 @@ namespace dc
         // Set type, raw full name, class name, and namespace
         Type = type;
         RawFullName = type->getFullName();
-        RawClassName = type->Name;
+        RawClassName = type->name;
         RawNamespace = type->Namespace;
 
         // Remove ignored class name prefix

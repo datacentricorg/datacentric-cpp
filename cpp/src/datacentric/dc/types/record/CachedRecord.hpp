@@ -24,7 +24,7 @@ namespace dc
 {
     class CachedRecordImpl; using CachedRecord = dot::ptr<CachedRecordImpl>;
     class ObjectId;
-    class RecordTypeImpl; using RecordType = dot::ptr<RecordTypeImpl>;
+    class record_type_impl; using record_type = dot::ptr<record_type_impl>;
 
     /// <summary>
     /// Reference to a cached record inside the key.
@@ -51,7 +51,7 @@ namespace dc
     {
         typedef CachedRecordImpl self;
 
-        friend CachedRecord new_CachedRecord(ObjectId, RecordType);
+        friend CachedRecord new_CachedRecord(ObjectId, record_type);
 
     public:
 
@@ -62,7 +62,7 @@ namespace dc
         /// Record passed to the constructor, or null for an
         /// empty cached record or a delete marker.
         /// </summary>
-        RecordType Record;
+        record_type Record;
 
     private:
         /// <summary>
@@ -70,12 +70,12 @@ namespace dc
         ///
         /// Delete marker will be cached as null.
         /// </summary>
-        CachedRecordImpl(ObjectId dataSet, RecordType record = nullptr)
+        CachedRecordImpl(ObjectId dataSet, record_type record = nullptr)
         {
             // Dataset for which the record is cached
             DataSet = dataSet;
 
-            if (!record.IsEmpty() && !record.is<DeleteMarker>())
+            if (!record.is_empty() && !record.is<DeleteMarker>())
             {
                 // Cache only if not a delete marker,
                 // otherwise Record will remain null
@@ -86,7 +86,7 @@ namespace dc
 
     };
 
-    inline CachedRecord new_CachedRecord(ObjectId dataSet, RecordType record = nullptr)
+    inline CachedRecord new_CachedRecord(ObjectId dataSet, record_type record = nullptr)
     {
         return new CachedRecordImpl(dataSet, record);
     }

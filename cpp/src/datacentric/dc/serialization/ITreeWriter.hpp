@@ -144,7 +144,7 @@ namespace dc
         virtual void WriteEndValue() = 0;
 
         /// <summary>Write atomic value. Value type
-        /// will be inferred from object.GetType().</summary>
+        /// will be inferred from object.type().</summary>
         virtual void WriteValue(dot::object value) = 0;
 
         /// <summary>Cast to IXmlWriter (throws if the cast fails).</summary>
@@ -172,18 +172,18 @@ namespace dc
         void WriteEndDictArrayItem();
 
         /// <summary>Write an element with no inner nodes.
-        /// Element type is inferred by calling obj.GetType().</summary>
+        /// Element type is inferred by calling obj.type().</summary>
         void WriteValueElement(dot::string elementName, dot::object value);
 
         /// <summary>Write an array item with no inner nodes.
-        /// Element type is inferred by calling obj.GetType().</summary>
+        /// Element type is inferred by calling obj.type().</summary>
         void WriteValueArrayItem(dot::object value);
 
         /// <summary>Write a single array item.</summary>
         void WriteArrayItem(dot::object value);
 
         /// <summary>Write an array of elements with no inner nodes.
-        /// Element type is inferred by calling obj.GetType().</summary>
+        /// Element type is inferred by calling obj.type().</summary>
         void WriteValueArray(dot::string elementName, dot::IObjectEnumerable values);
     };
 

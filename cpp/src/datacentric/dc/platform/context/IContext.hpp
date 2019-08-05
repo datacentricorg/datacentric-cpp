@@ -24,7 +24,7 @@ limitations under the License.
 namespace dc
 {
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
-    class DataSourceDataImpl; using DataSourceData = dot::ptr<DataSourceDataImpl>;
+    class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
     class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
 
     /// <summary>Context defines dataset and provides access to data,
@@ -36,7 +36,7 @@ namespace dc
     public: // PROPERTIES
 
         /// <summary>Get the default data source of the context.</summary>
-        DataSourceData DataSource;
+        data_source_data DataSource;
 
         /// <summary>Returns ObjectId of the context dataset.</summary>
         ObjectId DataSet;
@@ -46,7 +46,7 @@ namespace dc
     protected:
 
         /// <summary>Initialize data_source.</summary>
-        void SetDataSource(DataSourceData dataSource);
+        void SetDataSource(data_source_data dataSource);
 
     public: // METHODS
 
@@ -66,7 +66,7 @@ namespace dc
         ///
         /// Return null if not found.
         /// </summary>
-        RecordType LoadOrNull(ObjectId id, dot::type_t dataType);
+        record_type LoadOrNull(ObjectId id, dot::type_t dataType);
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -94,7 +94,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        RecordType ReloadOrNull(KeyType key, ObjectId loadFrom);
+        record_type ReloadOrNull(KeyType key, ObjectId loadFrom);
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
@@ -111,7 +111,7 @@ namespace dc
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        void Save(RecordType record);
+        void Save(record_type record);
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
@@ -128,7 +128,7 @@ namespace dc
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        void Save(RecordType record, ObjectId saveTo);
+        void Save(record_type record, ObjectId saveTo);
 
         /// <summary>
         /// Write a delete marker for the dataset of the context and the specified
@@ -301,7 +301,7 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId CreateDataSet(dot::string dataSetID, dot::IEnumerable<ObjectId> parentDataSets);
+        ObjectId CreateDataSet(dot::string dataSetID, dot::list<ObjectId> parentDataSets);
 
         /// <summary>
         /// Create new version of the dataset with the specified dataSetID
@@ -313,7 +313,7 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId CreateDataSet(dot::string dataSetID, dot::IEnumerable<ObjectId> parentDataSets, ObjectId saveTo);
+        ObjectId CreateDataSet(dot::string dataSetID, dot::list<ObjectId> parentDataSets, ObjectId saveTo);
 
         /// <summary>
         /// Save new version of the dataset.

@@ -33,13 +33,13 @@ namespace dc
 
     query query_impl::sort_by(dot::field_info key_selector)
     {
-        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)key_selector->Name, 1));
+        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)key_selector->name, 1));
         return this;
     }
 
     query query_impl::sort_by_descending(dot::field_info key_selector)
     {
-        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)key_selector->Name, -1));
+        sort_.append(bsoncxx::builder::basic::kvp((std::string) * (dot::string)key_selector->name, -1));
         return this;
     }
 

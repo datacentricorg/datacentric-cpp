@@ -120,7 +120,7 @@ namespace dc
         void WriteEndValue() override;
 
         /// <summary>Write atomic value. Value type
-        /// will be inferred from object.GetType().</summary>
+        /// will be inferred from object.type().</summary>
         void WriteValue(dot::object value) override;
 
         /// <summary>Convert to BSON string without checking that BSON document is complete.

@@ -74,7 +74,7 @@ namespace dc
         // Check that the current element name matches the specified name. Writing the actual end tag
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (rootElementName != currentElementName)
-            throw dot::exception(dot::string::Format(
+            throw dot::exception(dot::string::format(
                 "WriteEndDocument({0}) follows WriteStartDocument({1}), root element name mismatch.", rootElementName, currentElementName));
     }
 
@@ -118,7 +118,7 @@ namespace dc
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (elementName != currentElementName)
             throw dot::exception(
-                dot::string::Format("EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName));
+                dot::string::format("EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName));
 
         // Nothing to write here but array closing bracket was written above
     }
@@ -256,7 +256,7 @@ namespace dc
         }
 
         // Serialize based on value type
-        dot::type_t valueType = value->GetType();
+        dot::type_t valueType = value->type();
 
         if (valueType->Equals(dot::typeof<dot::string>()))
             bsonWriter_.append(*(dot::string)value);
@@ -294,7 +294,7 @@ namespace dc
         //if (valueType.is<Object>()) // TODO KeyType
         //    bsonWriter_.append(*(valueType->ToString())); // TODO semicolonDelimitedKeyString = keyElement.AsString();
         else
-            throw dot::exception(dot::string::Format("Element type {0} is not supported for BSON serialization.", valueType));
+            throw dot::exception(dot::string::format("Element type {0} is not supported for BSON serialization.", valueType));
     }
 
     dot::string BsonWriterImpl::ToString()

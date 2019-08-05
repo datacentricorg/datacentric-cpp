@@ -40,7 +40,7 @@ namespace dc
         /// hostnames with optional port in ``host'' or ``host::port''
         /// format.
         /// </summary>
-        dot::List<dot::string> Hosts;
+        dot::list<dot::string> Hosts;
 
     public: // METHODS
 

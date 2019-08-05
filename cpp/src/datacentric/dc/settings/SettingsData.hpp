@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/RecordType.hpp>
+#include <dc/types/record/record_type.hpp>
 #include <dc/settings/SettingsKey.hpp>
 
 namespace dc
@@ -26,7 +26,7 @@ namespace dc
     class SettingsKeyImpl; using SettingsKey = dot::ptr<SettingsKeyImpl>;
 
     /// <summary>Settings records must derive from this type.</summary>
-    class DC_CLASS SettingsDataImpl : public RecordForImpl<SettingsKeyImpl, SettingsDataImpl>
+    class DC_CLASS SettingsDataImpl : public record_for_impl<SettingsKeyImpl, SettingsDataImpl>
     {
     public: // PROPERTIES
 

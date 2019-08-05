@@ -38,7 +38,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual RecordType LoadOrNull(ObjectId id, dot::type_t dataType) override;
+        virtual record_type LoadOrNull(ObjectId id, dot::type_t dataType) override;
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -66,7 +66,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual RecordType ReloadOrNull(KeyType key, ObjectId loadFrom) override;
+        virtual record_type ReloadOrNull(KeyType key, ObjectId loadFrom) override;
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
@@ -77,7 +77,7 @@ namespace dc
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        virtual void Save(RecordType record, ObjectId saveTo) override;
+        virtual void Save(record_type record, ObjectId saveTo) override;
 
         /// <summary>
         /// Get query for the specified type.

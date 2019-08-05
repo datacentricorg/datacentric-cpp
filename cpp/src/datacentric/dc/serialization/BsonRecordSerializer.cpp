@@ -48,7 +48,7 @@ namespace dc
     dot::object BsonRecordSerializerImpl::DeserializeTuple(bsoncxx::document::view doc, dot::List<dot::field_info> props, dot::type_t tupleType)
     {
         // Create instance to which BSON will be deserialized
-        dot::string typeName = tupleType->Name;
+        dot::string typeName = tupleType->name;
         dot::object result = dot::Activator::CreateInstance(tupleType);
         ITreeWriter writer = new_TupleWriter(result, props);
 
@@ -230,7 +230,7 @@ namespace dc
     void BsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
     {
         // Root name is written in JSON as _t element
-        dot::string rootName = value->GetType()->getFullName();
+        dot::string rootName = value->type()->getFullName();
 
         writer->WriteStartDocument(rootName);
         value->SerializeTo(writer);

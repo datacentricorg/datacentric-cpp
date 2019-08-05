@@ -26,7 +26,7 @@ namespace dc
     class LinkedTypeKeyImpl; using LinkedTypeKey = dot::ptr<LinkedTypeKeyImpl>;
 
     /// <summary>Linked record type.</summary>
-    class DC_CLASS LinkedTypeDataImpl : public RecordForImpl<LinkedTypeKeyImpl, LinkedTypeDataImpl>
+    class DC_CLASS LinkedTypeDataImpl : public record_for_impl<LinkedTypeKeyImpl, LinkedTypeDataImpl>
     {
     public: // PROPERTIES
 

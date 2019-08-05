@@ -23,7 +23,7 @@ limitations under the License.
 
 namespace dc
 {
-    dot::Array1D<char> MongoDataSourceBaseDataImpl::prohibitedDbNameSymbols_ = dot::new_Array1D<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
+    dot::array<char> MongoDataSourceBaseDataImpl::prohibitedDbNameSymbols_ = dot::new_Array1D<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
 
     int MongoDataSourceBaseDataImpl::maxDbNameLength_ = 64;
 
@@ -47,11 +47,11 @@ namespace dc
         // Perform additional validation for restricted characters and database name length.
         if (dbName_->IndexOfAny(prohibitedDbNameSymbols_) != -1)
             throw dot::exception(
-                dot::string::Format("MongoDB database name {0} contains a space or another ", dbName_) +
+                dot::string::format("MongoDB database name {0} contains a space or another ", dbName_) +
                 "prohibited character from the following list: /\\.\"$*<>:|?");
         if (dbName_->getLength() > maxDbNameLength_)
             throw dot::exception(
-                dot::string::Format("MongoDB database name {0} exceeds the maximum length of 64 characters.", dbName_));
+                dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", dbName_));
 
         // Get client interface using the server
         dot::string dbUri = DbServer->Load(Context).as<MongoServerData>()->GetMongoServerUri();
@@ -84,7 +84,7 @@ namespace dc
         // Report the number of retries
         if (retryCounter != 0)
         {
-            std::cerr << *dot::string::Format("Generated ObjectId in increasing order after {0} retries.", retryCounter);
+            std::cerr << *dot::string::format("Generated ObjectId in increasing order after {0} retries.", retryCounter);
         }
 
         // Update previous ObjectId and return
@@ -118,9 +118,9 @@ namespace dc
             else
             {
                 throw dot::exception(
-                    dot::string::Format("As an extra safety measure, database {0} cannot be ", dbName_) +
+                    dot::string::format("As an extra safety measure, database {0} cannot be ", dbName_) +
                     "dropped because this operation is not permitted for database " +
-                    dot::string::Format("instance type {0}.", instanceType_.ToString()));
+                    dot::string::format("instance type {0}.", instanceType_.ToString()));
             }
         }
     }
@@ -128,13 +128,13 @@ namespace dc
     mongocxx::collection MongoDataSourceBaseDataImpl::GetCollection(dot::type_t dataType)
     {
         dot::type_t curr = dataType;
-        while (curr->Name != "RecordFor" && curr->Name != "KeyFor")
+        while (curr->name != "RecordFor" && curr->name != "KeyFor")
         {
             curr = curr->getBaseType();
             if (curr.IsEmpty())
-                throw dot::exception(dot::string::Format("Couldn't detect collection name for type {0}", dataType->Name));
+                throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", dataType->name));
         }
-        dot::string typeName = curr->GetGenericArguments()[0]->Name;
+        dot::string typeName = curr->GetGenericArguments()[0]->name;
         return GetCollection(typeName);
     }
 

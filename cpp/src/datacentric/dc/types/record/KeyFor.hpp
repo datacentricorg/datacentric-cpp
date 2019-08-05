@@ -80,7 +80,7 @@ namespace dc
         {
             auto result = LoadOrNull(context, context->DataSet);
             if (result == nullptr) throw dot::exception(
-                dot::string::Format("Record with key {0} is not found.", this->ToString()));
+                dot::string::format("Record with key {0} is not found.", this->to_string()));
             return result;
         }
 
@@ -113,8 +113,8 @@ namespace dc
             dot::ptr<TRecord> result = LoadOrNull(context, dataSet);
 
             // Error message if null, otherwise return
-            if (result == nullptr) throw dot::exception(dot::string::Format(
-                "Record with key {0} is not found in dataset with ObjectId={1}.", this->ToString(), dataSet.ToString()));
+            if (result == nullptr) throw dot::exception(dot::string::format(
+                "Record with key {0} is not found in dataset with ObjectId={1}.", this->to_string(), dataSet.ToString()));
 
             return result;
         }
@@ -179,7 +179,7 @@ namespace dc
                 // value unless it is the delete marker, in which case
                 // return null
                 if (cachedRecord_->Record == nullptr) return nullptr;
-                else return (dot::ptr<TRecord>)(RecordType)(cachedRecord_->Record);
+                else return (dot::ptr<TRecord>)(record_type)(cachedRecord_->Record);
             }
             else
             {
@@ -198,10 +198,10 @@ namespace dc
                 {
                     // If not null, it is a delete marker;
                     // check that has a matching key
-                    if (result != nullptr && getValue() != result->getKey())
-                        throw dot::exception(dot::string::Format(
+                    if (result != nullptr && getValue() != result->get_key())
+                        throw dot::exception(dot::string::format(
                             "Delete marker with Type={0} stored "
-                            "for Key={1} has a non-matching Key={2}.", result->GetType()->Name, getValue(), result->getKey()));
+                            "for Key={1} has a non-matching Key={2}.", result->type()->name, getValue(), result->get_key()));
 
                     // Record not found or is a delete marker,
                     // cache an empty record and return null
@@ -211,10 +211,10 @@ namespace dc
                 else
                 {
                     // Check that the found record has a matching key
-                    if (getValue() != result->getKey())
-                        throw dot::exception(dot::string::Format(
+                    if (getValue() != result->get_key())
+                        throw dot::exception(dot::string::format(
                             "Record with Type={0} stored "
-                            "for Key={1} has a non-matching Key={2}.", result->GetType()->Name, getValue(), result->getKey()));
+                            "for Key={1} has a non-matching Key={2}.", result->type()->name, getValue(), result->get_key()));
 
                     // Cache the record; the ctor of CachedRecord
                     // will cache null if the record is a delete marker
@@ -238,7 +238,7 @@ namespace dc
         void Delete(IContext context)
         {
             // Delete in the dataset of the context
-            context->DataSource->Delete(this, context->DataSet);
+            context->DataSource->delete_record(this, context->DataSet);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace dc
         /// </summary>
         void Delete(IContext context, ObjectId deleteIn)
         {
-            context->DataSource->Delete(this, deleteIn);
+            context->DataSource->delete_record(this, deleteIn);
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace dc
         /// the dataset where the object has been looked up, not the
         /// one where it is stored.
         /// </summary>
-        void SetCachedRecord(RecordFor<TKey, TRecord> record, ObjectId dataSet)
+        void SetCachedRecord(record_for<TKey, TRecord> record, ObjectId dataSet)
         {
             // Before doing anything else, clear the cached record
             // This will ensure that the previous cached copy is 
@@ -317,7 +317,7 @@ namespace dc
         }
 
         /// <summary>Assign key elements from record to key.</summary>
-        void AssignKeyElements(RecordFor<TKey, TRecord> record)
+        void AssignKeyElements(record_for<TKey, TRecord> record)
         {
             // The remaining code assigns elements of the record
             // to the matching elements of the key. This will also
@@ -325,13 +325,13 @@ namespace dc
             // proper value for the record.
             //
             // Get field_info arrays for TKey and TRecord
-            dot::Array1D<dot::field_info> keyElementInfoArray = dot::typeof<dot::ptr<TKey>>()->GetProperties();
-            dot::Array1D<dot::field_info> recordElementInfoArray = dot::typeof<dot::ptr<TRecord>>()->GetProperties();
+            dot::array<dot::field_info> keyElementInfoArray = dot::typeof<dot::ptr<TKey>>()->get_fields();
+            dot::array<dot::field_info> recordElementInfoArray = dot::typeof<dot::ptr<TRecord>>()->get_fields();
 
             // Check that TRecord has the same or greater number of elements
             // as TKey (all elements of TKey must also be present in TRecord)
-            if (recordElementInfoArray->getCount() < keyElementInfoArray->getCount()) throw dot::exception(dot::string::Format(
-                "Record type {0} has fewer elements than key type {1}.", dot::typeof<dot::ptr<TRecord>>()->Name, dot::typeof<dot::ptr<TKey>>()->Name));
+            if (recordElementInfoArray->count() < keyElementInfoArray->count()) throw dot::exception(dot::string::format(
+                "Record type {0} has fewer elements than key type {1}.", dot::typeof<dot::ptr<TRecord>>()->name, dot::typeof<dot::ptr<TKey>>()->name));
 
             // Iterate over the key properties
             for (dot::field_info keyElementInfo : keyElementInfoArray)
@@ -339,35 +339,35 @@ namespace dc
                 auto recordElementInfoIterator = std::find_if(recordElementInfoArray->begin(), recordElementInfoArray->end()
                     , [&keyElementInfo](dot::field_info recordProp) -> bool
                     {
-                        return keyElementInfo->Name == recordProp->Name;
+                        return keyElementInfo->name == recordProp->name;
                     } );
 
                 // Check that names match
-                if (recordElementInfoIterator == recordElementInfoArray->end()) throw dot::exception(dot::string::Format(
+                if (recordElementInfoIterator == recordElementInfoArray->end()) throw dot::exception(dot::string::format(
                     "Element {0} of key type {1} "
-                    "is not found in the root data type {2}.", keyElementInfo->Name, dot::typeof<dot::ptr<TKey>>()->Name, GetType()->Name
+                    "is not found in the root data type {2}.", keyElementInfo->name, dot::typeof<dot::ptr<TKey>>()->name, type()->name
                 ));
 
                 dot::field_info recordElementInfo = *recordElementInfoIterator;
 
                 // Check that types match
-                if (keyElementInfo->PropertyType != recordElementInfo->PropertyType)
-                    throw dot::exception(dot::string::Format(
+                if (keyElementInfo->field_type != recordElementInfo->field_type)
+                    throw dot::exception(dot::string::format(
                         "Property {0} of key type {1} "
                         "has type {2} "
                         "while property {3} of record type {4} "
                         "has type {5}."
-                        , keyElementInfo->Name
-                        , dot::typeof<dot::ptr<TKey>>()->Name
-                        , keyElementInfo->PropertyType->Name
-                        , recordElementInfo->Name
-                        , dot::typeof<dot::ptr<TRecord>>()->Name
-                        , recordElementInfo->PropertyType->Name
+                        , keyElementInfo->name
+                        , dot::typeof<dot::ptr<TKey>>()->name
+                        , keyElementInfo->field_type->name
+                        , recordElementInfo->name
+                        , dot::typeof<dot::ptr<TRecord>>()->name
+                        , recordElementInfo->field_type->name
                         ));
 
                 // Read from the record and assign to the key
-                dot::object elementValue = recordElementInfo->GetValue(record);
-                keyElementInfo->SetValue(this, elementValue);
+                dot::object elementValue = recordElementInfo->get_value(record);
+                keyElementInfo->set_value(this, elementValue);
             }
         }
 

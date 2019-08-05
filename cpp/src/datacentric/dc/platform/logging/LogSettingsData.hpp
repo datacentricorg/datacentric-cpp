@@ -26,7 +26,7 @@ namespace dc
     class LogSettingsKeyImpl; using LogSettingsKey = dot::ptr<LogSettingsKeyImpl>;
 
     /// <summary>Log settings records must derive from this type.</summary>
-    class DC_CLASS LogSettingsDataImpl : public RecordForImpl<LogSettingsKeyImpl, LogSettingsDataImpl>
+    class DC_CLASS LogSettingsDataImpl : public record_for_impl<LogSettingsKeyImpl, LogSettingsDataImpl>
     {
     public: // PROPERTIES
 

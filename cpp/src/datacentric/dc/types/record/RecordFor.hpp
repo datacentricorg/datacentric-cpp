@@ -21,49 +21,49 @@ limitations under the License.
 
 namespace dc
 {
-    class RecordTypeImpl; using RecordType = dot::ptr<RecordTypeImpl>;
+    class record_type_impl; using record_type = dot::ptr<record_type_impl>;
 
-    template <typename TKey, typename TRecord> class RecordForImpl;
-    template <typename TKey, typename TRecord> using RecordFor = dot::ptr<RecordForImpl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class record_for_impl;
+    template <typename TKey, typename TRecord> using record_for = dot::ptr<record_for_impl<TKey, TRecord>>;
 
 
     /// <summary>
     /// Base class of records stored in data source.
     /// </summary>
     template <typename TKey, typename TRecord>
-    class RecordForImpl : public virtual RecordTypeImpl
+    class record_for_impl : public virtual record_type_impl
     {
-        typedef RecordForImpl<TKey, TRecord> self;
+        typedef record_for_impl<TKey, TRecord> self;
 
     public:
 
-        dot::string getKey() override
+        dot::string get_key() override
         {
-            dot::Array1D<dot::field_info> props =  dot::typeof<dot::ptr<TKey>>()->GetProperties();
-            dot::type_t type = GetType();
+            dot::array<dot::field_info> props =  dot::typeof<dot::ptr<TKey>>()->get_fields();
+            dot::type_t type_ = type();
 
             std::stringstream ss;
 
-            for (int i = 0; i < props->getCount(); ++i)
+            for (int i = 0; i < props->count(); ++i)
             {
                 dot::field_info key_prop = props[i];
 
-                dot::field_info prop = type->GetProperty(key_prop->Name);
+                dot::field_info prop = type_->get_field(key_prop->name);
 
-                dot::object value = prop->GetValue(this);
+                dot::object value = prop->get_value(this);
 
                 if (i) ss << separator;
 
-                if (!value.IsEmpty())
+                if (!value.is_empty())
                 {
-                    ss << *value->ToString();
+                    ss << *value->to_string();
                 }
                 else
                 {
-                    if (prop->PropertyType->Name->EndsWith("Key")) // TODO check using parents list
+                    if (prop->field_type->name->ends_with("Key")) // TODO check using parents list
                     {
-                        dot::object emptyKey = dot::Activator::CreateInstance(prop->PropertyType);
-                        ss << *emptyKey->ToString();
+                        dot::object empty_key = dot::activator::create_instance(prop->field_type);
+                        ss << *empty_key->to_string();
                     }
                 }
 
@@ -86,10 +86,10 @@ namespace dc
         /// record A has property that is a key for record B, and both records are
         /// created in-memory without any need to save them to storage.
         /// </summary>
-        dot::ptr<TKey> ToKey()
+        dot::ptr<TKey> to_key()
         {
-            dot::type_t keyType = dot::typeof<dot::ptr<TKey>>();
-            dot::ptr<TKey> result = (dot::ptr<TKey>)dot::Activator::CreateInstance(keyType);
+            dot::type_t key_type = dot::typeof<dot::ptr<TKey>>();
+            dot::ptr<TKey> result = (dot::ptr<TKey>)dot::activator::create_instance(key_type);
 
             // The cached value will be used only for lookup in the dataset
             // passed to this method, but not for lookup in another dataset
@@ -106,10 +106,10 @@ namespace dc
         /// and reading it back when record A has property that is a key for record B,
         /// and both records are created in-memory without any need to save them to storage.
         /// </summary>
-        operator dot::ptr<TKey>() { return ToKey(); }
+        operator dot::ptr<TKey>() { return to_key(); }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "RecordFor")
-            DOT_TYPE_BASE(RecordType)
+            DOT_TYPE_BASE(record_type)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
         DOT_TYPE_END()

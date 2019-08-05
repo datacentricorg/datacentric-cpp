@@ -29,7 +29,7 @@ namespace dc
     class PhaseKeyImpl; using PhaseKey = dot::ptr<PhaseKeyImpl>;
 
     /// <summary>Task record. Tasks are created by jobs and executed in parallel within each phase.</summary>
-    class DC_CLASS TaskDataImpl : public RecordForImpl<TaskKeyImpl, TaskDataImpl>
+    class DC_CLASS TaskDataImpl : public record_for_impl<TaskKeyImpl, TaskDataImpl>
     {
     public: // PROPERTIES
 

@@ -64,7 +64,7 @@ namespace dc
         operator dot::object()
         {
             if (_id != Empty._id)
-                return dot::object(new dot::StructWrapperImpl<ObjectId>(*this));
+                return dot::object(new dot::struct_wrapper_impl<ObjectId>(*this));
             else return dot::object();
         }
 
@@ -77,7 +77,7 @@ namespace dot
     template <>
     inline type_t typeof<dc::ObjectId>()
     {
-        static dot::type_t type_ = dot::make_type_builder<dc::ObjectId>("Mongo", "ObjectId")->Build();
+        static dot::type_t type_ = dot::make_type_builder<dc::ObjectId>("Mongo", "ObjectId")->build();
         return type_;
     }
 
