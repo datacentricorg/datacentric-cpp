@@ -23,22 +23,22 @@ limitations under the License.
 #include <dot/system/collections/generic/HashSet.hpp>
 #include <dot/system/collections/generic/List.hpp>
 #include <dc/types/record/RecordFor.hpp>
-#include <dc/platform/data_source/IDataSource.hpp>
 #include <dc/platform/data_source/DatabaseKey.hpp>
 #include <dc/platform/data_source/DatabaseServerKey.hpp>
 #include <dc/platform/query/Query.hpp>
 
 namespace dc
 {
-    class DataSourceKeyImpl; using DataSourceKey = dot::ptr<DataSourceKeyImpl>;
-    class DataSourceDataImpl; using DataSourceData = dot::ptr<DataSourceDataImpl>;
+    class data_source_key_impl; using data_source_key = dot::ptr<data_source_key_impl>;
+    class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
 
     class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
     class DataImpl; using Data = dot::ptr<DataImpl>;
     template <typename TKey, typename TRecord> class RootRecordForImpl;
     class DbNameKeyImpl; using DbNameKey = dot::ptr<DbNameKeyImpl>;
     class DbServerKeyImpl; using DbServerKey = dot::ptr<DbServerKeyImpl>;
-    class IQueryImpl; using IQuery = dot::ptr<IQueryImpl>;
+    class query_impl; using query = dot::ptr<query_impl>;
+    class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
 
     class ObjectId;
 
@@ -55,77 +55,9 @@ namespace dc
     ///
     /// This record is stored in root dataset.
     /// </summary>
-    class DC_CLASS DataSourceDataImpl : public RootRecordForImpl<DataSourceKeyImpl, DataSourceDataImpl>, public IDataSourceImpl
+    class DC_CLASS data_source_data_impl : public RootRecordForImpl<data_source_key_impl, data_source_data_impl>
     {
-        typedef DataSourceDataImpl self;
-
-    private: // FIELDS
-
-        /// <summary>Dictionary of dataset ObjectIds stored under string dataSetID.</summary>
-        dot::dictionary<dot::string, ObjectId> dataSetDict_ = dot::make_dictionary<dot::string, ObjectId>();
-
-        /// <summary>
-        /// Dictionary of the expanded list of parent ObjectIds of dataset, including
-        /// parents of parents to unlimited depth with cyclic references and duplicates
-        /// removed, under ObjectId of the dataset.</summary>
-        dot::dictionary<ObjectId, dot::HashSet<ObjectId>> dataSetParentDict_ = dot::make_dictionary<ObjectId, dot::HashSet<ObjectId>>();
-
-    public: // PROPERTIES
-
-        /// <summary>
-        /// This class enforces strict naming conventions
-        /// for database naming. While format of the resulting database
-        /// name is specific to data store type, it always consists
-        /// of three tokens: InstanceType, InstanceName, and EnvName.
-        /// The meaning of InstanceName and EnvName tokens depends on
-        /// the value of InstanceType enumeration.
-        /// </summary>
-        DbNameKey DbName;
-
-        /// <summary>
-        /// Identifies the database server used by this data source.
-        /// </summary>
-        DbServerKey DbServer;
-
-        /// <summary>
-        /// Use this flag to mark dataset as readonly, but use either
-        /// IsReadOnly() or CheckNotReadonly() method to determine the
-        /// readonly status because the dataset may be readonly for
-        /// two reasons:
-        ///
-        /// * ReadOnly flag is true; or
-        /// * One of RevisedBefore or RevisedBeforeId is set
-        /// </summary>
-        bool ReadOnly;
-
-        /// <summary>
-        /// The data source will return records revised strictly before
-        /// the specified datetime in UTC timezone. The filter works
-        /// by comparing the timestep component of the record's _id with
-        /// the value of this element.
-        ///
-        /// The value of this element must fall precisely on the second,
-        /// error message otherwise.
-        ///
-        /// RevisedBefore and RevisedBeforeId elements are alternates;
-        /// they cannot be specified at the same time.
-        ///
-        /// If either RevisedBefore or RevisedBeforeId is specified, the
-        /// data source is readonly and its IsReadOnly() method returns true.
-        /// </summary>
-        dot::nullable<dot::local_date_time> RevisedBefore;
-
-        /// <summary>
-        /// The data source will return records for which _id is strictly
-        /// less than the specified ObjectId.
-        ///
-        /// RevisedBefore and RevisedBeforeId elements are alternates;
-        /// they cannot be specified at the same time.
-        ///
-        /// If either RevisedBefore or RevisedBeforeId is specified, the
-        /// data source is readonly and its IsReadOnly() method returns true.
-        /// </summary>
-        dot::nullable<ObjectId> RevisedBeforeId;
+        typedef data_source_data_impl self;
 
     public: // ABSTRACT
 
@@ -140,12 +72,12 @@ namespace dc
         /// class may not be ordered chronologically unless they are at
         /// least one second apart.
         /// </summary>
-        virtual ObjectId CreateOrderedObjectId() = 0;
+        virtual ObjectId create_ordered_object_id() = 0;
 
-        template <class TRecord>
-        TRecord LoadOrNull(ObjectId id)
+        template <class t_record>
+        t_record load_or_null(ObjectId id)
         {
-            return (TRecord) LoadOrNull(id, dot::typeof<TRecord>());
+            return (t_record) load_or_null(id, dot::typeof<t_record>());
         }
 
         /// <summary>
@@ -153,7 +85,7 @@ namespace dc
         ///
         /// Return null if not found.
         /// </summary>
-        virtual RecordType LoadOrNull(ObjectId id, dot::type_t dataType) = 0;
+        virtual RecordType load_or_null(ObjectId id, dot::type_t data_type) = 0;
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -181,7 +113,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual RecordType ReloadOrNull(KeyType key, ObjectId loadFrom) = 0;
+        virtual RecordType reload_or_null(KeyType key, ObjectId load_from) = 0;
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
@@ -192,7 +124,7 @@ namespace dc
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        virtual void Save(RecordType record, ObjectId dataSet) = 0;
+        virtual void save(RecordType record, ObjectId data_set) = 0;
 
         /// <summary>
         /// Get query for the specified type.
@@ -206,12 +138,12 @@ namespace dc
         /// than any other ObjectId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         /// </summary>
-        virtual IQuery GetQuery(ObjectId dataSet, dot::type_t type) = 0;
+        virtual query get_query(ObjectId data_set, dot::type_t type) = 0;
 
         template <class DataType>
-        IQuery GetQuery(ObjectId dataSet)
+        query get_query(ObjectId data_set)
         {
-            return GetQuery(dataSet, dot::typeof<DataType>());
+            return get_query(data_set, dot::typeof<DataType>());
         }
 
         /// <summary>
@@ -223,7 +155,7 @@ namespace dc
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
         /// </summary>
-        virtual void Delete(KeyType dataKey, ObjectId dataSet) = 0;
+        virtual void delete_record(KeyType data_key, ObjectId data_set) = 0;
 
         /// <summary>
         /// Permanently deletes (drops) the database with all records
@@ -236,7 +168,7 @@ namespace dc
         /// ATTENTION - THIS METHOD WILL DELETE ALL DATA WITHOUT
         /// THE POSSIBILITY OF RECOVERY. USE WITH CAUTION.
         /// </summary>
-        virtual void DeleteDb() = 0;
+        virtual void delete_db() = 0;
 
     public: // METHODS
 
@@ -247,7 +179,7 @@ namespace dc
         /// * ReadOnly flag is true; or
         /// * One of RevisedBefore or RevisedBeforeId is set
         /// </summary>
-        bool IsReadOnly();
+        bool is_read_only();
 
         /// <summary>
         /// Error message if the data source is readonly,
@@ -256,7 +188,7 @@ namespace dc
         /// * ReadOnly flag is true; or
         /// * One of RevisedBefore or RevisedBeforeId is set
         /// </summary>
-        void CheckNotReadOnly();
+        void check_not_read_only();
 
         /// <summary>
         /// Return ObjectId for the latest dataset record with
@@ -274,7 +206,7 @@ namespace dc
         /// Error message if no matching dataSetID string is found
         /// or a delete marker is found instead.
         /// </summary>
-        ObjectId GetDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom);
+        ObjectId get_data_set_or_empty(dot::string data_set_id, ObjectId load_from);
 
         /// <summary>
         /// Save new version of the dataset.
@@ -285,7 +217,7 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        void SaveDataSet(DataSetData dataSetData, ObjectId saveTo);
+        void save_data_set(DataSetData data_set_data, ObjectId save_to);
 
         /// <summary>
         /// Load enumeration of record by query
@@ -302,7 +234,7 @@ namespace dc
         /// if no records are found or if delete marker is the first
         /// record.
         /// </summary>
-        virtual object_cursor_wrapper LoadByQuery(query query) = 0;
+        virtual object_cursor_wrapper load_by_query(query query) = 0;
 
         /// <summary>
         /// Returns enumeration of parent datasets for specified dataset data,
@@ -317,7 +249,62 @@ namespace dc
         /// than RevisionTimeConstraint, or their parents (even if the parents
         /// are earlier than the constraint)
         /// </summary>
-        dot::list<ObjectId> GetDataSetLookupList(ObjectId loadFrom);
+        dot::HashSet<ObjectId> get_data_set_lookup_list(ObjectId load_from);
+
+    public: // METHODS
+
+        /// <summary>
+        /// Return ObjectId of the latest Common dataset.
+        ///
+        /// Common dataset is always stored in root dataset.
+        /// </summary>
+        ObjectId get_common();
+
+        /// <summary>
+        /// Return ObjectId for the latest dataset record with
+        /// matching dataSetID string from in-memory cache. Try
+        /// loading from storage only if not found in cache.
+        ///
+        /// Error message if not found.
+        ///
+        /// This method will return the value from in-memory
+        /// cache even if it is no longer the latest version
+        /// in the data store and will only load it from storage
+        /// if not found in cache. Use LoadDataSet method to
+        /// force reloading the dataset from storage.
+        /// </summary>
+        ObjectId get_data_set(dot::string data_set_id, ObjectId load_from);
+
+        /// <summary>
+        /// Create new version of the dataset with the specified dataSetID.
+        ///
+        /// This method updates in-memory cache to the saved dataset.
+        /// </summary>
+        ObjectId create_data_set(dot::string data_set_id, ObjectId save_to);
+
+        /// <summary>
+        /// Create new version of the dataset with the specified dataSetID
+        /// and parent dataset ObjectIds passed as an array, and return
+        /// the new ObjectId assigned to the saved dataset.
+        ///
+        /// This method updates in-memory cache to the saved dataset.
+        /// </summary>
+        ObjectId create_data_set(dot::string data_set_id, dot::list<ObjectId> parent_data_sets, ObjectId save_to);
+
+        /// <summary>
+        /// Create new version of the Common dataset. By convention,
+        /// the Common dataset has no parents and is the ultimate
+        /// parent of all dataset hierarchies, except for those
+        /// datasets that do not have any parents. The Common dataset
+        /// is always saved in root dataset.
+        ///
+        /// This method sets ID field of the argument to be the
+        /// new ObjectId assigned to the record when it is saved.
+        /// The timestamp of the new ObjectId is the current time.
+        ///
+        /// This method updates in-memory cache to the saved dataset.
+        /// </summary>
+        ObjectId create_common();
 
     protected: // PROTECTED
 
@@ -328,7 +315,7 @@ namespace dc
         /// This field is set based on either RevisedBefore and RevisedBeforeId
         /// elements that are alternates; only one of them can be specified.
         /// </summary>
-        dot::nullable<ObjectId> GetRevisionTimeConstraint();
+        dot::nullable<ObjectId> get_revision_time_constraint();
 
     private: // PRIVATE
 
@@ -347,7 +334,7 @@ namespace dc
         /// because it will return the value from in-memory
         /// cache when present.
         /// </summary>
-        ObjectId LoadDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom);
+        ObjectId load_data_set_or_empty(dot::string data_set_id, ObjectId load_from);
 
         /// <summary>
         /// Builds hashset of parent datasets for specified dataset data,
@@ -360,7 +347,7 @@ namespace dc
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
         /// </summary>
-        dot::HashSet<ObjectId> BuildDataSetLookupList(DataSetData dataSetData);
+        dot::HashSet<ObjectId> build_data_set_lookup_list(DataSetData data_set_data);
 
         /// <summary>
         /// Builds hashset of parent datasets for specified dataset data,
@@ -373,15 +360,86 @@ namespace dc
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
         /// </summary>
-        void BuildDataSetLookupList(DataSetData dataSetData, dot::HashSet<ObjectId> result);
+        void build_data_set_lookup_list(DataSetData data_set_data, dot::HashSet<ObjectId> result);
 
-        dot::string ToString() { return getKey(); }
+        dot::string to_string() { return getKey(); }
+
+    private: // FIELDS
+
+        /// <summary>Dictionary of dataset ObjectIds stored under string dataSetID.</summary>
+        dot::dictionary<dot::string, ObjectId> data_set_dict_ = dot::make_dictionary<dot::string, ObjectId>();
+
+        /// <summary>
+        /// Dictionary of the expanded list of parent ObjectIds of dataset, including
+        /// parents of parents to unlimited depth with cyclic references and duplicates
+        /// removed, under ObjectId of the dataset.</summary>
+        dot::dictionary<ObjectId, dot::HashSet<ObjectId>> data_set_parent_dict_ = dot::make_dictionary<ObjectId, dot::HashSet<ObjectId>>();
+
+    public: // PROPERTIES
+
+        /// <summary>
+        /// This class enforces strict naming conventions
+        /// for database naming. While format of the resulting database
+        /// name is specific to data store type, it always consists
+        /// of three tokens: InstanceType, InstanceName, and EnvName.
+        /// The meaning of InstanceName and EnvName tokens depends on
+        /// the value of InstanceType enumeration.
+        /// </summary>
+        DbNameKey db_name;
+
+        /// <summary>
+        /// Identifies the database server used by this data source.
+        /// </summary>
+        DbServerKey db_server;
+
+        /// <summary>
+        /// Use this flag to mark dataset as readonly, but use either
+        /// IsReadOnly() or CheckNotReadonly() method to determine the
+        /// readonly status because the dataset may be readonly for
+        /// two reasons:
+        ///
+        /// * ReadOnly flag is true; or
+        /// * One of RevisedBefore or RevisedBeforeId is set
+        /// </summary>
+        bool read_only;
+
+        /// <summary>
+        /// The data source will return records revised strictly before
+        /// the specified datetime in UTC timezone. The filter works
+        /// by comparing the timestep component of the record's _id with
+        /// the value of this element.
+        ///
+        /// The value of this element must fall precisely on the second,
+        /// error message otherwise.
+        ///
+        /// RevisedBefore and RevisedBeforeId elements are alternates;
+        /// they cannot be specified at the same time.
+        ///
+        /// If either RevisedBefore or RevisedBeforeId is specified, the
+        /// data source is readonly and its IsReadOnly() method returns true.
+        /// </summary>
+        dot::nullable<dot::local_date_time> revised_before;
+
+        /// <summary>
+        /// The data source will return records for which _id is strictly
+        /// less than the specified ObjectId.
+        ///
+        /// RevisedBefore and RevisedBeforeId elements are alternates;
+        /// they cannot be specified at the same time.
+        ///
+        /// If either RevisedBefore or RevisedBeforeId is specified, the
+        /// data source is readonly and its IsReadOnly() method returns true.
+        /// </summary>
+        dot::nullable<ObjectId> revised_before_id;
+
+        /// <summary>Unique data source identifier.</summary>
+        dot::string data_source_id;
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DataSourceData")
-            DOT_TYPE_PROP(DataSourceID)
-            DOT_TYPE_PROP(DbName)
-            DOT_TYPE_PROP(DbServer)
-            DOT_TYPE_BASE(RootRecordFor<DataSourceKeyImpl, DataSourceDataImpl>)
+            DOT_TYPE_PROP(data_source_id)
+            DOT_TYPE_PROP(db_name)
+            DOT_TYPE_PROP(db_server)
+            DOT_TYPE_BASE(RootRecordFor<data_source_key_impl, data_source_data_impl>)
         DOT_TYPE_END()
     };
 }

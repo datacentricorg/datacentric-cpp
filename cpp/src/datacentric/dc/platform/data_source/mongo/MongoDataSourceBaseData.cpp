@@ -32,7 +32,7 @@ namespace dc
         static mongocxx::instance instance{};
 
         // Initialize the base class
-        DataSourceDataImpl::Init(context);
+        data_source_data_impl::Init(context);
 
         // Configures serialization conventions for standard types
         if (DbName == nullptr) throw dot::new_Exception("DB key is null or empty.");

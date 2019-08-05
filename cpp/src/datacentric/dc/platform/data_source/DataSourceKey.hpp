@@ -24,8 +24,8 @@ limitations under the License.
 
 namespace dc
 {
-    class DataSourceKeyImpl; using DataSourceKey = dot::ptr<DataSourceKeyImpl>;
-    class DataSourceDataImpl; using DataSourceData = dot::ptr<DataSourceDataImpl>;
+    class data_source_key_impl; using data_source_key = dot::ptr<data_source_key_impl>;
+    class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
 
     /// <summary>
     /// Data source is a logical concept similar to database
@@ -40,36 +40,36 @@ namespace dc
     ///
     /// This record is stored in root dataset.
     /// </summary>
-    class DC_CLASS DataSourceKeyImpl : public RootKeyForImpl<DataSourceKeyImpl, DataSourceDataImpl>
+    class DC_CLASS data_source_key_impl : public RootKeyForImpl<data_source_key_impl, data_source_data_impl>
     {
-        typedef DataSourceKeyImpl self;
+        typedef data_source_key_impl self;
 
     public: // PROPERTIES
 
         /// <summary>Unique data source identifier.</summary>
-        dot::string DataSourceID;
+        dot::string data_source_id;
 
     public: // STATIC
 
         /// <summary>
         /// By convention, Cache is the name of the Operational Data Store (ODS).
         /// </summary>
-        static DataSourceKey Cache;
+        static data_source_key cache;
 
         /// <summary>
         /// By convention, Master is the name of the Master Data Store (MDS).
         /// </summary>
-        static DataSourceKey Master;
+        static data_source_key master;
 
     public: // CONSTRUCTORS
 
-        DataSourceKeyImpl() = default;
+        data_source_key_impl() = default;
 
-        DataSourceKeyImpl(dot::string value);
+        data_source_key_impl(dot::string value);
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DataSourceKey")
-            DOT_TYPE_PROP(DataSourceID)
-            DOT_TYPE_BASE(RootKeyFor<DataSourceKeyImpl, DataSourceDataImpl>)
+            DOT_TYPE_PROP(data_source_id)
+            DOT_TYPE_BASE(RootKeyFor<data_source_key_impl, data_source_data_impl>)
         DOT_TYPE_END()
     };
 }

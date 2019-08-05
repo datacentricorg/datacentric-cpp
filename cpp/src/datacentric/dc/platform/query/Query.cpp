@@ -28,7 +28,7 @@ namespace dc
 
     object_cursor_wrapper query_impl::get_cursor()
     {
-        return data_source_->LoadByQuery(this);
+        return data_source_->load_by_query(this);
     }
 
     query query_impl::sort_by(dot::field_info key_selector)
@@ -47,7 +47,7 @@ namespace dc
     {
         this->element_type_ = element_type;
         this->select_ = props;
-        return data_source_->LoadByQuery(this);
+        return data_source_->load_by_query(this);
     }
 
 }

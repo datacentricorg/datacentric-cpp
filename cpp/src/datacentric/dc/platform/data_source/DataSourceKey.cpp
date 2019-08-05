@@ -20,12 +20,12 @@ limitations under the License.
 
 namespace dc
 {
-    DataSourceKey DataSourceKeyImpl::Cache = new DataSourceKeyImpl("Cache");
+    data_source_key data_source_key_impl::cache = new data_source_key_impl("Cache");
 
-    DataSourceKey DataSourceKeyImpl::Master = new DataSourceKeyImpl("Master");
+    data_source_key data_source_key_impl::master = new data_source_key_impl("Master");
 
-    DataSourceKeyImpl::DataSourceKeyImpl(dot::string value)
+    data_source_key_impl::data_source_key_impl(dot::string value)
     {
-        DataSourceID = value;
+        data_source_id = value;
     }
 }
