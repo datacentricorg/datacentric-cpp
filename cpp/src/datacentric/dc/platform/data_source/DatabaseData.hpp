@@ -24,23 +24,23 @@ limitations under the License.
 
 namespace dc
 {
-    class DbNameKeyImpl; using DbNameKey = dot::ptr<DbNameKeyImpl>;
-    class DbNameDataImpl; using DbNameData = dot::ptr<DbNameDataImpl>;
+    class db_name_key_impl; using db_name_key = dot::ptr<db_name_key_impl>;
+    class db_name_data_impl; using db_name_data = dot::ptr<db_name_data_impl>;
 
     /// <summary>
     /// This class enforces strict naming conventions
     /// for database naming. While format of the resulting database
     /// name is specific to data store type, it always consists
-    /// of three tokens: InstanceType, InstanceName, and EnvName.
-    /// The meaning of InstanceName and EnvName tokens depends on
-    /// the value of InstanceType enumeration.
+    /// of three tokens: instance_type, instance_name, and env_name.
+    /// The meaning of instance_name and env_name tokens depends on
+    /// the value of instance_type enumeration.
     ///
     /// This record is stored in root dataset.
     /// </summary>
-    class DC_CLASS DbNameDataImpl : public RootRecordForImpl<DbNameKeyImpl, DbNameDataImpl>
+    class DC_CLASS db_name_data_impl : public root_record_for_impl<db_name_key_impl, db_name_data_impl>
     {
-        typedef DbNameDataImpl self;
-        typedef InstanceType InstanceType_; // TODO Make class name and field name different
+        typedef db_name_data_impl self;
+        typedef instance_type instance_type_; // TODO Make class name and field name different
 
     public: // PROPERTIES
 
@@ -49,7 +49,7 @@ namespace dc
         ///
         /// Some API functions are restricted based on the instance type.
         /// </summary>
-        InstanceType_ InstanceType;
+        instance_type_ instance_type;
 
         /// <summary>
         /// The meaning of instance name depends on the instance type.
@@ -67,7 +67,7 @@ namespace dc
         /// the unit test class (test fixture).
         /// \end{itemize}
         /// </summary>
-        dot::string InstanceName;
+        dot::string instance_name;
 
         /// <summary>
         /// The meaning of environment name depends on the instance type.
@@ -81,12 +81,12 @@ namespace dc
         /// For TEST instance type, it is the test method name.
         /// \end{itemize}
         /// </summary>
-        dot::string EnvName;
+        dot::string env_name;
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DbNameData")
-            DOT_TYPE_PROP(InstanceType)
-            DOT_TYPE_PROP(InstanceName)
-            DOT_TYPE_PROP(EnvName)
+            DOT_TYPE_PROP(instance_type)
+            DOT_TYPE_PROP(instance_name)
+            DOT_TYPE_PROP(env_name)
         DOT_TYPE_END()
 
     };
