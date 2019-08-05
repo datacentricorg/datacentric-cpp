@@ -14,12 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/implement.hpp>
-#include <dc/types/local_date_time/local_date_time.hpp>
+#include <dot/precompiled.hpp>
+#include <dot/implement.hpp>
+#include <dot/noda_time/local_date_time_util.hpp>
 #include <dot/system/exception.hpp>
 #include <dot/system/string.hpp>
 
-namespace dc
+namespace dot
 {
     dot::local_date_time local_date_time_util::Parse(dot::string value)
     {
@@ -42,8 +43,8 @@ namespace dc
     int64_t local_date_time_util::ToIsoLong(dot::local_date_time value)
     {
         // local_date_time is serialized as readable ISO int64 in yyyymmddhhmmsssss format
-        int isoDate = value.getYear() * 10'000 + value.getMonth() * 100 + value.getDay();
-        int isoTime = value.getHour() * 100'00'000 + value.getMinute() * 100'000 + value.getSecond() * 1000 + value.getMillisecond();
+        int isoDate = value.year() * 10'000 + value.month() * 100 + value.day();
+        int isoTime = value.hour() * 100'00'000 + value.minute() * 100'000 + value.second() * 1000 + value.millisecond();
         int64_t result = ((int64_t)isoDate) * 100'00'00'000 + (int64_t)isoTime;
         return result;
     }

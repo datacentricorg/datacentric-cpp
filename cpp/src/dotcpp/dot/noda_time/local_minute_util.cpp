@@ -14,12 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/implement.hpp>
-#include <dc/types/local_minute/local_minute.hpp>
+#include <dot/precompiled.hpp>
+#include <dot/implement.hpp>
+#include <dot/noda_time/local_minute_util.hpp>
 #include <dot/system/exception.hpp>
 #include <dot/system/string.hpp>
+#include <boost/date_time/posix_time/ptime.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
-namespace dc
+namespace dot
 {
     dot::local_minute local_minute_util::Parse(dot::string value)
     {
@@ -43,7 +46,7 @@ namespace dc
     int local_minute_util::ToIsoInt(dot::local_minute value)
     {
         // Serialized to one minute precision in ISO 8601 4 digit int hhmm format
-        int result = value.hour * 100 + value.minute;
+        int result = value.hour() * 100 + value.minute();
         return result;
     }
 

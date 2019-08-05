@@ -26,10 +26,10 @@ limitations under the License.
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_minute.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-#include <dc/types/local_date/local_date.hpp>
-#include <dc/types/local_time/local_time.hpp>
-#include <dc/types/local_minute/local_minute.hpp>
-#include <dc/types/local_date_time/local_date_time.hpp>
+#include <dot/noda_time/local_date_util.hpp>
+#include <dot/noda_time/local_time_util.hpp>
+#include <dot/noda_time/local_minute_util.hpp>
+#include <dot/noda_time/local_date_time_util.hpp>
 #include <dc/platform/data_source/mongo/ObjectId.hpp>
 
 #include <bsoncxx/json.hpp>

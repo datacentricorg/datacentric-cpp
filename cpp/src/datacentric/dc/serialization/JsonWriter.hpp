@@ -104,7 +104,7 @@ namespace dc
 
         /// <summary>Convert to JSON string without checking that JSON document is complete.
         /// This permits the use of this method to inspect the JSON content during creation.</summary>
-        dot::string ToString() override;
+        dot::string to_string() override;
     };
 
     inline JsonWriter new_JsonWriter() { return new JsonWriterImpl; }

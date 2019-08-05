@@ -14,12 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/implement.hpp>
-#include <dc/types/local_time/local_time.hpp>
+#include <dot/precompiled.hpp>
+#include <dot/implement.hpp>
+#include <dot/noda_time/local_time_util.hpp>
 #include <dot/system/exception.hpp>
 #include <dot/system/string.hpp>
 
-namespace dc
+namespace dot
 {
     dot::local_time local_time_util::Parse(dot::string value)
     {
@@ -42,7 +43,7 @@ namespace dc
     int local_time_util::ToIsoInt(dot::local_time value)
     {
         // local_time is serialized to millisecond precision in ISO 8601 9 digit int hhmmssfff format
-        int result = value.getHour() * 100'00'000 + value.getMinute() * 100'000 + value.getSecond() * 1000 + value.getMillisecond();
+        int result = value.hour() * 100'00'000 + value.minute() * 100'000 + value.second() * 1000 + value.millisecond();
         return result;
     }
 

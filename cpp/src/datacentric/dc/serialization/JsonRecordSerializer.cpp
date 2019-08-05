@@ -19,13 +19,12 @@ limitations under the License.
 #include <dc/serialization/JsonWriter.hpp>
 #include <dc/serialization/DataWriter.hpp>
 #include <dc/serialization/TupleWriter.hpp>
-#include <dc/types/local_date/local_date.hpp>
-#include <dc/types/local_time/local_time.hpp>
-#include <dc/types/local_date_time/local_date_time.hpp>
+#include <dot/noda_time/local_date_util.hpp>
+#include <dot/noda_time/local_time_util.hpp>
+#include <dot/noda_time/local_date_time_util.hpp>
 #include <dot/system/array.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/object.hpp>
-#include <dot/system/collections/IObjectEnumerable.hpp>
 #include <dot/system/type.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_date.hpp>
@@ -38,7 +37,7 @@ namespace dc
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = doc["_t"].GetString();
-        Data result = (Data)dot::activator::CreateInstance("", typeName);
+        Data result = (Data)dot::activator::create_instance("", typeName);
         ITreeWriter writer = new_DataWriter(result);
 
         writer->WriteStartDocument(typeName);
@@ -51,7 +50,7 @@ namespace dc
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = tupleType->name;
-        dot::object result = dot::activator::CreateInstance(tupleType);
+        dot::object result = dot::activator::create_instance(tupleType);
         ITreeWriter writer = new_TupleWriter(result, props);
 
         writer->WriteStartDocument(typeName);
@@ -210,7 +209,7 @@ namespace dc
     void JsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
     {
         // Root name is written in JSON as _t element
-        dot::string rootName = value->type()->getFullName();
+        dot::string rootName = value->type()->full_name();
 
         writer->WriteStartDocument(rootName);
         value->SerializeTo(writer);

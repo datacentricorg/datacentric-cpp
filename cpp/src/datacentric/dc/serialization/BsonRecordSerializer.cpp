@@ -27,7 +27,7 @@ limitations under the License.
 #include <dc/serialization/DataWriter.hpp>
 #include <dc/serialization/TupleWriter.hpp>
 #include <dot/system/reflection/activator.hpp>
-#include <dc/types/local_date_time/local_date_time.hpp>
+#include <dot/noda_time/local_date_time_util.hpp>
 
 namespace dc
 {

@@ -66,10 +66,6 @@
     <ClCompile Include="settings\SettingsKey.cpp" />
     <ClCompile Include="settings\SystemSettingsData.cpp" />
     <ClCompile Include="settings\SystemSettingsKey.cpp" />
-    <ClCompile Include="types\local_date_time\local_date_time.cpp" />
-    <ClCompile Include="types\local_date\local_date.cpp" />
-    <ClCompile Include="types\local_minute\local_minute.cpp" />
-    <ClCompile Include="types\local_time\local_time.cpp" />
     <ClCompile Include="types\record\CachedRecord.cpp" />
     <ClCompile Include="types\record\DataType.cpp" />
     <ClCompile Include="types\record\DeleteMarker.cpp" />
@@ -149,8 +145,6 @@
     <ClInclude Include="settings\SettingsKey.hpp" />
     <ClInclude Include="settings\SystemSettingsData.hpp" />
     <ClInclude Include="settings\SystemSettingsKey.hpp" />
-    <ClInclude Include="types\local_date\local_date.hpp" />
-    <ClInclude Include="types\local_date_time\local_date_time.hpp" />
     <ClInclude Include="types\double\Double.hpp" />
     <ClInclude Include="types\record\CachedRecord.hpp" />
     <ClInclude Include="types\record\DeleteMarker.hpp" />
@@ -159,8 +153,6 @@
     <ClInclude Include="types\record\RootKeyFor.hpp" />
     <ClInclude Include="types\record\RootRecordFor.hpp" />
     <ClInclude Include="types\record\IKeyFor.hpp" />
-    <ClInclude Include="types\local_minute\local_minute.hpp" />
-    <ClInclude Include="types\local_time\local_time.hpp" />
     <ClInclude Include="types\enum\Flag.hpp" />
     <ClInclude Include="types\record\DataType.hpp" />
     <ClInclude Include="types\record\KeyType.hpp" />

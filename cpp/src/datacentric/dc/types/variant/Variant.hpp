@@ -18,10 +18,10 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/types/record/ValueType.hpp>
-#include <dc/types/local_date/local_date.hpp>
-#include <dc/types/local_time/local_time.hpp>
-#include <dc/types/local_minute/local_minute.hpp>
-#include <dc/types/local_date_time/local_date_time.hpp>
+#include <dot/noda_time/local_date_util.hpp>
+#include <dot/noda_time/local_time_util.hpp>
+#include <dot/noda_time/local_minute_util.hpp>
+#include <dot/noda_time/local_date_time_util.hpp>
 #include <dot/system/Enum.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/string.hpp>

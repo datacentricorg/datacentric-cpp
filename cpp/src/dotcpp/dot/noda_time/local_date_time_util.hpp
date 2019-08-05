@@ -16,13 +16,13 @@ limitations under the License.
 
 #pragma once
 
-#include <dc/declare.hpp>
+#include <dot/declare.hpp>
 #include <dot/noda_time/local_date_time.hpp>
 #include <chrono>
 
-namespace dc
+namespace dot
 {
-    class DC_CLASS local_date_time_util
+    class DOT_CLASS local_date_time_util
     {
     public: // STATIC
 

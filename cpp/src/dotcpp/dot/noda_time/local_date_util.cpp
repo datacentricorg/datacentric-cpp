@@ -14,12 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/implement.hpp>
-#include <dc/types/local_date/local_date.hpp>
+#include <dot/precompiled.hpp>
+#include <dot/implement.hpp>
+#include <dot/noda_time/local_date_util.hpp>
 #include <dot/system/exception.hpp>
 #include <dot/system/string.hpp>
 
-namespace dc
+namespace dot
 {
     dot::local_date local_date_util::Parse(dot::string value)
     {

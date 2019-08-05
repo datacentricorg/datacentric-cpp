@@ -16,10 +16,10 @@ limitations under the License.
 
 #include <dc/implement.hpp>
 #include <dc/serialization/TupleWriter.hpp>
-#include <dc/types/local_time/local_time.hpp>
-#include <dc/types/local_minute/local_minute.hpp>
-#include <dc/types/local_date/local_date.hpp>
-#include <dc/types/local_date_time/local_date_time.hpp>
+#include <dot/noda_time/local_time_util.hpp>
+#include <dot/noda_time/local_minute_util.hpp>
+#include <dot/noda_time/local_date_util.hpp>
+#include <dot/noda_time/local_date_time_util.hpp>
 #include <dc/types/record/KeyType.hpp>
 #include <dot/system/Enum.hpp>
 #include <dot/system/reflection/activator.hpp>
@@ -62,7 +62,7 @@ namespace dc
                     indexOfCurrent_ = i;
                     if (props_[i]->field_type->name->EndsWith("Data")) //! TODO change EndsWith
                     {
-                        Data result = (Data)dot::activator::CreateInstance(props_[i]->field_type);
+                        Data result = (Data)dot::activator::create_instance(props_[i]->field_type);
                         dataWriter_ = new_DataWriter(result);
                         dataWriter_->WriteStartDocument(props_[i]->field_type->name);
 
@@ -346,7 +346,7 @@ namespace dc
         {
             // We run out of value types at this point, now we can create
             // a reference type and check that it implements KeyType
-            dot::object keyObj = (KeyType)dot::activator::CreateInstance(elementType);
+            dot::object keyObj = (KeyType)dot::activator::create_instance(elementType);
             if (keyObj.is<KeyType>())
             {
                 KeyType key = (KeyType)keyObj;
