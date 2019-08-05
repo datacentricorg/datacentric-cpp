@@ -51,7 +51,7 @@ namespace dc
     };
 
     /// <summary>Save record with minimal data for testing how the records are found. </summary>
-    ObjectId SaveMinimalRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::Nullable<int> version = dot::Nullable<int>())
+    ObjectId SaveMinimalRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::nullable<int> version = dot::nullable<int>())
     {
         MongoTestData rec = new_MongoTestData();
         rec->RecordID = recordID;
@@ -102,9 +102,9 @@ namespace dc
         // Double collections
         rec->ArrayOfDouble = dot::new_Array1D<double>({ 1.0, 2.0, 3.0 });
         rec->ListOfDouble = dot::new_List<double>({ 1.0, 2.0, 3.0 });
-        rec->ListOfNullableDouble = dot::new_List<dot::Nullable<double>>();
+        rec->ListOfNullableDouble = dot::new_List<dot::nullable<double>>();
         rec->ListOfNullableDouble->Add(10.0);
-        rec->ListOfNullableDouble->Add(dot::Nullable<double>());
+        rec->ListOfNullableDouble->Add(dot::nullable<double>());
         rec->ListOfNullableDouble->Add(30.0);
 
         // Data element
@@ -187,7 +187,7 @@ namespace dc
     {
         // Create datasets
         ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        dot::List<ObjectId> parents = dot::new_List<ObjectId>();
+        dot::list<ObjectId> parents = dot::new_List<ObjectId>();
         parents->Add(dataSetA);
 
         ObjectId dataSetB = context->CreateDataSet("B", parents, context->DataSet);
@@ -303,11 +303,11 @@ namespace dc
         // Create keys
         MongoTestKey keyA0 = new_MongoTestKey();
         keyA0->RecordID = "A";
-        keyA0->RecordIndex = dot::Nullable<int>(0);
+        keyA0->RecordIndex = dot::nullable<int>(0);
 
         MongoTestKey keyB0 = new_MongoTestKey();
         keyB0->RecordID = "B";
-        keyB0->RecordIndex = dot::Nullable<int>(0);
+        keyB0->RecordIndex = dot::nullable<int>(0);
 
         // Verify the result of loading records from datasets A and B
         VerifyLoad(context, ( KeyFor<MongoTestKeyImpl, MongoTestDataImpl>)keyA0, "A");
@@ -364,7 +364,7 @@ namespace dc
         SaveMinimalRecord(context, "A", "A", 2, 2);
         SaveMinimalRecord(context, "A", "B", 3, 2);
 
-        dot::List<dot::string> in_list = dot::new_List<dot::string>();
+        dot::list<dot::string> in_list = dot::new_List<dot::string>();
         in_list->Add("B");
 
         // Query for RecordID=B
@@ -403,11 +403,11 @@ namespace dc
         // Create keys
         MongoTestKey keyA0 = new MongoTestKeyImpl();
         keyA0->RecordID = "A";
-        keyA0->RecordIndex = dot::Nullable<int>(0);
+        keyA0->RecordIndex = dot::nullable<int>(0);
 
         MongoTestKey keyB0 = new MongoTestKeyImpl();
         keyB0->RecordID = "B";
-        keyB0->RecordIndex = dot::Nullable<int>(0);
+        keyB0->RecordIndex = dot::nullable<int>(0);
 
         // Verify the result of loading records from datasets A and B
         received << "Initial load" << std::endl;
@@ -481,11 +481,11 @@ namespace dc
         // Create keys
         MongoTestKey keyA0 = new_MongoTestKey();
         keyA0->RecordID = "A";
-        keyA0->RecordIndex = dot::Nullable<int>(0);
+        keyA0->RecordIndex = dot::nullable<int>(0);
 
         MongoTestKey keyB0 = new_MongoTestKey();
         keyB0->RecordID = "B";
-        keyB0->RecordIndex = dot::Nullable<int>(0);
+        keyB0->RecordIndex = dot::nullable<int>(0);
 
         // Verify the result of loading records from datasets A and B
         received << "Initial load" << std::endl;
@@ -547,7 +547,7 @@ namespace dc
 
         MongoTestKey key = new_MongoTestKey();
         key->RecordID = "BB";
-        key->RecordIndex = dot::Nullable<int>(2);
+        key->RecordIndex = dot::nullable<int>(2);
 
         dot::IEnumerable<MongoTestDerivedData> testQuery = context->DataSource->GetQuery<MongoTestDerivedData>(dataSetB)
             ->Where(make_prop(&MongoTestDerivedDataImpl::DataElementList)[0]->*make_prop(&ElementSampleDataImpl::DoubleElement3) == 1.0)
@@ -591,28 +591,28 @@ namespace dc
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "A";
-            key->RecordIndex = dot::Nullable<int>(0);
+            key->RecordIndex = dot::nullable<int>(0);
             record_type obj = key->LoadOrNull(context, dataSetD);
             received << *dot::string::format("    Key={0} Type={1}", obj->getKey(), obj->type()->name) << std::endl;
         }
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "B";
-            key->RecordIndex = dot::Nullable<int>(0);
+            key->RecordIndex = dot::nullable<int>(0);
             record_type obj = key->LoadOrNull(context, dataSetD);
             received << *dot::string::format("    Key={0} Type={1}", obj->getKey(), obj->type()->name) << std::endl;
         }
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "C";
-            key->RecordIndex = dot::Nullable<int>(0);
+            key->RecordIndex = dot::nullable<int>(0);
             record_type obj = key->LoadOrNull(context, dataSetD);
             received << *dot::string::format("    Key={0} Type={1}", obj->getKey(), obj->type()->name) << std::endl;
         }
         {
             MongoTestKey key = new_MongoTestKey();
             key->RecordID = "D";
-            key->RecordIndex = dot::Nullable<int>(0);
+            key->RecordIndex = dot::nullable<int>(0);
             record_type obj = key->LoadOrNull(context, dataSetD);
             received << *dot::string::format("    Key={0} Type={1}", obj->getKey(), obj->type()->name) << std::endl;
         }
@@ -723,12 +723,12 @@ namespace dc
         {
             MongoTestKey loadedA0Key = new_MongoTestKey();
             loadedA0Key->RecordID = "A";
-            loadedA0Key->RecordIndex = dot::Nullable<int>(0);
+            loadedA0Key->RecordIndex = dot::nullable<int>(0);
             MongoTestData loadedA0 = loadedA0Key->LoadOrNull(context, dataSetB);
 
             MongoTestKey loadedC0Key = new_MongoTestKey();
             loadedC0Key->RecordID = "C";
-            loadedC0Key->RecordIndex = dot::Nullable<int>(0);
+            loadedC0Key->RecordIndex = dot::nullable<int>(0);
             MongoTestData loadedC0 = loadedC0Key->LoadOrNull(context, dataSetB);
 
             received << "Load records by string key without constraint" << std::endl;
@@ -769,12 +769,12 @@ namespace dc
         {
             MongoTestKey loadedA0Key = new_MongoTestKey();
             loadedA0Key->RecordID = "A";
-            loadedA0Key->RecordIndex = dot::Nullable<int>(0);
+            loadedA0Key->RecordIndex = dot::nullable<int>(0);
             MongoTestData loadedA0 = loadedA0Key->LoadOrNull(context, dataSetB);
 
             MongoTestKey loadedC0Key = new_MongoTestKey();
             loadedA0Key->RecordID = "C";
-            loadedA0Key->RecordIndex = dot::Nullable<int>(0);
+            loadedA0Key->RecordIndex = dot::nullable<int>(0);
             MongoTestData loadedC0 = loadedC0Key->LoadOrNull(context, dataSetB);
 
             received << "Load records by string key with RevisedBeforeId constraint" << std::endl;
@@ -800,7 +800,7 @@ namespace dc
         // Clear revision time constraint before exiting to avoid an error
         // about deleting readonly database. The error occurs because
         // revision time constraint makes the data source readonly.
-        context->DataSource->RevisedBeforeId = dot::Nullable<ObjectId>();
+        context->DataSource->RevisedBeforeId = dot::nullable<ObjectId>();
 
         std::string toVerify = received.str();
         received.str("");

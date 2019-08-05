@@ -114,8 +114,8 @@ namespace dc
     public:
 
         dot::string RecordID;
-        dot::List<double> DoubleList;
-        dot::Nullable<int> Version;
+        dot::list<double> DoubleList;
+        dot::nullable<int> Version;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "PerformanceTestData")
             DOT_TYPE_PROP(RecordID)

@@ -125,7 +125,7 @@ namespace dc
         wf->data = new_WorkflowData();
         wf->data->LDate = local_date(2005, 1, 1);
 
-        IObjectEnumerable en = (IObjectEnumerable)(List<WorkflowKey>)wf->Workflows;
+        IObjectEnumerable en = (IObjectEnumerable)(list<WorkflowKey>)wf->Workflows;
 
 
         dot::string str = wf->Workflows[0]->WorkflowID;
@@ -161,7 +161,7 @@ namespace dc
 
         WorkflowData wf2 = wf->LoadOrNull(context);
 
-        List<Data> wf3 = ds->LoadByQuery<WorkflowData>(make_prop(&WorkflowDataImpl::WorkflowID) != "ABCC"
+        list<Data> wf3 = ds->LoadByQuery<WorkflowData>(make_prop(&WorkflowDataImpl::WorkflowID) != "ABCC"
                                                         && make_prop(&WorkflowDataImpl::Workflow) ->* make_prop(&WorkflowKeyImpl::WorkflowID) == wf->Workflow->WorkflowID
                                                         && make_prop(&WorkflowDataImpl::LDate) == local_date(2005, 1, 1)
                                                         && make_prop(&WorkflowDataImpl::LTime) == local_time(12, 10, 20, 444)
@@ -169,7 +169,7 @@ namespace dc
                                                         && make_prop(&WorkflowDataImpl::dbl) == 0.
                                                         && make_prop(&WorkflowDataImpl::_id) < local_date_time(2005, 1, 1, 12, 10, 21)
             );
-        List<WorkflowData> wf4 = wf3.as<List<WorkflowData>>();
+        list<WorkflowData> wf4 = wf3.as<list<WorkflowData>>();
         WorkflowData wf5 = (WorkflowData)wf3[0];
 
         bool bb = wf5->LDateTime == local_date_time(2005, 1, 1, 12, 10, 20, 444);

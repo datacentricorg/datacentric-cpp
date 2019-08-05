@@ -57,7 +57,7 @@ namespace dc
     public:
 
         dot::string RecordID;
-        dot::Nullable<int> RecordIndex;
+        dot::nullable<int> RecordIndex;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestKey")
             DOT_TYPE_PROP(RecordID)
@@ -79,14 +79,14 @@ namespace dc
     public:
 
         dot::string RecordID;
-        dot::Nullable<int> RecordIndex;
-        dot::Nullable<double> DoubleElement;
-        dot::Nullable<dot::local_date> local_dateElement;
-        dot::Nullable<dot::local_time> local_timeElement;
-        dot::Nullable<dot::local_minute> local_minuteElement;
-        dot::Nullable<dot::local_date_time> local_date_timeElement;
+        dot::nullable<int> RecordIndex;
+        dot::nullable<double> DoubleElement;
+        dot::nullable<dot::local_date> local_dateElement;
+        dot::nullable<dot::local_time> local_timeElement;
+        dot::nullable<dot::local_minute> local_minuteElement;
+        dot::nullable<dot::local_date_time> local_date_timeElement;
         MongoTestEnum EnumValue;
-        dot::Nullable<int> Version;
+        dot::nullable<int> Version;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestData")
             DOT_TYPE_PROP(RecordID)
@@ -114,7 +114,7 @@ namespace dc
     {
         typedef ElementSampleDataImpl self;
     public:
-        dot::Nullable<double> DoubleElement3;
+        dot::nullable<double> DoubleElement3;
         dot::string StringElement3;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "ElementSampleData")
@@ -136,18 +136,18 @@ namespace dc
     {
         typedef MongoTestDerivedDataImpl self;
     public:
-        dot::Nullable<double> DoubleElement2;
+        dot::nullable<double> DoubleElement2;
         dot::string StringElement2;
         dot::array<dot::string> ArrayOfString;
-        dot::List<dot::string> ListOfString;
+        dot::list<dot::string> ListOfString;
         dot::array<double> ArrayOfDouble;
-        dot::array<dot::Nullable<double>> ArrayOfNullableDouble;
-        dot::List<double> ListOfDouble;
-        dot::List<dot::Nullable<double>> ListOfNullableDouble;
+        dot::array<dot::nullable<double>> ArrayOfNullableDouble;
+        dot::list<double> ListOfDouble;
+        dot::list<dot::nullable<double>> ListOfNullableDouble;
         ElementSampleData DataElement;
-        dot::List<ElementSampleData> DataElementList;
+        dot::list<ElementSampleData> DataElementList;
         MongoTestKey KeyElement;
-        dot::List<MongoTestKey> KeyElementList;
+        dot::list<MongoTestKey> KeyElementList;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestDerivedData")
             DOT_TYPE_PROP(DoubleElement2)
@@ -180,7 +180,7 @@ namespace dc
 
     public:
 
-        dot::Nullable<double> OtherDoubleElement2;
+        dot::nullable<double> OtherDoubleElement2;
         dot::string OtherStringElement2;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestOtherDerivedData")
@@ -204,7 +204,7 @@ namespace dc
 
     public:
 
-        dot::Nullable<double> OtherDoubleElement3;
+        dot::nullable<double> OtherDoubleElement3;
         dot::string OtherStringElement3;
 
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestDerivedFromDerivedData")
