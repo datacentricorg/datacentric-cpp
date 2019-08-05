@@ -20,7 +20,7 @@ limitations under the License.
 
 namespace dc
 {
-    dot::string ClassInfoImpl::ToString()
+    dot::string ClassInfoImpl::to_string()
     {
         return MappedFullName;
     }
@@ -32,11 +32,11 @@ namespace dc
 
     ClassInfo ClassInfoImpl::GetOrCreate(Type_ type)
     {
-        dot::Dictionary<Type_, ClassInfo> dict_ = ClassInfoImpl::GetTypeDict();
+        dot::dictionary<Type_, ClassInfo> dict_ = ClassInfoImpl::GetTypeDict();
         ClassInfo result;
 
         // Check if a cached instance exists in dictionary
-        if (dict_->TryGetValue(type, result))
+        if (dict_->try_get_value(type, result))
         {
             // Return if found
             return result;
@@ -45,7 +45,7 @@ namespace dc
         {
             // Otherwise create and add to dictionary
             result = new ClassInfoImpl(type);
-            dict_->Add(type, result);
+            dict_->add(type, result);
             return result;
         }
     }
@@ -54,17 +54,17 @@ namespace dc
     {
         // Set type, raw full name, class name, and namespace
         Type = type;
-        RawFullName = type->getFullName();
+        RawFullName = type->full_name();
         RawClassName = type->name;
-        RawNamespace = type->Namespace;
+        RawNamespace = type->name_space;
 
         // Remove ignored class name prefix
         MappedClassName = RawClassName;
         for (dot::string ignoredTypeNamePrefix : Settings::Default->getClassMap()->getIgnoredClassNamePrefixes())
         {
-            if (MappedClassName->StartsWith(ignoredTypeNamePrefix))
+            if (MappedClassName->starts_with(ignoredTypeNamePrefix))
             {
-                MappedClassName = MappedClassName->Remove(0, ignoredTypeNamePrefix->getLength());
+                MappedClassName = MappedClassName->remove(0, ignoredTypeNamePrefix->length());
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -74,9 +74,9 @@ namespace dc
         // Remove ignored class name suffix
         for (dot::string ignoredTypeNameSuffix : Settings::Default->getClassMap()->getIgnoredClassNameSuffixes())
         {
-            if (MappedClassName->EndsWith(ignoredTypeNameSuffix))
+            if (MappedClassName->ends_with(ignoredTypeNameSuffix))
             {
-                MappedClassName = MappedClassName->SubString(0, MappedClassName->getLength() - ignoredTypeNameSuffix->getLength());
+                MappedClassName = MappedClassName->substring(0, MappedClassName->length() - ignoredTypeNameSuffix->length());
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -87,9 +87,9 @@ namespace dc
         MappedNamespace = RawNamespace;
         for (dot::string ignoredModuleNamePrefix : Settings::Default->getClassMap()->getIgnoredNamespacePrefixes())
         {
-            if (MappedNamespace->StartsWith(ignoredModuleNamePrefix))
+            if (MappedNamespace->starts_with(ignoredModuleNamePrefix))
             {
-                MappedNamespace = MappedNamespace->Remove(0, ignoredModuleNamePrefix->getLength());
+                MappedNamespace = MappedNamespace->remove(0, ignoredModuleNamePrefix->length());
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -99,9 +99,9 @@ namespace dc
         // Remove ignored namespace suffix
         for (dot::string ignoredModuleNameSuffix : Settings::Default->getClassMap()->getIgnoredNamespaceSuffixes())
         {
-            if (MappedNamespace->EndsWith(ignoredModuleNameSuffix))
+            if (MappedNamespace->ends_with(ignoredModuleNameSuffix))
             {
-                MappedNamespace = MappedNamespace->SubString(0, MappedNamespace->getLength() - ignoredModuleNameSuffix->getLength());
+                MappedNamespace = MappedNamespace->substring(0, MappedNamespace->length() - ignoredModuleNameSuffix->length());
 
                 // Break to prevent more than one prefix removed
                 break;
@@ -112,9 +112,9 @@ namespace dc
         MappedFullName = MappedNamespace + dot::string(".") + MappedClassName;
     }
 
-    dot::Dictionary<dot::type_t, ClassInfo>& ClassInfoImpl::GetTypeDict()
+    dot::dictionary<dot::type_t, ClassInfo>& ClassInfoImpl::GetTypeDict()
     {
-        static dot::Dictionary<Type_, ClassInfo> dict_ = dot::new_Dictionary<Type_, ClassInfo>();
+        static dot::dictionary<Type_, ClassInfo> dict_ = dot::make_dictionary<Type_, ClassInfo>();
         return dict_;
     }
 }

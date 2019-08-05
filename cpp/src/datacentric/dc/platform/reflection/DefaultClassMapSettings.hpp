@@ -35,37 +35,37 @@ namespace dc
 
     public:
         /// <summary>Namespace prefixes including dot separators ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredNamespacePrefixes()
+        virtual dot::list<dot::string> getIgnoredNamespacePrefixes()
         {
             return IgnoredNamespacePrefixes;
         }
 
         /// <summary>Namespace suffixes including dot separators ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredNamespaceSuffixes()
+        virtual dot::list<dot::string> getIgnoredNamespaceSuffixes()
         {
             return IgnoredNamespaceSuffixes;
         }
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredClassNamePrefixes()
+        virtual dot::list<dot::string> getIgnoredClassNamePrefixes()
         {
             return IgnoredClassNamePrefixes;
         }
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredClassNameSuffixes()
+        virtual dot::list<dot::string> getIgnoredClassNameSuffixes()
         {
             return IgnoredClassNameSuffixes;
         }
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredMethodNamePrefixes()
+        virtual dot::list<dot::string> getIgnoredMethodNamePrefixes()
         {
             return IgnoredMethodNamePrefixes;
         }
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredMethodNameSuffixes()
+        virtual dot::list<dot::string> getIgnoredMethodNameSuffixes()
         {
             return IgnoredMethodNameSuffixes;
         }
@@ -73,33 +73,33 @@ namespace dc
     private: // PROPERTIES
 
         /// <summary>Namespace prefixes including dot separators ignored by class mapping.</summary>
-        dot::ICollection<dot::string> IgnoredNamespacePrefixes;
+        dot::list<dot::string> IgnoredNamespacePrefixes;
 
         /// <summary>Namespace suffixes including dot separators ignored by class mapping.</summary>
-        dot::ICollection<dot::string> IgnoredNamespaceSuffixes;
+        dot::list<dot::string> IgnoredNamespaceSuffixes;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        dot::ICollection<dot::string> IgnoredClassNamePrefixes;
+        dot::list<dot::string> IgnoredClassNamePrefixes;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        dot::ICollection<dot::string> IgnoredClassNameSuffixes;
+        dot::list<dot::string> IgnoredClassNameSuffixes;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        dot::ICollection<dot::string> IgnoredMethodNamePrefixes;
+        dot::list<dot::string> IgnoredMethodNamePrefixes;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        dot::ICollection<dot::string> IgnoredMethodNameSuffixes;
+        dot::list<dot::string> IgnoredMethodNameSuffixes;
 
     private: // CONSTRUCTORS
 
         DefaultClassMapSettingsImpl()
         {
-            IgnoredNamespacePrefixes = dot::new_List<dot::string>({ "." });
-            IgnoredNamespaceSuffixes = dot::new_List<dot::string>({ ".Api", ".Impl" });
-            IgnoredClassNamePrefixes = dot::new_List<dot::string>({ });
-            IgnoredClassNameSuffixes =  dot::new_List<dot::string>({ "Data", "Key" });
-            IgnoredMethodNamePrefixes = dot::new_List<dot::string>();
-            IgnoredMethodNameSuffixes = dot::new_List<dot::string>();
+            IgnoredNamespacePrefixes =  dot::make_list<dot::string>({ "." });
+            IgnoredNamespaceSuffixes =  dot::make_list<dot::string>({ ".Api", ".Impl" });
+            IgnoredClassNamePrefixes =  dot::make_list<dot::string>({ });
+            IgnoredClassNameSuffixes =  dot::make_list<dot::string>({ "Data", "Key" });
+            IgnoredMethodNamePrefixes = dot::make_list<dot::string>();
+            IgnoredMethodNameSuffixes = dot::make_list<dot::string>();
         }
     };
 

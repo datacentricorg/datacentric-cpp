@@ -19,7 +19,6 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/string.hpp>
-#include <dot/system/collections/generic/ICollection.hpp>
 
 namespace dc
 {
@@ -36,21 +35,21 @@ namespace dc
         //DOT_DECL_GET(ISettings, Settings) // pointer loop
 
         /// <summary>Namespace prefixes including dot separators ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredNamespacePrefixes() = 0;
+        virtual dot::list<dot::string> getIgnoredNamespacePrefixes() = 0;
 
         /// <summary>Namespace suffixes including dot separators ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredNamespaceSuffixes() = 0;
+        virtual dot::list<dot::string> getIgnoredNamespaceSuffixes() = 0;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredClassNamePrefixes() = 0;
+        virtual dot::list<dot::string> getIgnoredClassNamePrefixes() = 0;
 
         /// <summary>Class name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredClassNameSuffixes() = 0;
+        virtual dot::list<dot::string> getIgnoredClassNameSuffixes() = 0;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredMethodNamePrefixes() = 0;
+        virtual dot::list<dot::string> getIgnoredMethodNamePrefixes() = 0;
 
         /// <summary>Method name prefixes ignored by class mapping.</summary>
-        virtual dot::ICollection<dot::string> getIgnoredMethodNameSuffixes() = 0;
+        virtual dot::list<dot::string> getIgnoredMethodNameSuffixes() = 0;
     };
 }

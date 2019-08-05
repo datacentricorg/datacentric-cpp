@@ -57,7 +57,7 @@ namespace dc
     public: // METHODS
 
         /// <summary>Returns fully qualified class name.</summary>
-        virtual dot::string ToString() override;
+        virtual dot::string to_string() override;
 
     public: // STATIC
 
@@ -96,6 +96,6 @@ namespace dc
 
     private: // PRIVATE
 
-        static dot::Dictionary<Type_, ClassInfo>& GetTypeDict();
+        static dot::dictionary<Type_, ClassInfo>& GetTypeDict();
     };
 }
