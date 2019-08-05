@@ -16,7 +16,7 @@ limitations under the License.
 
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/mongo/ObjectId.hpp>
-#include <dc/types/record/RecordType.hpp>
+#include <dc/types/record/record_type.hpp>
 #include <dc/platform/data_source/DataSourceKey.hpp>
 #include <dc/types/record/CachedRecord.hpp>
 #include <dc/platform/context/IContext.hpp>
