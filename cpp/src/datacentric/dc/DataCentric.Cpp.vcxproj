@@ -11,8 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="platform\activator\ActivatorSettingsData.cpp" />
-    <ClCompile Include="platform\activator\ActivatorSettingsKey.cpp" />
     <ClCompile Include="platform\context\Context.cpp" />
     <ClCompile Include="platform\context\IContext.cpp" />
     <ClCompile Include="platform\dataset\DataSetData.cpp" />
@@ -68,15 +66,15 @@
     <ClCompile Include="settings\SettingsKey.cpp" />
     <ClCompile Include="settings\SystemSettingsData.cpp" />
     <ClCompile Include="settings\SystemSettingsKey.cpp" />
-    <ClCompile Include="types\local_date_time\LocalDateTime.cpp" />
-    <ClCompile Include="types\local_date\LocalDate.cpp" />
-    <ClCompile Include="types\local_minute\LocalMinute.cpp" />
-    <ClCompile Include="types\local_time\LocalTime.cpp" />
+    <ClCompile Include="types\local_date_time\local_date_time.cpp" />
+    <ClCompile Include="types\local_date\local_date.cpp" />
+    <ClCompile Include="types\local_minute\local_minute.cpp" />
+    <ClCompile Include="types\local_time\local_time.cpp" />
     <ClCompile Include="types\record\CachedRecord.cpp" />
     <ClCompile Include="types\record\DataType.cpp" />
     <ClCompile Include="types\record\DeleteMarker.cpp" />
     <ClCompile Include="types\record\KeyType.cpp" />
-    <ClCompile Include="types\record\RecordType.cpp" />
+    <ClCompile Include="types\record\record_type.cpp" />
     <ClCompile Include="types\variant\Variant.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -84,8 +82,6 @@
     <ClInclude Include="declare.hpp" />
     <ClInclude Include="implement.hpp" />
     <ClInclude Include="import.hpp" />
-    <ClInclude Include="platform\activator\ActivatorSettingsData.hpp" />
-    <ClInclude Include="platform\activator\ActivatorSettingsKey.hpp" />
     <ClInclude Include="platform\context\Context.hpp" />
     <ClInclude Include="platform\context\IContext.hpp" />
     <ClInclude Include="platform\cursor\CursorWrapper.hpp" />
@@ -153,8 +149,8 @@
     <ClInclude Include="settings\SettingsKey.hpp" />
     <ClInclude Include="settings\SystemSettingsData.hpp" />
     <ClInclude Include="settings\SystemSettingsKey.hpp" />
-    <ClInclude Include="types\local_date\LocalDate.hpp" />
-    <ClInclude Include="types\local_date_time\LocalDateTime.hpp" />
+    <ClInclude Include="types\local_date\local_date.hpp" />
+    <ClInclude Include="types\local_date_time\local_date_time.hpp" />
     <ClInclude Include="types\double\Double.hpp" />
     <ClInclude Include="types\record\CachedRecord.hpp" />
     <ClInclude Include="types\record\DeleteMarker.hpp" />
@@ -163,12 +159,12 @@
     <ClInclude Include="types\record\RootKeyFor.hpp" />
     <ClInclude Include="types\record\RootRecordFor.hpp" />
     <ClInclude Include="types\record\IKeyFor.hpp" />
-    <ClInclude Include="types\local_minute\LocalMinute.hpp" />
-    <ClInclude Include="types\local_time\LocalTime.hpp" />
+    <ClInclude Include="types\local_minute\local_minute.hpp" />
+    <ClInclude Include="types\local_time\local_time.hpp" />
     <ClInclude Include="types\enum\Flag.hpp" />
     <ClInclude Include="types\record\DataType.hpp" />
     <ClInclude Include="types\record\KeyType.hpp" />
-    <ClInclude Include="types\record\RecordType.hpp" />
+    <ClInclude Include="types\record\record_type.hpp" />
     <ClInclude Include="types\record\ValueType.hpp" />
     <ClInclude Include="types\variant\Variant.hpp" />
   </ItemGroup>
