@@ -18,8 +18,8 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/serialization/ITreeWriter.hpp>
-#include <dot/system/Ptr.hpp>
-#include <dot/system/collections/generic/List.hpp>
+#include <dot/system/ptr.hpp>
+#include <dot/system/collections/generic/list.hpp>
 #include <rapidjson/document.h>
 #include <rapidjson/writer.h>
 #include <rapidjson/stringbuffer.h>

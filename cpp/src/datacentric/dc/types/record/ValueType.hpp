@@ -42,16 +42,16 @@ namespace dc
         Long,
 
         /// <summary>Date without the time component (does not specify timezone).</summary>
-        LocalDate,
+        local_date,
 
         /// <summary>Time without the date component (does not specify timezone).</summary>
-        LocalTime,
+        local_time,
 
         /// <summary>Time without the date component to one minute resolution (does not specify timezone).</summary>
-        LocalMinute,
+        local_minute,
 
         /// <summary>Datetime (does not specify timezone).</summary>
-        LocalDateTime,
+        local_date_time,
 
         /// <summary>Enumeration.</summary>
         Enum

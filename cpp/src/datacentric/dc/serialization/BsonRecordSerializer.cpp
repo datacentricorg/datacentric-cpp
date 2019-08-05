@@ -15,20 +15,20 @@ limitations under the License.
 */
 
 #include <dc/implement.hpp>
-#include <dot/system/Array1D.hpp>
-#include <dot/system/String.hpp>
+#include <dot/system/array.hpp>
+#include <dot/system/string.hpp>
 #include <dc/serialization/BsonWriter.hpp>
-#include <dot/system/Object.hpp>
+#include <dot/system/object.hpp>
 #include <dot/system/collections/IObjectEnumerable.hpp>
-#include <dot/system/Type.hpp>
-#include <dot/noda_time/LocalDate.hpp>
-#include <dot/noda_time/LocalTime.hpp>
-#include <dot/noda_time/LocalDateTime.hpp>
+#include <dot/system/type.hpp>
+#include <dot/noda_time/local_date.hpp>
+#include <dot/noda_time/local_time.hpp>
+#include <dot/noda_time/local_date_time.hpp>
 #include <dc/serialization/BsonRecordSerializer.hpp>
 #include <dc/serialization/DataWriter.hpp>
 #include <dc/serialization/TupleWriter.hpp>
-#include <dot/system/reflection/Activator.hpp>
-#include <dc/types/local_date_time/LocalDateTime.hpp>
+#include <dot/system/reflection/activator.hpp>
+#include <dc/types/local_date_time/local_date_time.hpp>
 
 namespace dc
 {
@@ -36,7 +36,7 @@ namespace dc
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = doc["_t"].get_utf8().value.to_string();
-        Data result = (Data)dot::Activator::CreateInstance("", typeName);
+        Data result = (Data)dot::activator::CreateInstance("", typeName);
         ITreeWriter writer = new_DataWriter(result);
 
         writer->WriteStartDocument(typeName);
@@ -49,7 +49,7 @@ namespace dc
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = tupleType->name;
-        dot::object result = dot::Activator::CreateInstance(tupleType);
+        dot::object result = dot::activator::CreateInstance(tupleType);
         ITreeWriter writer = new_TupleWriter(result, props);
 
         writer->WriteStartDocument(typeName);
@@ -130,7 +130,7 @@ namespace dc
             else if (bsonType == bsoncxx::type::k_date)
             {
                 bsoncxx::types::b_date value = elem.get_date();
-                writer->WriteValueElement(elementName, LocalDateTimeHelper::FromStdChrono(value.value));
+                writer->WriteValueElement(elementName, local_date_time_util::FromStdChrono(value.value));
             }
             else if (bsonType == bsoncxx::type::k_document)
             {

@@ -15,13 +15,13 @@ limitations under the License.
 */
 
 #include <dc/implement.hpp>
-#include <dc/types/local_date_time/LocalDateTime.hpp>
-#include <dot/system/Exception.hpp>
-#include <dot/system/String.hpp>
+#include <dc/types/local_date_time/local_date_time.hpp>
+#include <dot/system/exception.hpp>
+#include <dot/system/string.hpp>
 
 namespace dc
 {
-    dot::local_date_time LocalDateTimeHelper::Parse(dot::string value)
+    dot::local_date_time local_date_time_util::Parse(dot::string value)
     {
         boost::posix_time::time_input_facet* facet = new boost::posix_time::time_input_facet();
         facet->format("%Y-%m-%d %H:%M:%S%f");
@@ -34,21 +34,21 @@ namespace dc
         // If default constructed datetime is passed, error message
         if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::format(
             "String representation of default constructed datetime {0} "
-            "passed to LocalDateTime.Parse(datetime) method.", value));
+            "passed to local_date_time.Parse(datetime) method.", value));
 
         return ptime;
     }
 
-    int64_t LocalDateTimeHelper::ToIsoLong(dot::local_date_time value)
+    int64_t local_date_time_util::ToIsoLong(dot::local_date_time value)
     {
-        // LocalDateTime is serialized as readable ISO int64 in yyyymmddhhmmsssss format
+        // local_date_time is serialized as readable ISO int64 in yyyymmddhhmmsssss format
         int isoDate = value.getYear() * 10'000 + value.getMonth() * 100 + value.getDay();
         int isoTime = value.getHour() * 100'00'000 + value.getMinute() * 100'000 + value.getSecond() * 1000 + value.getMillisecond();
         int64_t result = ((int64_t)isoDate) * 100'00'00'000 + (int64_t)isoTime;
         return result;
     }
 
-    dot::local_date_time LocalDateTimeHelper::ParseIsoLong(int64_t value)
+    dot::local_date_time local_date_time_util::ParseIsoLong(int64_t value)
     {
         // Split into date and time using int64 arithmetic
         int64_t isoDateLong = value / 100'00'00'000;
@@ -80,18 +80,18 @@ namespace dc
         isoTime -= second * 1000;
         int millisecond = isoTime;
 
-        // Create LocalDateTime object
+        // Create local_date_time object
         return dot::local_date_time(year, month, day, hour, minute, second, millisecond);
     }
 
-    std::chrono::milliseconds LocalDateTimeHelper::ToStdChrono(dot::local_date_time value)
+    std::chrono::milliseconds local_date_time_util::ToStdChrono(dot::local_date_time value)
     {
         boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
         boost::posix_time::time_duration d = (boost::posix_time::ptime)value - epoch;
         return std::chrono::milliseconds(d.total_milliseconds());
     }
 
-    dot::local_date_time LocalDateTimeHelper::FromStdChrono(std::chrono::milliseconds value)
+    dot::local_date_time local_date_time_util::FromStdChrono(std::chrono::milliseconds value)
     {
         boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
         boost::posix_time::time_duration d = boost::posix_time::milliseconds(value.count());

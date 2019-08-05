@@ -17,12 +17,12 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Double.hpp>
+#include <dot/system/double.hpp>
 
 namespace dc
 {
     /// <summary>Static helper class for Double.</summary>
-    class DoubleHelper
+    class double_util
     {
     public: // STATIC
 

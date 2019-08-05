@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Ptr.hpp>
+#include <dot/system/ptr.hpp>
 #include <bsoncxx/oid.hpp>
 
 namespace dc
@@ -51,7 +51,7 @@ namespace dc
 
         bool operator<(const ObjectId& rhs) const;
 
-        //LocalDateTime GetTimeStamp();
+        //local_date_time GetTimeStamp();
 
         static ObjectId GenerateNewId();
 

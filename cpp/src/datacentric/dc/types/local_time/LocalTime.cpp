@@ -15,13 +15,13 @@ limitations under the License.
 */
 
 #include <dc/implement.hpp>
-#include <dc/types/local_time/LocalTime.hpp>
-#include <dot/system/Exception.hpp>
-#include <dot/system/String.hpp>
+#include <dc/types/local_time/local_time.hpp>
+#include <dot/system/exception.hpp>
+#include <dot/system/string.hpp>
 
 namespace dc
 {
-    dot::local_time LocalTimeHelper::Parse(dot::string value)
+    dot::local_time local_time_util::Parse(dot::string value)
     {
         boost::posix_time::time_input_facet* facet = new boost::posix_time::time_input_facet();
         facet->format("%H:%M:%S%f");
@@ -34,19 +34,19 @@ namespace dc
         // If default constructed time is passed, error message
         if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::format(
             "String representation of default constructed time {0} "
-            "passed to LocalTime.Parse(time) method.", value));
+            "passed to local_time.Parse(time) method.", value));
 
         return ptime;
     }
 
-    int LocalTimeHelper::ToIsoInt(dot::local_time value)
+    int local_time_util::ToIsoInt(dot::local_time value)
     {
-        // LocalTime is serialized to millisecond precision in ISO 8601 9 digit int hhmmssfff format
+        // local_time is serialized to millisecond precision in ISO 8601 9 digit int hhmmssfff format
         int result = value.getHour() * 100'00'000 + value.getMinute() * 100'000 + value.getSecond() * 1000 + value.getMillisecond();
         return result;
     }
 
-    dot::local_time LocalTimeHelper::ParseIsoInt(int value)
+    dot::local_time local_time_util::ParseIsoInt(int value)
     {
         // Extract year, month, day
         int hour = value / 100'00'000;
@@ -57,7 +57,7 @@ namespace dc
         value -= second * 1000;
         int millisecond = value;
 
-        // Create new LocalTime object, validates values on input
+        // Create new local_time object, validates values on input
         return dot::local_time(hour, minute, second, millisecond);
     }
 }

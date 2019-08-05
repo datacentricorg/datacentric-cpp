@@ -39,8 +39,8 @@ namespace dc
             return ClassMap;
         }
 
-        /// <summary>Activator settings.</summary>
-        //IActivatorSettings Activator;
+        /// <summary>activator settings.</summary>
+        //IactivatorSettings activator;
 
         /// <summary>Locale settings.</summary>
         //ILocaleSettings Locale;

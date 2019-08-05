@@ -19,18 +19,18 @@ limitations under the License.
 #include <dc/serialization/JsonWriter.hpp>
 #include <dc/serialization/DataWriter.hpp>
 #include <dc/serialization/TupleWriter.hpp>
-#include <dc/types/local_date/LocalDate.hpp>
-#include <dc/types/local_time/LocalTime.hpp>
-#include <dc/types/local_date_time/LocalDateTime.hpp>
-#include <dot/system/Array1D.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Object.hpp>
+#include <dc/types/local_date/local_date.hpp>
+#include <dc/types/local_time/local_time.hpp>
+#include <dc/types/local_date_time/local_date_time.hpp>
+#include <dot/system/array.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/object.hpp>
 #include <dot/system/collections/IObjectEnumerable.hpp>
-#include <dot/system/Type.hpp>
-#include <dot/system/reflection/Activator.hpp>
-#include <dot/noda_time/LocalDate.hpp>
-#include <dot/noda_time/LocalTime.hpp>
-#include <dot/noda_time/LocalDateTime.hpp>
+#include <dot/system/type.hpp>
+#include <dot/system/reflection/activator.hpp>
+#include <dot/noda_time/local_date.hpp>
+#include <dot/noda_time/local_time.hpp>
+#include <dot/noda_time/local_date_time.hpp>
 
 namespace dc
 {
@@ -38,7 +38,7 @@ namespace dc
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = doc["_t"].GetString();
-        Data result = (Data)dot::Activator::CreateInstance("", typeName);
+        Data result = (Data)dot::activator::CreateInstance("", typeName);
         ITreeWriter writer = new_DataWriter(result);
 
         writer->WriteStartDocument(typeName);
@@ -51,7 +51,7 @@ namespace dc
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = tupleType->name;
-        dot::object result = dot::Activator::CreateInstance(tupleType);
+        dot::object result = dot::activator::CreateInstance(tupleType);
         ITreeWriter writer = new_TupleWriter(result, props);
 
         writer->WriteStartDocument(typeName);

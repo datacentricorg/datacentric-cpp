@@ -17,11 +17,11 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/noda_time/LocalDate.hpp>
+#include <dot/noda_time/local_date.hpp>
 
 namespace dc
 {
-    class DC_CLASS LocalDateHelper
+    class DC_CLASS local_date_util
     {
     public: // STATIC
 
@@ -30,7 +30,7 @@ namespace dc
         /// Specifically, ISO int-like string using yyyymmdd format without delimiters is not accepted.</summary>
         static dot::local_date Parse(dot::string value);
 
-        /// <summary>Convert LocalDate to to ISO 8601 8 digit int in yyyymmdd format.</summary>
+        /// <summary>Convert local_date to to ISO 8601 8 digit int in yyyymmdd format.</summary>
         static int ToIsoInt(dot::local_date value);
 
         /// <summary>Parse ISO 8601 8 digit int in yyyymmdd format, throw if invalid format.</summary>

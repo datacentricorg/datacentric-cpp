@@ -17,11 +17,11 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Ptr.hpp>
-#include <dot/system/Nullable.hpp>
+#include <dot/system/ptr.hpp>
+#include <dot/system/nullable.hpp>
 #include <dot/system/collections/generic/Dictionary.hpp>
 #include <dot/system/collections/generic/HashSet.hpp>
-#include <dot/system/collections/generic/List.hpp>
+#include <dot/system/collections/generic/list.hpp>
 #include <dc/types/record/RecordFor.hpp>
 #include <dc/platform/data_source/DatabaseKey.hpp>
 #include <dc/platform/data_source/DatabaseServerKey.hpp>

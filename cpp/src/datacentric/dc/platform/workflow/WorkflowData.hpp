@@ -55,13 +55,13 @@ namespace dc
         /// <summary>Phases are executed in the order of this list. Jobs whose phase is not included in this list are skipped.</summary>
         dot::List<PhaseKey> Phases;
 
-        /// <summary>LocalDate.</summary>
+        /// <summary>local_date.</summary>
         dot::local_date LDate;
 
-        /// <summary>LocalDate.</summary>
+        /// <summary>local_date.</summary>
         dot::local_time LTime;
 
-        /// <summary>LocalDate.</summary>
+        /// <summary>local_date.</summary>
         dot::local_date_time LDateTime;
 
         dot::Nullable<double> dbl;

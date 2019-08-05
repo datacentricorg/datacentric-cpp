@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/platform/reflection/IClassMapSettings.hpp>
-#include <dot/system/collections/generic/List.hpp>
+#include <dot/system/collections/generic/list.hpp>
 
 namespace dc
 {

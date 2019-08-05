@@ -16,8 +16,8 @@ limitations under the License.
 
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/mongo/ObjectId.hpp>
-#include <dot/system/String.hpp>
-#include <dot/noda_time/LocalDateTime.hpp>
+#include <dot/system/string.hpp>
+#include <dot/noda_time/local_date_time.hpp>
 
 namespace dc
 {
@@ -85,7 +85,7 @@ namespace dc
         return _id < rhs._id;
     }
 
-    //LocalDateTime ObjectId::GetTimeStamp()
+    //local_date_time ObjectId::GetTimeStamp()
     //{
     //    ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
     //    int64_t seconds;

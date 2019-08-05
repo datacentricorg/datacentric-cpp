@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/types/record/RecordFor.hpp>
-#include <dot/system/Object.hpp>
+#include <dot/system/object.hpp>
 #include <dc/types/record/KeyType.hpp>
 #include <dc/types/record/CachedRecord.hpp>
 //#include <dc/platform/data_source/mongo/ObjectId.hpp>

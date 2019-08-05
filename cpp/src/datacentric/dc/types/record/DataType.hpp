@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/platform/data_source/mongo/ObjectId.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/type.hpp>
 
 namespace dc
 {

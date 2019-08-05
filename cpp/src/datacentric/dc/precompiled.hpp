@@ -14,6 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dot/system/Object.hpp>
-#include <dot/system/Double.hpp>
+#include <dot/system/object.hpp>
+#include <dot/system/double.hpp>
 

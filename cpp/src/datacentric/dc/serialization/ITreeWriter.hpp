@@ -17,8 +17,8 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Ptr.hpp>
-#include <dot/system/ObjectImpl.hpp>
+#include <dot/system/ptr.hpp>
+#include <dot/system/object_impl.hpp>
 
 namespace dc
 {

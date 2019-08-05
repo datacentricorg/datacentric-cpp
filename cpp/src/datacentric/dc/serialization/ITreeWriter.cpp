@@ -16,8 +16,8 @@ limitations under the License.
 
 #include <dc/implement.hpp>
 #include <dc/serialization/ITreeWriter.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Object.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/object.hpp>
 #include <dot/system/collections/IObjectEnumerable.hpp>
 
 namespace dc

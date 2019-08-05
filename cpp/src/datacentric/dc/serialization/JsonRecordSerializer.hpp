@@ -17,9 +17,9 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Ptr.hpp>
+#include <dot/system/ptr.hpp>
 #include <dc/serialization/ITreeWriter.hpp>
-#include <dot/system/collections/generic/List.hpp>
+#include <dot/system/collections/generic/list.hpp>
 #include <dc/serialization/BsonWriter.hpp>
 
 #include <rapidjson/document.h>

@@ -17,8 +17,8 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Object.hpp>
-#include <dot/system/String.hpp>
+#include <dot/system/object.hpp>
+#include <dot/system/string.hpp>
 #include <dot/system/collections/generic/ICollection.hpp>
 
 namespace dc

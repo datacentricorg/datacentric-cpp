@@ -17,12 +17,12 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/noda_time/LocalDateTime.hpp>
+#include <dot/noda_time/local_date_time.hpp>
 #include <chrono>
 
 namespace dc
 {
-    class DC_CLASS LocalDateTimeHelper
+    class DC_CLASS local_date_time_util
     {
     public: // STATIC
 
@@ -31,16 +31,16 @@ namespace dc
         /// Specifically, ISO int-like string using yyyymmddhhmmssfff format without delimiters is not accepted.</summary>
         static dot::local_date_time Parse(dot::string value);
 
-        /// <summary>Convert LocalDateTime to ISO 8601 8 digit long in yyyymmddhhmmssfff format.</summary>
+        /// <summary>Convert local_date_time to ISO 8601 8 digit long in yyyymmddhhmmssfff format.</summary>
         static int64_t ToIsoLong(dot::local_date_time value);
 
         /// <summary>Parse ISO 8601 17 digit long in yyyymmddhhmmssfff format, throw if invalid format.</summary>
         static dot::local_date_time ParseIsoLong(int64_t value);
 
-        /// <summary>Convert LocalDateTime to std::chrono::milliseconds.</summary>
+        /// <summary>Convert local_date_time to std::chrono::milliseconds.</summary>
         static std::chrono::milliseconds ToStdChrono(dot::local_date_time value);
 
-        /// <summary>Convert std::chrono::milliseconds to LocalDateTime.</summary>
+        /// <summary>Convert std::chrono::milliseconds to local_date_time.</summary>
         static dot::local_date_time FromStdChrono(std::chrono::milliseconds value);
     };
 }

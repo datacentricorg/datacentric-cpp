@@ -17,7 +17,7 @@ limitations under the License.
 #include <dc/implement.hpp>
 #include <dc/types/record/DataType.hpp>
 #include <dc/serialization/ITreeWriter.hpp>
-#include <dot/system/reflection/Activator.hpp>
+#include <dot/system/reflection/activator.hpp>
 #include <dc/types/record/KeyType.hpp>
 
 

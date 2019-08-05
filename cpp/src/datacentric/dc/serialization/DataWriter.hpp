@@ -19,9 +19,9 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dc/serialization/ITreeWriter.hpp>
 #include <dc/types/record/DataType.hpp>
-#include <dot/system/Ptr.hpp>
-#include <dot/system/Type.hpp>
-#include <dot/system/collections/generic/List.hpp>
+#include <dot/system/ptr.hpp>
+#include <dot/system/type.hpp>
+#include <dot/system/collections/generic/list.hpp>
 #include <dot/system/collections/generic/Dictionary.hpp>
 #include <dot/system/reflection/field_info.hpp>
 #include <stack>

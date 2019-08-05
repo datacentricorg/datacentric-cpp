@@ -17,21 +17,21 @@ limitations under the License.
 #define RAPIDJSON_HAS_STDSTRING 1
 #include <dc/implement.hpp>
 #include <dc/serialization/JsonWriter.hpp>
-#include <dot/system/Array1D.hpp>
+#include <dot/system/array.hpp>
 #include <dot/system/Enum.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Object.hpp>
-#include <dot/system/Type.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/object.hpp>
+#include <dot/system/type.hpp>
 #include <dot/system/collections/IObjectEnumerable.hpp>
-#include <dot/noda_time/LocalDate.hpp>
-#include <dot/noda_time/LocalTime.hpp>
-#include <dot/noda_time/LocalMinute.hpp>
-#include <dot/noda_time/LocalDateTime.hpp>
+#include <dot/noda_time/local_date.hpp>
+#include <dot/noda_time/local_time.hpp>
+#include <dot/noda_time/local_minute.hpp>
+#include <dot/noda_time/local_date_time.hpp>
 #include <dc/platform/data_source/mongo/ObjectId.hpp>
-#include <dc/types/local_date/LocalDate.hpp>
-#include <dc/types/local_time/LocalTime.hpp>
-#include <dc/types/local_minute/LocalMinute.hpp>
-#include <dc/types/local_date_time/LocalDateTime.hpp>
+#include <dc/types/local_date/local_date.hpp>
+#include <dc/types/local_time/local_time.hpp>
+#include <dc/types/local_minute/local_minute.hpp>
+#include <dc/types/local_date_time/local_date_time.hpp>
 
 namespace dc
 {
@@ -274,16 +274,16 @@ namespace dc
             jsonWriter_.Int64((int64_t)value);
         else
         if (valueType->Equals(dot::typeof<dot::local_date>()))
-            jsonWriter_.Int(LocalDateHelper::ToIsoInt((dot::local_date)value));
+            jsonWriter_.Int(local_date_util::ToIsoInt((dot::local_date)value));
         else
         if (valueType->Equals(dot::typeof<dot::local_time>()))
-            jsonWriter_.Int(LocalTimeHelper::ToIsoInt((dot::local_time)value));
+            jsonWriter_.Int(local_time_util::ToIsoInt((dot::local_time)value));
         else
         if (valueType->Equals(dot::typeof<dot::local_minute>()))
-            jsonWriter_.Int(LocalMinuteHelper::ToIsoInt((dot::local_minute) value));
+            jsonWriter_.Int(local_minute_util::ToIsoInt((dot::local_minute) value));
         else
         if (valueType->Equals(dot::typeof<dot::local_date_time>()))
-            jsonWriter_.Int64(LocalDateTimeHelper::ToIsoLong((dot::local_date_time)value));
+            jsonWriter_.Int64(local_date_time_util::ToIsoLong((dot::local_date_time)value));
         else
         if (valueType->Equals(dot::typeof<ObjectId>()))
             jsonWriter_.String(*value->ToString());

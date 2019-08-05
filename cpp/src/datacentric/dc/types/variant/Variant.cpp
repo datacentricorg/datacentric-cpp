@@ -17,8 +17,8 @@ limitations under the License.
 #include <dc/implement.hpp>
 #include <dc/types/variant/Variant.hpp>
 #include <dc/types/double/Double.hpp>
-#include <dot/system/Exception.hpp>
-#include <dot/system/Nullable.hpp>
+#include <dot/system/exception.hpp>
+#include <dot/system/nullable.hpp>
 
 namespace dc
 {
@@ -106,7 +106,7 @@ namespace dc
         {
             // Perform comparison of doubles by function that uses numerical tolerance
             return otherValueType->Equals(dot::typeof<double>())
-                && DoubleHelper::Equal(value_, other.value_);
+                && double_util::Equal(value_, other.value_);
         }
         if (valueType->Equals(dot::typeof<bool>()))
         {
@@ -180,10 +180,10 @@ namespace dc
         case ValueType::Bool:             return Variant(dot::Bool::Parse(value));
         case ValueType::Int:              return Variant(dot::Int::Parse(value));
         case ValueType::Long:             return Variant(dot::Long::Parse(value));
-        case ValueType::LocalDate:        return Variant(LocalDateHelper::Parse(value));
-        case ValueType::LocalTime:        return Variant(LocalTimeHelper::Parse(value));
-        case ValueType::LocalMinute:      return Variant(LocalMinuteHelper::Parse(value));
-        case ValueType::LocalDateTime:    return Variant(LocalDateTimeHelper::Parse(value));
+        case ValueType::local_date:        return Variant(local_date_util::Parse(value));
+        case ValueType::local_time:        return Variant(local_time_util::Parse(value));
+        case ValueType::local_minute:      return Variant(local_minute_util::Parse(value));
+        case ValueType::local_date_time:    return Variant(local_date_time_util::Parse(value));
         case ValueType::Enum:
             throw dot::exception("Variant cannot be created as enum without specifying enum typename.");
         default:
@@ -196,7 +196,7 @@ namespace dc
     {
         return dot::string::format(
             "Variant cannot hold {0} type. Available types are "
-            "string, double, bool, int, long, LocalDate, LocalTime, LocalMinute, LocalDateTime, or Enum.",
+            "string, double, bool, int, long, local_date, local_time, local_minute, local_date_time, or Enum.",
             value->type());
     }
 }

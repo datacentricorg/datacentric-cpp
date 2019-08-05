@@ -16,17 +16,17 @@ limitations under the License.
 
 #include <dc/implement.hpp>
 #include <dc/serialization/DataWriter.hpp>
-#include <dc/types/local_time/LocalTime.hpp>
-#include <dc/types/local_minute/LocalMinute.hpp>
-#include <dc/types/local_date/LocalDate.hpp>
-#include <dc/types/local_date_time/LocalDateTime.hpp>
+#include <dc/types/local_time/local_time.hpp>
+#include <dc/types/local_minute/local_minute.hpp>
+#include <dc/types/local_date/local_date.hpp>
+#include <dc/types/local_date_time/local_date_time.hpp>
 #include <dc/types/record/KeyType.hpp>
 #include <dot/system/Enum.hpp>
-#include <dot/system/reflection/Activator.hpp>
-#include <dot/noda_time/LocalTime.hpp>
-#include <dot/noda_time/LocalMinute.hpp>
-#include <dot/noda_time/LocalDate.hpp>
-#include <dot/noda_time/LocalDateTime.hpp>
+#include <dot/system/reflection/activator.hpp>
+#include <dot/noda_time/local_time.hpp>
+#include <dot/noda_time/local_minute.hpp>
+#include <dot/noda_time/local_date.hpp>
+#include <dot/noda_time/local_date_time.hpp>
 
 namespace dc
 {
@@ -127,7 +127,7 @@ namespace dc
         else if (currentDict_ != nullptr) createdDictType = currentElementInfo_->field_type;
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
-        dot::object createdDictObj = dot::Activator::CreateInstance(createdDictType);
+        dot::object createdDictObj = dot::activator::CreateInstance(createdDictType);
         if (!(createdDictObj.is<Data>())) // TODO Also support native dictionaries
         {
             dot::string mappedClassName = currentElementInfo_->field_type->getFullName();
@@ -175,7 +175,7 @@ namespace dc
                 "A call to WriteStartArray() must follow WriteStartElement(...).");
 
         // Create the array
-        dot::object createdArrayObj = dot::Activator::CreateInstance(currentElementInfo_->field_type);
+        dot::object createdArrayObj = dot::activator::CreateInstance(currentElementInfo_->field_type);
         if (createdArrayObj.is<dot::IObjectCollection>()) // TODO Also support native arrays
         {
             dot::IObjectCollection createdArray = (dot::IObjectCollection) createdArrayObj;
@@ -238,12 +238,12 @@ namespace dc
         //else if (currentArrayItemType_ == dot::typeof<Nullable<int>>()) addedItem = nullptr;
         //else if (currentArrayItemType_ == dot::typeof<int64_t>()) addedItem = int64_t();
         //else if (currentArrayItemType_ == dot::typeof<Nullable<int64_t>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<LocalDate>()) addedItem = LocalDate();
-        //else if (currentArrayItemType_ == dot::typeof<Nullable<LocalDate>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<LocalTime>()) addedItem = LocalTime();
-        //else if (currentArrayItemType_ == dot::typeof<Nullable<LocalTime>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<LocalDateTime>()) addedItem = LocalDateTime();
-        //else if (currentArrayItemType_ == dot::typeof<Nullable<LocalDateTime>>()) addedItem = nullptr;
+        //else if (currentArrayItemType_ == dot::typeof<local_date>()) addedItem = local_date();
+        //else if (currentArrayItemType_ == dot::typeof<Nullable<local_date>>()) addedItem = nullptr;
+        //else if (currentArrayItemType_ == dot::typeof<local_time>()) addedItem = local_time();
+        //else if (currentArrayItemType_ == dot::typeof<Nullable<local_time>>()) addedItem = nullptr;
+        //else if (currentArrayItemType_ == dot::typeof<local_date_time>()) addedItem = local_date_time();
+        //else if (currentArrayItemType_ == dot::typeof<Nullable<local_date_time>>()) addedItem = nullptr;
         //else if (currentArrayItemType_->IsClass) addedItem = nullptr;
         //else throw dot::exception(dot::string::format("Value type {0} is not supported for serialization.", currentArrayItemType_->name));
 
@@ -354,17 +354,17 @@ namespace dc
             // Check type match
             if (valueType->Equals(dot::typeof<int>()))
             {
-                // Deserialize LocalDate as ISO int in yyyymmdd format
-                dateValue = LocalDateHelper::ParseIsoInt((int) value);
+                // Deserialize local_date as ISO int in yyyymmdd format
+                dateValue = local_date_util::ParseIsoInt((int) value);
             }
             else if (valueType->Equals(dot::typeof<int64_t>()))
             {
-                // Deserialize LocalDate as ISO int in yyyymmdd format
-                dateValue = LocalDateHelper::ParseIsoInt((int64_t) value);
+                // Deserialize local_date as ISO int in yyyymmdd format
+                dateValue = local_date_util::ParseIsoInt((int64_t) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-                    "into LocalDate; type should be int32.");
+                    "into local_date; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (currentArray_ != nullptr) currentArray_->ObjectAdd(dateValue);
@@ -378,17 +378,17 @@ namespace dc
             // Check type match
             if (valueType->Equals(dot::typeof<int>()))
             {
-                // Deserialize LocalTime as ISO int in hhmmssfff format
-                timeValue = LocalTimeHelper::ParseIsoInt((int) value);
+                // Deserialize local_time as ISO int in hhmmssfff format
+                timeValue = local_time_util::ParseIsoInt((int) value);
             }
             else if (valueType->Equals(dot::typeof<int64_t>()))
             {
-                // Deserialize LocalTime as ISO int in hhmmssfff format
-                timeValue = LocalTimeHelper::ParseIsoInt((int64_t) value);
+                // Deserialize local_time as ISO int in hhmmssfff format
+                timeValue = local_time_util::ParseIsoInt((int64_t) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-                    "into LocalTime; type should be int32.");
+                    "into local_time; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (currentArray_ != nullptr) currentArray_->ObjectAdd(timeValue);
@@ -402,17 +402,17 @@ namespace dc
             // Check type match
             if (valueType->Equals(dot::typeof<int>()))
             {
-                // Deserialize LocalMinute as ISO int in hhmmssfff format
-                minuteValue = LocalMinuteHelper::ParseIsoInt((int) value);
+                // Deserialize local_minute as ISO int in hhmmssfff format
+                minuteValue = local_minute_util::ParseIsoInt((int) value);
             }
             else if (valueType->Equals(dot::typeof<int64_t>()))
             {
-                // Deserialize LocalMinute as ISO int in hhmmssfff format
-                minuteValue = LocalMinuteHelper::ParseIsoInt((int64_t) value);
+                // Deserialize local_minute as ISO int in hhmmssfff format
+                minuteValue = local_minute_util::ParseIsoInt((int64_t) value);
             }
             else throw dot::exception(
                 dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-                "into LocalMinute; type should be int32.");
+                "into local_minute; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (currentArray_ != nullptr) currentArray_->ObjectAdd(minuteValue);
@@ -430,22 +430,22 @@ namespace dc
             }
             else if (valueType->Equals(dot::typeof<int64_t>()))
             {
-                // Deserialize LocalDateTime as ISO long in yyyymmddhhmmssfff format
-                dateTimeValue = LocalDateTimeHelper::ParseIsoLong((int64_t) value);
+                // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
+                dateTimeValue = local_date_time_util::ParseIsoLong((int64_t) value);
             }
             else if (valueType->Equals(dot::typeof<int>()))
             {
-                // Deserialize LocalDateTime as ISO long in yyyymmddhhmmssfff format
-                dateTimeValue = LocalDateTimeHelper::ParseIsoLong((int) value);
+                // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
+                dateTimeValue = local_date_time_util::ParseIsoLong((int) value);
             }
             else if (valueType->Equals(dot::typeof<dot::string>()))
             {
-                // Deserialize LocalDateTime as ISO string
-                dateTimeValue = LocalDateTimeHelper::Parse((dot::string) value);
+                // Deserialize local_date_time as ISO string
+                dateTimeValue = local_date_time_util::Parse((dot::string) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-                    "into LocalDateTime; type should be LocalDateTime.");
+                    "into local_date_time; type should be local_date_time.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (currentArray_ != nullptr) currentArray_->ObjectAdd(dateTimeValue);
@@ -473,7 +473,7 @@ namespace dc
         {
             // We run out of value types at this point, now we can create
             // a reference type and check that it implements KeyType
-            dot::object keyObj = (KeyType)dot::Activator::CreateInstance(elementType);
+            dot::object keyObj = (KeyType)dot::activator::CreateInstance(elementType);
             if (keyObj.is<KeyType>())
             {
                 KeyType key = (KeyType) keyObj;

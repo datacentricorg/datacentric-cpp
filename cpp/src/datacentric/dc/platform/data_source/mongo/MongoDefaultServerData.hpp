@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Ptr.hpp>
+#include <dot/system/ptr.hpp>
 #include <dc/platform/data_source/mongo/MongoServerData.hpp>
 
 namespace dc

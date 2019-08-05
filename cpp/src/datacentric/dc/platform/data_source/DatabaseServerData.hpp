@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Ptr.hpp>
+#include <dot/system/ptr.hpp>
 #include <dc/types/record/RecordFor.hpp>
 
 namespace dc

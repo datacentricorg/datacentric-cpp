@@ -18,9 +18,9 @@ limitations under the License.
 
 #include <deque>
 
-#include <dc/types/local_date/LocalDate.hpp>
-#include <dc/types/local_time/LocalTime.hpp>
-#include <dc/types/local_date_time/LocalDateTime.hpp>
+#include <dc/types/local_date/local_date.hpp>
+#include <dc/types/local_time/local_time.hpp>
+#include <dc/types/local_date_time/local_date_time.hpp>
 
 
 namespace dc
@@ -92,17 +92,17 @@ namespace dc
 
     inline void append(bsoncxx::builder::core& builder, dot::local_date rhs)
     {
-        builder.append(LocalDateHelper::ToIsoInt(rhs));
+        builder.append(local_date_util::ToIsoInt(rhs));
     }
 
     inline void append(bsoncxx::builder::core& builder, dot::local_time rhs)
     {
-        builder.append(LocalTimeHelper::ToIsoInt(rhs));
+        builder.append(local_time_util::ToIsoInt(rhs));
     }
 
     inline void append(bsoncxx::builder::core& builder, dot::local_date_time rhs)
     {
-        builder.append(bsoncxx::types::b_date(LocalDateTimeHelper::ToStdChrono(rhs)));
+        builder.append(bsoncxx::types::b_date(local_date_time_util::ToStdChrono(rhs)));
     }
 
     inline void append(bsoncxx::builder::core& builder, bsoncxx::oid rhs)

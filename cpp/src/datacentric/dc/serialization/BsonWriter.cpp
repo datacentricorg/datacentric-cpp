@@ -15,21 +15,21 @@ limitations under the License.
 */
 
 #include <dc/implement.hpp>
-#include <dot/system/Array1D.hpp>
+#include <dot/system/array.hpp>
 #include <dot/system/Enum.hpp>
-#include <dot/system/String.hpp>
+#include <dot/system/string.hpp>
 #include <dc/serialization/BsonWriter.hpp>
-#include <dot/system/Object.hpp>
+#include <dot/system/object.hpp>
 #include <dot/system/collections/IObjectEnumerable.hpp>
-#include <dot/system/Type.hpp>
-#include <dot/noda_time/LocalDate.hpp>
-#include <dot/noda_time/LocalTime.hpp>
-#include <dot/noda_time/LocalMinute.hpp>
-#include <dot/noda_time/LocalDateTime.hpp>
-#include <dc/types/local_date/LocalDate.hpp>
-#include <dc/types/local_time/LocalTime.hpp>
-#include <dc/types/local_minute/LocalMinute.hpp>
-#include <dc/types/local_date_time/LocalDateTime.hpp>
+#include <dot/system/type.hpp>
+#include <dot/noda_time/local_date.hpp>
+#include <dot/noda_time/local_time.hpp>
+#include <dot/noda_time/local_minute.hpp>
+#include <dot/noda_time/local_date_time.hpp>
+#include <dc/types/local_date/local_date.hpp>
+#include <dc/types/local_time/local_time.hpp>
+#include <dc/types/local_minute/local_minute.hpp>
+#include <dc/types/local_date_time/local_date_time.hpp>
 #include <dc/platform/data_source/mongo/ObjectId.hpp>
 
 #include <bsoncxx/json.hpp>
@@ -274,16 +274,16 @@ namespace dc
             bsonWriter_.append((int64_t)value);
         else
         if (valueType->Equals(dot::typeof<dot::local_date>()))
-            bsonWriter_.append(LocalDateHelper::ToIsoInt((dot::local_date)value));
+            bsonWriter_.append(local_date_util::ToIsoInt((dot::local_date)value));
         else
         if (valueType->Equals(dot::typeof<dot::local_time>()))
-            bsonWriter_.append(LocalTimeHelper::ToIsoInt((dot::local_time)value));
+            bsonWriter_.append(local_time_util::ToIsoInt((dot::local_time)value));
         else
         if (valueType->Equals(dot::typeof<dot::local_minute>()))
-            bsonWriter_.append(LocalMinuteHelper::ToIsoInt((dot::local_minute) value));
+            bsonWriter_.append(local_minute_util::ToIsoInt((dot::local_minute) value));
         else
         if (valueType->Equals(dot::typeof<dot::local_date_time>()))
-            bsonWriter_.append(bsoncxx::types::b_date{ LocalDateTimeHelper::ToStdChrono((dot::local_date_time)value) });
+            bsonWriter_.append(bsoncxx::types::b_date{ local_date_time_util::ToStdChrono((dot::local_date_time)value) });
         else
         if (valueType->Equals(dot::typeof<ObjectId>()))
             bsonWriter_.append(((dot::StructWrapper<ObjectId>)value)->_id);

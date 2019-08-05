@@ -70,10 +70,10 @@ namespace dc
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 100.0;
-        rec->LocalDateElement = dot::local_date(2003, 5, 1);
-        rec->LocalTimeElement = dot::local_time(10, 15, 30); // 10:15:30
-        rec->LocalMinuteElement = dot::local_minute(10, 15); // 10:15
-        rec->LocalDateTimeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->local_dateElement = dot::local_date(2003, 5, 1);
+        rec->local_timeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->local_minuteElement = dot::local_minute(10, 15); // 10:15
+        rec->local_date_timeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->EnumValue = MongoTestEnum::EnumValue2;
 
         ObjectId dataSet = context->GetDataSet(dataSetID, context->GetCommon());
@@ -88,10 +88,10 @@ namespace dc
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
-        rec->LocalDateElement = dot::local_date(2003, 5, 1);
-        rec->LocalTimeElement = dot::local_time(10, 15, 30); // 10:15:30
-        rec->LocalMinuteElement = dot::local_minute(10, 15); // 10:15
-        rec->LocalDateTimeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->local_dateElement = dot::local_date(2003, 5, 1);
+        rec->local_timeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->local_minuteElement = dot::local_minute(10, 15); // 10:15
+        rec->local_date_timeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->StringElement2 = dot::string::Empty; // Test how empty value is recorded
         rec->DoubleElement2 = 200.0;
 
@@ -151,10 +151,10 @@ namespace dc
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
-        rec->LocalDateElement = dot::local_date(2003, 5, 1);
-        rec->LocalTimeElement = dot::local_time(10, 15, 30); // 10:15:30
-        rec->LocalMinuteElement = dot::local_minute(10, 15); // 10:15
-        rec->LocalDateTimeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->local_dateElement = dot::local_date(2003, 5, 1);
+        rec->local_timeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->local_minuteElement = dot::local_minute(10, 15); // 10:15
+        rec->local_date_timeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->OtherStringElement2 = dot::string::Empty; // Test how empty value is recorded
         rec->OtherDoubleElement2 = 200.0;
 
@@ -170,10 +170,10 @@ namespace dc
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
-        rec->LocalDateElement = dot::local_date(2003, 5, 1);
-        rec->LocalTimeElement = dot::local_time(10, 15, 30); // 10:15:30
-        rec->LocalMinuteElement = dot::local_minute(10, 15); // 10:15
-        rec->LocalDateTimeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->local_dateElement = dot::local_date(2003, 5, 1);
+        rec->local_timeElement = dot::local_time(10, 15, 30); // 10:15:30
+        rec->local_minuteElement = dot::local_minute(10, 15); // 10:15
+        rec->local_date_timeElement = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->OtherStringElement3 = dot::string::Empty; // Test how empty value is recorded
         rec->OtherDoubleElement3 = 200.0;
 
@@ -552,15 +552,15 @@ namespace dc
         dot::IEnumerable<MongoTestDerivedData> testQuery = context->DataSource->GetQuery<MongoTestDerivedData>(dataSetB)
             ->Where(make_prop(&MongoTestDerivedDataImpl::DataElementList)[0]->*make_prop(&ElementSampleDataImpl::DoubleElement3) == 1.0)
             ->Where(make_prop(&MongoTestDerivedDataImpl::DataElementList)[0]->*make_prop(&ElementSampleDataImpl::StringElement3) == "A0")
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateElement) < dot::local_date(2003, 5, 2))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateElement) > dot::local_date(2003, 4, 30))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateElement) == dot::local_date(2003, 5, 1))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalTimeElement) < dot::local_time(10, 15, 31))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalTimeElement) > dot::local_time(10, 15, 29))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalTimeElement) == dot::local_time(10, 15, 30))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateTimeElement) < dot::local_date_time(2003, 5, 1, 10, 15, 01))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateTimeElement) > dot::local_date_time(2003, 5, 1, 10, 14, 59))
-            ->Where(make_prop(&MongoTestDerivedDataImpl::LocalDateTimeElement) == dot::local_date_time(2003, 5, 1, 10, 15))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_dateElement) < dot::local_date(2003, 5, 2))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_dateElement) > dot::local_date(2003, 4, 30))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_dateElement) == dot::local_date(2003, 5, 1))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_timeElement) < dot::local_time(10, 15, 31))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_timeElement) > dot::local_time(10, 15, 29))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_timeElement) == dot::local_time(10, 15, 30))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_date_timeElement) < dot::local_date_time(2003, 5, 1, 10, 15, 01))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_date_timeElement) > dot::local_date_time(2003, 5, 1, 10, 14, 59))
+            ->Where(make_prop(&MongoTestDerivedDataImpl::local_date_timeElement) == dot::local_date_time(2003, 5, 1, 10, 15))
             ->Where(make_prop(&MongoTestDerivedDataImpl::StringElement2) == dot::string::Empty)
             ->Where(make_prop(&MongoTestDerivedDataImpl::KeyElement) == key->ToString())
             ->AsEnumerable<MongoTestDerivedData>();

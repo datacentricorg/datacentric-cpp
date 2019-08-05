@@ -115,15 +115,15 @@ namespace dc
         wf->WorkflowID = "ABCBB";
         wf->Workflow = new WorkflowKeyImpl();
         wf->Workflow->WorkflowID = "CBA";
-        wf->LDate = LocalDate(2005, 1, 1);
-        wf->LTime = LocalTime(12, 10, 20, 444);
-        wf->LDateTime = LocalDateTime(2005, 1, 1, 12, 10, 20, 444);
+        wf->LDate = local_date(2005, 1, 1);
+        wf->LTime = local_time(12, 10, 20, 444);
+        wf->LDateTime = local_date_time(2005, 1, 1, 12, 10, 20, 444);
         wf->Workflows = new_List<WorkflowKey>();
         wf->Workflows->Add(new WorkflowKeyImpl());
         wf->Workflows[0]->WorkflowID = "ABC";
 
         wf->data = new_WorkflowData();
-        wf->data->LDate = LocalDate(2005, 1, 1);
+        wf->data->LDate = local_date(2005, 1, 1);
 
         IObjectEnumerable en = (IObjectEnumerable)(List<WorkflowKey>)wf->Workflows;
 
@@ -146,33 +146,33 @@ namespace dc
 
 
         wf->_id = ds->GetId();
-        wf->_id = LocalDateTime(2005, 1, 1, 12, 10, 20);
-        bool bb2 = wf->_id.GetTimeStamp() == LocalDateTime(2005, 1, 1, 12, 10, 20);
+        wf->_id = local_date_time(2005, 1, 1, 12, 10, 20);
+        bool bb2 = wf->_id.GetTimeStamp() == local_date_time(2005, 1, 1, 12, 10, 20);
         ds->Save(wf);
 
         std::string s2 = bsoncxx::to_json((make_prop(&WorkflowDataImpl::WorkflowID) != "ABCC"
             && make_prop(&WorkflowDataImpl::Workflow)->*make_prop(&WorkflowKeyImpl::WorkflowID) == wf->Workflow->WorkflowID
-            && make_prop(&WorkflowDataImpl::LDate) == LocalDate(2005, 1, 1)
-            && make_prop(&WorkflowDataImpl::LTime) == LocalTime(12, 10, 20, 444)
-            && make_prop(&WorkflowDataImpl::LDateTime) == LocalDateTime(2005, 1, 1, 12, 10, 20, 444)
+            && make_prop(&WorkflowDataImpl::LDate) == local_date(2005, 1, 1)
+            && make_prop(&WorkflowDataImpl::LTime) == local_time(12, 10, 20, 444)
+            && make_prop(&WorkflowDataImpl::LDateTime) == local_date_time(2005, 1, 1, 12, 10, 20, 444)
             && make_prop(&WorkflowDataImpl::dbl) == 0.
-            && make_prop(&WorkflowDataImpl::_id) == LocalDateTime(2005, 1, 1, 12, 10, 15, 415))
+            && make_prop(&WorkflowDataImpl::_id) == local_date_time(2005, 1, 1, 12, 10, 15, 415))
             .operator bsoncxx::v_noabi::document::view_or_value());
 
         WorkflowData wf2 = wf->LoadOrNull(context);
 
         List<Data> wf3 = ds->LoadByQuery<WorkflowData>(make_prop(&WorkflowDataImpl::WorkflowID) != "ABCC"
                                                         && make_prop(&WorkflowDataImpl::Workflow) ->* make_prop(&WorkflowKeyImpl::WorkflowID) == wf->Workflow->WorkflowID
-                                                        && make_prop(&WorkflowDataImpl::LDate) == LocalDate(2005, 1, 1)
-                                                        && make_prop(&WorkflowDataImpl::LTime) == LocalTime(12, 10, 20, 444)
-                                                        && make_prop(&WorkflowDataImpl::LDateTime) == LocalDateTime(2005, 1, 1, 12, 10, 20, 444)
+                                                        && make_prop(&WorkflowDataImpl::LDate) == local_date(2005, 1, 1)
+                                                        && make_prop(&WorkflowDataImpl::LTime) == local_time(12, 10, 20, 444)
+                                                        && make_prop(&WorkflowDataImpl::LDateTime) == local_date_time(2005, 1, 1, 12, 10, 20, 444)
                                                         && make_prop(&WorkflowDataImpl::dbl) == 0.
-                                                        && make_prop(&WorkflowDataImpl::_id) < LocalDateTime(2005, 1, 1, 12, 10, 21)
+                                                        && make_prop(&WorkflowDataImpl::_id) < local_date_time(2005, 1, 1, 12, 10, 21)
             );
         List<WorkflowData> wf4 = wf3.as<List<WorkflowData>>();
         WorkflowData wf5 = (WorkflowData)wf3[0];
 
-        bool bb = wf5->LDateTime == LocalDateTime(2005, 1, 1, 12, 10, 20, 444);
+        bool bb = wf5->LDateTime == local_date_time(2005, 1, 1, 12, 10, 20, 444);
 
         BsonRecordSerializer sser = new_BsonRecordSerializer();
         BsonWriter writer = new_BsonWriter();

@@ -18,16 +18,16 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/types/record/ValueType.hpp>
-#include <dc/types/local_date/LocalDate.hpp>
-#include <dc/types/local_time/LocalTime.hpp>
-#include <dc/types/local_minute/LocalMinute.hpp>
-#include <dc/types/local_date_time/LocalDateTime.hpp>
+#include <dc/types/local_date/local_date.hpp>
+#include <dc/types/local_time/local_time.hpp>
+#include <dc/types/local_minute/local_minute.hpp>
+#include <dc/types/local_date_time/local_date_time.hpp>
 #include <dot/system/Enum.hpp>
-#include <dot/system/Object.hpp>
-#include <dot/system/String.hpp>
-#include <dot/system/Type.hpp>
-#include <dot/noda_time/LocalDateTime.hpp>
-#include <dot/noda_time/LocalMinute.hpp>
+#include <dot/system/object.hpp>
+#include <dot/system/string.hpp>
+#include <dot/system/type.hpp>
+#include <dot/noda_time/local_date_time.hpp>
+#include <dot/noda_time/local_minute.hpp>
 
 namespace dc
 {
@@ -64,10 +64,10 @@ namespace dc
             if (valueType->equals(dot::typeof<bool>()))               return ValueType::Bool;
             if (valueType->equals(dot::typeof<int>()))                return ValueType::Int;
             if (valueType->equals(dot::typeof<int64_t>()))            return ValueType::Long;
-            if (valueType->equals(dot::typeof<dot::local_date>()))     return ValueType::LocalDate;
-            if (valueType->equals(dot::typeof<dot::local_time>()))     return ValueType::LocalTime;
-            if (valueType->equals(dot::typeof<dot::local_minute>()))   return ValueType::LocalMinute;
-            if (valueType->equals(dot::typeof<dot::local_date_time>())) return ValueType::LocalDateTime;
+            if (valueType->equals(dot::typeof<dot::local_date>()))     return ValueType::local_date;
+            if (valueType->equals(dot::typeof<dot::local_time>()))     return ValueType::local_time;
+            if (valueType->equals(dot::typeof<dot::local_minute>()))   return ValueType::local_minute;
+            if (valueType->equals(dot::typeof<dot::local_date_time>())) return ValueType::local_date_time;
             if (valueType->is_enum)                                    return ValueType::Enum;
 
             // Error message if any other type, should normally not get to here
@@ -126,10 +126,10 @@ namespace dc
             if (valueType->equals(dot::typeof<bool>()))          return Variant(Bool::Parse(value));
             if (valueType->equals(dot::typeof<int>()))           return Variant(Int::Parse(value));
             if (valueType->equals(dot::typeof<int64_t>()))       return Variant(Long::Parse(value));
-            if (valueType->equals(dot::typeof<local_date>()))     return Variant(LocalDate::Parse(value));
-            if (valueType->equals(dot::typeof<local_time>()))     return Variant(LocalTime::Parse(value));
-            if (valueType->equals(dot::typeof<local_minute>()))   return Variant(LocalMinute::Parse(value));
-            if (valueType->equals(dot::typeof<local_date_time>())) return Variant(LocalDateTime::Parse(value));
+            if (valueType->equals(dot::typeof<local_date>()))     return Variant(local_date::Parse(value));
+            if (valueType->equals(dot::typeof<local_time>()))     return Variant(local_time::Parse(value));
+            if (valueType->equals(dot::typeof<local_minute>()))   return Variant(local_minute::Parse(value));
+            if (valueType->equals(dot::typeof<local_date_time>())) return Variant(local_date_time::Parse(value));
             if (valueType->is_enum)                               return Variant(Enum::Parse(valueType, value));
 
             // Error message if any other type

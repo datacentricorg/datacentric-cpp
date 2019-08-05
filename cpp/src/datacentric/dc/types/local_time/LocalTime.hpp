@@ -17,11 +17,11 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/noda_time/LocalTime.hpp>
+#include <dot/noda_time/local_time.hpp>
 
 namespace dc
 {
-    class DC_CLASS LocalTimeHelper
+    class DC_CLASS local_time_util
     {
     public: // STATIC
 
@@ -30,7 +30,7 @@ namespace dc
         /// Specifically, ISO int-like string using hhmmssfff format without delimiters is not accepted.</summary>
         static dot::local_time Parse(dot::string value);
 
-        /// <summary>Convert LocalTime to ISO 8601 9 digit int hhmmssfff format.</summary>
+        /// <summary>Convert local_time to ISO 8601 9 digit int hhmmssfff format.</summary>
         static int ToIsoInt(dot::local_time value);
 
         /// <summary>Parse ISO 8601 9 digit int in hhmmssfff format, throw if invalid format.</summary>

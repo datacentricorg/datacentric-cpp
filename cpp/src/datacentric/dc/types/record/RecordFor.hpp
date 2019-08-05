@@ -17,7 +17,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/types/record/RecordType.hpp>
-#include <dot/system/reflection/Activator.hpp>
+#include <dot/system/reflection/activator.hpp>
 
 namespace dc
 {

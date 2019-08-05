@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/platform/reflection/IClassMapSettings.hpp>
-#include <dot/system/Object.hpp>
+#include <dot/system/object.hpp>
 
 namespace dc
 {
@@ -34,8 +34,8 @@ namespace dc
         /// <summary>Class map settings.</summary>
         virtual IClassMapSettings getClassMap() = 0;
 
-        /// <summary>Activator settings.</summary>
-        //DOT_DECL_PROP(IActivatorSettings, Activator)
+        /// <summary>activator settings.</summary>
+        //DOT_DECL_PROP(IactivatorSettings, activator)
 
         /// <summary>Locale settings.</summary>
         //DOT_DECL_PROP(ILocaleSettings, Locale)

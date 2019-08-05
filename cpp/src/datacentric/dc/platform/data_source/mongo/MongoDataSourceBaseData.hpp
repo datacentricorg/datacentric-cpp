@@ -17,8 +17,8 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Ptr.hpp>
-#include <dot/system/Array1D.hpp>
+#include <dot/system/ptr.hpp>
+#include <dot/system/array.hpp>
 #include <dc/platform/data_source/InstanceType.hpp>
 #include <dc/platform/data_source/DataSourceData.hpp>
 #include <dc/platform/data_source/mongo/ObjectId.hpp>
