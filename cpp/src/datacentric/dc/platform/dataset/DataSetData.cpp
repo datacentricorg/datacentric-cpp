@@ -24,9 +24,9 @@ namespace dc
     {
         record_for_impl<DataSetKeyImpl, DataSetDataImpl>::Init(context);
 
-        if (dot::string::IsNullOrEmpty(DataSetID)) throw dot::exception("DataSetID has not been set.");
+        if (dot::string::is_null_or_empty(DataSetID)) throw dot::exception("DataSetID has not been set.");
 
-        if (!dot::List<ObjectId>(Parents).IsEmpty())
+        if (!dot::list<ObjectId>(Parents).is_empty())
         for (ObjectId parent : Parents)
         {
             if (ID <= parent)
