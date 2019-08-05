@@ -67,7 +67,7 @@ namespace dc
             else
             if (!itemType->GetInterface("IObjectEnumerable").IsEmpty())
             {
-                throw dot::new_Exception(dot::string::Format("Serialization is not supported for element {0} "
+                throw dot::exception(dot::string::Format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", elementName));
             }
             else
@@ -87,7 +87,7 @@ namespace dc
             }
             else
             {
-                throw dot::new_Exception(dot::string::Format(
+                throw dot::exception(dot::string::Format(
                     "Element type {0} is not supported for tree serialization.", itemType->Name));
             }
 
@@ -159,7 +159,7 @@ namespace dc
             }
             else
             {
-                throw dot::new_Exception(dot::string::Format("Element type {0} is not supported for tree serialization.", innerElementInfo->PropertyType));
+                throw dot::exception(dot::string::Format("Element type {0} is not supported for tree serialization.", innerElementInfo->PropertyType));
             }
         }
 

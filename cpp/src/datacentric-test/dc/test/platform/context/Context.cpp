@@ -28,12 +28,12 @@ namespace dc
         dot::string methodName,
         dot::string sourceFilePath)
     {
-        //if (methodName == nullptr) throw dot::new_Exception("Method name passed to UnitTestContext is null.");
-        //if (sourceFilePath == nullptr) throw dot::new_Exception("Source file path passed to UnitTestContext is null.");
+        //if (methodName == nullptr) throw dot::exception("Method name passed to UnitTestContext is null.");
+        //if (sourceFilePath == nullptr) throw dot::exception("Source file path passed to UnitTestContext is null.");
 
         // Test class path is the path to source file followed by
         // subfolder whose name is source file name without extension
-        //if (!sourceFilePath->EndsWith(".cs")) throw dot::new_Exception(dot::string::Format("Source file path '{0}' does not end with '.cs'", sourceFilePath));
+        //if (!sourceFilePath->EndsWith(".cs")) throw dot::exception(dot::string::Format("Source file path '{0}' does not end with '.cs'", sourceFilePath));
         dot::string testClassPath = sourceFilePath->SubString(0, sourceFilePath->size() - 3);
 
         // Create and initialize data source with TEST instance type.

@@ -29,7 +29,7 @@ namespace dc
     void data_source_data_impl::check_not_read_only()
     {
         if (is_read_only())
-            throw dot::new_Exception(dot::string::format(
+            throw dot::exception(dot::string::format(
                 "Attempting write operation for readonly data source {0}. "
                 "A data source is readonly if either (a) its ReadOnly flag is set, or (b) "
                 "one of RevisedBefore or RevisedBeforeId is set.", data_source_id));
@@ -88,9 +88,9 @@ namespace dc
             DataSetData data_set_data = load_or_null<DataSetData>(load_from).template as<DataSetData>();
 
             if (data_set_data == nullptr)
-                throw dot::new_Exception(dot::string::format("Dataset with ObjectId={0} is not found.", load_from.ToString()));
+                throw dot::exception(dot::string::format("Dataset with ObjectId={0} is not found.", load_from.ToString()));
             if ((ObjectId) data_set_data->DataSet != ObjectId::Empty)
-                throw dot::new_Exception(dot::string::format("Dataset with ObjectId={0} is not stored in root dataset.", load_from.ToString()));
+                throw dot::exception(dot::string::format("Dataset with ObjectId={0} is not stored in root dataset.", load_from.ToString()));
 
             // Build the lookup list
             result = build_data_set_lookup_list(data_set_data);
@@ -133,7 +133,7 @@ namespace dc
         }
         else
         {
-            throw dot::new_Exception(
+            throw dot::exception(
                 "Elements RevisedBefore and RevisedBeforeId are alternates; "
                 "they cannot be specified at the same time.");
         }
@@ -191,7 +191,7 @@ namespace dc
             {
                 // Dataset cannot include itself as parent
                 if (data_set_data->ID == data_set_id)
-                    throw dot::new_Exception(
+                    throw dot::exception(
                         dot::string::format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::string)data_set_data->getKey(), ObjectId(data_set_data->ID).ToString()));
 
                 // The Add method returns true if the argument is not yet present in the list
@@ -217,7 +217,7 @@ namespace dc
     ObjectId data_source_data_impl::get_data_set(dot::string data_set_id, ObjectId load_from)
     {
         auto result = get_data_set_or_empty(data_set_id, load_from);
-        if (result == ObjectId::Empty) throw dot::new_Exception(
+        if (result == ObjectId::Empty) throw dot::exception(
             dot::string::format("Dataset {0} is not found in data store {1}.", data_set_id, data_source_id));
         return result;
     }

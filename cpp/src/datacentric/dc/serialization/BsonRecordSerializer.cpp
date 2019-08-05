@@ -157,7 +157,7 @@ namespace dc
                 DeserializeArray(sub_doc, writer);
                 writer->WriteEndArrayElement(elementName);
             }
-            else throw dot::new_Exception(
+            else throw dot::exception(
                 "Deserialization of BSON type {0} is not supported.");
         }
 
@@ -219,10 +219,10 @@ namespace dc
             }
             else if (bsonType == bsoncxx::type::k_array)
             {
-                throw dot::new_Exception("Deserializaion of an array inside another array is not supported.");
+                throw dot::exception("Deserializaion of an array inside another array is not supported.");
             }
             else
-                throw dot::new_Exception(
+                throw dot::exception(
                     "Deserialization of BSON type inside an array is not supported.");
         }
     }

@@ -89,7 +89,7 @@ namespace dc
                     return;
                 }
             }
-            throw dot::new_Exception(dot::string::Format("Unknown element {0} in tuple writer.", elementName));
+            throw dot::exception(dot::string::Format("Unknown element {0} in tuple writer.", elementName));
         }
     }
 
@@ -209,7 +209,7 @@ namespace dc
         {
             // Check type match
             //if (!elementType->Equals(valueType)) // TODO change to !elementType->IsAssignableFrom(valueType)
-            //    throw dot::new_Exception(
+            //    throw dot::exception(
             //        dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
             //        dot::string::Format("into element of type {0}.", elementType->Name));
 
@@ -250,7 +250,7 @@ namespace dc
                 // Deserialize LocalDate as ISO int in yyyymmdd format
                 dateValue = LocalDateHelper::ParseIsoInt((int64_t)value);
             }
-            else throw dot::new_Exception(
+            else throw dot::exception(
                     dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                     "into LocalDate; type should be int32.");
 
@@ -271,7 +271,7 @@ namespace dc
                 // Deserialize LocalTime as ISO int in hhmmssfff format
                 timeValue = LocalTimeHelper::ParseIsoInt((int64_t)value);
             }
-            else throw dot::new_Exception(
+            else throw dot::exception(
                     dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                     "into LocalTime; type should be int32.");
 
@@ -292,7 +292,7 @@ namespace dc
                 // Deserialize LocalMinute as ISO int in hhmmssfff format
                 minuteValue = LocalMinuteHelper::ParseIsoInt((int64_t)value);
             }
-            else throw dot::new_Exception(
+            else throw dot::exception(
                 dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                 "into LocalMinute; type should be int32.");
 
@@ -322,7 +322,7 @@ namespace dc
                 // Deserialize LocalDateTime as ISO string
                 dateTimeValue = LocalDateTimeHelper::Parse((dot::string)value);
             }
-            else throw dot::new_Exception(
+            else throw dot::exception(
                     dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                     "into LocalDateTime; type should be LocalDateTime.");
 
@@ -332,7 +332,7 @@ namespace dc
         {
             // Check type match
             if (!valueType->Equals(dot::typeof<dot::string>()))
-                throw dot::new_Exception(
+                throw dot::exception(
                     dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                     dot::string::Format("into enum {0}; type should be string.", elementType->Name));
 
@@ -353,7 +353,7 @@ namespace dc
 
                 // Check type match
                 if (!valueType->Equals(dot::typeof<dot::string>()) && !valueType->Equals(elementType))
-                    throw dot::new_Exception(
+                    throw dot::exception(
                         dot::string::Format("Attempting to deserialize value of type {0} ", valueType->Name) +
                         dot::string::Format("into key type {0}; keys should be serialized into semicolon delimited string.", elementType->Name));
 
@@ -368,7 +368,7 @@ namespace dc
             else
             {
                 // Argument type is unsupported, error message
-                throw dot::new_Exception(dot::string::Format("Element type {0} is not supported for serialization.", value->GetType()));
+                throw dot::exception(dot::string::Format("Element type {0} is not supported for serialization.", value->GetType()));
             }
         }
     }

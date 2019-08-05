@@ -48,7 +48,7 @@ namespace dc
             currentState_ = TreeWriterState::DocumentStarted;
         }
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteStartDocument(...) must be the first call to the tree writer.");
 
     }
@@ -61,7 +61,7 @@ namespace dc
             currentState_ = TreeWriterState::DocumentCompleted;
         }
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteEndDocument(...) does not follow  WriteEndElement(...) at at root level.");
 
         // Pop the outer element name and state from the element stack
@@ -74,7 +74,7 @@ namespace dc
         // Check that the current element name matches the specified name. Writing the actual end tag
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (rootElementName != currentElementName)
-            throw dot::new_Exception(dot::string::Format(
+            throw dot::exception(dot::string::Format(
                 "WriteEndDocument({0}) follows WriteStartDocument({1}), root element name mismatch.", rootElementName, currentElementName));
     }
 
@@ -89,7 +89,7 @@ namespace dc
         else if (currentState_ == TreeWriterState::DictStarted) currentState_ = TreeWriterState::ElementStarted;
         else if (currentState_ == TreeWriterState::DictArrayItemStarted) currentState_ = TreeWriterState::ElementStarted;
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteStartElement(...) must be the first call or follow WriteEndElement(prevName).");
 
         // Write "elementName" :
@@ -103,7 +103,7 @@ namespace dc
         else if (currentState_ == TreeWriterState::DictCompleted) currentState_ = TreeWriterState::ElementCompleted;
         else if (currentState_ == TreeWriterState::ValueCompleted) currentState_ = TreeWriterState::ElementCompleted;
         else if (currentState_ == TreeWriterState::ArrayCompleted) currentState_ = TreeWriterState::ElementCompleted;
-        else throw dot::new_Exception(
+        else throw dot::exception(
             "A call to WriteEndElement(...) does not follow a matching WriteStartElement(...) at the same indent level.");
 
         // Pop the outer element name and state from the element stack
@@ -117,7 +117,7 @@ namespace dc
         // Check that the current element name matches the specified name. Writing the actual end tag
         // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         if (elementName != currentElementName)
-            throw dot::new_Exception(
+            throw dot::exception(
                 dot::string::Format("EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName));
 
         // Nothing to write here but array closing bracket was written above
@@ -135,7 +135,7 @@ namespace dc
         else if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::DictStarted;
         else if (currentState_ == TreeWriterState::ArrayItemStarted) currentState_ = TreeWriterState::DictArrayItemStarted;
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteStartDict() must follow WriteStartElement(...) or WriteStartArrayItem().");
 
         // Write {
@@ -157,7 +157,7 @@ namespace dc
         else if (currentState_ == TreeWriterState::DictArrayItemStarted) currentState_ = TreeWriterState::DictArrayItemCompleted;
         else if (currentState_ == TreeWriterState::ElementCompleted) currentState_ = TreeWriterState::DictCompleted;
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteEndDict(...) does not follow a matching WriteStartDict(...) at the same indent level.");
 
         // Write }
@@ -169,7 +169,7 @@ namespace dc
         // Check state transition matrix
         if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::ArrayStarted;
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteStartArray() must follow WriteStartElement(...).");
 
         // Write [
@@ -182,7 +182,7 @@ namespace dc
         if (currentState_ == TreeWriterState::ArrayStarted) currentState_ = TreeWriterState::ArrayCompleted;
         else if (currentState_ == TreeWriterState::ArrayItemCompleted) currentState_ = TreeWriterState::ArrayCompleted;
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteEndArray(...) does not follow WriteEndArrayItem(...).");
 
         // Write ]
@@ -194,7 +194,7 @@ namespace dc
         // Check state transition matrix
         if (currentState_ == TreeWriterState::ArrayStarted) currentState_ = TreeWriterState::ArrayItemStarted;
         else if (currentState_ == TreeWriterState::ArrayItemCompleted) currentState_ = TreeWriterState::ArrayItemStarted;
-        else throw dot::new_Exception(
+        else throw dot::exception(
             "A call to WriteStartArrayItem() must follow WriteStartElement(...) or WriteEndArrayItem().");
 
         // Nothing to write here
@@ -207,7 +207,7 @@ namespace dc
         else if (currentState_ == TreeWriterState::DictArrayItemCompleted) currentState_ = TreeWriterState::ArrayItemCompleted;
         else if (currentState_ == TreeWriterState::ValueArrayItemCompleted) currentState_ = TreeWriterState::ArrayItemCompleted;
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteEndArrayItem(...) does not follow a matching WriteStartArrayItem(...) at the same indent level.");
 
         // Nothing to write here
@@ -219,7 +219,7 @@ namespace dc
         if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::ValueStarted;
         else if (currentState_ == TreeWriterState::ArrayItemStarted) currentState_ = TreeWriterState::ValueArrayItemStarted;
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteStartValue() must follow WriteStartElement(...) or WriteStartArrayItem().");
 
         // Nothing to write here
@@ -231,7 +231,7 @@ namespace dc
         if (currentState_ == TreeWriterState::ValueWritten) currentState_ = TreeWriterState::ValueCompleted;
         else if (currentState_ == TreeWriterState::ValueArrayItemWritten) currentState_ = TreeWriterState::ValueArrayItemCompleted;
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
 
         // Nothing to write here
@@ -243,7 +243,7 @@ namespace dc
         if (currentState_ == TreeWriterState::ValueStarted) currentState_ = TreeWriterState::ValueWritten;
         else if (currentState_ == TreeWriterState::ValueArrayItemStarted) currentState_ = TreeWriterState::ValueArrayItemWritten;
         else
-            throw dot::new_Exception(
+            throw dot::exception(
                 "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
 
         if (value.IsEmpty())
@@ -294,7 +294,7 @@ namespace dc
         //if (valueType.is<Object>()) // TODO KeyType
         //    bsonWriter_.append(*(valueType->ToString())); // TODO semicolonDelimitedKeyString = keyElement.AsString();
         else
-            throw dot::new_Exception(dot::string::Format("Element type {0} is not supported for BSON serialization.", valueType));
+            throw dot::exception(dot::string::Format("Element type {0} is not supported for BSON serialization.", valueType));
     }
 
     dot::string BsonWriterImpl::ToString()

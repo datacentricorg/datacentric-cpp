@@ -139,7 +139,7 @@ namespace dc
                 DeserializeArray(sub_doc, writer);
                 writer->WriteEndArrayElement(elementName);
             }
-            else throw dot::new_Exception(
+            else throw dot::exception(
                 "Deserialization of JSON type {0} is not supported.");
         }
 
@@ -199,10 +199,10 @@ namespace dc
             }
             else if (jsonType == rapidjson::Type::kArrayType)
             {
-                throw dot::new_Exception("Deserializaion of an array inside another array is not supported.");
+                throw dot::exception("Deserializaion of an array inside another array is not supported.");
             }
             else
-                throw dot::new_Exception(
+                throw dot::exception(
                     "Deserialization of JSON type inside an array is not supported.");
         }
     }

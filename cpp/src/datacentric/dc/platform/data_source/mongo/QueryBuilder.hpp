@@ -437,7 +437,7 @@ namespace dc
 
         }
 
-        throw dot::new_Exception("Unregistered property");
+        throw dot::exception("Unregistered property");
     }
 
     template <class Class>

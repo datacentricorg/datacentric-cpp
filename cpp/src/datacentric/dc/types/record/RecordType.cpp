@@ -29,7 +29,7 @@ namespace dc
         // base.Init(context);
 
         Context = context;
-        if (context == nullptr) throw dot::new_Exception(
+        if (context == nullptr) throw dot::exception(
             dot::string::Format("Null context is passed to the Init(...) method for {0}.", GetType()->Name));
     }
 

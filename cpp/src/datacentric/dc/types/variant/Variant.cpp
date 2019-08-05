@@ -58,7 +58,7 @@ namespace dc
         else
         {
             // Argument type is unsupported, error message
-            //throw dot::new_Exception(GetWrongTypeErrorMessage(value));
+            //throw dot::exception(GetWrongTypeErrorMessage(value));
             value_ = nullptr;
         }
     }
@@ -151,7 +151,7 @@ namespace dc
         }
 
         // Error message if any other type, should normally not get here
-        throw dot::new_Exception(GetWrongTypeErrorMessage(value_));
+        throw dot::exception(GetWrongTypeErrorMessage(value_));
     }
 
     bool Variant::operator==(const Variant& other)
@@ -185,10 +185,10 @@ namespace dc
         case ValueType::LocalMinute:      return Variant(LocalMinuteHelper::Parse(value));
         case ValueType::LocalDateTime:    return Variant(LocalDateTimeHelper::Parse(value));
         case ValueType::Enum:
-            throw dot::new_Exception("Variant cannot be created as enum without specifying enum typename.");
+            throw dot::exception("Variant cannot be created as enum without specifying enum typename.");
         default:
             // Error message if any other type
-            throw dot::new_Exception("Unknown value type when parsing string into variant.");
+            throw dot::exception("Unknown value type when parsing string into variant.");
         }
     }
 

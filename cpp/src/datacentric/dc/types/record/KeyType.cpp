@@ -88,7 +88,7 @@ namespace dc
                 }
                 else
                 {
-                    throw dot::new_Exception("Unknown type in KeyType.AssignString");
+                    throw dot::exception("Unknown type in KeyType.AssignString");
                 }
 
             }

@@ -71,7 +71,7 @@ namespace dc
             if (valueType->IsEnum)                                    return ValueType::Enum;
 
             // Error message if any other type, should normally not get to here
-            throw dot::new_Exception(GetWrongTypeErrorMessage(value_));
+            throw dot::exception(GetWrongTypeErrorMessage(value_));
         }
 
         /// <summary>Value held by the variant, which may be null.</summary>
@@ -133,7 +133,7 @@ namespace dc
             if (valueType->IsEnum)                               return Variant(Enum::Parse(valueType, value));
 
             // Error message if any other type
-            throw dot::new_Exception(GetWrongTypeErrorMessage(T()));
+            throw dot::exception(GetWrongTypeErrorMessage(T()));
         }
 
     private: // PRIVATE

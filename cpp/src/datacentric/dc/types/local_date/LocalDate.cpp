@@ -32,7 +32,7 @@ namespace dc
         stream >> ptime;
 
         // If default constructed date is passed, error message
-        if (ptime == boost::posix_time::not_a_date_time) throw dot::new_Exception(dot::string::Format(
+        if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::Format(
             "String representation of default constructed date {0} "
             "passed to LocalDate.Parse(date) method.", value));
 

@@ -32,7 +32,7 @@ namespace dc
         stream >> ptime;
 
         // If default constructed datetime is passed, error message
-        if (ptime == boost::posix_time::not_a_date_time) throw dot::new_Exception(dot::string::Format(
+        if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::Format(
             "String representation of default constructed datetime {0} "
             "passed to LocalDateTime.Parse(datetime) method.", value));
 
@@ -56,9 +56,9 @@ namespace dc
 
         // Check that it will fit into Int32 range
         if (isoDateLong < INT32_MIN || isoDateLong > INT32_MAX)
-            throw dot::new_Exception(dot::string::Format("Date portion of datetime {0} has invalid format.", value));
+            throw dot::exception(dot::string::Format("Date portion of datetime {0} has invalid format.", value));
         if (isoTimeLong < INT32_MIN || isoTimeLong > INT32_MAX)
-            throw dot::new_Exception(dot::string::Format("Time portion of datetime {0} has invalid format.", value));
+            throw dot::exception(dot::string::Format("Time portion of datetime {0} has invalid format.", value));
 
         // Convert to Int32
         int isoDate = (int)isoDateLong;

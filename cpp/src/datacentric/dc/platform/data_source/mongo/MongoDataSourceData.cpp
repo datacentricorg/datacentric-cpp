@@ -123,7 +123,7 @@ namespace dc
         // ObjectId of the record must be strictly later
         // than ObjectId of the dataset where it is stored
         if (objectId <= saveTo)
-            throw dot::new_Exception(dot::string::Format(
+            throw dot::exception(dot::string::Format(
                 "Attempting to save a record with ObjectId={0} that is later "
                 "than ObjectId={1} of the dataset where it is being saved.", objectId.ToString(), saveTo.ToString()));
 
