@@ -43,7 +43,7 @@ namespace dc
     int local_minute_util::ToIsoInt(dot::local_minute value)
     {
         // Serialized to one minute precision in ISO 8601 4 digit int hhmm format
-        int result = value.Hour * 100 + value.Minute;
+        int result = value.hour * 100 + value.minute;
         return result;
     }
 

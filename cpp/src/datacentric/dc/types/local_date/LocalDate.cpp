@@ -41,7 +41,7 @@ namespace dc
 
     int local_date_util::ToIsoInt(dot::local_date value)
     {
-        int result = value.getYear() * 10'000 + value.getMonth() * 100 + value.getDay();
+        int result = value.year() * 10'000 + value.month() * 100 + value.day();
         return result;
     }
 
