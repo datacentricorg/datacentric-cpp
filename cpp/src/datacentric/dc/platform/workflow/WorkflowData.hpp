@@ -44,16 +44,16 @@ namespace dc
         WorkflowKey Workflow;
 
         /// <summary>Jobs included in the workflow directly.</summary>
-        dot::List<JobKey> Jobs;
+        dot::list<JobKey> Jobs;
 
         /// <summary>Jobs are taken from the specified workflows except those on the exclude list.</summary>
-        dot::List<WorkflowKey> Workflows;
+        dot::list<WorkflowKey> Workflows;
 
         /// <summary>Jobs on the exclude list are not not imported from the specified workflows.</summary>
-        dot::List<JobKey> Exclude;
+        dot::list<JobKey> Exclude;
 
         /// <summary>Phases are executed in the order of this list. Jobs whose phase is not included in this list are skipped.</summary>
-        dot::List<PhaseKey> Phases;
+        dot::list<PhaseKey> Phases;
 
         /// <summary>local_date.</summary>
         dot::local_date LDate;
@@ -64,7 +64,7 @@ namespace dc
         /// <summary>local_date.</summary>
         dot::local_date_time LDateTime;
 
-        dot::Nullable<double> dbl;
+        dot::nullable<double> dbl;
 
         WorkflowData data;
 

@@ -41,7 +41,6 @@ namespace dc
         ObjectId ID;
 
         DOT_TYPE_BEGIN(".Analyst", "JobQueueKey")
-            ->WithProperty("_id", &self::ID)
             DOT_TYPE_BASE(KeyFor<JobQueueKeyImpl, JobQueueDataImpl>)
             DOT_TYPE_CTOR(new_JobQueueKey)
         DOT_TYPE_END()

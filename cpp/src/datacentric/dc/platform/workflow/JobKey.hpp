@@ -40,7 +40,6 @@ namespace dc
         ObjectId ID;
 
         DOT_TYPE_BEGIN(".Analyst", "JobKey")
-            ->WithProperty("_id", &self::ID)
             DOT_TYPE_BASE(KeyFor<JobKeyImpl, JobDataImpl>)
             DOT_TYPE_CTOR(new_JobKey)
         DOT_TYPE_END()
