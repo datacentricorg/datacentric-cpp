@@ -76,8 +76,8 @@ namespace dc
         dot::string to_string() { return get_key(); }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "record_type")
-           // ->WithProperty("_id", &self::ID)
-         //   ->WithProperty("_dataset", &self::DataSet)
+            ->with_field("_id", &self::ID)
+            ->with_field("_dataset", &self::DataSet)
           //  ->WithProperty("_key", &self::Key)
             DOT_TYPE_BASE(Data)
         DOT_TYPE_END()
