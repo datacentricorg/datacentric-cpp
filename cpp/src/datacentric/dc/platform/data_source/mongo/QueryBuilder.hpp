@@ -431,8 +431,8 @@ namespace dc
 
         for (dot::field_info const& prop : props)
         {
-            dot::ptr<dot::field_infoFieldImpl<Prop, Class>> casted_prop = prop.as<dot::ptr<dot::field_infoFieldImpl<Prop, Class>>>();
-            if (!casted_prop.is_empty() && casted_prop->prop_ == prop_)
+            dot::ptr<dot::field_info_impl<Prop, Class>> casted_prop = prop.as<dot::ptr<dot::field_info_impl<Prop, Class>>>();
+            if (!casted_prop.is_empty() && casted_prop->field_ == prop_)
                 return prop_wrapper<Class, Prop>{ prop };
 
         }

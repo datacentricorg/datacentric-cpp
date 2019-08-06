@@ -60,7 +60,7 @@ namespace dc
         template <class class_, class prop>
         query sort_by_descending(prop_wrapper<class_, prop> key_selector)
         {
-            return sort_by_descending(keySelector.prop_);
+            return sort_by_descending(key_selector.prop_);
         }
 
         template <class t_record>
