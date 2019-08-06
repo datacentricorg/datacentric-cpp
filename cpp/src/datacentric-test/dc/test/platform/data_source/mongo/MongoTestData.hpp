@@ -24,7 +24,7 @@ limitations under the License.
 namespace dc
 {
     /// <summary>Enum type.</summary>
-    class MongoTestEnum : public dot::Enum
+    class MongoTestEnum : public dot::enum_base
     {
         typedef MongoTestEnum self;
 

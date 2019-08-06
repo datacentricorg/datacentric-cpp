@@ -21,7 +21,7 @@ limitations under the License.
 #include <dc/serialization/BsonWriter.hpp>
 #include <dc/serialization/BsonRecordSerializer.hpp>
 
-#include <dc/platform/data_source/IDataSource.hpp>
+#include <dc/platform/data_source/DataSourceData.hpp>
 #include <dc/platform/data_source/mongo/QueryBuilder.hpp>
 #include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
 
@@ -148,10 +148,10 @@ namespace dc
         rec->RecordID = recordId;
         rec->Version = recordVersion;
         rec->DoubleList = dot::make_list<double>();
-        rec->DoubleList->setCapacity(recordSize);
+        rec->DoubleList->set_capacity(recordSize);
 
         for (int i = 0; i < recordSize; ++i)
-            rec->DoubleList->Add(std::rand());
+            rec->DoubleList->add(std::rand());
 
         ObjectId dataSet = context->GetDataSet(dataSetID);
         context->Save(rec, dataSet);
@@ -232,10 +232,10 @@ namespace dc
         dot::string dataSetName = GetDataSet(2);
         ObjectId dataSet = context->GetDataSetOrEmpty(dataSetName);
 
-        dot::IEnumerable<PerformanceTestData> query = context->DataSource->GetQuery<PerformanceTestData>(dataSet)
+        dc::cursor_wrapper<PerformanceTestData> query = context->DataSource->get_query<PerformanceTestData>(dataSet)
       // TODO - fix compilation      ->Where(make_prop(&PerformanceTestDataImpl::Key) == recordID)
             //->Where(make_prop(&PerformanceTestDataImpl::Version) == recordVersions - 1)
-            ->AsEnumerable<PerformanceTestData>();
+            ->get_cursor<PerformanceTestData>();
 
         for (PerformanceTestData data : query)
         {

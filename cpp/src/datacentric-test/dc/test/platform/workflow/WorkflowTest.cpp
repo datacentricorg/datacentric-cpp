@@ -34,7 +34,7 @@ limitations under the License.
 #include <dc/serialization/JsonRecordSerializer.hpp>
 
 //#include <dc/platform/data_source/mongo/MongoFactory.hpp>
-#include <dc/platform/data_source/IDataSource.hpp>
+#include <dc/platform/data_source/DataSourceData.hpp>
 #include <dc/implement.hpp>
 #include <dc/platform/context/Context.hpp>
 
@@ -60,7 +60,7 @@ namespace dc
         wf->LDateTime = dot::local_date_time(2005, 1, 1, 12, 10, 20, 444);
         wf->dbl = 1.1;
         wf->Workflows = dot::make_list<WorkflowKey>();
-        wf->Workflows->Add(new WorkflowKeyImpl());
+        wf->Workflows->add(new WorkflowKeyImpl());
         wf->Workflows[0]->WorkflowID = "ABC";
 
         wf->data = new_WorkflowData();

@@ -34,7 +34,7 @@ namespace dc
         // Test class path is the path to source file followed by
         // subfolder whose name is source file name without extension
         //if (!sourceFilePath->ends_with(".cs")) throw dot::exception(dot::string::format("Source file path '{0}' does not end with '.cs'", sourceFilePath));
-        dot::string testClassPath = sourceFilePath->SubString(0, sourceFilePath->size() - 3);
+        dot::string testClassPath = sourceFilePath->substring(0, sourceFilePath->size() - 3);
 
         // Create and initialize data source with TEST instance type.
         //
@@ -45,20 +45,20 @@ namespace dc
         DataSource = new MongoDataSourceDataImpl();
         //DataSource->DbServer = new DbServerKeyImpl;
         //DataSource->DbServer->DbServerID = (new MongoDefaultServerDataImpl())->DbServerID;
-        DataSource->DbServer = (new_MongoDefaultServerData())->ToKey();
-        DataSource->DbName = new DbNameKeyImpl();
+        DataSource->db_server = (new_MongoDefaultServerData())->to_key();
+        DataSource->db_name = new db_name_key_impl();
 
-        DataSource->DbName->InstanceType = InstanceType::TEST;
-        DataSource->DbName->InstanceName = mappedClassName;
-        DataSource->DbName->EnvName = methodName;
+        DataSource->db_name->instance_type = instance_type::TEST;
+        DataSource->db_name->instance_name = mappedClassName;
+        DataSource->db_name->env_name = methodName;
 
         DataSource->Init(this);
 
         // Delete (drop) the database to clear the existing data
-        DataSource->DeleteDb();
+        DataSource->delete_db();
 
         // Create common dataset and assign it to DataSet property of this context
-        DataSet = DataSource->CreateCommon();
+        DataSet = DataSource->create_common();
     }
 
     UnitTestContextImpl::~UnitTestContextImpl()
@@ -67,7 +67,7 @@ namespace dc
         {
             // Permanently delete the unit test database
             // unless KeepDb is true
-            DataSource->DeleteDb();
+            DataSource->delete_db();
         }
     }
 }
