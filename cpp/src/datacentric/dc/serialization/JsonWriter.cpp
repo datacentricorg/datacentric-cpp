@@ -288,9 +288,6 @@ namespace dc
         else
         if (valueType->is_enum)
             jsonWriter_.String(*value->to_string());
-        //else
-        //if (valueType.is<Object>()) // TODO KeyType
-        //    jsonWriter_.String(*valueType->to_string()); // TODO semicolonDelimitedKeyString = keyElement.AsString();
         else
             throw dot::exception(dot::string::format("Element type {0} is not supported for JSON serialization.", valueType));
     }

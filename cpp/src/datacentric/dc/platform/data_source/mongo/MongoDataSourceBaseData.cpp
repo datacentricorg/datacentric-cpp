@@ -128,7 +128,7 @@ namespace dc
     mongocxx::collection MongoDataSourceBaseDataImpl::GetCollection(dot::type_t dataType)
     {
         dot::type_t curr = dataType;
-        while (curr->name != "RecordFor" && curr->name != "KeyFor")
+        while (curr->name != "Record" && curr->name != "Key")
         {
             curr = curr->base_type();
             if (curr.is_empty())

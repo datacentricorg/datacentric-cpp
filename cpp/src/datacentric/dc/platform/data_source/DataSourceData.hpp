@@ -141,10 +141,10 @@ namespace dc
         /// </summary>
         virtual query get_query(ObjectId data_set, dot::type_t type) = 0;
 
-        template <class DataType>
+        template <class TRecord>
         query get_query(ObjectId data_set)
         {
-            return get_query(data_set, dot::typeof<DataType>());
+            return get_query(data_set, dot::typeof<TRecord>());
         }
 
         /// <summary>

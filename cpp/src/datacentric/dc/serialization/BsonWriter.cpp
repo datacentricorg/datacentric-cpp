@@ -288,9 +288,6 @@ namespace dc
         else
         if (valueType->is_enum)
             bsonWriter_.append(*value->to_string());
-        //else
-        //if (valueType.is<Object>()) // TODO KeyType
-        //    bsonWriter_.append(*(valueType->to_string())); // TODO semicolonDelimitedKeyString = keyElement.AsString();
         else
             throw dot::exception(dot::string::format("Element type {0} is not supported for BSON serialization.", valueType));
     }

@@ -143,12 +143,6 @@ namespace dc
         append(builder, rhs->to_string());
     }
 
-    //template <class Key>
-    //inline void append(bsoncxx::builder::core& builder, Key rhs, typename std::enable_if<std::is_base_of<KeyTypeImpl, typename Key::value_type::element_type>::value >::type * p = 0)
-    //{
-    //    append(builder, rhs->to_string());
-    //}
-
     template <class T>
     struct operator_wrapper
     {

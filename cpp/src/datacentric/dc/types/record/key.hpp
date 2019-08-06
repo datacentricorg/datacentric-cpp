@@ -32,7 +32,7 @@ namespace dc
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
 
     /// <summary>
-    /// Record derived from KeyType rather than KeyType is recorded without a dataset.
+    /// Keys must derive from this type
     /// </summary>
     template <typename TKey, typename TRecord>
     class key_impl : public virtual key_base_impl
@@ -293,7 +293,7 @@ namespace dc
         void SetCachedRecord(record<TKey, TRecord> record, ObjectId dataSet)
         {
             // Before doing anything else, clear the cached record
-            // This will ensure that the previous cached copy is 
+            // This will ensure that the previous cached copy is
             // no longer present even in case of an exception in the
             // following code, or if it does not set the new cached
             // record value.
@@ -371,7 +371,7 @@ namespace dc
             }
         }
 
-        DOT_TYPE_BEGIN("DataCentric", "KeyFor")
+        DOT_TYPE_BEGIN("DataCentric", "Key")
             DOT_TYPE_BASE(key_base)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)

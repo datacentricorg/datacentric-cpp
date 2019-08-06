@@ -346,7 +346,7 @@ namespace dc
         else
         {
             // We run out of value types at this point, now we can create
-            // a reference type and check that it implements KeyType
+            // a reference type and check that it is derived from key_base
             dot::object keyObj = (key_base)dot::activator::create_instance(elementType);
             if (keyObj.is<key_base>())
             {

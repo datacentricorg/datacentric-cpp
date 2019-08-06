@@ -28,7 +28,7 @@ namespace dc
 
 
     /// <summary>
-    /// Record derived from KeyType rather than KeyType is recorded without a dataset.
+    /// Root record is recorded without a dataset.
     /// </summary>
     template <typename TKey, typename TRecord>
     class root_key_for_impl : public virtual key_impl<TKey, TRecord>
