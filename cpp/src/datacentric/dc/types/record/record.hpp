@@ -107,7 +107,7 @@ namespace dc
         /// </summary>
         operator dot::ptr<TKey>() { return to_key(); }
 
-        DOT_TYPE_BEGIN(".Runtime.Main", "RecordFor")
+        DOT_TYPE_BEGIN("DataCentric", "RecordFor")
             DOT_TYPE_BASE(record_base)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)

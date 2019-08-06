@@ -77,7 +77,7 @@ namespace dc
 
     public:
 
-        DOT_TYPE_BEGIN(".Runtime.Test", "PerformanceTest")
+        DOT_TYPE_BEGIN("DataCentric", "PerformanceTest")
         DOT_TYPE_END()
     };
 
@@ -95,7 +95,7 @@ namespace dc
 
         dot::string RecordID;
 
-        DOT_TYPE_BEGIN(".Runtime.Test", "PerformanceTestKey")
+        DOT_TYPE_BEGIN("DataCentric", "PerformanceTestKey")
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_BASE(key<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
             DOT_TYPE_CTOR(new_PerformanceTestKey)
@@ -117,7 +117,7 @@ namespace dc
         dot::list<double> DoubleList;
         dot::nullable<int> Version;
 
-        DOT_TYPE_BEGIN(".Runtime.Test", "PerformanceTestData")
+        DOT_TYPE_BEGIN("DataCentric", "PerformanceTestData")
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_PROP(DoubleList)
             DOT_TYPE_PROP(Version)

@@ -54,7 +54,7 @@ namespace dc
 
     public:
 
-        DOT_TYPE_BEGIN(".Runtime.Main", "DeleteMarker")
+        DOT_TYPE_BEGIN("DataCentric", "DeleteMarker")
             DOT_TYPE_BASE(record_base)
             DOT_TYPE_CTOR(new_DeleteMarker)
         DOT_TYPE_END()

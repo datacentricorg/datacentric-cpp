@@ -83,7 +83,7 @@ namespace dc
         /// </summary>
         dot::string env_name;
 
-        DOT_TYPE_BEGIN(".Runtime.Main", "DbNameData")
+        DOT_TYPE_BEGIN("DataCentric", "DbNameData")
             DOT_TYPE_PROP(instance_type)
             DOT_TYPE_PROP(instance_name)
             DOT_TYPE_PROP(env_name)

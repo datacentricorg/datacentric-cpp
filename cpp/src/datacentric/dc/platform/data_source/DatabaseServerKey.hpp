@@ -61,7 +61,7 @@ namespace dc
         /// <summary>Keys in which string ID is the only element support implicit conversion from value.</summary>
         db_server_key_impl(dot::string value);
 
-        DOT_TYPE_BEGIN(".Runtime.Main", "DbServerKey")
+        DOT_TYPE_BEGIN("DataCentric", "DbServerKey")
             DOT_TYPE_PROP(db_server_id)
             DOT_TYPE_CTOR(make_db_server_key)
         DOT_TYPE_END()

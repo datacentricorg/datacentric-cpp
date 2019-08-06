@@ -36,7 +36,7 @@ namespace dc
         /// <summary>Creates dictionary at current writer level.</summary>
         void SerializeTo(ITreeWriter writer);
 
-        DOT_TYPE_BEGIN(".Runtime.Main", "Data")
+        DOT_TYPE_BEGIN("DataCentric", "Data")
         DOT_TYPE_END()
 
     protected:

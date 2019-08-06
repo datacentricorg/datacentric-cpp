@@ -83,7 +83,7 @@ namespace dc
             TEST,
         };
 
-        DOT_ENUM_BEGIN(".Runtime.Main", "InstanceType")
+        DOT_ENUM_BEGIN("DataCentric", "InstanceType")
             DOT_ENUM_VALUE(Empty)
             DOT_ENUM_VALUE(PROD)
             DOT_ENUM_VALUE(UAT)

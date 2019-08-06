@@ -24,7 +24,7 @@ namespace dc
 {
     class DefaultClassMapSettingsImpl; using DefaultClassMapSettings = dot::ptr<DefaultClassMapSettingsImpl>;
 
-    /// <summary>Settings for mapping namespaces, class names, and method names from .Runtime module.
+    /// <summary>Settings for mapping namespaces, class names, and method names.
     /// Use 'Settings.ClassMapSettings = newSettings' to use alternative mapping settings,
     /// or add individual settings using e.g. 'IgnoredNamespacePrefixes.Add(newPrefix)'.</summary>
     class DC_CLASS DefaultClassMapSettingsImpl : public IClassMapSettingsImpl

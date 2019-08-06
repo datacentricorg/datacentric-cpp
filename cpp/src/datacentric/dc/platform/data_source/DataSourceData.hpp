@@ -436,7 +436,7 @@ namespace dc
         /// <summary>Unique data source identifier.</summary>
         dot::string data_source_id;
 
-        DOT_TYPE_BEGIN(".Runtime.Main", "DataSourceData")
+        DOT_TYPE_BEGIN("DataCentric", "DataSourceData")
             DOT_TYPE_PROP(data_source_id)
             DOT_TYPE_PROP(db_name)
             DOT_TYPE_PROP(db_server)

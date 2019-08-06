@@ -46,7 +46,7 @@ namespace dc
         typedef MongoDataSourceTestImpl self;
     public:
 
-        DOT_TYPE_BEGIN(".Runtime.Test", "MongoDataSourceTest")
+        DOT_TYPE_BEGIN("DataCentric", "MongoDataSourceTest")
         DOT_TYPE_END()
     };
 
