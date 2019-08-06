@@ -11,6 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\dotcpp\dot\DotCpp.Cpp.vcxproj">
+      <Project>{7fa068ec-b443-4db9-93af-56cbc7110408}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="platform\context\Context.cpp" />
     <ClCompile Include="platform\context\IContext.cpp" />
     <ClCompile Include="platform\dataset\DataSetData.cpp" />
@@ -18,9 +23,9 @@
     <ClCompile Include="platform\data_source\DatabaseData.cpp" />
     <ClCompile Include="platform\data_source\DatabaseKey.cpp" />
     <ClCompile Include="platform\data_source\DatabaseServerData.cpp" />
+    <ClCompile Include="platform\data_source\DatabaseServerKey.cpp" />
     <ClCompile Include="platform\data_source\DataSourceData.cpp" />
     <ClCompile Include="platform\data_source\DataSourceKey.cpp" />
-    <ClCompile Include="platform\data_source\DatabaseServerKey.cpp" />
     <ClCompile Include="platform\data_source\mongo\MongoDataSourceBaseData.cpp" />
     <ClCompile Include="platform\data_source\mongo\MongoDataSourceData.cpp" />
     <ClCompile Include="platform\data_source\mongo\MongoDefaultServerData.cpp" />
@@ -33,10 +38,10 @@
     <ClCompile Include="serialization\BsonRecordSerializer.cpp" />
     <ClCompile Include="serialization\BsonWriter.cpp" />
     <ClCompile Include="serialization\DataWriter.cpp" />
+    <ClCompile Include="serialization\ITreeWriter.cpp" />
     <ClCompile Include="serialization\JsonRecordSerializer.cpp" />
     <ClCompile Include="serialization\JsonWriter.cpp" />
     <ClCompile Include="serialization\TupleWriter.cpp" />
-    <ClCompile Include="serialization\ITreeWriter.cpp" />
     <ClCompile Include="types\record\CachedRecord.cpp" />
     <ClCompile Include="types\record\data.cpp" />
     <ClCompile Include="types\record\DeleteMarker.cpp" />
@@ -73,37 +78,27 @@
     <ClInclude Include="platform\query\Query.hpp" />
     <ClInclude Include="platform\reflection\ClassInfo.hpp" />
     <ClInclude Include="platform\settings\class_map_settings.hpp" />
-    <ClInclude Include="platform\settings\ISettings.hpp" />
     <ClInclude Include="precompiled.hpp" />
     <ClInclude Include="serialization\BsonRecordSerializer.hpp" />
     <ClInclude Include="serialization\BsonWriter.hpp" />
     <ClInclude Include="serialization\DataWriter.hpp" />
+    <ClInclude Include="serialization\ITreeWriter.hpp" />
     <ClInclude Include="serialization\JsonRecordSerializer.hpp" />
     <ClInclude Include="serialization\JsonWriter.hpp" />
     <ClInclude Include="serialization\TupleWriter.hpp" />
-    <ClInclude Include="serialization\ICsvReader.hpp" />
-    <ClInclude Include="serialization\ICsvWriter.hpp" />
-    <ClInclude Include="serialization\ITreeWriter.hpp" />
-    <ClInclude Include="types\double\Double.hpp" />
     <ClInclude Include="types\double\double_compare.hpp" />
     <ClInclude Include="types\record\CachedRecord.hpp" />
+    <ClInclude Include="types\record\data.hpp" />
     <ClInclude Include="types\record\DeleteMarker.hpp" />
     <ClInclude Include="types\record\key.hpp" />
+    <ClInclude Include="types\record\key_base.hpp" />
     <ClInclude Include="types\record\record.hpp" />
+    <ClInclude Include="types\record\record_base.hpp" />
     <ClInclude Include="types\record\root_key.hpp" />
     <ClInclude Include="types\record\root_record.hpp" />
-    <ClInclude Include="types\record\IKeyFor.hpp" />
-    <ClInclude Include="types\enum\Flag.hpp" />
-    <ClInclude Include="types\record\data.hpp" />
-    <ClInclude Include="types\record\key_base.hpp" />
-    <ClInclude Include="types\record\record_base.hpp" />
     <ClInclude Include="types\record\ValueType.hpp" />
     <ClInclude Include="types\variant\Variant.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\dotcpp\dot\DotCpp.Cpp.vcxproj">
-      <Project>{7fa068ec-b443-4db9-93af-56cbc7110408}</Project>
-    </ProjectReference>
+    <ClInclude Include="types\variant\VariantType.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B3B7D5B9-3965-40E0-814A-74F2BFE874E9}</ProjectGuid>
