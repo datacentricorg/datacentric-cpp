@@ -125,7 +125,7 @@ namespace dc
         wf->data = new_WorkflowData();
         wf->data->LDate = local_date(2005, 1, 1);
 
-        IObjectEnumerable en = (IObjectEnumerable)(list<WorkflowKey>)wf->Workflows;
+        list<WorkflowKey> en = (list<WorkflowKey>)wf->Workflows;
 
 
         dot::string str = wf->Workflows[0]->WorkflowID;

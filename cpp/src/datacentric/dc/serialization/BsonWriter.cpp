@@ -20,7 +20,6 @@ limitations under the License.
 #include <dot/system/string.hpp>
 #include <dc/serialization/BsonWriter.hpp>
 #include <dot/system/object.hpp>
-#include <dot/system/collections/IObjectEnumerable.hpp>
 #include <dot/system/type.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_time.hpp>
@@ -283,12 +282,12 @@ namespace dc
             bsonWriter_.append(dot::local_minute_util::to_iso_int((dot::local_minute) value));
         else
         if (valueType->equals(dot::typeof<dot::local_date_time>()))
-            bsonWriter_.append(bsoncxx::types::b_date{ local_date_time_util::to_std_chrono((dot::local_date_time)value) });
+            bsonWriter_.append(bsoncxx::types::b_date{ dot::local_date_time_util::to_std_chrono((dot::local_date_time)value) });
         else
         if (valueType->equals(dot::typeof<ObjectId>()))
             bsonWriter_.append(((dot::struct_wrapper<ObjectId>)value)->_id);
         else
-        if (valueType->is_enum())
+        if (valueType->is_enum)
             bsonWriter_.append(*value->to_string());
         //else
         //if (valueType.is<Object>()) // TODO KeyType

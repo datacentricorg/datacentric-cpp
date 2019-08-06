@@ -72,14 +72,15 @@ namespace dc
                         //DeserializeDocument(doc, writer);
                         //writer->WriteEndDocument(typeName);
                     }
-                    if (! props_[i]->field_type->get_interface("IObjectEnumerable").is_empty())
+
+                    if (! props_[i]->field_type->get_interface("IObjectEnumerable").is_empty()) // TODO - refactor after removing the interface
                     {
                         dataWriter_ = new_DataWriter(nullptr);
                         dataWriter_->currentElementInfo_ = props_[i];
                         dataWriter_->currentElementName_ = props_[i]->name;
                         dataWriter_->currentState_ = TreeWriterState::ElementStarted;
 
-                        dataWriter_->currentArray_ = dot::make_list<dot::IObjectCollection>();
+                        dataWriter_->currentArray_ = dot::make_list<dot::list<dot::object>>();
 
                         //dataWriter_->WriteStartElement(elementName);
                         //DeserializeDocument(doc, writer);
@@ -188,7 +189,7 @@ namespace dc
             return;
 
         // Check that we are either inside dictionary or array
-        dot::type_t elementType = tuple_->type()->GetGenericArguments()[indexOfCurrent_];
+        dot::type_t elementType = tuple_->type()->get_generic_arguments()[indexOfCurrent_]; // TODO - cache array instead of getting every time?
 
         if (value.is_empty())  // TODO is_empty method should be implemented according to c# extension
         {

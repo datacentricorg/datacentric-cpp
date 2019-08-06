@@ -22,7 +22,6 @@ limitations under the License.
 #include <dot/system/string.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/type.hpp>
-#include <dot/system/collections/IObjectEnumerable.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_minute.hpp>
@@ -288,7 +287,7 @@ namespace dc
         if (valueType->equals(dot::typeof<ObjectId>()))
             jsonWriter_.String(*value->to_string());
         else
-        if (valueType->is_enum())
+        if (valueType->is_enum)
             jsonWriter_.String(*value->to_string());
         //else
         //if (valueType.is<Object>()) // TODO KeyType

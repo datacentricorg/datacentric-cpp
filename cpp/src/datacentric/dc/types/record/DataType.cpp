@@ -24,7 +24,7 @@ limitations under the License.
 namespace dc
 {
 
-    void SerializeTo(dot::IObjectEnumerable obj, dot::string elementName, ITreeWriter writer)
+    void SerializeTo(dot::list<dot::object> obj, dot::string elementName, ITreeWriter writer)
     {
         // Write start element tag
         writer->WriteStartArrayElement(elementName);
@@ -56,7 +56,7 @@ namespace dc
                 || itemType->equals(dot::typeof<dot::local_date_time>())
                 || itemType->equals(dot::typeof<dot::local_time>())
                 || itemType->equals(dot::typeof<dot::local_minute>())
-                || itemType->is_enum()
+                || itemType->is_enum
                 || itemType->equals(dot::typeof<ObjectId>())
                 )
             {
@@ -64,8 +64,7 @@ namespace dc
                 writer->WriteValue(item);
                 writer->WriteEndValue();
             }
-            else
-            if (!itemType->get_interface("IObjectEnumerable").is_empty())
+            else if (!itemType->get_interface("IObjectEnumerable").is_empty()) // TODO - refactor after removing the interface
             {
                 throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", elementName));
@@ -137,9 +136,9 @@ namespace dc
                 writer->WriteValueElement(innerElementName, innerElementValue);
             }
             else
-            if (!elementType->get_interface("IObjectEnumerable").is_empty())
+            if (!elementType->get_interface("IObjectEnumerable").is_empty()) // TODO - refactor after removing the interface
             {
-                dc::SerializeTo((dot::IObjectEnumerable)innerElementValue, innerElementName, writer);
+                dc::SerializeTo((dot::list<dot::object>)innerElementValue, innerElementName, writer);
             }
             else
             if (innerElementValue.is<Data>())
