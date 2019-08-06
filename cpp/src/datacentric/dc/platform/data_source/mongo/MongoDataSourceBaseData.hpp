@@ -18,7 +18,6 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dot/system/array.hpp>
 #include <dc/platform/data_source/InstanceType.hpp>
 #include <dc/platform/data_source/DataSourceData.hpp>
 #include <dc/platform/data_source/mongo/ObjectId.hpp>
@@ -44,7 +43,7 @@ namespace dc
     protected: // FIELDS
 
         /// <summary>Prohibited characters in database name.</summary>
-        static dot::array<char> prohibitedDbNameSymbols_;
+        static dot::list<char> prohibitedDbNameSymbols_;
 
         /// <summary>Maximum length of the database on Mongo server including delimiters.</summary>
         static int maxDbNameLength_;

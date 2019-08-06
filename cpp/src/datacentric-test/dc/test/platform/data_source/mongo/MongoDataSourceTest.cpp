@@ -96,11 +96,11 @@ namespace dc
         rec->DoubleElement2 = 200.0;
 
         // dot::string collections
-        rec->ArrayOfString = dot::make_array<dot::string>({ "A", "B", "C" });
+        rec->ArrayOfString = dot::make_list<dot::string>({ "A", "B", "C" });
         rec->ListOfString = dot::make_list<dot::string>({ "A", "B", "C" });
 
         // Double collections
-        rec->ArrayOfDouble = dot::make_array<double>({ 1.0, 2.0, 3.0 });
+        rec->ArrayOfDouble = dot::make_list<double>({ 1.0, 2.0, 3.0 });
         rec->ListOfDouble = dot::make_list<double>({ 1.0, 2.0, 3.0 });
         rec->ListOfNullableDouble = dot::make_list<dot::nullable<double>>();
         rec->ListOfNullableDouble->add(10.0);

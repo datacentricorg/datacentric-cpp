@@ -17,7 +17,6 @@ limitations under the License.
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/DataSourceData.hpp>
 #include <dc/platform/context/IContext.hpp>
-#include <dot/system/array.hpp>
 
 namespace dc
 {

@@ -17,7 +17,6 @@ limitations under the License.
 #define RAPIDJSON_HAS_STDSTRING 1
 #include <dc/implement.hpp>
 #include <dc/serialization/JsonWriter.hpp>
-#include <dot/system/array.hpp>
 #include <dot/system/Enum.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/object.hpp>

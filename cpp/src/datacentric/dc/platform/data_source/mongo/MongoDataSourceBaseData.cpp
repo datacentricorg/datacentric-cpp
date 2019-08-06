@@ -23,7 +23,7 @@ limitations under the License.
 
 namespace dc
 {
-    dot::array<char> MongoDataSourceBaseDataImpl::prohibitedDbNameSymbols_ = dot::make_array<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
+    dot::list<char> MongoDataSourceBaseDataImpl::prohibitedDbNameSymbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
 
     int MongoDataSourceBaseDataImpl::maxDbNameLength_ = 64;
 

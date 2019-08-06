@@ -22,7 +22,6 @@ limitations under the License.
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
-#include <dot/system/array.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/type.hpp>

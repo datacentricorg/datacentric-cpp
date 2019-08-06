@@ -23,7 +23,7 @@ namespace dc
 
     dot::string KeyTypeImpl::to_string()
     {
-        dot::array<dot::field_info> props = type()->get_fields();
+        dot::list<dot::field_info> props = type()->get_fields();
 
         std::stringstream ss;
 
@@ -55,7 +55,7 @@ namespace dc
 
     void KeyTypeImpl::AssignString(std::stringstream & value)
     {
-        dot::array<dot::field_info> props = type()->get_fields();
+        dot::list<dot::field_info> props = type()->get_fields();
 
         for (dot::field_info prop : props)
         {

@@ -138,10 +138,10 @@ namespace dc
     public:
         dot::nullable<double> DoubleElement2;
         dot::string StringElement2;
-        dot::array<dot::string> ArrayOfString;
+        dot::list<dot::string> ArrayOfString;
         dot::list<dot::string> ListOfString;
-        dot::array<double> ArrayOfDouble;
-        dot::array<dot::nullable<double>> ArrayOfNullableDouble;
+        dot::list<double> ArrayOfDouble;
+        dot::list<dot::nullable<double>> ArrayOfNullableDouble;
         dot::list<double> ListOfDouble;
         dot::list<dot::nullable<double>> ListOfNullableDouble;
         ElementSampleData DataElement;

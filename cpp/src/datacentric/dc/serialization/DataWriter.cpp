@@ -189,8 +189,8 @@ namespace dc
             dot::type_t listType = currentElementInfo_->field_type;      // TODO fix
 //            if (!listType->IsGenericType) throw dot::exception(dot::string::format(
 //                "Type {0} cannot be serialized because it implements only IList but not IList<T>.", listType));
-//            array<Type> genericParameterTypes = listType->GenericTypeArguments;
-            dot::array<dot::type_t> genericParameterTypes = listType->get_generic_arguments();
+//            list<Type> genericParameterTypes = listType->GenericTypeArguments;
+            dot::list<dot::type_t> genericParameterTypes = listType->get_generic_arguments();
             if (genericParameterTypes->count() != 1) throw dot::exception(
                 dot::string::format("Generic parameter type list {0} has more than ", genericParameterTypes) +
                 "one element creating an ambiguity for deserialization code.");

@@ -15,7 +15,6 @@ limitations under the License.
 */
 
 #include <dc/implement.hpp>
-#include <dot/system/array.hpp>
 #include <dot/system/Enum.hpp>
 #include <dot/system/string.hpp>
 #include <dc/serialization/BsonWriter.hpp>

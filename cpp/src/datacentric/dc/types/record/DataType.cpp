@@ -110,7 +110,7 @@ namespace dc
         writer->WriteStartDict();
 
         // Iterate over the list of elements
-        dot::array<dot::field_info> innerElementInfoList = type()->get_fields();
+        dot::list<dot::field_info> innerElementInfoList = type()->get_fields();
         for (dot::field_info innerElementInfo : innerElementInfoList)
         {
             // Get element name and value

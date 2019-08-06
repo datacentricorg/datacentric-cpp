@@ -39,7 +39,7 @@ namespace dc
 
         dot::string get_key() override
         {
-            dot::array<dot::field_info> props =  dot::typeof<dot::ptr<TKey>>()->get_fields();
+            dot::list<dot::field_info> props =  dot::typeof<dot::ptr<TKey>>()->get_fields();
             dot::type_t type_ = type();
 
             std::stringstream ss;

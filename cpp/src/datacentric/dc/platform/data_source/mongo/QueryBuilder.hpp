@@ -427,7 +427,7 @@ namespace dc
     prop_wrapper<Class, Prop> make_prop(Prop Class::*prop_)
     {
         dot::type_t type = dot::typeof<dot::ptr<Class>>();
-        dot::array<dot::field_info> props = type->get_fields();
+        dot::list<dot::field_info> props = type->get_fields();
 
         for (dot::field_info const& prop : props)
         {
