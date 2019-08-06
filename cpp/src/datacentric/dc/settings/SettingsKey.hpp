@@ -26,7 +26,7 @@ namespace dc
     class SettingsDataImpl; using SettingsData = dot::ptr<SettingsDataImpl>;
 
     /// <summary>Key for a settings record.</summary>
-    class DC_CLASS SettingsKeyImpl : public KeyForImpl<SettingsKeyImpl, SettingsDataImpl>
+    class DC_CLASS SettingsKeyImpl : public key_impl<SettingsKeyImpl, SettingsDataImpl>
     {
     public: // PROPERTIES
 

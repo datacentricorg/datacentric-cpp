@@ -24,7 +24,7 @@ namespace dc
 {
     class ITreeWriterImpl; using ITreeWriter = dot::ptr<ITreeWriterImpl>;
     class data_impl; using data = dot::ptr<data_impl>;
-    class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
+    class key_base_impl; using key_base = dot::ptr<key_base_impl>;
 
     /// <summary>Data objects must derive from this type.</summary>
     class DC_CLASS data_impl : public virtual dot::object_impl

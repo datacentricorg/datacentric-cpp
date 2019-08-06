@@ -66,7 +66,7 @@ namespace dc
         ///
         /// Return null if not found.
         /// </summary>
-        record_type LoadOrNull(ObjectId id, dot::type_t dataType);
+        record_base LoadOrNull(ObjectId id, dot::type_t dataType);
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -94,7 +94,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        record_type ReloadOrNull(KeyType key, ObjectId loadFrom);
+        record_base ReloadOrNull(key_base key, ObjectId loadFrom);
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
@@ -111,7 +111,7 @@ namespace dc
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        void Save(record_type record);
+        void Save(record_base record);
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
@@ -128,7 +128,7 @@ namespace dc
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        void Save(record_type record, ObjectId saveTo);
+        void Save(record_base record, ObjectId saveTo);
 
         /// <summary>
         /// Write a delete marker for the dataset of the context and the specified
@@ -139,7 +139,7 @@ namespace dc
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
         /// </summary>
-        void Delete(KeyType key);
+        void Delete(key_base key);
 
         /// <summary>
         /// Write a delete marker in deleteIn dataset for the specified key
@@ -150,7 +150,7 @@ namespace dc
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
         /// </summary>
-        void Delete(KeyType key, ObjectId deleteIn);
+        void Delete(key_base key, ObjectId deleteIn);
 
         /// <summary>
         /// Permanently deletes (drops) the database with all records

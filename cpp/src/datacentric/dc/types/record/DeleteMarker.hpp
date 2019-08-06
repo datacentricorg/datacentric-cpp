@@ -30,7 +30,7 @@ namespace dc
     /// effect as if no record was found. It is used to indicate
     /// a deleted record when audit log must be preserved.
     /// </summary>
-    class DC_CLASS DeleteMarkerImpl : public record_type_impl
+    class DC_CLASS DeleteMarkerImpl : public record_base_impl
     {
         typedef DeleteMarkerImpl self;
 
@@ -55,7 +55,7 @@ namespace dc
     public:
 
         DOT_TYPE_BEGIN(".Runtime.Main", "DeleteMarker")
-            DOT_TYPE_BASE(record_type)
+            DOT_TYPE_BASE(record_base)
             DOT_TYPE_CTOR(new_DeleteMarker)
         DOT_TYPE_END()
     };

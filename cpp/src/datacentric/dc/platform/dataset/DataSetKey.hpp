@@ -30,7 +30,7 @@ namespace dc
     /// <summary>DataSet key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
     /// same DB collection or table.</summary>
-    class DC_CLASS DataSetKeyImpl : public KeyForImpl<DataSetKeyImpl, DataSetDataImpl>
+    class DC_CLASS DataSetKeyImpl : public key_impl<DataSetKeyImpl, DataSetDataImpl>
     {
         typedef DataSetKeyImpl self;
         friend DataSetKey new_DataSetKey();
@@ -43,7 +43,7 @@ namespace dc
         DOT_TYPE_BEGIN(".Analyst", "DataSetKey")
             DOT_TYPE_PROP(DataSetID)
             DOT_TYPE_CTOR(new_DataSetKey)
-            DOT_TYPE_BASE(KeyFor<DataSetKeyImpl, DataSetDataImpl>)
+            DOT_TYPE_BASE(key<DataSetKeyImpl, DataSetDataImpl>)
         DOT_TYPE_END()
 
     public: // STATIC

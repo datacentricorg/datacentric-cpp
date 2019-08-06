@@ -87,7 +87,7 @@ namespace dc
     PerformanceTestKey new_PerformanceTestKey();
 
     /// <summary>Key class.</summary>
-    class PerformanceTestKeyImpl : public KeyForImpl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
+    class PerformanceTestKeyImpl : public key_impl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
     {
         typedef PerformanceTestKeyImpl self;
 
@@ -97,7 +97,7 @@ namespace dc
 
         DOT_TYPE_BEGIN(".Runtime.Test", "PerformanceTestKey")
             DOT_TYPE_PROP(RecordID)
-            DOT_TYPE_BASE(KeyFor<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
+            DOT_TYPE_BASE(key<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
             DOT_TYPE_CTOR(new_PerformanceTestKey)
         DOT_TYPE_END()
     };
@@ -107,7 +107,7 @@ namespace dc
     PerformanceTestData new_PerformanceTestData();
 
     /// <summary>Data class.</summary>
-    class PerformanceTestDataImpl : public record_for_impl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
+    class PerformanceTestDataImpl : public record_impl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
     {
         typedef PerformanceTestDataImpl self;
 
@@ -121,7 +121,7 @@ namespace dc
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_PROP(DoubleList)
             DOT_TYPE_PROP(Version)
-            DOT_TYPE_BASE(record_for<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
+            DOT_TYPE_BASE(record<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
             DOT_TYPE_CTOR(new_PerformanceTestData)
         DOT_TYPE_END()
     };

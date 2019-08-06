@@ -23,15 +23,15 @@ namespace dc
 {
     template <typename TKey, typename TRecord> class root_key_for_impl;
     template <typename TKey, typename TRecord> using root_key_for = dot::ptr<root_key_for_impl<TKey, TRecord>>;
-    template <typename TKey, typename TRecord> class KeyForImpl;
-    template <typename TKey, typename TRecord> using KeyFor = dot::ptr<KeyForImpl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class key_impl;
+    template <typename TKey, typename TRecord> using key = dot::ptr<key_impl<TKey, TRecord>>;
 
 
     /// <summary>
     /// Record derived from KeyType rather than KeyType is recorded without a dataset.
     /// </summary>
     template <typename TKey, typename TRecord>
-    class root_key_for_impl : public virtual KeyForImpl<TKey, TRecord>
+    class root_key_for_impl : public virtual key_impl<TKey, TRecord>
     {
 
     };

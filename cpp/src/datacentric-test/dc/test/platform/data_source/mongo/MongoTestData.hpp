@@ -50,7 +50,7 @@ namespace dc
     MongoTestKey new_MongoTestKey();
 
     /// <summary>Key class.</summary>
-    class MongoTestKeyImpl : public KeyForImpl<MongoTestKeyImpl, MongoTestDataImpl>
+    class MongoTestKeyImpl : public key_impl<MongoTestKeyImpl, MongoTestDataImpl>
     {
         typedef MongoTestKeyImpl self;
 
@@ -62,7 +62,7 @@ namespace dc
         DOT_TYPE_BEGIN(".Runtime.Test", "MongoTestKey")
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_PROP(RecordIndex)
-            DOT_TYPE_BASE(KeyFor<MongoTestKeyImpl, MongoTestDataImpl>)
+            DOT_TYPE_BASE(key<MongoTestKeyImpl, MongoTestDataImpl>)
             DOT_TYPE_CTOR(new_MongoTestKey)
         DOT_TYPE_END()
     };
@@ -72,7 +72,7 @@ namespace dc
     MongoTestData new_MongoTestData();
 
     /// <summary>Base data class.</summary>
-    class MongoTestDataImpl : public record_for_impl<MongoTestKeyImpl, MongoTestDataImpl>
+    class MongoTestDataImpl : public record_impl<MongoTestKeyImpl, MongoTestDataImpl>
     {
         typedef MongoTestDataImpl self;
 
@@ -98,7 +98,7 @@ namespace dc
             DOT_TYPE_PROP(local_date_time_element)
             DOT_TYPE_PROP(EnumValue)
             DOT_TYPE_PROP(Version)
-            DOT_TYPE_BASE(record_for<MongoTestKeyImpl, MongoTestDataImpl>)
+            DOT_TYPE_BASE(record<MongoTestKeyImpl, MongoTestDataImpl>)
             DOT_TYPE_CTOR(new_MongoTestData)
         DOT_TYPE_END()
     };

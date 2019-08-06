@@ -21,7 +21,7 @@ limitations under the License.
 namespace dc
 {
 
-    dot::string KeyTypeImpl::to_string()
+    dot::string key_base_impl::to_string()
     {
         dot::list<dot::field_info> props = type()->get_fields();
 
@@ -53,7 +53,7 @@ namespace dc
         return ss.str();
     }
 
-    void KeyTypeImpl::AssignString(std::stringstream & value)
+    void key_base_impl::AssignString(std::stringstream & value)
     {
         dot::list<dot::field_info> props = type()->get_fields();
 
@@ -61,7 +61,7 @@ namespace dc
         {
             if (prop->field_type->name->ends_with("Key")) // TODO check using parents list
             {
-                KeyType subKey = (KeyType)dot::activator::create_instance(prop->field_type);
+                key_base subKey = (key_base)dot::activator::create_instance(prop->field_type);
                 subKey->AssignString(value);
 
                 prop->set_value(this, subKey);
@@ -96,7 +96,7 @@ namespace dc
 
     }
 
-    void KeyTypeImpl::AssignString(dot::string value)
+    void key_base_impl::AssignString(dot::string value)
     {
         std::stringstream ss;
         ss.str(*value);

@@ -26,7 +26,7 @@ namespace dc
     class SystemSettingsKeyImpl; using SystemSettingsKey = dot::ptr<SystemSettingsKeyImpl>;
 
     /// <summary>System settings records must derive from this type.</summary>
-    class DC_CLASS SystemSettingsDataImpl : public record_for_impl<SystemSettingsKeyImpl, SystemSettingsDataImpl>
+    class DC_CLASS SystemSettingsDataImpl : public record_impl<SystemSettingsKeyImpl, SystemSettingsDataImpl>
     {
     public: // PROPERTIES
 

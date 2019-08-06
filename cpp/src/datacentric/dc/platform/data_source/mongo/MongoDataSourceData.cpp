@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dc
 {
-    record_type MongoDataSourceDataImpl::load_or_null(ObjectId id, dot::type_t dataType)
+    record_base MongoDataSourceDataImpl::load_or_null(ObjectId id, dot::type_t dataType)
     {
         auto revisionTimeConstraint = get_revision_time_constraint();
         if (revisionTimeConstraint != nullptr)
@@ -46,7 +46,7 @@ namespace dc
         if (res != bsoncxx::stdx::nullopt)
         {
             BsonRecordSerializer serializer = new_BsonRecordSerializer();
-            record_type record = (record_type) serializer->Deserialize(res->view());
+            record_base record = (record_base) serializer->Deserialize(res->view());
             record->Init(Context);
             return record;
         }
@@ -54,7 +54,7 @@ namespace dc
         return nullptr;
     }
 
-    record_type MongoDataSourceDataImpl::reload_or_null(KeyType key, ObjectId loadFrom)
+    record_base MongoDataSourceDataImpl::reload_or_null(key_base key, ObjectId loadFrom)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
@@ -97,7 +97,7 @@ namespace dc
         if (res.begin() != res.end())
         {
             BsonRecordSerializer serializer = new_BsonRecordSerializer();
-            record_type result = (record_type) serializer->Deserialize(*res.begin());
+            record_base result = (record_base) serializer->Deserialize(*res.begin());
             result->Init(Context);
 
             // Check not only for null but also for the delete marker
@@ -108,7 +108,7 @@ namespace dc
         return nullptr;
     }
 
-    void MongoDataSourceDataImpl::save(record_type record, ObjectId saveTo)
+    void MongoDataSourceDataImpl::save(record_base record, ObjectId saveTo)
     {
         check_not_read_only();
 
@@ -229,7 +229,7 @@ namespace dc
                 [context](const bsoncxx::document::view& item)->dot::object
                 {
                     BsonRecordSerializer serializer = new_BsonRecordSerializer();
-                    record_type record = (record_type)serializer->Deserialize(item);
+                    record_base record = (record_base)serializer->Deserialize(item);
 
                     record->Init(context);
                     return record;
@@ -258,7 +258,7 @@ namespace dc
         }
     }
 
-    void MongoDataSourceDataImpl::delete_record(KeyType key, ObjectId deleteIn)
+    void MongoDataSourceDataImpl::delete_record(key_base key, ObjectId deleteIn)
     {
         // Create delete marker with the specified key
         auto record = new_DeleteMarker();

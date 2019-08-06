@@ -21,13 +21,13 @@ limitations under the License.
 
 namespace dc
 {
-    class record_type_impl; using record_type = dot::ptr<record_type_impl>;
+    class record_base_impl; using record_base = dot::ptr<record_base_impl>;
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
 
     /// <summary>Record objects must derive from this type.</summary>
-    class DC_CLASS record_type_impl : public virtual data_impl
+    class DC_CLASS record_base_impl : public virtual data_impl
     {
-        typedef record_type_impl self;
+        typedef record_base_impl self;
 
     public: // FIELDS
 

@@ -26,7 +26,7 @@ namespace dc
     class LocaleSettingsDataImpl; using LocaleSettingsData = dot::ptr<LocaleSettingsDataImpl>;
 
     /// <summary>Locale settings records must derive from this type.</summary>
-    class DC_CLASS LocaleSettingsDataImpl : public record_for_impl<LocaleSettingsKeyImpl, LocaleSettingsDataImpl>
+    class DC_CLASS LocaleSettingsDataImpl : public record_impl<LocaleSettingsKeyImpl, LocaleSettingsDataImpl>
     {
     public: // PROPERTIES
 

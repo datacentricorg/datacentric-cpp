@@ -25,8 +25,8 @@ limitations under the License.
 
 namespace dc
 {
-    template <typename TKey, typename TRecord> class KeyForImpl;
-    template <typename TKey, typename TRecord> using KeyFor = dot::ptr<KeyForImpl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class key_impl;
+    template <typename TKey, typename TRecord> using key = dot::ptr<key_impl<TKey, TRecord>>;
 
     class CachedRecordImpl; using CachedRecord = dot::ptr<CachedRecordImpl>;
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
@@ -35,9 +35,9 @@ namespace dc
     /// Record derived from KeyType rather than KeyType is recorded without a dataset.
     /// </summary>
     template <typename TKey, typename TRecord>
-    class KeyForImpl : public virtual KeyTypeImpl
+    class key_impl : public virtual key_base_impl
     {
-        typedef KeyForImpl<TKey, TRecord> self;
+        typedef key_impl<TKey, TRecord> self;
 
     private: // PROPERTIES
 
@@ -179,7 +179,7 @@ namespace dc
                 // value unless it is the delete marker, in which case
                 // return null
                 if (cachedRecord_->Record == nullptr) return nullptr;
-                else return (dot::ptr<TRecord>)(record_type)(cachedRecord_->Record);
+                else return (dot::ptr<TRecord>)(record_base)(cachedRecord_->Record);
             }
             else
             {
@@ -290,7 +290,7 @@ namespace dc
         /// the dataset where the object has been looked up, not the
         /// one where it is stored.
         /// </summary>
-        void SetCachedRecord(record_for<TKey, TRecord> record, ObjectId dataSet)
+        void SetCachedRecord(record<TKey, TRecord> record, ObjectId dataSet)
         {
             // Before doing anything else, clear the cached record
             // This will ensure that the previous cached copy is 
@@ -317,7 +317,7 @@ namespace dc
         }
 
         /// <summary>Assign key elements from record to key.</summary>
-        void AssignKeyElements(record_for<TKey, TRecord> record)
+        void AssignKeyElements(record<TKey, TRecord> record)
         {
             // The remaining code assigns elements of the record
             // to the matching elements of the key. This will also
@@ -372,11 +372,9 @@ namespace dc
         }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "KeyFor")
-            DOT_TYPE_BASE(KeyType)
+            DOT_TYPE_BASE(key_base)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
         DOT_TYPE_END()
-
     };
 }
-

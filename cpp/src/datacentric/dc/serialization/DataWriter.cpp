@@ -471,10 +471,10 @@ namespace dc
         {
             // We run out of value types at this point, now we can create
             // a reference type and check that it implements KeyType
-            dot::object keyObj = (KeyType)dot::activator::create_instance(elementType);
-            if (keyObj.is<KeyType>())
+            dot::object keyObj = (key_base)dot::activator::create_instance(elementType);
+            if (keyObj.is<key_base>())
             {
-                KeyType key = (KeyType) keyObj;
+                key_base key = (key_base) keyObj;
 
                 // Check type match
                 if (!valueType->equals(dot::typeof<dot::string>()) && !valueType->equals(elementType))

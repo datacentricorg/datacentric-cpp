@@ -23,21 +23,21 @@ namespace dc
 {
     template <typename TKey, typename TRecord> class root_record_for_impl;
     template <typename TKey, typename TRecord> using root_record_for = dot::ptr<root_record_for_impl<TKey, TRecord>>;
-    template <typename TKey, typename TRecord> class record_for_impl;
-    template <typename TKey, typename TRecord> using record_for = dot::ptr<record_for_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class record_impl;
+    template <typename TKey, typename TRecord> using record = dot::ptr<record_impl<TKey, TRecord>>;
 
 
     /// <summary>
     /// Record derived from KeyType rather than KeyType is recorded without a dataset.
     /// </summary>
     template <typename TKey, typename TRecord>
-    class root_record_for_impl : public virtual record_for_impl<TKey, TRecord>
+    class root_record_for_impl : public virtual record_impl<TKey, TRecord>
     {
         typedef root_record_for_impl<TKey, TRecord> self;
     public:
 
         DOT_TYPE_BEGIN(".Runtime.Main", "RootRecordFor")
-            DOT_TYPE_BASE(record_for<TKey, TRecord>)
+            DOT_TYPE_BASE(record<TKey, TRecord>)
         DOT_TYPE_END()
 
     };

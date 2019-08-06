@@ -26,7 +26,7 @@ namespace dc
     class LogSettingsDataImpl; using LogSettingsData = dot::ptr<LogSettingsDataImpl>;
 
     /// <summary>Log settings key.</summary>
-    class DC_CLASS LogSettingsKeyImpl : public KeyForImpl<LogSettingsKeyImpl, LogSettingsDataImpl>
+    class DC_CLASS LogSettingsKeyImpl : public key_impl<LogSettingsKeyImpl, LogSettingsDataImpl>
     {
     public: // PROPERTIES
 

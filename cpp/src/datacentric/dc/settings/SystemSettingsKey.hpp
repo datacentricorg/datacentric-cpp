@@ -26,7 +26,7 @@ namespace dc
     class SystemSettingsDataImpl; using SystemSettingsData = dot::ptr<SystemSettingsDataImpl>;
 
     /// <summary>Key for a system settings record.</summary>
-    class DC_CLASS SystemSettingsKeyImpl : public KeyForImpl<SystemSettingsKeyImpl, SystemSettingsDataImpl>
+    class DC_CLASS SystemSettingsKeyImpl : public key_impl<SystemSettingsKeyImpl, SystemSettingsDataImpl>
     {
     public: // PROPERTIES
 

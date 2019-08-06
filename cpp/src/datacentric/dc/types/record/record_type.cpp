@@ -21,7 +21,7 @@ limitations under the License.
 namespace dc
 {
 
-    void record_type_impl::Init(IContext context)
+    void record_base_impl::Init(IContext context)
     {
         // The line below is an example of calling Init(...) method for base class.
         // It should be uncommented for all classes derived from this class.

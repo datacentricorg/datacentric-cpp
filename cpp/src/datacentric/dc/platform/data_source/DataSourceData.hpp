@@ -32,7 +32,7 @@ namespace dc
     class data_source_key_impl; using data_source_key = dot::ptr<data_source_key_impl>;
     class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
 
-    class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
+    class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
     template <typename TKey, typename TRecord> class RootRecordForImpl;
     class db_name_key_impl; using db_name_key = dot::ptr<db_name_key_impl>;
@@ -86,7 +86,7 @@ namespace dc
         ///
         /// Return null if not found.
         /// </summary>
-        virtual record_type load_or_null(ObjectId id, dot::type_t data_type) = 0;
+        virtual record_base load_or_null(ObjectId id, dot::type_t data_type) = 0;
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -114,7 +114,7 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual record_type reload_or_null(KeyType key, ObjectId load_from) = 0;
+        virtual record_base reload_or_null(key_base key, ObjectId load_from) = 0;
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
@@ -125,7 +125,7 @@ namespace dc
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        virtual void save(record_type record, ObjectId data_set) = 0;
+        virtual void save(record_base record, ObjectId data_set) = 0;
 
         /// <summary>
         /// Get query for the specified type.
@@ -156,7 +156,7 @@ namespace dc
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
         /// </summary>
-        virtual void delete_record(KeyType data_key, ObjectId data_set) = 0;
+        virtual void delete_record(key_base data_key, ObjectId data_set) = 0;
 
         /// <summary>
         /// Permanently deletes (drops) the database with all records

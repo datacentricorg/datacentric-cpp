@@ -22,7 +22,7 @@ namespace dc
 {
     void DataSetDataImpl::Init(IContext context)
     {
-        record_for_impl<DataSetKeyImpl, DataSetDataImpl>::Init(context);
+        record_impl<DataSetKeyImpl, DataSetDataImpl>::Init(context);
 
         if (dot::string::is_null_or_empty(DataSetID)) throw dot::exception("DataSetID has not been set.");
 

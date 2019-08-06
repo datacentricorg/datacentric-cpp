@@ -138,7 +138,7 @@ namespace dc
 
 
     template <class Key>
-    inline void append(bsoncxx::builder::core& builder, Key rhs, typename std::enable_if<std::is_base_of<KeyTypeImpl, typename Key::element_type>::value >::type * p = 0)
+    inline void append(bsoncxx::builder::core& builder, Key rhs, typename std::enable_if<std::is_base_of<key_base_impl, typename Key::element_type>::value >::type * p = 0)
     {
         append(builder, rhs->to_string());
     }

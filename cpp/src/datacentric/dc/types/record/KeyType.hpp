@@ -21,13 +21,13 @@ limitations under the License.
 
 namespace dc
 {
-    class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
+    class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
     /// <summary>Key objects must derive from this type.</summary>
-    class DC_CLASS KeyTypeImpl : public data_impl
+    class DC_CLASS key_base_impl : public data_impl
     {
-        typedef KeyTypeImpl self;
+        typedef key_base_impl self;
 
     public:
 

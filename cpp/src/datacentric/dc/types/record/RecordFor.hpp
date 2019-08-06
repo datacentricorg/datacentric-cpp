@@ -21,19 +21,18 @@ limitations under the License.
 
 namespace dc
 {
-    class record_type_impl; using record_type = dot::ptr<record_type_impl>;
+    class record_base_impl; using record_base = dot::ptr<record_base_impl>;
 
-    template <typename TKey, typename TRecord> class record_for_impl;
-    template <typename TKey, typename TRecord> using record_for = dot::ptr<record_for_impl<TKey, TRecord>>;
-
+    template <typename TKey, typename TRecord> class record_impl;
+    template <typename TKey, typename TRecord> using record = dot::ptr<record_impl<TKey, TRecord>>;
 
     /// <summary>
     /// Base class of records stored in data source.
     /// </summary>
     template <typename TKey, typename TRecord>
-    class record_for_impl : public virtual record_type_impl
+    class record_impl : public virtual record_base_impl
     {
-        typedef record_for_impl<TKey, TRecord> self;
+        typedef record_impl<TKey, TRecord> self;
 
     public:
 
@@ -109,15 +108,12 @@ namespace dc
         operator dot::ptr<TKey>() { return to_key(); }
 
         DOT_TYPE_BEGIN(".Runtime.Main", "RecordFor")
-            DOT_TYPE_BASE(record_type)
+            DOT_TYPE_BASE(record_base)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
         DOT_TYPE_END()
     };
-
-
 }
-
 
 #include <dc/types/record/RootRecordFor.hpp>
 #include <dc/types/record/KeyFor.hpp>

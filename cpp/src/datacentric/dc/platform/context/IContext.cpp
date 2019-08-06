@@ -27,32 +27,32 @@ namespace dc
         DataSource = data_source;
     }
 
-    record_type IContextImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
+    record_base IContextImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
     {
         return DataSource->load_or_null(id, dataType);
     }
 
-    record_type IContextImpl::ReloadOrNull(KeyType key, ObjectId loadFrom)
+    record_base IContextImpl::ReloadOrNull(key_base key, ObjectId loadFrom)
     {
         return DataSource->reload_or_null(key, loadFrom);
     }
 
-    void IContextImpl::Save(record_type record)
+    void IContextImpl::Save(record_base record)
     {
         DataSource->save(record, DataSet);
     }
 
-    void IContextImpl::Save(record_type record, ObjectId saveTo)
+    void IContextImpl::Save(record_base record, ObjectId saveTo)
     {
         DataSource->save(record, saveTo);
     }
 
-    void IContextImpl::Delete(KeyType key)
+    void IContextImpl::Delete(key_base key)
     {
         DataSource->delete_record(key, DataSet);
     }
 
-    void IContextImpl::Delete(KeyType key, ObjectId deleteIn)
+    void IContextImpl::Delete(key_base key, ObjectId deleteIn)
     {
         DataSource->delete_record(key, deleteIn);
     }
