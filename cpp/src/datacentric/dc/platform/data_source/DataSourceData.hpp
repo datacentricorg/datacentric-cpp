@@ -34,7 +34,7 @@ namespace dc
 
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
-    template <typename TKey, typename TRecord> class RootRecordForImpl;
+    template <typename TKey, typename TRecord> class root_record_impl;
     class db_name_key_impl; using db_name_key = dot::ptr<db_name_key_impl>;
     class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;
     class query_impl; using query = dot::ptr<query_impl>;

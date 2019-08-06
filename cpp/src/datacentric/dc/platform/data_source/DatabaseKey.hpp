@@ -37,7 +37,7 @@ namespace dc
     ///
     /// This record is stored in root dataset.
     /// </summary>
-    class DC_CLASS db_name_key_impl : public root_key_for_impl<db_name_key_impl, db_name_data_impl>
+    class DC_CLASS db_name_key_impl : public root_key_impl<db_name_key_impl, db_name_data_impl>
     {
         typedef db_name_key_impl self;
         typedef instance_type instance_type_;
