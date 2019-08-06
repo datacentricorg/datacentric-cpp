@@ -29,7 +29,7 @@ namespace dc
     class MongoDataSourceBaseDataImpl; using MongoDataSourceData = dot::ptr<MongoDataSourceBaseDataImpl>;
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
     class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
-    class DataImpl; using Data = dot::ptr<DataImpl>;
+    class data_impl; using data = dot::ptr<data_impl>;
 
     /// <summary>
     /// Abstract base class for data source implementations based on MongoDB.

@@ -110,7 +110,7 @@ namespace dc
     ElementSampleData new_ElementSampleData();
 
     /// <summary>Element data class.</summary>
-    class ElementSampleDataImpl : public DataImpl
+    class ElementSampleDataImpl : public data_impl
     {
         typedef ElementSampleDataImpl self;
     public:
@@ -120,7 +120,7 @@ namespace dc
         DOT_TYPE_BEGIN(".Runtime.Test", "ElementSampleData")
             DOT_TYPE_PROP(DoubleElement3)
             DOT_TYPE_PROP(StringElement3)
-            DOT_TYPE_BASE(Data)
+            DOT_TYPE_BASE(data)
             DOT_TYPE_CTOR(new_ElementSampleData)
         DOT_TYPE_END()
     };

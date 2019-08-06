@@ -109,7 +109,7 @@ namespace dc
         dot::list<dot::field_info> props_;
         int indexOfCurrent_;
         DataWriter dataWriter_;
-        Data data_;
+        data data_;
 
     };
 

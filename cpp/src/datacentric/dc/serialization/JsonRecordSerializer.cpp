@@ -32,11 +32,11 @@ limitations under the License.
 
 namespace dc
 {
-    Data JsonRecordSerializerImpl::Deserialize(const rapidjson::Document& doc)
+    data JsonRecordSerializerImpl::Deserialize(const rapidjson::Document& doc)
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = doc["_t"].GetString();
-        Data result = (Data)dot::activator::create_instance("", typeName);
+        data result = (data)dot::activator::create_instance("", typeName);
         ITreeWriter writer = new_DataWriter(result);
 
         writer->WriteStartDocument(typeName);
@@ -205,7 +205,7 @@ namespace dc
         }
     }
 
-    void JsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
+    void JsonRecordSerializerImpl::Serialize(ITreeWriter writer, data value)
     {
         // Root name is written in JSON as _t element
         dot::string rootName = value->type()->full_name();

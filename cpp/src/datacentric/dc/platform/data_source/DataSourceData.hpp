@@ -33,7 +33,7 @@ namespace dc
     class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
 
     class KeyTypeImpl; using KeyType = dot::ptr<KeyTypeImpl>;
-    class DataImpl; using Data = dot::ptr<DataImpl>;
+    class data_impl; using data = dot::ptr<data_impl>;
     template <typename TKey, typename TRecord> class RootRecordForImpl;
     class db_name_key_impl; using db_name_key = dot::ptr<db_name_key_impl>;
     class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;

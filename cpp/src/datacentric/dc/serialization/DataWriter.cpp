@@ -30,8 +30,8 @@ limitations under the License.
 
 namespace dc
 {
-    DataWriterImpl::DataWriterImpl(Data data)
-        : currentDict_(data)
+    DataWriterImpl::DataWriterImpl(data data_obj)
+        : currentDict_(data_obj)
         , currentState_(TreeWriterState::Empty) {}
 
     void DataWriterImpl::WriteStartDocument(dot::string rootElementName)
@@ -128,21 +128,21 @@ namespace dc
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
         dot::object createdDictObj = dot::activator::create_instance(createdDictType);
-        if (!(createdDictObj.is<Data>())) // TODO Also support native dictionaries
+        if (!(createdDictObj.is<data>())) // TODO Also support native dictionaries
         {
             dot::string mappedClassName = currentElementInfo_->field_type->full_name();
             throw dot::exception(dot::string::format(
                 "Element {0} of type {1} does not implement Data.", currentElementInfo_->name, mappedClassName));
         }
 
-        auto createdDict = (Data) createdDictObj;
+        auto createdDict = (data) createdDictObj;
 
         // Add to array or dictionary, depending on what we are inside of
         if (currentArray_ != nullptr) currentArray_->add_object(createdDict);
         else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, createdDict);
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
-        currentDict_ = (Data) createdDict;
+        currentDict_ = (data) createdDict;
         auto currentDictInfoList = createdDictType->get_fields();
         currentDictElements_ = dot::make_dictionary<dot::string, dot::field_info>();
         for (auto elementInfo : currentDictInfoList) currentDictElements_->add(elementInfo->name, elementInfo);

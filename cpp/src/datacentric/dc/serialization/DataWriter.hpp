@@ -34,7 +34,7 @@ namespace dc
     /// <summary>Implementation of ITreeWriter for Data.</summary>
     class DC_CLASS DataWriterImpl : public ITreeWriterImpl
     {
-        friend DataWriter new_DataWriter(Data data);
+        friend DataWriter new_DataWriter(data data_obj);
         friend TupleWriterImpl;
 
     private:
@@ -42,7 +42,7 @@ namespace dc
         {
             dot::string CurrentElementName;
             TreeWriterState CurrentState;
-            Data CurrentDict;
+            data CurrentDict;
             dot::dictionary<dot::string, dot::field_info> CurrentDictElements;
             dot::field_info CurrentElementInfo;
             dot::collection_base CurrentArray;
@@ -55,7 +55,7 @@ namespace dc
         dot::string rootElementName_;
         dot::string currentElementName_;
         TreeWriterState currentState_;
-        Data currentDict_;
+        data currentDict_;
         dot::dictionary<dot::string, dot::field_info> currentDictElements_;
         dot::field_info currentElementInfo_;
         dot::collection_base currentArray_;
@@ -63,7 +63,7 @@ namespace dc
 
     private: // CONSTRUCTORS
 
-        DataWriterImpl(Data data);
+        DataWriterImpl(data data_obj);
 
     public: //  METHODS
 
@@ -136,6 +136,6 @@ namespace dc
 
     };
 
-    inline DataWriter new_DataWriter(Data data) { return new DataWriterImpl(data); }
+    inline DataWriter new_DataWriter(data data_obj) { return new DataWriterImpl(data_obj); }
 }
 

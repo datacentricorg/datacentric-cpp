@@ -74,7 +74,7 @@ namespace dc
                     "which is collection containing another collection.", elementName));
             }
             else
-            if (item.is<Data>())
+            if (item.is<data>())
             {
                 if (itemType->name->ends_with("Key"))
                 {
@@ -85,7 +85,7 @@ namespace dc
                 }
                 else
                 {
-                    ((Data)item)->SerializeTo(writer);
+                    ((data)item)->SerializeTo(writer);
                 }
             }
             else
@@ -104,7 +104,7 @@ namespace dc
     }
 
 
-    void DataImpl::SerializeTo(ITreeWriter writer)
+    void data_impl::SerializeTo(ITreeWriter writer)
     {
         // Write start tag
         writer->WriteStartDict();
@@ -145,7 +145,7 @@ namespace dc
                 dc::SerializeTo((dot::enumerable_base)innerElementValue, innerElementName, writer);
             }
             else
-            if (innerElementValue.is<Data>())
+            if (innerElementValue.is<data>())
             {
                 if (innerElementValue->type()->name->ends_with("Key"))
                 {
@@ -156,7 +156,7 @@ namespace dc
                 {
                     // Embedded as data
                     writer->WriteStartElement(innerElementName);
-                    ((Data)innerElementValue)->SerializeTo(writer);
+                    ((data)innerElementValue)->SerializeTo(writer);
                     writer->WriteEndElement(innerElementName);
                 }
             }

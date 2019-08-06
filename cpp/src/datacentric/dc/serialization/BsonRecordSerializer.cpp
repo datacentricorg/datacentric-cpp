@@ -30,11 +30,11 @@ limitations under the License.
 
 namespace dc
 {
-    Data BsonRecordSerializerImpl::Deserialize(bsoncxx::document::view doc)
+    data BsonRecordSerializerImpl::Deserialize(bsoncxx::document::view doc)
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = doc["_t"].get_utf8().value.to_string();
-        Data result = (Data)dot::activator::create_instance("", typeName);
+        data result = (data)dot::activator::create_instance("", typeName);
         ITreeWriter writer = new_DataWriter(result);
 
         writer->WriteStartDocument(typeName);
@@ -225,7 +225,7 @@ namespace dc
         }
     }
 
-    void BsonRecordSerializerImpl::Serialize(ITreeWriter writer, Data value)
+    void BsonRecordSerializerImpl::Serialize(ITreeWriter writer, data value)
     {
         // Root name is written in JSON as _t element
         dot::string rootName = value->type()->full_name();

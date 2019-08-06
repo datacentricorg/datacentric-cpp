@@ -62,7 +62,7 @@ namespace dc
                     indexOfCurrent_ = i;
                     if (props_[i]->field_type->name->ends_with("Data")) //! TODO change ends_with
                     {
-                        Data result = (Data)dot::activator::create_instance(props_[i]->field_type);
+                        data result = (data)dot::activator::create_instance(props_[i]->field_type);
                         dataWriter_ = new_DataWriter(result);
                         dataWriter_->WriteStartDocument(props_[i]->field_type->name);
 

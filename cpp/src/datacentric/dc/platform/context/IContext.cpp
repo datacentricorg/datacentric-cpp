@@ -22,9 +22,9 @@ limitations under the License.
 
 namespace dc
 {
-    void IContextImpl::SetDataSource(data_source_data dataSource)
+    void IContextImpl::SetDataSource(data_source_data data_source)
     {
-        DataSource = dataSource;
+        DataSource = data_source;
     }
 
     record_type IContextImpl::LoadOrNull(ObjectId id, dot::type_t dataType)

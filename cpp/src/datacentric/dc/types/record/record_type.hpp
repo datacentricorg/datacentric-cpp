@@ -25,7 +25,7 @@ namespace dc
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
 
     /// <summary>Record objects must derive from this type.</summary>
-    class DC_CLASS record_type_impl : public virtual DataImpl
+    class DC_CLASS record_type_impl : public virtual data_impl
     {
         typedef record_type_impl self;
 
@@ -79,7 +79,7 @@ namespace dc
             ->with_field("_id", &self::ID)
             ->with_field("_dataset", &self::DataSet)
           //  ->WithProperty("_key", &self::Key)
-            DOT_TYPE_BASE(Data)
+            DOT_TYPE_BASE(data)
         DOT_TYPE_END()
 
     };
