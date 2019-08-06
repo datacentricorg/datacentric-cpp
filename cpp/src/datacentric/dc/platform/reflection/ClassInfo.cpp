@@ -16,7 +16,7 @@ limitations under the License.
 
 #include <dc/implement.hpp>
 #include <dc/platform/reflection/ClassInfo.hpp>
-#include <dc/platform/settings/Settings.hpp>
+#include <dc/platform/settings/class_map_settings.hpp>
 
 namespace dc
 {
@@ -60,7 +60,7 @@ namespace dc
 
         // Remove ignored class name prefix
         MappedClassName = RawClassName;
-        for (dot::string ignoredTypeNamePrefix : Settings::Default->getClassMap()->getIgnoredClassNamePrefixes())
+        for (dot::string ignoredTypeNamePrefix : class_map_settings::ignored_class_name_prefixes())
         {
             if (MappedClassName->starts_with(ignoredTypeNamePrefix))
             {
@@ -72,7 +72,7 @@ namespace dc
         }
 
         // Remove ignored class name suffix
-        for (dot::string ignoredTypeNameSuffix : Settings::Default->getClassMap()->getIgnoredClassNameSuffixes())
+        for (dot::string ignoredTypeNameSuffix : class_map_settings::ignored_class_name_suffixes())
         {
             if (MappedClassName->ends_with(ignoredTypeNameSuffix))
             {
@@ -85,7 +85,7 @@ namespace dc
 
         // Remove ignored namespace prefix
         MappedNamespace = RawNamespace;
-        for (dot::string ignoredModuleNamePrefix : Settings::Default->getClassMap()->getIgnoredNamespacePrefixes())
+        for (dot::string ignoredModuleNamePrefix : class_map_settings::ignored_namespace_prefixes())
         {
             if (MappedNamespace->starts_with(ignoredModuleNamePrefix))
             {
@@ -97,7 +97,7 @@ namespace dc
         }
 
         // Remove ignored namespace suffix
-        for (dot::string ignoredModuleNameSuffix : Settings::Default->getClassMap()->getIgnoredNamespaceSuffixes())
+        for (dot::string ignoredModuleNameSuffix : class_map_settings::ignored_namespace_suffixes())
         {
             if (MappedNamespace->ends_with(ignoredModuleNameSuffix))
             {
