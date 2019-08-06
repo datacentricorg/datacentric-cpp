@@ -45,7 +45,7 @@ namespace dc
             Data CurrentDict;
             dot::dictionary<dot::string, dot::field_info> CurrentDictElements;
             dot::field_info CurrentElementInfo;
-            dot::object CurrentArray;
+            dot::collection_base CurrentArray;
             dot::type_t CurrentArrayItemType;
         };
 
@@ -58,7 +58,7 @@ namespace dc
         Data currentDict_;
         dot::dictionary<dot::string, dot::field_info> currentDictElements_;
         dot::field_info currentElementInfo_;
-        dot::object currentArray_;
+        dot::collection_base currentArray_;
         dot::type_t currentArrayItemType_;
 
     private: // CONSTRUCTORS
@@ -134,8 +134,6 @@ namespace dc
         /// <summary>Pop state from the stack.</summary>
         void PopState();
 
-        /// <summary>Add object to end of container via reflection.</summary>
-        void add_to_container(dot::object container, dot::object item);
     };
 
     inline DataWriter new_DataWriter(Data data) { return new DataWriterImpl(data); }

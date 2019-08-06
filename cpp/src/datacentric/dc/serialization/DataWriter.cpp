@@ -138,7 +138,7 @@ namespace dc
         auto createdDict = (Data) createdDictObj;
 
         // Add to array or dictionary, depending on what we are inside of
-        if (currentArray_ != nullptr) add_to_container(currentArray_, createdDict);
+        if (currentArray_ != nullptr) currentArray_->add_object(createdDict);
         else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, createdDict);
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
@@ -176,14 +176,14 @@ namespace dc
 
         // Create the array
         dot::object createdArrayObj = dot::activator::create_instance(currentElementInfo_->field_type);
-        //if (createdArrayObj.is<dot::IObjectCollection>()) // TODO Also support native arrays
+        if (createdArrayObj.is<dot::collection_base>()) // TODO Also support native arrays
         {
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) add_to_container(currentArray_, createdArrayObj);
+            if (currentArray_ != nullptr) currentArray_->add_object(createdArrayObj);
             else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, createdArrayObj);
             else throw dot::exception("Value can only be added to a dictionary or array.");
 
-            currentArray_ = createdArrayObj;
+            currentArray_ = (dot::collection_base) createdArrayObj;
 
             // Get array item type from array type using reflection
             dot::type_t listType = currentElementInfo_->field_type;      // TODO fix
@@ -245,7 +245,7 @@ namespace dc
         //else if (currentArrayItemType_->IsClass) addedItem = nullptr;
         //else throw dot::exception(dot::string::format("Value type {0} is not supported for serialization.", currentArrayItemType_->name));
 
-        //add_to_container(currentArray_, addedItem);
+        //currentArray_->add_object(addedItem);
         //currentArrayItem_ = addedItem;
     }
 
@@ -301,7 +301,7 @@ namespace dc
         {
             // Do not record null or empty value into dictionary, but add it to an array
             // Add to dictionary or array, depending on what we are inside of
-            if (currentArray_ != nullptr) add_to_container(currentArray_, nullptr);
+            if (currentArray_ != nullptr) currentArray_->add_object(nullptr);
             return;
         }
 
@@ -341,7 +341,7 @@ namespace dc
             }
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) add_to_container(currentArray_, convertedValue);
+            if (currentArray_ != nullptr) currentArray_->add_object(convertedValue);
             else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, convertedValue);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
@@ -365,7 +365,7 @@ namespace dc
                     "into local_date; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) add_to_container(currentArray_, dateValue);
+            if (currentArray_ != nullptr) currentArray_->add_object(dateValue);
             else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, dateValue);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
@@ -389,7 +389,7 @@ namespace dc
                     "into local_time; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) add_to_container(currentArray_, timeValue);
+            if (currentArray_ != nullptr) currentArray_->add_object(timeValue);
             else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, timeValue);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
@@ -413,7 +413,7 @@ namespace dc
                 "into local_minute; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) add_to_container(currentArray_, minuteValue);
+            if (currentArray_ != nullptr) currentArray_->add_object(minuteValue);
             else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, minuteValue);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
@@ -446,7 +446,7 @@ namespace dc
                     "into local_date_time; type should be local_date_time.");
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) add_to_container(currentArray_, dateTimeValue);
+            if (currentArray_ != nullptr) currentArray_->add_object(dateTimeValue);
             else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, dateTimeValue);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
@@ -463,7 +463,7 @@ namespace dc
             dot::object enumValue = dot::enum_base::parse(elementType, enumString);
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) add_to_container(currentArray_, enumValue);
+            if (currentArray_ != nullptr) currentArray_->add_object(enumValue);
             else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, enumValue);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
@@ -487,7 +487,7 @@ namespace dc
                 key->AssignString(stringValue);
 
                 // Add to array or dictionary, depending on what we are inside of
-                if (currentArray_ != nullptr) add_to_container(currentArray_, key);
+                if (currentArray_ != nullptr) currentArray_->add_object(key);
                 else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, key);
                 else throw dot::exception("Value can only be added to a dictionary or array.");
             }
@@ -536,8 +536,4 @@ namespace dc
         currentArrayItemType_ = stackItem.CurrentArrayItemType;
     }
 
-    void DataWriterImpl::add_to_container(dot::object container, dot::object item)
-    {
-        container->type()->get_method("add")->invoke(container, dot::make_array<dot::object>(std::vector<dot::object>{ item }));
-    }
 }

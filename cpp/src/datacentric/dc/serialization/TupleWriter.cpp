@@ -73,7 +73,7 @@ namespace dc
                         //writer->WriteEndDocument(typeName);
                     }
 
-                    if (! props_[i]->field_type->get_interface("IObjectEnumerable").is_empty()) // TODO - refactor after removing the interface
+                    if (! props_[i]->field_type->get_interface("IEnumerable").is_empty()) // TODO - refactor after removing the interface
                     {
                         dataWriter_ = new_DataWriter(nullptr);
                         dataWriter_->currentElementInfo_ = props_[i];
