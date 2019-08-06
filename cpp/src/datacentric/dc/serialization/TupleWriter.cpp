@@ -20,7 +20,7 @@ limitations under the License.
 #include <dot/noda_time/local_minute_util.hpp>
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
-#include <dc/types/record/KeyType.hpp>
+#include <dc/types/record/key_base.hpp>
 #include <dot/system/Enum.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_time.hpp>

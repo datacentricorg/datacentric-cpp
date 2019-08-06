@@ -16,7 +16,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/record_type.hpp>
+#include <dc/types/record/record_base.hpp>
 #include <dot/system/reflection/activator.hpp>
 
 namespace dc
@@ -116,7 +116,7 @@ namespace dc
 }
 
 #include <dc/types/record/RootRecordFor.hpp>
-#include <dc/types/record/KeyFor.hpp>
+#include <dc/types/record/key.hpp>
 #include <dc/types/record/RootKeyFor.hpp>
 
 #include <dc/platform/data_source/DataSourceData.hpp>

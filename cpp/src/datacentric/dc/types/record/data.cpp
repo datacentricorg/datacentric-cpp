@@ -15,10 +15,10 @@ limitations under the License.
 */
 
 #include <dc/implement.hpp>
-#include <dc/types/record/DataType.hpp>
+#include <dc/types/record/data.hpp>
 #include <dc/serialization/ITreeWriter.hpp>
 #include <dot/system/reflection/activator.hpp>
-#include <dc/types/record/KeyType.hpp>
+#include <dc/types/record/key_base.hpp>
 
 
 namespace dc

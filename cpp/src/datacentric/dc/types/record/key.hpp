@@ -17,9 +17,9 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/RecordFor.hpp>
+#include <dc/types/record/record.hpp>
 #include <dot/system/object.hpp>
-#include <dc/types/record/KeyType.hpp>
+#include <dc/types/record/key_base.hpp>
 #include <dc/types/record/CachedRecord.hpp>
 //#include <dc/platform/data_source/mongo/ObjectId.hpp>
 

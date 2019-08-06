@@ -31,7 +31,7 @@ limitations under the License.
 #include <dc/platform/context/Context.hpp>
 #include <dc/test/platform/context/Context.hpp>
 
-#include <dc/types/record/RecordFor.hpp>
+#include <dc/types/record/record.hpp>
 
 #include <chrono>
 

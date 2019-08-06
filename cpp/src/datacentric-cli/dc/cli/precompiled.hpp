@@ -16,5 +16,5 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/platform/context/IContext.hpp>
-#include <dc/types/record/DataType.hpp>
+#include <dc/types/record/data.hpp>
 

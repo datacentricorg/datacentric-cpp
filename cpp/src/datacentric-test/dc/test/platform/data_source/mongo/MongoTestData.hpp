@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/test/implement.hpp>
 #include <dc/platform/context/IContext.hpp>
-#include <dc/types/record/RecordFor.hpp>
+#include <dc/types/record/record.hpp>
 #include <dot/system/Enum.hpp>
 
 namespace dc

@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/record_type.hpp>
+#include <dc/types/record/record_base.hpp>
 
 namespace dc
 {

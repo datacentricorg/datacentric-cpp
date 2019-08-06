@@ -22,7 +22,7 @@ limitations under the License.
 #include <dot/system/collections/generic/Dictionary.hpp>
 #include <dot/system/collections/generic/hash_set.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <dc/types/record/RecordFor.hpp>
+#include <dc/types/record/record.hpp>
 #include <dc/platform/data_source/DatabaseKey.hpp>
 #include <dc/platform/data_source/DatabaseServerKey.hpp>
 #include <dc/platform/query/Query.hpp>

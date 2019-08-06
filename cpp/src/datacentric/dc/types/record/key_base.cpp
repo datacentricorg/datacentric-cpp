@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 #include <dc/implement.hpp>
-#include <dc/types/record/KeyType.hpp>
+#include <dc/types/record/key_base.hpp>
 #include <dot/system/reflection/activator.hpp>
 
 namespace dc

@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/KeyFor.hpp>
+#include <dc/types/record/key.hpp>
 
 namespace dc
 {

@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 #include <dc/implement.hpp>
-#include <dc/types/record/record_type.hpp>
+#include <dc/types/record/record_base.hpp>
 #include <dc/platform/context/IContext.hpp>
 
 namespace dc
