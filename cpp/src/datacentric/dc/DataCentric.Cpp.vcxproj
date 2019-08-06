@@ -161,6 +161,11 @@
     <ClInclude Include="types\record\ValueType.hpp" />
     <ClInclude Include="types\variant\Variant.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\dotcpp\dot\DotCpp.Cpp.vcxproj">
+      <Project>{7fa068ec-b443-4db9-93af-56cbc7110408}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B3B7D5B9-3965-40E0-814A-74F2BFE874E9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
