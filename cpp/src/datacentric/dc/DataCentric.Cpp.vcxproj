@@ -52,10 +52,10 @@
     <ClCompile Include="settings\SystemSettingsData.cpp" />
     <ClCompile Include="settings\SystemSettingsKey.cpp" />
     <ClCompile Include="types\record\CachedRecord.cpp" />
-    <ClCompile Include="types\record\DataType.cpp" />
+    <ClCompile Include="types\record\data.cpp" />
     <ClCompile Include="types\record\DeleteMarker.cpp" />
-    <ClCompile Include="types\record\KeyType.cpp" />
-    <ClCompile Include="types\record\record_type.cpp" />
+    <ClCompile Include="types\record\key_base.cpp" />
+    <ClCompile Include="types\record\record_base.cpp" />
     <ClCompile Include="types\variant\Variant.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -119,15 +119,15 @@
     <ClInclude Include="types\double\double_compare.hpp" />
     <ClInclude Include="types\record\CachedRecord.hpp" />
     <ClInclude Include="types\record\DeleteMarker.hpp" />
-    <ClInclude Include="types\record\KeyFor.hpp" />
-    <ClInclude Include="types\record\RecordFor.hpp" />
+    <ClInclude Include="types\record\key.hpp" />
+    <ClInclude Include="types\record\record.hpp" />
     <ClInclude Include="types\record\RootKeyFor.hpp" />
     <ClInclude Include="types\record\RootRecordFor.hpp" />
     <ClInclude Include="types\record\IKeyFor.hpp" />
     <ClInclude Include="types\enum\Flag.hpp" />
-    <ClInclude Include="types\record\DataType.hpp" />
-    <ClInclude Include="types\record\KeyType.hpp" />
-    <ClInclude Include="types\record\record_type.hpp" />
+    <ClInclude Include="types\record\data.hpp" />
+    <ClInclude Include="types\record\key_base.hpp" />
+    <ClInclude Include="types\record\record_base.hpp" />
     <ClInclude Include="types\record\ValueType.hpp" />
     <ClInclude Include="types\variant\Variant.hpp" />
   </ItemGroup>
