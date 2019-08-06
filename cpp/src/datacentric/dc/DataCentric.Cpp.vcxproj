@@ -40,7 +40,6 @@
     <ClCompile Include="precompiled.cpp" />
     <ClCompile Include="serialization\BsonRecordSerializer.cpp" />
     <ClCompile Include="serialization\BsonWriter.cpp" />
-    <ClCompile Include="serialization\CsvWriter.cpp" />
     <ClCompile Include="serialization\DataWriter.cpp" />
     <ClCompile Include="serialization\JsonRecordSerializer.cpp" />
     <ClCompile Include="serialization\JsonWriter.cpp" />
@@ -102,7 +101,6 @@
     <ClInclude Include="precompiled.hpp" />
     <ClInclude Include="serialization\BsonRecordSerializer.hpp" />
     <ClInclude Include="serialization\BsonWriter.hpp" />
-    <ClInclude Include="serialization\CsvWriter.hpp" />
     <ClInclude Include="serialization\DataWriter.hpp" />
     <ClInclude Include="serialization\JsonRecordSerializer.hpp" />
     <ClInclude Include="serialization\JsonWriter.hpp" />
