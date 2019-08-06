@@ -121,8 +121,8 @@
     <ClInclude Include="types\record\DeleteMarker.hpp" />
     <ClInclude Include="types\record\key.hpp" />
     <ClInclude Include="types\record\record.hpp" />
-    <ClInclude Include="types\record\RootKeyFor.hpp" />
-    <ClInclude Include="types\record\RootRecordFor.hpp" />
+    <ClInclude Include="types\record\root_key.hpp" />
+    <ClInclude Include="types\record\root_record.hpp" />
     <ClInclude Include="types\record\IKeyFor.hpp" />
     <ClInclude Include="types\enum\Flag.hpp" />
     <ClInclude Include="types\record\data.hpp" />
