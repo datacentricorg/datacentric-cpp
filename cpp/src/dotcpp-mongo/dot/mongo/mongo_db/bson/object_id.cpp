@@ -28,22 +28,22 @@ namespace dot
     object_id::object_id()
     {
         static const char empty_buffer[12] = { 0 };
-        _id = bsoncxx::oid(empty_buffer, 12);
+        id_ = bsoncxx::oid(empty_buffer, 12);
     }
 
-    object_id::object_id(bsoncxx::oid id) : _id(id) {}
+    object_id::object_id(bsoncxx::oid id) : id_(id) {}
 
     object_id::object_id(dot::object obj)
     {
-        _id = ((struct_wrapper<object_id>)obj)->_id;
+        id_ = ((struct_wrapper<object_id>)obj)->id_;
     }
 
     object_id::object_id(dot::string str)
-        : _id(*str)
+        : id_(*str)
     {}
 
     object_id::object_id(const char* bytes, std::size_t len)
-        : _id(bytes, len)
+        : id_(bytes, len)
     {
     }
 
@@ -55,46 +55,46 @@ namespace dot
         boost::posix_time::time_duration d = (boost::posix_time::ptime)value - epoch;
         int64_t seconds = d.total_seconds();
         std::memcpy(bytes, &seconds, sizeof(seconds));
-        _id = bsoncxx::oid(bytes, 12);
+        id_ = bsoncxx::oid(bytes, 12);
     }
 
     bool object_id::is_empty()
     {
-        return *_id.bytes() == 0; // TODO check
+        return *id_.bytes() == 0; // TODO check
     }
 
-    object_id object_id::GenerateNewId()
+    object_id object_id::generate_new_id()
     {
         return bsoncxx::oid();
     }
 
     dot::string object_id::to_string() const
     {
-        return _id.to_string();
+        return id_.to_string();
     }
 
     bool object_id::operator==(const object_id& rhs) const
     {
-        return _id == rhs._id;
+        return id_ == rhs.id_;
     }
 
     bool object_id::operator!=(const object_id& rhs) const
     {
-        return _id != rhs._id;
+        return id_ != rhs.id_;
     }
 
     bool object_id::operator>=(const object_id& rhs) const
     {
-        return _id >= rhs._id;
+        return id_ >= rhs.id_;
     }
 
     bool object_id::operator<=(const object_id& rhs) const
     {
-        return _id <= rhs._id;
+        return id_ <= rhs.id_;
     }
 
     bool object_id::operator<(const object_id& rhs) const
     {
-        return _id < rhs._id;
+        return id_ < rhs.id_;
     }
 }

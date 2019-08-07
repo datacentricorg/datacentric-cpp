@@ -68,7 +68,7 @@ namespace dc
 
         // Generate dot::object_id and check that it is later
         // than the previous generated dot::object_id
-        dot::object_id result = dot::object_id::GenerateNewId();
+        dot::object_id result = dot::object_id::generate_new_id();
         int retryCounter = 0;
         while (result.oid() <= prev_object_id_.oid())
         {
@@ -79,7 +79,7 @@ namespace dc
 
             // If new dot::object_id is not strictly greater than the previous one,
             // keep generating new dot::object_ids until it changes
-            result = dot::object_id::GenerateNewId();
+            result = dot::object_id::generate_new_id();
         }
 
         // Report the number of retries

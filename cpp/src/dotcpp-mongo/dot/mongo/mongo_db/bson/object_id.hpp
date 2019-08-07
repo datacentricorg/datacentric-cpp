@@ -62,11 +62,11 @@ namespace dot
     public: // METHODS
 
         /// Return the internal BSON oid type
-        bsoncxx::oid oid() const { return _id; }
+        bsoncxx::oid oid() const { return id_; }
 
         bool is_empty();
 
-        static object_id GenerateNewId();
+        static object_id generate_new_id();
 
         /// Returns hexadecimal string representation
         dot::string to_string() const;
@@ -94,13 +94,13 @@ namespace dot
         /// Boxing operator
         operator dot::object() const
         {
-            if (_id != empty._id)
+            if (id_ != empty.id_)
                 return dot::object(new dot::struct_wrapper_impl<object_id>(*this));
             else return dot::object();
         }
 
     private:
-        bsoncxx::oid _id;
+        bsoncxx::oid id_;
     };
 }
 
@@ -109,7 +109,7 @@ namespace dot
     template <>
     inline type_t typeof<dot::object_id>()
     {
-        static dot::type_t type_ = dot::make_type_builder<dot::object_id>("Mongo", "object_id")->build();
+        static dot::type_t type_ = dot::make_type_builder<dot::object_id>("dot", "object_id")->build();
         return type_;
     }
 }

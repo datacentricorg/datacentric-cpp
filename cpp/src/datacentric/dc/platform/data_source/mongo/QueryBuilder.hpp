@@ -406,12 +406,12 @@ namespace dc
 
         operator_wrapper<bsoncxx::oid> operator==(dot::object_id rhs) const
         {
-            return operator_wrapper<bsoncxx::oid>("_id", "$eq", rhs._id);
+            return operator_wrapper<bsoncxx::oid>("_id", "$eq", rhs.id_);
         }
 
         operator_wrapper<bsoncxx::oid> operator<(dot::object_id rhs) const
         {
-            return operator_wrapper<bsoncxx::oid>("_id", "$lt", rhs._id);
+            return operator_wrapper<bsoncxx::oid>("_id", "$lt", rhs.id_);
         }
 
     };
