@@ -16,7 +16,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="platform\context\Context.cpp" />
     <ClCompile Include="platform\context\context_base.cpp" />
     <ClCompile Include="platform\dataset\data_set_data.cpp" />
     <ClCompile Include="platform\dataset\data_set_key.cpp" />
@@ -56,7 +55,6 @@
     <ClInclude Include="declare.hpp" />
     <ClInclude Include="implement.hpp" />
     <ClInclude Include="import.hpp" />
-    <ClInclude Include="platform\context\Context.hpp" />
     <ClInclude Include="platform\context\context_base.hpp" />
     <ClInclude Include="platform\cursor\CursorWrapper.hpp" />
     <ClInclude Include="platform\dataset\data_set_data.hpp" />

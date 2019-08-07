@@ -29,7 +29,6 @@ limitations under the License.
 #include <dc/platform/dataset/data_set_key.hpp>
 #include <dc/platform/dataset/data_set_data.hpp>
 
-#include <dc/platform/context/Context.hpp>
 #include <dc/test/platform/context/Context.hpp>
 
 #include <dc/test/platform/data_source/mongo/MongoTestData.hpp>
