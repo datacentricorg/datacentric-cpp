@@ -15,6 +15,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataCentric.Cpp", "src\data
 	ProjectSection(ProjectDependencies) = postProject
 		{05FCBA2D-EBAF-4265-94E6-CB33526C758F} = {05FCBA2D-EBAF-4265-94E6-CB33526C758F}
 		{3E968F78-2794-4871-8DF5-8931655489ED} = {3E968F78-2794-4871-8DF5-8931655489ED}
+		{ED9333DD-8D40-4103-A01E-B1D26D95AEF8} = {ED9333DD-8D40-4103-A01E-B1D26D95AEF8}
 		{7FA068EC-B443-4DB9-93AF-56CBC7110408} = {7FA068EC-B443-4DB9-93AF-56CBC7110408}
 	EndProjectSection
 EndProject
@@ -46,6 +47,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DotCpp.Test.Cpp", "src\dotc
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DotCpp.Mongo.Cpp", "src\dotcpp-mongo\dot\mongo\DotCpp.Mongo.Cpp.vcxproj", "{ED9333DD-8D40-4103-A01E-B1D26D95AEF8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3E968F78-2794-4871-8DF5-8931655489ED} = {3E968F78-2794-4871-8DF5-8931655489ED}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
