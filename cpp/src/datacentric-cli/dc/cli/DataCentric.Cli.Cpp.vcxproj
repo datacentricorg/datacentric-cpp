@@ -71,7 +71,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..;..\..\..\dotcpp;..\..\..\datacentric;..\..\..\..\third_party</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..;..\..\..\dotcpp;..\..\..\dotcpp-mongo;..\..\..\datacentric;..\..\..\..\third_party</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>dc/cli/precompiled.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>precompiled.pch</PrecompiledHeaderOutputFile>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
@@ -82,7 +82,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Mongo.Cpp.lib;DataCentric.Cpp.lib;DotCpp.Cpp.lib;libboost_date_time-vc141-mt-gd-x64-1_70.lib;secur32.lib;ws2_32.lib;crypt32.lib;Bcrypt.lib;Dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DataCentric.Cpp.lib;DotCpp.Cpp.lib;DotCpp.Mongo.Cpp.lib;Mongo.Cpp.lib;libboost_date_time-vc141-mt-gd-x64-1_70.lib;secur32.lib;ws2_32.lib;crypt32.lib;Bcrypt.lib;Dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -94,7 +94,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..;..\..\..\dotcpp;..\..\..\datacentric;..\..\..\..\third_party</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..;..\..\..\dotcpp;..\..\..\dotcpp-mongo;..\..\..\datacentric;..\..\..\..\third_party</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>dc/cli/precompiled.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>precompiled.pch</PrecompiledHeaderOutputFile>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
@@ -107,7 +107,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Mongo.Cpp.lib;DataCentric.Cpp.lib;DotCpp.Cpp.lib;libboost_date_time-vc141-mt-x64-1_70.lib;secur32.lib;ws2_32.lib;crypt32.lib;Bcrypt.lib;Dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DataCentric.Cpp.lib;DotCpp.Cpp.lib;DotCpp.Mongo.Cpp.lib;Mongo.Cpp.lib;libboost_date_time-vc141-mt-gd-x64-1_70.lib;secur32.lib;ws2_32.lib;crypt32.lib;Bcrypt.lib;Dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

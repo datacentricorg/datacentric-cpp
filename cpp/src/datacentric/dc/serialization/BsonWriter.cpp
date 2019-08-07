@@ -28,7 +28,7 @@ limitations under the License.
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
-#include <dot/mongo_db/bson/object_id.hpp>
+#include <dot/mongo/mongo_db/bson/object_id.hpp>
 
 #include <bsoncxx/json.hpp>
 

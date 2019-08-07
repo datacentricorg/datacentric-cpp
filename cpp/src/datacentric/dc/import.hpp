@@ -16,17 +16,8 @@ limitations under the License.
 
 #pragma once
 
-// Includes standard compile time defines and STL headers
-#include <dot/declare.hpp>
+// Includes DotCpp headers
+#include <dot/mongo/declare.hpp>
 
-// DotCpp includes
-#include <dot/system/object.hpp>
-#include <dot/system/string.hpp>
-#include <dot/system/type.hpp>
-#include <dot/system/ptr.hpp>
-#include <dot/system/bool.hpp>
-#include <dot/system/double.hpp>
-#include <dot/system/int.hpp>
-#include <dot/system/long.hpp>
-#include <dot/system/nullable.hpp>
-#include <dot/system/collections/generic/list.hpp>
+// DotCpp Mongo headers
+#include <dot/mongo/mongo_db/bson/object_id.hpp>

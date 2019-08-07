@@ -45,6 +45,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DotCpp.Test.Cpp", "src\dotc
 		{7FA068EC-B443-4DB9-93AF-56CBC7110408} = {7FA068EC-B443-4DB9-93AF-56CBC7110408}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DotCpp.Mongo.Cpp", "src\dotcpp-mongo\dot\mongo\DotCpp.Mongo.Cpp.vcxproj", "{ED9333DD-8D40-4103-A01E-B1D26D95AEF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -79,6 +81,10 @@ Global
 		{04199C2F-0C9B-43F1-968F-5D7329204EF6}.Debug|x64.Build.0 = Debug|x64
 		{04199C2F-0C9B-43F1-968F-5D7329204EF6}.Release|x64.ActiveCfg = Release|x64
 		{04199C2F-0C9B-43F1-968F-5D7329204EF6}.Release|x64.Build.0 = Release|x64
+		{ED9333DD-8D40-4103-A01E-B1D26D95AEF8}.Debug|x64.ActiveCfg = Debug|x64
+		{ED9333DD-8D40-4103-A01E-B1D26D95AEF8}.Debug|x64.Build.0 = Debug|x64
+		{ED9333DD-8D40-4103-A01E-B1D26D95AEF8}.Release|x64.ActiveCfg = Release|x64
+		{ED9333DD-8D40-4103-A01E-B1D26D95AEF8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{C80F9457-111E-4D0D-8AD9-50498E73B014} = {6219A49D-7BB3-43B2-8884-86F852086A2D}
 		{3E968F78-2794-4871-8DF5-8931655489ED} = {7F5FEF56-F3EB-4498-9F90-DD0AB389E5DC}
 		{04199C2F-0C9B-43F1-968F-5D7329204EF6} = {39369386-2822-4EF1-AF43-ADC22FC1F7EB}
+		{ED9333DD-8D40-4103-A01E-B1D26D95AEF8} = {39369386-2822-4EF1-AF43-ADC22FC1F7EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {536095B6-77F2-40D9-95DC-EA2E2A02BE32}
