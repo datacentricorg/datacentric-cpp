@@ -68,22 +68,22 @@ namespace dc
         return DataSource->get_common();
     }
 
-    dot::object_id IContextImpl::GetDataSet(dot::string dataSetID)
+    dot::object_id IContextImpl::get_data_set(dot::string dataSetID)
     {
         return DataSource->get_data_set(dataSetID, DataSet);
     }
 
-    dot::object_id IContextImpl::GetDataSet(dot::string dataSetID, dot::object_id loadFrom)
+    dot::object_id IContextImpl::get_data_set(dot::string dataSetID, dot::object_id loadFrom)
     {
         return DataSource->get_data_set(dataSetID, loadFrom);
     }
 
-    dot::object_id IContextImpl::GetDataSetOrEmpty(dot::string dataSetID)
+    dot::object_id IContextImpl::get_data_set_or_empty(dot::string dataSetID)
     {
         return DataSource->get_data_set_or_empty(dataSetID, DataSet);
     }
 
-    dot::object_id IContextImpl::GetDataSetOrEmpty(dot::string dataSetID, dot::object_id loadFrom)
+    dot::object_id IContextImpl::get_data_set_or_empty(dot::string dataSetID, dot::object_id loadFrom)
     {
         return DataSource->get_data_set_or_empty(dataSetID, loadFrom);
     }

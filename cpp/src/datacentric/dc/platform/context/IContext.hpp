@@ -158,7 +158,7 @@ namespace dc
         /// matching dataSetID string from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
-        /// This overload of the GetDataSet method does not
+        /// This overload of the get_data_set method does not
         /// specify the loadFrom parameter explicitly and instead
         /// uses context.DataSet for its value.
         ///
@@ -169,13 +169,13 @@ namespace dc
         /// in the data store and will only load it from storage
         /// if not found in cache. Use LoadDataSet method to
         /// force reloading the dataset from storage.
-        dot::object_id GetDataSet(dot::string dataSetID);
+        dot::object_id get_data_set(dot::string dataSetID);
 
         /// Return dot::object_id for the latest dataset record with
         /// matching dataSetID string from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
-        /// This overload of the GetDataSet method specifies
+        /// This overload of the get_data_set method specifies
         /// the loadFrom parameter explicitly.
         ///
         /// Error message if not found.
@@ -185,13 +185,13 @@ namespace dc
         /// in the data store and will only load it from storage
         /// if not found in cache. Use LoadDataSet method to
         /// force reloading the dataset from storage.
-        dot::object_id GetDataSet(dot::string dataSetID, dot::object_id loadFrom);
+        dot::object_id get_data_set(dot::string dataSetID, dot::object_id loadFrom);
 
         /// Return dot::object_id for the latest dataset record with
         /// matching dataSetID string from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
-        /// This overload of the GetDataSetOrEmpty method does not
+        /// This overload of the get_data_set_or_empty method does not
         /// specify the loadFrom parameter explicitly and instead
         /// uses context.DataSet for its value.
         ///
@@ -205,13 +205,13 @@ namespace dc
         ///
         /// Error message if no matching dataSetID string is found
         /// or a delete marker is found instead.
-        dot::object_id GetDataSetOrEmpty(dot::string dataSetID);
+        dot::object_id get_data_set_or_empty(dot::string dataSetID);
 
         /// Return dot::object_id for the latest dataset record with
         /// matching dataSetID string from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
-        /// This overload of the GetDataSetOrEmpty method specifies
+        /// This overload of the get_data_set_or_empty method specifies
         /// the loadFrom parameter explicitly.
         ///
         /// Return dot::object_id.Empty if not found.
@@ -224,7 +224,7 @@ namespace dc
         ///
         /// Error message if no matching dataSetID string is found
         /// or a delete marker is found instead.
-        dot::object_id GetDataSetOrEmpty(dot::string dataSetID, dot::object_id loadFrom);
+        dot::object_id get_data_set_or_empty(dot::string dataSetID, dot::object_id loadFrom);
 
         /// Create new version of the Common dataset. By convention,
         /// the Common dataset has no parents and is the ultimate

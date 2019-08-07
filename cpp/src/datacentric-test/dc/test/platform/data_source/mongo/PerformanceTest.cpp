@@ -38,10 +38,10 @@ limitations under the License.
 namespace dc
 {
     // CONSTANTS
-    const int dataSetsCount = 10;
+    const int data_set_count = 10;
     const int recordVersions = 10;
 
-    const int recordsCount = 1024 * 3 / (dataSetsCount * recordVersions);
+    const int recordsCount = 1024 * 3 / (data_set_count * recordVersions);
     const int recordSize = 128 * 200;
 
 
@@ -136,7 +136,7 @@ namespace dc
         return dot::string::format(recordIdPattern, index);
     }
 
-    dot::string GetDataSet(int index)
+    dot::string get_data_set(int index)
     {
         static const dot::string dataSetPattern = "DS{0}";
         return dot::string::format(dataSetPattern, index);
@@ -153,7 +153,7 @@ namespace dc
         for (int i = 0; i < recordSize; ++i)
             rec->DoubleList->add(std::rand());
 
-        dot::object_id dataSet = context->GetDataSet(dataSetID);
+        dot::object_id dataSet = context->get_data_set(dataSetID);
         context->Save(rec, dataSet);
         return rec->ID;
     }
@@ -162,10 +162,10 @@ namespace dc
     {
         // Create datasets
         dot::object_id commonDataSet = context->GetCommon();
-        for (int i = 0; i < dataSetsCount; ++i)
+        for (int i = 0; i < data_set_count; ++i)
         {
-            dot::string dataSetName = GetDataSet(i);
-            context->CreateDataSet(dataSetName, dot::make_list<dot::object_id>({ commonDataSet }));
+            dot::string data_set_name = get_data_set(i);
+            context->CreateDataSet(data_set_name, dot::make_list<dot::object_id>({ commonDataSet }));
         }
 
         // Create records
@@ -174,13 +174,13 @@ namespace dc
             dot::string recordId = GetRecordKey(i);
             SaveRecord(context, data_set_key_impl::Common->DataSetID, recordId, recordSize, 0);
 
-            for (int dsI = 0; dsI < dataSetsCount; ++dsI)
+            for (int dsI = 0; dsI < data_set_count; ++dsI)
             {
-                dot::string dataSetName = GetDataSet(dsI);
+                dot::string data_set_name = get_data_set(dsI);
 
                 for (int version = 1; version < recordVersions; ++version)
                 {
-                    SaveRecord(context, dataSetName, recordId, recordSize, version);
+                    SaveRecord(context, data_set_name, recordId, recordSize, version);
                 }
             }
         }
@@ -212,10 +212,10 @@ namespace dc
             key->RecordID = GetRecordKey(i);
             context->ReloadOrNull(key, context->GetCommon());
 
-            for (int dsI = 0; dsI < dataSetsCount; ++dsI)
+            for (int dsI = 0; dsI < data_set_count; ++dsI)
             {
-                dot::string dataSetName = GetDataSet(dsI);
-                dot::object_id dataSet = context->GetDataSetOrEmpty(dataSetName);
+                dot::string data_set_name = get_data_set(dsI);
+                dot::object_id dataSet = context->get_data_set_or_empty(data_set_name);
                 context->ReloadOrNull(key, dataSet);
             }
         }
@@ -229,8 +229,8 @@ namespace dc
 
         auto startTime = std::chrono::steady_clock::now();
         dot::string recordID = GetRecordKey(2);
-        dot::string dataSetName = GetDataSet(2);
-        dot::object_id dataSet = context->GetDataSetOrEmpty(dataSetName);
+        dot::string data_set_name = get_data_set(2);
+        dot::object_id dataSet = context->get_data_set_or_empty(data_set_name);
 
         dc::cursor_wrapper<PerformanceTestData> query = context->DataSource->get_query<PerformanceTestData>(dataSet)
       // TODO - fix compilation      ->Where(make_prop(&PerformanceTestDataImpl::Key) == recordID)

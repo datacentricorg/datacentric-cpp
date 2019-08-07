@@ -58,7 +58,7 @@ namespace dc
         rec->RecordIndex = recordIndex;
         rec->Version = version;
 
-        dot::object_id dataSet = context->GetDataSet(dataSetID, context->DataSet);
+        dot::object_id dataSet = context->get_data_set(dataSetID, context->DataSet);
         context->Save(rec, dataSet);
         return rec->ID;
     }
@@ -76,7 +76,7 @@ namespace dc
         rec->local_date_time_element = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->EnumValue = MongoTestEnum::EnumValue2;
 
-        dot::object_id dataSet = context->GetDataSet(dataSetID, context->GetCommon());
+        dot::object_id dataSet = context->get_data_set(dataSetID, context->GetCommon());
         context->Save(rec, dataSet);
         return rec->ID;
     }
@@ -139,7 +139,7 @@ namespace dc
         keyList1->RecordIndex = 4;
         rec->KeyElementList->add(keyList1);
 
-        dot::object_id dataSet = context->GetDataSet(dataSetID, context->GetCommon());
+        dot::object_id dataSet = context->get_data_set(dataSetID, context->GetCommon());
         context->Save(rec, dataSet);
         return rec->ID;
     }
@@ -158,7 +158,7 @@ namespace dc
         rec->OtherStringElement2 = dot::string::Empty; // Test how empty value is recorded
         rec->OtherDoubleElement2 = 200.0;
 
-        dot::object_id dataSet = context->GetDataSet(dataSetID, context->DataSet);
+        dot::object_id dataSet = context->get_data_set(dataSetID, context->DataSet);
         context->Save(rec, dataSet);
         return rec->ID;
     }
@@ -177,7 +177,7 @@ namespace dc
         rec->OtherStringElement3 = dot::string::Empty; // Test how empty value is recorded
         rec->OtherDoubleElement3 = 200.0;
 
-        dot::object_id dataSet = context->GetDataSet(dataSetID, context->DataSet);
+        dot::object_id dataSet = context->get_data_set(dataSetID, context->DataSet);
         context->Save(rec, dataSet);
         return rec->ID;
     }
@@ -250,7 +250,7 @@ namespace dc
     void VerifyLoad(IUnitTestContext context, key<TKey, TRecord> key, dot::string dataSetID)
     {
         // Get dataset and try loading the record
-        dot::object_id dataSet = context->GetDataSet(dataSetID, context->GetCommon());
+        dot::object_id dataSet = context->get_data_set(dataSetID, context->GetCommon());
         dot::ptr<TRecord> record = key->LoadOrNull(context, dataSet);
 
         if (record == nullptr)
@@ -274,7 +274,7 @@ namespace dc
     void VerifyQuery(IUnitTestContext context, dot::string dataSetID)
     {
         // Get dataset and query
-        dot::object_id dataSet = context->GetDataSet(dataSetID, context->DataSet);
+        dot::object_id dataSet = context->get_data_set(dataSetID, context->DataSet);
         query query = context->DataSource->get_query<TRecord>(dataSet);
 
         // Iterate over records
@@ -297,8 +297,8 @@ namespace dc
         SaveBasicData(context);
 
         // Get dataset identifiers
-        dot::object_id dataSetA = context->GetDataSet("A", context->GetCommon());
-        dot::object_id dataSetB = context->GetDataSet("B", context->GetCommon());
+        dot::object_id dataSetA = context->get_data_set("A", context->GetCommon());
+        dot::object_id dataSetB = context->get_data_set("B", context->GetCommon());
 
         // Create keys
         MongoTestKey keyA0 = make_MongoTestKey();
@@ -397,8 +397,8 @@ namespace dc
         SaveBasicData(context);
 
         // Get dataset identifiers
-        dot::object_id dataSetA = context->GetDataSet("A", context->DataSet);
-        dot::object_id dataSetB = context->GetDataSet("B", context->DataSet);
+        dot::object_id dataSetA = context->get_data_set("A", context->DataSet);
+        dot::object_id dataSetB = context->get_data_set("B", context->DataSet);
 
         // Create keys
         MongoTestKey keyA0 = new MongoTestKeyImpl();
@@ -541,7 +541,7 @@ namespace dc
         SaveCompleteData(context);
 
         // Look in B dataset
-        dot::object_id dataSetB = context->GetDataSetOrEmpty("B", context->DataSet);
+        dot::object_id dataSetB = context->get_data_set_or_empty("B", context->DataSet);
 
         MongoTestKey key = make_MongoTestKey();
         key->RecordID = "BB";
@@ -582,7 +582,7 @@ namespace dc
         SaveCompleteData(context);
 
         // Look in B dataset
-        dot::object_id dataSetD = context->GetDataSetOrEmpty("D", context->DataSet);
+        dot::object_id dataSetD = context->get_data_set_or_empty("D", context->DataSet);
 
         // Load record of derived types by base
         received << "Load all types by key to type A" << std::endl;
@@ -662,7 +662,7 @@ namespace dc
         SaveCompleteData(context);
 
         // Look in B dataset
-        dot::object_id dataSetD = context->GetDataSetOrEmpty("D", context->DataSet);
+        dot::object_id dataSetD = context->get_data_set_or_empty("D", context->DataSet);
 
         received << "Query by MongoTestData, sort by RecordIndex descending, then by DoubleElement ascending" << std::endl;
         dc::cursor_wrapper<MongoTestData> baseQuery = context->DataSource->get_query<MongoTestData>(dataSetD)
