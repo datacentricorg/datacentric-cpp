@@ -154,7 +154,7 @@ namespace dc
             rec->DoubleList->add(std::rand());
 
         dot::object_id dataSet = context->get_data_set(dataSetID);
-        context->Save(rec, dataSet);
+        context->save(rec, dataSet);
         return rec->ID;
     }
 

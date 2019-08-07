@@ -38,12 +38,12 @@ namespace dc
         return DataSource->reload_or_null(key, loadFrom);
     }
 
-    void context_base_impl::Save(record_base record)
+    void context_base_impl::save(record_base record)
     {
         DataSource->save(record, data_set);
     }
 
-    void context_base_impl::Save(record_base record, dot::object_id saveTo)
+    void context_base_impl::save(record_base record, dot::object_id saveTo)
     {
         DataSource->save(record, saveTo);
     }

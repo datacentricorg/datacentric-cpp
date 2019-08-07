@@ -103,7 +103,7 @@ namespace dc
         /// order for this instance of the data source class always, and across
         /// all processes and machine if they are not created within the same
         /// second.
-        void Save(record_base record);
+        void save(record_base record);
 
         /// Save record to the specified dataset. After the method exits,
         /// record.data_set will be set to the value of the dataSet parameter.
@@ -118,7 +118,7 @@ namespace dc
         /// order for this instance of the data source class always, and across
         /// all processes and machine if they are not created within the same
         /// second.
-        void Save(record_base record, dot::object_id saveTo);
+        void save(record_base record, dot::object_id saveTo);
 
         /// Write a delete marker for the dataset of the context and the specified
         /// key instead of actually deleting the record. This ensures that

@@ -59,7 +59,7 @@ namespace dc
         rec->Version = version;
 
         dot::object_id dataSet = context->get_data_set(dataSetID, context->data_set);
-        context->Save(rec, dataSet);
+        context->save(rec, dataSet);
         return rec->ID;
     }
 
@@ -77,7 +77,7 @@ namespace dc
         rec->EnumValue = MongoTestEnum::EnumValue2;
 
         dot::object_id dataSet = context->get_data_set(dataSetID, context->get_common());
-        context->Save(rec, dataSet);
+        context->save(rec, dataSet);
         return rec->ID;
     }
 
@@ -140,7 +140,7 @@ namespace dc
         rec->KeyElementList->add(keyList1);
 
         dot::object_id dataSet = context->get_data_set(dataSetID, context->get_common());
-        context->Save(rec, dataSet);
+        context->save(rec, dataSet);
         return rec->ID;
     }
 
@@ -159,7 +159,7 @@ namespace dc
         rec->OtherDoubleElement2 = 200.0;
 
         dot::object_id dataSet = context->get_data_set(dataSetID, context->data_set);
-        context->Save(rec, dataSet);
+        context->save(rec, dataSet);
         return rec->ID;
     }
 
@@ -178,7 +178,7 @@ namespace dc
         rec->OtherDoubleElement3 = 200.0;
 
         dot::object_id dataSet = context->get_data_set(dataSetID, context->data_set);
-        context->Save(rec, dataSet);
+        context->save(rec, dataSet);
         return rec->ID;
     }
 
