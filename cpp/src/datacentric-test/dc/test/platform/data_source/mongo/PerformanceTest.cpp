@@ -142,7 +142,7 @@ namespace dc
         return dot::string::format(dataSetPattern, index);
     }
 
-    dot::object_id SaveRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordId, int recordSize, int recordVersion)
+    dot::object_id SaveRecord(unit_test_context_base context, dot::string dataSetID, dot::string recordId, int recordSize, int recordVersion)
     {
         PerformanceTestData rec = make_PerformanceTestData();
         rec->RecordID = recordId;
@@ -158,7 +158,7 @@ namespace dc
         return rec->ID;
     }
 
-    void SaveRecords(IUnitTestContext context, int record_count, int recordSize)
+    void SaveRecords(unit_test_context_base context, int record_count, int recordSize)
     {
         // Create datasets
         dot::object_id common_data_set = context->get_common();
@@ -186,7 +186,7 @@ namespace dc
         }
     }
 
-    void FillDatabase(IUnitTestContext context)
+    void FillDatabase(unit_test_context_base context)
     {
         SaveRecords(context, record_count, recordSize);
     }
@@ -195,7 +195,7 @@ namespace dc
     TEST_CASE("Performance")
     {
         PerformanceTest test = new PerformanceTestImpl;
-        IUnitTestContext context = new UnitTestContextImpl(test, "Performance", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "Performance", ".");
 
         //FillDatabase(context);
     }
@@ -203,7 +203,7 @@ namespace dc
     TEST_CASE("LoadByKey")
     {
         PerformanceTest test = new PerformanceTestImpl;
-        IUnitTestContext context = new UnitTestContextImpl(test, "Performance", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "Performance", ".");
         TestDurationCounter td("Keys loading");
 
         for (int i = 0; i < record_count; ++i)
@@ -224,7 +224,7 @@ namespace dc
     TEST_CASE("Query")
     {
         PerformanceTest test = new PerformanceTestImpl;
-        IUnitTestContext context = new UnitTestContextImpl(test, "Performance", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "Performance", ".");
         TestDurationCounter td("Query loading");
 
         auto startTime = std::chrono::steady_clock::now();

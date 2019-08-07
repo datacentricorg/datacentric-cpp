@@ -51,7 +51,7 @@ namespace dc
     };
 
     /// Save record with minimal data for testing how the records are found. 
-    dot::object_id SaveMinimalRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::nullable<int> version = dot::nullable<int>())
+    dot::object_id SaveMinimalRecord(unit_test_context_base context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::nullable<int> version = dot::nullable<int>())
     {
         MongoTestData rec = make_MongoTestData();
         rec->RecordID = recordID;
@@ -64,7 +64,7 @@ namespace dc
     }
 
     /// Save base record
-    dot::object_id SaveBaseRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
+    dot::object_id SaveBaseRecord(unit_test_context_base context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestData rec = new MongoTestDataImpl();
         rec->RecordID = recordID;
@@ -82,7 +82,7 @@ namespace dc
     }
 
     /// Save derived record
-    dot::object_id SaveDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
+    dot::object_id SaveDerivedRecord(unit_test_context_base context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestDerivedData rec = make_MongoTestDerivedData();
         rec->RecordID = recordID;
@@ -145,7 +145,7 @@ namespace dc
     }
 
     /// Save other derived record.
-    dot::object_id SaveOtherDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
+    dot::object_id SaveOtherDerivedRecord(unit_test_context_base context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestOtherDerivedData rec = make_MongoTestOtherDerivedData();
         rec->RecordID = recordID;
@@ -164,7 +164,7 @@ namespace dc
     }
 
     /// Save record that is derived from derived.
-    dot::object_id SaveDerivedFromDerivedRecord(IUnitTestContext context, string dataSetID, string recordID, int recordIndex)
+    dot::object_id SaveDerivedFromDerivedRecord(unit_test_context_base context, string dataSetID, string recordID, int recordIndex)
     {
         MongoTestDerivedFromDerivedData rec = make_MongoTestDerivedFromDerivedData();
         rec->RecordID = recordID;
@@ -183,7 +183,7 @@ namespace dc
     }
 
     /// Two datasets and two objects, one base and one derived.
-    void SaveBasicData(IUnitTestContext context)
+    void SaveBasicData(unit_test_context_base context)
     {
         // Create datasets
         dot::object_id dataSetA = context->create_data_set("A", context->data_set);
@@ -198,7 +198,7 @@ namespace dc
     }
 
     /// Two datasets and eight objects, split between base and derived.
-    void SaveCompleteData(IUnitTestContext context)
+    void SaveCompleteData(unit_test_context_base context)
     {
         // Create datasets
         dot::object_id dataSetA = context->create_data_set("A", context->data_set);
@@ -226,7 +226,7 @@ namespace dc
     }
 
     /// Minimal data in multiple datasets with overlapping parents.
-    void SaveMultidata_set_data(IUnitTestContext context)
+    void SaveMultidata_set_data(unit_test_context_base context)
     {
         // Create datasets
         dot::object_id dataSetA = context->create_data_set("A", context->data_set);
@@ -247,7 +247,7 @@ namespace dc
 
     /// Load the object and verify the outcome.
     template <class TKey, class TRecord>
-    void VerifyLoad(IUnitTestContext context, key<TKey, TRecord> key, dot::string dataSetID)
+    void VerifyLoad(unit_test_context_base context, key<TKey, TRecord> key, dot::string dataSetID)
     {
         // Get dataset and try loading the record
         dot::object_id dataSet = context->get_data_set(dataSetID, context->get_common());
@@ -271,7 +271,7 @@ namespace dc
 
     /// Query over all records of the specified type in the specified dataset.
     template <class TRecord>
-    void VerifyQuery(IUnitTestContext context, dot::string dataSetID)
+    void VerifyQuery(unit_test_context_base context, dot::string dataSetID)
     {
         // Get dataset and query
         dot::object_id dataSet = context->get_data_set(dataSetID, context->data_set);
@@ -293,7 +293,7 @@ namespace dc
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
 
-        IUnitTestContext context = new UnitTestContextImpl(test, "Smoke", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "Smoke", ".");
         SaveBasicData(context);
 
         // Get dataset identifiers
@@ -326,7 +326,7 @@ namespace dc
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
 
-        IUnitTestContext context = new UnitTestContextImpl(test, "Query", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "Query", ".");
 
         // Create datasets
         dot::object_id dataSetA = context->create_data_set("A", context->data_set);
@@ -392,7 +392,7 @@ namespace dc
     TEST_CASE("Delete")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        IUnitTestContext context = new UnitTestContextImpl(test, "Delete", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "Delete", ".");
 
         SaveBasicData(context);
 
@@ -466,7 +466,7 @@ namespace dc
     TEST_CASE("TypeChange")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        IUnitTestContext context = new UnitTestContextImpl(test, "TypeChange", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "TypeChange", ".");
 
         // Create datasets
         dot::object_id dataSetA = context->create_data_set("A", context->data_set);
@@ -535,7 +535,7 @@ namespace dc
     TEST_CASE("ElementTypesQuery")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        IUnitTestContext context = new UnitTestContextImpl(test, "ElementTypesQuery", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "ElementTypesQuery", ".");
 
         // Saves data in A and B datasets, A is parent of B
         SaveCompleteData(context);
@@ -576,7 +576,7 @@ namespace dc
     TEST_CASE("PolymorphicQuery")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        IUnitTestContext context = new UnitTestContextImpl(test, "PolymorphicQuery", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "PolymorphicQuery", ".");
 
         // Saves data in A and B datasets, A is parent of B
         SaveCompleteData(context);
@@ -656,7 +656,7 @@ namespace dc
     TEST_CASE("Sort")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        IUnitTestContext context = new UnitTestContextImpl(test, "Sort", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "Sort", ".");
 
         // Saves data in A and B datasets, A is parent of B
         SaveCompleteData(context);
@@ -687,7 +687,7 @@ namespace dc
     TEST_CASE("RevisionTime")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        IUnitTestContext context = new UnitTestContextImpl(test, "RevisionTime", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "RevisionTime", ".");
 
         // Create datasets
         dot::object_id dataSetA = context->create_data_set("A", context->data_set);

@@ -21,12 +21,12 @@ limitations under the License.
 
 namespace dc
 {
-    class IUnitTestContextImpl; using IUnitTestContext = dot::ptr<IUnitTestContextImpl>;
+    class unit_test_context_base_impl; using unit_test_context_base = dot::ptr<unit_test_context_base_impl>;
 
     /// Extends context_base with approval test functionality.
-    class IUnitTestContextImpl : public context_base_impl
+    class unit_test_context_base_impl : public context_base_impl
     {
-        typedef IUnitTestContextImpl self;
+        typedef unit_test_context_base_impl self;
 
     public:
 
@@ -40,16 +40,16 @@ namespace dc
         bool KeepDb;
     };
 
-    class UnitTestContextImpl; using UnitTestContext = dot::ptr<UnitTestContextImpl>;
+    class unit_test_context_impl; using unit_test_context = dot::ptr<unit_test_context_impl>;
 
     /// Context for use in test fixtures that do not require MongoDB.
     ///
-    /// This class implements IUnitTestContext which extends context_base
+    /// This class implements unit_test_context_base which extends context_base
     /// with approval test functionality. Attempting to access DataSource
     /// using this context will cause an error.
     ///
     /// For tests that require MongoDB, use UnitTestDataContext.
-    class UnitTestContextImpl : public IUnitTestContextImpl
+    class unit_test_context_impl : public unit_test_context_base_impl
     {
     public:
 
@@ -58,7 +58,7 @@ namespace dc
         /// When ``this'' is passed as the the only argument to the
         /// constructor, the latter two arguments are provided by
         /// the compiler.
-        UnitTestContextImpl(dot::object classInstance,
+        unit_test_context_impl(dot::object classInstance,
             dot::string methodName,
             dot::string sourceFilePath);
 
@@ -73,7 +73,7 @@ namespace dc
         ///
         /// Each class must call base.Dispose() at the end
         /// of its own Dispose() method.
-        ~UnitTestContextImpl();
+        ~unit_test_context_impl();
 
     };
 }
