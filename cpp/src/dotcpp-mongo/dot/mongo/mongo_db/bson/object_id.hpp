@@ -16,7 +16,7 @@ limitations under the License.
 
 #pragma once
 
-#include <dot/declare.hpp>
+#include <dot/mongo/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/system/type.hpp>
 #include <bsoncxx/oid.hpp>
@@ -28,7 +28,7 @@ namespace dot
     /// Repesents 12-byte MongoDB identifier that is unique within the server.
     ///
     /// This type is immutable.
-    class DOT_CLASS object_id
+    class DOT_MONGO_CLASS object_id
     {
     public: // STATIC
 

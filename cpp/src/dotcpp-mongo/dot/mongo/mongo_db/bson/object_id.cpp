@@ -14,9 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dot/precompiled.hpp>
-#include <dot/implement.hpp>
-#include <dot/mongo_db/bson/object_id.hpp>
+#include <dot/mongo/precompiled.hpp>
+#include <dot/mongo/implement.hpp>
+#include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dot/system/string.hpp>
 #include <dot/noda_time/local_date_time.hpp>
 #include "dot/system/object.hpp"
