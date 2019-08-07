@@ -226,9 +226,9 @@ namespace dc
 
     public: // METHODS
 
-        /// Return dot::object_id of the latest Common dataset.
+        /// Return dot::object_id of the latest common dataset.
         ///
-        /// Common dataset is always stored in root dataset.
+        /// common dataset is always stored in root dataset.
         dot::object_id get_common();
 
         /// Return dot::object_id for the latest dataset record with
@@ -256,10 +256,10 @@ namespace dc
         /// This method updates in-memory cache to the saved dataset.
         dot::object_id create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, dot::object_id save_to);
 
-        /// Create new version of the Common dataset. By convention,
-        /// the Common dataset has no parents and is the ultimate
+        /// Create new version of the common dataset. By convention,
+        /// the common dataset has no parents and is the ultimate
         /// parent of all dataset hierarchies, except for those
-        /// datasets that do not have any parents. The Common dataset
+        /// datasets that do not have any parents. The common dataset
         /// is always saved in root dataset.
         ///
         /// This method sets ID field of the argument to be the

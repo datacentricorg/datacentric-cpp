@@ -211,7 +211,7 @@ namespace dc
 
     dot::object_id data_source_data_impl::get_common()
     {
-        return get_data_set(data_set_key_impl::Common->data_set_id, dot::object_id::empty);
+        return get_data_set(data_set_key_impl::common->data_set_id, dot::object_id::empty);
     }
 
     dot::object_id data_source_data_impl::get_data_set(dot::string data_set_id, dot::object_id load_from)
@@ -255,7 +255,7 @@ namespace dc
     dot::object_id data_source_data_impl::create_common()
     {
         auto result = make_data_set_data();
-        result->data_set_id = data_set_key_impl::Common->data_set_id;
+        result->data_set_id = data_set_key_impl::common->data_set_id;
 
         // Save in root dataset
         save_data_set(result, dot::object_id::empty);

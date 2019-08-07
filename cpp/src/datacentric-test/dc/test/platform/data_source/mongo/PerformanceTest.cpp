@@ -172,7 +172,7 @@ namespace dc
         for (int i = 0; i < record_count; ++i)
         {
             dot::string recordId = GetRecordKey(i);
-            SaveRecord(context, data_set_key_impl::Common->data_set_id, recordId, recordSize, 0);
+            SaveRecord(context, data_set_key_impl::common->data_set_id, recordId, recordSize, 0);
 
             for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {

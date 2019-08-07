@@ -21,9 +21,9 @@ limitations under the License.
 
 namespace dc
 {
-    data_set_key data_set_key_impl::Common = []() {
+    data_set_key data_set_key_impl::common = []() {
         data_set_key res = make_data_set_key();
-        res->data_set_id = "Common";
+        res->data_set_id = "common";
         return res;
     }();
 }

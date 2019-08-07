@@ -47,7 +47,7 @@ namespace dc
 
     public: // STATIC
 
-        static data_set_key Common;
+        static data_set_key common;
     };
 
     inline data_set_key make_data_set_key() { return new data_set_key_impl; }

@@ -41,7 +41,7 @@ namespace dc
         /// dot::object_id of the dataset where the record is stored.
         ///
         /// The records that may be stored in root dataset (including
-        /// data source, database, database server, and Common dataset
+        /// data source, database, database server, and common dataset
         /// records) must override this property to avoid an error about
         /// dataset not being set for the record.
         dot::object_id data_set;

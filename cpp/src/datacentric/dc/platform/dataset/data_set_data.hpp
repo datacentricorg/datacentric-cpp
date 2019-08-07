@@ -41,7 +41,7 @@ namespace dc
         /// dot::object_id of the dataset where the record is stored.
         ///
         /// This override for the data_set_data record sets data_set to
-        /// dot::object_id.Empty for the Common dataset.
+        /// dot::object_id.Empty for the common dataset.
         dot::object_id data_set;
 
         /// Unique dataset identifier.
