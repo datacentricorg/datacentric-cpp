@@ -16,7 +16,7 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/MongoDataSourceData.hpp>
+#include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
 #include <dc/serialization/BsonWriter.hpp>
 #include <dc/serialization/BsonRecordSerializer.hpp>
 #include <dc/platform/context/context_base.hpp>
@@ -30,7 +30,7 @@ limitations under the License.
 
 namespace dc
 {
-    record_base MongoDataSourceDataImpl::load_or_null(dot::object_id id, dot::type_t dataType)
+    record_base mongo_data_source_data_impl::load_or_null(dot::object_id id, dot::type_t dataType)
     {
         auto revisionTimeConstraint = get_revision_time_constraint();
         if (revisionTimeConstraint != nullptr)
@@ -55,7 +55,7 @@ namespace dc
         return nullptr;
     }
 
-    record_base MongoDataSourceDataImpl::reload_or_null(key_base key, dot::object_id loadFrom)
+    record_base mongo_data_source_data_impl::reload_or_null(key_base key, dot::object_id loadFrom)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
@@ -109,7 +109,7 @@ namespace dc
         return nullptr;
     }
 
-    void MongoDataSourceDataImpl::save(record_base record, dot::object_id saveTo)
+    void mongo_data_source_data_impl::save(record_base record, dot::object_id saveTo)
     {
         check_not_read_only();
 
@@ -150,12 +150,12 @@ namespace dc
         collection.insert_one(doc.view());
     }
 
-    query MongoDataSourceDataImpl::get_query(dot::object_id dataSet, dot::type_t type)
+    query mongo_data_source_data_impl::get_query(dot::object_id dataSet, dot::type_t type)
     {
         return make_query(this, dataSet, type);
     }
 
-    object_cursor_wrapper MongoDataSourceDataImpl::load_by_query(query query)
+    object_cursor_wrapper mongo_data_source_data_impl::load_by_query(query query)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
@@ -259,7 +259,7 @@ namespace dc
         }
     }
 
-    void MongoDataSourceDataImpl::delete_record(key_base key, dot::object_id deleteIn)
+    void mongo_data_source_data_impl::delete_record(key_base key, dot::object_id deleteIn)
     {
         // Create delete marker with the specified key
         auto record = make_DeleteMarker();

@@ -19,7 +19,7 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dc/platform/dataset/data_set_data.hpp>
-#include <dc/platform/data_source/DataSourceData.hpp>
+#include <dc/platform/data_source/data_source_data.hpp>
 
 namespace dc
 {

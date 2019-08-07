@@ -17,15 +17,15 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/platform/context/context_base.hpp>
-#include <dc/platform/data_source/DataSourceData.hpp>
-#include <dc/platform/data_source/DataSourceKey.hpp>
+#include <dc/platform/data_source/data_source_data.hpp>
+#include <dc/platform/data_source/data_source_key.hpp>
 
 
 namespace dc
 {
-    void context_base_impl::SetDataSource(data_source_data data_source)
+    void context_base_impl::SetDataSource(data_source_data value)
     {
-        DataSource = data_source;
+        DataSource = value;
     }
 
     record_base context_base_impl::load_or_null(dot::object_id id, dot::type_t dataType)

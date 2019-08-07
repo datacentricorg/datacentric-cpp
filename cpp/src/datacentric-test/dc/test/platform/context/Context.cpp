@@ -18,7 +18,7 @@ limitations under the License.
 #include <dc/test/implement.hpp>
 #include <dc/test/platform/context/Context.hpp>
 
-#include <dc/platform/data_source/mongo/MongoDataSourceData.hpp>
+#include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
 #include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
 //#include <dc/platform/data_source/mongo/Mongo.hpp>
 
@@ -42,7 +42,7 @@ namespace dc
         // is actually used to access data.
         dot::string mappedClassName = classInstance->type()->name;
 
-        DataSource = new MongoDataSourceDataImpl();
+        DataSource = new mongo_data_source_data_impl();
         //DataSource->DbServer = new DbServerKeyImpl;
         //DataSource->DbServer->DbServerID = (new MongoDefaultServerDataImpl())->DbServerID;
         DataSource->db_server = (make_MongoDefaultServerData())->to_key();

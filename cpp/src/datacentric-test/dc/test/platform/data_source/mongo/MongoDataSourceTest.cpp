@@ -22,7 +22,7 @@ limitations under the License.
 #include <dc/serialization/BsonWriter.hpp>
 #include <dc/serialization/BsonRecordSerializer.hpp>
 
-#include <dc/platform/data_source/DataSourceData.hpp>
+#include <dc/platform/data_source/data_source_data.hpp>
 #include <dc/platform/data_source/mongo/QueryBuilder.hpp>
 #include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
 
@@ -39,14 +39,14 @@ namespace dc
 {
     static std::stringstream received;
 
-    class MongoDataSourceTestImpl; using MongoDataSourceTest = dot::ptr<MongoDataSourceTestImpl>;
+    class mongo_data_source_test_impl; using mongo_data_source_test = dot::ptr<mongo_data_source_test_impl>;
 
-    class MongoDataSourceTestImpl : public virtual dot::object_impl
+    class mongo_data_source_test_impl : public virtual dot::object_impl
     {
-        typedef MongoDataSourceTestImpl self;
+        typedef mongo_data_source_test_impl self;
     public:
 
-        DOT_TYPE_BEGIN("DataCentric", "MongoDataSourceTest")
+        DOT_TYPE_BEGIN("DataCentric", "mongo_data_source_test")
         DOT_TYPE_END()
     };
 
@@ -291,7 +291,7 @@ namespace dc
 
     TEST_CASE("Smoke")
     {
-        MongoDataSourceTest test = new MongoDataSourceTestImpl;
+        mongo_data_source_test test = new mongo_data_source_test_impl;
 
         IUnitTestContext context = new UnitTestContextImpl(test, "Smoke", ".");
         SaveBasicData(context);
@@ -324,7 +324,7 @@ namespace dc
 
     TEST_CASE("Query")
     {
-        MongoDataSourceTest test = new MongoDataSourceTestImpl;
+        mongo_data_source_test test = new mongo_data_source_test_impl;
 
         IUnitTestContext context = new UnitTestContextImpl(test, "Query", ".");
 
@@ -391,7 +391,7 @@ namespace dc
 
     TEST_CASE("Delete")
     {
-        MongoDataSourceTest test = new MongoDataSourceTestImpl;
+        mongo_data_source_test test = new mongo_data_source_test_impl;
         IUnitTestContext context = new UnitTestContextImpl(test, "Delete", ".");
 
         SaveBasicData(context);
@@ -465,7 +465,7 @@ namespace dc
     /// has a compatible type.
     TEST_CASE("TypeChange")
     {
-        MongoDataSourceTest test = new MongoDataSourceTestImpl;
+        mongo_data_source_test test = new mongo_data_source_test_impl;
         IUnitTestContext context = new UnitTestContextImpl(test, "TypeChange", ".");
 
         // Create datasets
@@ -534,7 +534,7 @@ namespace dc
 
     TEST_CASE("ElementTypesQuery")
     {
-        MongoDataSourceTest test = new MongoDataSourceTestImpl;
+        mongo_data_source_test test = new mongo_data_source_test_impl;
         IUnitTestContext context = new UnitTestContextImpl(test, "ElementTypesQuery", ".");
 
         // Saves data in A and B datasets, A is parent of B
@@ -575,7 +575,7 @@ namespace dc
 
     TEST_CASE("PolymorphicQuery")
     {
-        MongoDataSourceTest test = new MongoDataSourceTestImpl;
+        mongo_data_source_test test = new mongo_data_source_test_impl;
         IUnitTestContext context = new UnitTestContextImpl(test, "PolymorphicQuery", ".");
 
         // Saves data in A and B datasets, A is parent of B
@@ -655,7 +655,7 @@ namespace dc
 
     TEST_CASE("Sort")
     {
-        MongoDataSourceTest test = new MongoDataSourceTestImpl;
+        mongo_data_source_test test = new mongo_data_source_test_impl;
         IUnitTestContext context = new UnitTestContextImpl(test, "Sort", ".");
 
         // Saves data in A and B datasets, A is parent of B
@@ -686,7 +686,7 @@ namespace dc
 
     TEST_CASE("RevisionTime")
     {
-        MongoDataSourceTest test = new MongoDataSourceTestImpl;
+        mongo_data_source_test test = new mongo_data_source_test_impl;
         IUnitTestContext context = new UnitTestContextImpl(test, "RevisionTime", ".");
 
         // Create datasets

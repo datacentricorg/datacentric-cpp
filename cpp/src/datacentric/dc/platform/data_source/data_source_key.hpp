@@ -61,7 +61,7 @@ namespace dc
 
         data_source_key_impl(dot::string value);
 
-        DOT_TYPE_BEGIN("DataCentric", "DataSourceKey")
+        DOT_TYPE_BEGIN("DataCentric", "data_source_key")
             DOT_TYPE_PROP(data_source_id)
             DOT_TYPE_BASE(root_key<data_source_key_impl, data_source_data_impl>)
         DOT_TYPE_END()

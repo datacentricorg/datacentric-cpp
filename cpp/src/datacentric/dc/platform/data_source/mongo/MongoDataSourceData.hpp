@@ -18,16 +18,16 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/platform/data_source/mongo/MongoDataSourceBaseData.hpp>
+#include <dc/platform/data_source/mongo/mongo_data_source_base_data.hpp>
 
 namespace dc
 {
-    class MongoDataSourceDataImpl; using MongoNonVersionedDataSourceData = dot::ptr<MongoDataSourceDataImpl>;
+    class mongo_data_source_data_impl; using MongoNonVersioneddata_source_data = dot::ptr<mongo_data_source_data_impl>;
 
     /// Data source implementation for MongoDB.
-    class DC_CLASS MongoDataSourceDataImpl : public MongoDataSourceBaseDataImpl
+    class DC_CLASS mongo_data_source_data_impl : public mongo_data_source_base_data_impl
     {
-        typedef MongoDataSourceDataImpl self;
+        typedef mongo_data_source_data_impl self;
 
     public: // METHODS
 

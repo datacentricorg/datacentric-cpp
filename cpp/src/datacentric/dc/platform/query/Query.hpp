@@ -25,7 +25,7 @@ namespace dc
 {
     class query_impl;
     using query = dot::ptr<query_impl>;
-    class MongoDataSourceDataImpl;
+    class mongo_data_source_data_impl;
     template <class class_, class prop>
     struct prop_wrapper;
     class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
@@ -35,7 +35,7 @@ namespace dc
     class DC_CLASS query_impl : public dot::object_impl
     {
         friend query make_query(data_source_data data_source, dot::object_id data_set, dot::type_t type);
-        friend MongoDataSourceDataImpl;
+        friend mongo_data_source_data_impl;
 
     public:
 

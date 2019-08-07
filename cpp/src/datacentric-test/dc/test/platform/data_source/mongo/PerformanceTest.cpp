@@ -21,7 +21,7 @@ limitations under the License.
 #include <dc/serialization/BsonWriter.hpp>
 #include <dc/serialization/BsonRecordSerializer.hpp>
 
-#include <dc/platform/data_source/DataSourceData.hpp>
+#include <dc/platform/data_source/data_source_data.hpp>
 #include <dc/platform/data_source/mongo/QueryBuilder.hpp>
 #include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
 

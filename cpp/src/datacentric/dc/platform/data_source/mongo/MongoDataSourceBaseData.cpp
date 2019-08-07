@@ -16,7 +16,7 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/MongoDataSourceBaseData.hpp>
+#include <dc/platform/data_source/mongo/mongo_data_source_base_data.hpp>
 #include <dc/platform/data_source/mongo/MongoServerData.hpp>
 #include <dc/platform/context/context_base.hpp>
 
@@ -24,11 +24,11 @@ limitations under the License.
 
 namespace dc
 {
-    dot::list<char> MongoDataSourceBaseDataImpl::prohibitedDbNameSymbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
+    dot::list<char> mongo_data_source_base_data_impl::prohibitedDbNameSymbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
 
-    int MongoDataSourceBaseDataImpl::maxDbNameLength_ = 64;
+    int mongo_data_source_base_data_impl::maxDbNameLength_ = 64;
 
-    void MongoDataSourceBaseDataImpl::Init(context_base context)
+    void mongo_data_source_base_data_impl::Init(context_base context)
     {
         static mongocxx::instance instance{};
 
@@ -62,7 +62,7 @@ namespace dc
         db_ = client_[*dbName_];
     }
 
-    dot::object_id MongoDataSourceBaseDataImpl::create_ordered_object_id()
+    dot::object_id mongo_data_source_base_data_impl::create_ordered_object_id()
     {
         check_not_read_only();
 
@@ -93,7 +93,7 @@ namespace dc
         return result;
     }
 
-    void MongoDataSourceBaseDataImpl::delete_db()
+    void mongo_data_source_base_data_impl::delete_db()
     {
         check_not_read_only();
 
@@ -126,7 +126,7 @@ namespace dc
         }
     }
 
-    mongocxx::collection MongoDataSourceBaseDataImpl::GetCollection(dot::type_t dataType)
+    mongocxx::collection mongo_data_source_base_data_impl::GetCollection(dot::type_t dataType)
     {
         dot::type_t curr = dataType;
         while (curr->name != "Record" && curr->name != "Key")
@@ -139,7 +139,7 @@ namespace dc
         return GetCollection(typeName);
     }
 
-    mongocxx::collection MongoDataSourceBaseDataImpl::GetCollection(dot::string typeName)
+    mongocxx::collection mongo_data_source_base_data_impl::GetCollection(dot::string typeName)
     {
         int prefixSize = 0; //! TODO change to ClassInfo.MappedName
         dot::string collectionName;

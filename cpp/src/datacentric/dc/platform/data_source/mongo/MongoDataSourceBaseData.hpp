@@ -19,14 +19,14 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dc/platform/data_source/InstanceType.hpp>
-#include <dc/platform/data_source/DataSourceData.hpp>
+#include <dc/platform/data_source/data_source_data.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <mongocxx/database.hpp>
 #include <mongocxx/client.hpp>
 
 namespace dc
 {
-    class MongoDataSourceBaseDataImpl; using MongoDataSourceData = dot::ptr<MongoDataSourceBaseDataImpl>;
+    class mongo_data_source_base_data_impl; using mongo_data_source_data = dot::ptr<mongo_data_source_base_data_impl>;
     class context_base_impl; using context_base = dot::ptr<context_base_impl>;
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
@@ -34,9 +34,9 @@ namespace dc
     /// Abstract base class for data source implementations based on MongoDB.
     ///
     /// This class provides functionality shared by all MongoDB data source types.
-    class DC_CLASS MongoDataSourceBaseDataImpl : public data_source_data_impl
+    class DC_CLASS mongo_data_source_base_data_impl : public data_source_data_impl
     {
-        typedef MongoDataSourceBaseDataImpl self;
+        typedef mongo_data_source_base_data_impl self;
 
     protected: // FIELDS
 

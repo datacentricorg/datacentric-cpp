@@ -113,8 +113,8 @@ namespace dc
 #include <dc/types/record/key.hpp>
 #include <dc/types/record/root_key.hpp>
 
-#include <dc/platform/data_source/DataSourceData.hpp>
-#include <dc/platform/data_source/DataSourceKey.hpp>
+#include <dc/platform/data_source/data_source_data.hpp>
+#include <dc/platform/data_source/data_source_key.hpp>
 
 #include <dc/platform/data_source/DatabaseServerData.hpp>
 #include <dc/platform/data_source/DatabaseServerKey.hpp>
