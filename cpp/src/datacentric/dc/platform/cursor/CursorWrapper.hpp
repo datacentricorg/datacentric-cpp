@@ -82,10 +82,10 @@ namespace dc
 
     public:
 
-        /// <summary>Returns begin iterator of the underlying std::vector.</summary>
+        /// Returns begin iterator of the underlying std::vector.
         iterator_wrappper<dot::object> begin() { return iterator_wrappper<dot::object>(cursor_->begin(), f_); }
 
-        /// <summary>Returns end iterator of the underlying std::vector.</summary>
+        /// Returns end iterator of the underlying std::vector.
         iterator_wrappper<dot::object> end() { return iterator_wrappper<dot::object>(cursor_->end(), f_); }
 
         template <class T>
@@ -118,10 +118,10 @@ namespace dc
 
     public:
 
-        /// <summary>Returns begin iterator of the underlying std::vector.</summary>
+        /// Returns begin iterator of the underlying std::vector.
         iterator_wrappper<T> begin() { return iterator_wrappper<T>(cursor_->begin(), f_); }
 
-        /// <summary>Returns end iterator of the underlying std::vector.</summary>
+        /// Returns end iterator of the underlying std::vector.
         iterator_wrappper<T> end() { return iterator_wrappper<T>(cursor_->end(), f_); }
 
     private:

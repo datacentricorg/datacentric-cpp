@@ -28,23 +28,23 @@ namespace dc
 
     inline db_server_data make_db_server_data();
 
-    /// <summary>
+    /// 
     /// Provides a standard way to identify a database server.
     ///
     /// This record is stored in root dataset.
-    /// </summary>
+    /// 
     class DC_CLASS db_server_data_impl : public root_record_for_impl<db_server_key_impl, db_server_data_impl>
     {
         typedef db_server_data_impl self;
 
     public: // PROPERTIES
 
-        /// <summary>
+        /// 
         /// Unique database server identifier string.
         ///
         /// This field is the user friendly name used to
         /// identify the server. It is not the server URI.
-        /// </summary>
+        /// 
         dot::string db_server_id;
 
         DOT_TYPE_BEGIN("DataCentric", "DbServerData")

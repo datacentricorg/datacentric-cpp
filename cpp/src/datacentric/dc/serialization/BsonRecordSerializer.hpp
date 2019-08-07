@@ -28,26 +28,26 @@ namespace dc
     class BsonRecordSerializerImpl; using BsonRecordSerializer = dot::ptr<BsonRecordSerializerImpl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
-    /// <summary>Implementation of IBsonWriter using MongoDB IBsonWriter.</summary>
+    /// Implementation of IBsonWriter using MongoDB IBsonWriter.
     class DC_CLASS BsonRecordSerializerImpl : public virtual dot::object_impl
     {
         friend BsonRecordSerializer new_BsonRecordSerializer();
 
     public:
 
-        /// <summary>Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.</summary>
+        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
         data Deserialize(bsoncxx::document::view doc);
 
-        /// <summary>Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.</summary>
+        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
         dot::object DeserializeTuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type_t tupleType);
 
-        /// <summary>Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.</summary>
+        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
         void DeserializeDocument(const bsoncxx::document::view & doc, ITreeWriter writer);
 
-        /// <summary>Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.</summary>
+        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
         void DeserializeArray(const bsoncxx::array::view & arr, ITreeWriter writer);
 
-        /// <summary>Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.</summary>
+        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
         void Serialize(ITreeWriter writer, data value);
 
     private:

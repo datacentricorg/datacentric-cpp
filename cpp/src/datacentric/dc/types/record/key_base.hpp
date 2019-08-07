@@ -24,7 +24,7 @@ namespace dc
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
-    /// <summary>Key objects must derive from this type.</summary>
+    /// Key objects must derive from this type.
     class DC_CLASS key_base_impl : public data_impl
     {
         typedef key_base_impl self;

@@ -27,7 +27,7 @@ namespace dc
     class db_name_key_impl; using db_name_key = dot::ptr<db_name_key_impl>;
     class db_name_data_impl; using db_name_data = dot::ptr<db_name_data_impl>;
 
-    /// <summary>
+    /// 
     /// This class enforces strict naming conventions
     /// for database naming. While format of the resulting database
     /// name is specific to data store type, it always consists
@@ -36,7 +36,7 @@ namespace dc
     /// the value of instance_type enumeration.
     ///
     /// This record is stored in root dataset.
-    /// </summary>
+    /// 
     class DC_CLASS db_name_key_impl : public root_key_impl<db_name_key_impl, db_name_data_impl>
     {
         typedef db_name_key_impl self;
@@ -44,14 +44,14 @@ namespace dc
 
     public: // PROPERTIES
 
-        /// <summary>
+        /// 
         /// Instance type enumeration.
         ///
         /// Some API functions are restricted based on the instance type.
-        /// </summary>
+        /// 
         instance_type_ instance_type;
 
-        /// <summary>
+        /// 
         /// The meaning of instance name depends on the instance type.
         ///
         /// \begin{itemize}
@@ -66,10 +66,10 @@ namespace dc
         /// For TEST instance type, instance name is the name of
         /// the unit test class (test fixture).
         /// \end{itemize}
-        /// </summary>
+        /// 
         dot::string instance_name;
 
-        /// <summary>
+        /// 
         /// The meaning of environment name depends on the instance type.
         ///
         /// \begin{itemize}
@@ -80,7 +80,7 @@ namespace dc
         /// \item
         /// For TEST instance type, it is the test method name.
         /// \end{itemize}
-        /// </summary>
+        /// 
         dot::string env_name;
 
         DOT_TYPE_BEGIN("DataCentric", "DbNameKey")

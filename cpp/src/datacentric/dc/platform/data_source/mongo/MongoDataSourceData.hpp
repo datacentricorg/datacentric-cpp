@@ -24,23 +24,23 @@ namespace dc
 {
     class MongoDataSourceDataImpl; using MongoNonVersionedDataSourceData = dot::ptr<MongoDataSourceDataImpl>;
 
-    /// <summary>Data source implementation for MongoDB.</summary>
+    /// Data source implementation for MongoDB.
     class DC_CLASS MongoDataSourceDataImpl : public MongoDataSourceBaseDataImpl
     {
         typedef MongoDataSourceDataImpl self;
 
     public: // METHODS
 
-        /// <summary>
+        /// 
         /// Load record by its dot::object_id and Type.
         ///
         /// Return null if there is no record for the specified dot::object_id;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        /// </summary>
+        /// 
         virtual record_base load_or_null(dot::object_id id, dot::type_t dataType) override;
 
-        /// <summary>
+        /// 
         /// This method does not use cached value inside the key
         /// and always retrieves a new record from storage. To get
         /// the record cached inside the key instead (if present), use
@@ -65,10 +65,10 @@ namespace dc
         /// Return null if there is no record for the specified dot::object_id;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        /// </summary>
+        /// 
         virtual record_base reload_or_null(key_base key, dot::object_id loadFrom) override;
 
-        /// <summary>
+        /// 
         /// Save record to the specified dataset. After the method exits,
         /// record.DataSet will be set to the value of the dataSet parameter.
         ///
@@ -76,10 +76,10 @@ namespace dc
         /// order for this instance of the data source class always, and across
         /// all processes and machine if they are not created within the same
         /// second.
-        /// </summary>
+        /// 
         virtual void save(record_base record, dot::object_id saveTo) override;
 
-        /// <summary>
+        /// 
         /// Get query for the specified type.
         ///
         /// After applying query parameters, the lookup occurs first in the
@@ -90,10 +90,10 @@ namespace dc
         /// The root dataset has empty dot::object_id value that is less
         /// than any other dot::object_id value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
-        /// </summary>
+        /// 
         virtual query get_query(dot::object_id dataSet, dot::type_t type) override;
 
-        /// <summary>
+        /// 
         /// Load enumeration of record by query
         /// The lookup occurs first in the reverse
         /// chronological order of datasets to one second resolution,
@@ -107,10 +107,10 @@ namespace dc
         /// The first record in this lookup order is returned, or null
         /// if no records are found or if delete marker is the first
         /// record.
-        /// </summary>
+        /// 
         virtual object_cursor_wrapper load_by_query(query query) override;
 
-        /// <summary>
+        /// 
         /// Write a delete marker for the specified dataSet and dataKey
         /// instead of actually deleting the record. This ensures that
         /// a record in another dataset does not become visible during
@@ -118,7 +118,7 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        /// </summary>
+        /// 
         virtual void delete_record(key_base key, dot::object_id deleteIn) override;
     };
 }

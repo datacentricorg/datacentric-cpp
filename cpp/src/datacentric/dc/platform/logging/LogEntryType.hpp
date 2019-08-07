@@ -20,29 +20,29 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>Enumeration for the log entry type.</summary>
+    /// Enumeration for the log entry type.
     enum class LogEntryType : int
     {
-        /// <summary>Empty</summary>
+        /// Empty
         Empty,
 
-        /// <summary>Error entry type is not logged directly for those log types
-        /// where the output is subsequently performed by the exception catch block.</summary>
+        /// Error entry type is not logged directly for those log types
+        /// where the output is subsequently performed by the exception catch block.
         Error,
 
-        /// <summary>Warning.</summary>
+        /// Warning.
         Warning,
 
-        /// <summary>Informational message.</summary>
+        /// Informational message.
         Message,
 
-        /// <summary>Passed test.</summary>
+        /// Passed test.
         Passed,
 
-        /// <summary>Failed test (not necessarily followed by exception).</summary>
+        /// Failed test (not necessarily followed by exception).
         Failed,
 
-        /// <summary>Result (description is not formatted using {0}, {1} tags).</summary>
+        /// Result (description is not formatted using {0}, {1} tags).
         Result
     };
 }

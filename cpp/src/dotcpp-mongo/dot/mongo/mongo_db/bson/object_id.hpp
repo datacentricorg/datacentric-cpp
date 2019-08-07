@@ -37,19 +37,19 @@ namespace dot
 
     public: // CONSTRUCTORS
 
-        /// <summary>Create with value object_id::empty.</summary>
+        /// Create with value object_id::empty.
         object_id();
 
-        /// <summary>Create from MongoDB driver object id type.</summary>
+        /// Create from MongoDB driver object id type.
         object_id(bsoncxx::oid id);
 
-        /// <summary>Create from MongoDB driver object id type.</summary>
+        /// Create from MongoDB driver object id type.
         object_id(dot::object obj);
 
-        /// <summary>Create from the hexidecimal string representation produced by to_string().</summary>
+        /// Create from the hexidecimal string representation produced by to_string().
         object_id(dot::string str);
 
-        /// <summary>Create from byte array.</summary>
+        /// Create from byte array.
         object_id(const char* bytes, std::size_t len);
 
         /// Create from UTC datetime, with all other components of object id empty.
@@ -116,7 +116,7 @@ namespace dot
 
 namespace std
 {
-    /// <summary>Implements hash struct used by STL unordered_map for object_id.</summary>
+    /// Implements hash struct used by STL unordered_map for object_id.
     template <>
     struct hash<dot::object_id>
     {
@@ -126,7 +126,7 @@ namespace std
         }
     };
 
-    /// <summary>Implements equal_to struct used by STL unordered_map for object_id.</summary>
+    /// Implements equal_to struct used by STL unordered_map for object_id.
     template <>
     struct equal_to<dot::object_id>
     {

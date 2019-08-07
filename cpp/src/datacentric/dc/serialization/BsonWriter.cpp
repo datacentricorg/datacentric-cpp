@@ -122,8 +122,8 @@ namespace dc
         // Nothing to write here but array closing bracket was written above
     }
 
-    /// <summary>Write dictionary start tag. A call to this method
-    /// must follow WriteStartElement(...) or WriteStartArrayItem().</summary>
+    /// Write dictionary start tag. A call to this method
+    /// must follow WriteStartElement(...) or WriteStartArrayItem().
     void BsonWriterImpl::WriteStartDict()
     {
         // Save initial state to be used below

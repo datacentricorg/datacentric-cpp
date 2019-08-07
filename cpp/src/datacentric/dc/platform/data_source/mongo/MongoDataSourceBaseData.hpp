@@ -31,54 +31,54 @@ namespace dc
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
-    /// <summary>
+    /// 
     /// Abstract base class for data source implementations based on MongoDB.
     ///
     /// This class provides functionality shared by all MongoDB data source types.
-    /// </summary>
+    /// 
     class DC_CLASS MongoDataSourceBaseDataImpl : public data_source_data_impl
     {
         typedef MongoDataSourceBaseDataImpl self;
 
     protected: // FIELDS
 
-        /// <summary>Prohibited characters in database name.</summary>
+        /// Prohibited characters in database name.
         static dot::list<char> prohibitedDbNameSymbols_;
 
-        /// <summary>Maximum length of the database on Mongo server including delimiters.</summary>
+        /// Maximum length of the database on Mongo server including delimiters.
         static int maxDbNameLength_;
 
     private: // FIELDS
 
-        /// <summary>
+        /// 
         /// Type of instance controls the ability to do certain
         /// actions such as deleting (dropping) the database.
-        /// </summary>
+        /// 
         instance_type instance_type_;
 
-        /// <summary>Full name of the database on Mongo server including delimiters.</summary>
+        /// Full name of the database on Mongo server including delimiters.
         dot::string dbName_;
 
-        /// <summary>Interface to Mongo client in MongoDB C++ driver.</summary>
+        /// Interface to Mongo client in MongoDB C++ driver.
         mongocxx::client client_;
 
-        /// <summary>Interface to Mongo database in MongoDB C++ driver.</summary>
+        /// Interface to Mongo database in MongoDB C++ driver.
         mongocxx::database db_;
 
-        /// <summary>Previous dot::object_id returned by CreateOrdereddot::object_id() method.</summary>
+        /// Previous dot::object_id returned by CreateOrdereddot::object_id() method.
         dot::object_id prev_object_id_ = dot::object_id::Empty;
 
     public: // METHODS
 
-        /// <summary>
+        /// 
         /// Set context and perform initialization or validation of object data.
         ///
         /// All derived classes overriding this method must call base.Init(context)
         /// before executing the the rest of the code in the method override.
-        /// </summary>
+        /// 
         void Init(IContext context) override;
 
-        /// <summary>
+        /// 
         /// The returned dot::object_ids have the following order guarantees:
         ///
         /// * For this data source instance, to arbitrary resolution; and
@@ -88,10 +88,10 @@ namespace dc
         /// the same second by different instances of the data source
         /// class may not be ordered chronologically unless they are at
         /// least one second apart.
-        /// </summary>
+        /// 
         virtual dot::object_id create_ordered_object_id() override;
 
-        /// <summary>
+        /// 
         /// Permanently deletes (drops) the database with all records
         /// in it without the possibility to recover them later.
         ///
@@ -101,19 +101,19 @@ namespace dc
         ///
         /// ATTENTION - THIS METHOD WILL DELETE ALL DATA WITHOUT
         /// THE POSSIBILITY OF RECOVERY. USE WITH CAUTION.
-        /// </summary>
+        /// 
         virtual void delete_db() override;
 
     protected: // PROTECTED
 
-        /// <summary>
+        /// 
         /// Get collection with name based on the type.
-        /// </summary>
+        /// 
         mongocxx::collection GetCollection(dot::type_t dataType);
 
-        /// <summary>
+        /// 
         /// Get collection with name based on the type.
-        /// </summary>
+        /// 
         mongocxx::collection GetCollection(dot::string typeName);
     };
 }

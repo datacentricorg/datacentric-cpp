@@ -47,7 +47,7 @@ namespace dc
 
     // TEST CLASSES
 
-    /// <summary>This class counts test running time.</summary>
+    /// This class counts test running time.
     class TestDurationCounter
     {
         std::chrono::steady_clock::time_point startTime;
@@ -86,7 +86,7 @@ namespace dc
 
     PerformanceTestKey new_PerformanceTestKey();
 
-    /// <summary>Key class.</summary>
+    /// Key class.
     class PerformanceTestKeyImpl : public key_impl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
     {
         typedef PerformanceTestKeyImpl self;
@@ -106,7 +106,7 @@ namespace dc
 
     PerformanceTestData new_PerformanceTestData();
 
-    /// <summary>Data class.</summary>
+    /// Data class.
     class PerformanceTestDataImpl : public record_impl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
     {
         typedef PerformanceTestDataImpl self;

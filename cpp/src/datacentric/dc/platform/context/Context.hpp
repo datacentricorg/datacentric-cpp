@@ -23,8 +23,8 @@ namespace dc
 {
     class ContextImpl; using Context = dot::ptr<ContextImpl>;
 
-    /// <summary>Context defines dataset and provides access to data,
-    /// logging, and other supporting functionality.</summary>
+    /// Context defines dataset and provides access to data,
+    /// logging, and other supporting functionality.
     class DC_CLASS ContextImpl : public IContextImpl
     {
         typedef ContextImpl self;
@@ -35,7 +35,7 @@ namespace dc
 
     public: // METHODS
 
-        /// <summary>Initialize connection.</summary>
+        /// Initialize connection.
         void Init(dot::string connectionString, dot::string environment)
         {
             //MongoFactory fact = new MongoFactoryImpl;

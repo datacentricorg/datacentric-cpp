@@ -31,7 +31,7 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>Variant type can hold any atomic value or be empty.</summary>
+    /// Variant type can hold any atomic value or be empty.
     class DC_CLASS Variant
     {
         typedef Variant self;
@@ -42,15 +42,15 @@ namespace dc
 
     public: // CONSTRUCTORS
 
-        /// <summary>Default constructor.</summary>
+        /// Default constructor.
         Variant();
 
-        /// <summary>Create from object of supported types, error message if argument type is unsupported.</summary>
+        /// Create from object of supported types, error message if argument type is unsupported.
         Variant(dot::object value);
 
     public: // PROPERTIES
 
-        /// <summary>Type of the value held by the variant.</summary>
+        /// Type of the value held by the variant.
         ValueType getValueType()
         {
             if (value_ == nullptr)
@@ -74,7 +74,7 @@ namespace dc
             throw dot::exception(GetWrongTypeErrorMessage(value_));
         }
 
-        /// <summary>Value held by the variant, which may be null.</summary>
+        /// Value held by the variant, which may be null.
         dot::object getValue()
         {
             return value_;
@@ -82,27 +82,27 @@ namespace dc
 
     public: // METHODS
 
-        /// <summary>Check if the variant is equal to default constructed object.</summary>
+        /// Check if the variant is equal to default constructed object.
         bool is_empty();
 
-        /// <summary>Provides alternate serialization of certain value types.</summary>
+        /// Provides alternate serialization of certain value types.
         dot::string to_string();
 
-        /// <summary>Hash code is zero for null objects.</summary>
+        /// Hash code is zero for null objects.
         size_t GetHashCode();
 
-        /// <summary>Variants are equal when both types and values are equal.
-        /// Comparison of doubles is performed with roundoff tolerance.</summary>
+        /// Variants are equal when both types and values are equal.
+        /// Comparison of doubles is performed with roundoff tolerance.
         bool Equals(const Variant& other);
 
     public: // OPERATORS
 
-        /// <summary>Variants are equal when both types and values are equal.
-        /// Comparison of doubles is performed with roundoff tolerance.</summary>
+        /// Variants are equal when both types and values are equal.
+        /// Comparison of doubles is performed with roundoff tolerance.
         bool operator==(const Variant& other);
 
-        /// <summary>Variants are equal when both types and values are equal.
-        /// Comparison of doubles is performed with roundoff tolerance.</summary>
+        /// Variants are equal when both types and values are equal.
+        /// Comparison of doubles is performed with roundoff tolerance.
         bool operator!=(const Variant& other);
 
     public: // STATIC

@@ -28,9 +28,9 @@ namespace dc
 
     inline DataSetData new_DataSetData();
 
-    /// <summary>DataSet key is a required field for all stored records.
+    /// DataSet key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
-    /// same DB collection or table.</summary>
+    /// same DB collection or table.
     class DC_CLASS DataSetDataImpl : public record_impl<DataSetKeyImpl, DataSetDataImpl>
     {
         typedef DataSetDataImpl self;
@@ -38,26 +38,26 @@ namespace dc
 
     public:
 
-        /// <summary>
+        /// 
         /// dot::object_id of the dataset where the record is stored.
         ///
         /// This override for the DataSetData record sets DataSet to
         /// dot::object_id.Empty for the Common dataset.
-        /// </summary>
+        /// 
         dot::object_id DataSet;
 
-        /// <summary>Unique dataset identifier.</summary>
+        /// Unique dataset identifier.
         dot::string DataSetID;
 
-        /// <summary>
+        /// 
         /// Set context and perform initialization or validation of object data.
         ///
         /// All derived classes overriding this method must call base.Init(context)
         /// before executing the the rest of the code in the method override.
-        /// </summary>
+        /// 
         virtual void Init(IContext context);
 
-        /// <summary>DataSet parents.</summary>
+        /// DataSet parents.
         dot::list<dot::object_id> Parents;
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetData")

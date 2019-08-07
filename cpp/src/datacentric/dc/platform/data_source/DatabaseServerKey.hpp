@@ -27,38 +27,38 @@ namespace dc
 
     inline db_server_key make_db_server_key();
 
-    /// <summary>
+    /// 
     /// Provides a standard way to identify a database server.
     ///
     /// This record is stored in root dataset.
-    /// </summary>
+    /// 
     class DC_CLASS db_server_key_impl : public root_key_impl<db_server_key_impl, db_server_data_impl>
     {
         typedef db_server_key_impl self;
 
     public: // PROPERTIES
 
-        /// <summary>
+        /// 
         /// Unique database server identifier string.
         ///
         /// This field is the user friendly name used to
         /// identify the server. It is not the server URI.
-        /// </summary>
+        /// 
         dot::string db_server_id;
 
     public: // STATIC
 
-        /// <summary>
+        /// 
         /// By convention, Default is the Mongo server running on the default port of localhost.
-        /// </summary>
+        /// 
         static db_server_key default;
 
     public: // CONSTRUCTORS
 
-        /// <summary>Default constructor.</summary>
+        /// Default constructor.
         db_server_key_impl() = default;
 
-        /// <summary>Keys in which string ID is the only element support implicit conversion from value.</summary>
+        /// Keys in which string ID is the only element support implicit conversion from value.
         db_server_key_impl(dot::string value);
 
         DOT_TYPE_BEGIN("DataCentric", "DbServerKey")

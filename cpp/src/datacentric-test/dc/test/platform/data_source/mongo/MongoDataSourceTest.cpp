@@ -50,7 +50,7 @@ namespace dc
         DOT_TYPE_END()
     };
 
-    /// <summary>Save record with minimal data for testing how the records are found. </summary>
+    /// Save record with minimal data for testing how the records are found. 
     dot::object_id SaveMinimalRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::nullable<int> version = dot::nullable<int>())
     {
         MongoTestData rec = new_MongoTestData();
@@ -63,7 +63,7 @@ namespace dc
         return rec->ID;
     }
 
-    /// <summary>Save base record</summary>
+    /// Save base record
     dot::object_id SaveBaseRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestData rec = new MongoTestDataImpl();
@@ -81,7 +81,7 @@ namespace dc
         return rec->ID;
     }
 
-    /// <summary>Save derived record</summary>
+    /// Save derived record
     dot::object_id SaveDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestDerivedData rec = new_MongoTestDerivedData();
@@ -144,7 +144,7 @@ namespace dc
         return rec->ID;
     }
 
-    /// <summary>Save other derived record.</summary>
+    /// Save other derived record.
     dot::object_id SaveOtherDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestOtherDerivedData rec = new_MongoTestOtherDerivedData();
@@ -163,7 +163,7 @@ namespace dc
         return rec->ID;
     }
 
-    /// <summary>Save record that is derived from derived.</summary>
+    /// Save record that is derived from derived.
     dot::object_id SaveDerivedFromDerivedRecord(IUnitTestContext context, string dataSetID, string recordID, int recordIndex)
     {
         MongoTestDerivedFromDerivedData rec = new_MongoTestDerivedFromDerivedData();
@@ -182,7 +182,7 @@ namespace dc
         return rec->ID;
     }
 
-    /// <summary>Two datasets and two objects, one base and one derived.</summary>
+    /// Two datasets and two objects, one base and one derived.
     void SaveBasicData(IUnitTestContext context)
     {
         // Create datasets
@@ -197,7 +197,7 @@ namespace dc
         SaveDerivedRecord(context, "B", "B", 0);
     }
 
-    /// <summary>Two datasets and eight objects, split between base and derived.</summary>
+    /// Two datasets and eight objects, split between base and derived.
     void SaveCompleteData(IUnitTestContext context)
     {
         // Create datasets
@@ -225,7 +225,7 @@ namespace dc
         SaveDerivedFromDerivedRecord(context, "D", "D", 3);
     }
 
-    /// <summary>Minimal data in multiple datasets with overlapping parents.</summary>
+    /// Minimal data in multiple datasets with overlapping parents.
     void SaveMultiDataSetData(IUnitTestContext context)
     {
         // Create datasets
@@ -245,7 +245,7 @@ namespace dc
         SaveMinimalRecord(context, "D", "D", 1);
     }
 
-    /// <summary>Load the object and verify the outcome.</summary>
+    /// Load the object and verify the outcome.
     template <class TKey, class TRecord>
     void VerifyLoad(IUnitTestContext context, key<TKey, TRecord> key, dot::string dataSetID)
     {
@@ -269,7 +269,7 @@ namespace dc
         }
     }
 
-    /// <summary>Query over all records of the specified type in the specified dataset.</summary>
+    /// Query over all records of the specified type in the specified dataset.
     template <class TRecord>
     void VerifyQuery(IUnitTestContext context, dot::string dataSetID)
     {
@@ -456,7 +456,7 @@ namespace dc
         Approvals::verify(toVerify);
     }
 
-    /// <summary>
+    /// 
     /// Test saving object of a different type for the same key.
     ///
     /// The objective of this test is to confirm that LoadOrNull
@@ -464,7 +464,7 @@ namespace dc
     /// skip the object of the wrong type even if there is an
     /// earlier version of the object with the same key that
     /// has a compatible type.
-    /// </summary>
+    /// 
     TEST_CASE("TypeChange")
     {
         MongoDataSourceTest test = new MongoDataSourceTestImpl;

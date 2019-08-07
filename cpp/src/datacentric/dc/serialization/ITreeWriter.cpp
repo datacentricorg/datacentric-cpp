@@ -23,50 +23,50 @@ limitations under the License.
 namespace dc
 {
 
-    /// <summary>WriteStartElement(...) followed by WriteStartDict().</summary>
+    /// WriteStartElement(...) followed by WriteStartDict().
     void ITreeWriterImpl::WriteStartDictElement(dot::string elementName)
     {
         this->WriteStartElement(elementName);
         this->WriteStartDict();
     }
 
-    /// <summary>WriteEndDict(...) followed by WriteEndElement(...).</summary>
+    /// WriteEndDict(...) followed by WriteEndElement(...).
     void ITreeWriterImpl::WriteEndDictElement(dot::string elementName)
     {
         this->WriteEndDict();
         this->WriteEndElement(elementName);
     }
 
-    /// <summary>WriteStartElement(...) followed by WriteStartArray().</summary>
+    /// WriteStartElement(...) followed by WriteStartArray().
     void ITreeWriterImpl::WriteStartArrayElement(dot::string elementName)
     {
         this->WriteStartElement(elementName);
         this->WriteStartArray();
     }
 
-    /// <summary>WriteEndArray(...) followed by WriteEndElement(...).</summary>
+    /// WriteEndArray(...) followed by WriteEndElement(...).
     void ITreeWriterImpl::WriteEndArrayElement(dot::string elementName)
     {
         this->WriteEndArray();
         this->WriteEndElement(elementName);
     }
 
-    /// <summary>WriteStartArrayItem(...) followed by WriteStartDict().</summary>
+    /// WriteStartArrayItem(...) followed by WriteStartDict().
     void ITreeWriterImpl::WriteStartDictArrayItem()
     {
         this->WriteStartArrayItem();
         this->WriteStartDict();
     }
 
-    /// <summary>WriteEndDict(...) followed by WriteEndArrayItem(...).</summary>
+    /// WriteEndDict(...) followed by WriteEndArrayItem(...).
     void ITreeWriterImpl::WriteEndDictArrayItem()
     {
         this->WriteEndDict();
         this->WriteEndArrayItem();
     }
 
-    /// <summary>Write an element with no inner nodes.
-    /// Element type is inferred by calling obj.type().</summary>
+    /// Write an element with no inner nodes.
+    /// Element type is inferred by calling obj.type().
     void ITreeWriterImpl::WriteValueElement(dot::string elementName, dot::object value)
     {
         // Do not serialize null or empty value
@@ -80,8 +80,8 @@ namespace dc
         }
     }
 
-    /// <summary>Write an array item with no inner nodes.
-    /// Element type is inferred by calling obj.type().</summary>
+    /// Write an array item with no inner nodes.
+    /// Element type is inferred by calling obj.type().
     void ITreeWriterImpl::WriteValueArrayItem(dot::object value)
     {
         // Writes null or empty value as BSON null
@@ -92,7 +92,7 @@ namespace dc
         this->WriteEndArrayItem();
     }
 
-    /// <summary>Write a single array item.</summary>
+    /// Write a single array item.
     void ITreeWriterImpl::WriteArrayItem(dot::object value)
     {
         // Will serialize null or empty value

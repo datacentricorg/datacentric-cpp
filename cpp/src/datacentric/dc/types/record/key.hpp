@@ -30,9 +30,9 @@ namespace dc
     class CachedRecordImpl; using CachedRecord = dot::ptr<CachedRecordImpl>;
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
 
-    /// <summary>
+    /// 
     /// Keys must derive from this type
-    /// </summary>
+    /// 
     template <typename TKey, typename TRecord>
     class key_impl : public virtual key_base_impl
     {
@@ -40,7 +40,7 @@ namespace dc
 
     private: // PROPERTIES
 
-        /// <summary>
+        /// 
         /// Cached record is used in two situations.
         ///
         /// First, to avoid getting the record from storage multiple times.
@@ -53,12 +53,12 @@ namespace dc
         /// an in-memory object to a key which will also set values
         /// of the elements of the key to the corresponding values
         /// of the record.
-        /// </summary>
+        /// 
         CachedRecord cachedRecord_;
 
     public: // METHODS
 
-        /// <summary>
+        /// 
         /// Load record from context.DataSource. The lookup occurs in
         /// context.DataSet and its parents, expanded to arbitrary
         /// depth with repetitions and cyclic references removed.
@@ -74,7 +74,7 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Error message if the record is not found or is a delete marker.
-        /// </summary>
+        /// 
         dot::ptr<TRecord> Load(IContext context)
         {
             auto result = LoadOrNull(context, context->DataSet);
@@ -83,7 +83,7 @@ namespace dc
             return result;
         }
 
-        /// <summary>
+        /// 
         /// Load record from context.DataSource, overriding the dataset
         /// specified in the context with the value specified as the
         /// second parameter. The lookup occurs in the specified dataset
@@ -104,7 +104,7 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Error message if the record is not found or is a delete marker.
-        /// </summary>
+        /// 
         dot::ptr<TRecord> Load(IContext context, dot::object_id dataSet)
         {
             // This method will return null if the record is
@@ -120,7 +120,7 @@ namespace dc
 
 
 
-        /// <summary>
+        /// 
         /// Load record from context.DataSource. The lookup occurs in
         /// context.DataSet and its parents, expanded to arbitrary
         /// depth with repetitions and cyclic references removed.
@@ -136,13 +136,13 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Return null if the record is not found or is a delete marker.
-        /// </summary>
+        /// 
         dot::ptr<TRecord> LoadOrNull(IContext context)
         {
             return LoadOrNull(context, context->DataSet);
         }
 
-        /// <summary>
+        /// 
         /// Load record from context.DataSource, overriding the dataset
         /// specified in the context with the value specified as the
         /// second parameter. The lookup occurs in the specified dataset
@@ -163,7 +163,7 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Return null if the record is not found or is a delete marker.
-        /// </summary>
+        /// 
         dot::ptr<TRecord> LoadOrNull(IContext context, dot::object_id loadFrom)
         {
             // First check if the record has been
@@ -225,7 +225,7 @@ namespace dc
             }
         }
 
-        /// <summary>
+        /// 
         /// Write a delete marker for the dataset of the context and the specified
         /// key instead of actually deleting the record. This ensures that
         /// a record in another dataset does not become visible during
@@ -233,14 +233,14 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        /// </summary>
+        /// 
         void Delete(IContext context)
         {
             // Delete in the dataset of the context
             context->DataSource->delete_record(this, context->DataSet);
         }
 
-        /// <summary>
+        /// 
         /// Write a delete marker in deleteIn dataset for the specified key
         /// instead of actually deleting the record. This ensures that
         /// a record in another dataset does not become visible during
@@ -248,23 +248,23 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        /// </summary>
+        /// 
         void Delete(IContext context, dot::object_id deleteIn)
         {
             context->DataSource->delete_record(this, deleteIn);
         }
 
-        /// <summary>
+        /// 
         /// Return true if the key holds a cached record,
         /// irrespective of whether or not that cached
         /// record is null.
-        /// </summary>
+        /// 
         bool HasCachedRecord()
         {
             return cachedRecord_ != nullptr;
         }
 
-        /// <summary>
+        /// 
         /// Use SetCachedRecord(record, dataSet) method to cache a
         /// reference to the record inside the key.
         ///
@@ -288,7 +288,7 @@ namespace dc
         /// be a parent dataset. The cached reference is stored with
         /// the dataset where the object has been looked up, not the
         /// one where it is stored.
-        /// </summary>
+        /// 
         void SetCachedRecord(record<TKey, TRecord> record, dot::object_id dataSet)
         {
             // Before doing anything else, clear the cached record
@@ -305,17 +305,17 @@ namespace dc
             cachedRecord_ = new_CachedRecord(dataSet, record);
         }
 
-        /// <summary>
+        /// 
         /// Clear the previously cached record so that a
         /// new value can be loaded from storage or set using
         /// SetCachedRecord(record).
-        /// </summary>
+        /// 
         void ClearCachedRecord()
         {
             cachedRecord_ = nullptr;
         }
 
-        /// <summary>Assign key elements from record to key.</summary>
+        /// Assign key elements from record to key.
         void AssignKeyElements(record<TKey, TRecord> record)
         {
             // The remaining code assigns elements of the record

@@ -27,9 +27,9 @@ namespace dc
 
     inline DataSetKey new_DataSetKey();
 
-    /// <summary>DataSet key is a required field for all stored records.
+    /// DataSet key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
-    /// same DB collection or table.</summary>
+    /// same DB collection or table.
     class DC_CLASS DataSetKeyImpl : public key_impl<DataSetKeyImpl, DataSetDataImpl>
     {
         typedef DataSetKeyImpl self;
@@ -37,7 +37,7 @@ namespace dc
 
     public: // PROPERTIES
 
-        /// <summary>Unique dataset identifier.</summary>
+        /// Unique dataset identifier.
         dot::string DataSetID;
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetKey")

@@ -21,11 +21,11 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>
+    /// 
     /// Specifies instance type.
     ///
     /// Some API functions are restricted based on the instance type.
-    /// </summary>
+    /// 
     class instance_type : public dot::enum_base
     {
         typedef instance_type self;
@@ -34,52 +34,52 @@ namespace dc
 
         enum enum_type
         {
-            /// <summary>Empty</summary>
+            /// Empty
             Empty,
 
-            /// <summary>
+            /// 
             /// Production instance type.
             ///
             /// This instance type is used for live production data
             /// and has the most restrictions. For example, it
             /// does not allow a database to be deleted (dropped)
             /// through the API call.
-            /// </summary>
+            /// 
             PROD,
 
-            /// <summary>
+            /// 
             /// Shared user acceptance testing instance type.
             ///
             /// This instance type is used has some of the restrictions
             /// of the PROD instance type, including the restriction
             /// on deleting (dropping) the database through an API
             /// call.
-            /// </summary>
+            /// 
             UAT,
 
-            /// <summary>
+            /// 
             /// Shared development instance type.
             ///
             /// This instance type is shared but is free from most
             /// restrictions.
-            /// </summary>
+            /// 
             DEV,
 
-            /// <summary>
+            /// 
             /// Personal instance type of a specific user.
             ///
             /// This instance type is not shared between users and is
             /// free from most restrictions.
-            /// </summary>
+            /// 
             USER,
 
-            /// <summary>
+            /// 
             /// Instance type is used for unit testing.
             ///
             /// Databases for the test instance type are routinely
             /// cleared (deleted). They should not be used for any
             /// purpose other than unit tests.
-            /// </summary>
+            /// 
             TEST,
         };
 

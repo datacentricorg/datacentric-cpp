@@ -26,9 +26,9 @@ namespace dc
     template <typename TKey, typename TRecord> class record_impl;
     template <typename TKey, typename TRecord> using record = dot::ptr<record_impl<TKey, TRecord>>;
 
-    /// <summary>
+    /// 
     /// Base class of records stored in data source.
-    /// </summary>
+    /// 
     template <typename TKey, typename TRecord>
     class record_impl : public virtual record_base_impl
     {
@@ -73,7 +73,7 @@ namespace dc
 
     public:
 
-        /// <summary>
+        /// 
         /// This conversion method creates a new key, populates key elements of the
         /// created key by the values taken from the record, and then caches the
         /// record inside the key using record.DataSet. The cached value will be
@@ -84,7 +84,7 @@ namespace dc
         /// to bypass saving the object to the data store and reading it back when
         /// record A has property that is a key for record B, and both records are
         /// created in-memory without any need to save them to storage.
-        /// </summary>
+        /// 
         dot::ptr<TKey> to_key()
         {
             dot::type_t key_type = dot::typeof<dot::ptr<TKey>>();
@@ -98,13 +98,13 @@ namespace dc
             return result;
         }
 
-        /// <summary>
+        /// 
         /// This conversion operator creates a new key from record and then caches itself
         ///
         /// The purpose of this operator is to bypass saving the object to the data store
         /// and reading it back when record A has property that is a key for record B,
         /// and both records are created in-memory without any need to save them to storage.
-        /// </summary>
+        /// 
         operator dot::ptr<TKey>() { return to_key(); }
 
         DOT_TYPE_BEGIN("DataCentric", "Record")

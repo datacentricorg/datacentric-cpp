@@ -24,53 +24,53 @@ namespace dc
     class record_base_impl; using record_base = dot::ptr<record_base_impl>;
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
 
-    /// <summary>Record objects must derive from this type.</summary>
+    /// Record objects must derive from this type.
     class DC_CLASS record_base_impl : public virtual data_impl
     {
         typedef record_base_impl self;
 
     public: // FIELDS
 
-        /// <summary>
+        /// 
         /// dot::object_id of the record is specific to its version.
         ///
         /// For the record's history to be captured correctly, all
         /// update operations must assign a new dot::object_id with the
         /// timestamp that matches update time.
-        /// </summary>
+        /// 
         dot::object_id ID;
 
-        /// <summary>
+        /// 
         /// dot::object_id of the dataset where the record is stored.
         ///
         /// The records that may be stored in root dataset (including
         /// data source, database, database server, and Common dataset
         /// records) must override this property to avoid an error about
         /// dataset not being set for the record.
-        /// </summary>
+        /// 
         dot::object_id DataSet;
 
-        /// <summary>Use context to access resources.</summary>
+        /// Use context to access resources.
         IContext Context;
 
     public: // PROPERTIES
 
-        /// <summary>
+        /// 
         /// dot::string key consists of semicolon delimited primary key elements:
         ///
         /// KeyElement1;KeyElement2
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
-        /// </summary>
+        /// 
         virtual dot::string get_key() = 0;
 
     public: // METHODS
 
-        /// <summary>
+        /// 
         /// Set context and perform fast initialization or validation
         /// of class data. Must first invoke base.Init(context).
-        /// </summary>
+        /// 
         virtual void Init(IContext context);
 
         dot::string to_string() { return get_key(); }

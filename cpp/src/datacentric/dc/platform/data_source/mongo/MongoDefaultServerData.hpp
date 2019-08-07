@@ -24,12 +24,12 @@ namespace dc
 {
     class MongoDefaultServerDataImpl; using MongoDefaultServerData = dot::ptr<MongoDefaultServerDataImpl>;
 
-    /// <summary>
+    /// 
     /// Returns MongoDB URI for the server running
     /// on the default port 27017 of localhost:
     ///
     /// mongodb://localhost/
-    /// </summary>
+    /// 
     class DC_CLASS MongoDefaultServerDataImpl final : public MongoServerDataImpl
     {
         typedef MongoDefaultServerDataImpl self;
@@ -38,15 +38,15 @@ namespace dc
 
     protected: // CONSTRUCTORS
 
-        /// <summary>
+        /// 
         /// Assign the value of DbServerID that
         /// the default Mongo server uses by convention.
-        /// </summary>
+        /// 
         MongoDefaultServerDataImpl();
 
     public: // METHODS
 
-        /// <summary>Get Mongo server URI without database name.</summary>
+        /// Get Mongo server URI without database name.
         dot::string GetMongoServerUri() override;
     };
 

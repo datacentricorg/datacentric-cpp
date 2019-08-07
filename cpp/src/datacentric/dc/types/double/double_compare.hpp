@@ -21,35 +21,35 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>Static helper class for Double.</summary>
+    /// Static helper class for Double.
     class double_util
     {
     public: // STATIC
 
-        /// <summary>Function Equal(double) using tolerance-based comparison.
-        /// Treats values that differ by less than Double.tolerance as equal.</summary>
+        /// Function Equal(double) using tolerance-based comparison.
+        /// Treats values that differ by less than Double.tolerance as equal.
         static bool Equal(double lhs, double rhs) { return lhs >= rhs - dot::double_impl::tolerance && lhs <= rhs + dot::double_impl::tolerance; }
 
-        /// <summary>Return $lhs > rhs$ using tolerance-based comparison.
-        /// Treats values that differ by less than Double.tolerance as equal.</summary>
+        /// Return $lhs > rhs$ using tolerance-based comparison.
+        /// Treats values that differ by less than Double.tolerance as equal.
         static bool More(double lhs, double rhs) { return lhs > rhs + dot::double_impl::tolerance; }
 
-        /// <summary>Return $lhs >= rhs$ using tolerance-based comparison.
-        /// Treats values that differ by less than Double.tolerance as equal.</summary>
+        /// Return $lhs >= rhs$ using tolerance-based comparison.
+        /// Treats values that differ by less than Double.tolerance as equal.
         static bool MoreOrEqual(double lhs, double rhs) { return lhs >= rhs - dot::double_impl::tolerance; }
 
-        /// <summary>Return $lhs \lt rhs$ using tolerance-based comparison.
-        /// Treats values that differ by less than Double.tolerance as equal.</summary>
+        /// Return $lhs \lt rhs$ using tolerance-based comparison.
+        /// Treats values that differ by less than Double.tolerance as equal.
         static bool Less(double lhs, double rhs) { return lhs < rhs - dot::double_impl::tolerance; }
 
-        /// <summary>
+        /// 
         /// Return $lhs \le rhs$ using tolerance-based comparison.
         /// Treats values that differ by less than Double.tolerance as equal.
-        /// </summary>
+        /// 
         static bool LessOrEqual(double lhs, double rhs) { return lhs <= rhs + dot::double_impl::tolerance; }
 
-        /// <summary>Returns $1$ for $x \gt y$, $-1$ for $x \lt y$, and $0$ for $x==y$.
-        /// Treats values that differ by less than Double.tolerance as equal.</summary>
+        /// Returns $1$ for $x \gt y$, $-1$ for $x \lt y$, and $0$ for $x==y$.
+        /// Treats values that differ by less than Double.tolerance as equal.
         static int Compare(double x, double y)
         {
             if (x > y + dot::double_impl::tolerance) return 1;

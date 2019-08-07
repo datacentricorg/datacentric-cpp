@@ -25,7 +25,7 @@ namespace dc
 {
     class ClassInfoImpl; using ClassInfo = dot::ptr<ClassInfoImpl>;
 
-    /// <summary>Provides the result of applying class map settings to a class.</summary>
+    /// Provides the result of applying class map settings to a class.
     class DC_CLASS ClassInfoImpl : public virtual dot::object_impl
     {
         typedef ClassInfoImpl self;
@@ -33,57 +33,57 @@ namespace dc
 
     public: // PROPERTIES
 
-        /// <summary>Type for which class info is provided.</summary>
+        /// Type for which class info is provided.
         Type_ Type;
 
-        /// <summary>Namespace before mapping.</summary>
+        /// Namespace before mapping.
         dot::string RawNamespace;
 
-        /// <summary>Namespace after mapping.</summary>
+        /// Namespace after mapping.
         dot::string MappedNamespace;
 
-        /// <summary>Class name without namespace before mapping.</summary>
+        /// Class name without namespace before mapping.
         dot::string RawClassName;
 
-        /// <summary>Class name without namespace after mapping.</summary>
+        /// Class name without namespace after mapping.
         dot::string MappedClassName;
 
-        /// <summary>Fully qualified class name before mapping.</summary>
+        /// Fully qualified class name before mapping.
         dot::string RawFullName;
 
-        /// <summary>Fully qualified class name after mapping.</summary>
+        /// Fully qualified class name after mapping.
         dot::string MappedFullName;
 
     public: // METHODS
 
-        /// <summary>Returns fully qualified class name.</summary>
+        /// Returns fully qualified class name.
         virtual dot::string to_string() override;
 
     public: // STATIC
 
-        /// <summary>
+        /// 
         /// Get cached instance for the specified object, or create
         /// using settings from Settings.Default.ClassMap
         /// and add to thread static cache if does not exist.
         ///
         /// This object contains information about the
         /// class including its name, namespace, etc.
-        /// </summary>
+        /// 
         static ClassInfo GetOrCreate(dot::object value);
 
-        /// <summary>
+        /// 
         /// Get cached instance for the specified type, or create
         /// using settings from Settings.Default.ClassMap
         /// and add to thread static cache if does not exist.
         ///
         /// This object contains information about the
         /// class including its name, namespace, etc.
-        /// </summary>
+        /// 
         static ClassInfo GetOrCreate(Type_ type);
 
     private: // CONSTRUCTORS
 
-        /// <summary>
+        /// 
         /// Create using settings from Settings.Default.ClassMap.
         ///
         /// This constructor is private because it is only called
@@ -91,7 +91,7 @@ namespace dc
         /// on GetOrCreate(...) method only which uses thread static
         /// cached value if any, and creates the instance only if
         /// it is not yet cached for the thread.
-        /// </summary>
+        /// 
         ClassInfoImpl(Type_ type);
 
     private: // PRIVATE

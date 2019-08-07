@@ -20,25 +20,25 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>Verbosity level of log output.</summary>
+    /// Verbosity level of log output.
     enum class LogVerbosity : int
     {
-        /// <summary>Empty</summary>
+        /// Empty
         Empty,
 
-        /// <summary>No output even for errors.</summary>
+        /// No output even for errors.
         Silent,
 
-        /// <summary>Error messages only with message arguments truncated to 20 characters.</summary>
+        /// Error messages only with message arguments truncated to 20 characters.
         ErrorSummary,
 
-        /// <summary>Error messages only with message arguments truncated to 255 characters.</summary>
+        /// Error messages only with message arguments truncated to 255 characters.
         ErrorDetails,
 
-        /// <summary>All log entry types with message arguments truncated to 20 characters.</summary>
+        /// All log entry types with message arguments truncated to 20 characters.
         MessageSummary,
 
-        /// <summary>All log entry types with message arguments truncated to 255 characters.</summary>
+        /// All log entry types with message arguments truncated to 255 characters.
         MessageDetails
     };
 }

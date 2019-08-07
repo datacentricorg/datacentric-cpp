@@ -20,31 +20,31 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>Type of atomic value held by Variant.</summary>
+    /// Type of atomic value held by Variant.
     enum class DC_CLASS VariantType : int
     {
-        /// <summary>Empty value.</summary>
+        /// Empty value.
         Empty,
 
-        /// <summary>String value.</summary>
+        /// String value.
         dot::string,
 
-        /// <summary>Double value.</summary>
+        /// Double value.
         Double,
 
-        /// <summary>Boolean value.</summary>
+        /// Boolean value.
         Bool,
 
-        /// <summary>32-bit integer value.</summary>
+        /// 32-bit integer value.
         Int,
 
-        /// <summary>64-bit integer value.</summary>
+        /// 64-bit integer value.
         Long,
 
-        /// <summary>Date without the time component.</summary>
+        /// Date without the time component.
         Date,
 
-        /// <summary>Datetime in UTC timezone.</summary>
+        /// Datetime in UTC timezone.
         DateTime
     };
 }

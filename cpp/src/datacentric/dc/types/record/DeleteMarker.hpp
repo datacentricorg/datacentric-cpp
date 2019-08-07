@@ -25,11 +25,11 @@ namespace dc
 
     inline DeleteMarker new_DeleteMarker();
 
-    /// <summary>
+    /// 
     /// When returned by the data source, this record has the same
     /// effect as if no record was found. It is used to indicate
     /// a deleted record when audit log must be preserved.
-    /// </summary>
+    /// 
     class DC_CLASS DeleteMarkerImpl : public record_base_impl
     {
         typedef DeleteMarkerImpl self;
@@ -38,14 +38,14 @@ namespace dc
 
     public: // PROPERTIES
 
-        /// <summary>
+        /// 
         /// dot::string key consists of semicolon delimited primary key elements:
         ///
         /// KeyElement1;KeyElement2
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
-        /// </summary>
+        /// 
         virtual dot::string get_key() { return dot::string::Empty; }
 
     public: // CONSTRUCTORS

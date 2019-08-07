@@ -25,26 +25,26 @@ namespace dc
 {
     class MongoStandardFormatServerDataImpl; using MongoStandardFormatServerData = dot::ptr<MongoStandardFormatServerDataImpl>;
 
-    /// <summary>
+    /// 
     /// Assembles MongoDB URI using the standard (``mongodb'') connection
     /// string format for a single server or a cluster.
-    /// </summary>
+    /// 
     class DC_CLASS MongoStandardFormatServerDataImpl final : public MongoServerDataImpl
     {
         typedef MongoStandardFormatServerDataImpl self;
 
     public: // PROPERTIES
 
-        /// <summary>
+        /// 
         /// MongoDB server hostname or the list of MongoDB cluster
         /// hostnames with optional port in ``host'' or ``host::port''
         /// format.
-        /// </summary>
+        /// 
         dot::list<dot::string> Hosts;
 
     public: // METHODS
 
-        /// <summary>Get Mongo server URI without database name.</summary>
+        /// Get Mongo server URI without database name.
         dot::string GetMongoServerUri() override;
     };
 }

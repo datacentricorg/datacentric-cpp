@@ -27,9 +27,9 @@ namespace dc
     template <typename TKey, typename TRecord> using key = dot::ptr<key_impl<TKey, TRecord>>;
 
 
-    /// <summary>
+    /// 
     /// Root record is recorded without a dataset.
-    /// </summary>
+    /// 
     template <typename TKey, typename TRecord>
     class root_key_impl : public virtual key_impl<TKey, TRecord>
     {

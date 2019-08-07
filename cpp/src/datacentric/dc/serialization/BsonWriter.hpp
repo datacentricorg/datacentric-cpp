@@ -28,7 +28,7 @@ namespace dc
 {
     class BsonWriterImpl; using BsonWriter = dot::ptr<BsonWriterImpl>;
 
-    /// <summary>Implementation of IBsonWriter using MongoDB IBsonWriter.</summary>
+    /// Implementation of IBsonWriter using MongoDB IBsonWriter.
     class DC_CLASS BsonWriterImpl : public ITreeWriterImpl
     {
 
@@ -43,64 +43,64 @@ namespace dc
     public:
 
 
-        /// <summary>Write start document tags. This method
-        /// should be called only once for the entire document.</summary>
+        /// Write start document tags. This method
+        /// should be called only once for the entire document.
         void WriteStartDocument(dot::string rootElementName);
 
-        /// <summary>Write end document tag. This method
+        /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
-        /// name passed to the preceding call to WriteStartDocument(...).</summary>
+        /// name passed to the preceding call to WriteStartDocument(...).
         void WriteEndDocument(dot::string rootElementName);
 
-        /// <summary>Write element start tag. Each element may contain
-        /// a single dictionary, a single value, or multiple array items.</summary>
+        /// Write element start tag. Each element may contain
+        /// a single dictionary, a single value, or multiple array items.
         void WriteStartElement(dot::string elementName);
 
-        /// <summary>Write element end tag. Each element may contain
+        /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
-        /// to the matching WriteStartElement(...) call at the same indent level.</summary>
+        /// to the matching WriteStartElement(...) call at the same indent level.
         void WriteEndElement(dot::string elementName);
 
-        /// <summary>Write dictionary start tag. A call to this method
-        /// must follow WriteStartElement(...) or WriteStartArrayItem().</summary>
+        /// Write dictionary start tag. A call to this method
+        /// must follow WriteStartElement(...) or WriteStartArrayItem().
         void WriteStartDict();
 
-        /// <summary>Write dictionary end tag. A call to this method
-        /// must be followed by WriteEndElement(...) or WriteEndArrayItem().</summary>
+        /// Write dictionary end tag. A call to this method
+        /// must be followed by WriteEndElement(...) or WriteEndArrayItem().
         void WriteEndDict();
 
-        /// <summary>Write start tag for an array. A call to this method
-        /// must follow WriteStartElement(name).</summary>
+        /// Write start tag for an array. A call to this method
+        /// must follow WriteStartElement(name).
         void WriteStartArray();
 
-        // <summary>Write end tag for an array. A call to this method
-        /// must be followed by WriteEndElement(name).</summary>
+        /// Write end tag for an array. A call to this method
+        /// must be followed by WriteEndElement(name).
         void WriteEndArray();
 
-        /// <summary>Write start tag for an array item. A call to this method
-        /// must follow either WriteStartArray() or WriteEndArrayItem().</summary>
+        /// Write start tag for an array item. A call to this method
+        /// must follow either WriteStartArray() or WriteEndArrayItem().
         void WriteStartArrayItem();
 
-        /// <summary>Write end tag for an array item. A call to this method
-        /// must be followed by either WriteEndArray() or WriteStartArrayItem().</summary>
+        /// Write end tag for an array item. A call to this method
+        /// must be followed by either WriteEndArray() or WriteStartArrayItem().
         void WriteEndArrayItem();
 
-        /// <summary>Write value start tag. A call to this method
-        /// must follow WriteStartElement(...) or WriteStartArrayItem().</summary>
+        /// Write value start tag. A call to this method
+        /// must follow WriteStartElement(...) or WriteStartArrayItem().
         void WriteStartValue();
 
-        /// <summary>Write value end tag. A call to this method
-        /// must be followed by WriteEndElement(...) or WriteEndArrayItem().</summary>
+        /// Write value end tag. A call to this method
+        /// must be followed by WriteEndElement(...) or WriteEndArrayItem().
         void WriteEndValue();
 
-        /// <summary>Write atomic value. Value type
-        /// will be inferred from object.type().</summary>
+        /// Write atomic value. Value type
+        /// will be inferred from object.type().
         void WriteValue(dot::object value);
 
-        /// <summary>Convert to BSON string without checking that BSON document is complete.
-        /// This permits the use of this method to inspect the BSON content during creation.</summary>
+        /// Convert to BSON string without checking that BSON document is complete.
+        /// This permits the use of this method to inspect the BSON content during creation.
         dot::string to_string() override;
 
         bsoncxx::document::view view();

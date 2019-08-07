@@ -26,14 +26,14 @@ namespace dc
     class data_impl; using data = dot::ptr<data_impl>;
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
 
-    /// <summary>Data objects must derive from this type.</summary>
+    /// Data objects must derive from this type.
     class DC_CLASS data_impl : public virtual dot::object_impl
     {
         typedef data_impl self;
 
     public: // METHODS
 
-        /// <summary>Creates dictionary at current writer level.</summary>
+        /// Creates dictionary at current writer level.
         void SerializeTo(ITreeWriter writer);
 
         DOT_TYPE_BEGIN("DataCentric", "Data")

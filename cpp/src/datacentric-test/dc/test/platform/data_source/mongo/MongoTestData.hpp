@@ -23,7 +23,7 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>Enum type.</summary>
+    /// Enum type.
     class MongoTestEnum : public dot::enum_base
     {
         typedef MongoTestEnum self;
@@ -49,7 +49,7 @@ namespace dc
 
     MongoTestKey new_MongoTestKey();
 
-    /// <summary>Key class.</summary>
+    /// Key class.
     class MongoTestKeyImpl : public key_impl<MongoTestKeyImpl, MongoTestDataImpl>
     {
         typedef MongoTestKeyImpl self;
@@ -71,7 +71,7 @@ namespace dc
 
     MongoTestData new_MongoTestData();
 
-    /// <summary>Base data class.</summary>
+    /// Base data class.
     class MongoTestDataImpl : public record_impl<MongoTestKeyImpl, MongoTestDataImpl>
     {
         typedef MongoTestDataImpl self;
@@ -109,7 +109,7 @@ namespace dc
 
     ElementSampleData new_ElementSampleData();
 
-    /// <summary>Element data class.</summary>
+    /// Element data class.
     class ElementSampleDataImpl : public data_impl
     {
         typedef ElementSampleDataImpl self;
@@ -131,7 +131,7 @@ namespace dc
 
     MongoTestDerivedData new_MongoTestDerivedData();
 
-    /// <summary>Derived data class.</summary>
+    /// Derived data class.
     class MongoTestDerivedDataImpl : public MongoTestDataImpl
     {
         typedef MongoTestDerivedDataImpl self;
@@ -173,7 +173,7 @@ namespace dc
 
     MongoTestOtherDerivedData new_MongoTestOtherDerivedData();
 
-    /// <summary>Other derived data class.</summary>
+    /// Other derived data class.
     class MongoTestOtherDerivedDataImpl : public MongoTestDataImpl
     {
         typedef MongoTestOtherDerivedDataImpl self;
@@ -197,7 +197,7 @@ namespace dc
 
     MongoTestDerivedFromDerivedData new_MongoTestDerivedFromDerivedData();
 
-    /// <summary>Next level in the inheritance chain.</summary>
+    /// Next level in the inheritance chain.
     class MongoTestDerivedFromDerivedDataImpl : public MongoTestDerivedDataImpl
     {
         typedef MongoTestDerivedFromDerivedDataImpl self;

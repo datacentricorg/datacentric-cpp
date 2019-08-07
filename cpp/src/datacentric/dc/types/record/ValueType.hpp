@@ -20,40 +20,40 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>Enumeration for the atomic value type.</summary>
+    /// Enumeration for the atomic value type.
     enum class ValueType : int
     {
-        /// <summary>Empty</summary>
+        /// Empty
         Empty,
 
-        /// <summary>String value.</summary>
+        /// String value.
         String,
 
-        /// <summary>Double value.</summary>
+        /// Double value.
         Double,
 
-        /// <summary>Boolean value.</summary>
+        /// Boolean value.
         Bool,
 
-        /// <summary>32-bit integer value.</summary>
+        /// 32-bit integer value.
         Int,
 
-        /// <summary>64-bit long value.</summary>
+        /// 64-bit long value.
         Long,
 
-        /// <summary>Date without the time component (does not specify timezone).</summary>
+        /// Date without the time component (does not specify timezone).
         local_date,
 
-        /// <summary>Time without the date component (does not specify timezone).</summary>
+        /// Time without the date component (does not specify timezone).
         local_time,
 
-        /// <summary>Time without the date component to one minute resolution (does not specify timezone).</summary>
+        /// Time without the date component to one minute resolution (does not specify timezone).
         local_minute,
 
-        /// <summary>Datetime (does not specify timezone).</summary>
+        /// Datetime (does not specify timezone).
         local_date_time,
 
-        /// <summary>Enumeration.</summary>
+        /// Enumeration.
         Enum
     };
 }

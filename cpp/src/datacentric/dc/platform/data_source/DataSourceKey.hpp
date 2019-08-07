@@ -27,7 +27,7 @@ namespace dc
     class data_source_key_impl; using data_source_key = dot::ptr<data_source_key_impl>;
     class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
 
-    /// <summary>
+    /// 
     /// Data source is a logical concept similar to database
     /// that can be implemented for a document DB, relational DB,
     /// key-value store, or filesystem.
@@ -39,26 +39,26 @@ namespace dc
     /// (c) query record across a group of datasets.
     ///
     /// This record is stored in root dataset.
-    /// </summary>
+    /// 
     class DC_CLASS data_source_key_impl : public root_key_impl<data_source_key_impl, data_source_data_impl>
     {
         typedef data_source_key_impl self;
 
     public: // PROPERTIES
 
-        /// <summary>Unique data source identifier.</summary>
+        /// Unique data source identifier.
         dot::string data_source_id;
 
     public: // STATIC
 
-        /// <summary>
+        /// 
         /// By convention, Cache is the name of the Operational Data Store (ODS).
-        /// </summary>
+        /// 
         static data_source_key cache;
 
-        /// <summary>
+        /// 
         /// By convention, Master is the name of the Master Data Store (MDS).
-        /// </summary>
+        /// 
         static data_source_key master;
 
     public: // CONSTRUCTORS
