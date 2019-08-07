@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mongo_db\bson\object_id.cpp" />
     <ClCompile Include="noda_time\local_date.cpp" />
     <ClCompile Include="noda_time\local_date_time.cpp" />
     <ClCompile Include="noda_time\local_date_time_util.cpp" />
@@ -52,7 +51,6 @@
     <ClInclude Include="detail\traits.hpp" />
     <ClInclude Include="implement.hpp" />
     <ClInclude Include="import.hpp" />
-    <ClInclude Include="mongo_db\bson\object_id.hpp" />
     <ClInclude Include="noda_time\local_date.hpp" />
     <ClInclude Include="noda_time\local_date_time.hpp" />
     <ClInclude Include="noda_time\local_date_time_util.hpp" />
@@ -152,7 +150,7 @@
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libboost_date_time-vc141-mt-gd-x64-1_70.lib;Mongo.Cpp.lib;secur32.lib;ws2_32.lib;crypt32.lib;Bcrypt.lib;Dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libboost_date_time-vc141-mt-gd-x64-1_70.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -176,7 +174,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libboost_date_time-vc141-mt-x64-1_70.lib;Mongo.Cpp.lib;secur32.lib;ws2_32.lib;crypt32.lib;Bcrypt.lib;Dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libboost_date_time-vc141-mt-x64-1_70.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
