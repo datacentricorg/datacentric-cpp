@@ -26,8 +26,8 @@
     <ClCompile Include="platform\data_source\DatabaseServerKey.cpp" />
     <ClCompile Include="platform\data_source\data_source_data.cpp" />
     <ClCompile Include="platform\data_source\data_source_key.cpp" />
-    <ClCompile Include="platform\data_source\mongo\MongoDataSourceBaseData.cpp" />
-    <ClCompile Include="platform\data_source\mongo\MongoDataSourceData.cpp" />
+    <ClCompile Include="platform\data_source\mongo\mongo_data_source_base_data.cpp" />
+    <ClCompile Include="platform\data_source\mongo\mongo_data_source_data.cpp" />
     <ClCompile Include="platform\data_source\mongo\MongoDefaultServerData.cpp" />
     <ClCompile Include="platform\data_source\mongo\MongoServerData.cpp" />
     <ClCompile Include="platform\data_source\mongo\MongoStandardFormatServerData.cpp" />
@@ -68,8 +68,8 @@
     <ClInclude Include="platform\data_source\data_source_data.hpp" />
     <ClInclude Include="platform\data_source\data_source_key.hpp" />
     <ClInclude Include="platform\data_source\InstanceType.hpp" />
-    <ClInclude Include="platform\data_source\mongo\MongoDataSourceBaseData.hpp" />
-    <ClInclude Include="platform\data_source\mongo\MongoDataSourceData.hpp" />
+    <ClInclude Include="platform\data_source\mongo\mongo_data_source_base_data.hpp" />
+    <ClInclude Include="platform\data_source\mongo\mongo_data_source_data.hpp" />
     <ClInclude Include="platform\data_source\mongo\MongoDefaultServerData.hpp" />
     <ClInclude Include="platform\data_source\mongo\MongoServerData.hpp" />
     <ClInclude Include="platform\data_source\mongo\MongoStandardFormatServerData.hpp" />
