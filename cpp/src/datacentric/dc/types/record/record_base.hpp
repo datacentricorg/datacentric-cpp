@@ -44,7 +44,7 @@ namespace dc
         /// data source, database, database server, and Common dataset
         /// records) must override this property to avoid an error about
         /// dataset not being set for the record.
-        dot::object_id DataSet;
+        dot::object_id data_set;
 
         /// Use context to access resources.
         IContext Context;
@@ -69,7 +69,7 @@ namespace dc
 
         DOT_TYPE_BEGIN("DataCentric", "RecordBase")
             ->with_field("_id", &self::ID)
-            ->with_field("_dataset", &self::DataSet)
+            ->with_field("_dataset", &self::data_set)
           //  ->WithProperty("_key", &self::Key)
             DOT_TYPE_BASE(data)
         DOT_TYPE_END()

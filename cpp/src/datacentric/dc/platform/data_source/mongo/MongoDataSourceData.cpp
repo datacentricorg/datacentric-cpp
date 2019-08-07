@@ -128,10 +128,10 @@ namespace dc
                 "Attempting to save a record with dot::object_id={0} that is later "
                 "than dot::object_id={1} of the dataset where it is being saved.", objectId.to_string(), saveTo.to_string()));
 
-        // Assign ID and DataSet, and only then initialize, because
-        // initialization code may use record.ID and record.DataSet
+        // Assign ID and data_set, and only then initialize, because
+        // initialization code may use record.ID and record.data_set
         record->ID = objectId;
-        record->DataSet = saveTo;
+        record->data_set = saveTo;
         record->Init(Context);
 
         // Serialize record.
@@ -276,8 +276,8 @@ namespace dc
         record->ID = objectId;
 
         // Assign dataset and then initialize, as the results of
-        // initialization may depend on record.DataSet
-        record->DataSet = deleteIn;
+        // initialization may depend on record.data_set
+        record->data_set = deleteIn;
 
         // Serialize record.
         BsonRecordSerializer serializer = make_BsonRecordSerializer();

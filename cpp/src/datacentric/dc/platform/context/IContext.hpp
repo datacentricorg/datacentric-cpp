@@ -39,7 +39,7 @@ namespace dc
         data_source_data DataSource;
 
         /// Returns dot::object_id of the context dataset.
-        dot::object_id DataSet;
+        dot::object_id data_set;
 
     public: // CONSTRUCTORS
 
@@ -91,9 +91,9 @@ namespace dc
         record_base reload_or_null(key_base key, dot::object_id loadFrom);
 
         /// Save record to the specified dataset. After the method exits,
-        /// record.DataSet will be set to the value of the dataSet parameter.
+        /// record.data_set will be set to the value of the dataSet parameter.
         ///
-        /// All Save methods ignore the value of record.DataSet before the
+        /// All Save methods ignore the value of record.data_set before the
         /// Save method is called. When dataset is not specified explicitly,
         /// the value of dataset from the context, not from the record, is used.
         /// The reason for this behavior is that the record may be stored from
@@ -106,9 +106,9 @@ namespace dc
         void Save(record_base record);
 
         /// Save record to the specified dataset. After the method exits,
-        /// record.DataSet will be set to the value of the dataSet parameter.
+        /// record.data_set will be set to the value of the dataSet parameter.
         ///
-        /// All Save methods ignore the value of record.DataSet before the
+        /// All Save methods ignore the value of record.data_set before the
         /// Save method is called. When dataset is not specified explicitly,
         /// the value of dataset from the context, not from the record, is used.
         /// The reason for this behavior is that the record may be stored from
@@ -160,7 +160,7 @@ namespace dc
         ///
         /// This overload of the get_data_set method does not
         /// specify the loadFrom parameter explicitly and instead
-        /// uses context.DataSet for its value.
+        /// uses context.data_set for its value.
         ///
         /// Error message if not found.
         ///
@@ -193,7 +193,7 @@ namespace dc
         ///
         /// This overload of the get_data_set_or_empty method does not
         /// specify the loadFrom parameter explicitly and instead
-        /// uses context.DataSet for its value.
+        /// uses context.data_set for its value.
         ///
         /// Return dot::object_id.Empty if not found.
         ///
@@ -244,7 +244,7 @@ namespace dc
         ///
         /// This overload of the create_data_set method does not
         /// specify the saveTo parameter explicitly and instead
-        /// uses context.DataSet for its value.
+        /// uses context.data_set for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
         dot::object_id create_data_set(dot::string dataSetID);
@@ -264,10 +264,10 @@ namespace dc
         ///
         /// This overload of the create_data_set method does not
         /// specify the saveTo parameter explicitly and instead
-        /// uses context.DataSet for its value.
+        /// uses context.data_set for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        dot::object_id create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentDataSets);
+        dot::object_id create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentdata_sets);
 
         /// Create new version of the dataset with the specified dataSetID
         /// and parent dataset dot::object_ids passed as an array, and return
@@ -277,13 +277,13 @@ namespace dc
         /// the saveTo parameter explicitly.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        dot::object_id create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentDataSets, dot::object_id saveTo);
+        dot::object_id create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentdata_sets, dot::object_id saveTo);
 
         /// Save new version of the dataset.
         ///
         /// This overload of the save_data_set method does not
         /// specify the saveTo parameter explicitly and instead
-        /// uses context.DataSet for its value.
+        /// uses context.data_set for its value.
         ///
         /// This method sets ID field of the argument to be the
         /// new dot::object_id assigned to the record when it is saved.

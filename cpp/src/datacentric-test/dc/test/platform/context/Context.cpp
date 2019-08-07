@@ -57,8 +57,8 @@ namespace dc
         // Delete (drop) the database to clear the existing data
         DataSource->delete_db();
 
-        // Create common dataset and assign it to DataSet property of this context
-        DataSet = DataSource->create_common();
+        // Create common dataset and assign it to data_set property of this context
+        data_set = DataSource->create_common();
     }
 
     UnitTestContextImpl::~UnitTestContextImpl()

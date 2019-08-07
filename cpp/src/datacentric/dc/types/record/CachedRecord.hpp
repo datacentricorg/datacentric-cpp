@@ -54,7 +54,7 @@ namespace dc
     public:
 
         /// Dataset for which the record is cached.
-        dot::object_id DataSet;
+        dot::object_id data_set;
 
         /// Record passed to the constructor, or null for an
         /// empty cached record or a delete marker.
@@ -67,7 +67,7 @@ namespace dc
         CachedRecordImpl(dot::object_id dataSet, record_base record = nullptr)
         {
             // Dataset for which the record is cached
-            DataSet = dataSet;
+            data_set = dataSet;
 
             if (!record.is_empty() && !record.is<DeleteMarker>())
             {

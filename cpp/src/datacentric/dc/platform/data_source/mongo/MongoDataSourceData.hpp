@@ -65,7 +65,7 @@ namespace dc
         virtual record_base reload_or_null(key_base key, dot::object_id loadFrom) override;
 
         /// Save record to the specified dataset. After the method exits,
-        /// record.DataSet will be set to the value of the dataSet parameter.
+        /// record.data_set will be set to the value of the dataSet parameter.
         ///
         /// This method guarantees that dot::object_ids will be in strictly increasing
         /// order for this instance of the data source class always, and across

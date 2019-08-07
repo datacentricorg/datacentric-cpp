@@ -55,7 +55,7 @@ namespace dc
     public: // METHODS
 
         /// Load record from context.DataSource. The lookup occurs in
-        /// context.DataSet and its parents, expanded to arbitrary
+        /// context.data_set and its parents, expanded to arbitrary
         /// depth with repetitions and cyclic references removed.
         ///
         /// If Record property is set, its value is returned without
@@ -71,7 +71,7 @@ namespace dc
         /// Error message if the record is not found or is a delete marker.
         dot::ptr<TRecord> Load(IContext context)
         {
-            auto result = load_or_null(context, context->DataSet);
+            auto result = load_or_null(context, context->data_set);
             if (result == nullptr) throw dot::exception(
                 dot::string::format("Record with key {0} is not found.", this->to_string()));
             return result;
@@ -83,7 +83,7 @@ namespace dc
         /// and its parents, expanded to arbitrary depth with repetitions
         /// and cyclic references removed.
         ///
-        /// ATTENTION - this method ignores context.DataSet
+        /// ATTENTION - this method ignores context.data_set
         /// because the second parameter dataSet overrides it.
         ///
         /// If Record property is set, its value is returned without
@@ -113,7 +113,7 @@ namespace dc
 
 
         /// Load record from context.DataSource. The lookup occurs in
-        /// context.DataSet and its parents, expanded to arbitrary
+        /// context.data_set and its parents, expanded to arbitrary
         /// depth with repetitions and cyclic references removed.
         ///
         /// If Record property is set, its value is returned without
@@ -129,7 +129,7 @@ namespace dc
         /// Return null if the record is not found or is a delete marker.
         dot::ptr<TRecord> load_or_null(IContext context)
         {
-            return load_or_null(context, context->DataSet);
+            return load_or_null(context, context->data_set);
         }
 
         /// Load record from context.DataSource, overriding the dataset
@@ -138,7 +138,7 @@ namespace dc
         /// and its parents, expanded to arbitrary depth with repetitions
         /// and cyclic references removed.
         ///
-        /// ATTENTION - this method ignores context.DataSet
+        /// ATTENTION - this method ignores context.data_set
         /// because the second parameter dataSet overrides it.
         ///
         /// If Record property is set, its value is returned without
@@ -160,7 +160,7 @@ namespace dc
             // the dataset of the record may not
             // be the same as the dataset where
             // the record is looked up.
-            if (cachedRecord_ != nullptr && cachedRecord_->DataSet == loadFrom)
+            if (cachedRecord_ != nullptr && cachedRecord_->data_set == loadFrom)
             {
                 // If cached for the argument dataset, return the cached
                 // value unless it is the delete marker, in which case
@@ -223,7 +223,7 @@ namespace dc
         void Delete(IContext context)
         {
             // Delete in the dataset of the context
-            context->DataSource->delete_record(this, context->DataSet);
+            context->DataSource->delete_record(this, context->data_set);
         }
 
         /// Write a delete marker in deleteIn dataset for the specified key

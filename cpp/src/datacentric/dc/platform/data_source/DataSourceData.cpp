@@ -89,7 +89,7 @@ namespace dc
 
             if (data_set_data_obj == nullptr)
                 throw dot::exception(dot::string::format("Dataset with dot::object_id={0} is not found.", load_from.to_string()));
-            if ((dot::object_id) data_set_data_obj->DataSet != dot::object_id::Empty)
+            if ((dot::object_id) data_set_data_obj->data_set != dot::object_id::Empty)
                 throw dot::exception(dot::string::format("Dataset with dot::object_id={0} is not stored in root dataset.", load_from.to_string()));
 
             // Build the lookup list

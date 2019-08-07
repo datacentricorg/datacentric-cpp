@@ -28,7 +28,7 @@ namespace dc
 
     inline data_set_data make_data_set_data();
 
-    /// DataSet key is a required field for all stored records.
+    /// data_set key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
     /// same DB collection or table.
     class DC_CLASS data_set_data_impl : public record_impl<data_set_key_impl, data_set_data_impl>
@@ -40,9 +40,9 @@ namespace dc
 
         /// dot::object_id of the dataset where the record is stored.
         ///
-        /// This override for the data_set_data record sets DataSet to
+        /// This override for the data_set_data record sets data_set to
         /// dot::object_id.Empty for the Common dataset.
-        dot::object_id DataSet;
+        dot::object_id data_set;
 
         /// Unique dataset identifier.
         dot::string data_set_id;
@@ -53,10 +53,10 @@ namespace dc
         /// before executing the the rest of the code in the method override.
         virtual void Init(IContext context);
 
-        /// DataSet parents.
+        /// data_set parents.
         dot::list<dot::object_id> Parents;
 
-        DOT_TYPE_BEGIN(".Analyst", "DataSetData")
+        DOT_TYPE_BEGIN("dc", "data_set_data")
             DOT_TYPE_PROP(data_set_id)
             DOT_TYPE_PROP(Parents)
             DOT_TYPE_CTOR(make_data_set_data)

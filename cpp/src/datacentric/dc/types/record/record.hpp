@@ -73,7 +73,7 @@ namespace dc
 
         /// This conversion method creates a new key, populates key elements of the
         /// created key by the values taken from the record, and then caches the
-        /// record inside the key using record.DataSet. The cached value will be
+        /// record inside the key using record.data_set. The cached value will be
         /// used only for lookup in the same dataset but not for lookup in another
         /// dataset for which the current dataset is a parent.
         ///
@@ -89,7 +89,7 @@ namespace dc
             // The cached value will be used only for lookup in the dataset
             // passed to this method, but not for lookup in another dataset
             // for which the current dataset is a parent
-            result->SetCachedRecord(this, DataSet);
+            result->SetCachedRecord(this, data_set);
 
             return result;
         }

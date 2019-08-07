@@ -40,7 +40,7 @@ namespace dc
 
     void IContextImpl::Save(record_base record)
     {
-        DataSource->save(record, DataSet);
+        DataSource->save(record, data_set);
     }
 
     void IContextImpl::Save(record_base record, dot::object_id saveTo)
@@ -50,7 +50,7 @@ namespace dc
 
     void IContextImpl::Delete(key_base key)
     {
-        DataSource->delete_record(key, DataSet);
+        DataSource->delete_record(key, data_set);
     }
 
     void IContextImpl::Delete(key_base key, dot::object_id deleteIn)
@@ -70,7 +70,7 @@ namespace dc
 
     dot::object_id IContextImpl::get_data_set(dot::string dataSetID)
     {
-        return DataSource->get_data_set(dataSetID, DataSet);
+        return DataSource->get_data_set(dataSetID, data_set);
     }
 
     dot::object_id IContextImpl::get_data_set(dot::string dataSetID, dot::object_id loadFrom)
@@ -80,7 +80,7 @@ namespace dc
 
     dot::object_id IContextImpl::get_data_set_or_empty(dot::string dataSetID)
     {
-        return DataSource->get_data_set_or_empty(dataSetID, DataSet);
+        return DataSource->get_data_set_or_empty(dataSetID, data_set);
     }
 
     dot::object_id IContextImpl::get_data_set_or_empty(dot::string dataSetID, dot::object_id loadFrom)
@@ -95,7 +95,7 @@ namespace dc
 
     dot::object_id IContextImpl::create_data_set(dot::string dataSetID)
     {
-        return DataSource->create_data_set(dataSetID, DataSet);
+        return DataSource->create_data_set(dataSetID, data_set);
     }
 
     dot::object_id IContextImpl::create_data_set(dot::string dataSetID, dot::object_id saveTo)
@@ -103,19 +103,19 @@ namespace dc
         return DataSource->create_data_set(dataSetID, saveTo);
     }
 
-    dot::object_id IContextImpl::create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentDataSets)
+    dot::object_id IContextImpl::create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentdata_sets)
     {
-        return DataSource->create_data_set(dataSetID, parentDataSets, DataSet);
+        return DataSource->create_data_set(dataSetID, parentdata_sets, data_set);
     }
 
-    dot::object_id IContextImpl::create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentDataSets, dot::object_id saveTo)
+    dot::object_id IContextImpl::create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentdata_sets, dot::object_id saveTo)
     {
-        return DataSource->create_data_set(dataSetID, parentDataSets, saveTo);
+        return DataSource->create_data_set(dataSetID, parentdata_sets, saveTo);
     }
 
     void IContextImpl::save_data_set(data_set_data data_set_data)
     {
-        DataSource->save_data_set(data_set_data, DataSet);
+        DataSource->save_data_set(data_set_data, data_set);
     }
 
     void IContextImpl::save_data_set(data_set_data data_set_data, dot::object_id saveTo)
