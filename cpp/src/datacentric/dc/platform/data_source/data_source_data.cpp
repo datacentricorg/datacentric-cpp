@@ -69,10 +69,10 @@ namespace dc
     {
         // Root dataset has no parents, return list containing
         // root dataset identifier only (dot::object_id.Empty) and exit
-        if (load_from == dot::object_id::Empty)
+        if (load_from == dot::object_id::empty)
         {
             dot::hash_set<dot::object_id> res = dot::make_hash_set<dot::object_id>();
-            res->add(dot::object_id::Empty);
+            res->add(dot::object_id::empty);
             return res;
         }
 
@@ -89,7 +89,7 @@ namespace dc
 
             if (data_set_data_obj == nullptr)
                 throw dot::exception(dot::string::format("Dataset with dot::object_id={0} is not found.", load_from.to_string()));
-            if ((dot::object_id) data_set_data_obj->data_set != dot::object_id::Empty)
+            if ((dot::object_id) data_set_data_obj->data_set != dot::object_id::empty)
                 throw dot::exception(dot::string::format("Dataset with dot::object_id={0} is not stored in root dataset.", load_from.to_string()));
 
             // Build the lookup list
@@ -147,7 +147,7 @@ namespace dc
         data_set_data data_set_data_obj = (data_set_data) reload_or_null(data_set_key, load_from);
 
         // If not found, return dot::object_id.Empty
-        if (data_set_data_obj == nullptr) return dot::object_id::Empty;
+        if (data_set_data_obj == nullptr) return dot::object_id::empty;
 
         // If found, cache result in dot::object_id dictionary
         data_set_dict_[data_set_id] = data_set_data_obj->ID;
@@ -211,13 +211,13 @@ namespace dc
 
     dot::object_id data_source_data_impl::get_common()
     {
-        return get_data_set(data_set_key_impl::Common->data_set_id, dot::object_id::Empty);
+        return get_data_set(data_set_key_impl::Common->data_set_id, dot::object_id::empty);
     }
 
     dot::object_id data_source_data_impl::get_data_set(dot::string data_set_id, dot::object_id load_from)
     {
         auto result = get_data_set_or_empty(data_set_id, load_from);
-        if (result == dot::object_id::Empty) throw dot::exception(
+        if (result == dot::object_id::empty) throw dot::exception(
             dot::string::format("Dataset {0} is not found in data store {1}.", data_set_id, data_source_id));
         return result;
     }
@@ -258,7 +258,7 @@ namespace dc
         result->data_set_id = data_set_key_impl::Common->data_set_id;
 
         // Save in root dataset
-        save_data_set(result, dot::object_id::Empty);
+        save_data_set(result, dot::object_id::empty);
         return result->ID;
     }
 }

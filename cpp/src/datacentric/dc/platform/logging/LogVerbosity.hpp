@@ -24,7 +24,7 @@ namespace dc
     enum class LogVerbosity : int
     {
         /// Empty
-        Empty,
+        empty,
 
         /// No output even for errors.
         Silent,

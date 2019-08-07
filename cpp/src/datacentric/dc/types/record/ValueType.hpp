@@ -24,7 +24,7 @@ namespace dc
     enum class ValueType : int
     {
         /// Empty
-        Empty,
+        empty,
 
         /// String value.
         String,

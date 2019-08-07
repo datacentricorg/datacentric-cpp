@@ -33,7 +33,7 @@ namespace dot
     public: // STATIC
 
         /// Represents empty object id, all bytes are zero
-        static object_id Empty;
+        static object_id empty;
 
     public: // CONSTRUCTORS
 
@@ -94,7 +94,7 @@ namespace dot
         /// Boxing operator
         operator dot::object() const
         {
-            if (_id != Empty._id)
+            if (_id != empty._id)
                 return dot::object(new dot::struct_wrapper_impl<object_id>(*this));
             else return dot::object();
         }

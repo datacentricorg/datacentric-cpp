@@ -79,7 +79,7 @@ namespace dc
         else
         {
             // Returns empty string as per standard to_string() convention, rather than null like AsString() does
-            return dot::string::Empty;
+            return dot::string::empty;
         }
     }
 

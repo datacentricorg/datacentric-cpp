@@ -24,7 +24,7 @@ namespace dc
     enum class LogEntryType : int
     {
         /// Empty
-        Empty,
+        empty,
 
         /// Error entry type is not logged directly for those log types
         /// where the output is subsequently performed by the exception catch block.

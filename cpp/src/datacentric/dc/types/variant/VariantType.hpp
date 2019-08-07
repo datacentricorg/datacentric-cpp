@@ -24,7 +24,7 @@ namespace dc
     enum class DC_CLASS VariantType : int
     {
         /// Empty value.
-        Empty,
+        empty,
 
         /// String value.
         dot::string,

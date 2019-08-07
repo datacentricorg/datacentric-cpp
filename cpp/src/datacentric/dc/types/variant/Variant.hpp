@@ -54,7 +54,7 @@ namespace dc
         ValueType getValueType()
         {
             if (value_ == nullptr)
-                return ValueType::Empty;
+                return ValueType::empty;
 
             dot::type_t valueType = value_->type();
 

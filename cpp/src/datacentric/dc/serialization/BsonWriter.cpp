@@ -42,7 +42,7 @@ namespace dc
         // one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
         elementStack_.push({ rootElementName, currentState_ });
 
-        if (currentState_ == TreeWriterState::Empty && elementStack_.size() == 1)
+        if (currentState_ == TreeWriterState::empty && elementStack_.size() == 1)
         {
             currentState_ = TreeWriterState::DocumentStarted;
         }

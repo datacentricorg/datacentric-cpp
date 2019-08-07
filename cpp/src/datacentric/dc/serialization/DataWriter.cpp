@@ -33,11 +33,11 @@ namespace dc
 {
     DataWriterImpl::DataWriterImpl(data data_obj)
         : currentDict_(data_obj)
-        , currentState_(TreeWriterState::Empty) {}
+        , currentState_(TreeWriterState::empty) {}
 
     void DataWriterImpl::WriteStartDocument(dot::string rootElementName)
     {
-        if (currentState_ == TreeWriterState::Empty && elementStack_.size() == 0)
+        if (currentState_ == TreeWriterState::empty && elementStack_.size() == 0)
         {
             currentState_ = TreeWriterState::DocumentStarted;
         }

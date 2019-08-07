@@ -25,7 +25,7 @@ namespace dc
     enum class TreeWriterState
     {
         /// Empty
-        Empty,
+        empty,
 
         /// State following WriteStartDocument.
         DocumentStarted,

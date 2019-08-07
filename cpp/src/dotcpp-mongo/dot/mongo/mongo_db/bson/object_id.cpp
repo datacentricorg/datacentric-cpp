@@ -23,12 +23,12 @@ limitations under the License.
 
 namespace dot
 {
-    object_id object_id::Empty = object_id();
+    object_id object_id::empty = object_id();
 
     object_id::object_id()
     {
-        static const char Empty[12] = { 0 };
-        _id = bsoncxx::oid(Empty, 12);
+        static const char empty_buffer[12] = { 0 };
+        _id = bsoncxx::oid(empty_buffer, 12);
     }
 
     object_id::object_id(bsoncxx::oid id) : _id(id) {}

@@ -62,7 +62,7 @@ namespace dc
         mongocxx::database db_;
 
         /// Previous dot::object_id returned by CreateOrdereddot::object_id() method.
-        dot::object_id prev_object_id_ = dot::object_id::Empty;
+        dot::object_id prev_object_id_ = dot::object_id::empty;
 
     public: // METHODS
 

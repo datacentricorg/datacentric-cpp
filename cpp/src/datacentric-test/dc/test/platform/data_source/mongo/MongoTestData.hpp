@@ -32,13 +32,13 @@ namespace dc
 
         enum enum_type
         {
-            Empty,
+            empty,
             EnumValue1,
             EnumValue2
         };
 
         DOT_ENUM_BEGIN("DataCentric", "MongoTestEnum")
-            DOT_ENUM_VALUE(Empty)
+            DOT_ENUM_VALUE(empty)
             DOT_ENUM_VALUE(EnumValue1)
             DOT_ENUM_VALUE(EnumValue2)
         DOT_ENUM_END()

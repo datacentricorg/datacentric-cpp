@@ -33,7 +33,7 @@ namespace dc
         enum enum_type
         {
             /// Empty
-            Empty,
+            empty,
 
             /// Production instance type.
             ///
@@ -72,7 +72,7 @@ namespace dc
         };
 
         DOT_ENUM_BEGIN("DataCentric", "InstanceType")
-            DOT_ENUM_VALUE(Empty)
+            DOT_ENUM_VALUE(empty)
             DOT_ENUM_VALUE(PROD)
             DOT_ENUM_VALUE(UAT)
             DOT_ENUM_VALUE(DEV)

@@ -108,7 +108,7 @@ namespace dc
     private:
         BsonWriterImpl()
             : bsonWriter_(true)
-            , currentState_(TreeWriterState::Empty) {}
+            , currentState_(TreeWriterState::empty) {}
     };
 
     inline BsonWriter make_BsonWriter() { return new BsonWriterImpl; }
