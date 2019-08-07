@@ -45,7 +45,7 @@ namespace dc
             data CurrentDict;
             dot::dictionary<dot::string, dot::field_info> CurrentDictElements;
             dot::field_info CurrentElementInfo;
-            dot::collection_base CurrentArray;
+            dot::list_base CurrentArray;
             dot::type_t CurrentArrayItemType;
         };
 
@@ -58,7 +58,7 @@ namespace dc
         data currentDict_;
         dot::dictionary<dot::string, dot::field_info> currentDictElements_;
         dot::field_info currentElementInfo_;
-        dot::collection_base currentArray_;
+        dot::list_base currentArray_;
         dot::type_t currentArrayItemType_;
 
     private: // CONSTRUCTORS

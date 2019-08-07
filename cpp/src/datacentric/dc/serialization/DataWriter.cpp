@@ -176,14 +176,14 @@ namespace dc
 
         // Create the array
         dot::object createdArrayObj = dot::activator::create_instance(currentElementInfo_->field_type);
-        if (createdArrayObj.is<dot::collection_base>()) // TODO Also support native arrays
+        if (createdArrayObj.is<dot::list_base>()) // TODO Also support native arrays
         {
             // Add to array or dictionary, depending on what we are inside of
             if (currentArray_ != nullptr) currentArray_->add_object(createdArrayObj);
             else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, createdArrayObj);
             else throw dot::exception("Value can only be added to a dictionary or array.");
 
-            currentArray_ = (dot::collection_base) createdArrayObj;
+            currentArray_ = (dot::list_base) createdArrayObj;
 
             // Get array item type from array type using reflection
             dot::type_t listType = currentElementInfo_->field_type;      // TODO fix
