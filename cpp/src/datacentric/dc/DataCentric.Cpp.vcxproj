@@ -18,8 +18,8 @@
   <ItemGroup>
     <ClCompile Include="platform\context\Context.cpp" />
     <ClCompile Include="platform\context\IContext.cpp" />
-    <ClCompile Include="platform\dataset\DataSetData.cpp" />
-    <ClCompile Include="platform\dataset\DataSetKey.cpp" />
+    <ClCompile Include="platform\dataset\data_set_data.cpp" />
+    <ClCompile Include="platform\dataset\data_set_key.cpp" />
     <ClCompile Include="platform\data_source\DatabaseData.cpp" />
     <ClCompile Include="platform\data_source\DatabaseKey.cpp" />
     <ClCompile Include="platform\data_source\DatabaseServerData.cpp" />
@@ -59,8 +59,8 @@
     <ClInclude Include="platform\context\Context.hpp" />
     <ClInclude Include="platform\context\IContext.hpp" />
     <ClInclude Include="platform\cursor\CursorWrapper.hpp" />
-    <ClInclude Include="platform\dataset\DataSetData.hpp" />
-    <ClInclude Include="platform\dataset\DataSetKey.hpp" />
+    <ClInclude Include="platform\dataset\data_set_data.hpp" />
+    <ClInclude Include="platform\dataset\data_set_key.hpp" />
     <ClInclude Include="platform\data_source\DatabaseData.hpp" />
     <ClInclude Include="platform\data_source\DatabaseKey.hpp" />
     <ClInclude Include="platform\data_source\DatabaseServerData.hpp" />

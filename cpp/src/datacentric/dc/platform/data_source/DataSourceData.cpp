@@ -85,15 +85,15 @@ namespace dc
         else
         {
             // Otherwise load from storage (returns null if not found)
-            data_set_data data_set_data = load_or_null<data_set_data>(load_from).template as<data_set_data>();
+            data_set_data data_set_data_obj = load_or_null<data_set_data>(load_from).template as<data_set_data>();
 
-            if (data_set_data == nullptr)
+            if (data_set_data_obj == nullptr)
                 throw dot::exception(dot::string::format("Dataset with dot::object_id={0} is not found.", load_from.to_string()));
-            if ((dot::object_id) data_set_data->DataSet != dot::object_id::Empty)
+            if ((dot::object_id) data_set_data_obj->DataSet != dot::object_id::Empty)
                 throw dot::exception(dot::string::format("Dataset with dot::object_id={0} is not stored in root dataset.", load_from.to_string()));
 
             // Build the lookup list
-            result = build_data_set_lookup_list(data_set_data);
+            result = build_data_set_lookup_list(data_set_data_obj);
 
             // Add to dictionary and return
             data_set_parent_dict_->add(load_from, result);
@@ -144,23 +144,23 @@ namespace dc
         // Always load even if present in cache
         data_set_key data_set_key = new_data_set_key();
         data_set_key->DataSetID = data_set_id;
-        data_set_data data_set_data = (data_set_data) reload_or_null(data_set_key, load_from);
+        data_set_data data_set_data_obj = (data_set_data) reload_or_null(data_set_key, load_from);
 
         // If not found, return dot::object_id.Empty
-        if (data_set_data == nullptr) return dot::object_id::Empty;
+        if (data_set_data_obj == nullptr) return dot::object_id::Empty;
 
         // If found, cache result in dot::object_id dictionary
-        data_set_dict_[data_set_id] = data_set_data->ID;
+        data_set_dict_[data_set_id] = data_set_data_obj->ID;
 
         // Build and cache dataset lookup list if not found
         dot::hash_set<dot::object_id> parent_set;
-        if (!data_set_parent_dict_->try_get_value(data_set_data->ID, parent_set))
+        if (!data_set_parent_dict_->try_get_value(data_set_data_obj->ID, parent_set))
         {
-            parent_set = build_data_set_lookup_list(data_set_data);
-            data_set_parent_dict_->add(data_set_data->ID, parent_set);
+            parent_set = build_data_set_lookup_list(data_set_data_obj);
+            data_set_parent_dict_->add(data_set_data_obj->ID, parent_set);
         }
 
-        return data_set_data->ID;
+        return data_set_data_obj->ID;
     }
 
     dot::hash_set<dot::object_id> data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data)
