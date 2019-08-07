@@ -23,16 +23,13 @@ namespace dc
 {
     class IUnitTestContextImpl; using IUnitTestContext = dot::ptr<IUnitTestContextImpl>;
 
-    /// 
     /// Extends IContext with approval test functionality.
-    /// 
     class IUnitTestContextImpl : public IContextImpl
     {
         typedef IUnitTestContextImpl self;
 
     public:
 
-        /// 
         /// Test database, if accessed during test, is normally
         /// deleted (dropped) on first access and once again on
         /// Dispose().
@@ -40,13 +37,11 @@ namespace dc
         /// If KeepDb property is set to true,
         /// the test database will not be dropped so that its
         /// data can be examined after the test.
-        /// 
         bool KeepDb;
     };
 
     class UnitTestContextImpl; using UnitTestContext = dot::ptr<UnitTestContextImpl>;
 
-    /// 
     /// Context for use in test fixtures that do not require MongoDB.
     ///
     /// This class implements IUnitTestContext which extends IContext
@@ -54,23 +49,19 @@ namespace dc
     /// using this context will cause an error.
     ///
     /// For tests that require MongoDB, use UnitTestDataContext.
-    /// 
     class UnitTestContextImpl : public IUnitTestContextImpl
     {
     public:
 
-        /// 
         /// Create with class name, method name, and source file path.
         ///
         /// When ``this'' is passed as the the only argument to the
         /// constructor, the latter two arguments are provided by
         /// the compiler.
-        /// 
         UnitTestContextImpl(dot::object classInstance,
             dot::string methodName,
             dot::string sourceFilePath);
 
-        /// 
         /// Releases resources and calls base.Dispose().
         ///
         /// This method will NOT be called by the garbage
@@ -82,7 +73,6 @@ namespace dc
         ///
         /// Each class must call base.Dispose() at the end
         /// of its own Dispose() method.
-        /// 
         ~UnitTestContextImpl();
 
     };

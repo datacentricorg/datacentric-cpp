@@ -30,10 +30,8 @@ namespace dc
     struct prop_wrapper;
     class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
 
-    /// 
     /// Holds expressions for Where, Select, and OrderBy/ThenBy
     /// parts of a query.
-    /// 
     class DC_CLASS query_impl : public dot::object_impl
     {
         friend query make_query(data_source_data data_source, dot::object_id data_set, dot::type_t type);

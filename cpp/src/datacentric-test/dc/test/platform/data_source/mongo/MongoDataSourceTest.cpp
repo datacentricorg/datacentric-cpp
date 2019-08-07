@@ -456,7 +456,6 @@ namespace dc
         Approvals::verify(toVerify);
     }
 
-    /// 
     /// Test saving object of a different type for the same key.
     ///
     /// The objective of this test is to confirm that LoadOrNull
@@ -464,7 +463,6 @@ namespace dc
     /// skip the object of the wrong type even if there is an
     /// earlier version of the object with the same key that
     /// has a compatible type.
-    /// 
     TEST_CASE("TypeChange")
     {
         MongoDataSourceTest test = new MongoDataSourceTestImpl;

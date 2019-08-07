@@ -26,7 +26,6 @@ namespace dc
     class dot::object_id;
     class record_base_impl; using record_base = dot::ptr<record_base_impl>;
 
-    /// 
     /// Reference to a cached record inside the key.
     ///
     /// The dataset is stored in a separate variable, not inside
@@ -46,7 +45,6 @@ namespace dc
     /// an in-memory object to a key which will also set values
     /// of the elements of the key to the corresponding values
     /// of the record.
-    /// 
     class DC_CLASS CachedRecordImpl : public dot::object_impl
     {
         typedef CachedRecordImpl self;
@@ -58,18 +56,14 @@ namespace dc
         /// Dataset for which the record is cached.
         dot::object_id DataSet;
 
-        /// 
         /// Record passed to the constructor, or null for an
         /// empty cached record or a delete marker.
-        /// 
         record_base Record;
 
     private:
-        /// 
         /// Cache dataset and record.
         ///
         /// Delete marker will be cached as null.
-        /// 
         CachedRecordImpl(dot::object_id dataSet, record_base record = nullptr)
         {
             // Dataset for which the record is cached

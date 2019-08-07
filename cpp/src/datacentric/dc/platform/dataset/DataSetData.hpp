@@ -38,23 +38,19 @@ namespace dc
 
     public:
 
-        /// 
         /// dot::object_id of the dataset where the record is stored.
         ///
         /// This override for the DataSetData record sets DataSet to
         /// dot::object_id.Empty for the Common dataset.
-        /// 
         dot::object_id DataSet;
 
         /// Unique dataset identifier.
         dot::string DataSetID;
 
-        /// 
         /// Set context and perform initialization or validation of object data.
         ///
         /// All derived classes overriding this method must call base.Init(context)
         /// before executing the the rest of the code in the method override.
-        /// 
         virtual void Init(IContext context);
 
         /// DataSet parents.

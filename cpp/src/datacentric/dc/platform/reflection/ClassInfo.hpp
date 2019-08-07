@@ -61,29 +61,24 @@ namespace dc
 
     public: // STATIC
 
-        /// 
         /// Get cached instance for the specified object, or create
         /// using settings from Settings.Default.ClassMap
         /// and add to thread static cache if does not exist.
         ///
         /// This object contains information about the
         /// class including its name, namespace, etc.
-        /// 
         static ClassInfo GetOrCreate(dot::object value);
 
-        /// 
         /// Get cached instance for the specified type, or create
         /// using settings from Settings.Default.ClassMap
         /// and add to thread static cache if does not exist.
         ///
         /// This object contains information about the
         /// class including its name, namespace, etc.
-        /// 
         static ClassInfo GetOrCreate(Type_ type);
 
     private: // CONSTRUCTORS
 
-        /// 
         /// Create using settings from Settings.Default.ClassMap.
         ///
         /// This constructor is private because it is only called
@@ -91,7 +86,6 @@ namespace dc
         /// on GetOrCreate(...) method only which uses thread static
         /// cached value if any, and creates the instance only if
         /// it is not yet cached for the thread.
-        /// 
         ClassInfoImpl(Type_ type);
 
     private: // PRIVATE

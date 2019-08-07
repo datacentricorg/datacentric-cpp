@@ -31,23 +31,19 @@ namespace dc
 
     public: // FIELDS
 
-        /// 
         /// dot::object_id of the record is specific to its version.
         ///
         /// For the record's history to be captured correctly, all
         /// update operations must assign a new dot::object_id with the
         /// timestamp that matches update time.
-        /// 
         dot::object_id ID;
 
-        /// 
         /// dot::object_id of the dataset where the record is stored.
         ///
         /// The records that may be stored in root dataset (including
         /// data source, database, database server, and Common dataset
         /// records) must override this property to avoid an error about
         /// dataset not being set for the record.
-        /// 
         dot::object_id DataSet;
 
         /// Use context to access resources.
@@ -55,22 +51,18 @@ namespace dc
 
     public: // PROPERTIES
 
-        /// 
         /// dot::string key consists of semicolon delimited primary key elements:
         ///
         /// KeyElement1;KeyElement2
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
-        /// 
         virtual dot::string get_key() = 0;
 
     public: // METHODS
 
-        /// 
         /// Set context and perform fast initialization or validation
         /// of class data. Must first invoke base.Init(context).
-        /// 
         virtual void Init(IContext context);
 
         dot::string to_string() { return get_key(); }

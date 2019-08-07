@@ -42,10 +42,8 @@ namespace dc
         /// Treats values that differ by less than Double.tolerance as equal.
         static bool Less(double lhs, double rhs) { return lhs < rhs - dot::double_impl::tolerance; }
 
-        /// 
         /// Return $lhs \le rhs$ using tolerance-based comparison.
         /// Treats values that differ by less than Double.tolerance as equal.
-        /// 
         static bool LessOrEqual(double lhs, double rhs) { return lhs <= rhs + dot::double_impl::tolerance; }
 
         /// Returns $1$ for $x \gt y$, $-1$ for $x \lt y$, and $0$ for $x==y$.

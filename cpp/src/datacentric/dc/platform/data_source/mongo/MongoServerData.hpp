@@ -24,14 +24,12 @@ namespace dc
 {
     class MongoServerDataImpl; using MongoServerData = dot::ptr<MongoServerDataImpl>;
 
-    /// 
     /// Database server definition for MongoDB. This class is responsible
     /// for assembling MongoDB URI from hostname, port, and other parameters.
     ///
     /// Derived classes implement the API for the standard (``mongodb''),
     /// and seedlist (``mongodb+srv'') connection formats as well as for
     /// the default server running on localhost.
-    /// 
     class DC_CLASS MongoServerDataImpl : public db_server_data_impl
     {
         typedef MongoServerDataImpl self;

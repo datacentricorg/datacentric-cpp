@@ -21,11 +21,9 @@ limitations under the License.
 
 namespace dc
 {
-    /// 
     /// Specifies instance type.
     ///
     /// Some API functions are restricted based on the instance type.
-    /// 
     class instance_type : public dot::enum_base
     {
         typedef instance_type self;
@@ -37,49 +35,39 @@ namespace dc
             /// Empty
             Empty,
 
-            /// 
             /// Production instance type.
             ///
             /// This instance type is used for live production data
             /// and has the most restrictions. For example, it
             /// does not allow a database to be deleted (dropped)
             /// through the API call.
-            /// 
             PROD,
 
-            /// 
             /// Shared user acceptance testing instance type.
             ///
             /// This instance type is used has some of the restrictions
             /// of the PROD instance type, including the restriction
             /// on deleting (dropping) the database through an API
             /// call.
-            /// 
             UAT,
 
-            /// 
             /// Shared development instance type.
             ///
             /// This instance type is shared but is free from most
             /// restrictions.
-            /// 
             DEV,
 
-            /// 
             /// Personal instance type of a specific user.
             ///
             /// This instance type is not shared between users and is
             /// free from most restrictions.
-            /// 
             USER,
 
-            /// 
             /// Instance type is used for unit testing.
             ///
             /// Databases for the test instance type are routinely
             /// cleared (deleted). They should not be used for any
             /// purpose other than unit tests.
-            /// 
             TEST,
         };
 

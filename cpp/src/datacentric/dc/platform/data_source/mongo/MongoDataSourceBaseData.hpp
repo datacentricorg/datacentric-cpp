@@ -31,11 +31,9 @@ namespace dc
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
-    /// 
     /// Abstract base class for data source implementations based on MongoDB.
     ///
     /// This class provides functionality shared by all MongoDB data source types.
-    /// 
     class DC_CLASS MongoDataSourceBaseDataImpl : public data_source_data_impl
     {
         typedef MongoDataSourceBaseDataImpl self;
@@ -50,10 +48,8 @@ namespace dc
 
     private: // FIELDS
 
-        /// 
         /// Type of instance controls the ability to do certain
         /// actions such as deleting (dropping) the database.
-        /// 
         instance_type instance_type_;
 
         /// Full name of the database on Mongo server including delimiters.
@@ -70,15 +66,12 @@ namespace dc
 
     public: // METHODS
 
-        /// 
         /// Set context and perform initialization or validation of object data.
         ///
         /// All derived classes overriding this method must call base.Init(context)
         /// before executing the the rest of the code in the method override.
-        /// 
         void Init(IContext context) override;
 
-        /// 
         /// The returned dot::object_ids have the following order guarantees:
         ///
         /// * For this data source instance, to arbitrary resolution; and
@@ -88,10 +81,8 @@ namespace dc
         /// the same second by different instances of the data source
         /// class may not be ordered chronologically unless they are at
         /// least one second apart.
-        /// 
         virtual dot::object_id create_ordered_object_id() override;
 
-        /// 
         /// Permanently deletes (drops) the database with all records
         /// in it without the possibility to recover them later.
         ///
@@ -101,19 +92,14 @@ namespace dc
         ///
         /// ATTENTION - THIS METHOD WILL DELETE ALL DATA WITHOUT
         /// THE POSSIBILITY OF RECOVERY. USE WITH CAUTION.
-        /// 
         virtual void delete_db() override;
 
     protected: // PROTECTED
 
-        /// 
         /// Get collection with name based on the type.
-        /// 
         mongocxx::collection GetCollection(dot::type_t dataType);
 
-        /// 
         /// Get collection with name based on the type.
-        /// 
         mongocxx::collection GetCollection(dot::string typeName);
     };
 }
