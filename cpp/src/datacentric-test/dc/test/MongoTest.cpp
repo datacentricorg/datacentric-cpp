@@ -41,7 +41,7 @@ namespace dc
 
         TestStruct ts{15, 42.42};
 
-        //mongocxx::instance inst{};
+        mongocxx::instance inst{};
         mongocxx::client conn{ mongocxx::uri{} };
         auto coll = conn["test"]["coll"];
         coll.drop();
