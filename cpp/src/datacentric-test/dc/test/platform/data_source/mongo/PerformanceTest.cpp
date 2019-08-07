@@ -41,7 +41,7 @@ namespace dc
     const int data_set_count = 10;
     const int recordVersions = 10;
 
-    const int recordsCount = 1024 * 3 / (data_set_count * recordVersions);
+    const int record_count = 1024 * 3 / (data_set_count * recordVersions);
     const int recordSize = 128 * 200;
 
 
@@ -158,25 +158,25 @@ namespace dc
         return rec->ID;
     }
 
-    void SaveRecords(IUnitTestContext context, int recordsCount, int recordSize)
+    void SaveRecords(IUnitTestContext context, int record_count, int recordSize)
     {
         // Create datasets
-        dot::object_id commonDataSet = context->GetCommon();
+        dot::object_id common_data_set = context->get_common();
         for (int i = 0; i < data_set_count; ++i)
         {
             dot::string data_set_name = get_data_set(i);
-            context->CreateDataSet(data_set_name, dot::make_list<dot::object_id>({ commonDataSet }));
+            context->create_data_set(data_set_name, dot::make_list<dot::object_id>({ common_data_set }));
         }
 
         // Create records
-        for (int i = 0; i < recordsCount; ++i)
+        for (int i = 0; i < record_count; ++i)
         {
             dot::string recordId = GetRecordKey(i);
-            SaveRecord(context, data_set_key_impl::Common->DataSetID, recordId, recordSize, 0);
+            SaveRecord(context, data_set_key_impl::Common->data_set_id, recordId, recordSize, 0);
 
-            for (int dsI = 0; dsI < data_set_count; ++dsI)
+            for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {
-                dot::string data_set_name = get_data_set(dsI);
+                dot::string data_set_name = get_data_set(data_set_index);
 
                 for (int version = 1; version < recordVersions; ++version)
                 {
@@ -188,7 +188,7 @@ namespace dc
 
     void FillDatabase(IUnitTestContext context)
     {
-        SaveRecords(context, recordsCount, recordSize);
+        SaveRecords(context, record_count, recordSize);
     }
 
 
@@ -206,17 +206,17 @@ namespace dc
         IUnitTestContext context = new UnitTestContextImpl(test, "Performance", ".");
         TestDurationCounter td("Keys loading");
 
-        for (int i = 0; i < recordsCount; ++i)
+        for (int i = 0; i < record_count; ++i)
         {
             PerformanceTestKey key = make_PerformanceTestKey();
             key->RecordID = GetRecordKey(i);
-            context->ReloadOrNull(key, context->GetCommon());
+            context->reload_or_null(key, context->get_common());
 
-            for (int dsI = 0; dsI < data_set_count; ++dsI)
+            for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {
-                dot::string data_set_name = get_data_set(dsI);
+                dot::string data_set_name = get_data_set(data_set_index);
                 dot::object_id dataSet = context->get_data_set_or_empty(data_set_name);
-                context->ReloadOrNull(key, dataSet);
+                context->reload_or_null(key, dataSet);
             }
         }
     }

@@ -54,22 +54,22 @@ namespace dc
         ///
         /// Return null if not found.
         template <class TRecord>
-        TRecord LoadOrNull(dot::object_id id)
+        TRecord load_or_null(dot::object_id id)
         {
-            return (TRecord) LoadOrNull(id, ::dot::typeof<TRecord>());
+            return (TRecord) load_or_null(id, ::dot::typeof<TRecord>());
         }
 
         /// Load record by its dot::object_id and Type.
         ///
         /// Return null if not found.
-        record_base LoadOrNull(dot::object_id id, dot::type_t dataType);
+        record_base load_or_null(dot::object_id id, dot::type_t dataType);
 
         /// This method does not use cached value inside the key
         /// and always retrieves a new record from storage. To get
         /// the record cached inside the key instead (if present), use
         /// the caching variant of this method:
         ///
-        /// LoadOrNull(key, loadFrom)
+        /// load_or_null(key, loadFrom)
         ///
         /// Load record by string key from the specified dataset or
         /// its parent. The lookup occurs first in the reverse
@@ -88,7 +88,7 @@ namespace dc
         /// Return null if there is no record for the specified dot::object_id;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        record_base ReloadOrNull(key_base key, dot::object_id loadFrom);
+        record_base reload_or_null(key_base key, dot::object_id loadFrom);
 
         /// Save record to the specified dataset. After the method exits,
         /// record.DataSet will be set to the value of the dataSet parameter.
@@ -147,12 +147,12 @@ namespace dc
         ///
         /// ATTENTION - THIS METHOD WILL DELETE ALL DATA WITHOUT
         /// THE POSSIBILITY OF RECOVERY. USE WITH CAUTION.
-        void DeleteDb();
+        void delete_db();
 
         /// Return dot::object_id of the latest Common dataset.
         ///
         /// Common dataset is always stored in root dataset.
-        dot::object_id GetCommon();
+        dot::object_id get_common();
 
         /// Return dot::object_id for the latest dataset record with
         /// matching dataSetID string from in-memory cache. Try
@@ -167,7 +167,7 @@ namespace dc
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
         /// in the data store and will only load it from storage
-        /// if not found in cache. Use LoadDataSet method to
+        /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
         dot::object_id get_data_set(dot::string dataSetID);
 
@@ -183,7 +183,7 @@ namespace dc
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
         /// in the data store and will only load it from storage
-        /// if not found in cache. Use LoadDataSet method to
+        /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
         dot::object_id get_data_set(dot::string dataSetID, dot::object_id loadFrom);
 
@@ -200,7 +200,7 @@ namespace dc
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
         /// in the data store and will only load it from storage
-        /// if not found in cache. Use LoadDataSet method to
+        /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
         ///
         /// Error message if no matching dataSetID string is found
@@ -219,7 +219,7 @@ namespace dc
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
         /// in the data store and will only load it from storage
-        /// if not found in cache. Use LoadDataSet method to
+        /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
         ///
         /// Error message if no matching dataSetID string is found
@@ -237,51 +237,51 @@ namespace dc
         /// The timestamp of the new dot::object_id is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        dot::object_id CreateCommon();
+        dot::object_id create_common();
 
         /// Create new version of the dataset with the specified dataSetID
         /// and no parent datasets.
         ///
-        /// This overload of the CreateDataSet method does not
+        /// This overload of the create_data_set method does not
         /// specify the saveTo parameter explicitly and instead
         /// uses context.DataSet for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        dot::object_id CreateDataSet(dot::string dataSetID);
+        dot::object_id create_data_set(dot::string dataSetID);
 
         /// Create new version of the dataset with the specified dataSetID
         /// and no parent datasets.
         ///
-        /// This overload of the CreateDataSet method specifies
+        /// This overload of the create_data_set method specifies
         /// the saveTo parameter explicitly.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        dot::object_id CreateDataSet(dot::string dataSetID, dot::object_id saveTo);
+        dot::object_id create_data_set(dot::string dataSetID, dot::object_id saveTo);
 
         /// Create new version of the dataset with the specified dataSetID
         /// and parent dataset dot::object_ids passed as an array, and return
         /// the new dot::object_id assigned to the saved dataset.
         ///
-        /// This overload of the CreateDataSet method does not
+        /// This overload of the create_data_set method does not
         /// specify the saveTo parameter explicitly and instead
         /// uses context.DataSet for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        dot::object_id CreateDataSet(dot::string dataSetID, dot::list<dot::object_id> parentDataSets);
+        dot::object_id create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentDataSets);
 
         /// Create new version of the dataset with the specified dataSetID
         /// and parent dataset dot::object_ids passed as an array, and return
         /// the new dot::object_id assigned to the saved dataset.
         ///
-        /// This overload of the CreateDataSet method specifies
+        /// This overload of the create_data_set method specifies
         /// the saveTo parameter explicitly.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        dot::object_id CreateDataSet(dot::string dataSetID, dot::list<dot::object_id> parentDataSets, dot::object_id saveTo);
+        dot::object_id create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentDataSets, dot::object_id saveTo);
 
         /// Save new version of the dataset.
         ///
-        /// This overload of the SaveDataSet method does not
+        /// This overload of the save_data_set method does not
         /// specify the saveTo parameter explicitly and instead
         /// uses context.DataSet for its value.
         ///
@@ -290,11 +290,11 @@ namespace dc
         /// The timestamp of the new dot::object_id is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        void SaveDataSet(data_set_data data_set_data);
+        void save_data_set(data_set_data data_set_data);
 
         /// Save new version of the dataset.
         ///
-        /// This overload of the SaveDataSet method specifies
+        /// This overload of the save_data_set method specifies
         /// the saveTo parameter explicitly.
         ///
         /// This method sets ID field of the argument to be the
@@ -302,6 +302,6 @@ namespace dc
         /// The timestamp of the new dot::object_id is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        void SaveDataSet(data_set_data data_set_data, dot::object_id saveTo);
+        void save_data_set(data_set_data data_set_data, dot::object_id saveTo);
     };
 }

@@ -37,10 +37,10 @@ namespace dc
     public: // PROPERTIES
 
         /// Unique dataset identifier.
-        dot::string DataSetID;
+        dot::string data_set_id;
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetKey")
-            DOT_TYPE_PROP(DataSetID)
+            DOT_TYPE_PROP(data_set_id)
             DOT_TYPE_CTOR(make_data_set_key)
             DOT_TYPE_BASE(key<data_set_key_impl, data_set_data_impl>)
         DOT_TYPE_END()

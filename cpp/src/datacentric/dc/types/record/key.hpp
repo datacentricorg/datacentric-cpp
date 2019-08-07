@@ -71,7 +71,7 @@ namespace dc
         /// Error message if the record is not found or is a delete marker.
         dot::ptr<TRecord> Load(IContext context)
         {
-            auto result = LoadOrNull(context, context->DataSet);
+            auto result = load_or_null(context, context->DataSet);
             if (result == nullptr) throw dot::exception(
                 dot::string::format("Record with key {0} is not found.", this->to_string()));
             return result;
@@ -101,7 +101,7 @@ namespace dc
         {
             // This method will return null if the record is
             // not found or the found record is a delete marker
-            dot::ptr<TRecord> result = LoadOrNull(context, dataSet);
+            dot::ptr<TRecord> result = load_or_null(context, dataSet);
 
             // Error message if null, otherwise return
             if (result == nullptr) throw dot::exception(dot::string::format(
@@ -127,9 +127,9 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Return null if the record is not found or is a delete marker.
-        dot::ptr<TRecord> LoadOrNull(IContext context)
+        dot::ptr<TRecord> load_or_null(IContext context)
         {
-            return LoadOrNull(context, context->DataSet);
+            return load_or_null(context, context->DataSet);
         }
 
         /// Load record from context.DataSource, overriding the dataset
@@ -152,7 +152,7 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Return null if the record is not found or is a delete marker.
-        dot::ptr<TRecord> LoadOrNull(IContext context, dot::object_id loadFrom)
+        dot::ptr<TRecord> load_or_null(IContext context, dot::object_id loadFrom)
         {
             // First check if the record has been
             // cached for the same dataset as the
@@ -179,7 +179,7 @@ namespace dc
 
                 // This method will return null if the record is
                 // not found or the found record has Deleted flag set
-                dot::ptr<TRecord> result = (dot::ptr<TRecord>) context->ReloadOrNull(this, loadFrom);
+                dot::ptr<TRecord> result = (dot::ptr<TRecord>) context->reload_or_null(this, loadFrom);
 
                 if (result == nullptr || result.template is<DeleteMarker>())
                 {

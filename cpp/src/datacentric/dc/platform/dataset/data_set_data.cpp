@@ -25,7 +25,7 @@ namespace dc
     {
         record_impl<data_set_key_impl, data_set_data_impl>::Init(context);
 
-        if (dot::string::is_null_or_empty(DataSetID)) throw dot::exception("DataSetID has not been set.");
+        if (dot::string::is_null_or_empty(data_set_id)) throw dot::exception("data_set_id has not been set.");
 
         if (!dot::list<dot::object_id>(Parents).is_empty())
         for (dot::object_id parent : Parents)
@@ -36,14 +36,14 @@ namespace dc
                 {
                     throw dot::exception(dot::string::format(
                         "Dataset {0} has a parent with the same dot::object_id={1} "
-                        "as its own dot::object_id. Each dot::object_id must be unique.", DataSetID, parent.to_string()));
+                        "as its own dot::object_id. Each dot::object_id must be unique.", data_set_id, parent.to_string()));
                 }
                 else
                 {
                     throw dot::exception(dot::string::format(
                         "Dataset {0} has a parent whose dot::object_id={1} is greater "
                         "than its own dot::object_id={2}. The dot::object_id of each parent must be strictly "
-                        "less than the dot::object_id of the dataset itself.", DataSetID, parent.to_string(), dot::object_id(ID).to_string()));
+                        "less than the dot::object_id of the dataset itself.", data_set_id, parent.to_string(), dot::object_id(ID).to_string()));
                 }
             }
         }

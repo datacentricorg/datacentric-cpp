@@ -143,7 +143,7 @@ namespace dc
     {
         // Always load even if present in cache
         data_set_key data_set_key = make_data_set_key();
-        data_set_key->DataSetID = data_set_id;
+        data_set_key->data_set_id = data_set_id;
         data_set_data data_set_data_obj = (data_set_data) reload_or_null(data_set_key, load_from);
 
         // If not found, return dot::object_id.Empty
@@ -211,7 +211,7 @@ namespace dc
 
     dot::object_id data_source_data_impl::get_common()
     {
-        return get_data_set(data_set_key_impl::Common->DataSetID, dot::object_id::Empty);
+        return get_data_set(data_set_key_impl::Common->data_set_id, dot::object_id::Empty);
     }
 
     dot::object_id data_source_data_impl::get_data_set(dot::string data_set_id, dot::object_id load_from)
@@ -232,7 +232,7 @@ namespace dc
     {
         // Create dataset record
         auto result = make_data_set_data();
-        result->DataSetID = data_set_id;
+        result->data_set_id = data_set_id;
 
         if (parent_data_sets != nullptr)
         {
@@ -248,14 +248,14 @@ namespace dc
         save_data_set(result, save_to);
 
         // Return dot::object_id that was assigned to the
-        // record inside the SaveDataSet method
+        // record inside the save_data_set method
         return result->ID;
     }
 
     dot::object_id data_source_data_impl::create_common()
     {
         auto result = make_data_set_data();
-        result->DataSetID = data_set_key_impl::Common->DataSetID;
+        result->data_set_id = data_set_key_impl::Common->data_set_id;
 
         // Save in root dataset
         save_data_set(result, dot::object_id::Empty);

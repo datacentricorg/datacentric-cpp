@@ -43,7 +43,7 @@ namespace dc
         /// the record cached inside the key instead (if present), use
         /// the caching variant of this method:
         ///
-        /// LoadOrNull(key, loadFrom)
+        /// load_or_null(key, loadFrom)
         ///
         /// Load record by string key from the specified dataset or
         /// its parent. The lookup occurs first in the reverse

@@ -87,7 +87,7 @@ namespace dc
         /// the record cached inside the key instead (if present), use
         /// the caching variant of this method:
         ///
-        /// LoadOrNull(key, loadFrom)
+        /// load_or_null(key, loadFrom)
         ///
         /// Load record by string key from the specified dataset or
         /// its parent. The lookup occurs first in the reverse
@@ -180,7 +180,7 @@ namespace dc
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
         /// in the data store and will only load it from storage
-        /// if not found in cache. Use LoadDataSet method to
+        /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
         ///
         /// Error message if no matching dataSetID string is found
@@ -240,7 +240,7 @@ namespace dc
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
         /// in the data store and will only load it from storage
-        /// if not found in cache. Use LoadDataSet method to
+        /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
         dot::object_id get_data_set(dot::string data_set_id, dot::object_id load_from);
 

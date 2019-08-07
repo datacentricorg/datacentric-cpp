@@ -45,7 +45,7 @@ namespace dc
         dot::object_id DataSet;
 
         /// Unique dataset identifier.
-        dot::string DataSetID;
+        dot::string data_set_id;
 
         /// Set context and perform initialization or validation of object data.
         ///
@@ -57,7 +57,7 @@ namespace dc
         dot::list<dot::object_id> Parents;
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetData")
-            DOT_TYPE_PROP(DataSetID)
+            DOT_TYPE_PROP(data_set_id)
             DOT_TYPE_PROP(Parents)
             DOT_TYPE_CTOR(make_data_set_data)
             DOT_TYPE_BASE(record<data_set_key_impl, data_set_data_impl>)
