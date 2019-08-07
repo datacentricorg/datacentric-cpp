@@ -44,6 +44,6 @@ namespace dc
         }
     };
 
-    inline Context new_Context() { return new ContextImpl; }
+    inline Context make_Context() { return new ContextImpl; }
 }
 

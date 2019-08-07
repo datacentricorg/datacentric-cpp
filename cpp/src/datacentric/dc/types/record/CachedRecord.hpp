@@ -49,7 +49,7 @@ namespace dc
     {
         typedef CachedRecordImpl self;
 
-        friend CachedRecord new_CachedRecord(dot::object_id, record_base);
+        friend CachedRecord make_CachedRecord(dot::object_id, record_base);
 
     public:
 
@@ -80,7 +80,7 @@ namespace dc
 
     };
 
-    inline CachedRecord new_CachedRecord(dot::object_id dataSet, record_base record = nullptr)
+    inline CachedRecord make_CachedRecord(dot::object_id dataSet, record_base record = nullptr)
     {
         return new CachedRecordImpl(dataSet, record);
     }

@@ -26,7 +26,7 @@ namespace dc
     class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
     class dot::object_id;
 
-    inline data_set_data new_data_set_data();
+    inline data_set_data make_data_set_data();
 
     /// DataSet key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
@@ -34,7 +34,7 @@ namespace dc
     class DC_CLASS data_set_data_impl : public record_impl<data_set_key_impl, data_set_data_impl>
     {
         typedef data_set_data_impl self;
-        friend data_set_data new_data_set_data();
+        friend data_set_data make_data_set_data();
 
     public:
 
@@ -59,7 +59,7 @@ namespace dc
         DOT_TYPE_BEGIN(".Analyst", "DataSetData")
             DOT_TYPE_PROP(DataSetID)
             DOT_TYPE_PROP(Parents)
-            DOT_TYPE_CTOR(new_data_set_data)
+            DOT_TYPE_CTOR(make_data_set_data)
             DOT_TYPE_BASE(record<data_set_key_impl, data_set_data_impl>)
         DOT_TYPE_END()
 
@@ -68,5 +68,5 @@ namespace dc
         data_set_data_impl() = default;
     };
 
-    inline data_set_data new_data_set_data() { return new data_set_data_impl; }
+    inline data_set_data make_data_set_data() { return new data_set_data_impl; }
 }

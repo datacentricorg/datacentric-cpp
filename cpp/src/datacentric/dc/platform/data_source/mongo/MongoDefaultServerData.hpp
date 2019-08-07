@@ -32,7 +32,7 @@ namespace dc
     {
         typedef MongoDefaultServerDataImpl self;
 
-        friend MongoDefaultServerData new_MongoDefaultServerData();
+        friend MongoDefaultServerData make_MongoDefaultServerData();
 
     protected: // CONSTRUCTORS
 
@@ -46,5 +46,5 @@ namespace dc
         dot::string GetMongoServerUri() override;
     };
 
-    inline MongoDefaultServerData new_MongoDefaultServerData() { return new MongoDefaultServerDataImpl; }
+    inline MongoDefaultServerData make_MongoDefaultServerData() { return new MongoDefaultServerDataImpl; }
 }

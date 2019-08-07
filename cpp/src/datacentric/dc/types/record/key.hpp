@@ -192,7 +192,7 @@ namespace dc
 
                     // Record not found or is a delete marker,
                     // cache an empty record and return null
-                    cachedRecord_ = new_CachedRecord(loadFrom);
+                    cachedRecord_ = make_CachedRecord(loadFrom);
                     return nullptr;
                 }
                 else
@@ -205,7 +205,7 @@ namespace dc
 
                     // Cache the record; the ctor of CachedRecord
                     // will cache null if the record is a delete marker
-                    cachedRecord_ = new_CachedRecord(loadFrom, result);
+                    cachedRecord_ = make_CachedRecord(loadFrom, result);
 
                     // Return the result after caching it inside the key
                     return result;
@@ -282,7 +282,7 @@ namespace dc
             AssignKeyElements(record);
 
             // Cache self inside the key
-            cachedRecord_ = new_CachedRecord(dataSet, record);
+            cachedRecord_ = make_CachedRecord(dataSet, record);
         }
 
         /// Clear the previously cached record so that a

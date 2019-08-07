@@ -23,7 +23,7 @@ namespace dc
 {
     class DeleteMarkerImpl; using DeleteMarker = dot::ptr<DeleteMarkerImpl>;
 
-    inline DeleteMarker new_DeleteMarker();
+    inline DeleteMarker make_DeleteMarker();
 
     /// When returned by the data source, this record has the same
     /// effect as if no record was found. It is used to indicate
@@ -32,7 +32,7 @@ namespace dc
     {
         typedef DeleteMarkerImpl self;
 
-        friend DeleteMarker new_DeleteMarker();
+        friend DeleteMarker make_DeleteMarker();
 
     public: // PROPERTIES
 
@@ -52,9 +52,9 @@ namespace dc
 
         DOT_TYPE_BEGIN("DataCentric", "DeleteMarker")
             DOT_TYPE_BASE(record_base)
-            DOT_TYPE_CTOR(new_DeleteMarker)
+            DOT_TYPE_CTOR(make_DeleteMarker)
         DOT_TYPE_END()
     };
 
-    inline DeleteMarker new_DeleteMarker() { return new DeleteMarkerImpl(); }
+    inline DeleteMarker make_DeleteMarker() { return new DeleteMarkerImpl(); }
 }

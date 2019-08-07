@@ -34,7 +34,7 @@ namespace dc
     /// Implementation of ITreeWriter for Data.
     class DC_CLASS DataWriterImpl : public ITreeWriterImpl
     {
-        friend DataWriter new_DataWriter(data data_obj);
+        friend DataWriter make_DataWriter(data data_obj);
         friend TupleWriterImpl;
 
     private:
@@ -136,6 +136,6 @@ namespace dc
 
     };
 
-    inline DataWriter new_DataWriter(data data_obj) { return new DataWriterImpl(data_obj); }
+    inline DataWriter make_DataWriter(data data_obj) { return new DataWriterImpl(data_obj); }
 }
 

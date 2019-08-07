@@ -64,7 +64,7 @@ namespace dc
                     if (props_[i]->field_type->name->ends_with("Data")) //! TODO change ends_with
                     {
                         data result = (data)dot::activator::create_instance(props_[i]->field_type);
-                        dataWriter_ = new_DataWriter(result);
+                        dataWriter_ = make_DataWriter(result);
                         dataWriter_->WriteStartDocument(props_[i]->field_type->name);
 
                         tuple_->type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, result }));
@@ -76,7 +76,7 @@ namespace dc
 
                     if (! props_[i]->field_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
                     {
-                        dataWriter_ = new_DataWriter(nullptr);
+                        dataWriter_ = make_DataWriter(nullptr);
                         dataWriter_->currentElementInfo_ = props_[i];
                         dataWriter_->currentElementName_ = props_[i]->name;
                         dataWriter_->currentState_ = TreeWriterState::ElementStarted;

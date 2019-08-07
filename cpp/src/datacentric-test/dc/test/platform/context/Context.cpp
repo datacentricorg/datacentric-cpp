@@ -45,7 +45,7 @@ namespace dc
         DataSource = new MongoDataSourceDataImpl();
         //DataSource->DbServer = new DbServerKeyImpl;
         //DataSource->DbServer->DbServerID = (new MongoDefaultServerDataImpl())->DbServerID;
-        DataSource->db_server = (new_MongoDefaultServerData())->to_key();
+        DataSource->db_server = (make_MongoDefaultServerData())->to_key();
         DataSource->db_name = new db_name_key_impl();
 
         DataSource->db_name->instance_type = instance_type::TEST;

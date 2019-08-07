@@ -46,7 +46,7 @@ namespace dc
         bsoncxx::stdx::optional<bsoncxx::document::value> res = GetCollection(dataType).find_one(filter.view());
         if (res != bsoncxx::stdx::nullopt)
         {
-            BsonRecordSerializer serializer = new_BsonRecordSerializer();
+            BsonRecordSerializer serializer = make_BsonRecordSerializer();
             record_base record = (record_base) serializer->Deserialize(res->view());
             record->Init(Context);
             return record;
@@ -97,7 +97,7 @@ namespace dc
 
         if (res.begin() != res.end())
         {
-            BsonRecordSerializer serializer = new_BsonRecordSerializer();
+            BsonRecordSerializer serializer = make_BsonRecordSerializer();
             record_base result = (record_base) serializer->Deserialize(*res.begin());
             result->Init(Context);
 
@@ -135,8 +135,8 @@ namespace dc
         record->Init(Context);
 
         // Serialize record.
-        BsonRecordSerializer serializer = new_BsonRecordSerializer();
-        BsonWriter writer = new_BsonWriter();
+        BsonRecordSerializer serializer = make_BsonRecordSerializer();
+        BsonWriter writer = make_BsonWriter();
         serializer->Serialize(writer, record);
 
         // By design, insert will fail if dot::object_id is not unique within the collection
@@ -229,7 +229,7 @@ namespace dc
             return make_object_cursor_wrapper(std::move(GetCollection(query->type_).aggregate(pipeline)),
                 [context](const bsoncxx::document::view& item)->dot::object
                 {
-                    BsonRecordSerializer serializer = new_BsonRecordSerializer();
+                    BsonRecordSerializer serializer = make_BsonRecordSerializer();
                     record_base record = (record_base)serializer->Deserialize(item);
 
                     record->Init(context);
@@ -250,7 +250,7 @@ namespace dc
             return make_object_cursor_wrapper(std::move(GetCollection(query->type_).aggregate(pipeline)),
                 [context, query](const bsoncxx::document::view& item)->dot::object
                 {
-                    BsonRecordSerializer serializer = new_BsonRecordSerializer();
+                    BsonRecordSerializer serializer = make_BsonRecordSerializer();
                     dot::object record = serializer->DeserializeTuple(item, query->select_, query->element_type_);
                     return record;
                 }
@@ -262,7 +262,7 @@ namespace dc
     void MongoDataSourceDataImpl::delete_record(key_base key, dot::object_id deleteIn)
     {
         // Create delete marker with the specified key
-        auto record = new_DeleteMarker();
+        auto record = make_DeleteMarker();
         record->get_key() = key->getValue();
 
         // Get collection
@@ -280,8 +280,8 @@ namespace dc
         record->DataSet = deleteIn;
 
         // Serialize record.
-        BsonRecordSerializer serializer = new_BsonRecordSerializer();
-        BsonWriter writer = new_BsonWriter();
+        BsonRecordSerializer serializer = make_BsonRecordSerializer();
+        BsonWriter writer = make_BsonWriter();
         serializer->Serialize(writer, record);
 
         // By design, insert will fail if dot::object_id is not unique within the collection

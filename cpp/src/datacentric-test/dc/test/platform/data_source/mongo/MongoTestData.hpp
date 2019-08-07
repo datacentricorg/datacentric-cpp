@@ -47,7 +47,7 @@ namespace dc
     class MongoTestKeyImpl; using MongoTestKey = dot::ptr<MongoTestKeyImpl>;
     class MongoTestDataImpl; using MongoTestData = dot::ptr<MongoTestDataImpl>;
 
-    MongoTestKey new_MongoTestKey();
+    MongoTestKey make_MongoTestKey();
 
     /// Key class.
     class MongoTestKeyImpl : public key_impl<MongoTestKeyImpl, MongoTestDataImpl>
@@ -63,13 +63,13 @@ namespace dc
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_PROP(RecordIndex)
             DOT_TYPE_BASE(key<MongoTestKeyImpl, MongoTestDataImpl>)
-            DOT_TYPE_CTOR(new_MongoTestKey)
+            DOT_TYPE_CTOR(make_MongoTestKey)
         DOT_TYPE_END()
     };
 
-    inline MongoTestKey new_MongoTestKey() { return new MongoTestKeyImpl; }
+    inline MongoTestKey make_MongoTestKey() { return new MongoTestKeyImpl; }
 
-    MongoTestData new_MongoTestData();
+    MongoTestData make_MongoTestData();
 
     /// Base data class.
     class MongoTestDataImpl : public record_impl<MongoTestKeyImpl, MongoTestDataImpl>
@@ -99,15 +99,15 @@ namespace dc
             DOT_TYPE_PROP(EnumValue)
             DOT_TYPE_PROP(Version)
             DOT_TYPE_BASE(record<MongoTestKeyImpl, MongoTestDataImpl>)
-            DOT_TYPE_CTOR(new_MongoTestData)
+            DOT_TYPE_CTOR(make_MongoTestData)
         DOT_TYPE_END()
     };
 
-    inline MongoTestData new_MongoTestData() { return new MongoTestDataImpl; }
+    inline MongoTestData make_MongoTestData() { return new MongoTestDataImpl; }
 
     class ElementSampleDataImpl; using ElementSampleData = dot::ptr<ElementSampleDataImpl>;
 
-    ElementSampleData new_ElementSampleData();
+    ElementSampleData make_ElementSampleData();
 
     /// Element data class.
     class ElementSampleDataImpl : public data_impl
@@ -121,15 +121,15 @@ namespace dc
             DOT_TYPE_PROP(DoubleElement3)
             DOT_TYPE_PROP(StringElement3)
             DOT_TYPE_BASE(data)
-            DOT_TYPE_CTOR(new_ElementSampleData)
+            DOT_TYPE_CTOR(make_ElementSampleData)
         DOT_TYPE_END()
     };
 
-    inline ElementSampleData new_ElementSampleData() { return new ElementSampleDataImpl; }
+    inline ElementSampleData make_ElementSampleData() { return new ElementSampleDataImpl; }
 
     class MongoTestDerivedDataImpl; using MongoTestDerivedData = dot::ptr<MongoTestDerivedDataImpl>;
 
-    MongoTestDerivedData new_MongoTestDerivedData();
+    MongoTestDerivedData make_MongoTestDerivedData();
 
     /// Derived data class.
     class MongoTestDerivedDataImpl : public MongoTestDataImpl
@@ -163,15 +163,15 @@ namespace dc
             DOT_TYPE_PROP(KeyElement)
             DOT_TYPE_PROP(KeyElementList)
             DOT_TYPE_BASE(MongoTestData)
-            DOT_TYPE_CTOR(new_MongoTestDerivedData)
+            DOT_TYPE_CTOR(make_MongoTestDerivedData)
         DOT_TYPE_END()
     };
 
-    inline MongoTestDerivedData new_MongoTestDerivedData() { return new MongoTestDerivedDataImpl; }
+    inline MongoTestDerivedData make_MongoTestDerivedData() { return new MongoTestDerivedDataImpl; }
 
     class MongoTestOtherDerivedDataImpl; using MongoTestOtherDerivedData = dot::ptr<MongoTestOtherDerivedDataImpl>;
 
-    MongoTestOtherDerivedData new_MongoTestOtherDerivedData();
+    MongoTestOtherDerivedData make_MongoTestOtherDerivedData();
 
     /// Other derived data class.
     class MongoTestOtherDerivedDataImpl : public MongoTestDataImpl
@@ -187,15 +187,15 @@ namespace dc
             DOT_TYPE_PROP(OtherDoubleElement2)
             DOT_TYPE_PROP(OtherStringElement2)
             DOT_TYPE_BASE(MongoTestData)
-            DOT_TYPE_CTOR(new_MongoTestOtherDerivedData)
+            DOT_TYPE_CTOR(make_MongoTestOtherDerivedData)
         DOT_TYPE_END()
     };
 
-    inline MongoTestOtherDerivedData new_MongoTestOtherDerivedData() { return new MongoTestOtherDerivedDataImpl; }
+    inline MongoTestOtherDerivedData make_MongoTestOtherDerivedData() { return new MongoTestOtherDerivedDataImpl; }
 
     class MongoTestDerivedFromDerivedDataImpl; using MongoTestDerivedFromDerivedData = dot::ptr<MongoTestDerivedFromDerivedDataImpl>;
 
-    MongoTestDerivedFromDerivedData new_MongoTestDerivedFromDerivedData();
+    MongoTestDerivedFromDerivedData make_MongoTestDerivedFromDerivedData();
 
     /// Next level in the inheritance chain.
     class MongoTestDerivedFromDerivedDataImpl : public MongoTestDerivedDataImpl
@@ -211,9 +211,9 @@ namespace dc
             DOT_TYPE_PROP(OtherDoubleElement3)
             DOT_TYPE_PROP(OtherStringElement3)
             DOT_TYPE_BASE(MongoTestDerivedData)
-            DOT_TYPE_CTOR(new_MongoTestDerivedFromDerivedData)
+            DOT_TYPE_CTOR(make_MongoTestDerivedFromDerivedData)
         DOT_TYPE_END()
     };
 
-    inline MongoTestDerivedFromDerivedData new_MongoTestDerivedFromDerivedData() { return new MongoTestDerivedFromDerivedDataImpl; }
+    inline MongoTestDerivedFromDerivedData make_MongoTestDerivedFromDerivedData() { return new MongoTestDerivedFromDerivedDataImpl; }
 }

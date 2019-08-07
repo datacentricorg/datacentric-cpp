@@ -142,7 +142,7 @@ namespace dc
     dot::object_id data_source_data_impl::load_data_set_or_empty(dot::string data_set_id, dot::object_id load_from)
     {
         // Always load even if present in cache
-        data_set_key data_set_key = new_data_set_key();
+        data_set_key data_set_key = make_data_set_key();
         data_set_key->DataSetID = data_set_id;
         data_set_data data_set_data_obj = (data_set_data) reload_or_null(data_set_key, load_from);
 
@@ -231,7 +231,7 @@ namespace dc
     dot::object_id data_source_data_impl::create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, dot::object_id save_to)
     {
         // Create dataset record
-        auto result = new_data_set_data();
+        auto result = make_data_set_data();
         result->DataSetID = data_set_id;
 
         if (parent_data_sets != nullptr)
@@ -254,7 +254,7 @@ namespace dc
 
     dot::object_id data_source_data_impl::create_common()
     {
-        auto result = new_data_set_data();
+        auto result = make_data_set_data();
         result->DataSetID = data_set_key_impl::Common->DataSetID;
 
         // Save in root dataset

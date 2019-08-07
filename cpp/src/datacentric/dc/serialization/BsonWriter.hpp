@@ -32,7 +32,7 @@ namespace dc
     class DC_CLASS BsonWriterImpl : public ITreeWriterImpl
     {
 
-        friend BsonWriter new_BsonWriter();
+        friend BsonWriter make_BsonWriter();
 
     private:
 
@@ -111,5 +111,5 @@ namespace dc
             , currentState_(TreeWriterState::Empty) {}
     };
 
-    inline BsonWriter new_BsonWriter() { return new BsonWriterImpl; }
+    inline BsonWriter make_BsonWriter() { return new BsonWriterImpl; }
 }

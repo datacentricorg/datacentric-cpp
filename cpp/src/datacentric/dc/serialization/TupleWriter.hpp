@@ -35,7 +35,7 @@ namespace dc
     /// Implementation of ITreeWriter for Data.
     class DC_CLASS TupleWriterImpl : public ITreeWriterImpl
     {
-        friend TupleWriter new_TupleWriter(dot::object tuple, dot::list<dot::field_info> props);
+        friend TupleWriter make_TupleWriter(dot::object tuple, dot::list<dot::field_info> props);
 
     public:
 
@@ -113,5 +113,5 @@ namespace dc
 
     };
 
-    inline TupleWriter new_TupleWriter(dot::object tuple, dot::list<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
+    inline TupleWriter make_TupleWriter(dot::object tuple, dot::list<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
 }

@@ -38,7 +38,7 @@ namespace dc
         // Create instance to which JSON will be deserialized
         dot::string typeName = doc["_t"].GetString();
         data result = (data)dot::activator::create_instance("", typeName);
-        ITreeWriter writer = new_DataWriter(result);
+        ITreeWriter writer = make_DataWriter(result);
 
         writer->WriteStartDocument(typeName);
         DeserializeDocument(doc.GetObject(), writer);
@@ -51,7 +51,7 @@ namespace dc
         // Create instance to which JSON will be deserialized
         dot::string typeName = tupleType->name;
         dot::object result = dot::activator::create_instance(tupleType);
-        ITreeWriter writer = new_TupleWriter(result, props);
+        ITreeWriter writer = make_TupleWriter(result, props);
 
         writer->WriteStartDocument(typeName);
         DeserializeDocument(doc, writer);

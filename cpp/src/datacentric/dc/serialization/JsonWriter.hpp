@@ -32,7 +32,7 @@ namespace dc
     /// Implementation of ITreeWriterImpl using RapidJSON lib.
     class DC_CLASS JsonWriterImpl : public ITreeWriterImpl
     {
-        friend JsonWriter new_JsonWriter();
+        friend JsonWriter make_JsonWriter();
 
     private:
 
@@ -107,5 +107,5 @@ namespace dc
         dot::string to_string() override;
     };
 
-    inline JsonWriter new_JsonWriter() { return new JsonWriterImpl; }
+    inline JsonWriter make_JsonWriter() { return new JsonWriterImpl; }
 }

@@ -84,7 +84,7 @@ namespace dc
     class PerformanceTestKeyImpl; using PerformanceTestKey = dot::ptr<PerformanceTestKeyImpl>;
     class PerformanceTestDataImpl; using PerformanceTestData = dot::ptr<PerformanceTestDataImpl>;
 
-    PerformanceTestKey new_PerformanceTestKey();
+    PerformanceTestKey make_PerformanceTestKey();
 
     /// Key class.
     class PerformanceTestKeyImpl : public key_impl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
@@ -98,13 +98,13 @@ namespace dc
         DOT_TYPE_BEGIN("DataCentric", "PerformanceTestKey")
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_BASE(key<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
-            DOT_TYPE_CTOR(new_PerformanceTestKey)
+            DOT_TYPE_CTOR(make_PerformanceTestKey)
         DOT_TYPE_END()
     };
 
-    inline PerformanceTestKey new_PerformanceTestKey() { return new PerformanceTestKeyImpl; }
+    inline PerformanceTestKey make_PerformanceTestKey() { return new PerformanceTestKeyImpl; }
 
-    PerformanceTestData new_PerformanceTestData();
+    PerformanceTestData make_PerformanceTestData();
 
     /// Data class.
     class PerformanceTestDataImpl : public record_impl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
@@ -122,11 +122,11 @@ namespace dc
             DOT_TYPE_PROP(DoubleList)
             DOT_TYPE_PROP(Version)
             DOT_TYPE_BASE(record<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
-            DOT_TYPE_CTOR(new_PerformanceTestData)
+            DOT_TYPE_CTOR(make_PerformanceTestData)
         DOT_TYPE_END()
     };
 
-    inline PerformanceTestData new_PerformanceTestData() { return new PerformanceTestDataImpl; }
+    inline PerformanceTestData make_PerformanceTestData() { return new PerformanceTestDataImpl; }
 
 
     // HELPER FUNCTIONS
@@ -144,7 +144,7 @@ namespace dc
 
     dot::object_id SaveRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordId, int recordSize, int recordVersion)
     {
-        PerformanceTestData rec = new_PerformanceTestData();
+        PerformanceTestData rec = make_PerformanceTestData();
         rec->RecordID = recordId;
         rec->Version = recordVersion;
         rec->DoubleList = dot::make_list<double>();
@@ -208,7 +208,7 @@ namespace dc
 
         for (int i = 0; i < recordsCount; ++i)
         {
-            PerformanceTestKey key = new_PerformanceTestKey();
+            PerformanceTestKey key = make_PerformanceTestKey();
             key->RecordID = GetRecordKey(i);
             context->ReloadOrNull(key, context->GetCommon());
 

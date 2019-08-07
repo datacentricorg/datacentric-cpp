@@ -53,7 +53,7 @@ namespace dc
     /// Save record with minimal data for testing how the records are found. 
     dot::object_id SaveMinimalRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::nullable<int> version = dot::nullable<int>())
     {
-        MongoTestData rec = new_MongoTestData();
+        MongoTestData rec = make_MongoTestData();
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->Version = version;
@@ -84,7 +84,7 @@ namespace dc
     /// Save derived record
     dot::object_id SaveDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
-        MongoTestDerivedData rec = new_MongoTestDerivedData();
+        MongoTestDerivedData rec = make_MongoTestDerivedData();
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
@@ -108,33 +108,33 @@ namespace dc
         rec->ListOfNullableDouble->add(30.0);
 
         // Data element
-        rec->DataElement = new_ElementSampleData();
+        rec->DataElement = make_ElementSampleData();
         rec->DataElement->DoubleElement3 = 1.0;
         rec->DataElement->StringElement3 = "AA";
 
         // Data element list
         rec->DataElementList = dot::make_list<ElementSampleData>();
-        ElementSampleData elementList0 = new_ElementSampleData();
+        ElementSampleData elementList0 = make_ElementSampleData();
         elementList0->DoubleElement3 = 1.0;
         elementList0->StringElement3 = "A0";
         rec->DataElementList->add(elementList0);
-        ElementSampleData elementList1 = new_ElementSampleData();
+        ElementSampleData elementList1 = make_ElementSampleData();
         elementList1->DoubleElement3 = 2.0;
         elementList1->StringElement3 = "A1";
         rec->DataElementList->add(elementList1);
 
         // Key element
-        rec->KeyElement = new_MongoTestKey();
+        rec->KeyElement = make_MongoTestKey();
         rec->KeyElement->RecordID = "BB";
         rec->KeyElement->RecordIndex = 2;
 
         // Key element list
         rec->KeyElementList = dot::make_list<MongoTestKey>();
-        MongoTestKey keyList0 = new_MongoTestKey();
+        MongoTestKey keyList0 = make_MongoTestKey();
         keyList0->RecordID = "B0";
         keyList0->RecordIndex = 3;
         rec->KeyElementList->add(keyList0);
-        MongoTestKey keyList1 = new_MongoTestKey();
+        MongoTestKey keyList1 = make_MongoTestKey();
         keyList1->RecordID = "B1";
         keyList1->RecordIndex = 4;
         rec->KeyElementList->add(keyList1);
@@ -147,7 +147,7 @@ namespace dc
     /// Save other derived record.
     dot::object_id SaveOtherDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
-        MongoTestOtherDerivedData rec = new_MongoTestOtherDerivedData();
+        MongoTestOtherDerivedData rec = make_MongoTestOtherDerivedData();
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
@@ -166,7 +166,7 @@ namespace dc
     /// Save record that is derived from derived.
     dot::object_id SaveDerivedFromDerivedRecord(IUnitTestContext context, string dataSetID, string recordID, int recordIndex)
     {
-        MongoTestDerivedFromDerivedData rec = new_MongoTestDerivedFromDerivedData();
+        MongoTestDerivedFromDerivedData rec = make_MongoTestDerivedFromDerivedData();
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->DoubleElement = 300.0;
@@ -301,11 +301,11 @@ namespace dc
         dot::object_id dataSetB = context->GetDataSet("B", context->GetCommon());
 
         // Create keys
-        MongoTestKey keyA0 = new_MongoTestKey();
+        MongoTestKey keyA0 = make_MongoTestKey();
         keyA0->RecordID = "A";
         keyA0->RecordIndex = dot::nullable<int>(0);
 
-        MongoTestKey keyB0 = new_MongoTestKey();
+        MongoTestKey keyB0 = make_MongoTestKey();
         keyB0->RecordID = "B";
         keyB0->RecordIndex = dot::nullable<int>(0);
 
@@ -477,11 +477,11 @@ namespace dc
         SaveDerivedFromDerivedRecord(context, "B", "B", 0);
 
         // Create keys
-        MongoTestKey keyA0 = new_MongoTestKey();
+        MongoTestKey keyA0 = make_MongoTestKey();
         keyA0->RecordID = "A";
         keyA0->RecordIndex = dot::nullable<int>(0);
 
-        MongoTestKey keyB0 = new_MongoTestKey();
+        MongoTestKey keyB0 = make_MongoTestKey();
         keyB0->RecordID = "B";
         keyB0->RecordIndex = dot::nullable<int>(0);
 
@@ -543,7 +543,7 @@ namespace dc
         // Look in B dataset
         dot::object_id dataSetB = context->GetDataSetOrEmpty("B", context->DataSet);
 
-        MongoTestKey key = new_MongoTestKey();
+        MongoTestKey key = make_MongoTestKey();
         key->RecordID = "BB";
         key->RecordIndex = dot::nullable<int>(2);
 
@@ -587,28 +587,28 @@ namespace dc
         // Load record of derived types by base
         received << "Load all types by key to type A" << std::endl;
         {
-            MongoTestKey key = new_MongoTestKey();
+            MongoTestKey key = make_MongoTestKey();
             key->RecordID = "A";
             key->RecordIndex = dot::nullable<int>(0);
             record_base obj = key->LoadOrNull(context, dataSetD);
             received << *dot::string::format("    Key={0} Type={1}", obj->get_key(), obj->type()->name) << std::endl;
         }
         {
-            MongoTestKey key = new_MongoTestKey();
+            MongoTestKey key = make_MongoTestKey();
             key->RecordID = "B";
             key->RecordIndex = dot::nullable<int>(0);
             record_base obj = key->LoadOrNull(context, dataSetD);
             received << *dot::string::format("    Key={0} Type={1}", obj->get_key(), obj->type()->name) << std::endl;
         }
         {
-            MongoTestKey key = new_MongoTestKey();
+            MongoTestKey key = make_MongoTestKey();
             key->RecordID = "C";
             key->RecordIndex = dot::nullable<int>(0);
             record_base obj = key->LoadOrNull(context, dataSetD);
             received << *dot::string::format("    Key={0} Type={1}", obj->get_key(), obj->type()->name) << std::endl;
         }
         {
-            MongoTestKey key = new_MongoTestKey();
+            MongoTestKey key = make_MongoTestKey();
             key->RecordID = "D";
             key->RecordIndex = dot::nullable<int>(0);
             record_base obj = key->LoadOrNull(context, dataSetD);
@@ -719,12 +719,12 @@ namespace dc
 
         // Load each record by string key
         {
-            MongoTestKey loadedA0Key = new_MongoTestKey();
+            MongoTestKey loadedA0Key = make_MongoTestKey();
             loadedA0Key->RecordID = "A";
             loadedA0Key->RecordIndex = dot::nullable<int>(0);
             MongoTestData loadedA0 = loadedA0Key->LoadOrNull(context, dataSetB);
 
-            MongoTestKey loadedC0Key = new_MongoTestKey();
+            MongoTestKey loadedC0Key = make_MongoTestKey();
             loadedC0Key->RecordID = "C";
             loadedC0Key->RecordIndex = dot::nullable<int>(0);
             MongoTestData loadedC0 = loadedC0Key->LoadOrNull(context, dataSetB);
@@ -751,7 +751,7 @@ namespace dc
 
         // Set new value for the DB server key so that the reference to in-memory
         // record is stored inside the key, otherwise it would not be found
-        context->DataSource->db_server = new_MongoDefaultServerData()->to_key();
+        context->DataSource->db_server = make_MongoDefaultServerData()->to_key();
 
         // Set revision time constraint
         context->DataSource->revised_before_id = cutoff_object_id;
@@ -765,12 +765,12 @@ namespace dc
 
         // Load each record by string key
         {
-            MongoTestKey loadedA0Key = new_MongoTestKey();
+            MongoTestKey loadedA0Key = make_MongoTestKey();
             loadedA0Key->RecordID = "A";
             loadedA0Key->RecordIndex = dot::nullable<int>(0);
             MongoTestData loadedA0 = loadedA0Key->LoadOrNull(context, dataSetB);
 
-            MongoTestKey loadedC0Key = new_MongoTestKey();
+            MongoTestKey loadedC0Key = make_MongoTestKey();
             loadedA0Key->RecordID = "C";
             loadedA0Key->RecordIndex = dot::nullable<int>(0);
             MongoTestData loadedC0 = loadedC0Key->LoadOrNull(context, dataSetB);

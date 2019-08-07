@@ -32,7 +32,7 @@ namespace dc
     /// Implementation of IBsonWriter using MongoDB IBsonWriter.
     class DC_CLASS JsonRecordSerializerImpl : public virtual dot::object_impl
     {
-        friend JsonRecordSerializer new_JsonRecordSerializer();
+        friend JsonRecordSerializer make_JsonRecordSerializer();
 
     public:
 
@@ -55,5 +55,5 @@ namespace dc
         JsonRecordSerializerImpl() = default;
     };
 
-    inline JsonRecordSerializer new_JsonRecordSerializer() { return new JsonRecordSerializerImpl; }
+    inline JsonRecordSerializer make_JsonRecordSerializer() { return new JsonRecordSerializerImpl; }
 }
