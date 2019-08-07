@@ -41,7 +41,7 @@ namespace dc
     class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
     class object_cursor_wrapper_impl; using object_cursor_wrapper = dot::ptr<object_cursor_wrapper_impl>;
 
-    class ObjectId;
+    class dot::object_id;
 
     /// <summary>
     /// Data source is a logical concept similar to database
@@ -63,30 +63,30 @@ namespace dc
     public: // ABSTRACT
 
         /// <summary>
-        /// The returned ObjectIds have the following order guarantees:
+        /// The returned dot::object_ids have the following order guarantees:
         ///
         /// * For this data source instance, to arbitrary resolution; and
         /// * Across all processes and machines, to one second resolution
         ///
-        /// One second resolution means that two ObjectIds created within
+        /// One second resolution means that two dot::object_ids created within
         /// the same second by different instances of the data source
         /// class may not be ordered chronologically unless they are at
         /// least one second apart.
         /// </summary>
-        virtual ObjectId create_ordered_object_id() = 0;
+        virtual dot::object_id create_ordered_object_id() = 0;
 
         template <class t_record>
-        t_record load_or_null(ObjectId id)
+        t_record load_or_null(dot::object_id id)
         {
             return (t_record) load_or_null(id, dot::typeof<t_record>());
         }
 
         /// <summary>
-        /// Load record by its ObjectId and Type.
+        /// Load record by its dot::object_id and Type.
         ///
         /// Return null if not found.
         /// </summary>
-        virtual record_base load_or_null(ObjectId id, dot::type_t data_type) = 0;
+        virtual record_base load_or_null(dot::object_id id, dot::type_t data_type) = 0;
 
         /// <summary>
         /// This method does not use cached value inside the key
@@ -102,30 +102,30 @@ namespace dc
         /// and then in the reverse chronological order of records
         /// within the latest dataset that has at least one record.
         ///
-        /// The root dataset has empty ObjectId value that is less
-        /// than any other ObjectId value. Accordingly, the root
+        /// The root dataset has empty dot::object_id value that is less
+        /// than any other dot::object_id value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         ///
         /// The first record in this lookup order is returned, or null
         /// if no records are found or if delete marker is the first
         /// record.
         ///
-        /// Return null if there is no record for the specified ObjectId;
+        /// Return null if there is no record for the specified dot::object_id;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         /// </summary>
-        virtual record_base reload_or_null(key_base key, ObjectId load_from) = 0;
+        virtual record_base reload_or_null(key_base key, dot::object_id load_from) = 0;
 
         /// <summary>
         /// Save record to the specified dataset. After the method exits,
         /// record.DataSet will be set to the value of the dataSet parameter.
         ///
-        /// This method guarantees that ObjectIds will be in strictly increasing
+        /// This method guarantees that dot::object_ids will be in strictly increasing
         /// order for this instance of the data source class always, and across
         /// all processes and machine if they are not created within the same
         /// second.
         /// </summary>
-        virtual void save(record_base record, ObjectId data_set) = 0;
+        virtual void save(record_base record, dot::object_id data_set) = 0;
 
         /// <summary>
         /// Get query for the specified type.
@@ -135,14 +135,14 @@ namespace dc
         /// and then in the reverse chronological order of records
         /// within the latest dataset that has at least one record.
         ///
-        /// The root dataset has empty ObjectId value that is less
-        /// than any other ObjectId value. Accordingly, the root
+        /// The root dataset has empty dot::object_id value that is less
+        /// than any other dot::object_id value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         /// </summary>
-        virtual query get_query(ObjectId data_set, dot::type_t type) = 0;
+        virtual query get_query(dot::object_id data_set, dot::type_t type) = 0;
 
         template <class TRecord>
-        query get_query(ObjectId data_set)
+        query get_query(dot::object_id data_set)
         {
             return get_query(data_set, dot::typeof<TRecord>());
         }
@@ -156,7 +156,7 @@ namespace dc
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
         /// </summary>
-        virtual void delete_record(key_base data_key, ObjectId data_set) = 0;
+        virtual void delete_record(key_base data_key, dot::object_id data_set) = 0;
 
         /// <summary>
         /// Permanently deletes (drops) the database with all records
@@ -192,11 +192,11 @@ namespace dc
         void check_not_read_only();
 
         /// <summary>
-        /// Return ObjectId for the latest dataset record with
+        /// Return dot::object_id for the latest dataset record with
         /// matching dataSetID string from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
-        /// Return ObjectId.Empty if not found.
+        /// Return dot::object_id.Empty if not found.
         ///
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
@@ -207,18 +207,18 @@ namespace dc
         /// Error message if no matching dataSetID string is found
         /// or a delete marker is found instead.
         /// </summary>
-        ObjectId get_data_set_or_empty(dot::string data_set_id, ObjectId load_from);
+        dot::object_id get_data_set_or_empty(dot::string data_set_id, dot::object_id load_from);
 
         /// <summary>
         /// Save new version of the dataset.
         ///
         /// This method sets ID field of the argument to be the
-        /// new ObjectId assigned to the record when it is saved.
-        /// The timestamp of the new ObjectId is the current time.
+        /// new dot::object_id assigned to the record when it is saved.
+        /// The timestamp of the new dot::object_id is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        void save_data_set(DataSetData data_set_data, ObjectId save_to);
+        void save_data_set(DataSetData data_set_data, dot::object_id save_to);
 
         /// <summary>
         /// Load enumeration of record by query
@@ -227,8 +227,8 @@ namespace dc
         /// and then in the reverse chronological order of records
         /// within the latest dataset that has at least one record.
         ///
-        /// The root dataset has empty ObjectId value that is less
-        /// than any other ObjectId value. Accordingly, the root
+        /// The root dataset has empty dot::object_id value that is less
+        /// than any other dot::object_id value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         ///
         /// The first record in this lookup order is returned, or null
@@ -250,19 +250,19 @@ namespace dc
         /// than RevisionTimeConstraint, or their parents (even if the parents
         /// are earlier than the constraint)
         /// </summary>
-        dot::hash_set<ObjectId> get_data_set_lookup_list(ObjectId load_from);
+        dot::hash_set<dot::object_id> get_data_set_lookup_list(dot::object_id load_from);
 
     public: // METHODS
 
         /// <summary>
-        /// Return ObjectId of the latest Common dataset.
+        /// Return dot::object_id of the latest Common dataset.
         ///
         /// Common dataset is always stored in root dataset.
         /// </summary>
-        ObjectId get_common();
+        dot::object_id get_common();
 
         /// <summary>
-        /// Return ObjectId for the latest dataset record with
+        /// Return dot::object_id for the latest dataset record with
         /// matching dataSetID string from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
@@ -274,23 +274,23 @@ namespace dc
         /// if not found in cache. Use LoadDataSet method to
         /// force reloading the dataset from storage.
         /// </summary>
-        ObjectId get_data_set(dot::string data_set_id, ObjectId load_from);
+        dot::object_id get_data_set(dot::string data_set_id, dot::object_id load_from);
 
         /// <summary>
         /// Create new version of the dataset with the specified dataSetID.
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId create_data_set(dot::string data_set_id, ObjectId save_to);
+        dot::object_id create_data_set(dot::string data_set_id, dot::object_id save_to);
 
         /// <summary>
         /// Create new version of the dataset with the specified dataSetID
-        /// and parent dataset ObjectIds passed as an array, and return
-        /// the new ObjectId assigned to the saved dataset.
+        /// and parent dataset dot::object_ids passed as an array, and return
+        /// the new dot::object_id assigned to the saved dataset.
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId create_data_set(dot::string data_set_id, dot::list<ObjectId> parent_data_sets, ObjectId save_to);
+        dot::object_id create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, dot::object_id save_to);
 
         /// <summary>
         /// Create new version of the Common dataset. By convention,
@@ -300,12 +300,12 @@ namespace dc
         /// is always saved in root dataset.
         ///
         /// This method sets ID field of the argument to be the
-        /// new ObjectId assigned to the record when it is saved.
-        /// The timestamp of the new ObjectId is the current time.
+        /// new dot::object_id assigned to the record when it is saved.
+        /// The timestamp of the new dot::object_id is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
         /// </summary>
-        ObjectId create_common();
+        dot::object_id create_common();
 
     protected: // PROTECTED
 
@@ -316,17 +316,17 @@ namespace dc
         /// This field is set based on either RevisedBefore and RevisedBeforeId
         /// elements that are alternates; only one of them can be specified.
         /// </summary>
-        dot::nullable<ObjectId> get_revision_time_constraint();
+        dot::nullable<dot::object_id> get_revision_time_constraint();
 
     private: // PRIVATE
 
         /// <summary>
-        /// Load ObjectId for the latest dataset record with
+        /// Load dot::object_id for the latest dataset record with
         /// matching dataSetID string from storage even if
         /// present in in-memory cache. Update the cache with
         /// the loaded value.
         ///
-        /// Return ObjectId.Empty if not found.
+        /// Return dot::object_id.Empty if not found.
         ///
         /// This method will always load the latest data from
         /// storage. Consider using the corresponding Get...
@@ -335,7 +335,7 @@ namespace dc
         /// because it will return the value from in-memory
         /// cache when present.
         /// </summary>
-        ObjectId load_data_set_or_empty(dot::string data_set_id, ObjectId load_from);
+        dot::object_id load_data_set_or_empty(dot::string data_set_id, dot::object_id load_from);
 
         /// <summary>
         /// Builds hashset of parent datasets for specified dataset data,
@@ -348,7 +348,7 @@ namespace dc
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
         /// </summary>
-        dot::hash_set<ObjectId> build_data_set_lookup_list(DataSetData data_set_data);
+        dot::hash_set<dot::object_id> build_data_set_lookup_list(DataSetData data_set_data);
 
         /// <summary>
         /// Builds hashset of parent datasets for specified dataset data,
@@ -361,20 +361,20 @@ namespace dc
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
         /// </summary>
-        void build_data_set_lookup_list(DataSetData data_set_data, dot::hash_set<ObjectId> result);
+        void build_data_set_lookup_list(DataSetData data_set_data, dot::hash_set<dot::object_id> result);
 
         dot::string to_string() { return get_key(); }
 
     private: // FIELDS
 
-        /// <summary>Dictionary of dataset ObjectIds stored under string dataSetID.</summary>
-        dot::dictionary<dot::string, ObjectId> data_set_dict_ = dot::make_dictionary<dot::string, ObjectId>();
+        /// <summary>Dictionary of dataset dot::object_ids stored under string dataSetID.</summary>
+        dot::dictionary<dot::string, dot::object_id> data_set_dict_ = dot::make_dictionary<dot::string, dot::object_id>();
 
         /// <summary>
-        /// Dictionary of the expanded list of parent ObjectIds of dataset, including
+        /// Dictionary of the expanded list of parent dot::object_ids of dataset, including
         /// parents of parents to unlimited depth with cyclic references and duplicates
-        /// removed, under ObjectId of the dataset.</summary>
-        dot::dictionary<ObjectId, dot::hash_set<ObjectId>> data_set_parent_dict_ = dot::make_dictionary<ObjectId, dot::hash_set<ObjectId>>();
+        /// removed, under dot::object_id of the dataset.</summary>
+        dot::dictionary<dot::object_id, dot::hash_set<dot::object_id>> data_set_parent_dict_ = dot::make_dictionary<dot::object_id, dot::hash_set<dot::object_id>>();
 
     public: // PROPERTIES
 
@@ -423,7 +423,7 @@ namespace dc
 
         /// <summary>
         /// The data source will return records for which _id is strictly
-        /// less than the specified ObjectId.
+        /// less than the specified dot::object_id.
         ///
         /// RevisedBefore and RevisedBeforeId elements are alternates;
         /// they cannot be specified at the same time.
@@ -431,7 +431,7 @@ namespace dc
         /// If either RevisedBefore or RevisedBeforeId is specified, the
         /// data source is readonly and its IsReadOnly() method returns true.
         /// </summary>
-        dot::nullable<ObjectId> revised_before_id;
+        dot::nullable<dot::object_id> revised_before_id;
 
         /// <summary>Unique data source identifier.</summary>
         dot::string data_source_id;

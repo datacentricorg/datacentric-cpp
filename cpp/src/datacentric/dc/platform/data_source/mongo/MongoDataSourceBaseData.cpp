@@ -61,34 +61,34 @@ namespace dc
         db_ = client_[*dbName_];
     }
 
-    ObjectId MongoDataSourceBaseDataImpl::create_ordered_object_id()
+    dot::object_id MongoDataSourceBaseDataImpl::create_ordered_object_id()
     {
         check_not_read_only();
 
-        // Generate ObjectId and check that it is later
-        // than the previous generated ObjectId
-        ObjectId result = ObjectId::GenerateNewId();
+        // Generate dot::object_id and check that it is later
+        // than the previous generated dot::object_id
+        dot::object_id result = dot::object_id::GenerateNewId();
         int retryCounter = 0;
-        while (result._id <= prevObjectId_._id)
+        while (result.oid() <= prev_object_id_.oid())
         {
             // Getting inside the while loop will be very rare as this would
             // require the increment to roll from max int to min int within
             // the same second, therefore it is a good idea to log the event
-            if (retryCounter++ == 0) std::cerr << "MongoDB generated ObjectId not in increasing order, retrying." << std::endl;
+            if (retryCounter++ == 0) std::cerr << "MongoDB generated dot::object_id not in increasing order, retrying." << std::endl;
 
-            // If new ObjectId is not strictly greater than the previous one,
-            // keep generating new ObjectIds until it changes
-            result = ObjectId::GenerateNewId();
+            // If new dot::object_id is not strictly greater than the previous one,
+            // keep generating new dot::object_ids until it changes
+            result = dot::object_id::GenerateNewId();
         }
 
         // Report the number of retries
         if (retryCounter != 0)
         {
-            std::cerr << *dot::string::format("Generated ObjectId in increasing order after {0} retries.", retryCounter);
+            std::cerr << *dot::string::format("Generated dot::object_id in increasing order after {0} retries.", retryCounter);
         }
 
-        // Update previous ObjectId and return
-        prevObjectId_ = result;
+        // Update previous dot::object_id and return
+        prev_object_id_ = result;
         return result;
     }
 

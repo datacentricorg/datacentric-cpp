@@ -25,7 +25,7 @@ limitations under the License.
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_minute.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-#include <dc/platform/data_source/mongo/ObjectId.hpp>
+#include <dot/mongo_db/bson/object_id.hpp>
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
@@ -283,7 +283,7 @@ namespace dc
         if (valueType->equals(dot::typeof<dot::local_date_time>()))
             jsonWriter_.Int64(dot::local_date_time_util::to_iso_long((dot::local_date_time)value));
         else
-        if (valueType->equals(dot::typeof<ObjectId>()))
+        if (valueType->equals(dot::typeof<dot::object_id>()))
             jsonWriter_.String(*value->to_string());
         else
         if (valueType->is_enum)

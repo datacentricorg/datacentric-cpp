@@ -312,7 +312,7 @@ namespace dc
             elementType->equals(dot::typeof<bool>()) || elementType->equals(dot::typeof<dot::nullable<bool>>()) ||
             elementType->equals(dot::typeof<int>()) || elementType->equals(dot::typeof<dot::nullable<int>>()) ||
             elementType->equals(dot::typeof<int64_t>()) || elementType->equals(dot::typeof<dot::nullable<int64_t>>()) ||
-            elementType->equals(dot::typeof<ObjectId>())
+            elementType->equals(dot::typeof<dot::object_id>())
             )
         {
             // Check type match
@@ -335,9 +335,9 @@ namespace dc
             {
                 convertedValue = static_cast<int>((int64_t) value);
             }
-            else if (elementType->equals(dot::typeof<ObjectId>()) && valueType->equals(dot::typeof<dot::string>()))
+            else if (elementType->equals(dot::typeof<dot::object_id>()) && valueType->equals(dot::typeof<dot::string>()))
             {
-                convertedValue = ObjectId((dot::string) value);
+                convertedValue = dot::object_id((dot::string) value);
             }
 
             // Add to array or dictionary, depending on what we are inside of

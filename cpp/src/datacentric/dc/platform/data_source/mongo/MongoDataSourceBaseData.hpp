@@ -20,7 +20,7 @@ limitations under the License.
 #include <dot/system/ptr.hpp>
 #include <dc/platform/data_source/InstanceType.hpp>
 #include <dc/platform/data_source/DataSourceData.hpp>
-#include <dc/platform/data_source/mongo/ObjectId.hpp>
+#include <dot/mongo_db/bson/object_id.hpp>
 #include <mongocxx/database.hpp>
 #include <mongocxx/client.hpp>
 
@@ -65,8 +65,8 @@ namespace dc
         /// <summary>Interface to Mongo database in MongoDB C++ driver.</summary>
         mongocxx::database db_;
 
-        /// <summary>Previous ObjectId returned by CreateOrderedObjectId() method.</summary>
-        ObjectId prevObjectId_ = ObjectId::Empty;
+        /// <summary>Previous dot::object_id returned by CreateOrdereddot::object_id() method.</summary>
+        dot::object_id prev_object_id_ = dot::object_id::Empty;
 
     public: // METHODS
 
@@ -79,17 +79,17 @@ namespace dc
         void Init(IContext context) override;
 
         /// <summary>
-        /// The returned ObjectIds have the following order guarantees:
+        /// The returned dot::object_ids have the following order guarantees:
         ///
         /// * For this data source instance, to arbitrary resolution; and
         /// * Across all processes and machines, to one second resolution
         ///
-        /// One second resolution means that two ObjectIds created within
+        /// One second resolution means that two dot::object_ids created within
         /// the same second by different instances of the data source
         /// class may not be ordered chronologically unless they are at
         /// least one second apart.
         /// </summary>
-        virtual ObjectId create_ordered_object_id() override;
+        virtual dot::object_id create_ordered_object_id() override;
 
         /// <summary>
         /// Permanently deletes (drops) the database with all records

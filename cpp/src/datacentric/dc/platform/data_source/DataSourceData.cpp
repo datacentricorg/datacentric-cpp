@@ -34,9 +34,9 @@ namespace dc
                 "one of RevisedBefore or RevisedBeforeId is set.", data_source_id));
     }
 
-    ObjectId data_source_data_impl::get_data_set_or_empty(dot::string data_set_id, ObjectId load_from)
+    dot::object_id data_source_data_impl::get_data_set_or_empty(dot::string data_set_id, dot::object_id load_from)
     {
-        ObjectId result;
+        dot::object_id result;
 
         if (data_set_dict_->try_get_value(data_set_id, result))
         {
@@ -50,32 +50,32 @@ namespace dc
         }
     }
 
-    void data_source_data_impl::save_data_set(DataSetData data_set_data, ObjectId save_to)
+    void data_source_data_impl::save_data_set(DataSetData data_set_data, dot::object_id save_to)
     {
         // Save dataset to storage. This updates its ID
-        // to the new ObjectId created during save
+        // to the new dot::object_id created during save
         save(data_set_data, save_to);
 
         // Update dataset dictionary with the new ID
         data_set_dict_[data_set_data->get_key()] = data_set_data->ID;
 
         // Update lookup list dictionary
-        dot::hash_set<ObjectId> lookupList = build_data_set_lookup_list(data_set_data);
+        dot::hash_set<dot::object_id> lookupList = build_data_set_lookup_list(data_set_data);
         data_set_parent_dict_->add(data_set_data->ID, lookupList);
     }
 
-    dot::hash_set<ObjectId> data_source_data_impl::get_data_set_lookup_list(ObjectId load_from)
+    dot::hash_set<dot::object_id> data_source_data_impl::get_data_set_lookup_list(dot::object_id load_from)
     {
         // Root dataset has no parents, return list containing
-        // root dataset identifier only (ObjectId.Empty) and exit
-        if (load_from == ObjectId::Empty)
+        // root dataset identifier only (dot::object_id.Empty) and exit
+        if (load_from == dot::object_id::Empty)
         {
-            dot::hash_set<ObjectId> res = dot::make_hash_set<ObjectId>();
-            res->add(ObjectId::Empty);
+            dot::hash_set<dot::object_id> res = dot::make_hash_set<dot::object_id>();
+            res->add(dot::object_id::Empty);
             return res;
         }
 
-        dot::hash_set<ObjectId> result;
+        dot::hash_set<dot::object_id> result;
         if (data_set_parent_dict_->try_get_value(load_from, result))
         {
             // Check if the lookup list is already cached, return if yes
@@ -87,9 +87,9 @@ namespace dc
             DataSetData data_set_data = load_or_null<DataSetData>(load_from).template as<DataSetData>();
 
             if (data_set_data == nullptr)
-                throw dot::exception(dot::string::format("Dataset with ObjectId={0} is not found.", load_from.to_string()));
-            if ((ObjectId) data_set_data->DataSet != ObjectId::Empty)
-                throw dot::exception(dot::string::format("Dataset with ObjectId={0} is not stored in root dataset.", load_from.to_string()));
+                throw dot::exception(dot::string::format("Dataset with dot::object_id={0} is not found.", load_from.to_string()));
+            if ((dot::object_id) data_set_data->DataSet != dot::object_id::Empty)
+                throw dot::exception(dot::string::format("Dataset with dot::object_id={0} is not stored in root dataset.", load_from.to_string()));
 
             // Build the lookup list
             result = build_data_set_lookup_list(data_set_data);
@@ -100,7 +100,7 @@ namespace dc
         }
     }
 
-    dot::nullable<ObjectId> data_source_data_impl::get_revision_time_constraint()
+    dot::nullable<dot::object_id> data_source_data_impl::get_revision_time_constraint()
     {
         // Set revisionTimeConstraint_ based on either RevisedBefore or RevisedBeforeId element
         if (revised_before == nullptr && revised_before_id == nullptr)
@@ -117,9 +117,9 @@ namespace dc
             // but we need to check separately that it is not empty
             //RevisedBefore.CheckHasValue(); // TODO uncomment
 
-            // Convert to the least value of ObjectId with the specified timestamp
+            // Convert to the least value of dot::object_id with the specified timestamp
             dot::local_date_time date = ((dot::nullable<dot::local_date_time>) revised_before).value();
-            return ObjectId(date);
+            return dot::object_id(date);
         }
         else if (revised_before == nullptr && revised_before_id != nullptr)
         {
@@ -138,21 +138,21 @@ namespace dc
         }
     }
 
-    ObjectId data_source_data_impl::load_data_set_or_empty(dot::string data_set_id, ObjectId load_from)
+    dot::object_id data_source_data_impl::load_data_set_or_empty(dot::string data_set_id, dot::object_id load_from)
     {
         // Always load even if present in cache
         DataSetKey data_set_key = new_DataSetKey();
         data_set_key->DataSetID = data_set_id;
         DataSetData data_set_data = (DataSetData) reload_or_null(data_set_key, load_from);
 
-        // If not found, return ObjectId.Empty
-        if (data_set_data == nullptr) return ObjectId::Empty;
+        // If not found, return dot::object_id.Empty
+        if (data_set_data == nullptr) return dot::object_id::Empty;
 
-        // If found, cache result in ObjectId dictionary
+        // If found, cache result in dot::object_id dictionary
         data_set_dict_[data_set_id] = data_set_data->ID;
 
         // Build and cache dataset lookup list if not found
-        dot::hash_set<ObjectId> parent_set;
+        dot::hash_set<dot::object_id> parent_set;
         if (!data_set_parent_dict_->try_get_value(data_set_data->ID, parent_set))
         {
             parent_set = build_data_set_lookup_list(data_set_data);
@@ -162,15 +162,15 @@ namespace dc
         return data_set_data->ID;
     }
 
-    dot::hash_set<ObjectId> data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data)
+    dot::hash_set<dot::object_id> data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data)
     {
         // Delegate to the second overload
-        dot::hash_set<ObjectId> result = dot::make_hash_set<ObjectId>();
+        dot::hash_set<dot::object_id> result = dot::make_hash_set<dot::object_id>();
         build_data_set_lookup_list(data_set_data, result);
         return result;
     }
 
-    void data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data, dot::hash_set<ObjectId> result)
+    void data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data, dot::hash_set<dot::object_id> result)
     {
         // Return if the dataset is null or has no parents
         if (data_set_data == nullptr) return;
@@ -184,22 +184,22 @@ namespace dc
         result->add(data_set_data->ID);
 
         // Add parents to the result
-        if (!((dot::list<ObjectId>)data_set_data->Parents).is_empty())
+        if (!((dot::list<dot::object_id>)data_set_data->Parents).is_empty())
         {
-            for(ObjectId data_set_id : data_set_data->Parents)
+            for(dot::object_id data_set_id : data_set_data->Parents)
             {
                 // Dataset cannot include itself as parent
                 if (data_set_data->ID == data_set_id)
                     throw dot::exception(
-                        dot::string::format("Dataset {0} with ObjectId={1} includes itself in the list of parents.", (dot::string)data_set_data->get_key(), ObjectId(data_set_data->ID).to_string()));
+                        dot::string::format("Dataset {0} with dot::object_id={1} includes itself in the list of parents.", (dot::string)data_set_data->get_key(), dot::object_id(data_set_data->ID).to_string()));
 
                 // The Add method returns true if the argument is not yet present in the list
                 if (!result->contains(data_set_id))
                 {
                     result->add(data_set_id);
                     // Add recursively if not already present in the hashset
-                    dot::hash_set<ObjectId> cached_parent_set = get_data_set_lookup_list(data_set_id);
-                    for (ObjectId cached_parent_id : cached_parent_set)
+                    dot::hash_set<dot::object_id> cached_parent_set = get_data_set_lookup_list(data_set_id);
+                    for (dot::object_id cached_parent_id : cached_parent_set)
                     {
                         result->add(cached_parent_id);
                     }
@@ -208,26 +208,26 @@ namespace dc
         }
     }
 
-    ObjectId data_source_data_impl::get_common()
+    dot::object_id data_source_data_impl::get_common()
     {
-        return get_data_set(DataSetKeyImpl::Common->DataSetID, ObjectId::Empty);
+        return get_data_set(DataSetKeyImpl::Common->DataSetID, dot::object_id::Empty);
     }
 
-    ObjectId data_source_data_impl::get_data_set(dot::string data_set_id, ObjectId load_from)
+    dot::object_id data_source_data_impl::get_data_set(dot::string data_set_id, dot::object_id load_from)
     {
         auto result = get_data_set_or_empty(data_set_id, load_from);
-        if (result == ObjectId::Empty) throw dot::exception(
+        if (result == dot::object_id::Empty) throw dot::exception(
             dot::string::format("Dataset {0} is not found in data store {1}.", data_set_id, data_source_id));
         return result;
     }
 
-    ObjectId data_source_data_impl::create_data_set(dot::string dataSetID, ObjectId saveTo)
+    dot::object_id data_source_data_impl::create_data_set(dot::string dataSetID, dot::object_id saveTo)
     {
         // Delegate to the overload taking IEnumerable as second parameter
         return create_data_set(dataSetID, nullptr, saveTo);
     }
 
-    ObjectId data_source_data_impl::create_data_set(dot::string data_set_id, dot::list<ObjectId> parent_data_sets, ObjectId save_to)
+    dot::object_id data_source_data_impl::create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, dot::object_id save_to)
     {
         // Create dataset record
         auto result = new_DataSetData();
@@ -236,7 +236,7 @@ namespace dc
         if (parent_data_sets != nullptr)
         {
             // Add parents if second argument is not null
-            result->Parents = dot::make_list<ObjectId>();
+            result->Parents = dot::make_list<dot::object_id>();
             for (auto parent_data_set : parent_data_sets)
             {
                 result->Parents->add(parent_data_set);
@@ -246,18 +246,18 @@ namespace dc
         // Save the record (this also updates the dictionaries)
         save_data_set(result, save_to);
 
-        // Return ObjectId that was assigned to the
+        // Return dot::object_id that was assigned to the
         // record inside the SaveDataSet method
         return result->ID;
     }
 
-    ObjectId data_source_data_impl::create_common()
+    dot::object_id data_source_data_impl::create_common()
     {
         auto result = new_DataSetData();
         result->DataSetID = DataSetKeyImpl::Common->DataSetID;
 
         // Save in root dataset
-        save_data_set(result, ObjectId::Empty);
+        save_data_set(result, dot::object_id::Empty);
         return result->ID;
     }
 }

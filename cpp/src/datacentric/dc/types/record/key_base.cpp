@@ -82,9 +82,9 @@ namespace dc
                 {
                     prop->set_value(this, dot::string(token));
                 }
-                else if (prop->field_type->equals(dot::typeof<ObjectId>()))
+                else if (prop->field_type->equals(dot::typeof<dot::object_id>()))
                 {
-                    prop->set_value(this, ObjectId(token));
+                    prop->set_value(this, dot::object_id(token));
                 }
                 else
                 {

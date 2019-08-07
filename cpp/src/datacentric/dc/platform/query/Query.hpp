@@ -36,7 +36,7 @@ namespace dc
     /// </summary>
     class DC_CLASS query_impl : public dot::object_impl
     {
-        friend query make_query(data_source_data data_source, ObjectId data_set, dot::type_t type);
+        friend query make_query(data_source_data data_source, dot::object_id data_set, dot::type_t type);
         friend MongoDataSourceDataImpl;
 
     public:
@@ -78,7 +78,7 @@ namespace dc
     private:
 
         data_source_data data_source_;
-        ObjectId data_set_;
+        dot::object_id data_set_;
         bsoncxx::builder::basic::document where_;
         bsoncxx::builder::basic::document sort_;
         dot::type_t type_;
@@ -86,7 +86,7 @@ namespace dc
         dot::list<dot::field_info> select_;
 
 
-        query_impl(data_source_data data_source, ObjectId data_set, dot::type_t type)
+        query_impl(data_source_data data_source, dot::object_id data_set, dot::type_t type)
             : data_source_(data_source)
             , data_set_(data_set)
             , type_(type)
@@ -96,7 +96,7 @@ namespace dc
     };
 
 
-    inline query make_query(data_source_data data_source, ObjectId data_set, dot::type_t type)
+    inline query make_query(data_source_data data_source, dot::object_id data_set, dot::type_t type)
     {
         return new query_impl(data_source, data_set, type);
     }

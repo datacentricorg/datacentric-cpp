@@ -26,23 +26,23 @@ namespace dc
 
         if (dot::string::is_null_or_empty(DataSetID)) throw dot::exception("DataSetID has not been set.");
 
-        if (!dot::list<ObjectId>(Parents).is_empty())
-        for (ObjectId parent : Parents)
+        if (!dot::list<dot::object_id>(Parents).is_empty())
+        for (dot::object_id parent : Parents)
         {
             if (ID <= parent)
             {
                 if (ID == parent)
                 {
                     throw dot::exception(dot::string::format(
-                        "Dataset {0} has a parent with the same ObjectId={1} "
-                        "as its own ObjectId. Each ObjectId must be unique.", DataSetID, parent.to_string()));
+                        "Dataset {0} has a parent with the same dot::object_id={1} "
+                        "as its own dot::object_id. Each dot::object_id must be unique.", DataSetID, parent.to_string()));
                 }
                 else
                 {
                     throw dot::exception(dot::string::format(
-                        "Dataset {0} has a parent whose ObjectId={1} is greater "
-                        "than its own ObjectId={2}. The ObjectId of each parent must be strictly "
-                        "less than the ObjectId of the dataset itself.", DataSetID, parent.to_string(), ObjectId(ID).to_string()));
+                        "Dataset {0} has a parent whose dot::object_id={1} is greater "
+                        "than its own dot::object_id={2}. The dot::object_id of each parent must be strictly "
+                        "less than the dot::object_id of the dataset itself.", DataSetID, parent.to_string(), dot::object_id(ID).to_string()));
                 }
             }
         }

@@ -142,7 +142,7 @@ namespace dc
         return dot::string::format(dataSetPattern, index);
     }
 
-    ObjectId SaveRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordId, int recordSize, int recordVersion)
+    dot::object_id SaveRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordId, int recordSize, int recordVersion)
     {
         PerformanceTestData rec = new_PerformanceTestData();
         rec->RecordID = recordId;
@@ -153,7 +153,7 @@ namespace dc
         for (int i = 0; i < recordSize; ++i)
             rec->DoubleList->add(std::rand());
 
-        ObjectId dataSet = context->GetDataSet(dataSetID);
+        dot::object_id dataSet = context->GetDataSet(dataSetID);
         context->Save(rec, dataSet);
         return rec->ID;
     }
@@ -161,11 +161,11 @@ namespace dc
     void SaveRecords(IUnitTestContext context, int recordsCount, int recordSize)
     {
         // Create datasets
-        ObjectId commonDataSet = context->GetCommon();
+        dot::object_id commonDataSet = context->GetCommon();
         for (int i = 0; i < dataSetsCount; ++i)
         {
             dot::string dataSetName = GetDataSet(i);
-            context->CreateDataSet(dataSetName, dot::make_list<ObjectId>({ commonDataSet }));
+            context->CreateDataSet(dataSetName, dot::make_list<dot::object_id>({ commonDataSet }));
         }
 
         // Create records
@@ -215,7 +215,7 @@ namespace dc
             for (int dsI = 0; dsI < dataSetsCount; ++dsI)
             {
                 dot::string dataSetName = GetDataSet(dsI);
-                ObjectId dataSet = context->GetDataSetOrEmpty(dataSetName);
+                dot::object_id dataSet = context->GetDataSetOrEmpty(dataSetName);
                 context->ReloadOrNull(key, dataSet);
             }
         }
@@ -230,7 +230,7 @@ namespace dc
         auto startTime = std::chrono::steady_clock::now();
         dot::string recordID = GetRecordKey(2);
         dot::string dataSetName = GetDataSet(2);
-        ObjectId dataSet = context->GetDataSetOrEmpty(dataSetName);
+        dot::object_id dataSet = context->GetDataSetOrEmpty(dataSetName);
 
         dc::cursor_wrapper<PerformanceTestData> query = context->DataSource->get_query<PerformanceTestData>(dataSet)
       // TODO - fix compilation      ->Where(make_prop(&PerformanceTestDataImpl::Key) == recordID)

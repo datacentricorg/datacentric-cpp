@@ -27,12 +27,12 @@ namespace dc
         DataSource = data_source;
     }
 
-    record_base IContextImpl::LoadOrNull(ObjectId id, dot::type_t dataType)
+    record_base IContextImpl::LoadOrNull(dot::object_id id, dot::type_t dataType)
     {
         return DataSource->load_or_null(id, dataType);
     }
 
-    record_base IContextImpl::ReloadOrNull(key_base key, ObjectId loadFrom)
+    record_base IContextImpl::ReloadOrNull(key_base key, dot::object_id loadFrom)
     {
         return DataSource->reload_or_null(key, loadFrom);
     }
@@ -42,7 +42,7 @@ namespace dc
         DataSource->save(record, DataSet);
     }
 
-    void IContextImpl::Save(record_base record, ObjectId saveTo)
+    void IContextImpl::Save(record_base record, dot::object_id saveTo)
     {
         DataSource->save(record, saveTo);
     }
@@ -52,7 +52,7 @@ namespace dc
         DataSource->delete_record(key, DataSet);
     }
 
-    void IContextImpl::Delete(key_base key, ObjectId deleteIn)
+    void IContextImpl::Delete(key_base key, dot::object_id deleteIn)
     {
         DataSource->delete_record(key, deleteIn);
     }
@@ -62,52 +62,52 @@ namespace dc
         DataSource->delete_db();
     }
 
-    ObjectId IContextImpl::GetCommon()
+    dot::object_id IContextImpl::GetCommon()
     {
         return DataSource->get_common();
     }
 
-    ObjectId IContextImpl::GetDataSet(dot::string dataSetID)
+    dot::object_id IContextImpl::GetDataSet(dot::string dataSetID)
     {
         return DataSource->get_data_set(dataSetID, DataSet);
     }
 
-    ObjectId IContextImpl::GetDataSet(dot::string dataSetID, ObjectId loadFrom)
+    dot::object_id IContextImpl::GetDataSet(dot::string dataSetID, dot::object_id loadFrom)
     {
         return DataSource->get_data_set(dataSetID, loadFrom);
     }
 
-    ObjectId IContextImpl::GetDataSetOrEmpty(dot::string dataSetID)
+    dot::object_id IContextImpl::GetDataSetOrEmpty(dot::string dataSetID)
     {
         return DataSource->get_data_set_or_empty(dataSetID, DataSet);
     }
 
-    ObjectId IContextImpl::GetDataSetOrEmpty(dot::string dataSetID, ObjectId loadFrom)
+    dot::object_id IContextImpl::GetDataSetOrEmpty(dot::string dataSetID, dot::object_id loadFrom)
     {
         return DataSource->get_data_set_or_empty(dataSetID, loadFrom);
     }
 
-    ObjectId IContextImpl::CreateCommon()
+    dot::object_id IContextImpl::CreateCommon()
     {
         return DataSource->create_common();
     }
 
-    ObjectId IContextImpl::CreateDataSet(dot::string dataSetID)
+    dot::object_id IContextImpl::CreateDataSet(dot::string dataSetID)
     {
         return DataSource->create_data_set(dataSetID, DataSet);
     }
 
-    ObjectId IContextImpl::CreateDataSet(dot::string dataSetID, ObjectId saveTo)
+    dot::object_id IContextImpl::CreateDataSet(dot::string dataSetID, dot::object_id saveTo)
     {
         return DataSource->create_data_set(dataSetID, saveTo);
     }
 
-    ObjectId IContextImpl::CreateDataSet(dot::string dataSetID, dot::list<ObjectId> parentDataSets)
+    dot::object_id IContextImpl::CreateDataSet(dot::string dataSetID, dot::list<dot::object_id> parentDataSets)
     {
         return DataSource->create_data_set(dataSetID, parentDataSets, DataSet);
     }
 
-    ObjectId IContextImpl::CreateDataSet(dot::string dataSetID, dot::list<ObjectId> parentDataSets, ObjectId saveTo)
+    dot::object_id IContextImpl::CreateDataSet(dot::string dataSetID, dot::list<dot::object_id> parentDataSets, dot::object_id saveTo)
     {
         return DataSource->create_data_set(dataSetID, parentDataSets, saveTo);
     }
@@ -117,7 +117,7 @@ namespace dc
         DataSource->save_data_set(dataSetData, DataSet);
     }
 
-    void IContextImpl::SaveDataSet(DataSetData dataSetData, ObjectId saveTo)
+    void IContextImpl::SaveDataSet(DataSetData dataSetData, dot::object_id saveTo)
     {
         DataSource->save_data_set(dataSetData, saveTo);
     }

@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/ObjectId.hpp>
+#include <dot/mongo_db/bson/object_id.hpp>
 #include <dc/types/record/record_base.hpp>
 #include <dc/platform/data_source/DataSourceKey.hpp>
 #include <dc/types/record/CachedRecord.hpp>

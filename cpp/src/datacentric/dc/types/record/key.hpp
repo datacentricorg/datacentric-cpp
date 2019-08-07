@@ -21,7 +21,6 @@ limitations under the License.
 #include <dot/system/object.hpp>
 #include <dc/types/record/key_base.hpp>
 #include <dc/types/record/CachedRecord.hpp>
-//#include <dc/platform/data_source/mongo/ObjectId.hpp>
 
 namespace dc
 {
@@ -106,7 +105,7 @@ namespace dc
         ///
         /// Error message if the record is not found or is a delete marker.
         /// </summary>
-        dot::ptr<TRecord> Load(IContext context, ObjectId dataSet)
+        dot::ptr<TRecord> Load(IContext context, dot::object_id dataSet)
         {
             // This method will return null if the record is
             // not found or the found record is a delete marker
@@ -114,7 +113,7 @@ namespace dc
 
             // Error message if null, otherwise return
             if (result == nullptr) throw dot::exception(dot::string::format(
-                "Record with key {0} is not found in dataset with ObjectId={1}.", this->to_string(), dataSet.to_string()));
+                "Record with key {0} is not found in dataset with dot::object_id={1}.", this->to_string(), dataSet.to_string()));
 
             return result;
         }
@@ -165,7 +164,7 @@ namespace dc
         ///
         /// Return null if the record is not found or is a delete marker.
         /// </summary>
-        dot::ptr<TRecord> LoadOrNull(IContext context, ObjectId loadFrom)
+        dot::ptr<TRecord> LoadOrNull(IContext context, dot::object_id loadFrom)
         {
             // First check if the record has been
             // cached for the same dataset as the
@@ -250,7 +249,7 @@ namespace dc
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
         /// </summary>
-        void Delete(IContext context, ObjectId deleteIn)
+        void Delete(IContext context, dot::object_id deleteIn)
         {
             context->DataSource->delete_record(this, deleteIn);
         }
@@ -290,7 +289,7 @@ namespace dc
         /// the dataset where the object has been looked up, not the
         /// one where it is stored.
         /// </summary>
-        void SetCachedRecord(record<TKey, TRecord> record, ObjectId dataSet)
+        void SetCachedRecord(record<TKey, TRecord> record, dot::object_id dataSet)
         {
             // Before doing anything else, clear the cached record
             // This will ensure that the previous cached copy is

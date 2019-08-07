@@ -76,7 +76,7 @@ namespace dc
             }
             else if (bsonType == bsoncxx::type::k_oid)
             {
-                ObjectId value = elem.get_oid().value;
+                dot::object_id value = elem.get_oid().value;
                 writer->WriteValueElement(elementName, value);
             }
             else if (bsonType == bsoncxx::type::k_utf8)
@@ -202,7 +202,7 @@ namespace dc
             }
             else if (bsonType == bsoncxx::type::k_oid)
             {
-                ObjectId value = elem.get_oid().value;
+                dot::object_id value = elem.get_oid().value;
                 writer->WriteValueArrayItem(value);
             }
             else if (bsonType == bsoncxx::type::k_document)

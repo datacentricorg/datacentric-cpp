@@ -42,7 +42,7 @@ namespace dc
 
         void AssignString(dot::string value);
 
-        ObjectId _id;
+        dot::object_id _id;
 
     private:
 

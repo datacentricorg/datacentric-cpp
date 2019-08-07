@@ -61,7 +61,7 @@ namespace dc
                 || itemType->equals(dot::typeof<dot::local_time>())
                 || itemType->equals(dot::typeof<dot::local_minute>())
                 || itemType->is_enum
-                || itemType->equals(dot::typeof<ObjectId>())
+                || itemType->equals(dot::typeof<dot::object_id>())
                 )
             {
                 writer->WriteStartValue();
@@ -134,7 +134,7 @@ namespace dc
                 || elementType->equals(dot::typeof<dot::local_time>())
                 || elementType->equals(dot::typeof<dot::local_minute>())
                 || elementType->is_enum
-                || elementType->equals(dot::typeof<ObjectId>())
+                || elementType->equals(dot::typeof<dot::object_id>())
                 )
             {
                 writer->WriteValueElement(innerElementName, innerElementValue);

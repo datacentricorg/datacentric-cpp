@@ -24,7 +24,7 @@ namespace dc
 {
     class DataSetKeyImpl; using DataSetKey = dot::ptr<DataSetKeyImpl>;
     class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
-    class ObjectId;
+    class dot::object_id;
 
     inline DataSetData new_DataSetData();
 
@@ -39,12 +39,12 @@ namespace dc
     public:
 
         /// <summary>
-        /// ObjectId of the dataset where the record is stored.
+        /// dot::object_id of the dataset where the record is stored.
         ///
         /// This override for the DataSetData record sets DataSet to
-        /// ObjectId.Empty for the Common dataset.
+        /// dot::object_id.Empty for the Common dataset.
         /// </summary>
-        ObjectId DataSet;
+        dot::object_id DataSet;
 
         /// <summary>Unique dataset identifier.</summary>
         dot::string DataSetID;
@@ -58,7 +58,7 @@ namespace dc
         virtual void Init(IContext context);
 
         /// <summary>DataSet parents.</summary>
-        dot::list<ObjectId> Parents;
+        dot::list<dot::object_id> Parents;
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetData")
             DOT_TYPE_PROP(DataSetID)

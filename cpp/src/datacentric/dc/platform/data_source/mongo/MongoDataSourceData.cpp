@@ -29,18 +29,18 @@ limitations under the License.
 
 namespace dc
 {
-    record_base MongoDataSourceDataImpl::load_or_null(ObjectId id, dot::type_t dataType)
+    record_base MongoDataSourceDataImpl::load_or_null(dot::object_id id, dot::type_t dataType)
     {
         auto revisionTimeConstraint = get_revision_time_constraint();
         if (revisionTimeConstraint != nullptr)
         {
             // If RevisionTimeConstraint is not null, return null for any
-            // ID that is not strictly before the constraint ObjectId
+            // ID that is not strictly before the constraint dot::object_id
             if (id >= revisionTimeConstraint.value()) return nullptr;
         }
 
         bsoncxx::builder::basic::document filter{};
-        filter.append(bsoncxx::builder::basic::kvp("_id", id._id));
+        filter.append(bsoncxx::builder::basic::kvp("_id", id.oid()));
 
         bsoncxx::stdx::optional<bsoncxx::document::value> res = GetCollection(dataType).find_one(filter.view());
         if (res != bsoncxx::stdx::nullopt)
@@ -54,24 +54,24 @@ namespace dc
         return nullptr;
     }
 
-    record_base MongoDataSourceDataImpl::reload_or_null(key_base key, ObjectId loadFrom)
+    record_base MongoDataSourceDataImpl::reload_or_null(key_base key, dot::object_id loadFrom)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
-        dot::hash_set<ObjectId> lookup_list = get_data_set_lookup_list(loadFrom);
+        dot::hash_set<dot::object_id> lookup_list = get_data_set_lookup_list(loadFrom);
 
         // dot::string key in semicolon delimited format used in the lookup
         dot::string key_value = key->to_string();
 
         // Look for exact match of the key in the specified list of datasets,
-        // then order by dataset ObjectId in descending order
+        // then order by dataset dot::object_id in descending order
         bsoncxx::builder::basic::document filter{};
         filter.append(bsoncxx::builder::basic::kvp("_key", *key_value));
 
         // filter by dataset
         bsoncxx::builder::basic::array filter_dataset_list{};
-        for (ObjectId id : lookup_list)
-            filter_dataset_list.append(id._id);
+        for (dot::object_id id : lookup_list)
+            filter_dataset_list.append(id.oid());
 
         bsoncxx::builder::basic::document filter_dataset{};
         filter_dataset.append(bsoncxx::builder::basic::kvp("$in", filter_dataset_list.view()));
@@ -108,24 +108,24 @@ namespace dc
         return nullptr;
     }
 
-    void MongoDataSourceDataImpl::save(record_base record, ObjectId saveTo)
+    void MongoDataSourceDataImpl::save(record_base record, dot::object_id saveTo)
     {
         check_not_read_only();
 
         auto collection = GetCollection(record->type());
 
-        // This method guarantees that ObjectIds will be in strictly increasing
+        // This method guarantees that dot::object_ids will be in strictly increasing
         // order for this instance of the data source class always, and across
         // all processes and machine if they are not created within the same
         // second.
-        ObjectId objectId = create_ordered_object_id();
+        dot::object_id objectId = create_ordered_object_id();
 
-        // ObjectId of the record must be strictly later
-        // than ObjectId of the dataset where it is stored
+        // dot::object_id of the record must be strictly later
+        // than dot::object_id of the dataset where it is stored
         if (objectId <= saveTo)
             throw dot::exception(dot::string::format(
-                "Attempting to save a record with ObjectId={0} that is later "
-                "than ObjectId={1} of the dataset where it is being saved.", objectId.to_string(), saveTo.to_string()));
+                "Attempting to save a record with dot::object_id={0} that is later "
+                "than dot::object_id={1} of the dataset where it is being saved.", objectId.to_string(), saveTo.to_string()));
 
         // Assign ID and DataSet, and only then initialize, because
         // initialization code may use record.ID and record.DataSet
@@ -138,7 +138,7 @@ namespace dc
         BsonWriter writer = new_BsonWriter();
         serializer->Serialize(writer, record);
 
-        // By design, insert will fail if ObjectId is not unique within the collection
+        // By design, insert will fail if dot::object_id is not unique within the collection
         //collection.insert_one(writer->view());
 
         bsoncxx::builder::basic::document doc{}; //!! Temporary fix
@@ -149,7 +149,7 @@ namespace dc
         collection.insert_one(doc.view());
     }
 
-    query MongoDataSourceDataImpl::get_query(ObjectId dataSet, dot::type_t type)
+    query MongoDataSourceDataImpl::get_query(dot::object_id dataSet, dot::type_t type)
     {
         return make_query(this, dataSet, type);
     }
@@ -158,12 +158,12 @@ namespace dc
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
-        dot::hash_set<ObjectId> lookupList = get_data_set_lookup_list(query->data_set_);
+        dot::hash_set<dot::object_id> lookupList = get_data_set_lookup_list(query->data_set_);
 
         // filter by dataset
         bsoncxx::builder::basic::array filterDatasetList{};
-        for (ObjectId id : lookupList)
-            filterDatasetList.append(id._id);
+        for (dot::object_id id : lookupList)
+            filterDatasetList.append(id.oid());
 
         bsoncxx::builder::basic::document filterDataset{};
         filterDataset.append(bsoncxx::builder::basic::kvp("$in", filterDatasetList.view()));
@@ -258,7 +258,7 @@ namespace dc
         }
     }
 
-    void MongoDataSourceDataImpl::delete_record(key_base key, ObjectId deleteIn)
+    void MongoDataSourceDataImpl::delete_record(key_base key, dot::object_id deleteIn)
     {
         // Create delete marker with the specified key
         auto record = new_DeleteMarker();
@@ -267,7 +267,7 @@ namespace dc
         // Get collection
         auto collection = GetCollection(key->type());
 
-        // This method guarantees that ObjectIds will be in strictly increasing
+        // This method guarantees that dot::object_ids will be in strictly increasing
         // order for this instance of the data source class always, and across
         // all processes and machine if they are not created within the same
         // second.
@@ -283,7 +283,7 @@ namespace dc
         BsonWriter writer = new_BsonWriter();
         serializer->Serialize(writer, record);
 
-        // By design, insert will fail if ObjectId is not unique within the collection
+        // By design, insert will fail if dot::object_id is not unique within the collection
         //collection.insert_one(writer->view());
 
         bsoncxx::builder::basic::document doc{}; //!! Temporary fix

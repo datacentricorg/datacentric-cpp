@@ -28,7 +28,7 @@ limitations under the License.
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
-#include <dc/platform/data_source/mongo/ObjectId.hpp>
+#include <dot/mongo_db/bson/object_id.hpp>
 
 #include <bsoncxx/json.hpp>
 
@@ -283,8 +283,8 @@ namespace dc
         if (valueType->equals(dot::typeof<dot::local_date_time>()))
             bsonWriter_.append(bsoncxx::types::b_date{ dot::local_date_time_util::to_std_chrono((dot::local_date_time)value) });
         else
-        if (valueType->equals(dot::typeof<ObjectId>()))
-            bsonWriter_.append(((dot::struct_wrapper<ObjectId>)value)->_id);
+        if (valueType->equals(dot::typeof<dot::object_id>()))
+            bsonWriter_.append(((dot::struct_wrapper<dot::object_id>)value)->oid());
         else
         if (valueType->is_enum)
             bsonWriter_.append(*value->to_string());

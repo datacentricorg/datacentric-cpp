@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/platform/data_source/mongo/ObjectId.hpp>
+#include <dot/mongo_db/bson/object_id.hpp>
 #include <dot/system/type.hpp>
 
 namespace dc

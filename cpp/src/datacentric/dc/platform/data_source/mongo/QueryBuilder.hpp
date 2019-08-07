@@ -370,7 +370,7 @@ namespace dc
     };
 
     template <class Class>
-    struct prop_wrapper<Class, dc::ObjectId>
+    struct prop_wrapper<Class, dot::object_id>
     {
         operator_wrapper<bsoncxx::oid> operator==(dot::local_date_time rhs) const
         {
@@ -404,12 +404,12 @@ namespace dc
             return operator_wrapper<bsoncxx::oid>("_id", "$lt", rhs);
         }
 
-        operator_wrapper<bsoncxx::oid> operator==(ObjectId rhs) const
+        operator_wrapper<bsoncxx::oid> operator==(dot::object_id rhs) const
         {
             return operator_wrapper<bsoncxx::oid>("_id", "$eq", rhs._id);
         }
 
-        operator_wrapper<bsoncxx::oid> operator<(ObjectId rhs) const
+        operator_wrapper<bsoncxx::oid> operator<(dot::object_id rhs) const
         {
             return operator_wrapper<bsoncxx::oid>("_id", "$lt", rhs._id);
         }
@@ -435,8 +435,8 @@ namespace dc
     }
 
     template <class Class>
-    prop_wrapper<Class, ObjectId> make_prop(ObjectId Class::*prop_)
+    prop_wrapper<Class, dot::object_id> make_prop(dot::object_id Class::*prop_)
     {
-        return prop_wrapper<Class, ObjectId>{};
+        return prop_wrapper<Class, dot::object_id>{};
     }
 }

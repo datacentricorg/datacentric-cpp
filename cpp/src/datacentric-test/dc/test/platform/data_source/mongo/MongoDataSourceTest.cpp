@@ -51,20 +51,20 @@ namespace dc
     };
 
     /// <summary>Save record with minimal data for testing how the records are found. </summary>
-    ObjectId SaveMinimalRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::nullable<int> version = dot::nullable<int>())
+    dot::object_id SaveMinimalRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::nullable<int> version = dot::nullable<int>())
     {
         MongoTestData rec = new_MongoTestData();
         rec->RecordID = recordID;
         rec->RecordIndex = recordIndex;
         rec->Version = version;
 
-        ObjectId dataSet = context->GetDataSet(dataSetID, context->DataSet);
+        dot::object_id dataSet = context->GetDataSet(dataSetID, context->DataSet);
         context->Save(rec, dataSet);
         return rec->ID;
     }
 
     /// <summary>Save base record</summary>
-    ObjectId SaveBaseRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
+    dot::object_id SaveBaseRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestData rec = new MongoTestDataImpl();
         rec->RecordID = recordID;
@@ -76,13 +76,13 @@ namespace dc
         rec->local_date_time_element = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->EnumValue = MongoTestEnum::EnumValue2;
 
-        ObjectId dataSet = context->GetDataSet(dataSetID, context->GetCommon());
+        dot::object_id dataSet = context->GetDataSet(dataSetID, context->GetCommon());
         context->Save(rec, dataSet);
         return rec->ID;
     }
 
     /// <summary>Save derived record</summary>
-    ObjectId SaveDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
+    dot::object_id SaveDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestDerivedData rec = new_MongoTestDerivedData();
         rec->RecordID = recordID;
@@ -139,13 +139,13 @@ namespace dc
         keyList1->RecordIndex = 4;
         rec->KeyElementList->add(keyList1);
 
-        ObjectId dataSet = context->GetDataSet(dataSetID, context->GetCommon());
+        dot::object_id dataSet = context->GetDataSet(dataSetID, context->GetCommon());
         context->Save(rec, dataSet);
         return rec->ID;
     }
 
     /// <summary>Save other derived record.</summary>
-    ObjectId SaveOtherDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
+    dot::object_id SaveOtherDerivedRecord(IUnitTestContext context, dot::string dataSetID, dot::string recordID, int recordIndex)
     {
         MongoTestOtherDerivedData rec = new_MongoTestOtherDerivedData();
         rec->RecordID = recordID;
@@ -158,13 +158,13 @@ namespace dc
         rec->OtherStringElement2 = dot::string::Empty; // Test how empty value is recorded
         rec->OtherDoubleElement2 = 200.0;
 
-        ObjectId dataSet = context->GetDataSet(dataSetID, context->DataSet);
+        dot::object_id dataSet = context->GetDataSet(dataSetID, context->DataSet);
         context->Save(rec, dataSet);
         return rec->ID;
     }
 
     /// <summary>Save record that is derived from derived.</summary>
-    ObjectId SaveDerivedFromDerivedRecord(IUnitTestContext context, string dataSetID, string recordID, int recordIndex)
+    dot::object_id SaveDerivedFromDerivedRecord(IUnitTestContext context, string dataSetID, string recordID, int recordIndex)
     {
         MongoTestDerivedFromDerivedData rec = new_MongoTestDerivedFromDerivedData();
         rec->RecordID = recordID;
@@ -177,7 +177,7 @@ namespace dc
         rec->OtherStringElement3 = dot::string::Empty; // Test how empty value is recorded
         rec->OtherDoubleElement3 = 200.0;
 
-        ObjectId dataSet = context->GetDataSet(dataSetID, context->DataSet);
+        dot::object_id dataSet = context->GetDataSet(dataSetID, context->DataSet);
         context->Save(rec, dataSet);
         return rec->ID;
     }
@@ -186,11 +186,11 @@ namespace dc
     void SaveBasicData(IUnitTestContext context)
     {
         // Create datasets
-        ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        dot::list<ObjectId> parents = dot::make_list<ObjectId>();
+        dot::object_id dataSetA = context->CreateDataSet("A", context->DataSet);
+        dot::list<dot::object_id> parents = dot::make_list<dot::object_id>();
         parents->add(dataSetA);
 
-        ObjectId dataSetB = context->CreateDataSet("B", parents, context->DataSet);
+        dot::object_id dataSetB = context->CreateDataSet("B", parents, context->DataSet);
 
         // Create records with minimal data
         SaveBaseRecord(context, "A", "A", 0);
@@ -201,10 +201,10 @@ namespace dc
     void SaveCompleteData(IUnitTestContext context)
     {
         // Create datasets
-        ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetC = context->CreateDataSet("C", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetD = context->CreateDataSet("D", dot::make_list<ObjectId>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
+        dot::object_id dataSetA = context->CreateDataSet("A", context->DataSet);
+        dot::object_id dataSetB = context->CreateDataSet("B", dot::make_list<dot::object_id>({ dataSetA }), context->DataSet);
+        dot::object_id dataSetC = context->CreateDataSet("C", dot::make_list<dot::object_id>({ dataSetA }), context->DataSet);
+        dot::object_id dataSetD = context->CreateDataSet("D", dot::make_list<dot::object_id>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
 
         // Create records with minimal data
         SaveBaseRecord(context, "A", "A", 0);
@@ -229,10 +229,10 @@ namespace dc
     void SaveMultiDataSetData(IUnitTestContext context)
     {
         // Create datasets
-        ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetC = context->CreateDataSet("C", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetD = context->CreateDataSet("D", dot::make_list<ObjectId>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
+        dot::object_id dataSetA = context->CreateDataSet("A", context->DataSet);
+        dot::object_id dataSetB = context->CreateDataSet("B", dot::make_list<dot::object_id>({ dataSetA }), context->DataSet);
+        dot::object_id dataSetC = context->CreateDataSet("C", dot::make_list<dot::object_id>({ dataSetA }), context->DataSet);
+        dot::object_id dataSetD = context->CreateDataSet("D", dot::make_list<dot::object_id>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
 
         // Create records
         SaveMinimalRecord(context, "A", "A", 0);
@@ -250,7 +250,7 @@ namespace dc
     void VerifyLoad(IUnitTestContext context, key<TKey, TRecord> key, dot::string dataSetID)
     {
         // Get dataset and try loading the record
-        ObjectId dataSet = context->GetDataSet(dataSetID, context->GetCommon());
+        dot::object_id dataSet = context->GetDataSet(dataSetID, context->GetCommon());
         dot::ptr<TRecord> record = key->LoadOrNull(context, dataSet);
 
         if (record == nullptr)
@@ -274,7 +274,7 @@ namespace dc
     void VerifyQuery(IUnitTestContext context, dot::string dataSetID)
     {
         // Get dataset and query
-        ObjectId dataSet = context->GetDataSet(dataSetID, context->DataSet);
+        dot::object_id dataSet = context->GetDataSet(dataSetID, context->DataSet);
         query query = context->DataSource->get_query<TRecord>(dataSet);
 
         // Iterate over records
@@ -297,8 +297,8 @@ namespace dc
         SaveBasicData(context);
 
         // Get dataset identifiers
-        ObjectId dataSetA = context->GetDataSet("A", context->GetCommon());
-        ObjectId dataSetB = context->GetDataSet("B", context->GetCommon());
+        dot::object_id dataSetA = context->GetDataSet("A", context->GetCommon());
+        dot::object_id dataSetB = context->GetDataSet("B", context->GetCommon());
 
         // Create keys
         MongoTestKey keyA0 = new_MongoTestKey();
@@ -329,10 +329,10 @@ namespace dc
         IUnitTestContext context = new UnitTestContextImpl(test, "Query", ".");
 
         // Create datasets
-        ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetC = context->CreateDataSet("C", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
-        ObjectId dataSetD = context->CreateDataSet("D", dot::make_list<ObjectId>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
+        dot::object_id dataSetA = context->CreateDataSet("A", context->DataSet);
+        dot::object_id dataSetB = context->CreateDataSet("B", dot::make_list<dot::object_id>({ dataSetA }), context->DataSet);
+        dot::object_id dataSetC = context->CreateDataSet("C", dot::make_list<dot::object_id>({ dataSetA }), context->DataSet);
+        dot::object_id dataSetD = context->CreateDataSet("D", dot::make_list<dot::object_id>({ dataSetA, dataSetB, dataSetC }), context->DataSet);
 
         // Create initial version of the records
         SaveMinimalRecord(context, "A", "A", 0, 0);
@@ -397,8 +397,8 @@ namespace dc
         SaveBasicData(context);
 
         // Get dataset identifiers
-        ObjectId dataSetA = context->GetDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->GetDataSet("B", context->DataSet);
+        dot::object_id dataSetA = context->GetDataSet("A", context->DataSet);
+        dot::object_id dataSetB = context->GetDataSet("B", context->DataSet);
 
         // Create keys
         MongoTestKey keyA0 = new MongoTestKeyImpl();
@@ -471,8 +471,8 @@ namespace dc
         IUnitTestContext context = new UnitTestContextImpl(test, "TypeChange", ".");
 
         // Create datasets
-        ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
+        dot::object_id dataSetA = context->CreateDataSet("A", context->DataSet);
+        dot::object_id dataSetB = context->CreateDataSet("B", dot::make_list<dot::object_id>({ dataSetA }), context->DataSet);
 
         // Create records with minimal data
         SaveDerivedRecord(context, "A", "A", 0);
@@ -543,7 +543,7 @@ namespace dc
         SaveCompleteData(context);
 
         // Look in B dataset
-        ObjectId dataSetB = context->GetDataSetOrEmpty("B", context->DataSet);
+        dot::object_id dataSetB = context->GetDataSetOrEmpty("B", context->DataSet);
 
         MongoTestKey key = new_MongoTestKey();
         key->RecordID = "BB";
@@ -584,7 +584,7 @@ namespace dc
         SaveCompleteData(context);
 
         // Look in B dataset
-        ObjectId dataSetD = context->GetDataSetOrEmpty("D", context->DataSet);
+        dot::object_id dataSetD = context->GetDataSetOrEmpty("D", context->DataSet);
 
         // Load record of derived types by base
         received << "Load all types by key to type A" << std::endl;
@@ -664,7 +664,7 @@ namespace dc
         SaveCompleteData(context);
 
         // Look in B dataset
-        ObjectId dataSetD = context->GetDataSetOrEmpty("D", context->DataSet);
+        dot::object_id dataSetD = context->GetDataSetOrEmpty("D", context->DataSet);
 
         received << "Query by MongoTestData, sort by RecordIndex descending, then by DoubleElement ascending" << std::endl;
         dc::cursor_wrapper<MongoTestData> baseQuery = context->DataSource->get_query<MongoTestData>(dataSetD)
@@ -692,32 +692,32 @@ namespace dc
         IUnitTestContext context = new UnitTestContextImpl(test, "RevisionTime", ".");
 
         // Create datasets
-        ObjectId dataSetA = context->CreateDataSet("A", context->DataSet);
-        ObjectId dataSetB = context->CreateDataSet("B", dot::make_list<ObjectId>({ dataSetA }), context->DataSet);
+        dot::object_id dataSetA = context->CreateDataSet("A", context->DataSet);
+        dot::object_id dataSetB = context->CreateDataSet("B", dot::make_list<dot::object_id>({ dataSetA }), context->DataSet);
 
         // Create initial version of the records
-        ObjectId objA0 = SaveMinimalRecord(context, "A", "A", 0, 0);
-        ObjectId objB0 = SaveMinimalRecord(context, "B", "B", 0, 0);
+        dot::object_id objA0 = SaveMinimalRecord(context, "A", "A", 0, 0);
+        dot::object_id objB0 = SaveMinimalRecord(context, "B", "B", 0, 0);
 
         // Create second version of the records
-        ObjectId objA1 = SaveMinimalRecord(context, "A", "A", 0, 1);
-        ObjectId objB1 = SaveMinimalRecord(context, "B", "B", 0, 1);
+        dot::object_id objA1 = SaveMinimalRecord(context, "A", "A", 0, 1);
+        dot::object_id objB1 = SaveMinimalRecord(context, "B", "B", 0, 1);
 
-        ObjectId cutoffObjectId = context->DataSource->create_ordered_object_id();
+        dot::object_id cutoff_object_id = context->DataSource->create_ordered_object_id();
 
         // Create third version of the records
-        ObjectId objA2 = SaveMinimalRecord(context, "A", "A", 0, 2);
-        ObjectId objB2 = SaveMinimalRecord(context, "B", "B", 0, 2);
+        dot::object_id objA2 = SaveMinimalRecord(context, "A", "A", 0, 2);
+        dot::object_id objB2 = SaveMinimalRecord(context, "B", "B", 0, 2);
 
         // Create new records that did not exist before
-        ObjectId objC0 = SaveMinimalRecord(context, "A", "C", 0, 0);
-        ObjectId objD0 = SaveMinimalRecord(context, "B", "D", 0, 0);
+        dot::object_id objC0 = SaveMinimalRecord(context, "A", "C", 0, 0);
+        dot::object_id objD0 = SaveMinimalRecord(context, "B", "D", 0, 0);
 
-        received << "Load records by ObjectId without constraint" << std::endl;
-        received << *dot::string::format("    Found by ObjectId=A0 = {0}", context->LoadOrNull<MongoTestData>(objA0) != nullptr) << std::endl;
-        received << *dot::string::format("    Found by ObjectId=A1 = {0}", context->LoadOrNull<MongoTestData>(objA1) != nullptr) << std::endl;
-        received << *dot::string::format("    Found by ObjectId=A2 = {0}", context->LoadOrNull<MongoTestData>(objA2) != nullptr) << std::endl;
-        received << *dot::string::format("    Found by ObjectId=C0 = {0}", context->LoadOrNull<MongoTestData>(objC0) != nullptr) << std::endl;
+        received << "Load records by dot::object_id without constraint" << std::endl;
+        received << *dot::string::format("    Found by dot::object_id=A0 = {0}", context->LoadOrNull<MongoTestData>(objA0) != nullptr) << std::endl;
+        received << *dot::string::format("    Found by dot::object_id=A1 = {0}", context->LoadOrNull<MongoTestData>(objA1) != nullptr) << std::endl;
+        received << *dot::string::format("    Found by dot::object_id=A2 = {0}", context->LoadOrNull<MongoTestData>(objA2) != nullptr) << std::endl;
+        received << *dot::string::format("    Found by dot::object_id=C0 = {0}", context->LoadOrNull<MongoTestData>(objC0) != nullptr) << std::endl;
 
         // Load each record by string key
         {
@@ -756,14 +756,14 @@ namespace dc
         context->DataSource->db_server = new_MongoDefaultServerData()->to_key();
 
         // Set revision time constraint
-        context->DataSource->revised_before_id = cutoffObjectId;
+        context->DataSource->revised_before_id = cutoff_object_id;
 
-        // Get each record by ObjectId
-        received << "Load records by ObjectId with RevisedBeforeId constraint" << std::endl;
-        received << *dot::string::format("    Found by ObjectId=A0 = {0}", context->LoadOrNull<MongoTestData>(objA0) != nullptr) << std::endl;
-        received << *dot::string::format("    Found by ObjectId=A1 = {0}", context->LoadOrNull<MongoTestData>(objA1) != nullptr) << std::endl;
-        received << *dot::string::format("    Found by ObjectId=A2 = {0}", context->LoadOrNull<MongoTestData>(objA2) != nullptr) << std::endl;
-        received << *dot::string::format("    Found by ObjectId=C0 = {0}", context->LoadOrNull<MongoTestData>(objC0) != nullptr) << std::endl;
+        // Get each record by dot::object_id
+        received << "Load records by dot::object_id with RevisedBeforeId constraint" << std::endl;
+        received << *dot::string::format("    Found by dot::object_id=A0 = {0}", context->LoadOrNull<MongoTestData>(objA0) != nullptr) << std::endl;
+        received << *dot::string::format("    Found by dot::object_id=A1 = {0}", context->LoadOrNull<MongoTestData>(objA1) != nullptr) << std::endl;
+        received << *dot::string::format("    Found by dot::object_id=A2 = {0}", context->LoadOrNull<MongoTestData>(objA2) != nullptr) << std::endl;
+        received << *dot::string::format("    Found by dot::object_id=C0 = {0}", context->LoadOrNull<MongoTestData>(objC0) != nullptr) << std::endl;
 
         // Load each record by string key
         {
@@ -800,7 +800,7 @@ namespace dc
         // Clear revision time constraint before exiting to avoid an error
         // about deleting readonly database. The error occurs because
         // revision time constraint makes the data source readonly.
-        context->DataSource->revised_before_id = dot::nullable<ObjectId>();
+        context->DataSource->revised_before_id = dot::nullable<dot::object_id>();
 
         std::string toVerify = received.str();
         received.str("");

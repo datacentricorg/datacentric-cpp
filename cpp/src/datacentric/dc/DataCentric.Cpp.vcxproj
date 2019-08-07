@@ -31,7 +31,6 @@
     <ClCompile Include="platform\data_source\mongo\MongoDefaultServerData.cpp" />
     <ClCompile Include="platform\data_source\mongo\MongoServerData.cpp" />
     <ClCompile Include="platform\data_source\mongo\MongoStandardFormatServerData.cpp" />
-    <ClCompile Include="platform\data_source\mongo\ObjectId.cpp" />
     <ClCompile Include="platform\query\Query.cpp" />
     <ClCompile Include="platform\reflection\ClassInfo.cpp" />
     <ClCompile Include="precompiled.cpp" />
@@ -71,7 +70,6 @@
     <ClInclude Include="platform\data_source\mongo\MongoDefaultServerData.hpp" />
     <ClInclude Include="platform\data_source\mongo\MongoServerData.hpp" />
     <ClInclude Include="platform\data_source\mongo\MongoStandardFormatServerData.hpp" />
-    <ClInclude Include="platform\data_source\mongo\ObjectId.hpp" />
     <ClInclude Include="platform\data_source\mongo\QueryBuilder.hpp" />
     <ClInclude Include="platform\logging\LogEntryType.hpp" />
     <ClInclude Include="platform\logging\LogVerbosity.hpp" />

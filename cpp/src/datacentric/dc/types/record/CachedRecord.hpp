@@ -23,7 +23,7 @@ limitations under the License.
 namespace dc
 {
     class CachedRecordImpl; using CachedRecord = dot::ptr<CachedRecordImpl>;
-    class ObjectId;
+    class dot::object_id;
     class record_base_impl; using record_base = dot::ptr<record_base_impl>;
 
     /// <summary>
@@ -51,12 +51,12 @@ namespace dc
     {
         typedef CachedRecordImpl self;
 
-        friend CachedRecord new_CachedRecord(ObjectId, record_base);
+        friend CachedRecord new_CachedRecord(dot::object_id, record_base);
 
     public:
 
         /// <summary>Dataset for which the record is cached.</summary>
-        ObjectId DataSet;
+        dot::object_id DataSet;
 
         /// <summary>
         /// Record passed to the constructor, or null for an
@@ -70,7 +70,7 @@ namespace dc
         ///
         /// Delete marker will be cached as null.
         /// </summary>
-        CachedRecordImpl(ObjectId dataSet, record_base record = nullptr)
+        CachedRecordImpl(dot::object_id dataSet, record_base record = nullptr)
         {
             // Dataset for which the record is cached
             DataSet = dataSet;
@@ -86,7 +86,7 @@ namespace dc
 
     };
 
-    inline CachedRecord new_CachedRecord(ObjectId dataSet, record_base record = nullptr)
+    inline CachedRecord new_CachedRecord(dot::object_id dataSet, record_base record = nullptr)
     {
         return new CachedRecordImpl(dataSet, record);
     }
