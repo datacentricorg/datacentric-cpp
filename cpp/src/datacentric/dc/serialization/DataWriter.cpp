@@ -359,7 +359,7 @@ namespace dc
             else if (valueType->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_date as ISO int in yyyymmdd format
-                dateValue = dot::local_date_util::parse_iso_int((int64_t) value);
+                dateValue = dot::local_date_util::parse_iso_int((int) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
@@ -383,7 +383,7 @@ namespace dc
             else if (valueType->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_time as ISO int in hhmmssfff format
-                timeValue = dot::local_time_util::parse_iso_int((int64_t) value);
+                timeValue = dot::local_time_util::parse_iso_int((int) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
@@ -407,7 +407,7 @@ namespace dc
             else if (valueType->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_minute as ISO int in hhmmssfff format
-                minuteValue = dot::local_minute_util::parse_iso_int((int64_t) value);
+                minuteValue = dot::local_minute_util::parse_iso_int((int) value);
             }
             else throw dot::exception(
                 dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
