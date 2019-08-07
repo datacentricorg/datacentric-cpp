@@ -14,37 +14,40 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/ObjectId.hpp>
+#include <dot/precompiled.hpp>
+#include <dot/implement.hpp>
+#include <dot/mongo_db/bson/object_id.hpp>
 #include <dot/system/string.hpp>
 #include <dot/noda_time/local_date_time.hpp>
+#include "dot/system/object.hpp"
 
-namespace dc
+namespace dot
 {
+    object_id object_id::Empty = object_id();
 
-    ObjectId::ObjectId()
+    object_id::object_id()
     {
         static const char Empty[12] = { 0 };
         _id = bsoncxx::oid(Empty, 12);
     }
 
-    ObjectId::ObjectId(bsoncxx::oid id) : _id(id) {}
+    object_id::object_id(bsoncxx::oid id) : _id(id) {}
 
-    ObjectId::ObjectId(dot::object obj)
+    object_id::object_id(dot::object obj)
     {
-        _id = ((dot::struct_wrapper<ObjectId>)obj)->_id;
+        _id = ((struct_wrapper<object_id>)obj)->_id;
     }
 
-    ObjectId::ObjectId(dot::string str)
+    object_id::object_id(dot::string str)
         : _id(*str)
     {}
 
-    ObjectId::ObjectId(const char* bytes, std::size_t len)
+    object_id::object_id(const char* bytes, std::size_t len)
         : _id(bytes, len)
     {
     }
 
-    ObjectId::ObjectId(dot::local_date_time value)
+    object_id::object_id(dot::local_date_time value)
     {
         char bytes[12] = { 0 };
 
@@ -55,56 +58,43 @@ namespace dc
         _id = bsoncxx::oid(bytes, 12);
     }
 
-    bool ObjectId::operator==(const ObjectId& rhs) const
-    {
-        return _id == rhs._id;
-    }
-
-    bool ObjectId::operator!=(const ObjectId& rhs) const
-    {
-        return _id != rhs._id;
-    }
-
-    bool ObjectId::operator>=(const ObjectId& rhs) const
-    {
-        return _id >= rhs._id;
-    }
-
-    bool ObjectId::operator<=(const ObjectId& rhs) const
-    {
-        return _id <= rhs._id;
-    }
-
-    bool ObjectId::is_empty()
+    bool object_id::is_empty()
     {
         return *_id.bytes() == 0; // TODO check
     }
 
-    bool ObjectId::operator<(const ObjectId& rhs) const
-    {
-        return _id < rhs._id;
-    }
-
-    //local_date_time ObjectId::GetTimeStamp()
-    //{
-    //    ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
-    //    int64_t seconds;
-    //    std::memcpy(&seconds, _id.bytes(), sizeof(seconds));
-    //
-    //    boost::posix_time::time_duration d = boost::posix_time::seconds(seconds);
-    //    return epoch + d;
-    //}
-
-    ObjectId ObjectId::GenerateNewId()
+    object_id object_id::GenerateNewId()
     {
         return bsoncxx::oid();
     }
 
-    dot::string ObjectId::to_string()
+    dot::string object_id::to_string() const
     {
         return _id.to_string();
     }
 
-    ObjectId ObjectId::Empty = ObjectId();
+    bool object_id::operator==(const object_id& rhs) const
+    {
+        return _id == rhs._id;
+    }
 
+    bool object_id::operator!=(const object_id& rhs) const
+    {
+        return _id != rhs._id;
+    }
+
+    bool object_id::operator>=(const object_id& rhs) const
+    {
+        return _id >= rhs._id;
+    }
+
+    bool object_id::operator<=(const object_id& rhs) const
+    {
+        return _id <= rhs._id;
+    }
+
+    bool object_id::operator<(const object_id& rhs) const
+    {
+        return _id < rhs._id;
+    }
 }
