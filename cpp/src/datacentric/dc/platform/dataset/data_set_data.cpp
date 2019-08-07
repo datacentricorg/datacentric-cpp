@@ -17,11 +17,11 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/platform/dataset/data_set_data.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
-    void data_set_data_impl::Init(IContext context)
+    void data_set_data_impl::Init(context_base context)
     {
         record_impl<data_set_key_impl, data_set_data_impl>::Init(context);
 

@@ -28,7 +28,7 @@ namespace dc
     template <typename TKey, typename TRecord> using key = dot::ptr<key_impl<TKey, TRecord>>;
 
     class CachedRecordImpl; using CachedRecord = dot::ptr<CachedRecordImpl>;
-    class IContextImpl; using IContext = dot::ptr<IContextImpl>;
+    class context_base_impl; using context_base = dot::ptr<context_base_impl>;
 
     /// Keys must derive from this type
     template <typename TKey, typename TRecord>
@@ -69,7 +69,7 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Error message if the record is not found or is a delete marker.
-        dot::ptr<TRecord> Load(IContext context)
+        dot::ptr<TRecord> Load(context_base context)
         {
             auto result = load_or_null(context, context->data_set);
             if (result == nullptr) throw dot::exception(
@@ -97,7 +97,7 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Error message if the record is not found or is a delete marker.
-        dot::ptr<TRecord> Load(IContext context, dot::object_id dataSet)
+        dot::ptr<TRecord> Load(context_base context, dot::object_id dataSet)
         {
             // This method will return null if the record is
             // not found or the found record is a delete marker
@@ -127,7 +127,7 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Return null if the record is not found or is a delete marker.
-        dot::ptr<TRecord> load_or_null(IContext context)
+        dot::ptr<TRecord> load_or_null(context_base context)
         {
             return load_or_null(context, context->data_set);
         }
@@ -152,7 +152,7 @@ namespace dc
         /// reloading new version of the record from storage.
         ///
         /// Return null if the record is not found or is a delete marker.
-        dot::ptr<TRecord> load_or_null(IContext context, dot::object_id loadFrom)
+        dot::ptr<TRecord> load_or_null(context_base context, dot::object_id loadFrom)
         {
             // First check if the record has been
             // cached for the same dataset as the
@@ -220,7 +220,7 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        void Delete(IContext context)
+        void Delete(context_base context)
         {
             // Delete in the dataset of the context
             context->DataSource->delete_record(this, context->data_set);
@@ -233,7 +233,7 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        void Delete(IContext context, dot::object_id deleteIn)
+        void Delete(context_base context, dot::object_id deleteIn)
         {
             context->DataSource->delete_record(this, deleteIn);
         }

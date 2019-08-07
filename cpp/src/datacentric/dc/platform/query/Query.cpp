@@ -17,7 +17,7 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/platform/query/Query.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {

@@ -17,14 +17,14 @@ limitations under the License.
 #pragma once
 
 #include <dc/test/declare.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
     class IUnitTestContextImpl; using IUnitTestContext = dot::ptr<IUnitTestContextImpl>;
 
-    /// Extends IContext with approval test functionality.
-    class IUnitTestContextImpl : public IContextImpl
+    /// Extends context_base with approval test functionality.
+    class IUnitTestContextImpl : public context_base_impl
     {
         typedef IUnitTestContextImpl self;
 
@@ -44,7 +44,7 @@ namespace dc
 
     /// Context for use in test fixtures that do not require MongoDB.
     ///
-    /// This class implements IUnitTestContext which extends IContext
+    /// This class implements IUnitTestContext which extends context_base
     /// with approval test functionality. Attempting to access DataSource
     /// using this context will cause an error.
     ///

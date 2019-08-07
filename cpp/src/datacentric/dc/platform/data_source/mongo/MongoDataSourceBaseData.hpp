@@ -27,7 +27,7 @@ limitations under the License.
 namespace dc
 {
     class MongoDataSourceBaseDataImpl; using MongoDataSourceData = dot::ptr<MongoDataSourceBaseDataImpl>;
-    class IContextImpl; using IContext = dot::ptr<IContextImpl>;
+    class context_base_impl; using context_base = dot::ptr<context_base_impl>;
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
@@ -70,7 +70,7 @@ namespace dc
         ///
         /// All derived classes overriding this method must call base.Init(context)
         /// before executing the the rest of the code in the method override.
-        void Init(IContext context) override;
+        void Init(context_base context) override;
 
         /// The returned dot::object_ids have the following order guarantees:
         ///

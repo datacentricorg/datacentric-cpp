@@ -51,7 +51,7 @@ namespace dc
         ///
         /// All derived classes overriding this method must call base.Init(context)
         /// before executing the the rest of the code in the method override.
-        virtual void Init(IContext context);
+        virtual void Init(context_base context);
 
         /// data_set parents.
         dot::list<dot::object_id> Parents;

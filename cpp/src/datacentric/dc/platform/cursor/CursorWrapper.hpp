@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-//#include <dc/platform/context/IContext.hpp>
+//#include <dc/platform/context/context_base.hpp>
 #include <mongocxx/cursor.hpp>
 #include <bsoncxx/types.hpp>
 

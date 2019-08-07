@@ -19,7 +19,7 @@ limitations under the License.
 #include <dc/platform/data_source/mongo/MongoDataSourceData.hpp>
 #include <dc/serialization/BsonWriter.hpp>
 #include <dc/serialization/BsonRecordSerializer.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 #include <dc/platform/query/Query.hpp>
 #include <dc/platform/cursor/CursorWrapper.hpp>
 #include <dc/types/record/DeleteMarker.hpp>
@@ -225,7 +225,7 @@ namespace dc
 
         if (query->select_.is_empty())
         {
-            IContext context = this->Context;
+            context_base context = this->Context;
             return make_object_cursor_wrapper(std::move(GetCollection(query->type_).aggregate(pipeline)),
                 [context](const bsoncxx::document::view& item)->dot::object
                 {
@@ -246,7 +246,7 @@ namespace dc
 
             pipeline.project(selectList.view());
 
-            IContext context = this->Context;
+            context_base context = this->Context;
             return make_object_cursor_wrapper(std::move(GetCollection(query->type_).aggregate(pipeline)),
                 [context, query](const bsoncxx::document::view& item)->dot::object
                 {

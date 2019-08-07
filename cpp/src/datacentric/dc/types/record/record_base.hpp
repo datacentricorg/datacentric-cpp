@@ -22,7 +22,7 @@ limitations under the License.
 namespace dc
 {
     class record_base_impl; using record_base = dot::ptr<record_base_impl>;
-    class IContextImpl; using IContext = dot::ptr<IContextImpl>;
+    class context_base_impl; using context_base = dot::ptr<context_base_impl>;
 
     /// Record objects must derive from this type.
     class DC_CLASS record_base_impl : public virtual data_impl
@@ -47,7 +47,7 @@ namespace dc
         dot::object_id data_set;
 
         /// Use context to access resources.
-        IContext Context;
+        context_base Context;
 
     public: // PROPERTIES
 
@@ -63,7 +63,7 @@ namespace dc
 
         /// Set context and perform fast initialization or validation
         /// of class data. Must first invoke base.Init(context).
-        virtual void Init(IContext context);
+        virtual void Init(context_base context);
 
         dot::string to_string() { return get_key(); }
 

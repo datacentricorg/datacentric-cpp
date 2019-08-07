@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
@@ -25,7 +25,7 @@ namespace dc
 
     /// Context defines dataset and provides access to data,
     /// logging, and other supporting functionality.
-    class DC_CLASS ContextImpl : public IContextImpl
+    class DC_CLASS ContextImpl : public context_base_impl
     {
         typedef ContextImpl self;
 

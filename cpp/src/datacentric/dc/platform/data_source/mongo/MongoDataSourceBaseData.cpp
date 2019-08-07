@@ -18,7 +18,7 @@ limitations under the License.
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/mongo/MongoDataSourceBaseData.hpp>
 #include <dc/platform/data_source/mongo/MongoServerData.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 
 #include <mongocxx/instance.hpp>
 
@@ -28,7 +28,7 @@ namespace dc
 
     int MongoDataSourceBaseDataImpl::maxDbNameLength_ = 64;
 
-    void MongoDataSourceBaseDataImpl::Init(IContext context)
+    void MongoDataSourceBaseDataImpl::Init(context_base context)
     {
         static mongocxx::instance instance{};
 

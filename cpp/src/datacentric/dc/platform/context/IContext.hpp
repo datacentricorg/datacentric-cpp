@@ -23,15 +23,15 @@ limitations under the License.
 
 namespace dc
 {
-    class IContextImpl; using IContext = dot::ptr<IContextImpl>;
+    class context_base_impl; using context_base = dot::ptr<context_base_impl>;
     class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
     class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
 
     /// Context defines dataset and provides access to data,
     /// logging, and other supporting functionality.
-    class DC_CLASS IContextImpl : public virtual dot::object_impl
+    class DC_CLASS context_base_impl : public virtual dot::object_impl
     {
-        typedef IContextImpl self;
+        typedef context_base_impl self;
 
     public: // PROPERTIES
 

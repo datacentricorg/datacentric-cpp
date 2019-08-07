@@ -20,5 +20,5 @@ limitations under the License.
 #include <dc/types/record/record_base.hpp>
 #include <dc/platform/data_source/DataSourceKey.hpp>
 #include <dc/types/record/CachedRecord.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 #include <dc/platform/data_source/DataSourceData.hpp>

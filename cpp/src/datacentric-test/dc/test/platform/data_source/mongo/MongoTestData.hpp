@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/test/implement.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 #include <dc/types/record/record.hpp>
 #include <dot/system/Enum.hpp>
 

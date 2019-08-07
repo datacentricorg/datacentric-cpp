@@ -17,12 +17,12 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/types/record/record_base.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
 
-    void record_base_impl::Init(IContext context)
+    void record_base_impl::Init(context_base context)
     {
         // The line below is an example of calling Init(...) method for base class.
         // It should be uncommented for all classes derived from this class.

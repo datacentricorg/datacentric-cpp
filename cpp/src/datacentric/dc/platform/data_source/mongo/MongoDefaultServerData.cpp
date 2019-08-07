@@ -18,7 +18,7 @@ limitations under the License.
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
 #include <dc/platform/data_source/DatabaseServerKey.hpp>
-#include <dc/platform/context/IContext.hpp>
+#include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
