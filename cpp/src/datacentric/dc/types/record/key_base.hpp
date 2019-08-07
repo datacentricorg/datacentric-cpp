@@ -48,7 +48,7 @@ namespace dc
 
         void AssignString(std::stringstream & value);
 
-        DOT_TYPE_BEGIN("DataCentric", "KeyBase")
+        DOT_TYPE_BEGIN("dc", "KeyBase")
             //DOT_TYPE_BASE(Data)
         DOT_TYPE_END()
 

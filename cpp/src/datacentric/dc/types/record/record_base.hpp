@@ -67,7 +67,7 @@ namespace dc
 
         dot::string to_string() { return get_key(); }
 
-        DOT_TYPE_BEGIN("DataCentric", "RecordBase")
+        DOT_TYPE_BEGIN("dc", "RecordBase")
             ->with_field("_id", &self::ID)
             ->with_field("_dataset", &self::data_set)
           //  ->WithProperty("_key", &self::Key)

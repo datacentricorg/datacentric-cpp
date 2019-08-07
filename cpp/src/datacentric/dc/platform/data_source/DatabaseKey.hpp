@@ -75,7 +75,7 @@ namespace dc
         /// \end{itemize}
         dot::string env_name;
 
-        DOT_TYPE_BEGIN("DataCentric", "DbNameKey")
+        DOT_TYPE_BEGIN("dc", "DbNameKey")
             DOT_TYPE_PROP(instance_type)
             DOT_TYPE_PROP(instance_name)
             DOT_TYPE_PROP(env_name)

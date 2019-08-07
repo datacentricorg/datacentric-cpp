@@ -45,7 +45,7 @@ namespace dc
         typedef mongo_data_source_test_impl self;
     public:
 
-        DOT_TYPE_BEGIN("DataCentric", "mongo_data_source_test")
+        DOT_TYPE_BEGIN("dc", "mongo_data_source_test")
         DOT_TYPE_END()
     };
 

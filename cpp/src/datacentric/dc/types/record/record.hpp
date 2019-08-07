@@ -101,7 +101,7 @@ namespace dc
         /// and both records are created in-memory without any need to save them to storage.
         operator dot::ptr<TKey>() { return to_key(); }
 
-        DOT_TYPE_BEGIN("DataCentric", "Record")
+        DOT_TYPE_BEGIN("dc", "Record")
             DOT_TYPE_BASE(record_base)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)

@@ -348,7 +348,7 @@ namespace dc
             }
         }
 
-        DOT_TYPE_BEGIN("DataCentric", "Key")
+        DOT_TYPE_BEGIN("dc", "Key")
             DOT_TYPE_BASE(key_base)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)

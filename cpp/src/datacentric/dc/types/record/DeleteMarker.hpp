@@ -50,7 +50,7 @@ namespace dc
 
     public:
 
-        DOT_TYPE_BEGIN("DataCentric", "DeleteMarker")
+        DOT_TYPE_BEGIN("dc", "DeleteMarker")
             DOT_TYPE_BASE(record_base)
             DOT_TYPE_CTOR(make_DeleteMarker)
         DOT_TYPE_END()

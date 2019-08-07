@@ -34,7 +34,7 @@ namespace dc
         typedef root_record_for_impl<TKey, TRecord> self;
     public:
 
-        DOT_TYPE_BEGIN("DataCentric", "RootRecord")
+        DOT_TYPE_BEGIN("dc", "RootRecord")
             DOT_TYPE_BASE(record<TKey, TRecord>)
         DOT_TYPE_END()
 

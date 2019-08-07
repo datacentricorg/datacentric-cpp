@@ -43,7 +43,7 @@ namespace dc
         /// identify the server. It is not the server URI.
         dot::string db_server_id;
 
-        DOT_TYPE_BEGIN("DataCentric", "DbServerData")
+        DOT_TYPE_BEGIN("dc", "DbServerData")
             DOT_TYPE_PROP(db_server_id)
             DOT_TYPE_CTOR(make_db_server_data)
         DOT_TYPE_END()

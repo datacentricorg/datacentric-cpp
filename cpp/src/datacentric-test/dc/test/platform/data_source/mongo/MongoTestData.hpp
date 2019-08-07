@@ -37,7 +37,7 @@ namespace dc
             EnumValue2
         };
 
-        DOT_ENUM_BEGIN("DataCentric", "MongoTestEnum")
+        DOT_ENUM_BEGIN("dc", "MongoTestEnum")
             DOT_ENUM_VALUE(empty)
             DOT_ENUM_VALUE(EnumValue1)
             DOT_ENUM_VALUE(EnumValue2)
@@ -59,7 +59,7 @@ namespace dc
         dot::string RecordID;
         dot::nullable<int> RecordIndex;
 
-        DOT_TYPE_BEGIN("DataCentric", "MongoTestKey")
+        DOT_TYPE_BEGIN("dc", "MongoTestKey")
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_PROP(RecordIndex)
             DOT_TYPE_BASE(key<MongoTestKeyImpl, MongoTestDataImpl>)
@@ -88,7 +88,7 @@ namespace dc
         MongoTestEnum EnumValue;
         dot::nullable<int> Version;
 
-        DOT_TYPE_BEGIN("DataCentric", "MongoTestData")
+        DOT_TYPE_BEGIN("dc", "MongoTestData")
             DOT_TYPE_PROP(RecordID)
             DOT_TYPE_PROP(RecordIndex)
             DOT_TYPE_PROP(DoubleElement)
@@ -117,7 +117,7 @@ namespace dc
         dot::nullable<double> DoubleElement3;
         dot::string StringElement3;
 
-        DOT_TYPE_BEGIN("DataCentric", "ElementSampleData")
+        DOT_TYPE_BEGIN("dc", "ElementSampleData")
             DOT_TYPE_PROP(DoubleElement3)
             DOT_TYPE_PROP(StringElement3)
             DOT_TYPE_BASE(data)
@@ -149,7 +149,7 @@ namespace dc
         MongoTestKey KeyElement;
         dot::list<MongoTestKey> KeyElementList;
 
-        DOT_TYPE_BEGIN("DataCentric", "MongoTestDerivedData")
+        DOT_TYPE_BEGIN("dc", "MongoTestDerivedData")
             DOT_TYPE_PROP(DoubleElement2)
             DOT_TYPE_PROP(StringElement2)
             DOT_TYPE_PROP(ArrayOfString)
@@ -183,7 +183,7 @@ namespace dc
         dot::nullable<double> OtherDoubleElement2;
         dot::string OtherStringElement2;
 
-        DOT_TYPE_BEGIN("DataCentric", "MongoTestOtherDerivedData")
+        DOT_TYPE_BEGIN("dc", "MongoTestOtherDerivedData")
             DOT_TYPE_PROP(OtherDoubleElement2)
             DOT_TYPE_PROP(OtherStringElement2)
             DOT_TYPE_BASE(MongoTestData)
@@ -207,7 +207,7 @@ namespace dc
         dot::nullable<double> OtherDoubleElement3;
         dot::string OtherStringElement3;
 
-        DOT_TYPE_BEGIN("DataCentric", "MongoTestDerivedFromDerivedData")
+        DOT_TYPE_BEGIN("dc", "MongoTestDerivedFromDerivedData")
             DOT_TYPE_PROP(OtherDoubleElement3)
             DOT_TYPE_PROP(OtherStringElement3)
             DOT_TYPE_BASE(MongoTestDerivedData)
