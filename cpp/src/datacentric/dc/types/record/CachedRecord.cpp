@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dc/types/record/record_base.hpp>

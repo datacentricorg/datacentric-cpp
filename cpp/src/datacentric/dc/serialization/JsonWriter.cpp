@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#include <dc/precompiled.hpp>
 #define RAPIDJSON_HAS_STDSTRING 1
 #include <dc/implement.hpp>
 #include <dc/serialization/JsonWriter.hpp>

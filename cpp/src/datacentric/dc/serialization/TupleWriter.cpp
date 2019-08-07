@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/serialization/TupleWriter.hpp>
 #include <dot/noda_time/local_time_util.hpp>

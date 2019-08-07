@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#include <dc/precompiled.hpp>
 #define DC_INCLUDE_MONGO_DATA_SOURCE
-
 #include <dc/implement.hpp>
 #include <dc/platform/context/Context.hpp>

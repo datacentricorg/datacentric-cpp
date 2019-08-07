@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/mongo/MongoDataSourceBaseData.hpp>
 #include <dc/platform/data_source/mongo/MongoServerData.hpp>

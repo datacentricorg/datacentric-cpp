@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/platform/reflection/ClassInfo.hpp>
 #include <dc/platform/settings/class_map_settings.hpp>
