@@ -113,13 +113,13 @@ namespace dc
         return DataSource->create_data_set(dataSetID, parentDataSets, saveTo);
     }
 
-    void IContextImpl::SaveDataSet(DataSetData dataSetData)
+    void IContextImpl::SaveDataSet(data_set_data data_set_data)
     {
-        DataSource->save_data_set(dataSetData, DataSet);
+        DataSource->save_data_set(data_set_data, DataSet);
     }
 
-    void IContextImpl::SaveDataSet(DataSetData dataSetData, dot::object_id saveTo)
+    void IContextImpl::SaveDataSet(data_set_data data_set_data, dot::object_id saveTo)
     {
-        DataSource->save_data_set(dataSetData, saveTo);
+        DataSource->save_data_set(data_set_data, saveTo);
     }
 }

@@ -18,14 +18,14 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
-#include <dc/platform/dataset/DataSetData.hpp>
+#include <dc/platform/dataset/data_set_data.hpp>
 #include <dc/platform/data_source/DataSourceData.hpp>
 
 namespace dc
 {
     class IContextImpl; using IContext = dot::ptr<IContextImpl>;
     class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
-    class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
+    class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
 
     /// Context defines dataset and provides access to data,
     /// logging, and other supporting functionality.
@@ -290,7 +290,7 @@ namespace dc
         /// The timestamp of the new dot::object_id is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        void SaveDataSet(DataSetData dataSetData);
+        void SaveDataSet(data_set_data data_set_data);
 
         /// Save new version of the dataset.
         ///
@@ -302,6 +302,6 @@ namespace dc
         /// The timestamp of the new dot::object_id is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        void SaveDataSet(DataSetData dataSetData, dot::object_id saveTo);
+        void SaveDataSet(data_set_data data_set_data, dot::object_id saveTo);
     };
 }

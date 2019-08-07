@@ -51,7 +51,7 @@ namespace dc
         }
     }
 
-    void data_source_data_impl::save_data_set(DataSetData data_set_data, dot::object_id save_to)
+    void data_source_data_impl::save_data_set(data_set_data data_set_data, dot::object_id save_to)
     {
         // Save dataset to storage. This updates its ID
         // to the new dot::object_id created during save
@@ -85,7 +85,7 @@ namespace dc
         else
         {
             // Otherwise load from storage (returns null if not found)
-            DataSetData data_set_data = load_or_null<DataSetData>(load_from).template as<DataSetData>();
+            data_set_data data_set_data = load_or_null<data_set_data>(load_from).template as<data_set_data>();
 
             if (data_set_data == nullptr)
                 throw dot::exception(dot::string::format("Dataset with dot::object_id={0} is not found.", load_from.to_string()));
@@ -142,9 +142,9 @@ namespace dc
     dot::object_id data_source_data_impl::load_data_set_or_empty(dot::string data_set_id, dot::object_id load_from)
     {
         // Always load even if present in cache
-        DataSetKey data_set_key = new_DataSetKey();
+        data_set_key data_set_key = new_data_set_key();
         data_set_key->DataSetID = data_set_id;
-        DataSetData data_set_data = (DataSetData) reload_or_null(data_set_key, load_from);
+        data_set_data data_set_data = (data_set_data) reload_or_null(data_set_key, load_from);
 
         // If not found, return dot::object_id.Empty
         if (data_set_data == nullptr) return dot::object_id::Empty;
@@ -163,7 +163,7 @@ namespace dc
         return data_set_data->ID;
     }
 
-    dot::hash_set<dot::object_id> data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data)
+    dot::hash_set<dot::object_id> data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data)
     {
         // Delegate to the second overload
         dot::hash_set<dot::object_id> result = dot::make_hash_set<dot::object_id>();
@@ -171,14 +171,14 @@ namespace dc
         return result;
     }
 
-    void data_source_data_impl::build_data_set_lookup_list(DataSetData data_set_data, dot::hash_set<dot::object_id> result)
+    void data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data, dot::hash_set<dot::object_id> result)
     {
         // Return if the dataset is null or has no parents
         if (data_set_data == nullptr) return;
 
         // Error message if dataset has no ID or Key
-        //dataSetData->ID->CheckHasValue();
-        //dataSetData->getKey()->CheckHasValue();
+        //data_set_data->ID->CheckHasValue();
+        //data_set_data->getKey()->CheckHasValue();
         //! TODO uncomment
 
         // Add self to the result
@@ -211,7 +211,7 @@ namespace dc
 
     dot::object_id data_source_data_impl::get_common()
     {
-        return get_data_set(DataSetKeyImpl::Common->DataSetID, dot::object_id::Empty);
+        return get_data_set(data_set_key_impl::Common->DataSetID, dot::object_id::Empty);
     }
 
     dot::object_id data_source_data_impl::get_data_set(dot::string data_set_id, dot::object_id load_from)
@@ -231,7 +231,7 @@ namespace dc
     dot::object_id data_source_data_impl::create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, dot::object_id save_to)
     {
         // Create dataset record
-        auto result = new_DataSetData();
+        auto result = new_data_set_data();
         result->DataSetID = data_set_id;
 
         if (parent_data_sets != nullptr)
@@ -254,8 +254,8 @@ namespace dc
 
     dot::object_id data_source_data_impl::create_common()
     {
-        auto result = new_DataSetData();
-        result->DataSetID = DataSetKeyImpl::Common->DataSetID;
+        auto result = new_data_set_data();
+        result->DataSetID = data_set_key_impl::Common->DataSetID;
 
         // Save in root dataset
         save_data_set(result, dot::object_id::Empty);

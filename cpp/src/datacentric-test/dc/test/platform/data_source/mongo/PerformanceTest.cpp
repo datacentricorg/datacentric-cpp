@@ -25,8 +25,8 @@ limitations under the License.
 #include <dc/platform/data_source/mongo/QueryBuilder.hpp>
 #include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
 
-#include <dc/platform/dataset/DataSetKey.hpp>
-#include <dc/platform/dataset/DataSetData.hpp>
+#include <dc/platform/dataset/data_set_key.hpp>
+#include <dc/platform/dataset/data_set_data.hpp>
 
 #include <dc/platform/context/Context.hpp>
 #include <dc/test/platform/context/Context.hpp>
@@ -172,7 +172,7 @@ namespace dc
         for (int i = 0; i < recordsCount; ++i)
         {
             dot::string recordId = GetRecordKey(i);
-            SaveRecord(context, DataSetKeyImpl::Common->DataSetID, recordId, recordSize, 0);
+            SaveRecord(context, data_set_key_impl::Common->DataSetID, recordId, recordSize, 0);
 
             for (int dsI = 0; dsI < dataSetsCount; ++dsI)
             {

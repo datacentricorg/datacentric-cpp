@@ -19,21 +19,20 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dc/types/record/record.hpp>
 
-
 namespace dc
 {
-    class DataSetKeyImpl; using DataSetKey = dot::ptr<DataSetKeyImpl>;
-    class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
+    class data_set_key_impl; using data_set_key = dot::ptr<data_set_key_impl>;
+    class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
 
-    inline DataSetKey new_DataSetKey();
+    inline data_set_key new_data_set_key();
 
     /// DataSet key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
     /// same DB collection or table.
-    class DC_CLASS DataSetKeyImpl : public key_impl<DataSetKeyImpl, DataSetDataImpl>
+    class DC_CLASS data_set_key_impl : public key_impl<data_set_key_impl, data_set_data_impl>
     {
-        typedef DataSetKeyImpl self;
-        friend DataSetKey new_DataSetKey();
+        typedef data_set_key_impl self;
+        friend data_set_key new_data_set_key();
 
     public: // PROPERTIES
 
@@ -42,16 +41,16 @@ namespace dc
 
         DOT_TYPE_BEGIN(".Analyst", "DataSetKey")
             DOT_TYPE_PROP(DataSetID)
-            DOT_TYPE_CTOR(new_DataSetKey)
-            DOT_TYPE_BASE(key<DataSetKeyImpl, DataSetDataImpl>)
+            DOT_TYPE_CTOR(new_data_set_key)
+            DOT_TYPE_BASE(key<data_set_key_impl, data_set_data_impl>)
         DOT_TYPE_END()
 
     public: // STATIC
 
-        static DataSetKey Common;
+        static data_set_key Common;
     };
 
-    inline DataSetKey new_DataSetKey() { return new DataSetKeyImpl; }
+    inline data_set_key new_data_set_key() { return new data_set_key_impl; }
 }
 
-#include <dc/platform/dataset/DataSetData.hpp>
+#include <dc/platform/dataset/data_set_data.hpp>

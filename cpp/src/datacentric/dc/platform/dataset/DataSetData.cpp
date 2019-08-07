@@ -16,14 +16,14 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/dataset/DataSetData.hpp>
+#include <dc/platform/dataset/data_set_data.hpp>
 #include <dc/platform/context/IContext.hpp>
 
 namespace dc
 {
-    void DataSetDataImpl::Init(IContext context)
+    void data_set_data_impl::Init(IContext context)
     {
-        record_impl<DataSetKeyImpl, DataSetDataImpl>::Init(context);
+        record_impl<data_set_key_impl, data_set_data_impl>::Init(context);
 
         if (dot::string::is_null_or_empty(DataSetID)) throw dot::exception("DataSetID has not been set.");
 

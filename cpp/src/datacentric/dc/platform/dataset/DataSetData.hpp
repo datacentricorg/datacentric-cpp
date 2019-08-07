@@ -18,29 +18,29 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/types/record/record.hpp>
-#include <dc/platform/dataset/DataSetKey.hpp>
+#include <dc/platform/dataset/data_set_key.hpp>
 
 namespace dc
 {
-    class DataSetKeyImpl; using DataSetKey = dot::ptr<DataSetKeyImpl>;
-    class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
+    class data_set_key_impl; using data_set_key = dot::ptr<data_set_key_impl>;
+    class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
     class dot::object_id;
 
-    inline DataSetData new_DataSetData();
+    inline data_set_data new_data_set_data();
 
     /// DataSet key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
     /// same DB collection or table.
-    class DC_CLASS DataSetDataImpl : public record_impl<DataSetKeyImpl, DataSetDataImpl>
+    class DC_CLASS data_set_data_impl : public record_impl<data_set_key_impl, data_set_data_impl>
     {
-        typedef DataSetDataImpl self;
-        friend DataSetData new_DataSetData();
+        typedef data_set_data_impl self;
+        friend data_set_data new_data_set_data();
 
     public:
 
         /// dot::object_id of the dataset where the record is stored.
         ///
-        /// This override for the DataSetData record sets DataSet to
+        /// This override for the data_set_data record sets DataSet to
         /// dot::object_id.Empty for the Common dataset.
         dot::object_id DataSet;
 
@@ -59,14 +59,14 @@ namespace dc
         DOT_TYPE_BEGIN(".Analyst", "DataSetData")
             DOT_TYPE_PROP(DataSetID)
             DOT_TYPE_PROP(Parents)
-            DOT_TYPE_CTOR(new_DataSetData)
-            DOT_TYPE_BASE(record<DataSetKeyImpl, DataSetDataImpl>)
+            DOT_TYPE_CTOR(new_data_set_data)
+            DOT_TYPE_BASE(record<data_set_key_impl, data_set_data_impl>)
         DOT_TYPE_END()
 
     protected: // CONSTRUCTORS
 
-        DataSetDataImpl() = default;
+        data_set_data_impl() = default;
     };
 
-    inline DataSetData new_DataSetData() { return new DataSetDataImpl; }
+    inline data_set_data new_data_set_data() { return new data_set_data_impl; }
 }

@@ -38,7 +38,7 @@ namespace dc
     class db_name_key_impl; using db_name_key = dot::ptr<db_name_key_impl>;
     class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;
     class query_impl; using query = dot::ptr<query_impl>;
-    class DataSetDataImpl; using DataSetData = dot::ptr<DataSetDataImpl>;
+    class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
     class object_cursor_wrapper_impl; using object_cursor_wrapper = dot::ptr<object_cursor_wrapper_impl>;
 
     class dot::object_id;
@@ -194,7 +194,7 @@ namespace dc
         /// The timestamp of the new dot::object_id is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        void save_data_set(DataSetData data_set_data, dot::object_id save_to);
+        void save_data_set(data_set_data data_set_data, dot::object_id save_to);
 
         /// Load enumeration of record by query
         /// The lookup occurs first in the reverse
@@ -304,7 +304,7 @@ namespace dc
         ///
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
-        dot::hash_set<dot::object_id> build_data_set_lookup_list(DataSetData data_set_data);
+        dot::hash_set<dot::object_id> build_data_set_lookup_list(data_set_data data_set_data);
 
         /// Builds hashset of parent datasets for specified dataset data,
         /// including parents of parents to unlimited depth with cyclic
@@ -315,7 +315,7 @@ namespace dc
         ///
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
-        void build_data_set_lookup_list(DataSetData data_set_data, dot::hash_set<dot::object_id> result);
+        void build_data_set_lookup_list(data_set_data data_set_data, dot::hash_set<dot::object_id> result);
 
         dot::string to_string() { return get_key(); }
 

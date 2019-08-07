@@ -26,8 +26,8 @@ limitations under the License.
 #include <dc/platform/data_source/mongo/QueryBuilder.hpp>
 #include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
 
-#include <dc/platform/dataset/DataSetKey.hpp>
-#include <dc/platform/dataset/DataSetData.hpp>
+#include <dc/platform/dataset/data_set_key.hpp>
+#include <dc/platform/dataset/data_set_data.hpp>
 
 #include <dc/platform/context/Context.hpp>
 #include <dc/test/platform/context/Context.hpp>
@@ -226,7 +226,7 @@ namespace dc
     }
 
     /// Minimal data in multiple datasets with overlapping parents.
-    void SaveMultiDataSetData(IUnitTestContext context)
+    void SaveMultidata_set_data(IUnitTestContext context)
     {
         // Create datasets
         dot::object_id dataSetA = context->CreateDataSet("A", context->DataSet);
@@ -380,7 +380,7 @@ namespace dc
 
         for (MongoTestData obj : query)
         {
-            dot::string dataSetID = context->DataSource->load_or_null<DataSetData>(obj->DataSet)->DataSetID;
+            dot::string dataSetID = context->DataSource->load_or_null<data_set_data>(obj->DataSet)->DataSetID;
             received << *dot::string::format("Key={0} DataSet={1} Version={2}", obj->get_key(), dataSetID, obj->Version) << std::endl;
         }
 
@@ -744,7 +744,7 @@ namespace dc
             received << "Query records without constraint" << std::endl;
             for (MongoTestData obj : query)
             {
-                dot::string dataSetID = context->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
+                dot::string dataSetID = context->LoadOrNull<data_set_data>(obj->DataSet)->DataSetID;
                 received << *dot::string::format("    Key={0} DataSet={1} Version={2}", obj->get_key(), dataSetID, obj->Version) << std::endl;
             }
         }
@@ -790,7 +790,7 @@ namespace dc
             received << "Query records with RevisedBeforeId constraint" << std::endl;
             for (MongoTestData obj : query)
             {
-                dot::string dataSetID = context->LoadOrNull<DataSetData>(obj->DataSet)->DataSetID;
+                dot::string dataSetID = context->LoadOrNull<data_set_data>(obj->DataSet)->DataSetID;
                 received << *dot::string::format("    Key={0} DataSet={1} Version={2}", obj->get_key(), dataSetID, obj->Version) << std::endl;
             }
         }

@@ -16,13 +16,13 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/dataset/DataSetKey.hpp>
+#include <dc/platform/dataset/data_set_key.hpp>
 #include <dc/platform/context/IContext.hpp>
 
 namespace dc
 {
-    DataSetKey DataSetKeyImpl::Common = []() {
-        DataSetKey res = new_DataSetKey();
+    data_set_key data_set_key_impl::Common = []() {
+        data_set_key res = new_data_set_key();
         res->DataSetID = "Common";
         return res;
     }();
