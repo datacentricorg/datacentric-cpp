@@ -36,19 +36,19 @@ public:                                                                 \
     operator int() const { return value_; }                             \
     self& operator=(int rhs) { value_ = rhs; return *this; }            \
     self& operator=(const self& other) { value_ = other.value_; return *this; } \
-    virtual dot::type_t type() { return typeof(); }                         \
-    static dot::type_t typeof()                                                \
+    virtual dot::type get_type() { return typeof(); }                         \
+    static dot::type typeof()                                                \
     {                                                                   \
-        static dot::type_t type = []()->dot::type_t                                   \
+        static dot::type result = []()->dot::type                                   \
         {                                                               \
-            dot::type_t type = dot::make_type_builder<self>(nspace, name)             \
+            dot::type t = dot::make_type_builder<self>(nspace, name)             \
                 ->is_enum()                                              \
                 ->with_constructor(&self::make_self, {})                  \
                 ->with_base<enum_base>()                                      \
                 ->build();                                              \
-            return type;                                                \
+            return t;                                                \
         }();                                                            \
-        return type;                                                    \
+        return result;                                                    \
     }                                                                   \
                                                                         \
 protected:                                                              \

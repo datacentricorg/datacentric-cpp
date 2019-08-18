@@ -39,8 +39,7 @@ namespace dot
                 return x.first;
         }
 
-        // returns int value_ converted to string
-        return std::to_string(value_);
+        throw exception("Unknown enum value in to_string().");
     }
 
     size_t enum_base::hash_code()
@@ -50,7 +49,7 @@ namespace dot
 
     bool enum_base::equals(object obj)
     {
-        if (obj->type()->equals(type()))
+        if (obj->get_type()->equals(get_type()))
         {
             enum_base* en = dynamic_cast<enum_base*>(obj.operator->());
             return en->value_ == value_;
@@ -58,7 +57,7 @@ namespace dot
         return false;
     }
 
-    object enum_base::parse(type_t enumType, string value)
+    object enum_base::parse(type enumType, string value)
     {
         object enum_obj = activator::create_instance(enumType);
         enum_base* en = dynamic_cast<enum_base*>(enum_obj.operator->());

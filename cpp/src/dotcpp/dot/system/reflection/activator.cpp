@@ -33,19 +33,19 @@ limitations under the License.
 
 namespace dot
 {
-    object activator::create_instance(type_t type)
+    object activator::create_instance(type t)
     {
-        return create_instance(type, nullptr);
+        return create_instance(t, nullptr);
     }
 
-    object activator::create_instance(type_t type, list<object> params)
+    object activator::create_instance(type t, list<object> params)
     {
-        list<constructor_info> ctors = type->get_constructors();
+        list<constructor_info> ctors = t->get_constructors();
 
         // If no constructors
         if (ctors.is_empty() || ctors->count() == 0)
         {
-            throw exception(string::format("type_t {0}.{1} does not have registered constructors", type->name_space, type->name));
+            throw exception(string::format("Type {0}::{1} does not have registered constructors", t->name_space, t->name));
         }
 
         // Search for best matched constructor
@@ -68,7 +68,7 @@ namespace dot
             // Compare all parameters types
             for (int i = 0; i < params_count; ++i)
             {
-                if ((string)ctor_params[i]->parameter_type->name != params[i]->type()->name)
+                if ((string)ctor_params[i]->parameter_type->name != params[i]->get_type()->name)
                 {
                     matches = false;
                     break;
@@ -94,11 +94,11 @@ namespace dot
 
     object activator::create_instance(string assembly_name, string type_name)
     {
-        return create_instance(type_impl::get_type(type_name), nullptr);
+        return create_instance(type_impl::get_type_of(type_name), nullptr);
     }
 
     object activator::create_instance(string assembly_name, string type_name, list<object> params)
     {
-        return create_instance(type_impl::get_type(type_name), params);
+        return create_instance(type_impl::get_type_of(type_name), params);
     }
 }

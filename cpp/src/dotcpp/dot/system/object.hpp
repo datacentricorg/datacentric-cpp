@@ -28,6 +28,7 @@ limitations under the License.
 #include <dot/system/object_impl.hpp>
 #include <dot/system/exception.hpp>
 #include <dot/system/string.hpp>
+#include <dot/system/enum_impl.hpp>
 
 namespace dot
 {
@@ -36,9 +37,10 @@ namespace dot
     class local_time;
     class local_date;
     class local_date_time;
+    template <class T> class enum_impl;
     template <class T> class struct_wrapper_impl;
     template <class T> using struct_wrapper = ptr<struct_wrapper_impl<T>>;
-    template <class T> type_t typeof();
+    template <class T> type typeof();
 
     namespace detail
     {
@@ -110,6 +112,10 @@ namespace dot
         /// Construct object from local_date_time by boxing.
         object(const local_date_time& value);
 
+        /// Construct object from enum by wrapping it in enum_impl(T).
+        template <class T>
+        object(T value, typename std::enable_if<std::is_enum<T>::value>::type* enableif = 0) : base(new enum_impl<T>(value)) {}
+
         /// Construct object from struct wrapper, boxing the value if necessary.
         template <typename T>
         object(struct_wrapper<T> value) : base(value) {}
@@ -117,6 +123,15 @@ namespace dot
         /// Construct object from tuple, boxing the value if necessary.
         template <typename ... T>
         object(const std::tuple<T...> & value) : object(new struct_wrapper_impl<std::tuple<T...>>(value)) {}
+
+    public: // METHODS
+
+        /// Convert object to enum. Error if object does is not a boxed T.
+        ///
+        /// This method does not have a counterpart in C#. It provides a more
+        /// convenient alternative to unboxing than using cast to enum_impl(T).
+        template <class T>
+        T to_enum(typename std::enable_if<std::is_enum<T>::value>::type* enableif = 0) const { return ptr<enum_impl<T>>(*this)->value(); }
 
     public: // OPERATORS
 
@@ -206,11 +221,17 @@ namespace dot
 
         /// Convert object to struct_wrapper by unboxing. Error if object does is not a boxed T.
         template <class T>
-        operator struct_wrapper<T>() const { return this->as<struct_wrapper<T>>(); }
+        operator struct_wrapper<T>() const { return this->as<struct_wrapper<T>>(); } // TODO - replace as by cast_to?
 
         /// Convert object to tuple by unboxing. Error if object does is not a boxed T.
         template <class ... T>
-        operator std::tuple<T...>() const { return *this->as<struct_wrapper<std::tuple<T...>>>(); }
+        operator std::tuple<T...>() const { return *this->as<struct_wrapper<std::tuple<T...>>>(); } // TODO - replace as by cast_to?
+
+        template <class T, class enabled = typename std::enable_if<std::is_enum<T>::value>::type* >
+        operator T() const { return ptr<enum_impl<T>>(*this)->value(); }
+
+        /// Convert object to string by unboxing. Error if object does is not a boxed string.
+        operator string() const;
 
         bool operator ==(object rhs) const { throw exception("Not implemented"); return false; }
 
@@ -242,12 +263,12 @@ namespace dot
         struct_wrapper_impl(const T& value) : T(value) {}
 
     public:
-        static type_t typeof()
+        static type typeof()
         {
             return ::dot::typeof<T>();
         }
 
-        virtual type_t type() override
+        type get_type() override
         {
             return typeof();
         }

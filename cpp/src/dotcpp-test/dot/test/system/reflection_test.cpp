@@ -53,12 +53,12 @@ namespace dot
             return 42 + param;
         }
 
-        virtual type_t type()
+        type get_type() override
         {
-            // Converts to type_t with thread safety guarantee as per C++ Standard
-            static type_t type = []()->type_t
+            // Create type object with thread safety guarantee as per C++ Standard
+            static type result = []()->type
             {
-                received << "Creating type_t (this should run only once)." << std::endl;
+                received << "Creating type object (this should run only once)." << std::endl;
 
                 return make_type_builder<reflection_base_sample_impl>("System.Test", "reflection_base_sample")
 
@@ -70,7 +70,7 @@ namespace dot
                     ->build();
             }();
 
-            return type;
+            return result;
         }
     };
 
@@ -97,7 +97,7 @@ namespace dot
 
         object x = obj->count();
 
-        type_t type = obj->type();
+        type result = obj->get_type();
         list<property_info> props = type->get_properties();
         property_info int_prop = props[0];
         REQUIRE(int_prop->Name == "IntFld");

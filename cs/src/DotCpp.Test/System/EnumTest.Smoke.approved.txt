@@ -1,0 +1,16 @@
+﻿Serialization
+    Serialized(Red)=Red
+    NullableSerialized(null).IsNull=False
+    NullableSerialized(null).IsEmpty=True
+    NullableSerialized(Red)=Red
+TryParse
+    Result=True Value=Red
+    Result=False Value=Empty
+Reflection
+    Name=ApplesSample
+    Namespace=DotCpp
+    FullName=DotCpp.ApplesSample
+    IsEnum=True
+Boxing
+    Type(Boxed)=DotCpp.ApplesSample
+    Boxed=Red Unboxed=Mandarin
