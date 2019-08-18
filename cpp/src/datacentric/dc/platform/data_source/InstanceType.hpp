@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/Enum.hpp>
+#include <dot/system/enum.hpp>
 
 namespace dc
 {

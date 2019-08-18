@@ -19,7 +19,7 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/system/nullable.hpp>
-#include <dot/system/collections/generic/Dictionary.hpp>
+#include <dot/system/collections/generic/dictionary.hpp>
 #include <dot/system/collections/generic/hash_set.hpp>
 #include <dot/system/collections/generic/list.hpp>
 #include <dc/types/record/record.hpp>

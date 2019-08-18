@@ -19,7 +19,7 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/type.hpp>
 #include <dot/system/string.hpp>
-#include <dot/system/collections/generic/Dictionary.hpp>
+#include <dot/system/collections/generic/dictionary.hpp>
 
 namespace dc
 {

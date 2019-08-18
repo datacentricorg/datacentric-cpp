@@ -22,7 +22,7 @@ limitations under the License.
 #include <dot/system/ptr.hpp>
 #include <dot/system/type.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <dot/system/collections/generic/Dictionary.hpp>
+#include <dot/system/collections/generic/dictionary.hpp>
 #include <dot/system/reflection/field_info.hpp>
 #include <stack>
 
