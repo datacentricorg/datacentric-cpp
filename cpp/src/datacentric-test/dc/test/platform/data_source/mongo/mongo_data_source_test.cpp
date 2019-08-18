@@ -31,7 +31,7 @@ limitations under the License.
 
 #include <dc/test/platform/context/Context.hpp>
 
-#include <dc/test/platform/data_source/mongo/MongoTestData.hpp>
+#include <dc/test/platform/data_source/mongo/mongo_test_data.hpp>
 #include <bsoncxx/json.hpp>
 
 namespace dc
@@ -292,7 +292,7 @@ namespace dc
     }
 
 
-    TEST_CASE("Smoke")
+    TEST_CASE("smoke")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
 
@@ -325,7 +325,7 @@ namespace dc
         Approvals::verify(toVerify);
     }
 
-    TEST_CASE("Query")
+    TEST_CASE("query")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
 
@@ -392,7 +392,7 @@ namespace dc
         Approvals::verify(toVerify);
     }
 
-    TEST_CASE("Delete")
+    TEST_CASE("delete")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
         unit_test_context_base context = new unit_test_context_impl(test, "Delete", ".");
@@ -466,7 +466,7 @@ namespace dc
     /// skip the object of the wrong type even if there is an
     /// earlier version of the object with the same key that
     /// has a compatible type.
-    TEST_CASE("TypeChange")
+    TEST_CASE("type_change")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
         unit_test_context_base context = new unit_test_context_impl(test, "TypeChange", ".");
@@ -535,7 +535,7 @@ namespace dc
         Approvals::verify(toVerify);
     }
 
-    TEST_CASE("ElementTypesQuery")
+    TEST_CASE("element_types_query")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
         unit_test_context_base context = new unit_test_context_impl(test, "ElementTypesQuery", ".");
@@ -576,7 +576,7 @@ namespace dc
         Approvals::verify(toVerify);
     }
 
-    TEST_CASE("PolymorphicQuery")
+    TEST_CASE("polymorphic_query")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
         unit_test_context_base context = new unit_test_context_impl(test, "PolymorphicQuery", ".");
@@ -656,7 +656,7 @@ namespace dc
         Approvals::verify(toVerify);
     }
 
-    TEST_CASE("Sort")
+    TEST_CASE("sort")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
         unit_test_context_base context = new unit_test_context_impl(test, "Sort", ".");
@@ -687,7 +687,7 @@ namespace dc
         Approvals::verify(toVerify);
     }
 
-    TEST_CASE("RevisionTime")
+    TEST_CASE("revision_time")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
         unit_test_context_base context = new unit_test_context_impl(test, "RevisionTime", ".");
