@@ -14,18 +14,21 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2 -fpermissive")
 add_definitions(-DBOOST_ALL_NO_LIB)
 
 
-set(GLOBAL_DEPENDENCIES_PATH "${PROJECT_SOURCE_DIR}/../third_party")
-set(DOTCPP_PATH "${PROJECT_SOURCE_DIR}/dotcpp")
-set(DOTCPP_TEST_PATH "${PROJECT_SOURCE_DIR}/dotcpp-test")
-set(DATACENTRIC_PATH "${PROJECT_SOURCE_DIR}/datacentric")
-set(DATACENTRIC_CLI_PATH "${PROJECT_SOURCE_DIR}/datacentric-cli")
-set(DATACENTRIC_TEST_PATH "${PROJECT_SOURCE_DIR}/datacentric-test")
+set(GLOBAL_DEPENDENCIES_PATH "${PROJECT_SOURCE_DIR}/third_party")
+set(DOTCPP_PATH "${PROJECT_SOURCE_DIR}/src/dotcpp")
+set(DOTCPP_MONGO_PATH "${PROJECT_SOURCE_DIR}/src/dotcpp-mongo")
+set(DOTCPP_TEST_PATH "${PROJECT_SOURCE_DIR}/src/dotcpp-test")
+set(DATACENTRIC_PATH "${PROJECT_SOURCE_DIR}/src/datacentric")
+set(DATACENTRIC_CLI_PATH "${PROJECT_SOURCE_DIR}/src/datacentric-cli")
+set(DATACENTRIC_TEST_PATH "${PROJECT_SOURCE_DIR}/src/datacentric-test")
 
 
 include_directories(${GLOBAL_DEPENDENCIES_PATH})
 include_directories(${DOTCPP_PATH})
+include_directories(${DOTCPP_MONGO_PATH})
 include_directories(${DOTCPP_TEST_PATH})
 include_directories(${DATACENTRIC_PATH})
+include_directories(${DATACENTRIC_CLI_PATH})
 include_directories(${DATACENTRIC_TEST_PATH})
 
 #directory for executables
@@ -54,12 +57,15 @@ set(ColourReset "${Esc}[m")
 message(STATUS "${Red}Build mode: ${CMAKE_BUILD_TYPE} ${ColourReset}")
 
 # Dependencies
-#add_subdirectory(${GLOBAL_DEPENDENCIES_PATH}/boost)
+add_subdirectory(${GLOBAL_DEPENDENCIES_PATH}/boost)
 
-#add_subdirectory(${GLOBAL_DEPENDENCIES_PATH}/mongo)
+add_subdirectory(${GLOBAL_DEPENDENCIES_PATH}/mongo)
 
 # DotCpp Api project
 add_subdirectory(${DOTCPP_PATH}/dot)
+
+# DotCpp Api project
+add_subdirectory(${DOTCPP_MONGO_PATH}/dot/mongo)
 
 # DotCpp Tests project
 add_subdirectory(${DOTCPP_TEST_PATH}/dot/test)
