@@ -143,9 +143,9 @@ namespace dc
     {
         int prefixSize = 0; //! TODO change to ClassInfo.MappedName
         dot::string collectionName;
-        if (typeName->ends_with("Data"))
+        if (typeName->ends_with("Data") || typeName->ends_with("data"))
             collectionName = typeName->substring(prefixSize, typeName->length() - std::string("Data").length() - prefixSize);
-        else if (typeName->ends_with("Key"))
+        else if (typeName->ends_with("Key") || typeName->ends_with("key"))
             collectionName = typeName->substring(prefixSize, typeName->length() - std::string("Key").length() - prefixSize);
         else throw dot::exception("Unknown type");
 
