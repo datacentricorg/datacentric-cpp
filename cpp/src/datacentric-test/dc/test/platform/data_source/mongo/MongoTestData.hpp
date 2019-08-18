@@ -24,25 +24,126 @@ limitations under the License.
 namespace dc
 {
     /// Enum type.
-    class MongoTestEnum : public dot::enum_base
+    //class MongoTestEnum : public dot::enum_base
+    //{
+    //    typedef MongoTestEnum self;
+    //
+    //public:
+    //
+    //    enum enum_type
+    //    {
+    //        empty,
+    //        EnumValue1,
+    //        EnumValue2
+    //    };
+    //
+    //    DOT_ENUM_BEGIN("dc", "MongoTestEnum")
+    //        DOT_ENUM_VALUE(empty)
+    //        DOT_ENUM_VALUE(EnumValue1)
+    //        DOT_ENUM_VALUE(EnumValue2)
+    //    DOT_ENUM_END()
+    //};
+
+    /// Enum sample.
+    enum class MongoTestEnum
     {
-        typedef MongoTestEnum self;
+        /// Empty value.
+        empty,
 
-    public:
+        /// First value.
+        EnumValue1,
 
-        enum enum_type
-        {
-            empty,
-            EnumValue1,
-            EnumValue2
-        };
-
-        DOT_ENUM_BEGIN("dc", "MongoTestEnum")
-            DOT_ENUM_VALUE(empty)
-            DOT_ENUM_VALUE(EnumValue1)
-            DOT_ENUM_VALUE(EnumValue2)
-        DOT_ENUM_END()
+        /// Second value.
+        EnumValue2
     };
+}
+namespace dot
+{
+    /// Helper class to implement to_string(value) via template specialization
+    template <>
+    struct to_string_impl<dc::MongoTestEnum>
+    {
+        static dot::dictionary<dot::string, int> get_enum_map(int size)
+        {
+            static dot::dictionary<dot::string, int> func = [size]()
+            {
+                auto result = dot::make_dictionary<dot::string, int>();
+                for (int i = 0; i < size; i++)
+                {
+                    dc::MongoTestEnum enum_value = (dc::MongoTestEnum)i;
+                    string string_value = to_string(enum_value);
+                    result[string_value] = i;
+                }
+                return result;
+            }();
+            return func;
+        }
+
+        /// Convert value to string; for empty or null values, return string::empty.
+        static string to_string(const dc::MongoTestEnum& value)
+        {
+            switch (value)
+            {
+            case dc::MongoTestEnum::empty: return "empty";
+            case dc::MongoTestEnum::EnumValue1: return "EnumValue1";
+            case dc::MongoTestEnum::EnumValue2: return "EnumValue2";
+            default: throw dot::exception("Unknown enum value in to_string(...).");
+            }
+        }
+
+        /// Convert value to string; for empty or null values, return string::empty.
+        static bool try_parse(string value, dc::MongoTestEnum& result)
+        {
+            dot::dictionary<dot::string, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
+            int int_result;
+            if (dict->try_get_value(value, int_result))
+            {
+                result = (dc::MongoTestEnum)int_result;
+                return true;
+            }
+            else
+            {
+                result = (dc::MongoTestEnum)0;
+                return false;
+            }
+        }
+
+        /// Convert string to enum
+        static dc::MongoTestEnum parse(string value)
+        {
+            dot::dictionary<dot::string, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
+            int int_result;
+            if (dict->try_get_value(value, int_result))
+            {
+                return (dc::MongoTestEnum)int_result;
+            }
+            else
+            {
+                throw dot::exception("Couldn't parse string to enum ");
+            }
+        }
+    };
+
+    template <>
+    struct type_traits<dc::MongoTestEnum>
+    {
+        static type typeof()
+        {
+            //! TODO resolve recursive typeof<enum>
+            if (type_impl::get_type_map().find("dc.MongoTestEnum") != type_impl::get_type_map().end())
+                return type_impl::get_type_map()["dc.MongoTestEnum"];
+
+            static type result = make_type_builder<dc::MongoTestEnum>("dc", "MongoTestEnum")
+                ->is_enum()
+                ->with_method("parse", &to_string_impl<dc::MongoTestEnum>::parse, { "value" })
+                ->build();
+            return result;
+        }
+    };
+}
+
+namespace dc
+{
 
     class MongoTestKeyImpl; using MongoTestKey = dot::ptr<MongoTestKeyImpl>;
     class MongoTestDataImpl; using MongoTestData = dot::ptr<MongoTestDataImpl>;

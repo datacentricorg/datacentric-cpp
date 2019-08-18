@@ -77,6 +77,10 @@ namespace dc
 
         dot::object_id dataSet = context->get_data_set(dataSetID, context->get_common());
         context->save(rec, dataSet);
+
+        MongoTestData rec2 = context->load_or_null<MongoTestData>(rec->ID);
+        REQUIRE(rec->EnumValue == rec2->EnumValue);
+
         return rec->ID;
     }
 
