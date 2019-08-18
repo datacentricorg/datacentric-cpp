@@ -186,7 +186,7 @@ namespace dc
         dot::nullable<dot::local_time> local_time_element;
         dot::nullable<dot::local_minute> local_minute_element;
         dot::nullable<dot::local_date_time> local_date_time_element;
-        MongoTestEnum EnumValue;
+        MongoTestEnum EnumValue = MongoTestEnum::empty;
         dot::nullable<int> Version;
 
         DOT_TYPE_BEGIN("dc", "MongoTestData")
