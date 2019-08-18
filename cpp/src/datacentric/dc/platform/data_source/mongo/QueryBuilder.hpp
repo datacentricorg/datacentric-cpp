@@ -420,7 +420,7 @@ namespace dc
     template <class Prop, class Class>
     prop_wrapper<Class, Prop> make_prop(Prop Class::*prop_)
     {
-        dot::type_t type = dot::typeof<dot::ptr<Class>>();
+        dot::type type = dot::typeof<dot::ptr<Class>>();
         dot::list<dot::field_info> props = type->get_fields();
 
         for (dot::field_info const& prop : props)

@@ -50,7 +50,7 @@ namespace dc
             }
 
             // Serialize based on type of the item
-            dot::type_t itemType = item->type();
+            dot::type itemType = item->get_type();
 
             if (itemType->equals(dot::typeof<dot::string>())
                 || itemType->equals(dot::typeof<double>())
@@ -111,7 +111,7 @@ namespace dc
         writer->WriteStartDict();
 
         // Iterate over the list of elements
-        dot::list<dot::field_info> innerElementInfoList = type()->get_fields();
+        dot::list<dot::field_info> innerElementInfoList = get_type()->get_fields();
         for (dot::field_info innerElementInfo : innerElementInfoList)
         {
             // Get element name and value
@@ -123,7 +123,7 @@ namespace dc
                 continue;
             }
 
-            dot::type_t elementType = innerElementValue->type();
+            dot::type elementType = innerElementValue->get_type();
 
             if (   elementType->equals(dot::typeof<dot::string>())
                 || elementType->equals(dot::typeof<double>())
@@ -148,7 +148,7 @@ namespace dc
             else
             if (innerElementValue.is<data>())
             {
-                if (innerElementValue->type()->name->ends_with("Key"))
+                if (innerElementValue->get_type()->name->ends_with("Key"))
                 {
                     // Embedded as string key
                     writer->WriteValueElement(innerElementName, innerElementValue->to_string());

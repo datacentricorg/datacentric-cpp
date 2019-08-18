@@ -46,14 +46,14 @@ namespace dc
             throw dot::exception("A call to WriteStartDocument(...) must be the first call to the tree writer.");
         }
 
-        dot::string rootName = currentDict_->type()->name;
+        dot::string rootName = currentDict_->get_type()->name;
         // Check that the name matches
         if (rootElementName != rootName) throw dot::exception(
             dot::string::format("Attempting to deserialize data for type {0} into type {1}.", rootElementName, rootName));
 
         rootElementName_ = rootElementName;
         currentElementName_ = rootElementName;
-        auto currentDictInfoList = currentDict_->type()->get_fields();
+        auto currentDictInfoList = currentDict_->get_type()->get_fields();
         currentDictElements_ = dot::make_dictionary<dot::string, dot::field_info>();
         for(auto elementInfo : currentDictInfoList) currentDictElements_->add(elementInfo->name, elementInfo);
         currentArray_ = nullptr;
@@ -123,7 +123,7 @@ namespace dc
             "A call to WriteStartDict() must follow WriteStartElement(...) or WriteStartArrayItem().");
 
         // Set dictionary info
-        dot::type_t createdDictType = nullptr;
+        dot::type createdDictType = nullptr;
         if (currentArray_ != nullptr) createdDictType = currentArrayItemType_;
         else if (currentDict_ != nullptr) createdDictType = currentElementInfo_->field_type;
         else throw dot::exception("Value can only be added to a dictionary or array.");
@@ -187,11 +187,11 @@ namespace dc
             currentArray_ = (dot::list_base) createdArrayObj;
 
             // Get array item type from array type using reflection
-            dot::type_t listType = currentElementInfo_->field_type;      // TODO fix
+            dot::type listType = currentElementInfo_->field_type;      // TODO fix
 //            if (!listType->IsGenericType) throw dot::exception(dot::string::format(
 //                "Type {0} cannot be serialized because it implements only IList but not IList<T>.", listType));
 //            list<Type> genericParameterTypes = listType->GenericTypeArguments;
-            dot::list<dot::type_t> genericParameterTypes = listType->get_generic_arguments();
+            dot::list<dot::type> genericParameterTypes = listType->get_generic_arguments();
             if (genericParameterTypes->count() != 1) throw dot::exception(
                 dot::string::format("Generic parameter type list {0} has more than ", genericParameterTypes) +
                 "one element creating an ambiguity for deserialization code.");
@@ -291,7 +291,7 @@ namespace dc
             "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
 
         // Check that we are either inside dictionary or array
-        dot::type_t elementType = nullptr;
+        dot::type elementType = nullptr;
         if (currentArray_ != nullptr) elementType = currentArrayItemType_;
         else if (currentDict_ != nullptr) elementType = currentElementInfo_->field_type;
         else throw dot::exception(
@@ -307,7 +307,7 @@ namespace dc
         }
 
         // Write based on element type
-        dot::type_t valueType = value->type();
+        dot::type valueType = value->get_type();
         if (elementType->equals(dot::typeof<dot::string>()) ||
             elementType->equals(dot::typeof<double>()) || elementType->equals(dot::typeof<dot::nullable<double>>()) ||
             elementType->equals(dot::typeof<bool>()) || elementType->equals(dot::typeof<dot::nullable<bool>>()) ||
@@ -495,7 +495,7 @@ namespace dc
             else
             {
                 // Argument type is unsupported, error message
-                throw dot::exception(dot::string::format("Element type {0} is not supported for serialization.", value->type()));
+                throw dot::exception(dot::string::format("Element type {0} is not supported for serialization.", value->get_type()));
             }
         }
     }
@@ -504,7 +504,7 @@ namespace dc
     {
         if (currentArray_ != nullptr) return currentArray_->to_string();
         else if (currentDict_ != nullptr) return currentDict_->to_string();
-        else return type()->name;
+        else return get_type()->name;
     }
 
     void DataWriterImpl::PushState()

@@ -35,7 +35,7 @@ namespace dc
             return;
         }
 
-        dot::type_t valueType = value->type();
+        dot::type valueType = value->get_type();
 
         if (valueType->equals(dot::typeof<dot::string>())
             || valueType->equals(dot::typeof<double>())
@@ -94,8 +94,8 @@ namespace dc
         if (value_ == nullptr)
             return other.value_ == nullptr;
 
-        dot::type_t valueType = value_->type();
-        dot::type_t otherValueType = other.value_->type();
+        dot::type valueType = value_->get_type();
+        dot::type otherValueType = other.value_->get_type();
 
         // The purpose of this check is to ensure that variant holds only one of the supported types
         if (valueType->equals(dot::typeof<dot::string>()))
@@ -198,6 +198,6 @@ namespace dc
         return dot::string::format(
             "Variant cannot hold {0} type. Available types are "
             "string, double, bool, int, long, local_date, local_time, local_minute, local_date_time, or Enum.",
-            value->type());
+            value->get_type());
     }
 }

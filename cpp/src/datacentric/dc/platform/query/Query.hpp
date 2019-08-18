@@ -34,7 +34,7 @@ namespace dc
     /// parts of a query.
     class DC_CLASS query_impl : public dot::object_impl
     {
-        friend query make_query(data_source_data data_source, dot::object_id data_set, dot::type_t type);
+        friend query make_query(data_source_data data_source, dot::object_id data_set, dot::type type);
         friend mongo_data_source_data_impl;
 
     public:
@@ -47,7 +47,7 @@ namespace dc
 
         virtual object_cursor_wrapper get_cursor();
 
-        virtual object_cursor_wrapper select(dot::list<dot::field_info> props, dot::type_t element_type);
+        virtual object_cursor_wrapper select(dot::list<dot::field_info> props, dot::type element_type);
 
         template <class class_, class prop>
         query sort_by(prop_wrapper<class_, prop> key_selector)
@@ -79,12 +79,12 @@ namespace dc
         dot::object_id data_set_;
         bsoncxx::builder::basic::document where_;
         bsoncxx::builder::basic::document sort_;
-        dot::type_t type_;
-        dot::type_t element_type_;
+        dot::type type_;
+        dot::type element_type_;
         dot::list<dot::field_info> select_;
 
 
-        query_impl(data_source_data data_source, dot::object_id data_set, dot::type_t type)
+        query_impl(data_source_data data_source, dot::object_id data_set, dot::type type)
             : data_source_(data_source)
             , data_set_(data_set)
             , type_(type)
@@ -94,7 +94,7 @@ namespace dc
     };
 
 
-    inline query make_query(data_source_data data_source, dot::object_id data_set, dot::type_t type)
+    inline query make_query(data_source_data data_source, dot::object_id data_set, dot::type type)
     {
         return new query_impl(data_source, data_set, type);
     }

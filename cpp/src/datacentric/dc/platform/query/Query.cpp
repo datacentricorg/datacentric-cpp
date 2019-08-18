@@ -44,7 +44,7 @@ namespace dc
         return this;
     }
 
-    object_cursor_wrapper query_impl::select(dot::list<dot::field_info> props, dot::type_t element_type)
+    object_cursor_wrapper query_impl::select(dot::list<dot::field_info> props, dot::type element_type)
     {
         this->element_type_ = element_type;
         this->select_ = props;

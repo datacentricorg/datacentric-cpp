@@ -40,7 +40,7 @@ namespace dc
         data Deserialize(const rapidjson::Document& doc);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        dot::object DeserializeTuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type_t tupleType);
+        dot::object DeserializeTuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tupleType);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
         void DeserializeDocument(rapidjson::Document::ConstObject doc, ITreeWriter writer);

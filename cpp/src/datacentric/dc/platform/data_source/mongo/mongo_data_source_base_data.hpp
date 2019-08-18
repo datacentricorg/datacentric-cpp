@@ -97,7 +97,7 @@ namespace dc
     protected: // PROTECTED
 
         /// Get collection with name based on the type.
-        mongocxx::collection GetCollection(dot::type_t dataType);
+        mongocxx::collection GetCollection(dot::type dataType);
 
         /// Get collection with name based on the type.
         mongocxx::collection GetCollection(dot::string typeName);

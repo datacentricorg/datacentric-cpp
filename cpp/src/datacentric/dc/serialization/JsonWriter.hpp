@@ -99,7 +99,7 @@ namespace dc
         void WriteEndValue() override;
 
         /// Write atomic value. Value type
-        /// will be inferred from object.type().
+        /// will be inferred from object.get_type().
         void WriteValue(dot::object value) override;
 
         /// Convert to JSON string without checking that JSON document is complete.

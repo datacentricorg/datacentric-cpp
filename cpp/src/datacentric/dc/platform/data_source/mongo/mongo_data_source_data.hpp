@@ -36,7 +36,7 @@ namespace dc
         /// Return null if there is no record for the specified dot::object_id;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        virtual record_base load_or_null(dot::object_id id, dot::type_t dataType) override;
+        virtual record_base load_or_null(dot::object_id id, dot::type dataType) override;
 
         /// This method does not use cached value inside the key
         /// and always retrieves a new record from storage. To get
@@ -83,7 +83,7 @@ namespace dc
         /// The root dataset has empty dot::object_id value that is less
         /// than any other dot::object_id value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
-        virtual query get_query(dot::object_id dataSet, dot::type_t type) override;
+        virtual query get_query(dot::object_id dataSet, dot::type type) override;
 
         /// Load enumeration of record by query
         /// The lookup occurs first in the reverse

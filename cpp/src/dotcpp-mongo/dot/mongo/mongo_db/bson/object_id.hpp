@@ -107,9 +107,9 @@ namespace dot
 namespace dot
 {
     template <>
-    inline type_t typeof<dot::object_id>()
+    inline type typeof<dot::object_id>()
     {
-        static dot::type_t type_ = dot::make_type_builder<dot::object_id>("dot", "object_id")->build();
+        static dot::type type_ = dot::make_type_builder<dot::object_id>("dot", "object_id")->build();
         return type_;
     }
 }

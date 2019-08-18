@@ -62,7 +62,7 @@ namespace dc
         /// Load record by its dot::object_id and Type.
         ///
         /// Return null if not found.
-        record_base load_or_null(dot::object_id id, dot::type_t dataType);
+        record_base load_or_null(dot::object_id id, dot::type dataType);
 
         /// This method does not use cached value inside the key
         /// and always retrieves a new record from storage. To get

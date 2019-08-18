@@ -96,7 +96,7 @@ namespace dc
         void WriteEndValue();
 
         /// Write atomic value. Value type
-        /// will be inferred from object.type().
+        /// will be inferred from object.get_type().
         void WriteValue(dot::object value);
 
         /// Convert to BSON string without checking that BSON document is complete.

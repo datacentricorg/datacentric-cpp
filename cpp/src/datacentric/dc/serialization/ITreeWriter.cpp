@@ -66,7 +66,7 @@ namespace dc
     }
 
     /// Write an element with no inner nodes.
-    /// Element type is inferred by calling obj.type().
+    /// Element type is inferred by calling obj.get_type().
     void ITreeWriterImpl::WriteValueElement(dot::string elementName, dot::object value)
     {
         // Do not serialize null or empty value
@@ -81,7 +81,7 @@ namespace dc
     }
 
     /// Write an array item with no inner nodes.
-    /// Element type is inferred by calling obj.type().
+    /// Element type is inferred by calling obj.get_type().
     void ITreeWriterImpl::WriteValueArrayItem(dot::object value)
     {
         // Writes null or empty value as BSON null

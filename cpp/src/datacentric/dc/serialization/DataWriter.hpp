@@ -46,7 +46,7 @@ namespace dc
             dot::dictionary<dot::string, dot::field_info> CurrentDictElements;
             dot::field_info CurrentElementInfo;
             dot::list_base CurrentArray;
-            dot::type_t CurrentArrayItemType;
+            dot::type CurrentArrayItemType;
         };
 
     private: // FIELDS
@@ -59,7 +59,7 @@ namespace dc
         dot::dictionary<dot::string, dot::field_info> currentDictElements_;
         dot::field_info currentElementInfo_;
         dot::list_base currentArray_;
-        dot::type_t currentArrayItemType_;
+        dot::type currentArrayItemType_;
 
     private: // CONSTRUCTORS
 
@@ -120,7 +120,7 @@ namespace dc
         void WriteEndValue() override;
 
         /// Write atomic value. Value type
-        /// will be inferred from object.type().
+        /// will be inferred from object.get_type().
         void WriteValue(dot::object value) override;
 
         /// Convert to BSON string without checking that BSON document is complete.

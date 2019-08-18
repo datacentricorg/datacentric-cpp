@@ -28,7 +28,7 @@ namespace dc
         DataSource = value;
     }
 
-    record_base context_base_impl::load_or_null(dot::object_id id, dot::type_t dataType)
+    record_base context_base_impl::load_or_null(dot::object_id id, dot::type dataType)
     {
         return DataSource->load_or_null(id, dataType);
     }

@@ -28,7 +28,7 @@ namespace dc
 
     ClassInfo ClassInfoImpl::GetOrCreate(dot::object value)
     {
-        return GetOrCreate(value->type());
+        return GetOrCreate(value->get_type());
     }
 
     ClassInfo ClassInfoImpl::GetOrCreate(Type_ type)
@@ -113,7 +113,7 @@ namespace dc
         MappedFullName = MappedNamespace + dot::string(".") + MappedClassName;
     }
 
-    dot::dictionary<dot::type_t, ClassInfo>& ClassInfoImpl::GetTypeDict()
+    dot::dictionary<dot::type, ClassInfo>& ClassInfoImpl::GetTypeDict()
     {
         static dot::dictionary<Type_, ClassInfo> dict_ = dot::make_dictionary<Type_, ClassInfo>();
         return dict_;

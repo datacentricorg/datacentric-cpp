@@ -80,7 +80,7 @@ namespace dc
         /// Load record by its dot::object_id and Type.
         ///
         /// Return null if not found.
-        virtual record_base load_or_null(dot::object_id id, dot::type_t data_type) = 0;
+        virtual record_base load_or_null(dot::object_id id, dot::type data_type) = 0;
 
         /// This method does not use cached value inside the key
         /// and always retrieves a new record from storage. To get
@@ -127,7 +127,7 @@ namespace dc
         /// The root dataset has empty dot::object_id value that is less
         /// than any other dot::object_id value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
-        virtual query get_query(dot::object_id data_set, dot::type_t type) = 0;
+        virtual query get_query(dot::object_id data_set, dot::type type) = 0;
 
         template <class TRecord>
         query get_query(dot::object_id data_set)

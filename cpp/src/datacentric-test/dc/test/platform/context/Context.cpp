@@ -40,7 +40,7 @@ namespace dc
         //
         // This does not create the database until the data source
         // is actually used to access data.
-        dot::string mappedClassName = classInstance->type()->name;
+        dot::string mappedClassName = classInstance->get_type()->name;
 
         DataSource = new mongo_data_source_data_impl();
         //DataSource->DbServer = new DbServerKeyImpl;

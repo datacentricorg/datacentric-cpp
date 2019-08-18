@@ -29,7 +29,7 @@ namespace dc
     class DC_CLASS ClassInfoImpl : public virtual dot::object_impl
     {
         typedef ClassInfoImpl self;
-        typedef dot::type_t Type_;
+        typedef dot::type Type_;
 
     public: // PROPERTIES
 

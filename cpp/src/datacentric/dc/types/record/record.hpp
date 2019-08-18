@@ -37,7 +37,7 @@ namespace dc
         dot::string get_key() override
         {
             dot::list<dot::field_info> props =  dot::typeof<dot::ptr<TKey>>()->get_fields();
-            dot::type_t type_ = type();
+            dot::type type_ = get_type();
 
             std::stringstream ss;
 
@@ -83,7 +83,7 @@ namespace dc
         /// created in-memory without any need to save them to storage.
         dot::ptr<TKey> to_key()
         {
-            dot::type_t key_type = dot::typeof<dot::ptr<TKey>>();
+            dot::type key_type = dot::typeof<dot::ptr<TKey>>();
             dot::ptr<TKey> result = (dot::ptr<TKey>)dot::activator::create_instance(key_type);
 
             // The cached value will be used only for lookup in the dataset

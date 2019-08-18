@@ -255,7 +255,7 @@ namespace dc
         }
 
         // Serialize based on value type
-        dot::type_t valueType = value->type();
+        dot::type valueType = value->get_type();
 
         if (valueType->equals(dot::typeof<dot::string>()))
             bsonWriter_.append(*(dot::string)value);

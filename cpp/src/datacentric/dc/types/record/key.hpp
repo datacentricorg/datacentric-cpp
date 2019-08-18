@@ -188,7 +188,7 @@ namespace dc
                     if (result != nullptr && getValue() != result->get_key())
                         throw dot::exception(dot::string::format(
                             "Delete marker with Type={0} stored "
-                            "for Key={1} has a non-matching Key={2}.", result->type()->name, getValue(), result->get_key()));
+                            "for Key={1} has a non-matching Key={2}.", result->get_type()->name, getValue(), result->get_key()));
 
                     // Record not found or is a delete marker,
                     // cache an empty record and return null
@@ -201,7 +201,7 @@ namespace dc
                     if (getValue() != result->get_key())
                         throw dot::exception(dot::string::format(
                             "Record with Type={0} stored "
-                            "for Key={1} has a non-matching Key={2}.", result->type()->name, getValue(), result->get_key()));
+                            "for Key={1} has a non-matching Key={2}.", result->get_type()->name, getValue(), result->get_key()));
 
                     // Cache the record; the ctor of CachedRecord
                     // will cache null if the record is a delete marker
@@ -322,7 +322,7 @@ namespace dc
                 // Check that names match
                 if (recordElementInfoIterator == recordElementInfoArray->end()) throw dot::exception(dot::string::format(
                     "Element {0} of key type {1} "
-                    "is not found in the root data type {2}.", keyElementInfo->name, dot::typeof<dot::ptr<TKey>>()->name, type()->name
+                    "is not found in the root data type {2}.", keyElementInfo->name, dot::typeof<dot::ptr<TKey>>()->name, get_type()->name
                 ));
 
                 dot::field_info recordElementInfo = *recordElementInfoIterator;

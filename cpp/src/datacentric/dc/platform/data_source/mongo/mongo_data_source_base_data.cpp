@@ -126,12 +126,12 @@ namespace dc
         }
     }
 
-    mongocxx::collection mongo_data_source_base_data_impl::GetCollection(dot::type_t dataType)
+    mongocxx::collection mongo_data_source_base_data_impl::GetCollection(dot::type dataType)
     {
-        dot::type_t curr = dataType;
+        dot::type curr = dataType;
         while (curr->name != "Record" && curr->name != "Key")
         {
-            curr = curr->base_type();
+            curr = curr->get_base_type();
             if (curr.is_empty())
                 throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", dataType->name));
         }

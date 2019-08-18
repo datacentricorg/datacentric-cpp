@@ -30,7 +30,7 @@ limitations under the License.
 
 namespace dc
 {
-    record_base mongo_data_source_data_impl::load_or_null(dot::object_id id, dot::type_t dataType)
+    record_base mongo_data_source_data_impl::load_or_null(dot::object_id id, dot::type dataType)
     {
         auto revisionTimeConstraint = get_revision_time_constraint();
         if (revisionTimeConstraint != nullptr)
@@ -91,7 +91,7 @@ namespace dc
 
         query.limit(1); // Only the first document is needed
 
-        mongocxx::cursor res = GetCollection(key->type()).aggregate(query);
+        mongocxx::cursor res = GetCollection(key->get_type()).aggregate(query);
 
         std::string s = bsoncxx::to_json(query.view());
 
@@ -113,7 +113,7 @@ namespace dc
     {
         check_not_read_only();
 
-        auto collection = GetCollection(record->type());
+        auto collection = GetCollection(record->get_type());
 
         // This method guarantees that dot::object_ids will be in strictly increasing
         // order for this instance of the data source class always, and across
@@ -143,14 +143,14 @@ namespace dc
         //collection.insert_one(writer->view());
 
         bsoncxx::builder::basic::document doc{}; //!! Temporary fix
-        doc.append(bsoncxx::builder::basic::kvp("_t", * record->type()->name) );
+        doc.append(bsoncxx::builder::basic::kvp("_t", * record->get_type()->name) );
         doc.append(bsoncxx::builder::basic::kvp("_key", * record->get_key()));
         doc.append(bsoncxx::builder::concatenate(writer->view()));
 
         collection.insert_one(doc.view());
     }
 
-    query mongo_data_source_data_impl::get_query(dot::object_id dataSet, dot::type_t type)
+    query mongo_data_source_data_impl::get_query(dot::object_id dataSet, dot::type type)
     {
         return make_query(this, dataSet, type);
     }
@@ -200,10 +200,10 @@ namespace dc
         typeList.append(*(dot::string) query->type_->name);
 
         // append derived types
-        dot::list<dot::type_t> derivedTypes = dot::type_impl::get_derived_types(query->type_);
+        dot::list<dot::type> derivedTypes = dot::type_impl::get_derived_types(query->type_);
         if (derivedTypes != nullptr)
         {
-            for (dot::type_t derType : derivedTypes)
+            for (dot::type derType : derivedTypes)
                 typeList.append(*(dot::string) derType->name);
         }
 
@@ -266,7 +266,7 @@ namespace dc
         record->get_key() = key->getValue();
 
         // Get collection
-        auto collection = GetCollection(key->type());
+        auto collection = GetCollection(key->get_type());
 
         // This method guarantees that dot::object_ids will be in strictly increasing
         // order for this instance of the data source class always, and across
@@ -288,7 +288,7 @@ namespace dc
         //collection.insert_one(writer->view());
 
         bsoncxx::builder::basic::document doc{}; //!! Temporary fix
-        doc.append(bsoncxx::builder::basic::kvp("_t", *record->type()->name));
+        doc.append(bsoncxx::builder::basic::kvp("_t", *record->get_type()->name));
         doc.append(bsoncxx::builder::basic::kvp("_key", *key->getValue()));
         doc.append(bsoncxx::builder::concatenate(writer->view()));
 
