@@ -24,7 +24,7 @@ namespace dc
 {
     MongoDefaultServerDataImpl::MongoDefaultServerDataImpl()
     {
-        db_server_id = db_server_key_impl::default->db_server_id;
+        db_server_id = db_server_key_impl::default_key->db_server_id;
     }
 
     dot::string MongoDefaultServerDataImpl::GetMongoServerUri()
