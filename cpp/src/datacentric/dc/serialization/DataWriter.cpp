@@ -460,8 +460,8 @@ namespace dc
                     dot::string::format("into enum {0}; type should be string.", elementType->name));
 
             // Deserialize enum as string
-            dot::string enumString = (dot::string) value;
-            dot::object enumValue = dot::enum_base::parse(elementType, enumString);
+            dot::object enumValue = elementType->get_method("parse")->invoke(nullptr, dot::make_list<dot::object>({ value }));
+
 
             // Add to array or dictionary, depending on what we are inside of
             if (currentArray_ != nullptr) currentArray_->add_object(enumValue);
