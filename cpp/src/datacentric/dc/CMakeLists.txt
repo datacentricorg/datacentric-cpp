@@ -2,11 +2,11 @@ cmake_minimum_required (VERSION 3.7.2)
 
 set(CMAKE_CXX_FLAGS "-fPIC")
 
-file(GLOB_RECURSE runtime_api_files "*.cpp" "*.hpp")
+file(GLOB_RECURSE datacentric_api_files "*.cpp" "*.hpp")
 
-add_library(runtime_api ${runtime_api_files})
+add_library(datacentric_api ${datacentric_api_files})
 
 #copy executable to bin directory
-add_custom_command(TARGET runtime_api 
+add_custom_command(TARGET datacentric_api
                    POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:runtime_api> "${PROJECT_SOURCE_DIR}/${BIN_FOLDER}")
+                   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:datacentric_api> "${PROJECT_SOURCE_DIR}/${BIN_FOLDER}")

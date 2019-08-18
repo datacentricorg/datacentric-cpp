@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.7.2)
-project(Runtime)
+project(Datacentric)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -14,12 +14,19 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2 -fpermissive")
 add_definitions(-DBOOST_ALL_NO_LIB)
 
 
-set(GLOBAL_DEPENDENCIES_PATH "${PROJECT_SOURCE_DIR}/dependencies/cpp")
-set(RUNTIME_PATH "${PROJECT_SOURCE_DIR}/analyst/env/code/cpp")
+set(GLOBAL_DEPENDENCIES_PATH "${PROJECT_SOURCE_DIR}/../third_party")
+set(DOTCPP_PATH "${PROJECT_SOURCE_DIR}/dotcpp")
+set(DOTCPP_TEST_PATH "${PROJECT_SOURCE_DIR}/dotcpp-test")
+set(DATACENTRIC_PATH "${PROJECT_SOURCE_DIR}/datacentric")
+set(DATACENTRIC_CLI_PATH "${PROJECT_SOURCE_DIR}/datacentric-cli")
+set(DATACENTRIC_TEST_PATH "${PROJECT_SOURCE_DIR}/datacentric-test")
 
 
 include_directories(${GLOBAL_DEPENDENCIES_PATH})
-include_directories(${RUNTIME_PATH})
+include_directories(${DOTCPP_PATH})
+include_directories(${DOTCPP_TEST_PATH})
+include_directories(${DATACENTRIC_PATH})
+include_directories(${DATACENTRIC_TEST_PATH})
 
 #directory for executables
 file(MAKE_DIRECTORY "bin")
@@ -30,11 +37,11 @@ file(MAKE_DIRECTORY "bin/x64/Release")
 #set appropriate folder for executables collection
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
 	set(BIN_FOLDER "bin/x64/Release")
-	set(LIB_PATH "${PROJECT_SOURCE_DIR}/dependencies/lib/x64/Release")
+	set(LIB_PATH "${GLOBAL_DEPENDENCIES_PATH}/lib/x64/Release")
 else()
 	set(CMAKE_BUILD_TYPE "Debug")
 	set(BIN_FOLDER "bin/x64/Debug")
-	set(LIB_PATH "${PROJECT_SOURCE_DIR}/dependencies/lib/x64/Debug")
+	set(LIB_PATH "${GLOBAL_DEPENDENCIES_PATH}/lib/x64/Debug")
 endif()
 
 link_directories(${LIB_PATH})
@@ -47,21 +54,21 @@ set(ColourReset "${Esc}[m")
 message(STATUS "${Red}Build mode: ${CMAKE_BUILD_TYPE} ${ColourReset}")
 
 # Dependencies
-add_subdirectory(${GLOBAL_DEPENDENCIES_PATH}/boost)
+#add_subdirectory(${GLOBAL_DEPENDENCIES_PATH}/boost)
 
-add_subdirectory(${GLOBAL_DEPENDENCIES_PATH}/mongo)
+#add_subdirectory(${GLOBAL_DEPENDENCIES_PATH}/mongo)
 
 # DotCpp Api project
-add_subdirectory(${RUNTIME_PATH}/cl/dotcpp/main)
+add_subdirectory(${DOTCPP_PATH}/dot)
 
 # DotCpp Tests project
-add_subdirectory(${RUNTIME_PATH}/cl/dotcpp/test)
+add_subdirectory(${DOTCPP_TEST_PATH}/dot/test)
 
-# Runtime Main project
-add_subdirectory(${RUNTIME_PATH}/cl/runtime/main)
+# Datacentric Main project
+add_subdirectory(${DATACENTRIC_PATH}/dc)
 
-# Runtime Console project
-add_subdirectory(${RUNTIME_PATH}/cl/runtime/console)
+# Datacentric Console project
+add_subdirectory(${DATACENTRIC_CLI_PATH}/dc/cli)
 
-# Runtime Tests project
-add_subdirectory(${RUNTIME_PATH}/cl/runtime/test)
+# Datacentric Tests project
+add_subdirectory(${DATACENTRIC_TEST_PATH}/dc/test)
