@@ -377,7 +377,7 @@ namespace dc
             char bytes[12] = { 0 };
 
             boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
-            boost::posix_time::time_duration d = (ptime)rhs - epoch;
+            boost::posix_time::time_duration d = (boost::posix_time::ptime)rhs - epoch;
             int64_t seconds = d.total_seconds();
             std::memcpy(bytes, &seconds, sizeof(seconds));
             return operator_wrapper<bsoncxx::oid>("_id", "$eq", bsoncxx::oid(bytes, 12));
@@ -388,7 +388,7 @@ namespace dc
             char bytes[12] = { 0 };
 
             boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
-            boost::posix_time::time_duration d = (ptime)rhs - epoch;
+            boost::posix_time::time_duration d = (boost::posix_time::ptime)rhs - epoch;
             int64_t seconds = d.total_seconds();
             std::memcpy(bytes, &seconds, sizeof(seconds));
             return operator_wrapper<bsoncxx::oid>("_id", "$lt", bsoncxx::oid(bytes, 12));
