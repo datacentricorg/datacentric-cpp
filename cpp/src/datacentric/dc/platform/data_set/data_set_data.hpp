@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/types/record/record.hpp>
-#include <dc/platform/dataset/data_set_key.hpp>
+#include <dc/platform/data_set/data_set_key.hpp>
 
 namespace dc
 {

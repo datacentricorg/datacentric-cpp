@@ -16,7 +16,7 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/dataset/data_set_key.hpp>
+#include <dc/platform/data_set/data_set_key.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc

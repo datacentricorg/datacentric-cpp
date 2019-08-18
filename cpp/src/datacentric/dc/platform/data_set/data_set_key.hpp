@@ -53,4 +53,4 @@ namespace dc
     inline data_set_key make_data_set_key() { return new data_set_key_impl; }
 }
 
-#include <dc/platform/dataset/data_set_data.hpp>
+#include <dc/platform/data_set/data_set_data.hpp>
