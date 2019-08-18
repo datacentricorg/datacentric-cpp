@@ -26,8 +26,8 @@ limitations under the License.
 #include <dc/platform/data_source/mongo/QueryBuilder.hpp>
 #include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
 
-#include <dc/platform/dataset/data_set_key.hpp>
-#include <dc/platform/dataset/data_set_data.hpp>
+#include <dc/platform/data_set/data_set_key.hpp>
+#include <dc/platform/data_set/data_set_data.hpp>
 
 #include <dc/test/platform/context/Context.hpp>
 
@@ -49,7 +49,7 @@ namespace dc
         DOT_TYPE_END()
     };
 
-    /// Save record with minimal data for testing how the records are found. 
+    /// Save record with minimal data for testing how the records are found.
     dot::object_id SaveMinimalRecord(unit_test_context_base context, dot::string dataSetID, dot::string recordID, int recordIndex, dot::nullable<int> version = dot::nullable<int>())
     {
         MongoTestData rec = make_MongoTestData();

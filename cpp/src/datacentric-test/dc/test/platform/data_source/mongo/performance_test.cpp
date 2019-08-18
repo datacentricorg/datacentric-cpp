@@ -25,8 +25,8 @@ limitations under the License.
 #include <dc/platform/data_source/mongo/QueryBuilder.hpp>
 #include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
 
-#include <dc/platform/dataset/data_set_key.hpp>
-#include <dc/platform/dataset/data_set_data.hpp>
+#include <dc/platform/data_set/data_set_key.hpp>
+#include <dc/platform/data_set/data_set_data.hpp>
 
 #include <dc/test/platform/context/Context.hpp>
 
