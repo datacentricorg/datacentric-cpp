@@ -32,6 +32,8 @@
     <ClCompile Include="platform\data_source\mongo\MongoStandardFormatServerData.cpp" />
     <ClCompile Include="platform\query\Query.cpp" />
     <ClCompile Include="platform\reflection\ClassInfo.cpp" />
+    <ClCompile Include="platform\time_zone\time_zone_data.cpp" />
+    <ClCompile Include="platform\time_zone\time_zone_key.cpp" />
     <ClCompile Include="precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -77,6 +79,8 @@
     <ClInclude Include="platform\query\Query.hpp" />
     <ClInclude Include="platform\reflection\ClassInfo.hpp" />
     <ClInclude Include="platform\settings\class_map_settings.hpp" />
+    <ClInclude Include="platform\time_zone\time_zone_data.hpp" />
+    <ClInclude Include="platform\time_zone\time_zone_key.hpp" />
     <ClInclude Include="precompiled.hpp" />
     <ClInclude Include="serialization\BsonRecordSerializer.hpp" />
     <ClInclude Include="serialization\BsonWriter.hpp" />
