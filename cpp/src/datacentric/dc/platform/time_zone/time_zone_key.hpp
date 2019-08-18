@@ -74,8 +74,8 @@ namespace dc
         dot::string time_zone_id;
 
     public:
-        virtual dot::type_t type();
-        static dot::type_t typeof();
+        virtual dot::type type();
+        static dot::type typeof();
     };
 
     /// Create an empty instance.
