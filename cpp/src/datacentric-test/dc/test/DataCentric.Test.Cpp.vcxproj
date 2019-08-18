@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MongoTest.cpp" />
     <ClCompile Include="platform\context\Context.cpp" />
     <ClCompile Include="platform\data_source\mongo\mongo_data_source_test.cpp" />
     <ClCompile Include="platform\data_source\mongo\PerformanceTest.cpp" />
