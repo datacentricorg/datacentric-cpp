@@ -185,9 +185,9 @@ namespace dc
         result->add(data_set_data->ID);
 
         // Add parents to the result
-        if (!((dot::list<dot::object_id>)data_set_data->Parents).is_empty())
+        if (!((dot::list<dot::object_id>)data_set_data->parents).is_empty())
         {
-            for(dot::object_id data_set_id : data_set_data->Parents)
+            for(dot::object_id data_set_id : data_set_data->parents)
             {
                 // Dataset cannot include itself as parent
                 if (data_set_data->ID == data_set_id)
@@ -237,10 +237,10 @@ namespace dc
         if (parent_data_sets != nullptr)
         {
             // Add parents if second argument is not null
-            result->Parents = dot::make_list<dot::object_id>();
+            result->parents = dot::make_list<dot::object_id>();
             for (auto parent_data_set : parent_data_sets)
             {
-                result->Parents->add(parent_data_set);
+                result->parents->add(parent_data_set);
             }
         }
 

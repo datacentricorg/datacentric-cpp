@@ -27,8 +27,8 @@ namespace dc
 
         if (dot::string::is_null_or_empty(data_set_id)) throw dot::exception("data_set_id has not been set.");
 
-        if (!dot::list<dot::object_id>(Parents).is_empty())
-        for (dot::object_id parent : Parents)
+        if (!dot::list<dot::object_id>(parents).is_empty())
+        for (dot::object_id parent : parents)
         {
             if (ID <= parent)
             {
