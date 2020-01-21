@@ -20,25 +20,29 @@ limitations under the License.
 
 namespace dc
 {
-    /// Verbosity level of log output.
-    enum class LogVerbosity : int
+    /// Enumeration for the log entry type.
+    enum class log_entry_type : int
     {
         /// Empty
         empty,
 
-        /// No output even for errors.
-        Silent,
+        /// Error entry type is not logged directly for those log types
+        /// where the output is subsequently performed by the exception catch block.
+        error,
 
-        /// Error messages only with message arguments truncated to 20 characters.
-        ErrorSummary,
+        /// Warning.
+        warning,
 
-        /// Error messages only with message arguments truncated to 255 characters.
-        ErrorDetails,
+        /// Informational message.
+        message,
 
-        /// All log entry types with message arguments truncated to 20 characters.
-        MessageSummary,
+        /// Passed test.
+        passed,
 
-        /// All log entry types with message arguments truncated to 255 characters.
-        MessageDetails
+        /// Failed test (not necessarily followed by exception).
+        failed,
+
+        /// Result (description is not formatted using {0}, {1} tags).
+        result
     };
 }
