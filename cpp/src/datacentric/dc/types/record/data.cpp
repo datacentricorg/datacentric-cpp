@@ -25,7 +25,7 @@ limitations under the License.
 namespace dc
 {
 
-    void SerializeTo(dot::list_base obj, dot::string elementName, ITreeWriter writer)
+    void SerializeTo(dot::list_base obj, dot::string elementName, tree_writer_base writer)
     {
         // Write start element tag
         writer->WriteStartArrayElement(elementName);
@@ -105,7 +105,7 @@ namespace dc
     }
 
 
-    void data_impl::SerializeTo(ITreeWriter writer)
+    void data_impl::SerializeTo(tree_writer_base writer)
     {
         // Write start tag
         writer->WriteStartDict();

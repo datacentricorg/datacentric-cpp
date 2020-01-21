@@ -33,12 +33,12 @@ limitations under the License.
 
 namespace dc
 {
-    data JsonRecordSerializerImpl::Deserialize(const rapidjson::Document& doc)
+    data json_record_serializer_impl::Deserialize(const rapidjson::Document& doc)
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = doc["_t"].GetString();
         data result = (data)dot::activator::create_instance("", typeName);
-        ITreeWriter writer = make_DataWriter(result);
+        tree_writer_base writer = make_data_writer(result);
 
         writer->WriteStartDocument(typeName);
         DeserializeDocument(doc.GetObject(), writer);
@@ -46,12 +46,12 @@ namespace dc
         return result;
     }
 
-    dot::object JsonRecordSerializerImpl::DeserializeTuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tupleType)
+    dot::object json_record_serializer_impl::DeserializeTuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tupleType)
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = tupleType->name;
         dot::object result = dot::activator::create_instance(tupleType);
-        ITreeWriter writer = make_TupleWriter(result, props);
+        tree_writer_base writer = make_tuple_writer(result, props);
 
         writer->WriteStartDocument(typeName);
         DeserializeDocument(doc, writer);
@@ -60,7 +60,7 @@ namespace dc
 
     }
 
-    void JsonRecordSerializerImpl::DeserializeDocument(rapidjson::Document::ConstObject doc, ITreeWriter writer)
+    void json_record_serializer_impl::DeserializeDocument(rapidjson::Document::ConstObject doc, tree_writer_base writer)
     {
         // Each document is a dictionary at root level
         writer->WriteStartDict();
@@ -146,7 +146,7 @@ namespace dc
         writer->WriteEndDict();
     }
 
-    void JsonRecordSerializerImpl::DeserializeArray(rapidjson::Document::ConstArray arr, ITreeWriter writer)
+    void json_record_serializer_impl::DeserializeArray(rapidjson::Document::ConstArray arr, tree_writer_base writer)
     {
         // Loop over elements until
         for (auto& elem : arr)
@@ -206,7 +206,7 @@ namespace dc
         }
     }
 
-    void JsonRecordSerializerImpl::Serialize(ITreeWriter writer, data value)
+    void json_record_serializer_impl::Serialize(tree_writer_base writer, data value)
     {
         // Root name is written in JSON as _t element
         dot::string rootName = value->get_type()->full_name();

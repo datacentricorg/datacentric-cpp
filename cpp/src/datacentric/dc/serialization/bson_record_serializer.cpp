@@ -31,12 +31,12 @@ limitations under the License.
 
 namespace dc
 {
-    data BsonRecordSerializerImpl::Deserialize(bsoncxx::document::view doc)
+    data bson_record_serializer_impl::Deserialize(bsoncxx::document::view doc)
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = doc["_t"].get_utf8().value.to_string();
         data result = (data)dot::activator::create_instance("", typeName);
-        ITreeWriter writer = make_DataWriter(result);
+        tree_writer_base writer = make_data_writer(result);
 
         writer->WriteStartDocument(typeName);
         DeserializeDocument(doc, writer);
@@ -44,12 +44,12 @@ namespace dc
         return result;
     }
 
-    dot::object BsonRecordSerializerImpl::DeserializeTuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tupleType)
+    dot::object bson_record_serializer_impl::DeserializeTuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tupleType)
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = tupleType->name;
         dot::object result = dot::activator::create_instance(tupleType);
-        ITreeWriter writer = make_TupleWriter(result, props);
+        tree_writer_base writer = make_tuple_writer(result, props);
 
         writer->WriteStartDocument(typeName);
         DeserializeDocument(doc, writer);
@@ -58,7 +58,7 @@ namespace dc
 
     }
 
-    void BsonRecordSerializerImpl::DeserializeDocument(const bsoncxx::document::view & doc, ITreeWriter writer)
+    void bson_record_serializer_impl::DeserializeDocument(const bsoncxx::document::view & doc, tree_writer_base writer)
     {
         // Each document is a dictionary at root level
         writer->WriteStartDict();
@@ -164,7 +164,7 @@ namespace dc
         writer->WriteEndDict();
     }
 
-    void BsonRecordSerializerImpl::DeserializeArray(const bsoncxx::array::view & arr, ITreeWriter writer)
+    void bson_record_serializer_impl::DeserializeArray(const bsoncxx::array::view & arr, tree_writer_base writer)
     {
         // Loop over elements until
         for (auto elem : arr)
@@ -226,7 +226,7 @@ namespace dc
         }
     }
 
-    void BsonRecordSerializerImpl::Serialize(ITreeWriter writer, data value)
+    void bson_record_serializer_impl::Serialize(tree_writer_base writer, data value)
     {
         // Root name is written in JSON as _t element
         dot::string rootName = value->get_type()->full_name();

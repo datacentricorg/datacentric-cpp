@@ -26,19 +26,19 @@ limitations under the License.
 
 namespace dc
 {
-    class BsonWriterImpl; using BsonWriter = dot::ptr<BsonWriterImpl>;
+    class bson_writer_impl; using bson_writer = dot::ptr<bson_writer_impl>;
 
     /// Implementation of IBsonWriter using MongoDB IBsonWriter.
-    class DC_CLASS BsonWriterImpl : public ITreeWriterImpl
+    class DC_CLASS bson_writer_impl : public tree_writer_base_impl
     {
 
-        friend BsonWriter make_BsonWriter();
+        friend bson_writer make_bson_writer();
 
     private:
 
         bsoncxx::builder::core bsonWriter_;
-        std::stack<std::pair<dot::string, TreeWriterState>> elementStack_; // TODO make dot::Stack
-        TreeWriterState currentState_;
+        std::stack<std::pair<dot::string, tree_writer_state>> elementStack_; // TODO make dot::Stack
+        tree_writer_state currentState_;
 
     public:
 
@@ -106,10 +106,10 @@ namespace dc
         bsoncxx::document::view view();
 
     private:
-        BsonWriterImpl()
+        bson_writer_impl()
             : bsonWriter_(true)
-            , currentState_(TreeWriterState::empty) {}
+            , currentState_(tree_writer_state::empty) {}
     };
 
-    inline BsonWriter make_BsonWriter() { return new BsonWriterImpl; }
+    inline bson_writer make_bson_writer() { return new bson_writer_impl; }
 }

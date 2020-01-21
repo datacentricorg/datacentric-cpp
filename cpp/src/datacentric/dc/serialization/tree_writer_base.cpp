@@ -24,42 +24,42 @@ namespace dc
 {
 
     /// WriteStartElement(...) followed by WriteStartDict().
-    void ITreeWriterImpl::WriteStartDictElement(dot::string elementName)
+    void tree_writer_base_impl::WriteStartDictElement(dot::string elementName)
     {
         this->WriteStartElement(elementName);
         this->WriteStartDict();
     }
 
     /// WriteEndDict(...) followed by WriteEndElement(...).
-    void ITreeWriterImpl::WriteEndDictElement(dot::string elementName)
+    void tree_writer_base_impl::WriteEndDictElement(dot::string elementName)
     {
         this->WriteEndDict();
         this->WriteEndElement(elementName);
     }
 
     /// WriteStartElement(...) followed by WriteStartArray().
-    void ITreeWriterImpl::WriteStartArrayElement(dot::string elementName)
+    void tree_writer_base_impl::WriteStartArrayElement(dot::string elementName)
     {
         this->WriteStartElement(elementName);
         this->WriteStartArray();
     }
 
     /// WriteEndArray(...) followed by WriteEndElement(...).
-    void ITreeWriterImpl::WriteEndArrayElement(dot::string elementName)
+    void tree_writer_base_impl::WriteEndArrayElement(dot::string elementName)
     {
         this->WriteEndArray();
         this->WriteEndElement(elementName);
     }
 
     /// WriteStartArrayItem(...) followed by WriteStartDict().
-    void ITreeWriterImpl::WriteStartDictArrayItem()
+    void tree_writer_base_impl::WriteStartDictArrayItem()
     {
         this->WriteStartArrayItem();
         this->WriteStartDict();
     }
 
     /// WriteEndDict(...) followed by WriteEndArrayItem(...).
-    void ITreeWriterImpl::WriteEndDictArrayItem()
+    void tree_writer_base_impl::WriteEndDictArrayItem()
     {
         this->WriteEndDict();
         this->WriteEndArrayItem();
@@ -67,7 +67,7 @@ namespace dc
 
     /// Write an element with no inner nodes.
     /// Element type is inferred by calling obj.get_type().
-    void ITreeWriterImpl::WriteValueElement(dot::string elementName, dot::object value)
+    void tree_writer_base_impl::WriteValueElement(dot::string elementName, dot::object value)
     {
         // Do not serialize null or empty value
         if (!value.is_empty())
@@ -82,7 +82,7 @@ namespace dc
 
     /// Write an array item with no inner nodes.
     /// Element type is inferred by calling obj.get_type().
-    void ITreeWriterImpl::WriteValueArrayItem(dot::object value)
+    void tree_writer_base_impl::WriteValueArrayItem(dot::object value)
     {
         // Writes null or empty value as BSON null
         this->WriteStartArrayItem();
@@ -93,7 +93,7 @@ namespace dc
     }
 
     /// Write a single array item.
-    void ITreeWriterImpl::WriteArrayItem(dot::object value)
+    void tree_writer_base_impl::WriteArrayItem(dot::object value)
     {
         // Will serialize null or empty value
         this->WriteStartArrayItem();

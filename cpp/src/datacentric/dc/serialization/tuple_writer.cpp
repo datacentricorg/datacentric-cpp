@@ -32,17 +32,17 @@ limitations under the License.
 
 namespace dc
 {
-    void TupleWriterImpl::WriteStartDocument(dot::string rootElementName)
+    void tuple_writer_impl::WriteStartDocument(dot::string rootElementName)
     {
 
     }
 
-    void TupleWriterImpl::WriteEndDocument(dot::string rootElementName)
+    void tuple_writer_impl::WriteEndDocument(dot::string rootElementName)
     {
 
     }
 
-    void TupleWriterImpl::WriteStartElement(dot::string elementName)
+    void tuple_writer_impl::WriteStartElement(dot::string elementName)
     {
         if (dataWriter_ != nullptr)
         {
@@ -64,7 +64,7 @@ namespace dc
                     if (props_[i]->field_type->name->ends_with("Data")) //! TODO change ends_with
                     {
                         data result = (data)dot::activator::create_instance(props_[i]->field_type);
-                        dataWriter_ = make_DataWriter(result);
+                        dataWriter_ = make_data_writer(result);
                         dataWriter_->WriteStartDocument(props_[i]->field_type->name);
 
                         tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, result }));
@@ -76,10 +76,10 @@ namespace dc
 
                     if (! props_[i]->field_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
                     {
-                        dataWriter_ = make_DataWriter(nullptr);
+                        dataWriter_ = make_data_writer(nullptr);
                         dataWriter_->currentElementInfo_ = props_[i];
                         dataWriter_->currentElementName_ = props_[i]->name;
-                        dataWriter_->currentState_ = TreeWriterState::ElementStarted;
+                        dataWriter_->currentState_ = tree_writer_state::ElementStarted;
 
                         dataWriter_->currentArray_ = dot::make_list<dot::list<dot::object>>();
 
@@ -95,7 +95,7 @@ namespace dc
         }
     }
 
-    void TupleWriterImpl::WriteEndElement(dot::string elementName)
+    void tuple_writer_impl::WriteEndElement(dot::string elementName)
     {
         if (dataWriter_ != nullptr)
         {
@@ -103,7 +103,7 @@ namespace dc
         }
     }
 
-    void TupleWriterImpl::WriteStartDict()
+    void tuple_writer_impl::WriteStartDict()
     {
         if (dataWriter_ != nullptr)
         {
@@ -112,17 +112,17 @@ namespace dc
 
     }
 
-    void TupleWriterImpl::WriteEndDict()
+    void tuple_writer_impl::WriteEndDict()
     {
         if (dataWriter_ != nullptr)
         {
             dataWriter_->WriteEndDict();
-            if (dataWriter_->currentState_ == TreeWriterState::DocumentStarted)
+            if (dataWriter_->currentState_ == tree_writer_state::DocumentStarted)
                 dataWriter_ = nullptr;
         }
     }
 
-    void TupleWriterImpl::WriteStartArray()
+    void tuple_writer_impl::WriteStartArray()
     {
         if (dataWriter_ != nullptr)
         {
@@ -131,7 +131,7 @@ namespace dc
 
     }
 
-    void TupleWriterImpl::WriteEndArray()
+    void tuple_writer_impl::WriteEndArray()
     {
         if (dataWriter_ != nullptr)
         {
@@ -142,7 +142,7 @@ namespace dc
 
     }
 
-    void TupleWriterImpl::WriteStartArrayItem()
+    void tuple_writer_impl::WriteStartArrayItem()
     {
         if (dataWriter_ != nullptr)
         {
@@ -151,7 +151,7 @@ namespace dc
 
     }
 
-    void TupleWriterImpl::WriteEndArrayItem()
+    void tuple_writer_impl::WriteEndArrayItem()
     {
         if (dataWriter_ != nullptr)
         {
@@ -160,7 +160,7 @@ namespace dc
 
     }
 
-    void TupleWriterImpl::WriteStartValue()
+    void tuple_writer_impl::WriteStartValue()
     {
         if (dataWriter_ != nullptr)
         {
@@ -169,7 +169,7 @@ namespace dc
 
     }
 
-    void TupleWriterImpl::WriteEndValue()
+    void tuple_writer_impl::WriteEndValue()
     {
         if (dataWriter_ != nullptr)
         {
@@ -178,7 +178,7 @@ namespace dc
 
     }
 
-    void TupleWriterImpl::WriteValue(dot::object value)
+    void tuple_writer_impl::WriteValue(dot::object value)
     {
         if (dataWriter_ != nullptr)
         {
@@ -375,13 +375,13 @@ namespace dc
         }
     }
 
-    dot::string TupleWriterImpl::to_string()
+    dot::string tuple_writer_impl::to_string()
     {
         return tuple_->to_string();
     }
 
 
-    TupleWriterImpl::TupleWriterImpl(dot::object tuple, dot::list<dot::field_info> props)
+    tuple_writer_impl::tuple_writer_impl(dot::object tuple, dot::list<dot::field_info> props)
         : tuple_(tuple)
         , props_(props)
     {

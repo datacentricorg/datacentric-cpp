@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    enum class TreeWriterState
+    enum class tree_writer_state
     {
         /// Empty
         empty,
@@ -82,12 +82,12 @@ namespace dc
         ValueArrayItemCompleted
     };
 
-    class ITreeWriterImpl; using ITreeWriter = dot::ptr<ITreeWriterImpl>;
+    class tree_writer_base_impl; using tree_writer_base = dot::ptr<tree_writer_base_impl>;
     class dot::object;
     class dot::string;
 
     /// Interface for writing tree data.
-    class DC_CLASS ITreeWriterImpl : public dot::object_impl
+    class DC_CLASS tree_writer_base_impl : public dot::object_impl
     {
     public:
 

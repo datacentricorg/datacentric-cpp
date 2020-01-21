@@ -25,13 +25,13 @@ limitations under the License.
 
 namespace dc
 {
-    class BsonRecordSerializerImpl; using BsonRecordSerializer = dot::ptr<BsonRecordSerializerImpl>;
+    class bson_record_serializer_impl; using bson_record_serializer = dot::ptr<bson_record_serializer_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
     /// Implementation of IBsonWriter using MongoDB IBsonWriter.
-    class DC_CLASS BsonRecordSerializerImpl : public virtual dot::object_impl
+    class DC_CLASS bson_record_serializer_impl : public virtual dot::object_impl
     {
-        friend BsonRecordSerializer make_BsonRecordSerializer();
+        friend bson_record_serializer make_bson_record_serializer();
 
     public:
 
@@ -42,17 +42,17 @@ namespace dc
         dot::object DeserializeTuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tupleType);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        void DeserializeDocument(const bsoncxx::document::view & doc, ITreeWriter writer);
+        void DeserializeDocument(const bsoncxx::document::view & doc, tree_writer_base writer);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        void DeserializeArray(const bsoncxx::array::view & arr, ITreeWriter writer);
+        void DeserializeArray(const bsoncxx::array::view & arr, tree_writer_base writer);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        void Serialize(ITreeWriter writer, data value);
+        void Serialize(tree_writer_base writer, data value);
 
     private:
-        BsonRecordSerializerImpl() = default;
+        bson_record_serializer_impl() = default;
     };
 
-    inline BsonRecordSerializer make_BsonRecordSerializer() { return new BsonRecordSerializerImpl; }
+    inline bson_record_serializer make_bson_record_serializer() { return new bson_record_serializer_impl; }
 }

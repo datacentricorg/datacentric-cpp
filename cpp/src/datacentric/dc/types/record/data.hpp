@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    class ITreeWriterImpl; using ITreeWriter = dot::ptr<ITreeWriterImpl>;
+    class tree_writer_base_impl; using tree_writer_base = dot::ptr<tree_writer_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
 
@@ -34,7 +34,7 @@ namespace dc
     public: // METHODS
 
         /// Creates dictionary at current writer level.
-        void SerializeTo(ITreeWriter writer);
+        void SerializeTo(tree_writer_base writer);
 
         DOT_TYPE_BEGIN("dc", "Data")
         DOT_TYPE_END()

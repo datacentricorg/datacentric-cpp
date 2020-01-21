@@ -18,8 +18,8 @@ limitations under the License.
 #include <approvals/ApprovalTests.hpp>
 #include <approvals/Catch.hpp>
 
-#include <dc/serialization/BsonWriter.hpp>
-#include <dc/serialization/BsonRecordSerializer.hpp>
+#include <dc/serialization/bson_writer.hpp>
+#include <dc/serialization/bson_record_serializer.hpp>
 
 #include <dc/platform/data_source/data_source_data.hpp>
 #include <dc/platform/data_source/mongo/query_builder.hpp>

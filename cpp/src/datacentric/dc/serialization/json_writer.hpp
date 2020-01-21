@@ -27,22 +27,22 @@ limitations under the License.
 
 namespace dc
 {
-    class JsonWriterImpl; using JsonWriter = dot::ptr<JsonWriterImpl>;
+    class json_writer_impl; using json_writer = dot::ptr<json_writer_impl>;
 
-    /// Implementation of ITreeWriterImpl using RapidJSON lib.
-    class DC_CLASS JsonWriterImpl : public ITreeWriterImpl
+    /// Implementation of tree_writer_base_impl using RapidJSON lib.
+    class DC_CLASS json_writer_impl : public tree_writer_base_impl
     {
-        friend JsonWriter make_JsonWriter();
+        friend json_writer make_json_writer();
 
     private:
 
         rapidjson::StringBuffer buffer_;
         rapidjson::Writer<rapidjson::StringBuffer> jsonWriter_;
-        std::stack<std::pair<dot::string, TreeWriterState>> elementStack_; // TODO make dot::Stack
-        TreeWriterState currentState_;
+        std::stack<std::pair<dot::string, tree_writer_state>> elementStack_; // TODO make dot::Stack
+        tree_writer_state currentState_;
 
     private:
-        JsonWriterImpl();
+        json_writer_impl();
 
     public:
 
@@ -107,5 +107,5 @@ namespace dc
         dot::string to_string() override;
     };
 
-    inline JsonWriter make_JsonWriter() { return new JsonWriterImpl; }
+    inline json_writer make_json_writer() { return new json_writer_impl; }
 }

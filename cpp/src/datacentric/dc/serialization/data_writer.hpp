@@ -28,20 +28,20 @@ limitations under the License.
 
 namespace dc
 {
-    class DataWriterImpl; using DataWriter = dot::ptr<DataWriterImpl>;
-    class TupleWriterImpl; using TupleWriter = dot::ptr<TupleWriterImpl>;
+    class data_writer_impl; using data_writer = dot::ptr<data_writer_impl>;
+    class tuple_writer_impl; using tuple_writer = dot::ptr<tuple_writer_impl>;
 
-    /// Implementation of ITreeWriter for Data.
-    class DC_CLASS DataWriterImpl : public ITreeWriterImpl
+    /// Implementation of tree_writer_base for Data.
+    class DC_CLASS data_writer_impl : public tree_writer_base_impl
     {
-        friend DataWriter make_DataWriter(data data_obj);
-        friend TupleWriterImpl;
+        friend data_writer make_data_writer(data data_obj);
+        friend tuple_writer_impl;
 
     private:
         struct DataWriterPosition
         {
             dot::string CurrentElementName;
-            TreeWriterState CurrentState;
+            tree_writer_state CurrentState;
             data CurrentDict;
             dot::dictionary<dot::string, dot::field_info> CurrentDictElements;
             dot::field_info CurrentElementInfo;
@@ -54,7 +54,7 @@ namespace dc
         std::stack<DataWriterPosition> elementStack_; // TODO make dot::Stack
         dot::string rootElementName_;
         dot::string currentElementName_;
-        TreeWriterState currentState_;
+        tree_writer_state currentState_;
         data currentDict_;
         dot::dictionary<dot::string, dot::field_info> currentDictElements_;
         dot::field_info currentElementInfo_;
@@ -63,7 +63,7 @@ namespace dc
 
     private: // CONSTRUCTORS
 
-        DataWriterImpl(data data_obj);
+        data_writer_impl(data data_obj);
 
     public: //  METHODS
 
@@ -136,6 +136,6 @@ namespace dc
 
     };
 
-    inline DataWriter make_DataWriter(data data_obj) { return new DataWriterImpl(data_obj); }
+    inline data_writer make_data_writer(data data_obj) { return new data_writer_impl(data_obj); }
 }
 

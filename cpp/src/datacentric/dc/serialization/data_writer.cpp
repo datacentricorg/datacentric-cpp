@@ -31,15 +31,15 @@ limitations under the License.
 
 namespace dc
 {
-    DataWriterImpl::DataWriterImpl(data data_obj)
+    data_writer_impl::data_writer_impl(data data_obj)
         : currentDict_(data_obj)
-        , currentState_(TreeWriterState::empty) {}
+        , currentState_(tree_writer_state::empty) {}
 
-    void DataWriterImpl::WriteStartDocument(dot::string rootElementName)
+    void data_writer_impl::WriteStartDocument(dot::string rootElementName)
     {
-        if (currentState_ == TreeWriterState::empty && elementStack_.size() == 0)
+        if (currentState_ == tree_writer_state::empty && elementStack_.size() == 0)
         {
-            currentState_ = TreeWriterState::DocumentStarted;
+            currentState_ = tree_writer_state::DocumentStarted;
         }
         else
         {
@@ -60,10 +60,10 @@ namespace dc
         currentArrayItemType_ = nullptr;
     }
 
-    void DataWriterImpl::WriteEndDocument(dot::string rootElementName)
+    void data_writer_impl::WriteEndDocument(dot::string rootElementName)
     {
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::DocumentStarted && elementStack_.size() == 0) currentState_ = TreeWriterState::DocumentCompleted;
+        if (currentState_ == tree_writer_state::DocumentStarted && elementStack_.size() == 0) currentState_ = tree_writer_state::DocumentCompleted;
         else throw dot::exception(
             "A call to WriteEndDocument(...) does not follow  WriteEndElement(...) at at root level.");
 
@@ -74,12 +74,12 @@ namespace dc
                 "WriteEndDocument({0}) follows WriteStartDocument({1}), root element name mismatch.", rootElementName, rootElementName_));
     }
 
-    void DataWriterImpl::WriteStartElement(dot::string elementName)
+    void data_writer_impl::WriteStartElement(dot::string elementName)
     {
-        if (currentState_ == TreeWriterState::DocumentStarted) currentState_ = TreeWriterState::ElementStarted;
-        else if (currentState_ == TreeWriterState::ElementCompleted) currentState_ = TreeWriterState::ElementStarted;
-        else if (currentState_ == TreeWriterState::DictStarted) currentState_ = TreeWriterState::ElementStarted;
-        else if (currentState_ == TreeWriterState::DictArrayItemStarted) currentState_ = TreeWriterState::ElementStarted;
+        if (currentState_ == tree_writer_state::DocumentStarted) currentState_ = tree_writer_state::ElementStarted;
+        else if (currentState_ == tree_writer_state::ElementCompleted) currentState_ = tree_writer_state::ElementStarted;
+        else if (currentState_ == tree_writer_state::DictStarted) currentState_ = tree_writer_state::ElementStarted;
+        else if (currentState_ == tree_writer_state::DictArrayItemStarted) currentState_ = tree_writer_state::ElementStarted;
         else throw dot::exception(
             "A call to WriteStartElement(...) must be the first call or follow WriteEndElement(prevName).");
 
@@ -87,13 +87,13 @@ namespace dc
         currentElementInfo_ = currentDictElements_[elementName];
     }
 
-    void DataWriterImpl::WriteEndElement(dot::string elementName)
+    void data_writer_impl::WriteEndElement(dot::string elementName)
     {
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::ElementCompleted;
-        else if (currentState_ == TreeWriterState::DictCompleted) currentState_ = TreeWriterState::ElementCompleted;
-        else if (currentState_ == TreeWriterState::ValueCompleted) currentState_ = TreeWriterState::ElementCompleted;
-        else if (currentState_ == TreeWriterState::ArrayCompleted) currentState_ = TreeWriterState::ElementCompleted;
+        if (currentState_ == tree_writer_state::ElementStarted) currentState_ = tree_writer_state::ElementCompleted;
+        else if (currentState_ == tree_writer_state::DictCompleted) currentState_ = tree_writer_state::ElementCompleted;
+        else if (currentState_ == tree_writer_state::ValueCompleted) currentState_ = tree_writer_state::ElementCompleted;
+        else if (currentState_ == tree_writer_state::ArrayCompleted) currentState_ = tree_writer_state::ElementCompleted;
         else throw dot::exception(
             "A call to WriteEndElement(...) does not follow a matching WriteStartElement(...) at the same indent level.");
 
@@ -104,21 +104,21 @@ namespace dc
                 "EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName_));
     }
 
-    void DataWriterImpl::WriteStartDict()
+    void data_writer_impl::WriteStartDict()
     {
         // Push state before defining dictionary state
         PushState();
 
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::DocumentStarted)
+        if (currentState_ == tree_writer_state::DocumentStarted)
         {
-            currentState_ = TreeWriterState::DictStarted;
+            currentState_ = tree_writer_state::DictStarted;
 
             // Return if this call follows StartDocument, all setup is done in StartDocument
             return;
         }
-        else if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::DictStarted;
-        else if (currentState_ == TreeWriterState::ArrayItemStarted) currentState_ = TreeWriterState::DictArrayItemStarted;
+        else if (currentState_ == tree_writer_state::ElementStarted) currentState_ = tree_writer_state::DictStarted;
+        else if (currentState_ == tree_writer_state::ArrayItemStarted) currentState_ = tree_writer_state::DictArrayItemStarted;
         else throw dot::exception(
             "A call to WriteStartDict() must follow WriteStartElement(...) or WriteStartArrayItem().");
 
@@ -151,12 +151,12 @@ namespace dc
         currentArrayItemType_ = nullptr;
     }
 
-    void DataWriterImpl::WriteEndDict()
+    void data_writer_impl::WriteEndDict()
     {
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::DictStarted) currentState_ = TreeWriterState::DictCompleted;
-        else if (currentState_ == TreeWriterState::DictArrayItemStarted) currentState_ = TreeWriterState::DictArrayItemCompleted;
-        else if (currentState_ == TreeWriterState::ElementCompleted) currentState_ = TreeWriterState::DictCompleted;
+        if (currentState_ == tree_writer_state::DictStarted) currentState_ = tree_writer_state::DictCompleted;
+        else if (currentState_ == tree_writer_state::DictArrayItemStarted) currentState_ = tree_writer_state::DictArrayItemCompleted;
+        else if (currentState_ == tree_writer_state::ElementCompleted) currentState_ = tree_writer_state::DictCompleted;
         else throw dot::exception(
             "A call to WriteEndDict(...) does not follow a matching WriteStartDict(...) at the same indent level.");
 
@@ -164,13 +164,13 @@ namespace dc
         PopState();
     }
 
-    void DataWriterImpl::WriteStartArray()
+    void data_writer_impl::WriteStartArray()
     {
         // Push state
         PushState();
 
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::ArrayStarted;
+        if (currentState_ == tree_writer_state::ElementStarted) currentState_ = tree_writer_state::ArrayStarted;
         else
             throw dot::exception(
                 "A call to WriteStartArray() must follow WriteStartElement(...).");
@@ -208,10 +208,10 @@ namespace dc
         //}
     }
 
-    void DataWriterImpl::WriteEndArray()
+    void data_writer_impl::WriteEndArray()
     {
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::ArrayItemCompleted) currentState_ = TreeWriterState::ArrayCompleted;
+        if (currentState_ == tree_writer_state::ArrayItemCompleted) currentState_ = tree_writer_state::ArrayCompleted;
         else throw dot::exception(
             "A call to WriteEndArray(...) does not follow WriteEndArrayItem(...).");
 
@@ -219,11 +219,11 @@ namespace dc
         PopState();
     }
 
-    void DataWriterImpl::WriteStartArrayItem()
+    void data_writer_impl::WriteStartArrayItem()
     {
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::ArrayStarted) currentState_ = TreeWriterState::ArrayItemStarted;
-        else if (currentState_ == TreeWriterState::ArrayItemCompleted) currentState_ = TreeWriterState::ArrayItemStarted;
+        if (currentState_ == tree_writer_state::ArrayStarted) currentState_ = tree_writer_state::ArrayItemStarted;
+        else if (currentState_ == tree_writer_state::ArrayItemCompleted) currentState_ = tree_writer_state::ArrayItemStarted;
         else throw dot::exception(
             "A call to WriteStartArrayItem() must follow WriteStartElement(...) or WriteEndArrayItem().");
 
@@ -250,43 +250,43 @@ namespace dc
         //currentArrayItem_ = addedItem;
     }
 
-    void DataWriterImpl::WriteEndArrayItem()
+    void data_writer_impl::WriteEndArrayItem()
     {
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::ArrayItemStarted) currentState_ = TreeWriterState::ArrayItemCompleted;
-        else if (currentState_ == TreeWriterState::DictArrayItemCompleted) currentState_ = TreeWriterState::ArrayItemCompleted;
-        else if (currentState_ == TreeWriterState::ValueArrayItemCompleted) currentState_ = TreeWriterState::ArrayItemCompleted;
+        if (currentState_ == tree_writer_state::ArrayItemStarted) currentState_ = tree_writer_state::ArrayItemCompleted;
+        else if (currentState_ == tree_writer_state::DictArrayItemCompleted) currentState_ = tree_writer_state::ArrayItemCompleted;
+        else if (currentState_ == tree_writer_state::ValueArrayItemCompleted) currentState_ = tree_writer_state::ArrayItemCompleted;
         else throw dot::exception(
             "A call to WriteEndArrayItem(...) does not follow a matching WriteStartArrayItem(...) at the same indent level.");
 
         // Do nothing here
     }
 
-    void DataWriterImpl::WriteStartValue()
+    void data_writer_impl::WriteStartValue()
     {
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::ElementStarted) currentState_ = TreeWriterState::ValueStarted;
-        else if (currentState_ == TreeWriterState::ArrayItemStarted) currentState_ = TreeWriterState::ValueArrayItemStarted;
+        if (currentState_ == tree_writer_state::ElementStarted) currentState_ = tree_writer_state::ValueStarted;
+        else if (currentState_ == tree_writer_state::ArrayItemStarted) currentState_ = tree_writer_state::ValueArrayItemStarted;
         else throw dot::exception(
             "A call to WriteStartValue() must follow WriteStartElement(...) or WriteStartArrayItem().");
     }
 
-    void DataWriterImpl::WriteEndValue()
+    void data_writer_impl::WriteEndValue()
     {
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::ValueWritten) currentState_ = TreeWriterState::ValueCompleted;
-        else if (currentState_ == TreeWriterState::ValueArrayItemWritten) currentState_ = TreeWriterState::ValueArrayItemCompleted;
+        if (currentState_ == tree_writer_state::ValueWritten) currentState_ = tree_writer_state::ValueCompleted;
+        else if (currentState_ == tree_writer_state::ValueArrayItemWritten) currentState_ = tree_writer_state::ValueArrayItemCompleted;
         else throw dot::exception(
             "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
 
         // Nothing to write here
     }
 
-    void DataWriterImpl::WriteValue(dot::object value)
+    void data_writer_impl::WriteValue(dot::object value)
     {
         // Check state transition matrix
-        if (currentState_ == TreeWriterState::ValueStarted) currentState_ = TreeWriterState::ValueWritten;
-        else if (currentState_ == TreeWriterState::ValueArrayItemStarted) currentState_ = TreeWriterState::ValueArrayItemWritten;
+        if (currentState_ == tree_writer_state::ValueStarted) currentState_ = tree_writer_state::ValueWritten;
+        else if (currentState_ == tree_writer_state::ValueArrayItemStarted) currentState_ = tree_writer_state::ValueArrayItemWritten;
         else throw dot::exception(
             "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
 
@@ -500,14 +500,14 @@ namespace dc
         }
     }
 
-    dot::string DataWriterImpl::to_string()
+    dot::string data_writer_impl::to_string()
     {
         if (currentArray_ != nullptr) return currentArray_->to_string();
         else if (currentDict_ != nullptr) return currentDict_->to_string();
         else return get_type()->name;
     }
 
-    void DataWriterImpl::PushState()
+    void data_writer_impl::PushState()
     {
         elementStack_.push(
             DataWriterPosition
@@ -522,7 +522,7 @@ namespace dc
             });
     }
 
-    void DataWriterImpl::PopState()
+    void data_writer_impl::PopState()
     {
         // Pop the outer element name and state from the element stack
         auto stackItem = elementStack_.top();
