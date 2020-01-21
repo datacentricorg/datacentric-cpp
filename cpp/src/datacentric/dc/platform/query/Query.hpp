@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/types/record/record.hpp>
-#include <dc/platform/cursor/CursorWrapper.hpp>
+#include <dc/platform/cursor/cursor_wrapper.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
 
 namespace dc

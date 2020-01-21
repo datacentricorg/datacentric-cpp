@@ -55,6 +55,7 @@ namespace dc
 
         iterator_wrappper& operator++()
         {
+            // Uncomment in case removing _key aggregation in query.
             //String currKey = (*iterator_)["_key"].get_utf8().value.to_string();
             //while (!iterator_->empty() && dot::string((*iterator_)["_key"].get_utf8().value.to_string()) == currKey)
                 ++iterator_;

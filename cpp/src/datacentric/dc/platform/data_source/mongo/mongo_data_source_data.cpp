@@ -21,7 +21,7 @@ limitations under the License.
 #include <dc/serialization/BsonRecordSerializer.hpp>
 #include <dc/platform/context/context_base.hpp>
 #include <dc/platform/query/Query.hpp>
-#include <dc/platform/cursor/CursorWrapper.hpp>
+#include <dc/platform/cursor/cursor_wrapper.hpp>
 #include <dc/types/record/DeleteMarker.hpp>
 
 #include <mongocxx/collection.hpp>
