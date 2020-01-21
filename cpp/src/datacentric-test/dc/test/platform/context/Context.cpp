@@ -52,7 +52,7 @@ namespace dc
         data_source->db_name->instance_name = mappedClassName;
         data_source->db_name->env_name = methodName;
 
-        data_source->Init(this);
+        data_source->init(this);
 
         // Delete (drop) the database to clear the existing data
         data_source->delete_db();

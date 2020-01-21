@@ -22,16 +22,16 @@ limitations under the License.
 namespace dc
 {
 
-    void record_base_impl::Init(context_base context)
+    void record_base_impl::init(context_base context)
     {
-        // The line below is an example of calling Init(...) method for base class.
+        // The line below is an example of calling init(...) method for base class.
         // It should be uncommented for all classes derived from this class.
         //
-        // base.Init(context);
+        // base.init(context);
 
         Context = context;
         if (context == nullptr) throw dot::exception(
-            dot::string::format("Null context is passed to the Init(...) method for {0}.", get_type()->name));
+            dot::string::format("Null context is passed to the init(...) method for {0}.", get_type()->name));
     }
 
 }

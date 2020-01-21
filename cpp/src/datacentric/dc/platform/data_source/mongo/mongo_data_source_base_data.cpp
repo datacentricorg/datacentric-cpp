@@ -28,12 +28,12 @@ namespace dc
 
     int mongo_data_source_base_data_impl::maxDbNameLength_ = 64;
 
-    void mongo_data_source_base_data_impl::Init(context_base context)
+    void mongo_data_source_base_data_impl::init(context_base context)
     {
         static mongocxx::instance instance{};
 
         // Initialize the base class
-        data_source_data_impl::Init(context);
+        data_source_data_impl::init(context);
 
         // Configures serialization conventions for standard types
         if (db_name == nullptr) throw dot::exception("DB key is null or empty.");

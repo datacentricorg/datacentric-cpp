@@ -62,8 +62,8 @@ namespace dc
     public: // METHODS
 
         /// Set context and perform fast initialization or validation
-        /// of class data. Must first invoke base.Init(context).
-        virtual void Init(context_base context);
+        /// of class data. Must first invoke base.init(context).
+        virtual void init(context_base context);
 
         dot::string to_string() { return get_key(); }
 

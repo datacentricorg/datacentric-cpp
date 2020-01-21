@@ -108,7 +108,7 @@ namespace dc
         {
             // Clear the revision time constraint.
             //
-            // This is only required when  running Init(...) again
+            // This is only required when  running init(...) again
             // on an object that has been initialized before.
             return nullptr;
         }

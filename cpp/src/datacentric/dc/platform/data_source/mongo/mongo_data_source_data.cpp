@@ -48,7 +48,7 @@ namespace dc
         {
             BsonRecordSerializer serializer = make_BsonRecordSerializer();
             record_base record = (record_base) serializer->Deserialize(res->view());
-            record->Init(Context);
+            record->init(Context);
             return record;
         }
 
@@ -99,7 +99,7 @@ namespace dc
         {
             BsonRecordSerializer serializer = make_BsonRecordSerializer();
             record_base result = (record_base) serializer->Deserialize(*res.begin());
-            result->Init(Context);
+            result->init(Context);
 
             // Check not only for null but also for the delete marker
             if (!result.is<DeleteMarker>())
@@ -132,7 +132,7 @@ namespace dc
         // initialization code may use record.ID and record.data_set
         record->ID = objectId;
         record->data_set = saveTo;
-        record->Init(Context);
+        record->init(Context);
 
         // Serialize record.
         BsonRecordSerializer serializer = make_BsonRecordSerializer();
@@ -232,7 +232,7 @@ namespace dc
                     BsonRecordSerializer serializer = make_BsonRecordSerializer();
                     record_base record = (record_base)serializer->Deserialize(item);
 
-                    record->Init(context);
+                    record->init(context);
                     return record;
                 }
             );

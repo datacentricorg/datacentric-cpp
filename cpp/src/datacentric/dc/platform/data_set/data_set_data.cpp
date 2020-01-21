@@ -21,9 +21,9 @@ limitations under the License.
 
 namespace dc
 {
-    void data_set_data_impl::Init(context_base context)
+    void data_set_data_impl::init(context_base context)
     {
-        record_impl<data_set_key_impl, data_set_data_impl>::Init(context);
+        record_impl<data_set_key_impl, data_set_data_impl>::init(context);
 
         if (dot::string::is_null_or_empty(data_set_id)) throw dot::exception("data_set_id has not been set.");
 

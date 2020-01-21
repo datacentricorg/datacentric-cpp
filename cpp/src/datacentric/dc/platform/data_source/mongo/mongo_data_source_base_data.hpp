@@ -68,9 +68,9 @@ namespace dc
 
         /// Set context and perform initialization or validation of object data.
         ///
-        /// All derived classes overriding this method must call base.Init(context)
+        /// All derived classes overriding this method must call base.init(context)
         /// before executing the the rest of the code in the method override.
-        void Init(context_base context) override;
+        void init(context_base context) override;
 
         /// The returned dot::object_ids have the following order guarantees:
         ///
