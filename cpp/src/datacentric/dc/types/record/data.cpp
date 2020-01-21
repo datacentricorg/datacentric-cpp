@@ -17,7 +17,7 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/types/record/data.hpp>
-#include <dc/serialization/ITreeWriter.hpp>
+#include <dc/serialization/tree_writer_base.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dc/types/record/key_base.hpp>
 

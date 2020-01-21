@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/serialization/i_tree_writer.hpp>
+#include <dc/serialization/tree_writer_base.hpp>
 #include <dc/types/record/data.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/system/type.hpp>

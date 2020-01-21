@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/serialization/i_tree_writer.hpp>
+#include <dc/serialization/tree_writer_base.hpp>
 #include <dot/system/collections/generic/list.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/builder/basic/array.hpp>
