@@ -16,10 +16,10 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/serialization/JsonRecordSerializer.hpp>
-#include <dc/serialization/JsonWriter.hpp>
-#include <dc/serialization/DataWriter.hpp>
-#include <dc/serialization/TupleWriter.hpp>
+#include <dc/serialization/json_record_serializer.hpp>
+#include <dc/serialization/json_writer.hpp>
+#include <dc/serialization/data_writer.hpp>
+#include <dc/serialization/tuple_writer.hpp>
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>

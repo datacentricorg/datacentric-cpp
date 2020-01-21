@@ -16,7 +16,7 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/serialization/TupleWriter.hpp>
+#include <dc/serialization/tuple_writer.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
 #include <dot/noda_time/local_date_util.hpp>
@@ -28,7 +28,7 @@ limitations under the License.
 #include <dot/noda_time/local_minute.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-#include <dc/serialization/DataWriter.hpp>
+#include <dc/serialization/data_writer.hpp>
 
 namespace dc
 {

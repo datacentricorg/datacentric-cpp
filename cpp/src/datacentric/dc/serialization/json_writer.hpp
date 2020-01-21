@@ -17,25 +17,32 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/serialization/ITreeWriter.hpp>
-#include <dc/types/record/data.hpp>
+#include <dc/serialization/i_tree_writer.hpp>
 #include <dot/system/ptr.hpp>
-#include <dot/system/type.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <dot/system/collections/generic/dictionary.hpp>
-#include <dot/system/reflection/field_info.hpp>
-#include <dc/serialization/DataWriter.hpp>
+#include <rapidjson/document.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/stringbuffer.h>
 #include <stack>
 
 namespace dc
 {
+    class JsonWriterImpl; using JsonWriter = dot::ptr<JsonWriterImpl>;
 
-    class TupleWriterImpl; using TupleWriter = dot::ptr<TupleWriterImpl>;
-
-    /// Implementation of ITreeWriter for Data.
-    class DC_CLASS TupleWriterImpl : public ITreeWriterImpl
+    /// Implementation of ITreeWriterImpl using RapidJSON lib.
+    class DC_CLASS JsonWriterImpl : public ITreeWriterImpl
     {
-        friend TupleWriter make_TupleWriter(dot::object tuple, dot::list<dot::field_info> props);
+        friend JsonWriter make_JsonWriter();
+
+    private:
+
+        rapidjson::StringBuffer buffer_;
+        rapidjson::Writer<rapidjson::StringBuffer> jsonWriter_;
+        std::stack<std::pair<dot::string, TreeWriterState>> elementStack_; // TODO make dot::Stack
+        TreeWriterState currentState_;
+
+    private:
+        JsonWriterImpl();
 
     public:
 
@@ -95,23 +102,10 @@ namespace dc
         /// will be inferred from object.get_type().
         void WriteValue(dot::object value) override;
 
-        /// Convert to BSON string without checking that BSON document is complete.
-        /// This permits the use of this method to inspect the BSON content during creation.
+        /// Convert to JSON string without checking that JSON document is complete.
+        /// This permits the use of this method to inspect the JSON content during creation.
         dot::string to_string() override;
-
-    private:
-
-        TupleWriterImpl(dot::object tuple, dot::list<dot::field_info> props);
-
-    private:
-
-        dot::object tuple_;
-        dot::list<dot::field_info> props_;
-        int indexOfCurrent_;
-        DataWriter dataWriter_;
-        data data_;
-
     };
 
-    inline TupleWriter make_TupleWriter(dot::object tuple, dot::list<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
+    inline JsonWriter make_JsonWriter() { return new JsonWriterImpl; }
 }

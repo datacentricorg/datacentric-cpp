@@ -16,7 +16,7 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/serialization/ITreeWriter.hpp>
+#include <dc/serialization/i_tree_writer.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/object.hpp>
 

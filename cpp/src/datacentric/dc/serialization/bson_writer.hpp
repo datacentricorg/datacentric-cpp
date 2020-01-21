@@ -17,125 +17,99 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/serialization/ITreeWriter.hpp>
-#include <dc/types/record/data.hpp>
 #include <dot/system/ptr.hpp>
-#include <dot/system/type.hpp>
+#include <dc/serialization/i_tree_writer.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <dot/system/collections/generic/dictionary.hpp>
-#include <dot/system/reflection/field_info.hpp>
+#include <bsoncxx/builder/basic/document.hpp>
+#include <bsoncxx/builder/basic/array.hpp>
 #include <stack>
 
 namespace dc
 {
-    class DataWriterImpl; using DataWriter = dot::ptr<DataWriterImpl>;
-    class TupleWriterImpl; using TupleWriter = dot::ptr<TupleWriterImpl>;
+    class BsonWriterImpl; using BsonWriter = dot::ptr<BsonWriterImpl>;
 
-    /// Implementation of ITreeWriter for Data.
-    class DC_CLASS DataWriterImpl : public ITreeWriterImpl
+    /// Implementation of IBsonWriter using MongoDB IBsonWriter.
+    class DC_CLASS BsonWriterImpl : public ITreeWriterImpl
     {
-        friend DataWriter make_DataWriter(data data_obj);
-        friend TupleWriterImpl;
+
+        friend BsonWriter make_BsonWriter();
 
     private:
-        struct DataWriterPosition
-        {
-            dot::string CurrentElementName;
-            TreeWriterState CurrentState;
-            data CurrentDict;
-            dot::dictionary<dot::string, dot::field_info> CurrentDictElements;
-            dot::field_info CurrentElementInfo;
-            dot::list_base CurrentArray;
-            dot::type CurrentArrayItemType;
-        };
 
-    private: // FIELDS
-
-        std::stack<DataWriterPosition> elementStack_; // TODO make dot::Stack
-        dot::string rootElementName_;
-        dot::string currentElementName_;
+        bsoncxx::builder::core bsonWriter_;
+        std::stack<std::pair<dot::string, TreeWriterState>> elementStack_; // TODO make dot::Stack
         TreeWriterState currentState_;
-        data currentDict_;
-        dot::dictionary<dot::string, dot::field_info> currentDictElements_;
-        dot::field_info currentElementInfo_;
-        dot::list_base currentArray_;
-        dot::type currentArrayItemType_;
 
-    private: // CONSTRUCTORS
+    public:
 
-        DataWriterImpl(data data_obj);
-
-    public: //  METHODS
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        void WriteStartDocument(dot::string rootElementName) override;
+        void WriteStartDocument(dot::string rootElementName);
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to WriteStartDocument(...).
-        void WriteEndDocument(dot::string rootElementName) override;
+        void WriteEndDocument(dot::string rootElementName);
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        void WriteStartElement(dot::string elementName) override;
+        void WriteStartElement(dot::string elementName);
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching WriteStartElement(...) call at the same indent level.
-        void WriteEndElement(dot::string elementName) override;
+        void WriteEndElement(dot::string elementName);
 
         /// Write dictionary start tag. A call to this method
         /// must follow WriteStartElement(...) or WriteStartArrayItem().
-        void WriteStartDict() override;
+        void WriteStartDict();
 
         /// Write dictionary end tag. A call to this method
         /// must be followed by WriteEndElement(...) or WriteEndArrayItem().
-        void WriteEndDict() override;
+        void WriteEndDict();
 
         /// Write start tag for an array. A call to this method
         /// must follow WriteStartElement(name).
-        void WriteStartArray() override;
+        void WriteStartArray();
 
         /// Write end tag for an array. A call to this method
         /// must be followed by WriteEndElement(name).
-        void WriteEndArray() override;
+        void WriteEndArray();
 
         /// Write start tag for an array item. A call to this method
         /// must follow either WriteStartArray() or WriteEndArrayItem().
-        void WriteStartArrayItem() override;
+        void WriteStartArrayItem();
 
         /// Write end tag for an array item. A call to this method
         /// must be followed by either WriteEndArray() or WriteStartArrayItem().
-        void WriteEndArrayItem() override;
+        void WriteEndArrayItem();
 
         /// Write value start tag. A call to this method
         /// must follow WriteStartElement(...) or WriteStartArrayItem().
-        void WriteStartValue() override;
+        void WriteStartValue();
 
         /// Write value end tag. A call to this method
         /// must be followed by WriteEndElement(...) or WriteEndArrayItem().
-        void WriteEndValue() override;
+        void WriteEndValue();
 
         /// Write atomic value. Value type
         /// will be inferred from object.get_type().
-        void WriteValue(dot::object value) override;
+        void WriteValue(dot::object value);
 
         /// Convert to BSON string without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.
         dot::string to_string() override;
 
+        bsoncxx::document::view view();
+
     private:
-        /// Push state to the stack.
-        void PushState();
-
-        /// Pop state from the stack.
-        void PopState();
-
+        BsonWriterImpl()
+            : bsonWriter_(true)
+            , currentState_(TreeWriterState::empty) {}
     };
 
-    inline DataWriter make_DataWriter(data data_obj) { return new DataWriterImpl(data_obj); }
+    inline BsonWriter make_BsonWriter() { return new BsonWriterImpl; }
 }
-

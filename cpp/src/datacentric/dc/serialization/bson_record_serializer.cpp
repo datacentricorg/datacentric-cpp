@@ -17,15 +17,15 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dot/system/string.hpp>
-#include <dc/serialization/BsonWriter.hpp>
+#include <dc/serialization/bson_writer.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/type.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-#include <dc/serialization/BsonRecordSerializer.hpp>
-#include <dc/serialization/DataWriter.hpp>
-#include <dc/serialization/TupleWriter.hpp>
+#include <dc/serialization/bson_record_serializer.hpp>
+#include <dc/serialization/data_writer.hpp>
+#include <dc/serialization/tuple_writer.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
 

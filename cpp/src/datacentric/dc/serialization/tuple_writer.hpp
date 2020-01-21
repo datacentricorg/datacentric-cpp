@@ -17,99 +17,101 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
+#include <dc/serialization/i_tree_writer.hpp>
+#include <dc/types/record/data.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/serialization/ITreeWriter.hpp>
+#include <dot/system/type.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <bsoncxx/builder/basic/document.hpp>
-#include <bsoncxx/builder/basic/array.hpp>
+#include <dot/system/collections/generic/dictionary.hpp>
+#include <dot/system/reflection/field_info.hpp>
+#include <dc/serialization/data_writer.hpp>
 #include <stack>
 
 namespace dc
 {
-    class BsonWriterImpl; using BsonWriter = dot::ptr<BsonWriterImpl>;
 
-    /// Implementation of IBsonWriter using MongoDB IBsonWriter.
-    class DC_CLASS BsonWriterImpl : public ITreeWriterImpl
+    class TupleWriterImpl; using TupleWriter = dot::ptr<TupleWriterImpl>;
+
+    /// Implementation of ITreeWriter for Data.
+    class DC_CLASS TupleWriterImpl : public ITreeWriterImpl
     {
-
-        friend BsonWriter make_BsonWriter();
-
-    private:
-
-        bsoncxx::builder::core bsonWriter_;
-        std::stack<std::pair<dot::string, TreeWriterState>> elementStack_; // TODO make dot::Stack
-        TreeWriterState currentState_;
+        friend TupleWriter make_TupleWriter(dot::object tuple, dot::list<dot::field_info> props);
 
     public:
 
-
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        void WriteStartDocument(dot::string rootElementName);
+        void WriteStartDocument(dot::string rootElementName) override;
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to WriteStartDocument(...).
-        void WriteEndDocument(dot::string rootElementName);
+        void WriteEndDocument(dot::string rootElementName) override;
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        void WriteStartElement(dot::string elementName);
+        void WriteStartElement(dot::string elementName) override;
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching WriteStartElement(...) call at the same indent level.
-        void WriteEndElement(dot::string elementName);
+        void WriteEndElement(dot::string elementName) override;
 
         /// Write dictionary start tag. A call to this method
         /// must follow WriteStartElement(...) or WriteStartArrayItem().
-        void WriteStartDict();
+        void WriteStartDict() override;
 
         /// Write dictionary end tag. A call to this method
         /// must be followed by WriteEndElement(...) or WriteEndArrayItem().
-        void WriteEndDict();
+        void WriteEndDict() override;
 
         /// Write start tag for an array. A call to this method
         /// must follow WriteStartElement(name).
-        void WriteStartArray();
+        void WriteStartArray() override;
 
         /// Write end tag for an array. A call to this method
         /// must be followed by WriteEndElement(name).
-        void WriteEndArray();
+        void WriteEndArray() override;
 
         /// Write start tag for an array item. A call to this method
         /// must follow either WriteStartArray() or WriteEndArrayItem().
-        void WriteStartArrayItem();
+        void WriteStartArrayItem() override;
 
         /// Write end tag for an array item. A call to this method
         /// must be followed by either WriteEndArray() or WriteStartArrayItem().
-        void WriteEndArrayItem();
+        void WriteEndArrayItem() override;
 
         /// Write value start tag. A call to this method
         /// must follow WriteStartElement(...) or WriteStartArrayItem().
-        void WriteStartValue();
+        void WriteStartValue() override;
 
         /// Write value end tag. A call to this method
         /// must be followed by WriteEndElement(...) or WriteEndArrayItem().
-        void WriteEndValue();
+        void WriteEndValue() override;
 
         /// Write atomic value. Value type
         /// will be inferred from object.get_type().
-        void WriteValue(dot::object value);
+        void WriteValue(dot::object value) override;
 
         /// Convert to BSON string without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.
         dot::string to_string() override;
 
-        bsoncxx::document::view view();
+    private:
+
+        TupleWriterImpl(dot::object tuple, dot::list<dot::field_info> props);
 
     private:
-        BsonWriterImpl()
-            : bsonWriter_(true)
-            , currentState_(TreeWriterState::empty) {}
+
+        dot::object tuple_;
+        dot::list<dot::field_info> props_;
+        int indexOfCurrent_;
+        DataWriter dataWriter_;
+        data data_;
+
     };
 
-    inline BsonWriter make_BsonWriter() { return new BsonWriterImpl; }
+    inline TupleWriter make_TupleWriter(dot::object tuple, dot::list<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
 }

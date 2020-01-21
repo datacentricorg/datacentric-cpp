@@ -38,13 +38,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="serialization\BsonRecordSerializer.cpp" />
-    <ClCompile Include="serialization\BsonWriter.cpp" />
-    <ClCompile Include="serialization\DataWriter.cpp" />
-    <ClCompile Include="serialization\ITreeWriter.cpp" />
-    <ClCompile Include="serialization\JsonRecordSerializer.cpp" />
-    <ClCompile Include="serialization\JsonWriter.cpp" />
-    <ClCompile Include="serialization\TupleWriter.cpp" />
+    <ClCompile Include="serialization\bson_record_serializer.cpp" />
+    <ClCompile Include="serialization\bson_writer.cpp" />
+    <ClCompile Include="serialization\data_writer.cpp" />
+    <ClCompile Include="serialization\tree_writer_base.cpp" />
+    <ClCompile Include="serialization\json_record_serializer.cpp" />
+    <ClCompile Include="serialization\json_writer.cpp" />
+    <ClCompile Include="serialization\tuple_writer.cpp" />
     <ClCompile Include="types\record\CachedRecord.cpp" />
     <ClCompile Include="types\record\data.cpp" />
     <ClCompile Include="types\record\DeleteMarker.cpp" />
@@ -82,13 +82,13 @@
     <ClInclude Include="platform\time_zone\time_zone_data.hpp" />
     <ClInclude Include="platform\time_zone\time_zone_key.hpp" />
     <ClInclude Include="precompiled.hpp" />
-    <ClInclude Include="serialization\BsonRecordSerializer.hpp" />
-    <ClInclude Include="serialization\BsonWriter.hpp" />
-    <ClInclude Include="serialization\DataWriter.hpp" />
-    <ClInclude Include="serialization\ITreeWriter.hpp" />
-    <ClInclude Include="serialization\JsonRecordSerializer.hpp" />
-    <ClInclude Include="serialization\JsonWriter.hpp" />
-    <ClInclude Include="serialization\TupleWriter.hpp" />
+    <ClInclude Include="serialization\bson_record_serializer.hpp" />
+    <ClInclude Include="serialization\bson_writer.hpp" />
+    <ClInclude Include="serialization\data_writer.hpp" />
+    <ClInclude Include="serialization\tree_writer_base.hpp" />
+    <ClInclude Include="serialization\json_record_serializer.hpp" />
+    <ClInclude Include="serialization\json_writer.hpp" />
+    <ClInclude Include="serialization\tuple_writer.hpp" />
     <ClInclude Include="types\double\double_compare.hpp" />
     <ClInclude Include="types\record\CachedRecord.hpp" />
     <ClInclude Include="types\record\data.hpp" />

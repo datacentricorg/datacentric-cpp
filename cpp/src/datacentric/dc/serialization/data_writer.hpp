@@ -17,34 +17,55 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/serialization/ITreeWriter.hpp>
+#include <dc/serialization/i_tree_writer.hpp>
+#include <dc/types/record/data.hpp>
 #include <dot/system/ptr.hpp>
+#include <dot/system/type.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <rapidjson/document.h>
-#include <rapidjson/writer.h>
-#include <rapidjson/stringbuffer.h>
+#include <dot/system/collections/generic/dictionary.hpp>
+#include <dot/system/reflection/field_info.hpp>
 #include <stack>
 
 namespace dc
 {
-    class JsonWriterImpl; using JsonWriter = dot::ptr<JsonWriterImpl>;
+    class DataWriterImpl; using DataWriter = dot::ptr<DataWriterImpl>;
+    class TupleWriterImpl; using TupleWriter = dot::ptr<TupleWriterImpl>;
 
-    /// Implementation of ITreeWriterImpl using RapidJSON lib.
-    class DC_CLASS JsonWriterImpl : public ITreeWriterImpl
+    /// Implementation of ITreeWriter for Data.
+    class DC_CLASS DataWriterImpl : public ITreeWriterImpl
     {
-        friend JsonWriter make_JsonWriter();
+        friend DataWriter make_DataWriter(data data_obj);
+        friend TupleWriterImpl;
 
     private:
+        struct DataWriterPosition
+        {
+            dot::string CurrentElementName;
+            TreeWriterState CurrentState;
+            data CurrentDict;
+            dot::dictionary<dot::string, dot::field_info> CurrentDictElements;
+            dot::field_info CurrentElementInfo;
+            dot::list_base CurrentArray;
+            dot::type CurrentArrayItemType;
+        };
 
-        rapidjson::StringBuffer buffer_;
-        rapidjson::Writer<rapidjson::StringBuffer> jsonWriter_;
-        std::stack<std::pair<dot::string, TreeWriterState>> elementStack_; // TODO make dot::Stack
+    private: // FIELDS
+
+        std::stack<DataWriterPosition> elementStack_; // TODO make dot::Stack
+        dot::string rootElementName_;
+        dot::string currentElementName_;
         TreeWriterState currentState_;
+        data currentDict_;
+        dot::dictionary<dot::string, dot::field_info> currentDictElements_;
+        dot::field_info currentElementInfo_;
+        dot::list_base currentArray_;
+        dot::type currentArrayItemType_;
 
-    private:
-        JsonWriterImpl();
+    private: // CONSTRUCTORS
 
-    public:
+        DataWriterImpl(data data_obj);
+
+    public: //  METHODS
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
@@ -102,10 +123,19 @@ namespace dc
         /// will be inferred from object.get_type().
         void WriteValue(dot::object value) override;
 
-        /// Convert to JSON string without checking that JSON document is complete.
-        /// This permits the use of this method to inspect the JSON content during creation.
+        /// Convert to BSON string without checking that BSON document is complete.
+        /// This permits the use of this method to inspect the BSON content during creation.
         dot::string to_string() override;
+
+    private:
+        /// Push state to the stack.
+        void PushState();
+
+        /// Pop state from the stack.
+        void PopState();
+
     };
 
-    inline JsonWriter make_JsonWriter() { return new JsonWriterImpl; }
+    inline DataWriter make_DataWriter(data data_obj) { return new DataWriterImpl(data_obj); }
 }
+

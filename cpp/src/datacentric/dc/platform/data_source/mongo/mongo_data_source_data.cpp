@@ -17,8 +17,8 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
-#include <dc/serialization/BsonWriter.hpp>
-#include <dc/serialization/BsonRecordSerializer.hpp>
+#include <dc/serialization/bson_writer.hpp>
+#include <dc/serialization/bson_record_serializer.hpp>
 #include <dc/platform/context/context_base.hpp>
 #include <dc/platform/query/Query.hpp>
 #include <dc/platform/cursor/cursor_wrapper.hpp>
