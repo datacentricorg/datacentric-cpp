@@ -16,7 +16,7 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/DatabaseServerKey.hpp>
+#include <dc/platform/data_source/database_server_key.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc

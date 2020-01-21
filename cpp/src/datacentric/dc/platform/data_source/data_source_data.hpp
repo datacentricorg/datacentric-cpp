@@ -23,8 +23,8 @@ limitations under the License.
 #include <dot/system/collections/generic/hash_set.hpp>
 #include <dot/system/collections/generic/list.hpp>
 #include <dc/types/record/record.hpp>
-#include <dc/platform/data_source/DatabaseKey.hpp>
-#include <dc/platform/data_source/DatabaseServerKey.hpp>
+#include <dc/platform/data_source/database_key.hpp>
+#include <dc/platform/data_source/database_server_key.hpp>
 #include <dc/platform/query/Query.hpp>
 
 namespace dc

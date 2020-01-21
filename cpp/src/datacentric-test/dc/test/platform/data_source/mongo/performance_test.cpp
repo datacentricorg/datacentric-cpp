@@ -22,7 +22,7 @@ limitations under the License.
 #include <dc/serialization/BsonRecordSerializer.hpp>
 
 #include <dc/platform/data_source/data_source_data.hpp>
-#include <dc/platform/data_source/mongo/QueryBuilder.hpp>
+#include <dc/platform/data_source/mongo/query_builder.hpp>
 #include <dc/platform/data_source/mongo/mongo_default_server_data.hpp>
 
 #include <dc/platform/data_set/data_set_key.hpp>

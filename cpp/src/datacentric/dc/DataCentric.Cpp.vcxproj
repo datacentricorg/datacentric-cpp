@@ -67,13 +67,13 @@
     <ClInclude Include="platform\data_source\DatabaseServerKey.hpp" />
     <ClInclude Include="platform\data_source\data_source_data.hpp" />
     <ClInclude Include="platform\data_source\data_source_key.hpp" />
-    <ClInclude Include="platform\data_source\InstanceType.hpp" />
+    <ClInclude Include="platform\data_source\instance_type.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_data_source_base_data.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_data_source_data.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_default_server_data.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_server_data.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_standard_format_server_data.hpp" />
-    <ClInclude Include="platform\data_source\mongo\QueryBuilder.hpp" />
+    <ClInclude Include="platform\data_source\mongo\query_builder.hpp" />
     <ClInclude Include="platform\logging\LogEntryType.hpp" />
     <ClInclude Include="platform\logging\LogVerbosity.hpp" />
     <ClInclude Include="platform\query\Query.hpp" />

@@ -19,8 +19,8 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dc/types/record/record.hpp>
-#include <dc/platform/data_source/DatabaseKey.hpp>
-#include <dc/platform/data_source/DatabaseData.hpp>
+#include <dc/platform/data_source/database_key.hpp>
+#include <dc/platform/data_source/database_data.hpp>
 
 namespace dc
 {

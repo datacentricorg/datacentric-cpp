@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/platform/data_source/InstanceType.hpp>
+#include <dc/platform/data_source/instance_type.hpp>
 #include <dc/platform/data_source/data_source_data.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <mongocxx/database.hpp>

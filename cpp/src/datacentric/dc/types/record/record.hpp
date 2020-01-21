@@ -116,5 +116,5 @@ namespace dc
 #include <dc/platform/data_source/data_source_data.hpp>
 #include <dc/platform/data_source/data_source_key.hpp>
 
-#include <dc/platform/data_source/DatabaseServerData.hpp>
-#include <dc/platform/data_source/DatabaseServerKey.hpp>
+#include <dc/platform/data_source/database_server_data.hpp>
+#include <dc/platform/data_source/database_server_key.hpp>

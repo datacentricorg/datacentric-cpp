@@ -19,8 +19,8 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dc/types/record/record.hpp>
-#include <dc/platform/data_source/InstanceType.hpp>
-#include <dc/platform/data_source/DatabaseData.hpp>
+#include <dc/platform/data_source/instance_type.hpp>
+#include <dc/platform/data_source/database_key.hpp>
 
 namespace dc
 {
@@ -35,10 +35,10 @@ namespace dc
     /// the value of instance_type enumeration.
     ///
     /// This record is stored in root dataset.
-    class DC_CLASS db_name_key_impl : public root_key_impl<db_name_key_impl, db_name_data_impl>
+    class DC_CLASS db_name_data_impl : public root_record_for_impl<db_name_key_impl, db_name_data_impl>
     {
-        typedef db_name_key_impl self;
-        typedef instance_type instance_type_;
+        typedef db_name_data_impl self;
+        typedef instance_type instance_type_; // TODO Make class name and field name different
 
     public: // PROPERTIES
 
@@ -75,12 +75,11 @@ namespace dc
         /// \end{itemize}
         dot::string env_name;
 
-        DOT_TYPE_BEGIN("dc", "DbNameKey")
+        DOT_TYPE_BEGIN("dc", "db_name_data")
             DOT_TYPE_PROP(instance_type)
             DOT_TYPE_PROP(instance_name)
             DOT_TYPE_PROP(env_name)
         DOT_TYPE_END()
-
 
     };
 }

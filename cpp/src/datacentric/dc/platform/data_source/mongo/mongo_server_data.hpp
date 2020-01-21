@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/platform/data_source/DatabaseServerData.hpp>
+#include <dc/platform/data_source/database_server_data.hpp>
 
 namespace dc
 {
