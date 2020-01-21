@@ -16,18 +16,18 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
+#include <dc/platform/data_source/mongo/mongo_default_server_data.hpp>
 #include <dc/platform/data_source/DatabaseServerKey.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
-    MongoDefaultServerDataImpl::MongoDefaultServerDataImpl()
+    mongo_default_server_data_impl::mongo_default_server_data_impl()
     {
         db_server_id = db_server_key_impl::default_key->db_server_id;
     }
 
-    dot::string MongoDefaultServerDataImpl::GetMongoServerUri()
+    dot::string mongo_default_server_data_impl::get_mongo_server_uri()
     {
         return "mongodb://localhost/";
     }

@@ -19,8 +19,7 @@ limitations under the License.
 #include <dc/test/platform/context/Context.hpp>
 
 #include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
-#include <dc/platform/data_source/mongo/MongoDefaultServerData.hpp>
-//#include <dc/platform/data_source/mongo/Mongo.hpp>
+#include <dc/platform/data_source/mongo/mongo_default_server_data.hpp>
 
 namespace dc
 {
@@ -43,9 +42,7 @@ namespace dc
         dot::string mappedClassName = classInstance->get_type()->name;
 
         data_source = new mongo_data_source_data_impl();
-        //data_source->DbServer = new DbServerKeyImpl;
-        //data_source->DbServer->DbServerID = (new MongoDefaultServerDataImpl())->DbServerID;
-        data_source->db_server = (make_MongoDefaultServerData())->to_key();
+        data_source->db_server = (make_mongo_default_server_data())->to_key();
         data_source->db_name = new db_name_key_impl();
 
         data_source->db_name->instance_type = instance_type::TEST;

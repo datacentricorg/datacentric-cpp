@@ -17,7 +17,7 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/mongo/mongo_data_source_base_data.hpp>
-#include <dc/platform/data_source/mongo/MongoServerData.hpp>
+#include <dc/platform/data_source/mongo/mongo_server_data.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 #include <mongocxx/instance.hpp>
@@ -55,7 +55,7 @@ namespace dc
                 dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", dbName_));
 
         // Get client interface using the server
-        dot::string dbUri = db_server->Load(Context).as<MongoServerData>()->GetMongoServerUri();
+        dot::string dbUri = db_server->Load(Context).as<mongo_server_data>()->get_mongo_server_uri();
         client_ = mongocxx::client{ mongocxx::uri(*dbUri) };
 
         // Get database interface using the client and database name

@@ -16,14 +16,14 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/MongoStandardFormatServerData.hpp>
+#include <dc/platform/data_source/mongo/mongo_standard_format_server_data.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
-    dot::string MongoStandardFormatServerDataImpl::GetMongoServerUri()
+    dot::string mongo_standard_format_server_data_impl::get_mongo_server_uri()
     {
-        if (Hosts == nullptr || Hosts->count() == 0) throw dot::exception(
+        if (hosts == nullptr || hosts->count() == 0) throw dot::exception(
             dot::string::format("The list of hosts provided for MongoDB server {0} is null or empty.", db_server_id));
 
         // TODO uncoment when implemented

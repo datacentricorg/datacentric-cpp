@@ -18,33 +18,33 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/platform/data_source/mongo/MongoServerData.hpp>
+#include <dc/platform/data_source/mongo/mongo_server_data.hpp>
 
 namespace dc
 {
-    class MongoDefaultServerDataImpl; using MongoDefaultServerData = dot::ptr<MongoDefaultServerDataImpl>;
+    class mongo_default_server_data_impl; using mongo_default_server_data = dot::ptr<mongo_default_server_data_impl>;
 
     /// Returns MongoDB URI for the server running
     /// on the default port 27017 of localhost:
     ///
     /// mongodb://localhost/
-    class DC_CLASS MongoDefaultServerDataImpl final : public MongoServerDataImpl
+    class DC_CLASS mongo_default_server_data_impl final : public mongo_server_data_impl
     {
-        typedef MongoDefaultServerDataImpl self;
+        typedef mongo_default_server_data_impl self;
 
-        friend MongoDefaultServerData make_MongoDefaultServerData();
+        friend mongo_default_server_data make_mongo_default_server_data();
 
     protected: // CONSTRUCTORS
 
         /// Assign the value of DbServerID that
         /// the default Mongo server uses by convention.
-        MongoDefaultServerDataImpl();
+        mongo_default_server_data_impl();
 
     public: // METHODS
 
         /// Get Mongo server URI without database name.
-        dot::string GetMongoServerUri() override;
+        dot::string get_mongo_server_uri() override;
     };
 
-    inline MongoDefaultServerData make_MongoDefaultServerData() { return new MongoDefaultServerDataImpl; }
+    inline mongo_default_server_data make_mongo_default_server_data() { return new mongo_default_server_data_impl; }
 }

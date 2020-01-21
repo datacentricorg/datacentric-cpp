@@ -19,28 +19,28 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <dc/platform/data_source/mongo/MongoServerData.hpp>
+#include <dc/platform/data_source/mongo/mongo_server_data.hpp>
 
 namespace dc
 {
-    class MongoStandardFormatServerDataImpl; using MongoStandardFormatServerData = dot::ptr<MongoStandardFormatServerDataImpl>;
+    class mongo_standard_format_server_data_impl; using mongo_standard_format_server_data = dot::ptr<mongo_standard_format_server_data_impl>;
 
     /// Assembles MongoDB URI using the standard (``mongodb'') connection
     /// string format for a single server or a cluster.
-    class DC_CLASS MongoStandardFormatServerDataImpl final : public MongoServerDataImpl
+    class DC_CLASS mongo_standard_format_server_data_impl final : public mongo_server_data_impl
     {
-        typedef MongoStandardFormatServerDataImpl self;
+        typedef mongo_standard_format_server_data_impl self;
 
     public: // PROPERTIES
 
         /// MongoDB server hostname or the list of MongoDB cluster
         /// hostnames with optional port in ``host'' or ``host::port''
         /// format.
-        dot::list<dot::string> Hosts;
+        dot::list<dot::string> hosts;
 
     public: // METHODS
 
         /// Get Mongo server URI without database name.
-        dot::string GetMongoServerUri() override;
+        dot::string get_mongo_server_uri() override;
     };
 }
