@@ -23,103 +23,103 @@ limitations under the License.
 
 namespace dc
 {
-    void context_base_impl::SetDataSource(data_source_data value)
+    void context_base_impl::set_data_source(data_source_data value)
     {
-        DataSource = value;
+        data_source = value;
     }
 
     record_base context_base_impl::load_or_null(dot::object_id id, dot::type dataType)
     {
-        return DataSource->load_or_null(id, dataType);
+        return data_source->load_or_null(id, dataType);
     }
 
     record_base context_base_impl::reload_or_null(key_base key, dot::object_id loadFrom)
     {
-        return DataSource->reload_or_null(key, loadFrom);
+        return data_source->reload_or_null(key, loadFrom);
     }
 
     void context_base_impl::save(record_base record)
     {
-        DataSource->save(record, data_set);
+        data_source->save(record, data_set);
     }
 
     void context_base_impl::save(record_base record, dot::object_id saveTo)
     {
-        DataSource->save(record, saveTo);
+        data_source->save(record, saveTo);
     }
 
-    void context_base_impl::Delete(key_base key)
+    void context_base_impl::delete_record(key_base key)
     {
-        DataSource->delete_record(key, data_set);
+        data_source->delete_record(key, data_set);
     }
 
-    void context_base_impl::Delete(key_base key, dot::object_id deleteIn)
+    void context_base_impl::delete_record(key_base key, dot::object_id deleteIn)
     {
-        DataSource->delete_record(key, deleteIn);
+        data_source->delete_record(key, deleteIn);
     }
 
     void context_base_impl::delete_db()
     {
-        DataSource->delete_db();
+        data_source->delete_db();
     }
 
     dot::object_id context_base_impl::get_common()
     {
-        return DataSource->get_common();
+        return data_source->get_common();
     }
 
     dot::object_id context_base_impl::get_data_set(dot::string dataSetID)
     {
-        return DataSource->get_data_set(dataSetID, data_set);
+        return data_source->get_data_set(dataSetID, data_set);
     }
 
     dot::object_id context_base_impl::get_data_set(dot::string dataSetID, dot::object_id loadFrom)
     {
-        return DataSource->get_data_set(dataSetID, loadFrom);
+        return data_source->get_data_set(dataSetID, loadFrom);
     }
 
     dot::object_id context_base_impl::get_data_set_or_empty(dot::string dataSetID)
     {
-        return DataSource->get_data_set_or_empty(dataSetID, data_set);
+        return data_source->get_data_set_or_empty(dataSetID, data_set);
     }
 
     dot::object_id context_base_impl::get_data_set_or_empty(dot::string dataSetID, dot::object_id loadFrom)
     {
-        return DataSource->get_data_set_or_empty(dataSetID, loadFrom);
+        return data_source->get_data_set_or_empty(dataSetID, loadFrom);
     }
 
     dot::object_id context_base_impl::create_common()
     {
-        return DataSource->create_common();
+        return data_source->create_common();
     }
 
     dot::object_id context_base_impl::create_data_set(dot::string dataSetID)
     {
-        return DataSource->create_data_set(dataSetID, data_set);
+        return data_source->create_data_set(dataSetID, data_set);
     }
 
     dot::object_id context_base_impl::create_data_set(dot::string dataSetID, dot::object_id saveTo)
     {
-        return DataSource->create_data_set(dataSetID, saveTo);
+        return data_source->create_data_set(dataSetID, saveTo);
     }
 
     dot::object_id context_base_impl::create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentdata_sets)
     {
-        return DataSource->create_data_set(dataSetID, parentdata_sets, data_set);
+        return data_source->create_data_set(dataSetID, parentdata_sets, data_set);
     }
 
     dot::object_id context_base_impl::create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentdata_sets, dot::object_id saveTo)
     {
-        return DataSource->create_data_set(dataSetID, parentdata_sets, saveTo);
+        return data_source->create_data_set(dataSetID, parentdata_sets, saveTo);
     }
 
     void context_base_impl::save_data_set(data_set_data data_set_data)
     {
-        DataSource->save_data_set(data_set_data, data_set);
+        data_source->save_data_set(data_set_data, data_set);
     }
 
     void context_base_impl::save_data_set(data_set_data data_set_data, dot::object_id saveTo)
     {
-        DataSource->save_data_set(data_set_data, saveTo);
+        data_source->save_data_set(data_set_data, saveTo);
     }
 }

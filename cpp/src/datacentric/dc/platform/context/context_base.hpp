@@ -36,7 +36,7 @@ namespace dc
     public: // PROPERTIES
 
         /// Get the default data source of the context.
-        data_source_data DataSource;
+        data_source_data data_source;
 
         /// Returns dot::object_id of the context dataset.
         dot::object_id data_set;
@@ -46,7 +46,7 @@ namespace dc
     protected:
 
         /// Initialize data_source.
-        void SetDataSource(data_source_data dataSource);
+        void set_data_source(data_source_data dataSource);
 
     public: // METHODS
 
@@ -127,7 +127,7 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        void Delete(key_base key);
+        void delete_record(key_base key);
 
         /// Write a delete marker in deleteIn dataset for the specified key
         /// instead of actually deleting the record. This ensures that
@@ -136,7 +136,7 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        void Delete(key_base key, dot::object_id deleteIn);
+        void delete_record(key_base key, dot::object_id deleteIn);
 
         /// Permanently deletes (drops) the database with all records
         /// in it without the possibility to recover them later.

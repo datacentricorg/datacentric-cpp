@@ -278,7 +278,7 @@ namespace dc
     {
         // Get dataset and query
         dot::object_id dataSet = context->get_data_set(dataSetID, context->data_set);
-        query query = context->DataSource->get_query<TRecord>(dataSet);
+        query query = context->data_source->get_query<TRecord>(dataSet);
 
         // Iterate over records
         for (TRecord record : query->get_cursor<TRecord>())
@@ -371,7 +371,7 @@ namespace dc
         in_list->add("B");
 
         // Query for RecordID=B
-        dc::cursor_wrapper<MongoTestData> query = context->DataSource->get_query<MongoTestData>(dataSetD)
+        dc::cursor_wrapper<MongoTestData> query = context->data_source->get_query<MongoTestData>(dataSetD)
             //->Where(p = > p.RecordID == "B")
             ->where(make_prop(&MongoTestDataImpl::RecordID).in({ "B" }))
             ->where(make_prop(&MongoTestDataImpl::RecordID).in(std::vector<std::string>({ "B" })))
@@ -383,7 +383,7 @@ namespace dc
 
         for (MongoTestData obj : query)
         {
-            dot::string dataSetID = context->DataSource->load_or_null<data_set_data>(obj->data_set)->data_set_id;
+            dot::string dataSetID = context->data_source->load_or_null<data_set_data>(obj->data_set)->data_set_id;
             received << *dot::string::format("Key={0} data_set={1} Version={2}", obj->get_key(), dataSetID, obj->Version) << std::endl;
         }
 
@@ -425,7 +425,7 @@ namespace dc
         VerifyQuery<MongoTestData>(context, "B");
 
         received << "Delete A0 record in B dataset" << std::endl;
-        context->Delete(keyA0, dataSetB);
+        context->delete_record(keyA0, dataSetB);
         VerifyLoad(context, (key<MongoTestKeyImpl, MongoTestDataImpl>) keyA0, "A");
         VerifyLoad(context, (key<MongoTestKeyImpl, MongoTestDataImpl>) keyA0, "B");
 
@@ -435,7 +435,7 @@ namespace dc
         VerifyQuery<MongoTestData>(context, "B");
 
         received << "Delete A0 record in A dataset" << std::endl;
-        context->Delete(keyA0, dataSetA);
+        context->delete_record(keyA0, dataSetA);
         VerifyLoad(context, (key<MongoTestKeyImpl, MongoTestDataImpl>) keyA0, "A");
         VerifyLoad(context, (key<MongoTestKeyImpl, MongoTestDataImpl>) keyA0, "B");
 
@@ -445,7 +445,7 @@ namespace dc
         VerifyQuery<MongoTestData>(context, "B");
 
         received << "Delete B0 record in B dataset" << std::endl;
-        context->Delete(keyB0, dataSetB);
+        context->delete_record(keyB0, dataSetB);
         VerifyLoad(context, (key<MongoTestKeyImpl, MongoTestDataImpl>) keyB0, "A");
         VerifyLoad(context, (key<MongoTestKeyImpl, MongoTestDataImpl>) keyB0, "B");
 
@@ -550,7 +550,7 @@ namespace dc
         key->RecordID = "BB";
         key->RecordIndex = dot::nullable<int>(2);
 
-        dc::cursor_wrapper<MongoTestDerivedData> testQuery = context->DataSource->get_query<MongoTestDerivedData>(dataSetB)
+        dc::cursor_wrapper<MongoTestDerivedData> testQuery = context->data_source->get_query<MongoTestDerivedData>(dataSetB)
             ->where(make_prop(&MongoTestDerivedDataImpl::DataElementList)[0]->*make_prop(&ElementSampleDataImpl::DoubleElement3) == 1.0)
             ->where(make_prop(&MongoTestDerivedDataImpl::DataElementList)[0]->*make_prop(&ElementSampleDataImpl::StringElement3) == "A0")
             ->where(make_prop(&MongoTestDerivedDataImpl::local_date_element) < dot::local_date(2003, 5, 2))
@@ -619,7 +619,7 @@ namespace dc
         }
         {
             received << "Query by MongoTestData, unconstrained" << std::endl;
-            query query = context->DataSource->get_query<MongoTestData>(dataSetD);
+            query query = context->data_source->get_query<MongoTestData>(dataSetD);
             for (record_base obj : query->get_cursor<record_base>())
             {
                 received << *dot::string::format("    Key={0} Type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
@@ -627,7 +627,7 @@ namespace dc
         }
         {
             received << "Query by MongoTestDerivedData : MongoTestData which also picks up MongoTestDerivedFromDerivedData : MongoTestDerivedData, unconstrained" << std::endl;
-            query query = context->DataSource->get_query<MongoTestDerivedData>(dataSetD);
+            query query = context->data_source->get_query<MongoTestDerivedData>(dataSetD);
             for (record_base obj : query->get_cursor<record_base>())
             {
                 received << *dot::string::format("    Key={0} Type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
@@ -636,7 +636,7 @@ namespace dc
         {
             received << "Query by MongoTestOtherDerivedData : MongoTestData, unconstrained" << std::endl;
             MongoTestOtherDerivedDataImpl::typeof();
-            query query = context->DataSource->get_query<MongoTestOtherDerivedData>(dataSetD);
+            query query = context->data_source->get_query<MongoTestOtherDerivedData>(dataSetD);
             for (record_base obj : query->get_cursor<record_base>())
             {
                 received << *dot::string::format("    Key={0} Type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
@@ -644,7 +644,7 @@ namespace dc
         }
         {
             received << "Query by MongoTestDerivedFromDerivedData : MongoTestDerivedData, where MongoTestDerivedData : MongoTestData, unconstrained" << std::endl;
-            query query = context->DataSource->get_query<MongoTestDerivedFromDerivedData>(dataSetD);
+            query query = context->data_source->get_query<MongoTestDerivedFromDerivedData>(dataSetD);
             for (record_base obj : query->get_cursor<record_base>())
             {
                 received << *dot::string::format("    Key={0} Type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
@@ -668,7 +668,7 @@ namespace dc
         dot::object_id dataSetD = context->get_data_set_or_empty("D", context->data_set);
 
         received << "Query by MongoTestData, sort by RecordIndex descending, then by DoubleElement ascending" << std::endl;
-        dc::cursor_wrapper<MongoTestData> baseQuery = context->DataSource->get_query<MongoTestData>(dataSetD)
+        dc::cursor_wrapper<MongoTestData> baseQuery = context->data_source->get_query<MongoTestData>(dataSetD)
             ->sort_by_descending(make_prop(&MongoTestDataImpl::RecordIndex))
             ->sort_by(make_prop(&MongoTestDataImpl::DoubleElement))
             ->get_cursor<MongoTestData>();
@@ -704,7 +704,7 @@ namespace dc
         dot::object_id objA1 = SaveMinimalRecord(context, "A", "A", 0, 1);
         dot::object_id objB1 = SaveMinimalRecord(context, "B", "B", 0, 1);
 
-        dot::object_id cutoff_object_id = context->DataSource->create_ordered_object_id();
+        dot::object_id cutoff_object_id = context->data_source->create_ordered_object_id();
 
         // Create third version of the records
         dot::object_id objA2 = SaveMinimalRecord(context, "A", "A", 0, 2);
@@ -739,7 +739,7 @@ namespace dc
 
         // Query for all records
         {
-            cursor_wrapper<MongoTestData> query = context->DataSource->get_query<MongoTestData>(dataSetB)
+            cursor_wrapper<MongoTestData> query = context->data_source->get_query<MongoTestData>(dataSetB)
                 ->sort_by(make_prop(&MongoTestDataImpl::RecordID))
                 ->sort_by(make_prop(&MongoTestDataImpl::RecordIndex))
                 ->get_cursor<MongoTestData>();
@@ -754,10 +754,10 @@ namespace dc
 
         // Set new value for the DB server key so that the reference to in-memory
         // record is stored inside the key, otherwise it would not be found
-        context->DataSource->db_server = make_MongoDefaultServerData()->to_key();
+        context->data_source->db_server = make_MongoDefaultServerData()->to_key();
 
         // Set revision time constraint
-        context->DataSource->revised_before_id = cutoff_object_id;
+        context->data_source->revised_before_id = cutoff_object_id;
 
         // Get each record by dot::object_id
         received << "Load records by dot::object_id with RevisedBeforeId constraint" << std::endl;
@@ -785,7 +785,7 @@ namespace dc
 
         // Query for revised before the cutoff time
         {
-            cursor_wrapper<MongoTestData> query = context->DataSource->get_query<MongoTestData>(dataSetB)
+            cursor_wrapper<MongoTestData> query = context->data_source->get_query<MongoTestData>(dataSetB)
                 ->sort_by(make_prop(&MongoTestDataImpl::RecordID))
                 ->sort_by(make_prop(&MongoTestDataImpl::RecordIndex))
                 ->get_cursor<MongoTestData>();
@@ -801,7 +801,7 @@ namespace dc
         // Clear revision time constraint before exiting to avoid an error
         // about deleting readonly database. The error occurs because
         // revision time constraint makes the data source readonly.
-        context->DataSource->revised_before_id = dot::nullable<dot::object_id>();
+        context->data_source->revised_before_id = dot::nullable<dot::object_id>();
 
         std::string toVerify = received.str();
         received.str("");

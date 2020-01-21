@@ -223,7 +223,7 @@ namespace dc
         void Delete(context_base context)
         {
             // Delete in the dataset of the context
-            context->DataSource->delete_record(this, context->data_set);
+            context->data_source->delete_record(this, context->data_set);
         }
 
         /// Write a delete marker in deleteIn dataset for the specified key
@@ -235,7 +235,7 @@ namespace dc
         /// marker is written even when the record does not exist.
         void Delete(context_base context, dot::object_id deleteIn)
         {
-            context->DataSource->delete_record(this, deleteIn);
+            context->data_source->delete_record(this, deleteIn);
         }
 
         /// Return true if the key holds a cached record,

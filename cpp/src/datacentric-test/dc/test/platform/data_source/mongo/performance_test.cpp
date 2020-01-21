@@ -231,7 +231,7 @@ namespace dc
         dot::string data_set_name = get_data_set(2);
         dot::object_id dataSet = context->get_data_set_or_empty(data_set_name);
 
-        dc::cursor_wrapper<PerformanceTestData> query = context->DataSource->get_query<PerformanceTestData>(dataSet)
+        dc::cursor_wrapper<PerformanceTestData> query = context->data_source->get_query<PerformanceTestData>(dataSet)
       // TODO - fix compilation      ->Where(make_prop(&PerformanceTestDataImpl::Key) == recordID)
             //->Where(make_prop(&PerformanceTestDataImpl::Version) == recordVersions - 1)
             ->get_cursor<PerformanceTestData>();

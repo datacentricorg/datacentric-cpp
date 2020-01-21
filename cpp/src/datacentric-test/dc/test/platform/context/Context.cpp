@@ -42,23 +42,23 @@ namespace dc
         // is actually used to access data.
         dot::string mappedClassName = classInstance->get_type()->name;
 
-        DataSource = new mongo_data_source_data_impl();
-        //DataSource->DbServer = new DbServerKeyImpl;
-        //DataSource->DbServer->DbServerID = (new MongoDefaultServerDataImpl())->DbServerID;
-        DataSource->db_server = (make_MongoDefaultServerData())->to_key();
-        DataSource->db_name = new db_name_key_impl();
+        data_source = new mongo_data_source_data_impl();
+        //data_source->DbServer = new DbServerKeyImpl;
+        //data_source->DbServer->DbServerID = (new MongoDefaultServerDataImpl())->DbServerID;
+        data_source->db_server = (make_MongoDefaultServerData())->to_key();
+        data_source->db_name = new db_name_key_impl();
 
-        DataSource->db_name->instance_type = instance_type::TEST;
-        DataSource->db_name->instance_name = mappedClassName;
-        DataSource->db_name->env_name = methodName;
+        data_source->db_name->instance_type = instance_type::TEST;
+        data_source->db_name->instance_name = mappedClassName;
+        data_source->db_name->env_name = methodName;
 
-        DataSource->Init(this);
+        data_source->Init(this);
 
         // Delete (drop) the database to clear the existing data
-        DataSource->delete_db();
+        data_source->delete_db();
 
         // Create common dataset and assign it to data_set property of this context
-        data_set = DataSource->create_common();
+        data_set = data_source->create_common();
     }
 
     unit_test_context_impl::~unit_test_context_impl()
@@ -67,7 +67,7 @@ namespace dc
         {
             // Permanently delete the unit test database
             // unless KeepDb is true
-            DataSource->delete_db();
+            data_source->delete_db();
         }
     }
 }
