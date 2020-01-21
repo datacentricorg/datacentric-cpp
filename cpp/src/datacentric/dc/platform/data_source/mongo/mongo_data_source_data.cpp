@@ -43,7 +43,7 @@ namespace dc
         bsoncxx::builder::basic::document filter{};
         filter.append(bsoncxx::builder::basic::kvp("_id", id.oid()));
 
-        bsoncxx::stdx::optional<bsoncxx::document::value> res = GetCollection(dataType).find_one(filter.view());
+        bsoncxx::stdx::optional<bsoncxx::document::value> res = get_collection(dataType).find_one(filter.view());
         if (res != bsoncxx::stdx::nullopt)
         {
             BsonRecordSerializer serializer = make_BsonRecordSerializer();
@@ -91,7 +91,7 @@ namespace dc
 
         query.limit(1); // Only the first document is needed
 
-        mongocxx::cursor res = GetCollection(key->get_type()).aggregate(query);
+        mongocxx::cursor res = get_collection(key->get_type()).aggregate(query);
 
         std::string s = bsoncxx::to_json(query.view());
 
@@ -113,7 +113,7 @@ namespace dc
     {
         check_not_read_only();
 
-        auto collection = GetCollection(record->get_type());
+        auto collection = get_collection(record->get_type());
 
         // This method guarantees that dot::object_ids will be in strictly increasing
         // order for this instance of the data source class always, and across
@@ -226,7 +226,7 @@ namespace dc
         if (query->select_.is_empty())
         {
             context_base context = this->Context;
-            return make_object_cursor_wrapper(std::move(GetCollection(query->type_).aggregate(pipeline)),
+            return make_object_cursor_wrapper(std::move(get_collection(query->type_).aggregate(pipeline)),
                 [context](const bsoncxx::document::view& item)->dot::object
                 {
                     BsonRecordSerializer serializer = make_BsonRecordSerializer();
@@ -247,7 +247,7 @@ namespace dc
             pipeline.project(selectList.view());
 
             context_base context = this->Context;
-            return make_object_cursor_wrapper(std::move(GetCollection(query->type_).aggregate(pipeline)),
+            return make_object_cursor_wrapper(std::move(get_collection(query->type_).aggregate(pipeline)),
                 [context, query](const bsoncxx::document::view& item)->dot::object
                 {
                     BsonRecordSerializer serializer = make_BsonRecordSerializer();
@@ -266,7 +266,7 @@ namespace dc
         record->get_key() = key->getValue();
 
         // Get collection
-        auto collection = GetCollection(key->get_type());
+        auto collection = get_collection(key->get_type());
 
         // This method guarantees that dot::object_ids will be in strictly increasing
         // order for this instance of the data source class always, and across

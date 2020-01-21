@@ -126,7 +126,7 @@ namespace dc
         }
     }
 
-    mongocxx::collection mongo_data_source_base_data_impl::GetCollection(dot::type dataType)
+    mongocxx::collection mongo_data_source_base_data_impl::get_collection(dot::type dataType)
     {
         dot::type curr = dataType;
         while (curr->name != "Record" && curr->name != "Key")
@@ -136,10 +136,10 @@ namespace dc
                 throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", dataType->name));
         }
         dot::string typeName = curr->get_generic_arguments()[0]->name;
-        return GetCollection(typeName);
+        return get_collection(typeName);
     }
 
-    mongocxx::collection mongo_data_source_base_data_impl::GetCollection(dot::string typeName)
+    mongocxx::collection mongo_data_source_base_data_impl::get_collection(dot::string typeName)
     {
         int prefixSize = 0; //! TODO change to ClassInfo.MappedName
         dot::string collectionName;
