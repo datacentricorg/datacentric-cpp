@@ -21,10 +21,10 @@ limitations under the License.
 
 namespace dc
 {
-    db_server_key db_server_key_impl::default_key = new db_server_key_impl("default");
+    db_server_key db_server_key_impl::default_key = new db_server_key_impl("mongodb://localhost:27017");
 
     db_server_key_impl::db_server_key_impl(dot::string value)
     {
-        db_server_id = value;
+        db_server_uri = value;
     }
 }

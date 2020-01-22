@@ -37,14 +37,14 @@ namespace dc
 
     public: // PROPERTIES
 
-        /// Unique database server identifier string.
+        /// Mongo server URI.
         ///
-        /// This field is the user friendly name used to
-        /// identify the server. It is not the server URI.
-        dot::string db_server_id;
+        /// Server URI specified here must refer to the entire server, not
+        /// an individual database.
+        dot::string db_server_uri;
 
         DOT_TYPE_BEGIN("dc", "db_server_data")
-            DOT_TYPE_PROP(db_server_id)
+            DOT_TYPE_PROP(db_server_uri)
             DOT_TYPE_CTOR(make_db_server_data)
         DOT_TYPE_END()
     };

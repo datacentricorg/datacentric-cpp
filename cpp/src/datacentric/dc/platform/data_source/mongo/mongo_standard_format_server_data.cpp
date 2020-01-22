@@ -24,7 +24,7 @@ namespace dc
     dot::string mongo_standard_format_server_data_impl::get_mongo_server_uri()
     {
         if (hosts == nullptr || hosts->count() == 0) throw dot::exception(
-            dot::string::format("The list of hosts provided for MongoDB server {0} is null or empty.", db_server_id));
+            dot::string::format("The list of hosts provided for MongoDB server {0} is null or empty.", db_server_uri));
 
         // TODO uncoment when implemented
         //dot::string host_names = dot::string::join(",", hosts);
