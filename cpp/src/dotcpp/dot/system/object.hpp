@@ -234,6 +234,9 @@ namespace dot
 
         bool operator ==(object rhs) const { throw exception("Not implemented"); return false; }
 
+        template <class T>
+        operator ptr<T>() const { return this->as<ptr<T>>(); }
+
     public: // STATIC
 
         /// Determines whether the specified System.object instances are the same instance.
