@@ -81,9 +81,11 @@
     <ClInclude Include="system\reflection\activator.hpp" />
     <ClInclude Include="system\reflection\binding_flags.hpp" />
     <ClInclude Include="system\reflection\constructor_info.hpp" />
+    <ClInclude Include="system\reflection\constructor_info_impl.hpp" />
     <ClInclude Include="system\reflection\field_info.hpp" />
     <ClInclude Include="system\reflection\member_info.hpp" />
     <ClInclude Include="system\reflection\method_info.hpp" />
+    <ClInclude Include="system\reflection\method_info_impl.hpp" />
     <ClInclude Include="system\reflection\parameter_info.hpp" />
     <ClInclude Include="system\string.hpp" />
     <ClInclude Include="system\string_split_options.hpp" />
