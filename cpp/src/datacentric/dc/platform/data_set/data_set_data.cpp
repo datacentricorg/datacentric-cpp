@@ -25,10 +25,10 @@ namespace dc
     {
         TypedRecordImpl<DataSetKeyImpl, DataSetImpl>::init(context);
 
-        if (dot::String::is_null_or_empty(data_set_id)) throw dot::Exception("data_set_id has not been set.");
+        if (dot::String::is_null_or_empty(data_set_name)) throw dot::Exception("data_set_name has not been set.");
 
-        if (!dot::List<TemporalId>(parents).is_empty())
-        for (TemporalId parent : parents)
+        if (!dot::List<TemporalId>(imports).is_empty())
+        for (TemporalId parent : imports)
         {
             if (id <= parent)
             {
@@ -36,14 +36,14 @@ namespace dc
                 {
                     throw dot::Exception(dot::String::format(
                         "Dataset {0} has a parent with the same TemporalId={1} "
-                        "as its own TemporalId. Each TemporalId must be unique.", data_set_id, parent.to_string()));
+                        "as its own TemporalId. Each TemporalId must be unique.", data_set_name, parent.to_string()));
                 }
                 else
                 {
                     throw dot::Exception(dot::String::format(
                         "Dataset {0} has a parent whose TemporalId={1} is greater "
                         "than its own TemporalId={2}. The TemporalId of each parent must be strictly "
-                        "less than the TemporalId of the dataset itself.", data_set_id, parent.to_string(), TemporalId(id).to_string()));
+                        "less than the TemporalId of the dataset itself.", data_set_name, parent.to_string(), TemporalId(id).to_string()));
                 }
             }
         }

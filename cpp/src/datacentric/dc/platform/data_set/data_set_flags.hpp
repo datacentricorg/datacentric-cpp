@@ -20,13 +20,12 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>Binary flags for the dataset create options.</summary>
+    /// Binary flags for the dataset create options.
     enum class DataSetFlags
     {
-        /// <summary>Specifies that no flags are defined.</summary>
+        /// Specifies that no flags are defined.
         default_option = 0,
 
-        /// <summary>
         /// By default, a dataset will hold temporal data if the data source
         /// has temporal capability. Specify this flag to create a dataset that
         /// holds non-temporal data in a temporal data source.
@@ -42,7 +41,6 @@ namespace dc
         ///
         /// In a non-temporal data source, this flag is ignored as all
         /// datasets in such data source are non-temporal.
-        /// </summary>
         non_temporal = 1
     };
 }

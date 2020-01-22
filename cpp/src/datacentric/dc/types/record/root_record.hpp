@@ -26,7 +26,9 @@ namespace dc
     template <typename TKey, typename TRecord> class TypedRecordImpl;
     template <typename TKey, typename TRecord> using TypedRecord = dot::Ptr<TypedRecordImpl<TKey, TRecord>>;
 
-    /// Root record is recorded without a dataset.
+    /// Base class of records stored in root dataset of the data store.
+    ///
+    /// Init(...) method of this class sets DataSet to TemporalId.Empty.
     template <typename TKey, typename TRecord>
     class RootRecordImpl : public virtual TypedRecordImpl<TKey, TRecord>
     {

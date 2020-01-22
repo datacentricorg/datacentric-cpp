@@ -95,8 +95,7 @@ namespace dc
 
     bool TemporalId::is_empty()
     {
-        static char empty_bytes[bytes_size_] = { 0 };
-        return bytes_->compare(empty_bytes) == 0;
+        return (*this) == empty;
     }
 
     TemporalId TemporalId::generate_new_id()

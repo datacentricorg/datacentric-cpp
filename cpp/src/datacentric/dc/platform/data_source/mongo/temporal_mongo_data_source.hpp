@@ -114,7 +114,7 @@ namespace dc
         /// calling DataSource.ClearDataSetCache() method.
         ///
         /// Returns null if not found.
-        virtual dot::Nullable<TemporalId> get_data_set_or_empty(dot::String data_set_id, TemporalId load_from) override;
+        virtual dot::Nullable<TemporalId> get_data_set_or_empty(dot::String data_set_name, TemporalId load_from) override;
 
         /// Save new version of the dataset.
         ///
@@ -240,13 +240,13 @@ namespace dc
         /// Dictionary of collections indexed by Type T.
         dot::Dictionary<dot::Type, dot::Object> collection_dict_ = dot::make_dictionary<dot::Type, dot::Object>();
 
-        /// Dictionary of dataset temporal_ids stored under String data_set_id.
+        /// Dictionary of dataset temporal_ids stored under String data_set_name.
         dot::Dictionary<dot::String, TemporalId> data_set_dict_ = dot::make_dictionary<dot::String, TemporalId>();
 
         /// Dictionary of datasets and datasets that holds them
         dot::Dictionary<TemporalId, TemporalId> data_set_owners_dict_ = dot::make_dictionary<TemporalId, TemporalId>();
 
-        /// Dictionary of dataset temporal_ids stored under String data_set_id.
+        /// Dictionary of dataset temporal_ids stored under String data_set_name.
         dot::Dictionary<TemporalId, DataSetDetail> data_set_detail_dict_ = dot::make_dictionary<TemporalId, DataSetDetail>();
 
         /// Dictionary of the expanded list of parent temporal_ids of dataset, including

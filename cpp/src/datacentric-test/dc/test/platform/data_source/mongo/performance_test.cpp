@@ -138,7 +138,7 @@ namespace dc
         return dot::String::format(data_set_pattern, index);
     }
 
-    TemporalId save_record(UnitTestContextBase context, dot::String data_set_id, dot::String record_id, int record_version, int record_size)
+    TemporalId save_record(UnitTestContextBase context, dot::String data_set_name, dot::String record_id, int record_version, int record_size)
     {
         PerformanceTestData rec = make_performance_test_data();
         rec->record_id = record_id;
@@ -149,7 +149,7 @@ namespace dc
         for (int i = 0; i < record_size; ++i)
             rec->double_list->add(std::rand());
 
-        TemporalId data_set = context->get_data_set(data_set_id);
+        TemporalId data_set = context->get_data_set(data_set_name);
         context->save_one(rec, data_set);
         return rec->id;
     }
@@ -168,7 +168,7 @@ namespace dc
         for (int i = 0; i < record_count; ++i)
         {
             dot::String record_id = get_record_key(i);
-            save_record(context, DataSetKeyImpl::common->data_set_id, record_id, 0, record_size);
+            save_record(context, DataSetKeyImpl::common->data_set_name, record_id, 0, record_size);
 
             for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {

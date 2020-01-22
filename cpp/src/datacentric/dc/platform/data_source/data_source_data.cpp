@@ -31,14 +31,14 @@ namespace dc
 
     TemporalId DataSourceImpl::get_common()
     {
-        return get_data_set(DataSetKeyImpl::common->data_set_id, TemporalId::empty);
+        return get_data_set(DataSetKeyImpl::common->data_set_name, TemporalId::empty);
     }
 
-    TemporalId DataSourceImpl::get_data_set(dot::String data_set_id, TemporalId load_from)
+    TemporalId DataSourceImpl::get_data_set(dot::String data_set_name, TemporalId load_from)
     {
-        auto result = get_data_set_or_empty(data_set_id, load_from);
+        auto result = get_data_set_or_empty(data_set_name, load_from);
         if (result == nullptr) throw dot::Exception(
-            dot::String::format("Dataset {0} is not found in data store {1}.", data_set_id, data_source_name));
+            dot::String::format("Dataset {0} is not found in data store {1}.", data_set_name, data_source_name));
         return result.value();
     }
 
@@ -52,35 +52,35 @@ namespace dc
         return create_common(DataSetFlags::default_option);
     }
 
-    TemporalId DataSourceImpl::create_data_set(dot::String data_set_id, TemporalId save_to)
+    TemporalId DataSourceImpl::create_data_set(dot::String data_set_name, TemporalId save_to)
     {
         // Create with default flags in parentDataSet
-        return create_data_set(data_set_id, nullptr, DataSetFlags::default_option, save_to);
+        return create_data_set(data_set_name, nullptr, DataSetFlags::default_option, save_to);
     }
 
-    TemporalId DataSourceImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, TemporalId save_to)
+    TemporalId DataSourceImpl::create_data_set(dot::String data_set_name, dot::List<TemporalId> parent_data_sets, TemporalId save_to)
     {
         // Create with default flags in parentDataSet
-        return create_data_set(data_set_id, parent_data_sets, DataSetFlags::default_option, save_to);
+        return create_data_set(data_set_name, parent_data_sets, DataSetFlags::default_option, save_to);
     }
-    TemporalId DataSourceImpl::create_data_set(dot::String data_set_id, DataSetFlags flags, TemporalId save_to)
+    TemporalId DataSourceImpl::create_data_set(dot::String data_set_name, DataSetFlags flags, TemporalId save_to)
     {
         // Create with specified flags in parentDataSet
-        return create_data_set(data_set_id, nullptr, flags, save_to);
+        return create_data_set(data_set_name, nullptr, flags, save_to);
     }
-    TemporalId DataSourceImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags, TemporalId save_to)
+    TemporalId DataSourceImpl::create_data_set(dot::String data_set_name, dot::List<TemporalId> parent_data_sets, DataSetFlags flags, TemporalId save_to)
     {
         // Create dataset record
         auto result = make_data_set_data();
-        result->data_set_id = data_set_id;
+        result->data_set_name = data_set_name;
 
         if (parent_data_sets != nullptr)
         {
             // Add parents if second argument is not null
-            result->parents = dot::make_list<TemporalId>();
+            result->imports = dot::make_list<TemporalId>();
             for (auto parent_data_set : parent_data_sets)
             {
-                result->parents->add(parent_data_set);
+                result->imports->add(parent_data_set);
             }
         }
 

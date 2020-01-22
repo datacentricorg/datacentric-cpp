@@ -49,10 +49,8 @@ namespace dc
         /// TemporalId of the referenced dataset.
         TemporalId data_set_id;
 
-        /// <summary>
         /// If specified, write operations to the referenced dataset
         /// will result in an error.
-        /// </summary>
         dot::Nullable<bool> read_only;
 
         /// Records with TemporalId that is greater than or equal to CutoffTime

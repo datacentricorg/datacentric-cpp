@@ -92,24 +92,24 @@ namespace dc
         return data_source->get_common();
     }
 
-    TemporalId ContextBaseImpl::get_data_set(dot::String data_set_id)
+    TemporalId ContextBaseImpl::get_data_set(dot::String data_set_name)
     {
-        return data_source->get_data_set(data_set_id, data_set);
+        return data_source->get_data_set(data_set_name, data_set);
     }
 
-    TemporalId ContextBaseImpl::get_data_set(dot::String data_set_id, TemporalId load_from)
+    TemporalId ContextBaseImpl::get_data_set(dot::String data_set_name, TemporalId load_from)
     {
-        return data_source->get_data_set(data_set_id, load_from);
+        return data_source->get_data_set(data_set_name, load_from);
     }
 
-    dot::Nullable<TemporalId> ContextBaseImpl::get_data_set_or_empty(dot::String data_set_id)
+    dot::Nullable<TemporalId> ContextBaseImpl::get_data_set_or_empty(dot::String data_set_name)
     {
-        return data_source->get_data_set_or_empty(data_set_id, data_set);
+        return data_source->get_data_set_or_empty(data_set_name, data_set);
     }
 
-    dot::Nullable<TemporalId> ContextBaseImpl::get_data_set_or_empty(dot::String data_set_id, TemporalId load_from)
+    dot::Nullable<TemporalId> ContextBaseImpl::get_data_set_or_empty(dot::String data_set_name, TemporalId load_from)
     {
-        return data_source->get_data_set_or_empty(data_set_id, load_from);
+        return data_source->get_data_set_or_empty(data_set_name, load_from);
     }
 
     TemporalId ContextBaseImpl::create_common()
@@ -122,44 +122,44 @@ namespace dc
         return data_source->create_common(flags);
     }
 
-    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_name)
     {
-        return data_source->create_data_set(data_set_id, data_set);
+        return data_source->create_data_set(data_set_name, data_set);
     }
 
-    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, TemporalId save_to)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_name, TemporalId save_to)
     {
-        return data_source->create_data_set(data_set_id, save_to);
+        return data_source->create_data_set(data_set_name, save_to);
     }
 
-    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parentdata_sets)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_name, dot::List<TemporalId> parentdata_sets)
     {
-        return data_source->create_data_set(data_set_id, parentdata_sets, data_set);
+        return data_source->create_data_set(data_set_name, parentdata_sets, data_set);
     }
 
-    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parentdata_sets, TemporalId save_to)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_name, dot::List<TemporalId> parentdata_sets, TemporalId save_to)
     {
-        return data_source->create_data_set(data_set_id, parentdata_sets, save_to);
+        return data_source->create_data_set(data_set_name, parentdata_sets, save_to);
     }
 
-    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, DataSetFlags flags)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_name, DataSetFlags flags)
     {
-        return data_source->create_data_set(data_set_id, flags, data_set);
+        return data_source->create_data_set(data_set_name, flags, data_set);
     }
 
-    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, DataSetFlags flags, TemporalId save_to)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_name, DataSetFlags flags, TemporalId save_to)
     {
-        return data_source->create_data_set(data_set_id, flags, save_to);
+        return data_source->create_data_set(data_set_name, flags, save_to);
     }
 
-    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_name, dot::List<TemporalId> parent_data_sets, DataSetFlags flags)
     {
-        return data_source->create_data_set(data_set_id, parent_data_sets, flags, data_set);
+        return data_source->create_data_set(data_set_name, parent_data_sets, flags, data_set);
     }
 
-    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags, TemporalId save_to)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_name, dot::List<TemporalId> parent_data_sets, DataSetFlags flags, TemporalId save_to)
     {
-        return data_source->create_data_set(data_set_id, parent_data_sets, flags, save_to);
+        return data_source->create_data_set(data_set_name, parent_data_sets, flags, save_to);
     }
 
     void ContextBaseImpl::save_data_set(DataSet value)

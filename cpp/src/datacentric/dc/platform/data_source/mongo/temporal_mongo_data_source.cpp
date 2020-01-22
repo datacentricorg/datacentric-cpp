@@ -204,10 +204,10 @@ namespace dc
         return result;
     }
 
-    dot::Nullable<TemporalId> TemporalMongoDataSourceImpl::get_data_set_or_empty(dot::String data_set_id, TemporalId load_from)
+    dot::Nullable<TemporalId> TemporalMongoDataSourceImpl::get_data_set_or_empty(dot::String data_set_name, TemporalId load_from)
     {
         TemporalId result;
-        if (data_set_dict_->try_get_value(data_set_id, result))
+        if (data_set_dict_->try_get_value(data_set_name, result))
         {
             // Check if already cached, return if found
             return result;
@@ -216,7 +216,7 @@ namespace dc
         {
             // Otherwise load from storage (this also updates the dictionaries)
             DataSetKey data_set_key = make_data_set_key();
-            data_set_key->data_set_id = data_set_id;
+            data_set_key->data_set_name = data_set_name;
             DataSet data_set_data = (dc::DataSet)load_or_null(data_set_key, load_from);
 
             // If not found, return TemporalId.Empty
@@ -234,7 +234,7 @@ namespace dc
             }
 
             // Cache TemporalId for the dataset and its parent
-            data_set_dict_[data_set_id] = data_set_data->id;
+            data_set_dict_[data_set_name] = data_set_data->id;
             data_set_owners_dict_[data_set_data->id] = data_set_data->data_set;
 
             dot::HashSet<TemporalId> import_set;
@@ -456,9 +456,9 @@ namespace dc
         result->add(data_set_data->id);
 
         // Add imports to the result
-        if (data_set_data->parents != nullptr)
+        if (data_set_data->imports != nullptr)
         {
-            for (TemporalId data_set_id : data_set_data->parents)
+            for (TemporalId data_set_id : data_set_data->imports)
             {
                 // Dataset cannot include itself as its import
                 if (data_set_data->id == data_set_id)

@@ -282,7 +282,7 @@ namespace dc
         TemporalId get_common();
 
         /// Return TemporalId for the latest dataset record with
-        /// matching data_set_id String from in-memory cache. Try
+        /// matching data_set_name String from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
         /// This overload of the get_data_set method does not
@@ -296,10 +296,10 @@ namespace dc
         /// in the data store and will only load it from storage
         /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
-        TemporalId get_data_set(dot::String data_set_id);
+        TemporalId get_data_set(dot::String data_set_name);
 
         /// Return TemporalId for the latest dataset record with
-        /// matching data_set_id String from in-memory cache. Try
+        /// matching data_set_name String from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
         /// This overload of the get_data_set method specifies
@@ -312,10 +312,10 @@ namespace dc
         /// in the data store and will only load it from storage
         /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
-        TemporalId get_data_set(dot::String data_set_id, TemporalId load_from);
+        TemporalId get_data_set(dot::String data_set_name, TemporalId load_from);
 
         /// Return TemporalId for the latest dataset record with
-        /// matching data_set_id String from in-memory cache. Try
+        /// matching data_set_name String from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
         /// This overload of the get_data_set_or_empty method does not
@@ -330,12 +330,12 @@ namespace dc
         /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
         ///
-        /// Error message if no matching data_set_id String is found
+        /// Error message if no matching data_set_name String is found
         /// or a delete marker is found instead.
-        dot::Nullable<TemporalId> get_data_set_or_empty(dot::String data_set_id);
+        dot::Nullable<TemporalId> get_data_set_or_empty(dot::String data_set_name);
 
         /// Return TemporalId for the latest dataset record with
-        /// matching data_set_id String from in-memory cache. Try
+        /// matching data_set_name String from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
         /// This overload of the get_data_set_or_empty method specifies
@@ -349,9 +349,9 @@ namespace dc
         /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
         ///
-        /// Error message if no matching data_set_id String is found
+        /// Error message if no matching data_set_name String is found
         /// or a delete marker is found instead.
-        dot::Nullable<TemporalId> get_data_set_or_empty(dot::String data_set_id, TemporalId load_from);
+        dot::Nullable<TemporalId> get_data_set_or_empty(dot::String data_set_name, TemporalId load_from);
 
         /// Create new version of the common dataset. By convention,
         /// the common dataset has no parents and is the ultimate
@@ -384,7 +384,7 @@ namespace dc
         /// the created dataset.
         TemporalId create_common(DataSetFlags flags);
 
-        /// Create new version of the dataset with the specified data_set_id
+        /// Create new version of the dataset with the specified data_set_name
         /// and no parent datasets.
         ///
         /// This overload of the create_data_set method does not
@@ -392,18 +392,18 @@ namespace dc
         /// uses context.data_set for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        TemporalId create_data_set(dot::String data_set_id);
+        TemporalId create_data_set(dot::String data_set_name);
 
-        /// Create new version of the dataset with the specified data_set_id
+        /// Create new version of the dataset with the specified data_set_name
         /// and no parent datasets.
         ///
         /// This overload of the create_data_set method specifies
         /// the save_to parameter explicitly.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        TemporalId create_data_set(dot::String data_set_id, TemporalId save_to);
+        TemporalId create_data_set(dot::String data_set_name, TemporalId save_to);
 
-        /// Create new version of the dataset with the specified data_set_id
+        /// Create new version of the dataset with the specified data_set_name
         /// and parent dataset temporal_ids passed as an array, and return
         /// the new TemporalId assigned to the saved dataset.
         ///
@@ -412,9 +412,9 @@ namespace dc
         /// uses context.data_set for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        TemporalId create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets);
+        TemporalId create_data_set(dot::String data_set_name, dot::List<TemporalId> parent_data_sets);
 
-        /// Create new version of the dataset with the specified data_set_id
+        /// Create new version of the dataset with the specified data_set_name
         /// and parent dataset temporal_ids passed as an array, and return
         /// the new TemporalId assigned to the saved dataset.
         ///
@@ -422,7 +422,7 @@ namespace dc
         /// the save_to parameter explicitly.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        TemporalId create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, TemporalId save_to);
+        TemporalId create_data_set(dot::String data_set_name, dot::List<TemporalId> parent_data_sets, TemporalId save_to);
 
         /// Create dataset with the specified dataSetName and flags
         /// in context.DataSet, and make context.DataSet its sole import.
@@ -435,7 +435,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        TemporalId create_data_set(dot::String data_set_id, DataSetFlags flags);
+        TemporalId create_data_set(dot::String data_set_name, DataSetFlags flags);
 
         /// Create dataset with the specified dataSetName and flags
         /// in parentDataSet, and make parentDataSet its sole import.
@@ -448,7 +448,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        TemporalId create_data_set(dot::String data_set_id, DataSetFlags flags, TemporalId save_to);
+        TemporalId create_data_set(dot::String data_set_name, DataSetFlags flags, TemporalId save_to);
 
         /// Create dataset with the specified dataSetName, imports,
         /// and flags in context.DataSet.
@@ -461,7 +461,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        TemporalId create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags);
+        TemporalId create_data_set(dot::String data_set_name, dot::List<TemporalId> parent_data_sets, DataSetFlags flags);
 
         /// Create dataset with the specified dataSetName, imports,
         /// and flags in parentDataSet.
@@ -474,7 +474,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        TemporalId create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags, TemporalId save_to);
+        TemporalId create_data_set(dot::String data_set_name, dot::List<TemporalId> parent_data_sets, DataSetFlags flags, TemporalId save_to);
 
         /// Save new version of the dataset.
         ///
