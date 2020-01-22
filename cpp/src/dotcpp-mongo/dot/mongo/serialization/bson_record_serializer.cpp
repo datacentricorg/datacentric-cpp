@@ -36,6 +36,7 @@ limitations under the License.
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
+#include <dot/serialization/serialize_attribute.hpp>
 
 namespace dot
 {
@@ -81,7 +82,6 @@ namespace dot
             dot::string element_name = elem.key().to_string();
             if (bson_type == bsoncxx::type::k_null)
             {
-                //reader.read_null();
             }
             else if (bson_type == bsoncxx::type::k_oid)
             {
@@ -99,14 +99,6 @@ namespace dot
                 else if (element_name == "_t")
                 {
                     // TODO Handle type
-                }
-                else if (element_name == "_d")
-                {
-                    // TODO Handle dataset
-                }
-                else if (element_name == "_key")
-                {
-                    continue;
                 }
                 else
                 {
@@ -141,7 +133,6 @@ namespace dot
             else if (bson_type == bsoncxx::type::k_document)
             {
                 // Read BSON stream for the embedded data element
-                // byte_buffer_base document_buffer = reader.read_raw_bson_document();
                 bsoncxx::document::view sub_doc = elem.get_document().view();
 
                 // Deserialize embedded data element
@@ -239,8 +230,136 @@ namespace dot
         dot::string root_name = value->get_type()->full_name();
 
         writer->write_start_document(root_name);
-        //value->serialize_to(writer);
-        value->get_type()->get_method("serialize_to")->invoke(value, make_list<object>({writer}));
+
+        // Check for custom serializator
+        if (value->get_type()->get_custom_attributes(dot::typeof<serialize_attribute>(), true)->size())
+        {
+            serialize_attribute(value->get_type()->get_custom_attributes(dot::typeof<serialize_attribute>(), true)[0])->serialize(writer, value);
+        }
+        else
+        {
+            standard_serialize(writer, value);
+        }
+
         writer->write_end_document(root_name);
     }
+
+    void bson_record_serializer_impl::standard_serialize(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer)
+    {
+        // Write start element tag
+        writer->write_start_array_element(element_name);
+
+        int length = obj->get_length();
+
+        // Iterate over sequence elements
+        for (int i = 0; i < length; ++i)
+        {
+            dot::object item = obj->get_item(i);
+
+            // Write array item start tag
+            writer->write_start_array_item();
+
+            if (item.is_empty())
+            {
+                writer->write_start_value();
+                writer->write_value(item);
+                writer->write_end_value();
+                writer->write_end_array_item();
+                continue;
+            }
+
+            // Serialize based on type of the item
+            dot::type item_type = item->get_type();
+
+            if (item_type->equals(dot::typeof<dot::string>())
+                || item_type->equals(dot::typeof<double>())
+                || item_type->equals(dot::typeof<bool>())
+                || item_type->equals(dot::typeof<int>())
+                || item_type->equals(dot::typeof<int64_t>())
+                || item_type->equals(dot::typeof<dot::local_date>())
+                || item_type->equals(dot::typeof<dot::local_date_time>())
+                || item_type->equals(dot::typeof<dot::local_time>())
+                || item_type->equals(dot::typeof<dot::local_minute>())
+                || item_type->is_enum
+                || item_type->equals(dot::typeof<dot::object_id>())
+                )
+            {
+                writer->write_start_value();
+                writer->write_value(item);
+                writer->write_end_value();
+            }
+            else if (!item_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
+            {
+                throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
+                    "which is collection containing another collection.", element_name));
+            }
+            else
+            {
+                standard_serialize(writer, item);
+            }
+
+            // Write array item end tag
+            writer->write_end_array_item();
+        }
+
+        // Write matching end element tag
+        writer->write_end_array_element(element_name);
+    }
+
+    void bson_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::object value)
+    {
+        // Write start tag
+        writer->write_start_dict();
+
+        writer->write_value_element("_t", value->get_type()->name);
+
+        // Iterate over the list of elements
+        dot::list<dot::field_info> inner_element_info_list = value->get_type()->get_fields();
+        for (dot::field_info inner_element_info : inner_element_info_list)
+        {
+            // Get element name and value
+            dot::string inner_element_name = inner_element_info->name;
+
+            dot::object inner_element_value = inner_element_info->get_value(value);
+
+            if (inner_element_value.is_empty())
+            {
+                continue;
+            }
+
+            dot::type element_type = inner_element_value->get_type();
+
+            if (element_type->equals(dot::typeof<dot::string>())
+                || element_type->equals(dot::typeof<double>())
+                || element_type->equals(dot::typeof<bool>())
+                || element_type->equals(dot::typeof<int>())
+                || element_type->equals(dot::typeof<int64_t>())
+                || element_type->equals(dot::typeof<dot::local_date>())
+                || element_type->equals(dot::typeof<dot::local_date_time>())
+                || element_type->equals(dot::typeof<dot::local_time>())
+                || element_type->equals(dot::typeof<dot::local_minute>())
+                || element_type->is_enum
+                || element_type->equals(dot::typeof<dot::object_id>())
+                )
+            {
+                writer->write_value_element(inner_element_name, inner_element_value);
+            }
+            else
+                if (!element_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
+                {
+                    standard_serialize((dot::list_base)inner_element_value, inner_element_name, writer);
+                }
+                else
+                {
+                    // Embedded as data
+                    writer->write_start_element(inner_element_name);
+                    standard_serialize(writer, inner_element_value);
+                    writer->write_end_element(inner_element_name);
+                }
+        }
+
+        // Write end tag
+        writer->write_end_dict();
+    }
+
 }

@@ -20,6 +20,7 @@ limitations under the License.
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dot/system/type.hpp>
 #include <dot/serialization/tree_writer_base.hpp>
+#include <dot/serialization/serialize_attribute.hpp>
 
 namespace dc
 {
@@ -36,9 +37,27 @@ namespace dc
         /// Creates dictionary at current writer level.
         void serialize_to(dot::tree_writer_base writer);
 
-        DOT_TYPE_BEGIN("dc", "data")
-            ->with_method("serialize_to", &data_impl::serialize_to, {"writer"})
-        DOT_TYPE_END()
+    private:
+
+        static void serialize_data(dot::tree_writer_base writer, dot::object data_obj)
+        {
+            ((data)data_obj)->serialize_to(writer);
+        }
+
+    public:
+
+        virtual dot::type get_type() { return typeof(); }
+        static dot::type typeof()
+        {
+            static dot::type result = []()-> dot::type
+            {
+                dot::type t = dot::make_type_builder<data_impl>("dc", "data", {dot::make_serialize_attribute(&data_impl::serialize_data)})
+                    ->with_method("serialize_to", &data_impl::serialize_to, {"writer"})
+                    ->build();
+                return t;
+            }();
+            return result;
+        }
 
     protected:
 
