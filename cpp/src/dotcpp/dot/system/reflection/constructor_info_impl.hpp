@@ -33,8 +33,8 @@ namespace dot
         return parameters;
     }
 
-    inline constructor_info_impl::constructor_info_impl(type declaring_type)
-            : member_info_impl(".ctor", declaring_type)
+    inline constructor_info_impl::constructor_info_impl(type declaring_type, list<attribute> custom_attributes)
+            : member_info_impl(".ctor", declaring_type, custom_attributes)
     {}
 
     template <class class_, class ... args>
@@ -57,8 +57,8 @@ namespace dot
     }
 
     template <class class_, class ... args>
-    inline member_constructor_info_impl<class_, args...>::member_constructor_info_impl(type declaring_type, ctor_type p)
-            : constructor_info_impl(declaring_type)
+    inline member_constructor_info_impl<class_, args...>::member_constructor_info_impl(type declaring_type, ctor_type p, list<attribute> custom_attributes)
+            : constructor_info_impl(declaring_type, custom_attributes)
             , ptr_(p)
     {}
 }

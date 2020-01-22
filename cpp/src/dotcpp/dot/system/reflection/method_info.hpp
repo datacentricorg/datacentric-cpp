@@ -63,7 +63,7 @@ namespace dot
         /// Create from method name, declaring type, return type.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        inline method_info_impl(const string& name, type declaring_type, type return_type);
+        inline method_info_impl(const string& name, type declaring_type, type return_type, list<attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a non-static method and provides access to method metadata.
@@ -100,7 +100,7 @@ namespace dot
         ///
         /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
-        inline member_method_info_impl(const string& name, type declaring_type, type return_type, method_type p);
+        inline member_method_info_impl(const string& name, type declaring_type, type return_type, method_type p, list<attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a static method and provides access to method metadata.
@@ -136,6 +136,6 @@ namespace dot
         ///
         /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
-        inline static_method_info_impl(const string& name, type declaring_type, type return_type, method_type p);
+        inline static_method_info_impl(const string& name, type declaring_type, type return_type, method_type p, list<attribute> custom_attributes);
     };
 }

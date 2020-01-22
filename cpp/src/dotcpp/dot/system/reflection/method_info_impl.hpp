@@ -32,8 +32,8 @@ namespace dot
         return parameters;
     }
 
-    inline method_info_impl::method_info_impl(const string& name, type declaring_type, type return_type)
-        : member_info_impl(name, declaring_type)
+    inline method_info_impl::method_info_impl(const string& name, type declaring_type, type return_type, list<attribute> custom_attributes)
+        : member_info_impl(name, declaring_type, custom_attributes)
     {
         this->return_type = return_type;
     }
@@ -66,8 +66,8 @@ namespace dot
     }
 
     template <class class_, class return_t, class ... args>
-    inline member_method_info_impl<class_, return_t, args...>::member_method_info_impl(const string& name, type declaring_type, type return_type, method_type p)
-            : method_info_impl(name, declaring_type, return_type)
+    inline member_method_info_impl<class_, return_t, args...>::member_method_info_impl(const string& name, type declaring_type, type return_type, method_type p, list<attribute> custom_attributes)
+            : method_info_impl(name, declaring_type, return_type, custom_attributes)
             , ptr_(p)
     {}
 
@@ -99,8 +99,8 @@ namespace dot
     }
 
     template <class return_t, class ... args>
-    inline static_method_info_impl<return_t, args...>::static_method_info_impl(const string& name, type declaring_type, type return_type, method_type p)
-            : method_info_impl(name, declaring_type, return_type)
+    inline static_method_info_impl<return_t, args...>::static_method_info_impl(const string& name, type declaring_type, type return_type, method_type p, list<attribute> custom_attributes)
+            : method_info_impl(name, declaring_type, return_type, custom_attributes)
             , ptr_(p)
     {}
 }

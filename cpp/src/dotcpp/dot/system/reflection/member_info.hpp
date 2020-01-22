@@ -79,8 +79,8 @@ namespace dot
         /// Create from property name and declaring type.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        member_info_impl(const string& name, type declaring_type, std::initializer_list<attribute> custom_attributes = {})
-            : custom_attributes_(make_list(custom_attributes))
+        member_info_impl(const string& name, type declaring_type, list<attribute> custom_attributes)
+            : custom_attributes_(custom_attributes)
         {
             this->name = name;
             this->declaring_type = declaring_type;

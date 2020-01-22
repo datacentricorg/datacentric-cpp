@@ -55,8 +55,8 @@ namespace dot
         /// and base class for the pointer to field.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        field_info_base_impl(string name, type declaring_type, type field_type)
-            : member_info_impl(name, declaring_type)
+        field_info_base_impl(string name, type declaring_type, type field_type, list<attribute> custom_attributes)
+            : member_info_impl(name, declaring_type, custom_attributes)
         {
             this->field_type = field_type;
         }
@@ -69,7 +69,7 @@ namespace dot
         typedef field_type_t class_::* field_ptr_type;
 
         template <class field_type_, class class__>
-        friend field_info make_field_info(string, type, type, field_type_ class__::*);
+        friend field_info make_field_info(string, type, type, field_type_ class__::*, list<attribute>);
 
     public: // FIELDS
 
@@ -83,8 +83,8 @@ namespace dot
         ///
         /// This constructor is private. Use make_field_info(...)
         /// function with matching signature instead.
-        field_info_impl(string name, type declaring_type, type field_type, field_ptr_type field)
-            : field_info_base_impl(name, declaring_type, field_type)
+        field_info_impl(string name, type declaring_type, type field_type, field_ptr_type field, list<attribute> custom_attributes)
+            : field_info_base_impl(name, declaring_type, field_type, custom_attributes)
             , field_(field)
         {}
 
@@ -106,9 +106,9 @@ namespace dot
     /// Create from field name, declaring type, field type,
     /// and pointer to field defined as a field (member variable).
     template <class field_type_t, class class_>
-    field_info make_field_info(string name, type declaring_type, type field_type, field_type_t class_::* field)
+    field_info make_field_info(string name, type declaring_type, type field_type, field_type_t class_::* field, list<attribute> custom_attributes)
     {
-        return new field_info_impl<field_type_t, class_>(name, declaring_type, field_type, field);
+        return new field_info_impl<field_type_t, class_>(name, declaring_type, field_type, field, custom_attributes);
     }
 
     class type_builder_impl;

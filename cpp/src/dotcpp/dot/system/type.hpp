@@ -51,6 +51,28 @@ namespace dot
 
     template <class T> type typeof();
 
+    namespace detail {
+        /// Struct for parameter_info.
+        struct type_mehod_argument
+        {
+            string name;
+            list<attribute> custom_attributes;
+
+            /// Constructor from parameter name.
+            type_mehod_argument(const char* name)
+                : name(name)
+                , custom_attributes(make_list<attribute>())
+            {}
+
+            /// Constructor from parameter name and custom attributes.
+            template <class ...Args>
+            type_mehod_argument(string name, Args ...attr)
+                : name(name)
+                , custom_attributes(make_list<attribute>({attr...}))
+            {}
+        };
+    }
+
     /// builder for type.
     class DOT_CLASS type_builder_impl final : public virtual object_impl
     {
@@ -75,22 +97,22 @@ namespace dot
 
         /// Add public field of the current type.
         template <class class_t, class fld>
-        type_builder with_field(string name, fld class_t::*prop)
+        type_builder with_field(string name, fld class_t::*prop, std::initializer_list<attribute> custom_attributes = {})
         {
             if (fields_.is_empty())
             {
                 fields_ = make_list<field_info>();
             }
-            fields_->add(make_field_info<fld, class_t>(name, type_, dot::typeof<fld>(), prop));
+            fields_->add(make_field_info<fld, class_t>(name, type_, dot::typeof<fld>(), prop, make_list(custom_attributes)));
             return this;
         }
 
         /// Add public member method of the current type.
         template <class class_t, class return_t, class ... args>
-        type_builder with_method(string name, return_t(class_t::*mth) (args ...), std::vector<string> const& names) // TODO Change to list? Make overload?
+        type_builder with_method(string name, return_t(class_t::*mth) (args ...), std::initializer_list<detail::type_mehod_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
         {
             const int args_count = sizeof...(args);
-            if (args_count != names.size())
+            if (args_count != arguments.size())
                 throw exception("Wrong number of parameters for method " + full_name_);
 
             if (methods_.is_empty())
@@ -101,12 +123,14 @@ namespace dot
             list<parameter_info> parameters = make_list<parameter_info>(sizeof...(args));
             std::vector<type> param_types = { dot::typeof<args>()... };
 
-            for (int i = 0; i < args_count; ++i)
+            int i = 0;
+            for (detail::type_mehod_argument mehtod_arg : arguments)
             {
-                parameters[i] = make_parameter_info(names[i], param_types[i], i);
+                parameters[i] = make_parameter_info(mehtod_arg.name, param_types[i], i, mehtod_arg.custom_attributes);
+                i++;
             }
 
-            method_info method_info = new member_method_info_impl<class_t, return_t, args...>(name, type_, dot::typeof<return_t>(), mth);
+            method_info method_info = new member_method_info_impl<class_t, return_t, args...>(name, type_, dot::typeof<return_t>(), mth, make_list(custom_attributes));
             method_info->parameters = parameters;
 
             methods_->add(method_info);
@@ -116,10 +140,10 @@ namespace dot
 
         /// Add public static method of the current type.
         template <class return_t, class ... args>
-        type_builder with_method(string name, return_t(*mth) (args ...), std::vector<string> const& names) // TODO Change to list? Make overload?
+        type_builder with_method(string name, return_t(*mth) (args ...), std::initializer_list<detail::type_mehod_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
         {
             const int args_count = sizeof...(args);
-            if (args_count != names.size())
+            if (args_count != arguments.size())
                 throw exception("Wrong number of parameters for method " + full_name_);
 
             if (methods_.is_empty())
@@ -130,12 +154,14 @@ namespace dot
             list<parameter_info> parameters = make_list<parameter_info>(sizeof...(args));
             std::vector<type> param_types = { dot::typeof<args>()... };
 
-            for (int i = 0; i < args_count; ++i)
+            int i = 0;
+            for (detail::type_mehod_argument mehtod_arg : arguments)
             {
-                parameters[i] = make_parameter_info(names[i], param_types[i], i);
+                parameters[i] = make_parameter_info(mehtod_arg.name, param_types[i], i, mehtod_arg.custom_attributes);
+                i++;
             }
 
-            method_info method_info = new static_method_info_impl<return_t, args...>(name, type_, dot::typeof<return_t>(), mth);
+            method_info method_info = new static_method_info_impl<return_t, args...>(name, type_, dot::typeof<return_t>(), mth, make_list(custom_attributes));
             method_info->parameters = parameters;
 
             methods_->add(method_info);
@@ -145,10 +171,10 @@ namespace dot
 
         /// Add public constructor of the current type.
         template <class class_t, class ... args>
-        type_builder with_constructor(class_t(*ctor)(args...), std::vector<string> const& names) // TODO Change to list? Make overload?
+        type_builder with_constructor(class_t(*ctor)(args...), std::initializer_list<detail::type_mehod_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
         {
             const int args_count = sizeof...(args);
-            if (args_count != names.size())
+            if (args_count != arguments.size())
                 throw exception("Wrong number of parameters for method " + full_name_);
 
             if (ctors_.is_empty())
@@ -159,12 +185,14 @@ namespace dot
             list<parameter_info> parameters = make_list<parameter_info>(sizeof...(args));
             std::vector<type> param_types = { dot::typeof<args>()... };
 
-            for (int i = 0; i < args_count; ++i)
+            int i = 0;
+            for (detail::type_mehod_argument mehtod_arg : arguments)
             {
-                parameters[i] = make_parameter_info(names[i], param_types[i], i);
+                parameters[i] = make_parameter_info(mehtod_arg.name, param_types[i], i, mehtod_arg.custom_attributes);
+                i++;
             }
 
-            constructor_info ctor_info = new member_constructor_info_impl<class_t, args...>(type_, ctor);
+            constructor_info ctor_info = new member_constructor_info_impl<class_t, args...>(type_, ctor, make_list(custom_attributes));
             ctor_info->parameters = parameters;
 
             ctors_->add(ctor_info);

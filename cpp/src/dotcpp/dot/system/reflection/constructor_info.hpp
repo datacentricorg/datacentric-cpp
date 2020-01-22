@@ -55,7 +55,7 @@ namespace dot
         /// Create from declaring type
         ///
         /// This constructor is protected. It is used by derived classes only.
-        inline constructor_info_impl(type declaring_type);
+        inline constructor_info_impl(type declaring_type, list<attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a constructor and provides access to constructor metadata.
@@ -88,6 +88,6 @@ namespace dot
         ///
         /// This constructor is private. Use make_constructor_info(...)
         /// function with matching signature instead.
-        inline member_constructor_info_impl(type declaring_type, ctor_type p);
+        inline member_constructor_info_impl(type declaring_type, ctor_type p, list<attribute> custom_attributes);
     };
 }
