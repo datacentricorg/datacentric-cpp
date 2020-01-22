@@ -32,6 +32,16 @@ namespace dot
 {
     class client_impl; using client = ptr<client_impl>;
 
+    /// Class representing a client connection to MongoDB.
+    ///
+    /// Acts as a logical gateway for working with databases contained within a MongoDB server.
+    ///
+    /// Example:
+    /// @code
+    ///   dot::client client = make_client("mongodb://localhost:27017");
+    /// @endcode
+    ///
+    /// Note that client is not thread-safe.
     class DOT_MONGO_CLASS client_impl : public object_impl
     {
     private:
@@ -39,21 +49,27 @@ namespace dot
         friend class client_inner;
         friend client make_client(string uri);
 
+        /// Base class for client implementation classes.
+        /// Derived client impl class is hidden to cpp.
         class DOT_MONGO_CLASS client_inner_base
         {
             friend class client_impl;
 
         protected:
 
+            /// Returns Client side representation of a server side database.
             virtual database get_database(dot::string name) = 0;
 
+            /// Drops the database and all its collections.
             virtual void drop_database(dot::string name) = 0;
         };
 
     public:
 
+        /// Returns Client side representation of a server side database.
         database get_database(dot::string name);
 
+        /// Drops the database and all its collections.
         void drop_database(dot::string name);
 
     private:
@@ -63,6 +79,7 @@ namespace dot
         std::unique_ptr<client_inner_base> impl_;
     };
 
+    // Returns dot::client consturcted from given db uri.
     inline client make_client(string uri)
     {
         return new client_impl(uri);

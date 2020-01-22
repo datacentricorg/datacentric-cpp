@@ -32,6 +32,7 @@ namespace dot
 {
     class database_impl; using database = ptr<database_impl>;
 
+    /// Class representing a MongoDB database.
     class DOT_MONGO_CLASS database_impl : public object_impl
     {
     private:
@@ -39,17 +40,21 @@ namespace dot
         friend class database_inner;
         friend class client_inner;
 
+        /// Base class for database implementation classes.
+        /// Derived database impl class is hidden to cpp.
         class DOT_MONGO_CLASS database_inner_base
         {
             friend class database_impl;
 
         protected:
 
+            /// Returns the collection with given name.
             virtual collection get_collection(dot::string name) = 0;
         };
 
     public:
 
+        /// Returns the collection with given name.
         collection get_collection(dot::string name);
 
     private:

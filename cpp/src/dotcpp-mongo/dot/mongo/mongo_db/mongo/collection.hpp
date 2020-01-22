@@ -26,13 +26,17 @@ limitations under the License.
 #include <dot/mongo/declare.hpp>
 #include <dot/system/object_impl.hpp>
 #include <dot/system/ptr.hpp>
-//#include <dot/mongo/mongo_db/mongo/database.hpp>
 
 namespace dot
 {
 
     class collection_impl; using collection = ptr<collection_impl>;
 
+    /// Class representing server side document groupings within a MongoDB database.
+    ///
+    /// Collections do not require or enforce a schema and documents inside of a collection can have
+    /// different fields. While not a requirement, typically documents in a collection have a similar
+    /// shape or related purpose.
     class DOT_MONGO_CLASS collection_impl : public object_impl
     {
     private:
@@ -41,17 +45,23 @@ namespace dot
         friend class database_inner;
         friend class query_inner_impl;
 
+        /// Base class for collection implementation classes.
+        /// Derived collection impl class is hidden to cpp.
         class DOT_MONGO_CLASS collection_inner_base
         {
             friend class collection_impl;
 
         protected:
 
+            /// Inserts a single object into the collection. If the object->_id is missing or empty
+            /// one will be generated for it.
             virtual void insert_one(object obj) = 0;
         };
 
     public:
 
+        /// Inserts a single object into the collection. If the object->_id is missing or empty
+        /// one will be generated for it.
         void insert_one(object obj);
 
     private:
