@@ -48,7 +48,6 @@ namespace dot
 
     public:
 
-
         /// Write start document tags. This method
         /// should be called only once for the entire document.
         void write_start_document(dot::string root_element_name);
@@ -112,6 +111,12 @@ namespace dot
         bsoncxx::document::view view();
 
     private:
+
+        /// Get parent types list of from_type.
+        static list<type> get_parents_list(type from_type);
+
+    private:
+
         bson_writer_impl()
             : bson_writer_(true)
             , current_state_(tree_writer_state::empty) {}

@@ -18,6 +18,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="serialization\bson_record_serializer.cpp" />
+    <ClCompile Include="serialization\bson_root_class_attribute.cpp" />
     <ClCompile Include="serialization\bson_writer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -30,7 +31,9 @@
     <ClInclude Include="mongo_db\mongo\client_impl.hpp" />
     <ClInclude Include="mongo_db\mongo\collection_impl.hpp" />
     <ClInclude Include="mongo_db\mongo\database_impl.hpp" />
+    <ClInclude Include="mongo_db\mongo\settings.hpp" />
     <ClInclude Include="mongo_db\query\query_impl.hpp" />
+    <ClInclude Include="serialization\bson_root_class_attribute.hpp" />
     <ClInclude Include="serialization\filter_token_serialization.hpp" />
     <ClInclude Include="mongo_db\query\query_builder.hpp" />
     <ClInclude Include="mongo_db\mongo\client.hpp" />

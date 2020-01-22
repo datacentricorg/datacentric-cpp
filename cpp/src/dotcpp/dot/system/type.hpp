@@ -364,9 +364,6 @@ namespace dot
         /// Get type object for the name.
         static type get_type_of(string name) { return get_type_map()[name]; }
 
-        /// Get parent types list of from_type down to specific parent to_type (defaults to object).
-        static list<type> get_parents_list(type from_type, type to_type = ::dot::typeof<object>());
-
         /// Get derived types list for the name.
         static list<type> get_derived_types(string name) { return get_derived_types_map()[name]; }
 

@@ -36,8 +36,9 @@ limitations under the License.
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
-#include <dot/mongo/mongo_db/bson/object_id.hpp>
 
+#include <dot/mongo/serialization/bson_root_class_attribute.hpp>
+#include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dot/mongo/mongo_db/mongo/settings.hpp>
 
 #include <bsoncxx/json.hpp>
@@ -67,9 +68,11 @@ namespace dot
         }
         else if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::hierarchical)
         {
+            // Get type parrents
             type root_element_type = dot::type_impl::get_type_of(root_element_name);
-            list<type> root_element_base_types = root_element_type->get_parents_list(root_element_type);
+            list<type> root_element_base_types = get_parents_list(root_element_type);
 
+            // And wirte them to array
             bson_writer_.open_array();
             for (auto i = root_element_base_types->rbegin(); i != root_element_base_types->rend(); ++i)
                 bson_writer_.append(*(*i)->name());
@@ -335,5 +338,25 @@ namespace dot
     bsoncxx::document::view bson_writer_impl::view()
     {
         return bson_writer_.view_array()[0].get_document().view();
+    }
+
+    list<type> bson_writer_impl::get_parents_list(type from_type)
+    {
+        list<type> parents_list = make_list<type>();
+
+        // Appending base types to list
+        type base = from_type->get_base_type();
+        while (base != nullptr)
+        {
+            parents_list->add(base);
+
+            // Break on root class
+            if (base->get_custom_attributes(::dot::typeof<bson_root_class_attribute>(), false)->get_length() != 0)
+                break;
+
+            base = base->get_base_type();
+        }
+
+        return parents_list;
     }
 }

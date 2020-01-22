@@ -18,6 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/types/record/data.hpp>
+#include <dot/mongo/serialization/bson_root_class_attribute.hpp>
 
 namespace dc
 {
@@ -67,11 +68,9 @@ namespace dc
 
         dot::string to_string() { return get_key(); }
 
-        DOT_TYPE_BEGIN("dc", "record_base")
-            ->with_field("_id", &self::id)
-            ->with_field("_dataset", &self::data_set)
-            ->with_field("_key", static_cast<dot::string record_base_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization) })
-            DOT_TYPE_BASE(data)
-        DOT_TYPE_END()
+    public: // REFLECTION
+
+        static dot::type typeof();
+        dot::type get_type() override;
     };
 }
