@@ -81,7 +81,7 @@ namespace dot
     class DOT_CLASS type_builder_impl final : public virtual object_impl
     {
         template <class>
-        friend type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes = {});
+        friend type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes);
         friend class type_impl;
 
     private:
