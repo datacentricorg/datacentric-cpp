@@ -32,76 +32,76 @@ limitations under the License.
 namespace dc
 {
     data_writer_impl::data_writer_impl(data data_obj)
-        : currentDict_(data_obj)
-        , currentState_(tree_writer_state::empty) {}
+        : current_dict_(data_obj)
+        , current_state_(tree_writer_state::empty) {}
 
-    void data_writer_impl::write_start_document(dot::string rootElementName)
+    void data_writer_impl::write_start_document(dot::string root_element_name)
     {
-        if (currentState_ == tree_writer_state::empty && elementStack_.size() == 0)
+        if (current_state_ == tree_writer_state::empty && element_stack_.size() == 0)
         {
-            currentState_ = tree_writer_state::document_started;
+            current_state_ = tree_writer_state::document_started;
         }
         else
         {
             throw dot::exception("A call to write_start_document(...) must be the first call to the tree writer.");
         }
 
-        dot::string rootName = currentDict_->get_type()->name;
+        dot::string root_name = current_dict_->get_type()->name;
         // Check that the name matches
-        if (rootElementName != rootName) throw dot::exception(
-            dot::string::format("Attempting to deserialize data for type {0} into type {1}.", rootElementName, rootName));
+        if (root_element_name != root_name) throw dot::exception(
+            dot::string::format("Attempting to deserialize data for type {0} into type {1}.", root_element_name, root_name));
 
-        rootElementName_ = rootElementName;
-        currentElementName_ = rootElementName;
-        auto currentDictInfoList = currentDict_->get_type()->get_fields();
-        currentDictElements_ = dot::make_dictionary<dot::string, dot::field_info>();
-        for(auto elementInfo : currentDictInfoList) currentDictElements_->add(elementInfo->name, elementInfo);
-        currentArray_ = nullptr;
-        currentArrayItemType_ = nullptr;
+        root_element_name_ = root_element_name;
+        current_element_name_ = root_element_name;
+        auto current_dict_info_list = current_dict_->get_type()->get_fields();
+        current_dict_elements_ = dot::make_dictionary<dot::string, dot::field_info>();
+        for(auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name, element_info);
+        current_array_ = nullptr;
+        current_array_item_type_ = nullptr;
     }
 
-    void data_writer_impl::write_end_document(dot::string rootElementName)
+    void data_writer_impl::write_end_document(dot::string root_element_name)
     {
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::document_started && elementStack_.size() == 0) currentState_ = tree_writer_state::document_completed;
+        if (current_state_ == tree_writer_state::document_started && element_stack_.size() == 0) current_state_ = tree_writer_state::document_completed;
         else throw dot::exception(
             "A call to write_end_document(...) does not follow  write_end_element(...) at at root level.");
 
         // Check that the current element name matches the specified name. Writing the actual end tag
         // occurs inside one of write_start_dict, write_start_array_item, or write_start_value calls.
-        if (rootElementName != rootElementName_)
+        if (root_element_name != root_element_name_)
             throw dot::exception(dot::string::format(
-                "write_end_document({0}) follows write_start_document({1}), root element name mismatch.", rootElementName, rootElementName_));
+                "write_end_document({0}) follows write_start_document({1}), root element name mismatch.", root_element_name, root_element_name_));
     }
 
-    void data_writer_impl::write_start_element(dot::string elementName)
+    void data_writer_impl::write_start_element(dot::string element_name)
     {
-        if (currentState_ == tree_writer_state::document_started) currentState_ = tree_writer_state::element_started;
-        else if (currentState_ == tree_writer_state::element_completed) currentState_ = tree_writer_state::element_started;
-        else if (currentState_ == tree_writer_state::dict_started) currentState_ = tree_writer_state::element_started;
-        else if (currentState_ == tree_writer_state::dict_array_item_started) currentState_ = tree_writer_state::element_started;
+        if (current_state_ == tree_writer_state::document_started) current_state_ = tree_writer_state::element_started;
+        else if (current_state_ == tree_writer_state::element_completed) current_state_ = tree_writer_state::element_started;
+        else if (current_state_ == tree_writer_state::dict_started) current_state_ = tree_writer_state::element_started;
+        else if (current_state_ == tree_writer_state::dict_array_item_started) current_state_ = tree_writer_state::element_started;
         else throw dot::exception(
-            "A call to write_start_element(...) must be the first call or follow write_end_element(prevName).");
+            "A call to write_start_element(...) must be the first call or follow write_end_element(prev_name).");
 
-        currentElementName_ = elementName;
-        currentElementInfo_ = currentDictElements_[elementName];
+        current_element_name_ = element_name;
+        current_element_info_ = current_dict_elements_[element_name];
     }
 
-    void data_writer_impl::write_end_element(dot::string elementName)
+    void data_writer_impl::write_end_element(dot::string element_name)
     {
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::element_started) currentState_ = tree_writer_state::element_completed;
-        else if (currentState_ == tree_writer_state::dict_completed) currentState_ = tree_writer_state::element_completed;
-        else if (currentState_ == tree_writer_state::value_completed) currentState_ = tree_writer_state::element_completed;
-        else if (currentState_ == tree_writer_state::array_completed) currentState_ = tree_writer_state::element_completed;
+        if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::element_completed;
+        else if (current_state_ == tree_writer_state::dict_completed) current_state_ = tree_writer_state::element_completed;
+        else if (current_state_ == tree_writer_state::value_completed) current_state_ = tree_writer_state::element_completed;
+        else if (current_state_ == tree_writer_state::array_completed) current_state_ = tree_writer_state::element_completed;
         else throw dot::exception(
             "A call to write_end_element(...) does not follow a matching write_start_element(...) at the same indent level.");
 
         // Check that the current element name matches the specified name. Writing the actual end tag
         // occurs inside one of write_start_dict, write_start_array_item, or write_start_value calls.
-        if (elementName != currentElementName_)
+        if (element_name != current_element_name_)
             throw dot::exception(dot::string::format(
-                "EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName_));
+                "end_complex_element({0}) follows start_complex_element({1}), element name mismatch.", element_name, current_element_name_));
     }
 
     void data_writer_impl::write_start_dict()
@@ -110,53 +110,53 @@ namespace dc
         push_state();
 
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::document_started)
+        if (current_state_ == tree_writer_state::document_started)
         {
-            currentState_ = tree_writer_state::dict_started;
+            current_state_ = tree_writer_state::dict_started;
 
-            // Return if this call follows StartDocument, all setup is done in StartDocument
+            // Return if this call follows start_document, all setup is done in start_document
             return;
         }
-        else if (currentState_ == tree_writer_state::element_started) currentState_ = tree_writer_state::dict_started;
-        else if (currentState_ == tree_writer_state::array_item_started) currentState_ = tree_writer_state::dict_array_item_started;
+        else if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::dict_started;
+        else if (current_state_ == tree_writer_state::array_item_started) current_state_ = tree_writer_state::dict_array_item_started;
         else throw dot::exception(
             "A call to write_start_dict() must follow write_start_element(...) or write_start_array_item().");
 
         // Set dictionary info
-        dot::type createdDictType = nullptr;
-        if (currentArray_ != nullptr) createdDictType = currentArrayItemType_;
-        else if (currentDict_ != nullptr) createdDictType = currentElementInfo_->field_type;
+        dot::type created_dict_type = nullptr;
+        if (current_array_ != nullptr) created_dict_type = current_array_item_type_;
+        else if (current_dict_ != nullptr) created_dict_type = current_element_info_->field_type;
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
-        dot::object createdDictObj = dot::activator::create_instance(createdDictType);
-        if (!(createdDictObj.is<data>())) // TODO Also support native dictionaries
+        dot::object created_dict_obj = dot::activator::create_instance(created_dict_type);
+        if (!(created_dict_obj.is<data>())) // TODO Also support native dictionaries
         {
-            dot::string mappedClassName = currentElementInfo_->field_type->full_name();
+            dot::string mapped_class_name = current_element_info_->field_type->full_name();
             throw dot::exception(dot::string::format(
-                "Element {0} of type {1} does not implement Data.", currentElementInfo_->name, mappedClassName));
+                "Element {0} of type {1} does not implement data.", current_element_info_->name, mapped_class_name));
         }
 
-        auto createdDict = (data) createdDictObj;
+        auto created_dict = (data) created_dict_obj;
 
         // Add to array or dictionary, depending on what we are inside of
-        if (currentArray_ != nullptr) currentArray_->add_object(createdDict);
-        else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, createdDict);
+        if (current_array_ != nullptr) current_array_->add_object(created_dict);
+        else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, created_dict);
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
-        currentDict_ = (data) createdDict;
-        auto currentDictInfoList = createdDictType->get_fields();
-        currentDictElements_ = dot::make_dictionary<dot::string, dot::field_info>();
-        for (auto elementInfo : currentDictInfoList) currentDictElements_->add(elementInfo->name, elementInfo);
-        currentArray_ = nullptr;
-        currentArrayItemType_ = nullptr;
+        current_dict_ = (data) created_dict;
+        auto current_dict_info_list = created_dict_type->get_fields();
+        current_dict_elements_ = dot::make_dictionary<dot::string, dot::field_info>();
+        for (auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name, element_info);
+        current_array_ = nullptr;
+        current_array_item_type_ = nullptr;
     }
 
     void data_writer_impl::write_end_dict()
     {
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::dict_started) currentState_ = tree_writer_state::dict_completed;
-        else if (currentState_ == tree_writer_state::dict_array_item_started) currentState_ = tree_writer_state::dict_array_item_completed;
-        else if (currentState_ == tree_writer_state::element_completed) currentState_ = tree_writer_state::dict_completed;
+        if (current_state_ == tree_writer_state::dict_started) current_state_ = tree_writer_state::dict_completed;
+        else if (current_state_ == tree_writer_state::dict_array_item_started) current_state_ = tree_writer_state::dict_array_item_completed;
+        else if (current_state_ == tree_writer_state::element_completed) current_state_ = tree_writer_state::dict_completed;
         else throw dot::exception(
             "A call to write_end_dict(...) does not follow a matching write_start_dict(...) at the same indent level.");
 
@@ -170,48 +170,48 @@ namespace dc
         push_state();
 
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::element_started) currentState_ = tree_writer_state::array_started;
+        if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::array_started;
         else
             throw dot::exception(
                 "A call to write_start_array() must follow write_start_element(...).");
 
         // Create the array
-        dot::object createdArrayObj = dot::activator::create_instance(currentElementInfo_->field_type);
-        if (createdArrayObj.is<dot::list_base>()) // TODO Also support native arrays
+        dot::object created_array_obj = dot::activator::create_instance(current_element_info_->field_type);
+        if (created_array_obj.is<dot::list_base>()) // TODO Also support native arrays
         {
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) currentArray_->add_object(createdArrayObj);
-            else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, createdArrayObj);
+            if (current_array_ != nullptr) current_array_->add_object(created_array_obj);
+            else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, created_array_obj);
             else throw dot::exception("Value can only be added to a dictionary or array.");
 
-            currentArray_ = (dot::list_base) createdArrayObj;
+            current_array_ = (dot::list_base) created_array_obj;
 
             // Get array item type from array type using reflection
-            dot::type listType = currentElementInfo_->field_type;      // TODO fix
-//            if (!listType->IsGenericType) throw dot::exception(dot::string::format(
-//                "Type {0} cannot be serialized because it implements only IList but not IList<T>.", listType));
-//            list<Type> genericParameterTypes = listType->GenericTypeArguments;
-            dot::list<dot::type> genericParameterTypes = listType->get_generic_arguments();
-            if (genericParameterTypes->count() != 1) throw dot::exception(
-                dot::string::format("Generic parameter type list {0} has more than ", genericParameterTypes) +
+            dot::type list_type = current_element_info_->field_type;      // TODO fix
+//            if (!list_type->is_generic_type) throw dot::exception(dot::string::format(
+//                "Type {0} cannot be serialized because it implements only list_base but not list_base<T>.", list_type));
+//            list<type> generic_parameter_types = list_type->generic_type_arguments;
+            dot::list<dot::type> generic_parameter_types = list_type->get_generic_arguments();
+            if (generic_parameter_types->count() != 1) throw dot::exception(
+                dot::string::format("Generic parameter type list {0} has more than ", generic_parameter_types) +
                 "one element creating an ambiguity for deserialization code.");
-            currentArrayItemType_ = genericParameterTypes[0];
+            current_array_item_type_ = generic_parameter_types[0];
 
-            currentDict_ = nullptr;
-            currentElementInfo_ = nullptr;
-            currentDictElements_ = nullptr;
+            current_dict_ = nullptr;
+            current_element_info_ = nullptr;
+            current_dict_elements_ = nullptr;
         }
         //else {
-        //    dot::string mappedClassName = currentElementInfo_->field_type->get_full_name();
+        //    dot::string mapped_class_name = current_element_info_->field_type->get_full_name();
         //    throw dot::exception(dot::string::format(
-        //        "Element {0} of type {1} does not implement ICollection.", currentElementInfo_->name, mappedClassName));
+        //        "Element {0} of type {1} does not implement collection_base.", current_element_info_->name, mapped_class_name));
         //}
     }
 
     void data_writer_impl::write_end_array()
     {
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::array_item_completed) currentState_ = tree_writer_state::array_completed;
+        if (current_state_ == tree_writer_state::array_item_completed) current_state_ = tree_writer_state::array_completed;
         else throw dot::exception(
             "A call to write_end_array(...) does not follow write_end_array_item(...).");
 
@@ -222,40 +222,40 @@ namespace dc
     void data_writer_impl::write_start_array_item()
     {
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::array_started) currentState_ = tree_writer_state::array_item_started;
-        else if (currentState_ == tree_writer_state::array_item_completed) currentState_ = tree_writer_state::array_item_started;
+        if (current_state_ == tree_writer_state::array_started) current_state_ = tree_writer_state::array_item_started;
+        else if (current_state_ == tree_writer_state::array_item_completed) current_state_ = tree_writer_state::array_item_started;
         else throw dot::exception(
             "A call to write_start_array_item() must follow write_start_element(...) or write_end_array_item().");
 
-        //Object addedItem = nullptr;
-        //if (currentArrayItemType_ == dot::typeof<String>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<double>()) addedItem = double();
-        //else if (currentArrayItemType_ == dot::typeof<nullable<double>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<bool>()) addedItem = bool();
-        //else if (currentArrayItemType_ == dot::typeof<nullable<bool>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<int>()) addedItem = int();
-        //else if (currentArrayItemType_ == dot::typeof<nullable<int>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<int64_t>()) addedItem = int64_t();
-        //else if (currentArrayItemType_ == dot::typeof<nullable<int64_t>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<local_date>()) addedItem = dot::local_date();
-        //else if (currentArrayItemType_ == dot::typeof<nullable<local_date>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<local_time>()) addedItem = dot::local_time();
-        //else if (currentArrayItemType_ == dot::typeof<nullable<local_time>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_ == dot::typeof<local_date_time>()) addedItem = dot::local_date_time();
-        //else if (currentArrayItemType_ == dot::typeof<nullable<local_date_time>>()) addedItem = nullptr;
-        //else if (currentArrayItemType_->IsClass) addedItem = nullptr;
-        //else throw dot::exception(dot::string::format("Value type {0} is not supported for serialization.", currentArrayItemType_->name));
+        //Object added_item = nullptr;
+        //if (current_array_item_type_ == dot::typeof<string>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<double>()) added_item = double();
+        //else if (current_array_item_type_ == dot::typeof<nullable<double>>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<bool>()) added_item = bool();
+        //else if (current_array_item_type_ == dot::typeof<nullable<bool>>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<int>()) added_item = int();
+        //else if (current_array_item_type_ == dot::typeof<nullable<int>>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<int64_t>()) added_item = int64_t();
+        //else if (current_array_item_type_ == dot::typeof<nullable<int64_t>>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<local_date>()) added_item = dot::local_date();
+        //else if (current_array_item_type_ == dot::typeof<nullable<local_date>>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<local_time>()) added_item = dot::local_time();
+        //else if (current_array_item_type_ == dot::typeof<nullable<local_time>>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<local_date_time>()) added_item = dot::local_date_time();
+        //else if (current_array_item_type_ == dot::typeof<nullable<local_date_time>>()) added_item = nullptr;
+        //else if (current_array_item_type_->is_class) added_item = nullptr;
+        //else throw dot::exception(dot::string::format("Value type {0} is not supported for serialization.", current_array_item_type_->name));
 
-        //currentArray_->add_object(addedItem);
-        //currentArrayItem_ = addedItem;
+        //current_array_->add_object(added_item);
+        //current_array_item_ = added_item;
     }
 
     void data_writer_impl::write_end_array_item()
     {
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::array_item_started) currentState_ = tree_writer_state::array_item_completed;
-        else if (currentState_ == tree_writer_state::dict_array_item_completed) currentState_ = tree_writer_state::array_item_completed;
-        else if (currentState_ == tree_writer_state::value_array_item_completed) currentState_ = tree_writer_state::array_item_completed;
+        if (current_state_ == tree_writer_state::array_item_started) current_state_ = tree_writer_state::array_item_completed;
+        else if (current_state_ == tree_writer_state::dict_array_item_completed) current_state_ = tree_writer_state::array_item_completed;
+        else if (current_state_ == tree_writer_state::value_array_item_completed) current_state_ = tree_writer_state::array_item_completed;
         else throw dot::exception(
             "A call to write_end_array_item(...) does not follow a matching write_start_array_item(...) at the same indent level.");
 
@@ -265,8 +265,8 @@ namespace dc
     void data_writer_impl::write_start_value()
     {
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::element_started) currentState_ = tree_writer_state::value_started;
-        else if (currentState_ == tree_writer_state::array_item_started) currentState_ = tree_writer_state::value_array_item_started;
+        if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::value_started;
+        else if (current_state_ == tree_writer_state::array_item_started) current_state_ = tree_writer_state::value_array_item_started;
         else throw dot::exception(
             "A call to write_start_value() must follow write_start_element(...) or write_start_array_item().");
     }
@@ -274,8 +274,8 @@ namespace dc
     void data_writer_impl::write_end_value()
     {
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::value_written) currentState_ = tree_writer_state::value_completed;
-        else if (currentState_ == tree_writer_state::value_array_item_written) currentState_ = tree_writer_state::value_array_item_completed;
+        if (current_state_ == tree_writer_state::value_written) current_state_ = tree_writer_state::value_completed;
+        else if (current_state_ == tree_writer_state::value_array_item_written) current_state_ = tree_writer_state::value_array_item_completed;
         else throw dot::exception(
             "A call to write_end_value(...) does not follow a matching write_value(...) at the same indent level.");
 
@@ -285,211 +285,211 @@ namespace dc
     void data_writer_impl::write_value(dot::object value)
     {
         // Check state transition matrix
-        if (currentState_ == tree_writer_state::value_started) currentState_ = tree_writer_state::value_written;
-        else if (currentState_ == tree_writer_state::value_array_item_started) currentState_ = tree_writer_state::value_array_item_written;
+        if (current_state_ == tree_writer_state::value_started) current_state_ = tree_writer_state::value_written;
+        else if (current_state_ == tree_writer_state::value_array_item_started) current_state_ = tree_writer_state::value_array_item_written;
         else throw dot::exception(
             "A call to write_end_value(...) does not follow a matching write_value(...) at the same indent level.");
 
         // Check that we are either inside dictionary or array
-        dot::type elementType = nullptr;
-        if (currentArray_ != nullptr) elementType = currentArrayItemType_;
-        else if (currentDict_ != nullptr) elementType = currentElementInfo_->field_type;
+        dot::type element_type = nullptr;
+        if (current_array_ != nullptr) element_type = current_array_item_type_;
+        else if (current_dict_ != nullptr) element_type = current_element_info_->field_type;
         else throw dot::exception(
-            dot::string::format("Cannot write_value(...)for element {0} ", currentElementName_) +
+            dot::string::format("Cannot write_value(...)for element {0} ", current_element_name_) +
             "is called outside dictionary or array.");
 
         if (value.is_empty())  // TODO is_empty method should be implemented according to c# extension
         {
             // Do not record null or empty value into dictionary, but add it to an array
             // Add to dictionary or array, depending on what we are inside of
-            if (currentArray_ != nullptr) currentArray_->add_object(nullptr);
+            if (current_array_ != nullptr) current_array_->add_object(nullptr);
             return;
         }
 
         // Write based on element type
-        dot::type valueType = value->get_type();
-        if (elementType->equals(dot::typeof<dot::string>()) ||
-            elementType->equals(dot::typeof<double>()) || elementType->equals(dot::typeof<dot::nullable<double>>()) ||
-            elementType->equals(dot::typeof<bool>()) || elementType->equals(dot::typeof<dot::nullable<bool>>()) ||
-            elementType->equals(dot::typeof<int>()) || elementType->equals(dot::typeof<dot::nullable<int>>()) ||
-            elementType->equals(dot::typeof<int64_t>()) || elementType->equals(dot::typeof<dot::nullable<int64_t>>()) ||
-            elementType->equals(dot::typeof<dot::object_id>())
+        dot::type value_type = value->get_type();
+        if (element_type->equals(dot::typeof<dot::string>()) ||
+            element_type->equals(dot::typeof<double>()) || element_type->equals(dot::typeof<dot::nullable<double>>()) ||
+            element_type->equals(dot::typeof<bool>()) || element_type->equals(dot::typeof<dot::nullable<bool>>()) ||
+            element_type->equals(dot::typeof<int>()) || element_type->equals(dot::typeof<dot::nullable<int>>()) ||
+            element_type->equals(dot::typeof<int64_t>()) || element_type->equals(dot::typeof<dot::nullable<int64_t>>()) ||
+            element_type->equals(dot::typeof<dot::object_id>())
             )
         {
             // Check type match
-            //if (!elementType->equals(valueType)) // TODO change to !elementType->IsAssignableFrom(valueType)
+            //if (!element_type->equals(value_type)) // TODO change to !element_type->is_assignable_from(value_type)
             //    throw dot::exception(
-            //        dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-            //        dot::string::format("into element of type {0}.", elementType->name));
+            //        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+            //        dot::string::format("into element of type {0}.", element_type->name));
 
-            dot::object convertedValue = value;
-            if (elementType->equals(dot::typeof<double>()))
+            dot::object converted_value = value;
+            if (element_type->equals(dot::typeof<double>()))
             {
-                if (valueType->equals(dot::typeof<int>())) convertedValue = static_cast<double>((int) value);
-                if (valueType->equals(dot::typeof<int64_t>())) convertedValue = static_cast<double>((int64_t) value);
+                if (value_type->equals(dot::typeof<int>())) converted_value = static_cast<double>((int) value);
+                if (value_type->equals(dot::typeof<int64_t>())) converted_value = static_cast<double>((int64_t) value);
             }
-            else if (elementType->equals(dot::typeof<int64_t>()) && valueType->equals(dot::typeof<int>()))
+            else if (element_type->equals(dot::typeof<int64_t>()) && value_type->equals(dot::typeof<int>()))
             {
-                convertedValue = static_cast<int64_t>((int) value);
+                converted_value = static_cast<int64_t>((int) value);
             }
-            else if (elementType->equals(dot::typeof<int>()) && valueType->equals(dot::typeof<int64_t>()))
+            else if (element_type->equals(dot::typeof<int>()) && value_type->equals(dot::typeof<int64_t>()))
             {
-                convertedValue = static_cast<int>((int64_t) value);
+                converted_value = static_cast<int>((int64_t) value);
             }
-            else if (elementType->equals(dot::typeof<dot::object_id>()) && valueType->equals(dot::typeof<dot::string>()))
+            else if (element_type->equals(dot::typeof<dot::object_id>()) && value_type->equals(dot::typeof<dot::string>()))
             {
-                convertedValue = dot::object_id((dot::string) value);
+                converted_value = dot::object_id((dot::string) value);
             }
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) currentArray_->add_object(convertedValue);
-            else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, convertedValue);
+            if (current_array_ != nullptr) current_array_->add_object(converted_value);
+            else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, converted_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (elementType->equals(dot::typeof<dot::local_date>()) || elementType->equals(dot::typeof<dot::nullable<dot::local_date>>()))
+        else if (element_type->equals(dot::typeof<dot::local_date>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_date>>()))
         {
-            dot::local_date dateValue;
+            dot::local_date date_value;
 
             // Check type match
-            if (valueType->equals(dot::typeof<int>()))
+            if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize local_date as ISO int in yyyymmdd format
-                dateValue = dot::local_date_util::parse_iso_int((int) value);
+                date_value = dot::local_date_util::parse_iso_int((int) value);
             }
-            else if (valueType->equals(dot::typeof<int64_t>()))
+            else if (value_type->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_date as ISO int in yyyymmdd format
-                dateValue = dot::local_date_util::parse_iso_int((int) value);
+                date_value = dot::local_date_util::parse_iso_int((int) value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
                     "into local_date; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) currentArray_->add_object(dateValue);
-            else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, dateValue);
+            if (current_array_ != nullptr) current_array_->add_object(date_value);
+            else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, date_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (elementType->equals(dot::typeof<dot::local_time>()) || elementType->equals(dot::typeof<dot::nullable<dot::local_time>>()))
+        else if (element_type->equals(dot::typeof<dot::local_time>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_time>>()))
         {
-            dot::local_time timeValue;
+            dot::local_time time_value;
 
             // Check type match
-            if (valueType->equals(dot::typeof<int>()))
+            if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize local_time as ISO int in hhmmssfff format
-                timeValue = dot::local_time_util::parse_iso_int((int) value);
+                time_value = dot::local_time_util::parse_iso_int((int) value);
             }
-            else if (valueType->equals(dot::typeof<int64_t>()))
+            else if (value_type->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_time as ISO int in hhmmssfff format
-                timeValue = dot::local_time_util::parse_iso_int((int) value);
+                time_value = dot::local_time_util::parse_iso_int((int) value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
                     "into local_time; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) currentArray_->add_object(timeValue);
-            else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, timeValue);
+            if (current_array_ != nullptr) current_array_->add_object(time_value);
+            else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, time_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (elementType->equals(dot::typeof<dot::local_minute>()) || elementType->equals(dot::typeof<dot::nullable<dot::local_minute>>()))
+        else if (element_type->equals(dot::typeof<dot::local_minute>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_minute>>()))
         {
-            dot::local_minute minuteValue;
+            dot::local_minute minute_value;
 
             // Check type match
-            if (valueType->equals(dot::typeof<int>()))
+            if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize local_minute as ISO int in hhmmssfff format
-                minuteValue = dot::local_minute_util::parse_iso_int((int) value);
+                minute_value = dot::local_minute_util::parse_iso_int((int) value);
             }
-            else if (valueType->equals(dot::typeof<int64_t>()))
+            else if (value_type->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_minute as ISO int in hhmmssfff format
-                minuteValue = dot::local_minute_util::parse_iso_int((int) value);
+                minute_value = dot::local_minute_util::parse_iso_int((int) value);
             }
             else throw dot::exception(
-                dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
                 "into local_minute; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) currentArray_->add_object(minuteValue);
-            else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, minuteValue);
+            if (current_array_ != nullptr) current_array_->add_object(minute_value);
+            else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, minute_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (elementType->equals(dot::typeof<dot::local_date_time>()) || elementType->equals(dot::typeof<dot::nullable<dot::local_date_time>>()))
+        else if (element_type->equals(dot::typeof<dot::local_date_time>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_date_time>>()))
         {
-        dot::local_date_time dateTimeValue;
+        dot::local_date_time date_time_value;
 
             // Check type match
-            if (valueType->equals(dot::typeof<dot::local_date_time>()))
+            if (value_type->equals(dot::typeof<dot::local_date_time>()))
             {
-                dateTimeValue = (dot::local_date_time) value;
+                date_time_value = (dot::local_date_time) value;
             }
-            else if (valueType->equals(dot::typeof<int64_t>()))
-            {
-                // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
-                dateTimeValue = dot::local_date_time_util::parse_iso_long((int64_t) value);
-            }
-            else if (valueType->equals(dot::typeof<int>()))
+            else if (value_type->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
-                dateTimeValue = dot::local_date_time_util::parse_iso_long((int) value);
+                date_time_value = dot::local_date_time_util::parse_iso_long((int64_t) value);
             }
-            else if (valueType->equals(dot::typeof<dot::string>()))
+            else if (value_type->equals(dot::typeof<int>()))
+            {
+                // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
+                date_time_value = dot::local_date_time_util::parse_iso_long((int) value);
+            }
+            else if (value_type->equals(dot::typeof<dot::string>()))
             {
                 // Deserialize local_date_time as ISO string
-                dateTimeValue = dot::local_date_time_util::parse((dot::string) value);
+                date_time_value = dot::local_date_time_util::parse((dot::string) value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
                     "into local_date_time; type should be local_date_time.");
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) currentArray_->add_object(dateTimeValue);
-            else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, dateTimeValue);
+            if (current_array_ != nullptr) current_array_->add_object(date_time_value);
+            else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, date_time_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (elementType->is_enum)
+        else if (element_type->is_enum)
         {
             // Check type match
-            if (!valueType->equals(dot::typeof<dot::string>()))
+            if (!value_type->equals(dot::typeof<dot::string>()))
                 throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-                    dot::string::format("into enum {0}; type should be string.", elementType->name));
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                    dot::string::format("into enum {0}; type should be string.", element_type->name));
 
             // Deserialize enum as string
-            dot::object enumValue = elementType->get_method("parse")->invoke(nullptr, dot::make_list<dot::object>({ value }));
+            dot::object enum_value = element_type->get_method("parse")->invoke(nullptr, dot::make_list<dot::object>({ value }));
 
 
             // Add to array or dictionary, depending on what we are inside of
-            if (currentArray_ != nullptr) currentArray_->add_object(enumValue);
-            else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, enumValue);
+            if (current_array_ != nullptr) current_array_->add_object(enum_value);
+            else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, enum_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
         else
         {
             // We run out of value types at this point, now we can create
             // a reference type and check that it is derived from key_base
-            dot::object keyObj = (key_base)dot::activator::create_instance(elementType);
-            if (keyObj.is<key_base>())
+            dot::object key_obj = (key_base)dot::activator::create_instance(element_type);
+            if (key_obj.is<key_base>())
             {
-                key_base key = (key_base) keyObj;
+                key_base key = (key_base) key_obj;
 
                 // Check type match
-                if (!valueType->equals(dot::typeof<dot::string>()) && !valueType->equals(elementType))
+                if (!value_type->equals(dot::typeof<dot::string>()) && !value_type->equals(element_type))
                     throw dot::exception(
-                        dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-                        dot::string::format("into key type {0}; keys should be serialized into semicolon delimited string.", elementType->name));
+                        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                        dot::string::format("into key type {0}; keys should be serialized into semicolon delimited string.", element_type->name));
 
                 // Populate from semicolon delimited string
-                dot::string stringValue = value->to_string();
-                key->AssignString(stringValue);
+                dot::string string_value = value->to_string();
+                key->AssignString(string_value);
 
                 // Add to array or dictionary, depending on what we are inside of
-                if (currentArray_ != nullptr) currentArray_->add_object(key);
-                else if (currentDict_ != nullptr) currentElementInfo_->set_value(currentDict_, key);
+                if (current_array_ != nullptr) current_array_->add_object(key);
+                else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, key);
                 else throw dot::exception("Value can only be added to a dictionary or array.");
             }
             else
@@ -502,39 +502,39 @@ namespace dc
 
     dot::string data_writer_impl::to_string()
     {
-        if (currentArray_ != nullptr) return currentArray_->to_string();
-        else if (currentDict_ != nullptr) return currentDict_->to_string();
+        if (current_array_ != nullptr) return current_array_->to_string();
+        else if (current_dict_ != nullptr) return current_dict_->to_string();
         else return get_type()->name;
     }
 
     void data_writer_impl::push_state()
     {
-        elementStack_.push(
-            DataWriterPosition
+        element_stack_.push(
+            data_writer_position
             {
-                currentElementName_,
-                currentState_,
-                currentDict_,
-                currentDictElements_,
-                currentElementInfo_,
-                currentArray_,
-                currentArrayItemType_
+                current_element_name_,
+                current_state_,
+                current_dict_,
+                current_dict_elements_,
+                current_element_info_,
+                current_array_,
+                current_array_item_type_
             });
     }
 
     void data_writer_impl::pop_state()
     {
         // Pop the outer element name and state from the element stack
-        auto stackItem = elementStack_.top();
-        elementStack_.pop();
+        auto stack_item = element_stack_.top();
+        element_stack_.pop();
 
-        currentElementName_ = stackItem.CurrentElementName;
-        currentState_ = stackItem.CurrentState;
-        currentDict_ = stackItem.CurrentDict;
-        currentDictElements_ = stackItem.CurrentDictElements;
-        currentElementInfo_ = stackItem.CurrentElementInfo;
-        currentArray_ = stackItem.CurrentArray;
-        currentArrayItemType_ = stackItem.CurrentArrayItemType;
+        current_element_name_ = stack_item.current_element_name;
+        current_state_ = stack_item.current_state;
+        current_dict_ = stack_item.current_dict;
+        current_dict_elements_ = stack_item.current_dict_elements;
+        current_element_info_ = stack_item.current_element_info;
+        current_array_ = stack_item.current_array;
+        current_array_item_type_ = stack_item.current_array_item_type;
     }
 
 }

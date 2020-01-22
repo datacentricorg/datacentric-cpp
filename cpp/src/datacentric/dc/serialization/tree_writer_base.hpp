@@ -93,23 +93,23 @@ namespace dc
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        virtual void write_start_document(dot::string rootElementName) = 0;
+        virtual void write_start_document(dot::string root_element_name) = 0;
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to write_start_document(...).
-        virtual void write_end_document(dot::string rootElementName) = 0;
+        virtual void write_end_document(dot::string root_element_name) = 0;
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        virtual void write_start_element(dot::string elementName) = 0;
+        virtual void write_start_element(dot::string element_name) = 0;
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching write_start_element(name) call at the same indent level.
-        virtual void write_end_element(dot::string elementName) = 0;
+        virtual void write_end_element(dot::string element_name) = 0;
 
         /// Write dictionary start tag. A call to this method
         /// must follow write_start_element(name).
@@ -148,16 +148,16 @@ namespace dc
         virtual void write_value(dot::object value) = 0;
 
         /// write_start_element(...) followed by write_start_dict().
-        void write_start_dict_element(dot::string elementName);
+        void write_start_dict_element(dot::string element_name);
 
         /// write_end_dict(...) followed by write_end_element(...).
-        void write_end_dict_element(dot::string elementName);
+        void write_end_dict_element(dot::string element_name);
 
         /// write_start_element(...) followed by write_start_array().
-        void write_start_array_element(dot::string elementName);
+        void write_start_array_element(dot::string element_name);
 
         /// write_end_array(...) followed by write_end_element(...).
-        void write_end_array_element(dot::string elementName);
+        void write_end_array_element(dot::string element_name);
 
         /// write_start_array_item(...) followed by write_start_dict().
         void write_start_dict_array_item();
@@ -167,7 +167,7 @@ namespace dc
 
         /// Write an element with no inner nodes.
         /// Element type is inferred by calling obj.get_type().
-        void write_value_element(dot::string elementName, dot::object value);
+        void write_value_element(dot::string element_name, dot::object value);
 
         /// Write an array item with no inner nodes.
         /// Element type is inferred by calling obj.get_type().
@@ -179,14 +179,14 @@ namespace dc
         /// Write an array of elements with no inner nodes.
         /// Element type is inferred by calling obj.get_type().
         template <class container>
-        void write_value_array(dot::string elementName, container values)
+        void write_value_array(dot::string element_name, container values)
         {
-            this->write_start_array_element(elementName);
+            this->write_start_array_element(element_name);
             for (dot::object value : values)
             {
                 this->write_array_item(value);
             }
-            this->write_end_array_element(elementName);
+            this->write_end_array_element(element_name);
         }
     };
 

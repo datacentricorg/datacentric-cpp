@@ -41,23 +41,23 @@ namespace dc
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        void write_start_document(dot::string rootElementName) override;
+        void write_start_document(dot::string root_element_name) override;
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to write_start_document(...).
-        void write_end_document(dot::string rootElementName) override;
+        void write_end_document(dot::string root_element_name) override;
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        void write_start_element(dot::string elementName) override;
+        void write_start_element(dot::string element_name) override;
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching write_start_element(...) call at the same indent level.
-        void write_end_element(dot::string elementName) override;
+        void write_end_element(dot::string element_name) override;
 
         /// Write dictionary start tag. A call to this method
         /// must follow write_start_element(...) or write_start_array_item().
@@ -107,8 +107,8 @@ namespace dc
 
         dot::object tuple_;
         dot::list<dot::field_info> props_;
-        int indexOfCurrent_;
-        data_writer dataWriter_;
+        int index_of_current_;
+        data_writer data_writer_;
         data data_;
 
     };

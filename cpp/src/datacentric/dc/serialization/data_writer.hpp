@@ -38,28 +38,28 @@ namespace dc
         friend tuple_writer_impl;
 
     private:
-        struct DataWriterPosition
+        struct data_writer_position
         {
-            dot::string CurrentElementName;
-            tree_writer_state CurrentState;
-            data CurrentDict;
-            dot::dictionary<dot::string, dot::field_info> CurrentDictElements;
-            dot::field_info CurrentElementInfo;
-            dot::list_base CurrentArray;
-            dot::type CurrentArrayItemType;
+            dot::string current_element_name;
+            tree_writer_state current_state;
+            data current_dict;
+            dot::dictionary<dot::string, dot::field_info> current_dict_elements;
+            dot::field_info current_element_info;
+            dot::list_base current_array;
+            dot::type current_array_item_type;
         };
 
     private: // FIELDS
 
-        std::stack<DataWriterPosition> elementStack_; // TODO make dot::Stack
-        dot::string rootElementName_;
-        dot::string currentElementName_;
-        tree_writer_state currentState_;
-        data currentDict_;
-        dot::dictionary<dot::string, dot::field_info> currentDictElements_;
-        dot::field_info currentElementInfo_;
-        dot::list_base currentArray_;
-        dot::type currentArrayItemType_;
+        std::stack<data_writer_position> element_stack_; // TODO make dot::Stack
+        dot::string root_element_name_;
+        dot::string current_element_name_;
+        tree_writer_state current_state_;
+        data current_dict_;
+        dot::dictionary<dot::string, dot::field_info> current_dict_elements_;
+        dot::field_info current_element_info_;
+        dot::list_base current_array_;
+        dot::type current_array_item_type_;
 
     private: // CONSTRUCTORS
 
@@ -69,23 +69,23 @@ namespace dc
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        void write_start_document(dot::string rootElementName) override;
+        void write_start_document(dot::string root_element_name) override;
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to write_start_document(...).
-        void write_end_document(dot::string rootElementName) override;
+        void write_end_document(dot::string root_element_name) override;
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        void write_start_element(dot::string elementName) override;
+        void write_start_element(dot::string element_name) override;
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching write_start_element(...) call at the same indent level.
-        void write_end_element(dot::string elementName) override;
+        void write_end_element(dot::string element_name) override;
 
         /// Write dictionary start tag. A call to this method
         /// must follow write_start_element(...) or write_start_array_item().

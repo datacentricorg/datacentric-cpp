@@ -32,165 +32,165 @@ limitations under the License.
 
 namespace dc
 {
-    void tuple_writer_impl::write_start_document(dot::string rootElementName)
+    void tuple_writer_impl::write_start_document(dot::string root_element_name)
     {
 
     }
 
-    void tuple_writer_impl::write_end_document(dot::string rootElementName)
+    void tuple_writer_impl::write_end_document(dot::string root_element_name)
     {
 
     }
 
-    void tuple_writer_impl::write_start_element(dot::string elementName)
+    void tuple_writer_impl::write_start_element(dot::string element_name)
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_start_element(elementName);
+            data_writer_->write_start_element(element_name);
         }
         else
         {
             for (int i = 0; i < props_->count(); ++i)
             {
-                if (elementName == "_key" || elementName == "_id")
+                if (element_name == "_key" || element_name == "_id")
                 {
-                    indexOfCurrent_ = -1;
+                    index_of_current_ = -1;
                     return;
                 }
 
-                if (props_[i]->name == elementName)
+                if (props_[i]->name == element_name)
                 {
-                    indexOfCurrent_ = i;
+                    index_of_current_ = i;
                     if (props_[i]->field_type->name->ends_with("Data")) //! TODO change ends_with
                     {
                         data result = (data)dot::activator::create_instance(props_[i]->field_type);
-                        dataWriter_ = make_data_writer(result);
-                        dataWriter_->write_start_document(props_[i]->field_type->name);
+                        data_writer_ = make_data_writer(result);
+                        data_writer_->write_start_document(props_[i]->field_type->name);
 
-                        tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, result }));
+                        tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, result }));
 
-                        //dataWriter_->write_start_element(elementName);
+                        //data_writer_->write_start_element(element_name);
                         //deserialize_document(doc, writer);
-                        //writer->write_end_document(typeName);
+                        //writer->write_end_document(type_name);
                     }
 
                     if (! props_[i]->field_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
                     {
-                        dataWriter_ = make_data_writer(nullptr);
-                        dataWriter_->currentElementInfo_ = props_[i];
-                        dataWriter_->currentElementName_ = props_[i]->name;
-                        dataWriter_->currentState_ = tree_writer_state::element_started;
+                        data_writer_ = make_data_writer(nullptr);
+                        data_writer_->current_element_info_ = props_[i];
+                        data_writer_->current_element_name_ = props_[i]->name;
+                        data_writer_->current_state_ = tree_writer_state::element_started;
 
-                        dataWriter_->currentArray_ = dot::make_list<dot::list<dot::object>>();
+                        data_writer_->current_array_ = dot::make_list<dot::list<dot::object>>();
 
-                        //dataWriter_->write_start_element(elementName);
+                        //data_writer_->write_start_element(element_name);
                         //deserialize_document(doc, writer);
-                        //writer->write_end_document(typeName);
+                        //writer->write_end_document(type_name);
                     }
 
                     return;
                 }
             }
-            throw dot::exception(dot::string::format("Unknown element {0} in tuple writer.", elementName));
+            throw dot::exception(dot::string::format("Unknown element {0} in tuple writer.", element_name));
         }
     }
 
-    void tuple_writer_impl::write_end_element(dot::string elementName)
+    void tuple_writer_impl::write_end_element(dot::string element_name)
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_end_element(elementName);
+            data_writer_->write_end_element(element_name);
         }
     }
 
     void tuple_writer_impl::write_start_dict()
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_start_dict();
+            data_writer_->write_start_dict();
         }
 
     }
 
     void tuple_writer_impl::write_end_dict()
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_end_dict();
-            if (dataWriter_->currentState_ == tree_writer_state::document_started)
-                dataWriter_ = nullptr;
+            data_writer_->write_end_dict();
+            if (data_writer_->current_state_ == tree_writer_state::document_started)
+                data_writer_ = nullptr;
         }
     }
 
     void tuple_writer_impl::write_start_array()
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_start_array();
+            data_writer_->write_start_array();
         }
 
     }
 
     void tuple_writer_impl::write_end_array()
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, dataWriter_->currentArray_ }));
-            dataWriter_->write_end_array();
-            dataWriter_ = nullptr;
+            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, data_writer_->current_array_ }));
+            data_writer_->write_end_array();
+            data_writer_ = nullptr;
         }
 
     }
 
     void tuple_writer_impl::write_start_array_item()
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_start_array_item();
+            data_writer_->write_start_array_item();
         }
 
     }
 
     void tuple_writer_impl::write_end_array_item()
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_end_array_item();
+            data_writer_->write_end_array_item();
         }
 
     }
 
     void tuple_writer_impl::write_start_value()
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_start_value();
+            data_writer_->write_start_value();
         }
 
     }
 
     void tuple_writer_impl::write_end_value()
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_end_value();
+            data_writer_->write_end_value();
         }
 
     }
 
     void tuple_writer_impl::write_value(dot::object value)
     {
-        if (dataWriter_ != nullptr)
+        if (data_writer_ != nullptr)
         {
-            dataWriter_->write_value(value);
+            data_writer_->write_value(value);
             return;
         }
 
-        if (indexOfCurrent_ == -1)
+        if (index_of_current_ == -1)
             return;
 
         // Check that we are either inside dictionary or array
-        dot::type elementType = tuple_->get_type()->get_generic_arguments()[indexOfCurrent_]; // TODO - cache array instead of getting every time?
+        dot::type element_type = tuple_->get_type()->get_generic_arguments()[index_of_current_]; // TODO - cache array instead of getting every time?
 
         if (value.is_empty())  // TODO is_empty method should be implemented according to c# extension
         {
@@ -200,171 +200,171 @@ namespace dc
         }
 
         // Write based on element type
-        dot::type valueType = value->get_type();
-        if (elementType->equals(dot::typeof<dot::string>()) ||
-            elementType->equals(dot::typeof<double>()) || elementType->equals(dot::typeof<dot::nullable<double>>()) ||
-            elementType->equals(dot::typeof<bool>()) || elementType->equals(dot::typeof<dot::nullable<bool>>()) ||
-            elementType->equals(dot::typeof<int>()) || elementType->equals(dot::typeof<dot::nullable<int>>()) ||
-            elementType->equals(dot::typeof<int64_t>()) || elementType->equals(dot::typeof<dot::nullable<int64_t>>()) ||
-            elementType->equals(dot::typeof<dot::object_id>())
+        dot::type value_type = value->get_type();
+        if (element_type->equals(dot::typeof<dot::string>()) ||
+            element_type->equals(dot::typeof<double>()) || element_type->equals(dot::typeof<dot::nullable<double>>()) ||
+            element_type->equals(dot::typeof<bool>()) || element_type->equals(dot::typeof<dot::nullable<bool>>()) ||
+            element_type->equals(dot::typeof<int>()) || element_type->equals(dot::typeof<dot::nullable<int>>()) ||
+            element_type->equals(dot::typeof<int64_t>()) || element_type->equals(dot::typeof<dot::nullable<int64_t>>()) ||
+            element_type->equals(dot::typeof<dot::object_id>())
             )
         {
             // Check type match
-            //if (!elementType->equals(valueType)) // TODO change to !elementType->IsAssignableFrom(valueType)
+            //if (!element_type->equals(value_type)) // TODO change to !element_type->is_assignable_from(value_type)
             //    throw dot::exception(
-            //        dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-            //        dot::string::format("into element of type {0}.", elementType->name));
+            //        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+            //        dot::string::format("into element of type {0}.", element_type->name));
 
-            dot::object convertedValue = value;
-            if (elementType->equals(dot::typeof<double>()))
+            dot::object converted_value = value;
+            if (element_type->equals(dot::typeof<double>()))
             {
-                if (valueType->equals(dot::typeof<int>())) convertedValue = static_cast<double>((int) value);
-                if (valueType->equals(dot::typeof<int64_t>())) convertedValue = static_cast<double>((int64_t) value);
+                if (value_type->equals(dot::typeof<int>())) converted_value = static_cast<double>((int) value);
+                if (value_type->equals(dot::typeof<int64_t>())) converted_value = static_cast<double>((int64_t) value);
             }
-            else if (elementType->equals(dot::typeof<int64_t>()) && valueType->equals(dot::typeof<int>()))
+            else if (element_type->equals(dot::typeof<int64_t>()) && value_type->equals(dot::typeof<int>()))
             {
-                convertedValue = static_cast<int64_t>((int) value);
+                converted_value = static_cast<int64_t>((int) value);
             }
-            else if (elementType->equals(dot::typeof<int>()) && valueType->equals(dot::typeof<int64_t>()))
+            else if (element_type->equals(dot::typeof<int>()) && value_type->equals(dot::typeof<int64_t>()))
             {
-                convertedValue = static_cast<int>((int64_t) value);
+                converted_value = static_cast<int>((int64_t) value);
             }
-            else if (elementType->equals(dot::typeof<dot::object_id>()) && valueType->equals(dot::typeof<dot::string>()))
+            else if (element_type->equals(dot::typeof<dot::object_id>()) && value_type->equals(dot::typeof<dot::string>()))
             {
-                convertedValue = dot::object_id((dot::string) value);
+                converted_value = dot::object_id((dot::string) value);
             }
 
             // Add to array or dictionary, depending on what we are inside of
-            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, convertedValue }));
+            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, converted_value }));
         }
-        else if (elementType->equals(dot::typeof<dot::local_date>()) || elementType->equals(dot::typeof<dot::nullable<dot::local_date>>()))
+        else if (element_type->equals(dot::typeof<dot::local_date>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_date>>()))
         {
-            dot::local_date dateValue;
+            dot::local_date date_value;
 
             // Check type match
-            if (valueType->equals(dot::typeof<int>()))
+            if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize local_date as ISO int in yyyymmdd format
-                dateValue = dot::local_date_util::parse_iso_int((int)value);
+                date_value = dot::local_date_util::parse_iso_int((int)value);
             }
-            else if (valueType->equals(dot::typeof<int64_t>()))
+            else if (value_type->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_date as ISO int in yyyymmdd format
-                dateValue = dot::local_date_util::parse_iso_int((int)value);
+                date_value = dot::local_date_util::parse_iso_int((int)value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
                     "into local_date; type should be int32.");
 
-            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, dateValue }));
+            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, date_value }));
         }
-        else if (elementType->equals(dot::typeof<dot::local_time>()) || elementType->equals(dot::typeof<dot::nullable<dot::local_time>>()))
+        else if (element_type->equals(dot::typeof<dot::local_time>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_time>>()))
         {
-            dot::local_time timeValue;
+            dot::local_time time_value;
 
             // Check type match
-            if (valueType->equals(dot::typeof<int>()))
+            if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize local_time as ISO int in hhmmssfff format
-                timeValue = dot::local_time_util::parse_iso_int((int)value);
+                time_value = dot::local_time_util::parse_iso_int((int)value);
             }
-            else if (valueType->equals(dot::typeof<int64_t>()))
+            else if (value_type->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_time as ISO int in hhmmssfff format
-                timeValue = dot::local_time_util::parse_iso_int((int)value);
+                time_value = dot::local_time_util::parse_iso_int((int)value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
                     "into local_time; type should be int32.");
 
-            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, timeValue }));
+            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, time_value }));
         }
-        else if (elementType->equals(dot::typeof<dot::local_minute>()) || elementType->equals(dot::typeof<dot::nullable<dot::local_minute>>()))
+        else if (element_type->equals(dot::typeof<dot::local_minute>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_minute>>()))
         {
-            dot::local_minute minuteValue;
+            dot::local_minute minute_value;
 
             // Check type match
-            if (valueType->equals(dot::typeof<int>()))
+            if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize local_minute as ISO int in hhmmssfff format
-                minuteValue = dot::local_minute_util::parse_iso_int((int)value);
+                minute_value = dot::local_minute_util::parse_iso_int((int)value);
             }
-            else if (valueType->equals(dot::typeof<int64_t>()))
+            else if (value_type->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_minute as ISO int in hhmmssfff format
-                minuteValue = dot::local_minute_util::parse_iso_int((int)value);
+                minute_value = dot::local_minute_util::parse_iso_int((int)value);
             }
             else throw dot::exception(
-                dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
                 "into local_minute; type should be int32.");
 
-            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, minuteValue }));
+            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, minute_value }));
         }
-        else if (elementType->equals(dot::typeof<dot::local_date_time>()) || elementType->equals(dot::typeof<dot::nullable<dot::local_date_time>>()))
+        else if (element_type->equals(dot::typeof<dot::local_date_time>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_date_time>>()))
         {
-        dot::local_date_time dateTimeValue;
+        dot::local_date_time date_time_value;
 
             // Check type match
-            if (valueType->equals(dot::typeof<dot::local_date_time>()))
+            if (value_type->equals(dot::typeof<dot::local_date_time>()))
             {
-                dateTimeValue = (dot::local_date_time)value;
+                date_time_value = (dot::local_date_time)value;
             }
-            else if (valueType->equals(dot::typeof<int64_t>()))
-            {
-                // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
-                dateTimeValue = dot::local_date_time_util::parse_iso_long((int64_t)value);
-            }
-            else if (valueType->equals(dot::typeof<int>()))
+            else if (value_type->equals(dot::typeof<int64_t>()))
             {
                 // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
-                dateTimeValue = dot::local_date_time_util::parse_iso_long((int)value);
+                date_time_value = dot::local_date_time_util::parse_iso_long((int64_t)value);
             }
-            else if (valueType->equals(dot::typeof<dot::string>()))
+            else if (value_type->equals(dot::typeof<int>()))
+            {
+                // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
+                date_time_value = dot::local_date_time_util::parse_iso_long((int)value);
+            }
+            else if (value_type->equals(dot::typeof<dot::string>()))
             {
                 // Deserialize local_date_time as ISO string
-                dateTimeValue = dot::local_date_time_util::parse((dot::string)value);
+                date_time_value = dot::local_date_time_util::parse((dot::string)value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
                     "into local_date_time; type should be local_date_time.");
 
-            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, dateTimeValue }));
+            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, date_time_value }));
         }
-        else if (elementType->is_enum)
+        else if (element_type->is_enum)
         {
             // Check type match
-            if (!valueType->equals(dot::typeof<dot::string>()))
+            if (!value_type->equals(dot::typeof<dot::string>()))
                 throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-                    dot::string::format("into enum {0}; type should be string.", elementType->name));
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                    dot::string::format("into enum {0}; type should be string.", element_type->name));
 
             // Deserialize enum as string
-            dot::string enumString = (dot::string) value;
-            dot::object enumValue = dot::enum_base::parse(elementType, enumString);
+            dot::string enum_string = (dot::string) value;
+            dot::object enum_value = dot::enum_base::parse(element_type, enum_string);
 
-            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, enumValue }));
+            tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, enum_value }));
         }
         else
         {
             // We run out of value types at this point, now we can create
             // a reference type and check that it is derived from key_base
-            dot::object keyObj = (key_base)dot::activator::create_instance(elementType);
-            if (keyObj.is<key_base>())
+            dot::object key_obj = (key_base)dot::activator::create_instance(element_type);
+            if (key_obj.is<key_base>())
             {
-                key_base key = (key_base)keyObj;
+                key_base key = (key_base)key_obj;
 
                 // Check type match
-                if (!valueType->equals(dot::typeof<dot::string>()) && !valueType->equals(elementType))
+                if (!value_type->equals(dot::typeof<dot::string>()) && !value_type->equals(element_type))
                     throw dot::exception(
-                        dot::string::format("Attempting to deserialize value of type {0} ", valueType->name) +
-                        dot::string::format("into key type {0}; keys should be serialized into semicolon delimited string.", elementType->name));
+                        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                        dot::string::format("into key type {0}; keys should be serialized into semicolon delimited string.", element_type->name));
 
                 // Populate from semicolon delimited string
-                dot::string stringValue = value->to_string();
-                key->AssignString(stringValue);
+                dot::string string_value = value->to_string();
+                key->AssignString(string_value);
 
                 // Add to array or dictionary, depending on what we are inside of
-                tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, key }));
+                tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, key }));
 
             }
             else

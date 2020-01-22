@@ -36,26 +36,26 @@ namespace dc
     data json_record_serializer_impl::deserialize(const rapidjson::Document& doc)
     {
         // Create instance to which JSON will be deserialized
-        dot::string typeName = doc["_t"].GetString();
-        data result = (data)dot::activator::create_instance("", typeName);
+        dot::string type_name = doc["_t"].GetString();
+        data result = (data)dot::activator::create_instance("", type_name);
         tree_writer_base writer = make_data_writer(result);
 
-        writer->write_start_document(typeName);
+        writer->write_start_document(type_name);
         deserialize_document(doc.GetObject(), writer);
-        writer->write_end_document(typeName);
+        writer->write_end_document(type_name);
         return result;
     }
 
-    dot::object json_record_serializer_impl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tupleType)
+    dot::object json_record_serializer_impl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type)
     {
         // Create instance to which JSON will be deserialized
-        dot::string typeName = tupleType->name;
-        dot::object result = dot::activator::create_instance(tupleType);
+        dot::string type_name = tuple_type->name;
+        dot::object result = dot::activator::create_instance(tuple_type);
         tree_writer_base writer = make_tuple_writer(result, props);
 
-        writer->write_start_document(typeName);
+        writer->write_start_document(type_name);
         deserialize_document(doc, writer);
-        writer->write_end_document(typeName);
+        writer->write_end_document(type_name);
         return result;
 
     }
@@ -69,51 +69,51 @@ namespace dc
 
         for (auto& elem : doc)
         {
-            rapidjson::Type jsonType = elem.value.GetType();
+            rapidjson::Type json_type = elem.value.GetType();
 
             // Read element name and value
-            dot::string elementName = elem.name.GetString();
-            if (jsonType == rapidjson::Type::kNullType)
+            dot::string element_name = elem.name.GetString();
+            if (json_type == rapidjson::Type::kNullType)
             {
                 //reader.ReadNull();
             }
-            else if (jsonType == rapidjson::Type::kStringType)
+            else if (json_type == rapidjson::Type::kStringType)
             {
                 dot::string value = elem.value.GetString();
 
-                if (elementName == "_t")
+                if (element_name == "_t")
                 {
                     // TODO Handle type
                 }
                 else
                 {
-                    writer->write_value_element(elementName, value);
+                    writer->write_value_element(element_name, value);
                 }
             }
-            else if (jsonType == rapidjson::Type::kNumberType)
+            else if (json_type == rapidjson::Type::kNumberType)
             {
                 if (elem.value.IsDouble())
                 {
                     double value = elem.value.GetDouble();
-                    writer->write_value_element(elementName, value);
+                    writer->write_value_element(element_name, value);
                 }
                 else if (elem.value.IsInt())
                 {
                     int value = elem.value.GetInt();
-                    writer->write_value_element(elementName, value);
+                    writer->write_value_element(element_name, value);
                 }
                 else
                 {
                     int64_t value = elem.value.GetInt64();
-                    writer->write_value_element(elementName, value);
+                    writer->write_value_element(element_name, value);
                 }
             }
-            else if (jsonType == rapidjson::Type::kFalseType || jsonType == rapidjson::Type::kTrueType)
+            else if (json_type == rapidjson::Type::kFalseType || json_type == rapidjson::Type::kTrueType)
             {
                 bool value = elem.value.GetBool();
-                writer->write_value_element(elementName, value);
+                writer->write_value_element(element_name, value);
             }
-            else if (jsonType == rapidjson::Type::kObjectType)
+            else if (json_type == rapidjson::Type::kObjectType)
             {
                 // Read JSON stream for the embedded data element
                 //IByteBuffer documentBuffer = reader.ReadRawBsonDocument();
@@ -121,11 +121,11 @@ namespace dc
 
                 // Deserialize embedded data element
 
-                writer->write_start_element(elementName);
+                writer->write_start_element(element_name);
                 deserialize_document(sub_doc, writer);
-                writer->write_end_element(elementName);
+                writer->write_end_element(element_name);
             }
-            else if (jsonType == rapidjson::Type::kArrayType)
+            else if (json_type == rapidjson::Type::kArrayType)
             {
                 // Array is accessed as a document JSON type inside array JSON,
                 // type, where document element name is serialized array index.
@@ -134,9 +134,9 @@ namespace dc
 
                 // We can finally deserialize array here
                 // This method checks that array is not sparse
-                writer->write_start_array_element(elementName);
+                writer->write_start_array_element(element_name);
                 deserialize_array(sub_doc, writer);
-                writer->write_end_array_element(elementName);
+                writer->write_end_array_element(element_name);
             }
             else throw dot::exception(
                 "Deserialization of JSON type {0} is not supported.");
@@ -151,19 +151,19 @@ namespace dc
         // Loop over elements until
         for (auto& elem : arr)
         {
-            rapidjson::Type jsonType = elem.GetType();
+            rapidjson::Type json_type = elem.GetType();
 
-            if (jsonType == rapidjson::Type::kNullType)
+            if (json_type == rapidjson::Type::kNullType)
             {
                 // Unlike for dictionaries, in case of arrays we write null item values
                 writer->write_value_array_item(nullptr);
             }
-            else if (jsonType == rapidjson::Type::kStringType)
+            else if (json_type == rapidjson::Type::kStringType)
             {
                 dot::string value = elem.GetString();
                 writer->write_value_array_item(value);
             }
-            else if (jsonType == rapidjson::Type::kNumberType)
+            else if (json_type == rapidjson::Type::kNumberType)
             {
                 if (elem.IsDouble())
                 {
@@ -181,12 +181,12 @@ namespace dc
                     writer->write_value_array_item(value);
                 }
             }
-            else if (jsonType == rapidjson::Type::kFalseType || jsonType == rapidjson::Type::kTrueType)
+            else if (json_type == rapidjson::Type::kFalseType || json_type == rapidjson::Type::kTrueType)
             {
                 bool value = elem.GetBool();
                 writer->write_value_array_item(value);
             }
-            else if (jsonType == rapidjson::Type::kObjectType)
+            else if (json_type == rapidjson::Type::kObjectType)
             {
                 // Read JSON stream for the embedded data element
                 rapidjson::Document::ConstObject sub_doc = elem.GetObject();
@@ -196,7 +196,7 @@ namespace dc
                 deserialize_document(sub_doc, writer);
                 writer->write_end_array_item();
             }
-            else if (jsonType == rapidjson::Type::kArrayType)
+            else if (json_type == rapidjson::Type::kArrayType)
             {
                 throw dot::exception("Deserializaion of an array inside another array is not supported.");
             }
@@ -209,11 +209,11 @@ namespace dc
     void json_record_serializer_impl::serialize(tree_writer_base writer, data value)
     {
         // Root name is written in JSON as _t element
-        dot::string rootName = value->get_type()->full_name();
+        dot::string root_name = value->get_type()->full_name();
 
-        writer->write_start_document(rootName);
+        writer->write_start_document(root_name);
         value->serialize_to(writer);
-        writer->write_end_document(rootName);
+        writer->write_end_document(root_name);
     }
 
 }

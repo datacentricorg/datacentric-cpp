@@ -89,9 +89,9 @@ namespace dc
         else if (current_state_ == tree_writer_state::dict_array_item_started) current_state_ = tree_writer_state::element_started;
         else
             throw dot::exception(
-                "A call to write_start_element(...) must be the first call or follow write_end_element(prevName).");
+                "A call to write_start_element(...) must be the first call or follow write_end_element(prev_name).");
 
-        // Write "elementName" :
+        // Write "element_name" :
         bson_writer_.key_owned(*(element_stack_.top().first));
     }
 
@@ -117,7 +117,7 @@ namespace dc
         // occurs inside one of write_start_dict, write_start_array_item, or write_start_value calls.
         if (element_name != current_element_name)
             throw dot::exception(
-                dot::string::format("EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", element_name, current_element_name));
+                dot::string::format("end_complex_element({0}) follows start_complex_element({1}), element name mismatch.", element_name, current_element_name));
 
         // Nothing to write here but array closing bracket was written above
     }

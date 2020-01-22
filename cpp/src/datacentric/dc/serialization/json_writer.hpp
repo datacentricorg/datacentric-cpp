@@ -37,9 +37,9 @@ namespace dc
     private:
 
         rapidjson::StringBuffer buffer_;
-        rapidjson::Writer<rapidjson::StringBuffer> jsonWriter_;
-        std::stack<std::pair<dot::string, tree_writer_state>> elementStack_; // TODO make dot::Stack
-        tree_writer_state currentState_;
+        rapidjson::Writer<rapidjson::StringBuffer> json_writer_;
+        std::stack<std::pair<dot::string, tree_writer_state>> element_stack_; // TODO make dot::Stack
+        tree_writer_state current_state_;
 
     private:
         json_writer_impl();
@@ -48,23 +48,23 @@ namespace dc
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        void write_start_document(dot::string rootElementName) override;
+        void write_start_document(dot::string root_element_name) override;
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to write_start_document(...).
-        void write_end_document(dot::string rootElementName) override;
+        void write_end_document(dot::string root_element_name) override;
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        void write_start_element(dot::string elementName) override;
+        void write_start_element(dot::string element_name) override;
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching write_start_element(...) call at the same indent level.
-        void write_end_element(dot::string elementName) override;
+        void write_end_element(dot::string element_name) override;
 
         /// Write dictionary start tag. A call to this method
         /// must follow write_start_element(...) or write_start_array_item().
