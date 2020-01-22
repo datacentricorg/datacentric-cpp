@@ -221,7 +221,7 @@ namespace dc
         props_list<PropR> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
         {
             // Compile time check
-            static_assert(std::is_same<LastProp::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
+            static_assert(std::is_same<typename LastProp::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
 
             props_list<PropR> ret;
             ret.props_.swap(props_);
@@ -309,7 +309,7 @@ namespace dc
         props_list<PropR> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
         {
             // Compile time check
-            static_assert(std::is_same<Prop::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
+            static_assert(std::is_same<typename Prop::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
             return props_list<PropR>{{ prop_->name, rhs.prop_->name }};
         }
 
