@@ -50,6 +50,7 @@ namespace dc
 
         DOT_TYPE_BEGIN("dc", "key_base")
             //DOT_TYPE_BASE(data)
+            ->with_method("assign_string", static_cast<void (key_base_impl::*)(dot::string)>(&key_base_impl::assign_string), {"value"})
         DOT_TYPE_END()
     };
 }
