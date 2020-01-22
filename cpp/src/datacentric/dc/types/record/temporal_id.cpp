@@ -41,8 +41,11 @@ namespace dc
 
     temporal_id::temporal_id(const char* bytes, std::size_t len)
         : id_(bytes, len)
-    {
-    }
+    {}
+
+    temporal_id::temporal_id(dot::byte_array bytes)
+        : id_(bytes->get_data(), bytes->get_length())
+    {}
 
     temporal_id::temporal_id(dot::local_date_time value)
     {
@@ -67,7 +70,7 @@ namespace dc
 
     dot::byte_array temporal_id::to_byte_array()
     {
-        return new dot::byte_array_impl(id_.bytes(), 12);
+        return dot::make_byte_array(id_.bytes(), 12);
     }
 
     dot::string temporal_id::to_string() const
@@ -124,7 +127,7 @@ namespace dc
         if (value_type->equals(dot::typeof<dot::byte_array>()))
         {
             dot::byte_array arr = (dot::byte_array) value;
-            return temporal_id(arr->get_data(), arr->count());
+            return temporal_id(arr);
         }
         if (value_type->equals(dot::typeof<dot::string>()))
         {

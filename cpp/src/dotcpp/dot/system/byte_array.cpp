@@ -29,24 +29,35 @@ limitations under the License.
 
 namespace dot
 {
-    byte_array_impl::byte_array_impl(size_t size)
+    byte_array_impl::byte_array_impl(int size)
         : array_(size)
     {}
 
-    byte_array_impl::byte_array_impl(const char* value, size_t size)
+    byte_array_impl::byte_array_impl(const char* value, int size)
         : array_(value, value + size)
     {}
 
-    /// The number of items contained in the list.
+    byte_array_impl::byte_array_impl(const std::vector<char>& obj)
+        : array_(obj)
+    {}
 
-    int byte_array_impl::count()
+    byte_array_impl::byte_array_impl(std::vector<char>&& obj)
+        : array_(std::move(obj))
+    {}
+
+    int byte_array_impl::get_length()
     {
         return array_.size();
     }
 
-    char * byte_array_impl::get_data()
+    char* byte_array_impl::get_data()
     {
         return array_.data();
+    }
+
+    char& byte_array_impl::operator[](int i)
+    {
+        return array_[i];
     }
 
     type byte_array_impl::typeof()

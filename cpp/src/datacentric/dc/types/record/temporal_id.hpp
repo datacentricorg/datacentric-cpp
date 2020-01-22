@@ -83,6 +83,9 @@ namespace dc
         /// Create from byte array.
         temporal_id(const char* bytes, std::size_t len);
 
+        /// Create from byte_array.
+        temporal_id(dot::byte_array bytes);
+
         /// Create from UTC datetime, with all other components of object id empty.
         /// The created object is less or equal to any other object with time timestamp
         /// that falls on the same second.

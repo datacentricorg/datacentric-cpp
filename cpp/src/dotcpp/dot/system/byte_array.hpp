@@ -30,30 +30,60 @@ namespace dot
 {
     class byte_array_impl; using byte_array = ptr<byte_array_impl>;
 
+    /// Represents array of bytes.
     class DOT_CLASS byte_array_impl : public object_impl
     {
+        friend byte_array make_byte_array();
+        friend byte_array make_byte_array(int size);
+        friend byte_array make_byte_array(const char* value, int size);
+        friend byte_array make_byte_array(const std::vector<char>& obj);
+        friend byte_array make_byte_array(std::vector<char>&& obj);
+
     private:
 
         std::vector<char> array_;
 
-    public: // CONSTRUCTORS
+    private: // CONSTRUCTORS
 
+        /// Create empty array.
         byte_array_impl() = default;
 
-        byte_array_impl(size_t size);
+        /// Create array with specific size.
+        byte_array_impl(int size);
 
-        byte_array_impl(const char* value, size_t size);
+        /// Construct from byte array using copy semantics.
+        byte_array_impl(const char* value, int size);
+
+        /// Construct from vector using deep copy semantics.
+        byte_array_impl(const std::vector<char>& obj);
+
+        /// Construct from vector using move semantics.
+        byte_array_impl(std::vector<char>&& obj);
 
     public: // METHODS
 
         /// The number of items contained in the list.
-        int count();
+        int get_length();
 
+        /// Gets raw byte array.
         char* get_data();
+
+        /// Gets or sets the element at the specified index.
+        char& operator[](int i);
 
     public: // REFLECTION
 
         static type typeof();
         type get_type() override;
     };
+
+    inline byte_array make_byte_array() { return new byte_array_impl(); }
+
+    inline byte_array make_byte_array(int size) { return new byte_array_impl(size); }
+
+    inline byte_array make_byte_array(const char* value, int size) { return new byte_array_impl(value, size); }
+
+    inline byte_array make_byte_array(const std::vector<char>& obj) { return new byte_array_impl(obj); }
+
+    inline byte_array make_byte_array(std::vector<char>&& obj) { return new byte_array_impl(std::forward<std::vector<char>>(obj)); }
 }
