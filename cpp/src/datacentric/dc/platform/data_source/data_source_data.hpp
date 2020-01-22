@@ -26,7 +26,6 @@ limitations under the License.
 #include <dc/types/record/typed_record.hpp>
 #include <dc/platform/data_source/database_key.hpp>
 #include <dc/platform/data_source/database_server_key.hpp>
-#include <dc/platform/data_source/mongo/mongo_query.hpp>
 #include <dc/platform/data_set/data_set_flags.hpp>
 
 namespace dc
@@ -231,7 +230,7 @@ namespace dc
         ///
         /// Error message if no matching data_set_id string is found
         /// or a delete marker is found instead.
-        virtual temporal_id get_data_set_or_empty(dot::string data_set_id, temporal_id load_from) = 0;
+        virtual dot::nullable<temporal_id> get_data_set_or_empty(dot::string data_set_id, temporal_id load_from) = 0;
 
         /// Save new version of the dataset.
         ///
@@ -340,7 +339,7 @@ namespace dc
         ///
         /// * read_only flag is true; or
         /// * One of revised_before or revised_before_id is set
-        bool read_only;
+        dot::nullable<bool> read_only;
 
         /// Unique data source identifier.
         dot::string data_source_id;

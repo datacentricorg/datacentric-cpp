@@ -37,7 +37,7 @@ namespace dc
     temporal_id data_source_data_impl::get_data_set(dot::string data_set_id, temporal_id load_from)
     {
         auto result = get_data_set_or_empty(data_set_id, load_from);
-        if (result == temporal_id::empty) throw dot::exception(
+        if (result == nullptr) throw dot::exception(
             dot::string::format("Dataset {0} is not found in data store {1}.", data_set_id, data_source_id));
         return result;
     }
