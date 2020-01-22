@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/DeleteMarker.hpp>
+#include <dc/types/record/delete_marker.hpp>
 #include <dot/system/object_impl.hpp>
 
 namespace dc

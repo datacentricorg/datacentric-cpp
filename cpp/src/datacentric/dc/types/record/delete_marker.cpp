@@ -16,7 +16,7 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/types/record/DeleteMarker.hpp>
+#include <dc/types/record/delete_marker.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc

@@ -22,7 +22,7 @@ limitations under the License.
 #include <dc/platform/context/context_base.hpp>
 #include <dc/platform/query/query.hpp>
 #include <dc/platform/cursor/cursor_wrapper.hpp>
-#include <dc/types/record/DeleteMarker.hpp>
+#include <dc/types/record/delete_marker.hpp>
 
 #include <mongocxx/collection.hpp>
 

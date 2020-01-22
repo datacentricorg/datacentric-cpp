@@ -47,7 +47,7 @@
     <ClCompile Include="serialization\tuple_writer.cpp" />
     <ClCompile Include="types\record\cached_record.cpp" />
     <ClCompile Include="types\record\data.cpp" />
-    <ClCompile Include="types\record\DeleteMarker.cpp" />
+    <ClCompile Include="types\record\delete_marker.cpp" />
     <ClCompile Include="types\record\key_base.cpp" />
     <ClCompile Include="types\record\record_base.cpp" />
     <ClCompile Include="types\variant\variant.cpp" />
@@ -92,14 +92,15 @@
     <ClInclude Include="types\double\double_compare.hpp" />
     <ClInclude Include="types\record\cached_record.hpp" />
     <ClInclude Include="types\record\data.hpp" />
-    <ClInclude Include="types\record\DeleteMarker.hpp" />
+    <ClInclude Include="types\record\delete_marker.hpp" />
     <ClInclude Include="types\record\key.hpp" />
     <ClInclude Include="types\record\key_base.hpp" />
+    <ClInclude Include="types\record\key_impl.hpp" />
     <ClInclude Include="types\record\record.hpp" />
     <ClInclude Include="types\record\record_base.hpp" />
     <ClInclude Include="types\record\root_key.hpp" />
     <ClInclude Include="types\record\root_record.hpp" />
-    <ClInclude Include="types\record\ValueType.hpp" />
+    <ClInclude Include="types\record\value_type.hpp" />
     <ClInclude Include="types\variant\variant.hpp" />
     <ClInclude Include="types\variant\variant_type.hpp" />
   </ItemGroup>
