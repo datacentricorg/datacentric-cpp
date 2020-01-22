@@ -41,8 +41,6 @@ namespace dc
     class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
     class object_cursor_wrapper_impl; using object_cursor_wrapper = dot::ptr<object_cursor_wrapper_impl>;
 
-    class dot::object_id;
-
     /// Data source is a logical concept similar to database
     /// that can be implemented for a document DB, relational DB,
     /// key-value store, or filesystem.

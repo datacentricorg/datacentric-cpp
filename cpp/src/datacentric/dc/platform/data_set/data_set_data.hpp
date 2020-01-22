@@ -24,7 +24,6 @@ namespace dc
 {
     class data_set_key_impl; using data_set_key = dot::ptr<data_set_key_impl>;
     class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
-    class dot::object_id;
 
     inline data_set_data make_data_set_data();
 

@@ -23,7 +23,6 @@ limitations under the License.
 namespace dc
 {
     class cached_record_impl; using cached_record = dot::ptr<cached_record_impl>;
-    class dot::object_id;
     class record_base_impl; using record_base = dot::ptr<record_base_impl>;
 
     /// Reference to a cached record inside the key.

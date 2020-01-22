@@ -83,8 +83,6 @@ namespace dc
     };
 
     class tree_writer_base_impl; using tree_writer_base = dot::ptr<tree_writer_base_impl>;
-    class dot::object;
-    class dot::string;
 
     /// Interface for writing tree data.
     class DC_CLASS tree_writer_base_impl : public dot::object_impl
