@@ -30,7 +30,7 @@ limitations under the License.
 
 namespace dot
 {
-    enum class tree_writer_state
+    enum class TreeWriterState
     {
         /// Empty
         empty,
@@ -90,10 +90,10 @@ namespace dot
         value_array_item_completed
     };
 
-    class tree_writer_base_impl; using tree_writer_base = dot::ptr<tree_writer_base_impl>;
+    class TreeWriterBaseImpl; using tree_writer_base = dot::ptr<TreeWriterBaseImpl>;
 
     /// Interface for writing tree data.
-    class DOT_CLASS tree_writer_base_impl : public dot::object_impl
+    class DOT_CLASS TreeWriterBaseImpl : public dot::object_impl
     {
     public:
 

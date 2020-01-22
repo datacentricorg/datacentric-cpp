@@ -33,13 +33,13 @@ limitations under the License.
 
 namespace dot
 {
-    class json_record_serializer_impl; using json_record_serializer = dot::ptr<json_record_serializer_impl>;
+    class JsonRecordSerializerImpl; using JsonRecordSerializer = dot::ptr<JsonRecordSerializerImpl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
-    class DOT_CLASS json_record_serializer_impl : public virtual dot::object_impl
+    class DOT_CLASS JsonRecordSerializerImpl : public virtual dot::object_impl
     {
-        friend json_record_serializer make_json_record_serializer();
+        friend JsonRecordSerializer make_json_record_serializer();
 
     public:
 
@@ -65,8 +65,8 @@ namespace dot
         void standard_serialize(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer);
 
     private:
-        json_record_serializer_impl() = default;
+        JsonRecordSerializerImpl() = default;
     };
 
-    inline json_record_serializer make_json_record_serializer() { return new json_record_serializer_impl; }
+    inline JsonRecordSerializer make_json_record_serializer() { return new JsonRecordSerializerImpl; }
 }

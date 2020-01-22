@@ -30,17 +30,17 @@ limitations under the License.
 namespace dot
 {
 
-    class deserialize_class_attribute_impl; using deserialize_class_attribute = ptr<deserialize_class_attribute_impl>;
+    class DeserializeClassAttributeImpl; using DeserializeClassAttribute = ptr<DeserializeClassAttributeImpl>;
 
     /// Attribute sets custom deserializator for type
     /// Constructs from method that accepts object value, required type and returns deserialized object
-    class DOT_CLASS deserialize_class_attribute_impl : public attribute_impl
+    class DOT_CLASS DeserializeClassAttributeImpl : public attribute_impl
     {
 
     public:
         typedef object(*deserializer_func_type)(object, dot::type);
 
-        friend deserialize_class_attribute make_deserialize_class_attribute(deserializer_func_type);
+        friend DeserializeClassAttribute make_deserialize_class_attribute(deserializer_func_type);
 
         object deserialize(object value, dot::type);
 
@@ -51,30 +51,30 @@ namespace dot
 
     private:
 
-        deserialize_class_attribute_impl(deserializer_func_type deserializer)
+        DeserializeClassAttributeImpl(deserializer_func_type deserializer)
             : deserializer_(deserializer)
         {}
 
         deserializer_func_type deserializer_;
     };
 
-    inline deserialize_class_attribute make_deserialize_class_attribute(deserialize_class_attribute_impl::deserializer_func_type deserializer)
+    inline DeserializeClassAttribute make_deserialize_class_attribute(DeserializeClassAttributeImpl::deserializer_func_type deserializer)
     {
-        return new deserialize_class_attribute_impl(deserializer);
+        return new DeserializeClassAttributeImpl(deserializer);
     }
 
 
-    class deserialize_field_attribute_impl; using deserialize_field_attribute = ptr<deserialize_field_attribute_impl>;
+    class DeserializeFieldAttributeImpl; using DeserializeFieldAttribute = ptr<DeserializeFieldAttributeImpl>;
 
     /// Attribute sets custom deserializator for field
     /// Constructs from method that accepts field value, field info, and data object
-    class DOT_CLASS deserialize_field_attribute_impl : public attribute_impl
+    class DOT_CLASS DeserializeFieldAttributeImpl : public attribute_impl
     {
 
     public:
         typedef void(*deserializer_func_type)(object, field_info, object);
 
-        friend deserialize_field_attribute make_deserialize_field_attribute(deserializer_func_type);
+        friend DeserializeFieldAttribute make_deserialize_field_attribute(deserializer_func_type);
 
         void deserialize(object value, field_info field, object obj);
 
@@ -85,7 +85,7 @@ namespace dot
 
     private:
 
-        deserialize_field_attribute_impl(deserializer_func_type deserializer)
+        DeserializeFieldAttributeImpl(deserializer_func_type deserializer)
             : deserializer_(deserializer)
         {}
 
@@ -96,8 +96,8 @@ namespace dot
     {
     }
 
-    inline deserialize_field_attribute make_deserialize_field_attribute(deserialize_field_attribute_impl::deserializer_func_type deserializer)
+    inline DeserializeFieldAttribute make_deserialize_field_attribute(DeserializeFieldAttributeImpl::deserializer_func_type deserializer)
     {
-        return new deserialize_field_attribute_impl(deserializer);
+        return new DeserializeFieldAttributeImpl(deserializer);
     }
 }

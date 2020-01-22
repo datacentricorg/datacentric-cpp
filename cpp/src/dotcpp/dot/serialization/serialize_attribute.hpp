@@ -31,17 +31,17 @@ limitations under the License.
 namespace dot
 {
 
-    class serialize_class_attribute_impl; using serialize_class_attribute = ptr<serialize_class_attribute_impl>;
+    class SerializeClassAttributeImpl; using SerializeClassAttribute = ptr<SerializeClassAttributeImpl>;
 
     /// Attribute sets custom serializator for type
     /// Constructs from method that accepts tree writer base and object
-    class DOT_CLASS serialize_class_attribute_impl : public attribute_impl
+    class DOT_CLASS SerializeClassAttributeImpl : public attribute_impl
     {
 
     public:
         typedef void(*serializer_func_type)(dot::tree_writer_base, dot::object);
 
-        friend serialize_class_attribute make_serialize_class_attribute(serializer_func_type);
+        friend SerializeClassAttribute make_serialize_class_attribute(serializer_func_type);
 
         void serialize(tree_writer_base writer, dot::object obj);
 
@@ -52,30 +52,30 @@ namespace dot
 
     private:
 
-        serialize_class_attribute_impl(serializer_func_type serializer)
+        SerializeClassAttributeImpl(serializer_func_type serializer)
             : serializer_(serializer)
         {}
 
         serializer_func_type serializer_;
     };
 
-    inline serialize_class_attribute make_serialize_class_attribute(serialize_class_attribute_impl::serializer_func_type serializer)
+    inline SerializeClassAttribute make_serialize_class_attribute(SerializeClassAttributeImpl::serializer_func_type serializer)
     {
-        return new serialize_class_attribute_impl(serializer);
+        return new SerializeClassAttributeImpl(serializer);
     }
 
 
-    class serialize_field_attribute_impl; using serialize_field_attribute = ptr<serialize_field_attribute_impl>;
+    class SerializeFieldAttributeImpl; using SerializeFieldAttribute = ptr<SerializeFieldAttributeImpl>;
 
     /// Attribute sets custom serializator for field
     /// Constructs from method that accepts tree writer base and object
-    class DOT_CLASS serialize_field_attribute_impl : public attribute_impl
+    class DOT_CLASS SerializeFieldAttributeImpl : public attribute_impl
     {
 
     public:
         typedef void(*serializer_func_type)(dot::tree_writer_base, dot::object);
 
-        friend serialize_field_attribute make_serialize_field_attribute(serializer_func_type);
+        friend SerializeFieldAttribute make_serialize_field_attribute(serializer_func_type);
 
         void serialize(tree_writer_base writer, dot::object obj);
 
@@ -86,15 +86,15 @@ namespace dot
 
     private:
 
-        serialize_field_attribute_impl(serializer_func_type serializer)
+        SerializeFieldAttributeImpl(serializer_func_type serializer)
             : serializer_(serializer)
         {}
 
         serializer_func_type serializer_;
     };
 
-    inline serialize_field_attribute make_serialize_field_attribute(serialize_field_attribute_impl::serializer_func_type serializer)
+    inline SerializeFieldAttribute make_serialize_field_attribute(SerializeFieldAttributeImpl::serializer_func_type serializer)
     {
-        return new serialize_field_attribute_impl(serializer);
+        return new SerializeFieldAttributeImpl(serializer);
     }
 }

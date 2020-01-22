@@ -39,15 +39,15 @@ limitations under the License.
 
 namespace dot
 {
-    void tuple_writer_impl::write_start_document(dot::string root_element_name)
+    void TupleWriterImpl::write_start_document(dot::string root_element_name)
     {
     }
 
-    void tuple_writer_impl::write_end_document(dot::string root_element_name)
+    void TupleWriterImpl::write_end_document(dot::string root_element_name)
     {
     }
 
-    void tuple_writer_impl::write_start_element(dot::string element_name)
+    void TupleWriterImpl::write_start_element(dot::string element_name)
     {
         if (data_writer_ != nullptr)
         {
@@ -72,7 +72,7 @@ namespace dot
                         data_writer_ = make_data_writer(nullptr);
                         data_writer_->current_element_info_ = props_[i];
                         data_writer_->current_element_name_ = props_[i]->name();
-                        data_writer_->current_state_ = tree_writer_state::element_started;
+                        data_writer_->current_state_ = TreeWriterState::element_started;
 
                         data_writer_->current_array_ = dot::make_list<dot::list<dot::object>>();
 
@@ -101,7 +101,7 @@ namespace dot
         }
     }
 
-    void tuple_writer_impl::write_end_element(dot::string element_name)
+    void TupleWriterImpl::write_end_element(dot::string element_name)
     {
         if (data_writer_ != nullptr)
         {
@@ -109,7 +109,7 @@ namespace dot
         }
     }
 
-    void tuple_writer_impl::write_start_dict(dot::string type_name)
+    void TupleWriterImpl::write_start_dict(dot::string type_name)
     {
         if (data_writer_ != nullptr)
         {
@@ -118,17 +118,17 @@ namespace dot
 
     }
 
-    void tuple_writer_impl::write_end_dict(dot::string type_name)
+    void TupleWriterImpl::write_end_dict(dot::string type_name)
     {
         if (data_writer_ != nullptr)
         {
             data_writer_->write_end_dict(type_name);
-            if (data_writer_->current_state_ == tree_writer_state::document_started)
+            if (data_writer_->current_state_ == TreeWriterState::document_started)
                 data_writer_ = nullptr;
         }
     }
 
-    void tuple_writer_impl::write_start_array()
+    void TupleWriterImpl::write_start_array()
     {
         if (data_writer_ != nullptr)
         {
@@ -137,7 +137,7 @@ namespace dot
 
     }
 
-    void tuple_writer_impl::write_end_array()
+    void TupleWriterImpl::write_end_array()
     {
         if (data_writer_ != nullptr)
         {
@@ -148,7 +148,7 @@ namespace dot
 
     }
 
-    void tuple_writer_impl::write_start_array_item()
+    void TupleWriterImpl::write_start_array_item()
     {
         if (data_writer_ != nullptr)
         {
@@ -157,7 +157,7 @@ namespace dot
 
     }
 
-    void tuple_writer_impl::write_end_array_item()
+    void TupleWriterImpl::write_end_array_item()
     {
         if (data_writer_ != nullptr)
         {
@@ -166,7 +166,7 @@ namespace dot
 
     }
 
-    void tuple_writer_impl::write_start_value()
+    void TupleWriterImpl::write_start_value()
     {
         if (data_writer_ != nullptr)
         {
@@ -175,7 +175,7 @@ namespace dot
 
     }
 
-    void tuple_writer_impl::write_end_value()
+    void TupleWriterImpl::write_end_value()
     {
         if (data_writer_ != nullptr)
         {
@@ -184,7 +184,7 @@ namespace dot
 
     }
 
-    void tuple_writer_impl::write_value(dot::object value)
+    void TupleWriterImpl::write_value(dot::object value)
     {
         if (data_writer_ != nullptr)
         {
@@ -350,9 +350,9 @@ namespace dot
 
             tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, enum_value }));
         }
-        else if (element_type->get_custom_attributes(dot::typeof<deserialize_class_attribute>(), true)->size())
+        else if (element_type->get_custom_attributes(dot::typeof<DeserializeClassAttribute>(), true)->size())
         {
-            deserialize_class_attribute attr = (deserialize_class_attribute)element_type->get_custom_attributes(dot::typeof<deserialize_class_attribute>(), true)[0];
+            DeserializeClassAttribute attr = (DeserializeClassAttribute)element_type->get_custom_attributes(dot::typeof<DeserializeClassAttribute>(), true)[0];
 
             dot::object obj = attr->deserialize(value, element_type);
 
@@ -365,12 +365,12 @@ namespace dot
         }
     }
 
-    dot::string tuple_writer_impl::to_string()
+    dot::string TupleWriterImpl::to_string()
     {
         return tuple_->to_string();
     }
 
-    tuple_writer_impl::tuple_writer_impl(dot::object tuple, dot::list<dot::field_info> props)
+    TupleWriterImpl::TupleWriterImpl(dot::object tuple, dot::list<dot::field_info> props)
         : tuple_(tuple)
         , props_(props)
     {

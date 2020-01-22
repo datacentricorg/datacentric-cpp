@@ -41,32 +41,32 @@ limitations under the License.
 
 namespace dot
 {
-    json_writer_impl::json_writer_impl()
+    JsonWriterImpl::JsonWriterImpl()
         : json_writer_(buffer_)
-        , current_state_(tree_writer_state::empty)
+        , current_state_(TreeWriterState::empty)
     {}
 
-    void json_writer_impl::write_start_document(dot::string root_element_name)
+    void JsonWriterImpl::write_start_document(dot::string root_element_name)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of write_start_dict, write_start_array_item, or write_start_value calls.
         element_stack_.push({ root_element_name, current_state_ });
 
-        if (current_state_ == tree_writer_state::empty && element_stack_.size() == 1)
+        if (current_state_ == TreeWriterState::empty && element_stack_.size() == 1)
         {
-            current_state_ = tree_writer_state::document_started;
+            current_state_ = TreeWriterState::document_started;
         }
         else
             throw dot::exception(
                 "A call to write_start_document(...) must be the first call to the tree writer.");
     }
 
-    void json_writer_impl::write_end_document(dot::string root_element_name)
+    void JsonWriterImpl::write_end_document(dot::string root_element_name)
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::dict_completed && element_stack_.size() == 1)
+        if (current_state_ == TreeWriterState::dict_completed && element_stack_.size() == 1)
         {
-            current_state_ = tree_writer_state::document_completed;
+            current_state_ = TreeWriterState::document_completed;
         }
         else
             throw dot::exception(
@@ -74,7 +74,7 @@ namespace dot
 
         // Pop the outer element name and state from the element stack
         dot::string current_element_name;
-        std::pair<dot::string, tree_writer_state> top = element_stack_.top();
+        std::pair<dot::string, TreeWriterState> top = element_stack_.top();
         element_stack_.pop();
         current_element_name = top.first;
         current_state_ = top.second;
@@ -86,16 +86,16 @@ namespace dot
                 "write_end_document({0}) follows write_start_document({1}), root element name mismatch.", root_element_name, current_element_name));
     }
 
-    void json_writer_impl::write_start_element(dot::string element_name)
+    void JsonWriterImpl::write_start_element(dot::string element_name)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of write_start_dict, write_start_array_item, or write_start_value calls.
         element_stack_.push({ element_name, current_state_ });
 
-        if (current_state_ == tree_writer_state::document_started) current_state_ = tree_writer_state::element_started;
-        else if (current_state_ == tree_writer_state::element_completed) current_state_ = tree_writer_state::element_started;
-        else if (current_state_ == tree_writer_state::dict_started) current_state_ = tree_writer_state::element_started;
-        else if (current_state_ == tree_writer_state::dict_array_item_started) current_state_ = tree_writer_state::element_started;
+        if (current_state_ == TreeWriterState::document_started) current_state_ = TreeWriterState::element_started;
+        else if (current_state_ == TreeWriterState::element_completed) current_state_ = TreeWriterState::element_started;
+        else if (current_state_ == TreeWriterState::dict_started) current_state_ = TreeWriterState::element_started;
+        else if (current_state_ == TreeWriterState::dict_array_item_started) current_state_ = TreeWriterState::element_started;
         else
             throw dot::exception(
                 "A call to write_start_element(...) must be the first call or follow write_end_element(prev_name).");
@@ -104,20 +104,20 @@ namespace dot
         json_writer_.Key(*element_stack_.top().first);
     }
 
-    void json_writer_impl::write_end_element(dot::string element_name)
+    void JsonWriterImpl::write_end_element(dot::string element_name)
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::element_completed;
-        else if (current_state_ == tree_writer_state::dict_completed) current_state_ = tree_writer_state::element_completed;
-        else if (current_state_ == tree_writer_state::value_completed) current_state_ = tree_writer_state::element_completed;
-        else if (current_state_ == tree_writer_state::array_completed) current_state_ = tree_writer_state::element_completed;
+        if (current_state_ == TreeWriterState::element_started) current_state_ = TreeWriterState::element_completed;
+        else if (current_state_ == TreeWriterState::dict_completed) current_state_ = TreeWriterState::element_completed;
+        else if (current_state_ == TreeWriterState::value_completed) current_state_ = TreeWriterState::element_completed;
+        else if (current_state_ == TreeWriterState::array_completed) current_state_ = TreeWriterState::element_completed;
         else throw dot::exception(
             "A call to write_end_element(...) does not follow a matching write_start_element(...) at the same indent level.");
 
         // Pop the outer element name and state from the element stack
         //(current_element_name, current_state_) = element_stack_.pop();
         dot::string current_element_name;
-        std::pair<dot::string, tree_writer_state> top = element_stack_.top();
+        std::pair<dot::string, TreeWriterState> top = element_stack_.top();
         element_stack_.pop();
         current_element_name = top.first;
         current_state_ = top.second;
@@ -131,15 +131,15 @@ namespace dot
         // Nothing to write here but array closing bracket was written above
     }
 
-    void json_writer_impl::write_start_dict(dot::string type_name)
+    void JsonWriterImpl::write_start_dict(dot::string type_name)
     {
         // Save initial state to be used below
-        tree_writer_state prev_state = current_state_;
+        TreeWriterState prev_state = current_state_;
 
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::document_started) current_state_ = tree_writer_state::dict_started;
-        else if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::dict_started;
-        else if (current_state_ == tree_writer_state::array_item_started) current_state_ = tree_writer_state::dict_array_item_started;
+        if (current_state_ == TreeWriterState::document_started) current_state_ = TreeWriterState::dict_started;
+        else if (current_state_ == TreeWriterState::element_started) current_state_ = TreeWriterState::dict_started;
+        else if (current_state_ == TreeWriterState::array_item_started) current_state_ = TreeWriterState::dict_array_item_started;
         else
             throw dot::exception(
                 "A call to write_start_dict() must follow write_start_element(...) or write_start_array_item().");
@@ -151,7 +151,7 @@ namespace dot
         json_writer_.String(*type_name);
 
         // If prev state is document_started, write _t tag
-        //if (prev_state == tree_writer_state::document_started)
+        //if (prev_state == TreeWriterState::document_started)
         //{
         //    dot::string root_element_name = element_stack_.top().first;
         //    if (!root_element_name->ends_with("key"))  // TODO remove it
@@ -159,12 +159,12 @@ namespace dot
         //}
     }
 
-    void json_writer_impl::write_end_dict(dot::string type_name)
+    void JsonWriterImpl::write_end_dict(dot::string type_name)
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::dict_started) current_state_ = tree_writer_state::dict_completed;
-        else if (current_state_ == tree_writer_state::dict_array_item_started) current_state_ = tree_writer_state::dict_array_item_completed;
-        else if (current_state_ == tree_writer_state::element_completed) current_state_ = tree_writer_state::dict_completed;
+        if (current_state_ == TreeWriterState::dict_started) current_state_ = TreeWriterState::dict_completed;
+        else if (current_state_ == TreeWriterState::dict_array_item_started) current_state_ = TreeWriterState::dict_array_item_completed;
+        else if (current_state_ == TreeWriterState::element_completed) current_state_ = TreeWriterState::dict_completed;
         else
             throw dot::exception(
                 "A call to write_end_dict(...) does not follow a matching write_start_dict(...) at the same indent level.");
@@ -173,10 +173,10 @@ namespace dot
         json_writer_.EndObject();
     }
 
-    void json_writer_impl::write_start_array()
+    void JsonWriterImpl::write_start_array()
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::array_started;
+        if (current_state_ == TreeWriterState::element_started) current_state_ = TreeWriterState::array_started;
         else
             throw dot::exception(
                 "A call to write_start_array() must follow write_start_element(...).");
@@ -185,11 +185,11 @@ namespace dot
         json_writer_.StartArray();
     }
 
-    void json_writer_impl::write_end_array()
+    void JsonWriterImpl::write_end_array()
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::array_started) current_state_ = tree_writer_state::array_completed;
-        else if (current_state_ == tree_writer_state::array_item_completed) current_state_ = tree_writer_state::array_completed;
+        if (current_state_ == TreeWriterState::array_started) current_state_ = TreeWriterState::array_completed;
+        else if (current_state_ == TreeWriterState::array_item_completed) current_state_ = TreeWriterState::array_completed;
         else
             throw dot::exception(
                 "A call to write_end_array(...) does not follow write_end_array_item(...).");
@@ -198,23 +198,23 @@ namespace dot
         json_writer_.EndArray();
     }
 
-    void json_writer_impl::write_start_array_item()
+    void JsonWriterImpl::write_start_array_item()
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::array_started) current_state_ = tree_writer_state::array_item_started;
-        else if (current_state_ == tree_writer_state::array_item_completed) current_state_ = tree_writer_state::array_item_started;
+        if (current_state_ == TreeWriterState::array_started) current_state_ = TreeWriterState::array_item_started;
+        else if (current_state_ == TreeWriterState::array_item_completed) current_state_ = TreeWriterState::array_item_started;
         else throw dot::exception(
             "A call to write_start_array_item() must follow write_start_element(...) or write_end_array_item().");
 
         // Nothing to write here
     }
 
-    void json_writer_impl::write_end_array_item()
+    void JsonWriterImpl::write_end_array_item()
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::array_item_started) current_state_ = tree_writer_state::array_item_completed;
-        else if (current_state_ == tree_writer_state::dict_array_item_completed) current_state_ = tree_writer_state::array_item_completed;
-        else if (current_state_ == tree_writer_state::value_array_item_completed) current_state_ = tree_writer_state::array_item_completed;
+        if (current_state_ == TreeWriterState::array_item_started) current_state_ = TreeWriterState::array_item_completed;
+        else if (current_state_ == TreeWriterState::dict_array_item_completed) current_state_ = TreeWriterState::array_item_completed;
+        else if (current_state_ == TreeWriterState::value_array_item_completed) current_state_ = TreeWriterState::array_item_completed;
         else
             throw dot::exception(
                 "A call to write_end_array_item(...) does not follow a matching write_start_array_item(...) at the same indent level.");
@@ -222,11 +222,11 @@ namespace dot
         // Nothing to write here
     }
 
-    void json_writer_impl::write_start_value()
+    void JsonWriterImpl::write_start_value()
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::value_started;
-        else if (current_state_ == tree_writer_state::array_item_started) current_state_ = tree_writer_state::value_array_item_started;
+        if (current_state_ == TreeWriterState::element_started) current_state_ = TreeWriterState::value_started;
+        else if (current_state_ == TreeWriterState::array_item_started) current_state_ = TreeWriterState::value_array_item_started;
         else
             throw dot::exception(
                 "A call to write_start_value() must follow write_start_element(...) or write_start_array_item().");
@@ -234,11 +234,11 @@ namespace dot
         // Nothing to write here
     }
 
-    void json_writer_impl::write_end_value()
+    void JsonWriterImpl::write_end_value()
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::value_written) current_state_ = tree_writer_state::value_completed;
-        else if (current_state_ == tree_writer_state::value_array_item_written) current_state_ = tree_writer_state::value_array_item_completed;
+        if (current_state_ == TreeWriterState::value_written) current_state_ = TreeWriterState::value_completed;
+        else if (current_state_ == TreeWriterState::value_array_item_written) current_state_ = TreeWriterState::value_array_item_completed;
         else
             throw dot::exception(
                 "A call to write_end_value(...) does not follow a matching write_value(...) at the same indent level.");
@@ -246,11 +246,11 @@ namespace dot
         // Nothing to write here
     }
 
-    void json_writer_impl::write_value(dot::object value)
+    void JsonWriterImpl::write_value(dot::object value)
     {
         // Check state transition matrix
-        if (current_state_ == tree_writer_state::value_started) current_state_ = tree_writer_state::value_written;
-        else if (current_state_ == tree_writer_state::value_array_item_started) current_state_ = tree_writer_state::value_array_item_written;
+        if (current_state_ == TreeWriterState::value_started) current_state_ = TreeWriterState::value_written;
+        else if (current_state_ == TreeWriterState::value_array_item_started) current_state_ = TreeWriterState::value_array_item_written;
         else
             throw dot::exception(
                 "A call to write_end_value(...) does not follow a matching write_value(...) at the same indent level.");
@@ -303,7 +303,7 @@ namespace dot
             throw dot::exception(dot::string::format("Element type {0} is not supported for JSON serialization.", value_type));
     }
 
-    dot::string json_writer_impl::to_string()
+    dot::string JsonWriterImpl::to_string()
     {
         return buffer_.GetString();
     }

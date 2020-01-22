@@ -37,15 +37,15 @@ namespace dot
     class bson_writer_impl; using bson_writer = dot::ptr<bson_writer_impl>;
 
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
-    class DOT_MONGO_CLASS bson_writer_impl : public tree_writer_base_impl
+    class DOT_MONGO_CLASS bson_writer_impl : public TreeWriterBaseImpl
     {
         friend bson_writer make_bson_writer();
 
     private:
 
         bsoncxx::builder::core bson_writer_;
-        std::stack<std::pair<dot::string, tree_writer_state>> element_stack_; // TODO make dot::stack
-        tree_writer_state current_state_;
+        std::stack<std::pair<dot::string, TreeWriterState>> element_stack_; // TODO make dot::stack
+        TreeWriterState current_state_;
 
     public:
 
@@ -125,7 +125,7 @@ namespace dot
 
         bson_writer_impl()
             : bson_writer_(true)
-            , current_state_(tree_writer_state::empty) {}
+            , current_state_(TreeWriterState::empty) {}
     };
 
     inline bson_writer make_bson_writer() { return new bson_writer_impl; }

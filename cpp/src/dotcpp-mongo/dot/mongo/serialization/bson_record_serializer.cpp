@@ -266,9 +266,9 @@ namespace dot
         writer->write_start_document(root_name);
 
         // Check for custom serializator
-        if (value->get_type()->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)->size())
+        if (value->get_type()->get_custom_attributes(dot::typeof<SerializeClassAttribute>(), true)->size())
         {
-            serialize_class_attribute(value->get_type()->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)[0])->serialize(writer, value);
+            SerializeClassAttribute(value->get_type()->get_custom_attributes(dot::typeof<SerializeClassAttribute>(), true)[0])->serialize(writer, value);
         }
         else
         {
@@ -305,9 +305,9 @@ namespace dot
             // Serialize based on type of the item
             dot::type item_type = item->get_type();
 
-            if (item_type->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)->size())
+            if (item_type->get_custom_attributes(dot::typeof<SerializeClassAttribute>(), true)->size())
             {
-                serialize_class_attribute(item_type->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)[0])->serialize(writer, item);
+                SerializeClassAttribute(item_type->get_custom_attributes(dot::typeof<SerializeClassAttribute>(), true)[0])->serialize(writer, item);
             }
             else
             if (item_type->equals(dot::typeof<dot::string>())
@@ -361,9 +361,9 @@ namespace dot
         for (dot::field_info inner_element_info : inner_element_info_list)
         {
 
-            if (inner_element_info->get_custom_attributes(dot::typeof<serialize_field_attribute>(), true)->size())
+            if (inner_element_info->get_custom_attributes(dot::typeof<SerializeFieldAttribute>(), true)->size())
             {
-                serialize_field_attribute(inner_element_info->get_custom_attributes(dot::typeof<serialize_field_attribute>(), true)[0])->serialize(writer, value);
+                SerializeFieldAttribute(inner_element_info->get_custom_attributes(dot::typeof<SerializeFieldAttribute>(), true)[0])->serialize(writer, value);
                 continue;
             }
 
@@ -379,10 +379,10 @@ namespace dot
 
             dot::type element_type = inner_element_value->get_type();
 
-            if (element_type->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)->size())
+            if (element_type->get_custom_attributes(dot::typeof<SerializeClassAttribute>(), true)->size())
             {
                 writer->write_start_element(inner_element_name);
-                serialize_class_attribute(element_type->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)[0])->serialize(writer, inner_element_value);
+                SerializeClassAttribute(element_type->get_custom_attributes(dot::typeof<SerializeClassAttribute>(), true)[0])->serialize(writer, inner_element_value);
                 writer->write_end_element(inner_element_name);
             }
             else

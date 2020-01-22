@@ -41,7 +41,7 @@ limitations under the License.
 
 namespace dot
 {
-    object json_record_serializer_impl::deserialize(const rapidjson::Document& doc)
+    object JsonRecordSerializerImpl::deserialize(const rapidjson::Document& doc)
     {
         // Create instance to which JSON will be deserialized
         dot::string type_name = doc["_t"].GetString();
@@ -54,7 +54,7 @@ namespace dot
         return result;
     }
 
-    dot::object json_record_serializer_impl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type)
+    dot::object JsonRecordSerializerImpl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type)
     {
         // Create instance to which JSON will be deserialized
         dot::string type_name = tuple_type->name();
@@ -68,7 +68,7 @@ namespace dot
 
     }
 
-    void json_record_serializer_impl::deserialize_document(rapidjson::Document::ConstObject doc, tree_writer_base writer)
+    void JsonRecordSerializerImpl::deserialize_document(rapidjson::Document::ConstObject doc, tree_writer_base writer)
     {
         // Each document is a dictionary at root level
         auto type_iter = doc.FindMember("_t");
@@ -160,7 +160,7 @@ namespace dot
         writer->write_end_dict(type_name);
     }
 
-    void json_record_serializer_impl::deserialize_array(rapidjson::Document::ConstArray arr, tree_writer_base writer)
+    void JsonRecordSerializerImpl::deserialize_array(rapidjson::Document::ConstArray arr, tree_writer_base writer)
     {
         // Loop over elements until
         for (auto& elem : arr)
@@ -220,16 +220,16 @@ namespace dot
         }
     }
 
-    void json_record_serializer_impl::serialize(tree_writer_base writer, object value)
+    void JsonRecordSerializerImpl::serialize(tree_writer_base writer, object value)
     {
         // Root name is written in JSON as _t element
         dot::string root_name = value->get_type()->full_name();
 
         writer->write_start_document(root_name);
         // Check for custom serializator
-        if (value->get_type()->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)->size())
+        if (value->get_type()->get_custom_attributes(dot::typeof<SerializeClassAttribute>(), true)->size())
         {
-            serialize_class_attribute(value->get_type()->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)[0])->serialize(writer, value);
+            SerializeClassAttribute(value->get_type()->get_custom_attributes(dot::typeof<SerializeClassAttribute>(), true)[0])->serialize(writer, value);
         }
         else
         {
@@ -238,7 +238,7 @@ namespace dot
         writer->write_end_document(root_name);
     }
 
-    void json_record_serializer_impl::standard_serialize(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer)
+    void JsonRecordSerializerImpl::standard_serialize(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer)
     {
         // Write start element tag
         writer->write_start_array_element(element_name);
@@ -299,7 +299,7 @@ namespace dot
         writer->write_end_array_element(element_name);
     }
 
-    void json_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::object value)
+    void JsonRecordSerializerImpl::standard_serialize(tree_writer_base writer, dot::object value)
     {
         // Write start tag
         writer->write_start_dict(value->get_type()->name());

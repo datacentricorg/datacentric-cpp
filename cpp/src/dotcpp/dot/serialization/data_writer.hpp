@@ -33,20 +33,20 @@ limitations under the License.
 
 namespace dot
 {
-    class data_writer_impl; using data_writer = dot::ptr<data_writer_impl>;
-    class tuple_writer_impl; using tuple_writer = dot::ptr<tuple_writer_impl>;
+    class DataWriterImpl; using DataWriter = dot::ptr<DataWriterImpl>;
+    class TupleWriterImpl; using TupleWriter = dot::ptr<TupleWriterImpl>;
 
     /// Implementation of tree_writer_base for data.
-    class DOT_CLASS data_writer_impl : public tree_writer_base_impl
+    class DOT_CLASS DataWriterImpl : public TreeWriterBaseImpl
     {
-        friend data_writer make_data_writer(object data_obj);
-        friend tuple_writer_impl;
+        friend DataWriter make_data_writer(object data_obj);
+        friend TupleWriterImpl;
 
     private:
-        struct data_writer_position
+        struct DataWriterPosition
         {
             dot::string current_element_name;
-            tree_writer_state current_state;
+            TreeWriterState current_state;
             object current_dict;
             dot::dictionary<dot::string, dot::field_info> current_dict_elements;
             dot::field_info current_element_info;
@@ -56,10 +56,10 @@ namespace dot
 
     private: // FIELDS
 
-        std::stack<data_writer_position> element_stack_; // TODO make dot::stack
+        std::stack<DataWriterPosition> element_stack_; // TODO make dot::stack
         dot::string root_element_name_;
         dot::string current_element_name_;
-        tree_writer_state current_state_;
+        TreeWriterState current_state_;
         object current_dict_;
         dot::dictionary<dot::string, dot::field_info> current_dict_elements_;
         dot::field_info current_element_info_;
@@ -68,7 +68,7 @@ namespace dot
 
     private: // CONSTRUCTORS
 
-        data_writer_impl(object data_obj);
+        DataWriterImpl(object data_obj);
 
     public: //  METHODS
 
@@ -140,5 +140,5 @@ namespace dot
         void pop_state();
     };
 
-    inline data_writer make_data_writer(object data_obj) { return new data_writer_impl(data_obj); }
+    inline DataWriter make_data_writer(object data_obj) { return new DataWriterImpl(data_obj); }
 }

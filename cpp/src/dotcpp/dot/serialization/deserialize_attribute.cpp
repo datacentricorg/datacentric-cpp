@@ -27,44 +27,44 @@ limitations under the License.
 
 namespace dot
 {
-    object deserialize_class_attribute_impl::deserialize(object value, dot::type type)
+    object DeserializeClassAttributeImpl::deserialize(object value, dot::type type)
     {
         return deserializer_(value, type);
     }
 
-    type deserialize_class_attribute_impl::typeof()
+    type DeserializeClassAttributeImpl::typeof()
     {
         static type result = []()->type
         {
-            type t = make_type_builder<deserialize_class_attribute_impl>("dot", "deserialize_class_attribute")
+            type t = make_type_builder<DeserializeClassAttributeImpl>("dot", "DeserializeClassAttribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    type deserialize_class_attribute_impl::get_type()
+    type DeserializeClassAttributeImpl::get_type()
     {
         return typeof();
     }
 
-    void deserialize_field_attribute_impl::deserialize(object value, field_info field, object obj)
+    void DeserializeFieldAttributeImpl::deserialize(object value, field_info field, object obj)
     {
         deserializer_(value, field, obj);
     }
 
-    type deserialize_field_attribute_impl::typeof()
+    type DeserializeFieldAttributeImpl::typeof()
     {
         static type result = []()->type
         {
-            type t = make_type_builder<deserialize_field_attribute_impl>("dot", "deserialize_field_attribute")
+            type t = make_type_builder<DeserializeFieldAttributeImpl>("dot", "DeserializeFieldAttribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    type deserialize_field_attribute_impl::get_type()
+    type DeserializeFieldAttributeImpl::get_type()
     {
         return typeof();
     }

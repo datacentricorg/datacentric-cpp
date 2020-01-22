@@ -34,22 +34,22 @@ limitations under the License.
 
 namespace dot
 {
-    class json_writer_impl; using json_writer = dot::ptr<json_writer_impl>;
+    class JsonWriterImpl; using JsonWriter = dot::ptr<JsonWriterImpl>;
 
-    /// Implementation of tree_writer_base_impl using RapidJSON lib.
-    class DOT_CLASS json_writer_impl : public tree_writer_base_impl
+    /// Implementation of TreeWriterBaseImpl using RapidJSON lib.
+    class DOT_CLASS JsonWriterImpl : public TreeWriterBaseImpl
     {
-        friend json_writer make_json_writer();
+        friend JsonWriter make_json_writer();
 
     private:
 
         rapidjson::StringBuffer buffer_;
         rapidjson::Writer<rapidjson::StringBuffer> json_writer_;
-        std::stack<std::pair<dot::string, tree_writer_state>> element_stack_; // TODO make dot::stack
-        tree_writer_state current_state_;
+        std::stack<std::pair<dot::string, TreeWriterState>> element_stack_; // TODO make dot::stack
+        TreeWriterState current_state_;
 
     private:
-        json_writer_impl();
+        JsonWriterImpl();
 
     public:
 
@@ -114,5 +114,5 @@ namespace dot
         dot::string to_string() override;
     };
 
-    inline json_writer make_json_writer() { return new json_writer_impl; }
+    inline JsonWriter make_json_writer() { return new JsonWriterImpl; }
 }

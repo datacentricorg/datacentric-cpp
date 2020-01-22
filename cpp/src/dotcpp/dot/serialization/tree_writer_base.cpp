@@ -29,19 +29,19 @@ limitations under the License.
 
 namespace dot
 {
-    void tree_writer_base_impl::write_start_array_element(dot::string element_name)
+    void TreeWriterBaseImpl::write_start_array_element(dot::string element_name)
     {
         this->write_start_element(element_name);
         this->write_start_array();
     }
 
-    void tree_writer_base_impl::write_end_array_element(dot::string element_name)
+    void TreeWriterBaseImpl::write_end_array_element(dot::string element_name)
     {
         this->write_end_array();
         this->write_end_element(element_name);
     }
 
-    void tree_writer_base_impl::write_value_element(dot::string element_name, dot::object value)
+    void TreeWriterBaseImpl::write_value_element(dot::string element_name, dot::object value)
     {
         // Do not serialize null or empty value
         if (!value.is_empty())
@@ -54,7 +54,7 @@ namespace dot
         }
     }
 
-    void tree_writer_base_impl::write_value_array_item(dot::object value)
+    void TreeWriterBaseImpl::write_value_array_item(dot::object value)
     {
         // Writes null or empty value as BSON null
         this->write_start_array_item();
@@ -64,7 +64,7 @@ namespace dot
         this->write_end_array_item();
     }
 
-    void tree_writer_base_impl::write_array_item(dot::object value)
+    void TreeWriterBaseImpl::write_array_item(dot::object value)
     {
         // Will serialize null or empty value
         this->write_start_array_item();
