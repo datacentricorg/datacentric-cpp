@@ -18,6 +18,8 @@
   <ItemGroup>
     <ClCompile Include="platform\context\context_base.cpp" />
     <ClCompile Include="platform\data_set\data_set_data.cpp" />
+    <ClCompile Include="platform\data_set\data_set_detail_data.cpp" />
+    <ClCompile Include="platform\data_set\data_set_detail_key.cpp" />
     <ClCompile Include="platform\data_set\data_set_key.cpp" />
     <ClCompile Include="platform\data_source\database_data.cpp" />
     <ClCompile Include="platform\data_source\database_key.cpp" />
@@ -38,11 +40,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="types\record\cached_record.cpp" />
     <ClCompile Include="types\record\data.cpp" />
-    <ClCompile Include="types\record\delete_marker.cpp" />
-    <ClCompile Include="types\record\key_base.cpp" />
-    <ClCompile Include="types\record\record_base.cpp" />
+    <ClCompile Include="types\record\deleted_record.cpp" />
+    <ClCompile Include="types\record\key.cpp" />
+    <ClCompile Include="types\record\record.cpp" />
     <ClCompile Include="types\variant\variant.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +53,9 @@
     <ClInclude Include="import.hpp" />
     <ClInclude Include="platform\context\context_base.hpp" />
     <ClInclude Include="platform\data_set\data_set_data.hpp" />
+    <ClInclude Include="platform\data_set\data_set_detail_data.hpp" />
+    <ClInclude Include="platform\data_set\data_set_detail_key.hpp" />
+    <ClInclude Include="platform\data_set\data_set_flags.hpp" />
     <ClInclude Include="platform\data_set\data_set_key.hpp" />
     <ClInclude Include="platform\data_source\database_data.hpp" />
     <ClInclude Include="platform\data_source\database_key.hpp" />
@@ -75,14 +79,13 @@
     <ClInclude Include="platform\time_zone\time_zone_key.hpp" />
     <ClInclude Include="precompiled.hpp" />
     <ClInclude Include="types\double\double_compare.hpp" />
-    <ClInclude Include="types\record\cached_record.hpp" />
     <ClInclude Include="types\record\data.hpp" />
-    <ClInclude Include="types\record\delete_marker.hpp" />
+    <ClInclude Include="types\record\deleted_record.hpp" />
+    <ClInclude Include="types\record\typed_key.hpp" />
     <ClInclude Include="types\record\key.hpp" />
-    <ClInclude Include="types\record\key_base.hpp" />
-    <ClInclude Include="types\record\key_impl.hpp" />
+    <ClInclude Include="types\record\typed_key_impl.hpp" />
+    <ClInclude Include="types\record\typed_record.hpp" />
     <ClInclude Include="types\record\record.hpp" />
-    <ClInclude Include="types\record\record_base.hpp" />
     <ClInclude Include="types\record\root_key.hpp" />
     <ClInclude Include="types\record\root_record.hpp" />
     <ClInclude Include="types\record\value_type.hpp" />
