@@ -20,14 +20,14 @@ limitations under the License.
 
 namespace dc
 {
-    /// Type of atomic value held by Variant.
-    enum class DC_CLASS VariantType : int
+    /// Type of atomic value held by variant.
+    enum class DC_CLASS variant_type : int
     {
         /// Empty value.
         empty,
 
         /// String value.
-        dot::string,
+        string,
 
         /// Double value.
         Double,
@@ -42,9 +42,9 @@ namespace dc
         Long,
 
         /// Date without the time component.
-        Date,
+        date,
 
         /// Datetime in UTC timezone.
-        DateTime
+        date_time
     };
 }

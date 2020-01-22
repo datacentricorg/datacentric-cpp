@@ -104,7 +104,7 @@ namespace dot
         class dummy_no_equals : public virtual object_impl
         {};
 
-        /// objects inherit this structure in case their inner struct class has method Equals
+        /// objects inherit this structure in case their inner struct class has method equals
         /// so object also have these method.
         template <class W, class T>
         class obj_equals : public virtual object_impl
@@ -113,19 +113,19 @@ namespace dot
             bool equals(object obj) override { return static_cast<T*>(static_cast<W*>(this))->equals(obj); }
         };
 
-        /// Detects existance of Equals method.
+        /// Detects existance of equals method.
         template<class T>
         struct has_equals
         {
         private:
             static dummy_no_equals detect(...);
-            template<class U> static decltype(std::declval<U>().Equals(std::declval<object>())) detect(const U&);
+            template<class U> static decltype(std::declval<U>().equals(std::declval<object>())) detect(const U&);
         public:
             static constexpr bool value = !std::is_same<dummy_no_equals, decltype(detect(std::declval<T>()))>::value;
             typedef std::integral_constant<bool, value> type;
         };
 
-        /// For inheritance of Equals method.
+        /// For inheritance of equals method.
         template<class W, class T>
         class inherit_equals : public std::conditional<
             has_equals<T>::value,

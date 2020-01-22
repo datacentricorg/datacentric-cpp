@@ -31,10 +31,10 @@ limitations under the License.
 
 namespace dc
 {
-    /// Variant type can hold any atomic value or be empty.
-    class DC_CLASS Variant
+    /// variant type can hold any atomic value or be empty.
+    class DC_CLASS variant
     {
-        typedef Variant self;
+        typedef variant self;
 
     private: // FIELDS
 
@@ -43,39 +43,39 @@ namespace dc
     public: // CONSTRUCTORS
 
         /// Default constructor.
-        Variant();
+        variant();
 
         /// Create from object of supported types, error message if argument type is unsupported.
-        Variant(dot::object value);
+        variant(dot::object value);
 
     public: // PROPERTIES
 
         /// Type of the value held by the variant.
-        ValueType getValueType()
+        ValueType get_value_type()
         {
             if (value_ == nullptr)
                 return ValueType::empty;
 
-            dot::type valueType = value_->get_type();
+            dot::type value_type = value_->get_type();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
-            if (valueType->equals(dot::typeof<dot::string>()))        return ValueType::String;
-            if (valueType->equals(dot::typeof<double>()))             return ValueType::Double;
-            if (valueType->equals(dot::typeof<bool>()))               return ValueType::Bool;
-            if (valueType->equals(dot::typeof<int>()))                return ValueType::Int;
-            if (valueType->equals(dot::typeof<int64_t>()))            return ValueType::Long;
-            if (valueType->equals(dot::typeof<dot::local_date>()))     return ValueType::local_date;
-            if (valueType->equals(dot::typeof<dot::local_time>()))     return ValueType::local_time;
-            if (valueType->equals(dot::typeof<dot::local_minute>()))   return ValueType::local_minute;
-            if (valueType->equals(dot::typeof<dot::local_date_time>())) return ValueType::local_date_time;
-            if (valueType->is_enum)                                    return ValueType::Enum;
+            if (value_type->equals(dot::typeof<dot::string>()))        return ValueType::String;
+            if (value_type->equals(dot::typeof<double>()))             return ValueType::Double;
+            if (value_type->equals(dot::typeof<bool>()))               return ValueType::Bool;
+            if (value_type->equals(dot::typeof<int>()))                return ValueType::Int;
+            if (value_type->equals(dot::typeof<int64_t>()))            return ValueType::Long;
+            if (value_type->equals(dot::typeof<dot::local_date>()))     return ValueType::local_date;
+            if (value_type->equals(dot::typeof<dot::local_time>()))     return ValueType::local_time;
+            if (value_type->equals(dot::typeof<dot::local_minute>()))   return ValueType::local_minute;
+            if (value_type->equals(dot::typeof<dot::local_date_time>())) return ValueType::local_date_time;
+            if (value_type->is_enum)                                    return ValueType::Enum;
 
             // Error message if any other type, should normally not get to here
-            throw dot::exception(GetWrongTypeErrorMessage(value_));
+            throw dot::exception(get_wrong_type_error_message(value_));
         }
 
         /// Value held by the variant, which may be null.
-        dot::object getValue()
+        dot::object get_value()
         {
             return value_;
         }
@@ -89,55 +89,55 @@ namespace dc
         dot::string to_string();
 
         /// Hash code is zero for null objects.
-        size_t GetHashCode();
+        size_t hash_code();
 
         /// Variants are equal when both types and values are equal.
         /// Comparison of doubles is performed with roundoff tolerance.
-        bool Equals(const Variant& other);
+        bool equals(const variant& other);
 
     public: // OPERATORS
 
         /// Variants are equal when both types and values are equal.
         /// Comparison of doubles is performed with roundoff tolerance.
-        bool operator==(const Variant& other);
+        bool operator==(const variant& other);
 
         /// Variants are equal when both types and values are equal.
         /// Comparison of doubles is performed with roundoff tolerance.
-        bool operator!=(const Variant& other);
+        bool operator!=(const variant& other);
 
     public: // STATIC
 
-        static Variant parse(ValueType valueType, dot::string value);
+        static variant parse(ValueType value_type, dot::string value);
 
         template <class T>
-        static Variant parse(dot::string value)
+        static variant parse(dot::string value)
         {
             if (dot::string::is_null_or_empty(value))
             {
                 // Empty value
-                return Variant();
+                return variant();
             }
 
-            dot::type valueType = dot::typeof<T>();
+            dot::type value_type = dot::typeof<T>();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
-            if (valueType->equals(dot::typeof<dot::string>()))        return Variant(value);
-            if (valueType->equals(dot::typeof<double>()))        return Variant(dot::double_impl::parse(value));
-            if (valueType->equals(dot::typeof<bool>()))          return Variant(dot::bool_impl::parse(value));
-            if (valueType->equals(dot::typeof<int>()))           return Variant(dot::int_impl::parse(value));
-            if (valueType->equals(dot::typeof<int64_t>()))       return Variant(dot::long_impl::parse(value));
-            if (valueType->equals(dot::typeof<dot::local_date>()))     return Variant(dot::local_date_util::parse(value));
-            if (valueType->equals(dot::typeof<dot::local_time>()))     return Variant(dot::local_time_util::parse(value));
-            if (valueType->equals(dot::typeof<dot::local_minute>()))   return Variant(dot::local_minute_util::parse(value));
-            if (valueType->equals(dot::typeof<dot::local_date_time>())) return Variant(dot::local_date_time_util::parse(value));
-            if (valueType->is_enum)                               return Variant(dot::enum_base::parse(valueType, value));
+            if (value_type->equals(dot::typeof<dot::string>()))        return variant(value);
+            if (value_type->equals(dot::typeof<double>()))        return variant(dot::double_impl::parse(value));
+            if (value_type->equals(dot::typeof<bool>()))          return variant(dot::bool_impl::parse(value));
+            if (value_type->equals(dot::typeof<int>()))           return variant(dot::int_impl::parse(value));
+            if (value_type->equals(dot::typeof<int64_t>()))       return variant(dot::long_impl::parse(value));
+            if (value_type->equals(dot::typeof<dot::local_date>()))     return variant(dot::local_date_util::parse(value));
+            if (value_type->equals(dot::typeof<dot::local_time>()))     return variant(dot::local_time_util::parse(value));
+            if (value_type->equals(dot::typeof<dot::local_minute>()))   return variant(dot::local_minute_util::parse(value));
+            if (value_type->equals(dot::typeof<dot::local_date_time>())) return variant(dot::local_date_time_util::parse(value));
+            if (value_type->is_enum)                               return variant(dot::enum_base::parse(value_type, value));
 
             // Error message if any other type
-            throw dot::exception(GetWrongTypeErrorMessage(T()));
+            throw dot::exception(get_wrong_type_error_message(T()));
         }
 
     private: // PRIVATE
 
-        static dot::string GetWrongTypeErrorMessage(dot::object value);
+        static dot::string get_wrong_type_error_message(dot::object value);
     };
 }

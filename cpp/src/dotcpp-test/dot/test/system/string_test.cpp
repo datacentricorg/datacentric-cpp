@@ -97,7 +97,7 @@ namespace dot
         // Compare two strings that have the same value but are not
         // the same instances after casting one or both to object
         REQUIRE(str == object(str2));
-        // TODO - fix by implemnenting Equals(...) REQUIRE((object)str == str2);
-        // TODO - fix by implemnenting Equals(...) REQUIRE((object)str == (object)str2);
+        // TODO - fix by implemnenting equals(...) REQUIRE((object)str == str2);
+        // TODO - fix by implemnenting equals(...) REQUIRE((object)str == (object)str2);
     }
 }

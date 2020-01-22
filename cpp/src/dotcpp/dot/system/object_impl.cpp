@@ -44,7 +44,7 @@ namespace dot
     /// Default implementation in object uses hash based on the pointer.
     /// Derived classes can override this method to provide value based hash.
     ///
-    /// Methods Equals() and hash_code() must always be overriden together
+    /// Methods equals() and hash_code() must always be overriden together
     /// to avoid the situation when objects are equal but hash is not.
     size_t object_impl::hash_code()
     {
