@@ -37,19 +37,19 @@ namespace dc
     public:
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        data Deserialize(const rapidjson::Document& doc);
+        data deserialize(const rapidjson::Document& doc);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        dot::object DeserializeTuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tupleType);
+        dot::object deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tupleType);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        void DeserializeDocument(rapidjson::Document::ConstObject doc, tree_writer_base writer);
+        void deserialize_document(rapidjson::Document::ConstObject doc, tree_writer_base writer);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        void DeserializeArray(rapidjson::Document::ConstArray arr, tree_writer_base writer);
+        void deserialize_array(rapidjson::Document::ConstArray arr, tree_writer_base writer);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        void Serialize(tree_writer_base writer, data value);
+        void serialize(tree_writer_base writer, data value);
 
     private:
         json_record_serializer_impl() = default;

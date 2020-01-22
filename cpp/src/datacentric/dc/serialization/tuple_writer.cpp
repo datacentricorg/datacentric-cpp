@@ -70,7 +70,7 @@ namespace dc
                         tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, result }));
 
                         //dataWriter_->write_start_element(elementName);
-                        //DeserializeDocument(doc, writer);
+                        //deserialize_document(doc, writer);
                         //writer->write_end_document(typeName);
                     }
 
@@ -84,7 +84,7 @@ namespace dc
                         dataWriter_->currentArray_ = dot::make_list<dot::list<dot::object>>();
 
                         //dataWriter_->write_start_element(elementName);
-                        //DeserializeDocument(doc, writer);
+                        //deserialize_document(doc, writer);
                         //writer->write_end_document(typeName);
                     }
 

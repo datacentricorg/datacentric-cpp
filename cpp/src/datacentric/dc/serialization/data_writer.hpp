@@ -129,10 +129,10 @@ namespace dc
 
     private:
         /// Push state to the stack.
-        void PushState();
+        void push_state();
 
         /// Pop state from the stack.
-        void PopState();
+        void pop_state();
 
     };
 

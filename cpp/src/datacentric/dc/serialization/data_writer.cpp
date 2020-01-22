@@ -107,7 +107,7 @@ namespace dc
     void data_writer_impl::write_start_dict()
     {
         // Push state before defining dictionary state
-        PushState();
+        push_state();
 
         // Check state transition matrix
         if (currentState_ == tree_writer_state::DocumentStarted)
@@ -161,13 +161,13 @@ namespace dc
             "A call to write_end_dict(...) does not follow a matching write_start_dict(...) at the same indent level.");
 
         // Restore previous state
-        PopState();
+        pop_state();
     }
 
     void data_writer_impl::write_start_array()
     {
         // Push state
-        PushState();
+        push_state();
 
         // Check state transition matrix
         if (currentState_ == tree_writer_state::ElementStarted) currentState_ = tree_writer_state::ArrayStarted;
@@ -216,7 +216,7 @@ namespace dc
             "A call to write_end_array(...) does not follow write_end_array_item(...).");
 
         // Pop state
-        PopState();
+        pop_state();
     }
 
     void data_writer_impl::write_start_array_item()
@@ -507,7 +507,7 @@ namespace dc
         else return get_type()->name;
     }
 
-    void data_writer_impl::PushState()
+    void data_writer_impl::push_state()
     {
         elementStack_.push(
             DataWriterPosition
@@ -522,7 +522,7 @@ namespace dc
             });
     }
 
-    void data_writer_impl::PopState()
+    void data_writer_impl::pop_state()
     {
         // Pop the outer element name and state from the element stack
         auto stackItem = elementStack_.top();

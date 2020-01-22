@@ -33,7 +33,7 @@ limitations under the License.
 
 namespace dc
 {
-    data json_record_serializer_impl::Deserialize(const rapidjson::Document& doc)
+    data json_record_serializer_impl::deserialize(const rapidjson::Document& doc)
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = doc["_t"].GetString();
@@ -41,12 +41,12 @@ namespace dc
         tree_writer_base writer = make_data_writer(result);
 
         writer->write_start_document(typeName);
-        DeserializeDocument(doc.GetObject(), writer);
+        deserialize_document(doc.GetObject(), writer);
         writer->write_end_document(typeName);
         return result;
     }
 
-    dot::object json_record_serializer_impl::DeserializeTuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tupleType)
+    dot::object json_record_serializer_impl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tupleType)
     {
         // Create instance to which JSON will be deserialized
         dot::string typeName = tupleType->name;
@@ -54,13 +54,13 @@ namespace dc
         tree_writer_base writer = make_tuple_writer(result, props);
 
         writer->write_start_document(typeName);
-        DeserializeDocument(doc, writer);
+        deserialize_document(doc, writer);
         writer->write_end_document(typeName);
         return result;
 
     }
 
-    void json_record_serializer_impl::DeserializeDocument(rapidjson::Document::ConstObject doc, tree_writer_base writer)
+    void json_record_serializer_impl::deserialize_document(rapidjson::Document::ConstObject doc, tree_writer_base writer)
     {
         // Each document is a dictionary at root level
         writer->write_start_dict();
@@ -122,7 +122,7 @@ namespace dc
                 // Deserialize embedded data element
 
                 writer->write_start_element(elementName);
-                DeserializeDocument(sub_doc, writer);
+                deserialize_document(sub_doc, writer);
                 writer->write_end_element(elementName);
             }
             else if (jsonType == rapidjson::Type::kArrayType)
@@ -135,7 +135,7 @@ namespace dc
                 // We can finally deserialize array here
                 // This method checks that array is not sparse
                 writer->write_start_array_element(elementName);
-                DeserializeArray(sub_doc, writer);
+                deserialize_array(sub_doc, writer);
                 writer->write_end_array_element(elementName);
             }
             else throw dot::exception(
@@ -146,7 +146,7 @@ namespace dc
         writer->write_end_dict();
     }
 
-    void json_record_serializer_impl::DeserializeArray(rapidjson::Document::ConstArray arr, tree_writer_base writer)
+    void json_record_serializer_impl::deserialize_array(rapidjson::Document::ConstArray arr, tree_writer_base writer)
     {
         // Loop over elements until
         for (auto& elem : arr)
@@ -193,7 +193,7 @@ namespace dc
 
                 // Deserialize embedded data element
                 writer->write_start_array_item();
-                DeserializeDocument(sub_doc, writer);
+                deserialize_document(sub_doc, writer);
                 writer->write_end_array_item();
             }
             else if (jsonType == rapidjson::Type::kArrayType)
@@ -206,7 +206,7 @@ namespace dc
         }
     }
 
-    void json_record_serializer_impl::Serialize(tree_writer_base writer, data value)
+    void json_record_serializer_impl::serialize(tree_writer_base writer, data value)
     {
         // Root name is written in JSON as _t element
         dot::string rootName = value->get_type()->full_name();

@@ -147,12 +147,6 @@ namespace dc
         /// will be inferred from object.get_type().
         virtual void write_value(dot::object value) = 0;
 
-        /// Cast to IXmlWriter (throws if the cast fails).
-        //IXmlWriter AsXmlWriter() { return (IXmlWriter)obj; }
-
-        /// Cast to IBsonWriter (throws if the cast fails).
-        //IBsonWriter AsBsonWriter() { return (IBsonWriter)obj; }
-
         /// write_start_element(...) followed by write_start_dict().
         void write_start_dict_element(dot::string elementName);
 
