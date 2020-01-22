@@ -21,6 +21,7 @@ limitations under the License.
 #include <dc/platform/data_set/data_set_data.hpp>
 #include <dc/platform/data_set/data_set_flags.hpp>
 #include <dc/platform/data_source/data_source_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_query.hpp>
 
 namespace dc
 {
@@ -90,9 +91,9 @@ namespace dc
         ///
         /// Error message if the record is not found or is a DeletedRecord.
         template <class TKey, class TRecord>
-        TRecord load(typed_key<TKey, TRecord> key)
+        dot::ptr<TRecord> load(typed_key<TKey, TRecord> key)
         {
-            return (TRecord)load(key, data_set);
+            return (dot::ptr<TRecord>)load(key, data_set);
         }
 
         /// Load record from context.DataSource, overriding the dataset
@@ -116,9 +117,9 @@ namespace dc
         ///
         /// Error message if the record is not found or is a DeletedRecord.
         template <class TKey, class TRecord>
-        TRecord load(typed_key<TKey, TRecord> key, temporal_id load_from)
+        dot::ptr<TRecord> load(typed_key<TKey, TRecord> key, temporal_id load_from)
         {
-            return (TRecord)load(key, load_from);
+            return (dot::ptr<TRecord>)load(key, load_from);
         }
 
         /// Load record by string key from the specified dataset or
@@ -141,9 +142,9 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         template <class TKey, class TRecord>
-        TRecord load_or_null(typed_key<TKey, TRecord> key, temporal_id load_from)
+        dot::ptr<TRecord> load_or_null(typed_key<TKey, TRecord> key, temporal_id load_from)
         {
-            return (TRecord)load_or_null(key, load_from, ::dot::typeof<TRecord>());
+            return (dot::ptr<TRecord>)load_or_null((dc::key)key, load_from);
         }
 
         /// Get query for the specified type.
@@ -331,7 +332,7 @@ namespace dc
         ///
         /// Error message if no matching data_set_id string is found
         /// or a delete marker is found instead.
-        temporal_id get_data_set_or_empty(dot::string data_set_id);
+        dot::nullable<temporal_id> get_data_set_or_empty(dot::string data_set_id);
 
         /// Return temporal_id for the latest dataset record with
         /// matching data_set_id string from in-memory cache. Try
@@ -350,7 +351,7 @@ namespace dc
         ///
         /// Error message if no matching data_set_id string is found
         /// or a delete marker is found instead.
-        temporal_id get_data_set_or_empty(dot::string data_set_id, temporal_id load_from);
+        dot::nullable<temporal_id> get_data_set_or_empty(dot::string data_set_id, temporal_id load_from);
 
         /// Create new version of the common dataset. By convention,
         /// the common dataset has no parents and is the ultimate

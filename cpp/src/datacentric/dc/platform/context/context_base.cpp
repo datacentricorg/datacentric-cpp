@@ -102,12 +102,12 @@ namespace dc
         return data_source->get_data_set(data_set_id, load_from);
     }
 
-    temporal_id context_base_impl::get_data_set_or_empty(dot::string data_set_id)
+    dot::nullable<temporal_id> context_base_impl::get_data_set_or_empty(dot::string data_set_id)
     {
         return data_source->get_data_set_or_empty(data_set_id, data_set);
     }
 
-    temporal_id context_base_impl::get_data_set_or_empty(dot::string data_set_id, temporal_id load_from)
+    dot::nullable<temporal_id> context_base_impl::get_data_set_or_empty(dot::string data_set_id, temporal_id load_from)
     {
         return data_source->get_data_set_or_empty(data_set_id, load_from);
     }
