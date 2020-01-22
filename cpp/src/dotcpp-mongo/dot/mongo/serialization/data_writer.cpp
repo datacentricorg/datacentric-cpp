@@ -1,5 +1,12 @@
 /*
-Copyright (C) 2013-present The DataCentric Authors.
+Copyright (C) 2015-present The DotCpp Authors.
+
+This file is part of .C++, a native C++ implementation of
+popular .NET class library APIs developed to facilitate
+code reuse between C# and C++.
+
+    http://github.com/dotcpp/dotcpp (source)
+    http://dotcpp.org (documentation)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,25 +21,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/precompiled.hpp>
-#include <dc/implement.hpp>
-#include <dc/serialization/data_writer.hpp>
+#include <dot/mongo/precompiled.hpp>
+#include <dot/mongo/implement.hpp>
+#include <dot/mongo/serialization/data_writer.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
-#include <dc/types/record/key_base.hpp>
 #include <dot/system/enum.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_minute.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_date_time.hpp>
+#include <dot/mongo/mongo_db/bson/object_id.hpp>
 
-namespace dc
+namespace dot
 {
-    data_writer_impl::data_writer_impl(data data_obj)
-        : current_dict_(data_obj)
+    data_writer_impl::data_writer_impl(object obj)
+        : current_dict_(obj)
         , current_state_(tree_writer_state::empty) {}
 
     void data_writer_impl::write_start_document(dot::string root_element_name)
@@ -128,22 +135,20 @@ namespace dc
         else if (current_dict_ != nullptr) created_dict_type = current_element_info_->field_type;
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
-        dot::object created_dict_obj = dot::activator::create_instance(created_dict_type);
-        if (!(created_dict_obj.is<data>())) // TODO Also support native dictionaries
-        {
-            dot::string mapped_class_name = current_element_info_->field_type->full_name();
-            throw dot::exception(dot::string::format(
-                "Element {0} of type {1} does not implement data.", current_element_info_->name, mapped_class_name));
-        }
-
-        auto created_dict = (data) created_dict_obj;
+        dot::object created_dict = dot::activator::create_instance(created_dict_type);
+        //if (!(created_dict_obj.is<data>())) // TODO Also support native dictionaries
+        //{
+        //    dot::string mapped_class_name = current_element_info_->field_type->full_name();
+        //    throw dot::exception(dot::string::format(
+        //        "Element {0} of type {1} does not implement data.", current_element_info_->name, mapped_class_name));
+        //}
 
         // Add to array or dictionary, depending on what we are inside of
         if (current_array_ != nullptr) current_array_->add_object(created_dict);
         else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, created_dict);
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
-        current_dict_ = (data) created_dict;
+        current_dict_ = created_dict;
         auto current_dict_info_list = created_dict_type->get_fields();
         current_dict_elements_ = dot::make_dictionary<dot::string, dot::field_info>();
         for (auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name, element_info);
@@ -472,11 +477,9 @@ namespace dc
         {
             // We run out of value types at this point, now we can create
             // a reference type and check that it is derived from key_base
-            dot::object key_obj = (key_base)dot::activator::create_instance(element_type);
-            if (key_obj.is<key_base>())
+            dot::object obj = dot::activator::create_instance(element_type);
+            if (/*key_obj.is<key_base>()*/ 1 ) // Change to attribute
             {
-                key_base key = (key_base) key_obj;
-
                 // Check type match
                 if (!value_type->equals(dot::typeof<dot::string>()) && !value_type->equals(element_type))
                     throw dot::exception(
@@ -485,11 +488,11 @@ namespace dc
 
                 // Populate from semicolon delimited string
                 dot::string string_value = value->to_string();
-                key->assign_string(string_value);
+                obj->get_type()->get_method("assign_string")->invoke(obj, make_list<object>({ string_value }));
 
                 // Add to array or dictionary, depending on what we are inside of
-                if (current_array_ != nullptr) current_array_->add_object(key);
-                else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, key);
+                if (current_array_ != nullptr) current_array_->add_object(obj);
+                else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, obj);
                 else throw dot::exception("Value can only be added to a dictionary or array.");
             }
             else

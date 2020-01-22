@@ -1,5 +1,12 @@
 /*
-Copyright (C) 2013-present The DataCentric Authors.
+Copyright (C) 2015-present The DotCpp Authors.
+
+This file is part of .C++, a native C++ implementation of
+popular .NET class library APIs developed to facilitate
+code reuse between C# and C++.
+
+    http://github.com/dotcpp/dotcpp (source)
+    http://dotcpp.org (documentation)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,23 +21,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/precompiled.hpp>
-#include <dc/implement.hpp>
-#include <dc/serialization/tuple_writer.hpp>
+#include <dot/mongo/precompiled.hpp>
+#include <dot/mongo/implement.hpp>
+#include <dot/mongo/serialization/tuple_writer.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
-#include <dc/types/record/key_base.hpp>
 #include <dot/system/enum.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_minute.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-#include <dc/serialization/data_writer.hpp>
+#include <dot/mongo/serialization/data_writer.hpp>
+#include <dot/mongo/mongo_db/bson/object_id.hpp>
 
-namespace dc
+namespace dot
 {
     void tuple_writer_impl::write_start_document(dot::string root_element_name)
     {
@@ -61,7 +68,7 @@ namespace dc
                     index_of_current_ = i;
                     if (props_[i]->field_type->name->ends_with("data")) //! TODO change ends_with
                     {
-                        data result = (data)dot::activator::create_instance(props_[i]->field_type);
+                        object result = dot::activator::create_instance(props_[i]->field_type);
                         data_writer_ = make_data_writer(result);
                         data_writer_->write_start_document(props_[i]->field_type->name);
 
@@ -346,10 +353,10 @@ namespace dc
         {
             // We run out of value types at this point, now we can create
             // a reference type and check that it is derived from key_base
-            dot::object key_obj = (key_base)dot::activator::create_instance(element_type);
-            if (key_obj.is<key_base>())
+            dot::object obj = dot::activator::create_instance(element_type);
+            if (/*key_obj.is<key_base>()*/ 1 ) // Check key attribute
             {
-                key_base key = (key_base)key_obj;
+                //key_base key = (key_base)key_obj;
 
                 // Check type match
                 if (!value_type->equals(dot::typeof<dot::string>()) && !value_type->equals(element_type))
@@ -359,10 +366,10 @@ namespace dc
 
                 // Populate from semicolon delimited string
                 dot::string string_value = value->to_string();
-                key->assign_string(string_value);
+                obj->get_type()->get_method("assign_string")->invoke(obj, make_list<object>({ string_value }));
 
                 // Add to array or dictionary, depending on what we are inside of
-                tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, key }));
+                tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, obj }));
 
             }
             else

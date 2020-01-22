@@ -1,5 +1,12 @@
 /*
-Copyright (C) 2013-present The DataCentric Authors.
+Copyright (C) 2015-present The DotCpp Authors.
+
+This file is part of .C++, a native C++ implementation of
+popular .NET class library APIs developed to facilitate
+code reuse between C# and C++.
+
+    http://github.com/dotcpp/dotcpp (source)
+    http://dotcpp.org (documentation)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,26 +23,26 @@ limitations under the License.
 
 #pragma once
 
-#include <dc/declare.hpp>
+#include <dot/mongo/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/serialization/tree_writer_base.hpp>
+#include <dot/mongo/serialization/tree_writer_base.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <dc/serialization/bson_writer.hpp>
+#include <dot/mongo/serialization/bson_writer.hpp>
 
-namespace dc
+
+namespace dot
 {
     class bson_record_serializer_impl; using bson_record_serializer = dot::ptr<bson_record_serializer_impl>;
-    class data_impl; using data = dot::ptr<data_impl>;
 
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
-    class DC_CLASS bson_record_serializer_impl : public virtual dot::object_impl
+    class DOT_MONGO_CLASS bson_record_serializer_impl : public virtual dot::object_impl
     {
         friend bson_record_serializer make_bson_record_serializer();
 
     public:
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
-        data deserialize(bsoncxx::document::view doc);
+        dot::object deserialize(bsoncxx::document::view doc);
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         dot::object deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tuple_type);
@@ -47,7 +54,7 @@ namespace dc
         void deserialize_array(const bsoncxx::array::view & arr, tree_writer_base writer);
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
-        void serialize(tree_writer_base writer, data value);
+        void serialize(tree_writer_base writer, dot::object value);
 
     private:
         bson_record_serializer_impl() = default;

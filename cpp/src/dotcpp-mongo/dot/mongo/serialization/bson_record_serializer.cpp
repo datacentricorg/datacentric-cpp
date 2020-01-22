@@ -1,5 +1,12 @@
 /*
-Copyright (C) 2013-present The DataCentric Authors.
+Copyright (C) 2015-present The DotCpp Authors.
+
+This file is part of .C++, a native C++ implementation of
+popular .NET class library APIs developed to facilitate
+code reuse between C# and C++.
+
+    http://github.com/dotcpp/dotcpp (source)
+    http://dotcpp.org (documentation)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,28 +21,30 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/precompiled.hpp>
-#include <dc/implement.hpp>
+#include <dot/mongo/precompiled.hpp>
+#include <dot/mongo/implement.hpp>
 #include <dot/system/string.hpp>
-#include <dc/serialization/bson_writer.hpp>
+#include <dot/mongo/serialization/bson_writer.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/type.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-#include <dc/serialization/bson_record_serializer.hpp>
-#include <dc/serialization/data_writer.hpp>
-#include <dc/serialization/tuple_writer.hpp>
+#include <dot/mongo/serialization/bson_record_serializer.hpp>
+#include <dot/mongo/serialization/data_writer.hpp>
+#include <dot/mongo/serialization/tuple_writer.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
+#include <dot/mongo/mongo_db/bson/object_id.hpp>
 
-namespace dc
+
+namespace dot
 {
-    data bson_record_serializer_impl::deserialize(bsoncxx::document::view doc)
+    dot::object bson_record_serializer_impl::deserialize(bsoncxx::document::view doc)
     {
         // Create instance to which BSON will be deserialized
         dot::string type_name = doc["_t"].get_utf8().value.to_string();
-        data result = (data)dot::activator::create_instance("", type_name);
+        object result = dot::activator::create_instance("", type_name);
         tree_writer_base writer = make_data_writer(result);
 
         writer->write_start_document(type_name);
@@ -226,13 +235,14 @@ namespace dc
         }
     }
 
-    void bson_record_serializer_impl::serialize(tree_writer_base writer, data value)
+    void bson_record_serializer_impl::serialize(tree_writer_base writer, dot::object value)
     {
         // Root name is written in JSON as _t element
         dot::string root_name = value->get_type()->full_name();
 
         writer->write_start_document(root_name);
-        value->serialize_to(writer);
+        //value->serialize_to(writer);
+        value->get_type()->get_method("serialize_to")->invoke(value, make_list<object>({writer}));
         writer->write_end_document(root_name);
     }
 }

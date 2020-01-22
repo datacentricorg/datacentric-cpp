@@ -1,5 +1,12 @@
 /*
-Copyright (C) 2013-present The DataCentric Authors.
+Copyright (C) 2015-present The DotCpp Authors.
+
+This file is part of .C++, a native C++ implementation of
+popular .NET class library APIs developed to facilitate
+code reuse between C# and C++.
+
+    http://github.com/dotcpp/dotcpp (source)
+    http://dotcpp.org (documentation)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,13 +21,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/precompiled.hpp>
-#include <dc/implement.hpp>
-#include <dc/serialization/tree_writer_base.hpp>
+#include <dot/mongo/precompiled.hpp>
+#include <dot/mongo/implement.hpp>
+#include <dot/mongo/serialization/tree_writer_base.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/object.hpp>
 
-namespace dc
+namespace dot
 {
     void tree_writer_base_impl::write_start_dict_element(dot::string element_name)
     {

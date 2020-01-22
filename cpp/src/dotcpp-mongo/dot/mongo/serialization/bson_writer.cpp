@@ -1,5 +1,12 @@
 /*
-Copyright (C) 2013-present The DataCentric Authors.
+Copyright (C) 2015-present The DotCpp Authors.
+
+This file is part of .C++, a native C++ implementation of
+popular .NET class library APIs developed to facilitate
+code reuse between C# and C++.
+
+    http://github.com/dotcpp/dotcpp (source)
+    http://dotcpp.org (documentation)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,32 +21,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/precompiled.hpp>
-#define RAPIDJSON_HAS_STDSTRING 1
-#include <dc/implement.hpp>
-#include <dc/serialization/json_writer.hpp>
+#include <dot/mongo/precompiled.hpp>
+#include <dot/mongo/implement.hpp>
 #include <dot/system/enum.hpp>
 #include <dot/system/string.hpp>
+#include <dot/mongo/serialization/bson_writer.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/type.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_minute.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-#include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
+#include <dot/mongo/mongo_db/bson/object_id.hpp>
 
-namespace dc
+#include <bsoncxx/json.hpp>
+
+namespace dot
 {
-    json_writer_impl::json_writer_impl()
-        : json_writer_(buffer_)
-        , current_state_(tree_writer_state::empty)
-    {}
-
-    void json_writer_impl::write_start_document(dot::string root_element_name)
+    void bson_writer_impl::write_start_document(dot::string root_element_name)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of write_start_dict, write_start_array_item, or write_start_value calls.
@@ -54,7 +57,7 @@ namespace dc
                 "A call to write_start_document(...) must be the first call to the tree writer.");
     }
 
-    void json_writer_impl::write_end_document(dot::string root_element_name)
+    void bson_writer_impl::write_end_document(dot::string root_element_name)
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::dict_completed && element_stack_.size() == 1)
@@ -79,7 +82,7 @@ namespace dc
                 "write_end_document({0}) follows write_start_document({1}), root element name mismatch.", root_element_name, current_element_name));
     }
 
-    void json_writer_impl::write_start_element(dot::string element_name)
+    void bson_writer_impl::write_start_element(dot::string element_name)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of write_start_dict, write_start_array_item, or write_start_value calls.
@@ -94,10 +97,10 @@ namespace dc
                 "A call to write_start_element(...) must be the first call or follow write_end_element(prev_name).");
 
         // Write "element_name" :
-        json_writer_.Key(*element_stack_.top().first);
+        bson_writer_.key_owned(*(element_stack_.top().first));
     }
 
-    void json_writer_impl::write_end_element(dot::string element_name)
+    void bson_writer_impl::write_end_element(dot::string element_name)
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::element_completed;
@@ -124,7 +127,7 @@ namespace dc
         // Nothing to write here but array closing bracket was written above
     }
 
-    void json_writer_impl::write_start_dict()
+    void bson_writer_impl::write_start_dict()
     {
         // Save initial state to be used below
         tree_writer_state prev_state = current_state_;
@@ -138,7 +141,7 @@ namespace dc
                 "A call to write_start_dict() must follow write_start_element(...) or write_start_array_item().");
 
         // Write {
-        json_writer_.StartObject();
+        bson_writer_.open_document();
 
         // If prev state is document_started, write _t tag
         //if (prev_state == tree_writer_state::document_started)
@@ -149,7 +152,7 @@ namespace dc
         //}
     }
 
-    void json_writer_impl::write_end_dict()
+    void bson_writer_impl::write_end_dict()
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::dict_started) current_state_ = tree_writer_state::dict_completed;
@@ -160,10 +163,10 @@ namespace dc
                 "A call to write_end_dict(...) does not follow a matching write_start_dict(...) at the same indent level.");
 
         // Write }
-        json_writer_.EndObject();
+        bson_writer_.close_document();
     }
 
-    void json_writer_impl::write_start_array()
+    void bson_writer_impl::write_start_array()
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::array_started;
@@ -172,10 +175,10 @@ namespace dc
                 "A call to write_start_array() must follow write_start_element(...).");
 
         // Write [
-        json_writer_.StartArray();
+        bson_writer_.open_array();
     }
 
-    void json_writer_impl::write_end_array()
+    void bson_writer_impl::write_end_array()
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::array_started) current_state_ = tree_writer_state::array_completed;
@@ -185,10 +188,10 @@ namespace dc
                 "A call to write_end_array(...) does not follow write_end_array_item(...).");
 
         // Write ]
-        json_writer_.EndArray();
+        bson_writer_.close_array();
     }
 
-    void json_writer_impl::write_start_array_item()
+    void bson_writer_impl::write_start_array_item()
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::array_started) current_state_ = tree_writer_state::array_item_started;
@@ -199,7 +202,7 @@ namespace dc
         // Nothing to write here
     }
 
-    void json_writer_impl::write_end_array_item()
+    void bson_writer_impl::write_end_array_item()
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::array_item_started) current_state_ = tree_writer_state::array_item_completed;
@@ -212,7 +215,7 @@ namespace dc
         // Nothing to write here
     }
 
-    void json_writer_impl::write_start_value()
+    void bson_writer_impl::write_start_value()
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::element_started) current_state_ = tree_writer_state::value_started;
@@ -224,7 +227,7 @@ namespace dc
         // Nothing to write here
     }
 
-    void json_writer_impl::write_end_value()
+    void bson_writer_impl::write_end_value()
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::value_written) current_state_ = tree_writer_state::value_completed;
@@ -236,7 +239,7 @@ namespace dc
         // Nothing to write here
     }
 
-    void json_writer_impl::write_value(dot::object value)
+    void bson_writer_impl::write_value(dot::object value)
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::value_started) current_state_ = tree_writer_state::value_written;
@@ -247,10 +250,10 @@ namespace dc
 
         if (value.is_empty())
         {
-            // Null or empty value is serialized as null JSON value.
+            // Null or empty value is serialized as null BSON value.
             // We should only get her for an array as for dictionaries
             // null values should be skipped
-            json_writer_.Null();
+            bson_writer_.append(bsoncxx::types::b_null{});
             return;
         }
 
@@ -258,43 +261,48 @@ namespace dc
         dot::type value_type = value->get_type();
 
         if (value_type->equals(dot::typeof<dot::string>()))
-            json_writer_.String(*(dot::string)value);
+            bson_writer_.append(*(dot::string)value);
         else
         if (value_type->equals(dot::typeof<double>())) // ? TODO check dot::typeof<double>() dot::typeof<nullable_double>()
-            json_writer_.Double((double)value);
+            bson_writer_.append((double)value);
         else
         if (value_type->equals(dot::typeof<bool>()))
-            json_writer_.Bool((bool)value);
+            bson_writer_.append((bool)value);
         else
         if (value_type->equals(dot::typeof<int>()))
-            json_writer_.Int((int)value);
+            bson_writer_.append((int)value);
         else
         if (value_type->equals(dot::typeof<int64_t>()))
-            json_writer_.Int64((int64_t)value);
+            bson_writer_.append((int64_t)value);
         else
         if (value_type->equals(dot::typeof<dot::local_date>()))
-            json_writer_.Int(dot::local_date_util::to_iso_int((dot::local_date)value));
+            bson_writer_.append(dot::local_date_util::to_iso_int((dot::local_date)value));
         else
         if (value_type->equals(dot::typeof<dot::local_time>()))
-            json_writer_.Int(dot::local_time_util::to_iso_int((dot::local_time)value));
+            bson_writer_.append(dot::local_time_util::to_iso_int((dot::local_time)value));
         else
         if (value_type->equals(dot::typeof<dot::local_minute>()))
-            json_writer_.Int(dot::local_minute_util::to_iso_int((dot::local_minute) value));
+            bson_writer_.append(dot::local_minute_util::to_iso_int((dot::local_minute) value));
         else
         if (value_type->equals(dot::typeof<dot::local_date_time>()))
-            json_writer_.Int64(dot::local_date_time_util::to_iso_long((dot::local_date_time)value));
+            bson_writer_.append(bsoncxx::types::b_date{ dot::local_date_time_util::to_std_chrono((dot::local_date_time)value) });
         else
         if (value_type->equals(dot::typeof<dot::object_id>()))
-            json_writer_.String(*value->to_string());
+            bson_writer_.append(((dot::struct_wrapper<dot::object_id>)value)->oid());
         else
         if (value_type->is_enum)
-            json_writer_.String(*value->to_string());
+            bson_writer_.append(*value->to_string());
         else
-            throw dot::exception(dot::string::format("Element type {0} is not supported for JSON serialization.", value_type));
+            throw dot::exception(dot::string::format("Element type {0} is not supported for BSON serialization.", value_type));
     }
 
-    dot::string json_writer_impl::to_string()
+    dot::string bson_writer_impl::to_string()
     {
-        return buffer_.GetString();
+        return bsoncxx::to_json(bson_writer_.view_array()[0].get_document().view());
+    }
+
+    bsoncxx::document::view bson_writer_impl::view()
+    {
+        return bson_writer_.view_array()[0].get_document().view();
     }
 }

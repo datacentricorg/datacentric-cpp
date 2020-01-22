@@ -1,5 +1,12 @@
 /*
-Copyright (C) 2013-present The DataCentric Authors.
+Copyright (C) 2015-present The DotCpp Authors.
+
+This file is part of .C++, a native C++ implementation of
+popular .NET class library APIs developed to facilitate
+code reuse between C# and C++.
+
+    http://github.com/dotcpp/dotcpp (source)
+    http://dotcpp.org (documentation)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,11 +23,11 @@ limitations under the License.
 
 #pragma once
 
-#include <dc/declare.hpp>
+#include <dot/mongo/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/system/object_impl.hpp>
 
-namespace dc
+namespace dot
 {
     enum class tree_writer_state
     {
@@ -85,7 +92,7 @@ namespace dc
     class tree_writer_base_impl; using tree_writer_base = dot::ptr<tree_writer_base_impl>;
 
     /// Interface for writing tree data.
-    class DC_CLASS tree_writer_base_impl : public dot::object_impl
+    class DOT_MONGO_CLASS tree_writer_base_impl : public dot::object_impl
     {
     public:
 
