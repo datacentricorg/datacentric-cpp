@@ -55,7 +55,7 @@ namespace dc
                 dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", dbName_));
 
         // Get client interface using the server
-        dot::string dbUri = db_server->load(Context).as<mongo_server_data>()->get_mongo_server_uri();
+        dot::string dbUri = db_server->load(context).as<mongo_server_data>()->get_mongo_server_uri();
         client_ = dot::make_client(dbUri);
 
         // Get database interface using the client and database name
@@ -106,9 +106,9 @@ namespace dc
             //
             // Use other tokens such as UAT or PROD to protect the
             // database from accidental deletion
-            if (instance_type_ == instance_type::DEV
-                || instance_type_ == instance_type::USER
-                || instance_type_ == instance_type::TEST)
+            if (instance_type_ == instance_type::dev
+                || instance_type_ == instance_type::user
+                || instance_type_ == instance_type::test)
             {
                 // The name is the database key in the standard
                 // semicolon delimited format. However this method

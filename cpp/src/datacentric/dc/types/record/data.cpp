@@ -119,7 +119,7 @@ namespace dc
 
             if (inner_element_name == "_t")
             {
-                writer->write_value_element(inner_element_name, class_info_impl::get_or_create(this->get_type())->mapped_class_name);
+                writer->write_value_element(inner_element_name, class_info_impl::get_or_create(this->get_type())->raw_class_name);
                 continue;
             }
             if (inner_element_name == "_key")

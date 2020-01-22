@@ -108,7 +108,7 @@ namespace dc
         // initialization code may use record.id and record.data_set
         record->id = objectId;
         record->data_set = saveTo;
-        record->init(Context);
+        record->init(context);
 
         collection->insert_one(record);
     }

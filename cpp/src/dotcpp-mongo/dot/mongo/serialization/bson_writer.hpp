@@ -38,7 +38,6 @@ namespace dot
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
     class DOT_MONGO_CLASS bson_writer_impl : public tree_writer_base_impl
     {
-    {
         friend bson_writer make_bson_writer();
 
     private:
