@@ -51,7 +51,7 @@ namespace dc
         {
             static dot::type result = []()-> dot::type
             {
-                dot::type t = dot::make_type_builder<data_impl>("dc", "data", {dot::make_serialize_attribute(&data_impl::serialize_data)})
+                dot::type t = dot::make_type_builder<data_impl>("dc", "data", {dot::make_serialize_class_attribute(&data_impl::serialize_data)})
                     ->with_method("serialize_to", &data_impl::serialize_to, {"writer"})
                     ->build();
                 return t;

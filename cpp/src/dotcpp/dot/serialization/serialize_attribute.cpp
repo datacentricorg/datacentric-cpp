@@ -28,23 +28,23 @@ limitations under the License.
 namespace dot
 {
 
-    void serialize_attribute_impl::serialize(tree_writer_base writer, dot::object obj)
+    void serialize_class_attribute_impl::serialize(tree_writer_base writer, dot::object obj)
     {
         serializer_(writer, obj);
     }
 
-    type serialize_attribute_impl::typeof()
+    type serialize_class_attribute_impl::typeof()
     {
         static type result = []()->type
         {
-            type t = make_type_builder<serialize_attribute_impl>("dot", "serialize_attribute")
+            type t = make_type_builder<serialize_class_attribute_impl>("dot", "serialize_class_attribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    type serialize_attribute_impl::get_type()
+    type serialize_class_attribute_impl::get_type()
     {
         return typeof();
     }

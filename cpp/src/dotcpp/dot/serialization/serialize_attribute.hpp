@@ -31,16 +31,17 @@ limitations under the License.
 namespace dot
 {
 
-    class serialize_attribute_impl; using serialize_attribute = ptr<serialize_attribute_impl>;
+    class serialize_class_attribute_impl; using serialize_class_attribute = ptr<serialize_class_attribute_impl>;
 
-    /// Attribute sets custom serealizator
-    class DOT_CLASS serialize_attribute_impl : public attribute_impl
+    /// Attribute sets custom serializator for type
+    /// Constructs from method that accepts tree writer base and object
+    class DOT_CLASS serialize_class_attribute_impl : public attribute_impl
     {
 
     public:
         typedef void(*serializer_func_type)(dot::tree_writer_base, dot::object);
 
-        friend serialize_attribute make_serialize_attribute(serializer_func_type);
+        friend serialize_class_attribute make_serialize_class_attribute(serializer_func_type);
 
         void serialize(tree_writer_base writer, dot::object obj);
 
@@ -51,15 +52,15 @@ namespace dot
 
     private:
 
-        serialize_attribute_impl(serializer_func_type serializer)
+        serialize_class_attribute_impl(serializer_func_type serializer)
             : serializer_(serializer)
         {}
 
         serializer_func_type serializer_;
     };
 
-    inline serialize_attribute make_serialize_attribute(serialize_attribute_impl::serializer_func_type serializer)
+    inline serialize_class_attribute make_serialize_class_attribute(serialize_class_attribute_impl::serializer_func_type serializer)
     {
-        return new serialize_attribute_impl(serializer);
+        return new serialize_class_attribute_impl(serializer);
     }
 }

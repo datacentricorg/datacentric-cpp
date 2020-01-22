@@ -32,7 +32,8 @@ namespace dot
 
     class deserialize_class_attribute_impl; using deserialize_class_attribute = ptr<deserialize_class_attribute_impl>;
 
-    /// Attribute sets custom deserealizator
+    /// Attribute sets custom deserealizator for type
+    /// Constructs from method that accepts object value, required type and returns deserialized object
     class DOT_CLASS deserialize_class_attribute_impl : public attribute_impl
     {
 
@@ -65,7 +66,8 @@ namespace dot
 
     class deserialize_field_attribute_impl; using deserialize_field_attribute = ptr<deserialize_field_attribute_impl>;
 
-    /// Attribute sets custom deserealizator
+    /// Attribute sets custom deserealizator for field
+    /// Constructs from method that accepts field value, field info, and data object
     class DOT_CLASS deserialize_field_attribute_impl : public attribute_impl
     {
 

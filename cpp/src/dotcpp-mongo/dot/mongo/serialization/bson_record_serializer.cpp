@@ -232,9 +232,9 @@ namespace dot
         writer->write_start_document(root_name);
 
         // Check for custom serializator
-        if (value->get_type()->get_custom_attributes(dot::typeof<serialize_attribute>(), true)->size())
+        if (value->get_type()->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)->size())
         {
-            serialize_attribute(value->get_type()->get_custom_attributes(dot::typeof<serialize_attribute>(), true)[0])->serialize(writer, value);
+            serialize_class_attribute(value->get_type()->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)[0])->serialize(writer, value);
         }
         else
         {
@@ -345,17 +345,17 @@ namespace dot
                 writer->write_value_element(inner_element_name, inner_element_value);
             }
             else
-                if (!element_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
-                {
-                    standard_serialize((dot::list_base)inner_element_value, inner_element_name, writer);
-                }
-                else
-                {
-                    // Embedded as data
-                    writer->write_start_element(inner_element_name);
-                    standard_serialize(writer, inner_element_value);
-                    writer->write_end_element(inner_element_name);
-                }
+            if (!element_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
+            {
+                standard_serialize((dot::list_base)inner_element_value, inner_element_name, writer);
+            }
+            else
+            {
+                // Embedded as data
+                writer->write_start_element(inner_element_name);
+                standard_serialize(writer, inner_element_value);
+                writer->write_end_element(inner_element_name);
+            }
         }
 
         // Write end tag

@@ -59,6 +59,12 @@ namespace dot
         void serialize(tree_writer_base writer, object value);
 
     private:
+
+        void standard_serialize(tree_writer_base writer, dot::object value);
+
+        void standard_serialize(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer);
+
+    private:
         json_record_serializer_impl() = default;
     };
 
