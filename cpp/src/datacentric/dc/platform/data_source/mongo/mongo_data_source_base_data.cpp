@@ -20,8 +20,6 @@ limitations under the License.
 #include <dc/platform/data_source/mongo/mongo_server_data.hpp>
 #include <dc/platform/context/context_base.hpp>
 
-#include <mongocxx/instance.hpp>
-
 namespace dc
 {
     dot::list<char> mongo_data_source_base_data_impl::prohibitedDbNameSymbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
@@ -30,8 +28,6 @@ namespace dc
 
     void mongo_data_source_base_data_impl::init(context_base context)
     {
-        static mongocxx::instance instance{};
-
         // Initialize the base class
         data_source_data_impl::init(context);
 

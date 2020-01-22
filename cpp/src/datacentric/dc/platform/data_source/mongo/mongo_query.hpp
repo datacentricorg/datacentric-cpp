@@ -70,7 +70,7 @@ namespace dc
         template <class element>
         dot::cursor_wrapper<element> select(dot::list<dot::field_info> props)
         {
-            return make_cursor_wrapper<element>(select(props, dot::typeof<element>()));
+            return dot::make_cursor_wrapper<element>(select(props, dot::typeof<element>()));
         }
 
     private:
