@@ -74,6 +74,9 @@ namespace dot
         };
     }
 
+    template <class T>
+    inline type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes = {});
+
     /// builder for type.
     class DOT_CLASS type_builder_impl final : public virtual object_impl
     {
