@@ -49,6 +49,22 @@ namespace dot
             collection_.insert_one(writer->view());
         }
 
+        /// Serialize object and pass it to mongo collection.
+        virtual void insert_many(list_base objs) override
+        {
+            mongocxx::bulk_write bulk = collection_.create_bulk_write();
+
+            for (int i = 0; i < objs->get_length(); ++i)
+            {
+                bson_record_serializer serializer = make_bson_record_serializer();
+                bson_writer writer = make_bson_writer();
+                serializer->serialize(writer, objs->get_item(i));
+            }
+
+            bulk.execute();
+
+        }
+
         /// Delete one document according to filter.
         virtual void delete_one(filter_token_base filter) override
         {
@@ -74,6 +90,11 @@ namespace dot
     void collection_impl::insert_one(object obj)
     {
         impl_->insert_one(obj);
+    }
+
+    void collection_impl::insert_many(dot::list_base objs)
+    {
+        impl_->insert_many(objs);
     }
 
     void collection_impl::delete_one(filter_token_base filter)

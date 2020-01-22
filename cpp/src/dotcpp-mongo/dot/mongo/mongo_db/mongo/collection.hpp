@@ -60,6 +60,10 @@ namespace dot
             /// one will be generated for it.
             virtual void insert_one(object obj) = 0;
 
+            /// Inserts a many objects into the collection. If the object->_id is missing or empty
+            /// one will be generated for it.
+            virtual void insert_many(dot::list_base objs) = 0;
+
             /// Deletes a single matching document from the collection.
             virtual void delete_one(filter_token_base filter) = 0;
 
@@ -72,6 +76,10 @@ namespace dot
         /// Inserts a single object into the collection. If the object->_id is missing or empty
         /// one will be generated for it.
         void insert_one(object obj);
+
+        /// Inserts a many objects into the collection. If the object->_id is missing or empty
+        /// one will be generated for it.
+        void insert_many(dot::list_base objs);
 
         /// Deletes a single matching document from the collection.
         void delete_one(filter_token_base filter);
