@@ -290,6 +290,13 @@ namespace dot
         else throw dot::exception(
             "A call to write_end_value(...) does not follow a matching write_value(...) at the same indent level.");
 
+        /// Check if dict contains specified field
+        if (current_array_item_type_ == nullptr
+            && current_element_info_ == nullptr)
+        {
+            return;
+        }
+
         // Check that we are either inside dictionary or array
         dot::type element_type = nullptr;
         if (current_array_ != nullptr) element_type = current_array_item_type_;
