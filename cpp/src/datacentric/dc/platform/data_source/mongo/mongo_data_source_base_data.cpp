@@ -24,9 +24,9 @@ limitations under the License.
 
 namespace dc
 {
-    dot::list<char> mongo_data_source_base_data_impl::prohibited_db_name_symbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
+    dot::list<char> mongo_data_source_base_data_impl::prohibitedDbNameSymbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
 
-    int mongo_data_source_base_data_impl::max_db_name_length_ = 64;
+    int mongo_data_source_base_data_impl::maxDbNameLength_ = 64;
 
     void mongo_data_source_base_data_impl::init(context_base context)
     {
@@ -42,24 +42,24 @@ namespace dc
         if (dot::string::is_null_or_empty(db_name->env_name)) throw dot::exception("DB environment name is not specified.");
 
         // The name is the database key in the standard semicolon delimited format.
-        db_name_ = db_name->to_string();
+        dbName_ = db_name->to_string();
         instance_type_ = db_name->db_instance_type;
 
         // Perform additional validation for restricted characters and database name length.
-        if (db_name_->index_of_any(prohibited_db_name_symbols_) != -1)
+        if (dbName_->index_of_any(prohibitedDbNameSymbols_) != -1)
             throw dot::exception(
-                dot::string::format("MongoDB database name {0} contains a space or another ", db_name_) +
+                dot::string::format("MongoDB database name {0} contains a space or another ", dbName_) +
                 "prohibited character from the following list: /\\.\"$*<>:|?");
-        if (db_name_->length() > max_db_name_length_)
+        if (dbName_->length() > maxDbNameLength_)
             throw dot::exception(
-                dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", db_name_));
+                dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", dbName_));
 
         // Get client interface using the server
-        dot::string db_uri = db_server->load(this->context).as<mongo_server_data>()->get_mongo_server_uri();
-        client_ = mongocxx::client{ mongocxx::uri(*db_uri) };
+        dot::string dbUri = db_server->load(Context).as<mongo_server_data>()->get_mongo_server_uri();
+        client_ = dot::make_client(dbUri);
 
         // Get database interface using the client and database name
-        db_ = client_[*db_name_];
+        db_ = client_->get_database(dbName_);
     }
 
     dot::object_id mongo_data_source_base_data_impl::create_ordered_object_id()
@@ -69,13 +69,13 @@ namespace dc
         // Generate dot::object_id and check that it is later
         // than the previous generated dot::object_id
         dot::object_id result = dot::object_id::generate_new_id();
-        int retry_counter = 0;
+        int retryCounter = 0;
         while (result.oid() <= prev_object_id_.oid())
         {
             // Getting inside the while loop will be very rare as this would
             // require the increment to roll from max int to min int within
             // the same second, therefore it is a good idea to log the event
-            if (retry_counter++ == 0) std::cerr << "MongoDB generated dot::object_id not in increasing order, retrying." << std::endl;
+            if (retryCounter++ == 0) std::cerr << "MongoDB generated dot::object_id not in increasing order, retrying." << std::endl;
 
             // If new dot::object_id is not strictly greater than the previous one,
             // keep generating new dot::object_ids until it changes
@@ -83,9 +83,9 @@ namespace dc
         }
 
         // Report the number of retries
-        if (retry_counter != 0)
+        if (retryCounter != 0)
         {
-            std::cerr << *dot::string::format("Generated dot::object_id in increasing order after {0} retries.", retry_counter);
+            std::cerr << *dot::string::format("Generated dot::object_id in increasing order after {0} retries.", retryCounter);
         }
 
         // Update previous dot::object_id and return
@@ -98,57 +98,57 @@ namespace dc
         check_not_read_only();
 
         // Do not delete (drop) the database this class did not create
-        if (client_ && db_)
+        if (!client_.is_empty() && !db_.is_empty())
         {
             // As an extra safety measure, this method will delete
             // the database only if the first token of its name is
-            // test or dev.
+            // TEST or DEV.
             //
-            // Use other tokens such as uat or prod to protect the
+            // Use other tokens such as UAT or PROD to protect the
             // database from accidental deletion
-            if (instance_type_ == instance_type::dev
-                || instance_type_ == instance_type::user
-                || instance_type_ == instance_type::test)
+            if (instance_type_ == instance_type::DEV
+                || instance_type_ == instance_type::USER
+                || instance_type_ == instance_type::TEST)
             {
                 // The name is the database key in the standard
                 // semicolon delimited format. However this method
                 // performs additional validation for restricted
                 // characters and database name length.
-                client_[*db_name_].drop();
+                client_->drop_database(dbName_);
             }
             else
             {
                 throw dot::exception(
-                    dot::string::format("As an extra safety measure, database {0} cannot be ", db_name_) +
+                    dot::string::format("As an extra safety measure, database {0} cannot be ", dbName_) +
                     "dropped because this operation is not permitted for database " +
                     dot::string::format("instance type {0}.", instance_type_.to_string()));
             }
         }
     }
 
-    mongocxx::collection mongo_data_source_base_data_impl::get_collection(dot::type data_type)
+    dot::collection mongo_data_source_base_data_impl::get_collection(dot::type dataType)
     {
-        dot::type curr = data_type;
+        dot::type curr = dataType;
         while (curr->name != "record" && curr->name != "key")
         {
             curr = curr->get_base_type();
             if (curr.is_empty())
-                throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", data_type->name));
+                throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", dataType->name));
         }
-        dot::string type_name = curr->get_generic_arguments()[0]->name;
-        return get_collection(type_name);
+        dot::string typeName = curr->get_generic_arguments()[0]->name;
+        return get_collection(typeName);
     }
 
-    mongocxx::collection mongo_data_source_base_data_impl::get_collection(dot::string type_name)
+    dot::collection mongo_data_source_base_data_impl::get_collection(dot::string typeName)
     {
-        int prefix_size = 0; //! TODO change to class_info.mapped_name
-        dot::string collection_name;
-        if (type_name->ends_with("data"))
-            collection_name = type_name->substring(prefix_size, type_name->length() - std::string("data").length() - prefix_size);
-        else if (type_name->ends_with("key"))
-            collection_name = type_name->substring(prefix_size, type_name->length() - std::string("key").length() - prefix_size);
+        int prefixSize = 0; //! TODO change to ClassInfo.MappedName
+        dot::string collectionName;
+        if (typeName->ends_with("Data") || typeName->ends_with("data"))
+            collectionName = typeName->substring(prefixSize, typeName->length() - std::string("Data").length() - prefixSize);
+        else if (typeName->ends_with("Key") || typeName->ends_with("key"))
+            collectionName = typeName->substring(prefixSize, typeName->length() - std::string("Key").length() - prefixSize);
         else throw dot::exception("Unknown type");
 
-        return db_[*collection_name];
+        return db_->get_collection(collectionName);
     }
 }

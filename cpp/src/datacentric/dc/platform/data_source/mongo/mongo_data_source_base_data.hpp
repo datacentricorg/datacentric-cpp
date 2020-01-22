@@ -21,12 +21,11 @@ limitations under the License.
 #include <dc/platform/data_source/instance_type.hpp>
 #include <dc/platform/data_source/data_source_data.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
-#include <mongocxx/database.hpp>
-#include <mongocxx/client.hpp>
+#include <dot/mongo/mongo_db/mongo/client.hpp>
 
 namespace dc
 {
-    class mongo_data_source_base_data_impl; using mongo_data_source_base_data = dot::ptr<mongo_data_source_base_data_impl>;
+    class mongo_data_source_base_data_impl; using mongo_data_source_data = dot::ptr<mongo_data_source_base_data_impl>;
     class context_base_impl; using context_base = dot::ptr<context_base_impl>;
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
@@ -41,10 +40,10 @@ namespace dc
     protected: // FIELDS
 
         /// Prohibited characters in database name.
-        static dot::list<char> prohibited_db_name_symbols_;
+        static dot::list<char> prohibitedDbNameSymbols_;
 
         /// Maximum length of the database on Mongo server including delimiters.
-        static int max_db_name_length_;
+        static int maxDbNameLength_;
 
     private: // FIELDS
 
@@ -53,15 +52,15 @@ namespace dc
         instance_type instance_type_;
 
         /// Full name of the database on Mongo server including delimiters.
-        dot::string db_name_;
+        dot::string dbName_;
 
         /// Interface to Mongo client in MongoDB C++ driver.
-        mongocxx::client client_;
+        dot::client client_;
 
         /// Interface to Mongo database in MongoDB C++ driver.
-        mongocxx::database db_;
+        dot::database db_;
 
-        /// Previous dot::object_id returned by create_ordered_object_id() method.
+        /// Previous dot::object_id returned by CreateOrdereddot::object_id() method.
         dot::object_id prev_object_id_ = dot::object_id::empty;
 
     public: // METHODS
@@ -97,9 +96,9 @@ namespace dc
     protected: // PROTECTED
 
         /// Get collection with name based on the type.
-        mongocxx::collection get_collection(dot::type data_type);
+        dot::collection get_collection(dot::type dataType);
 
         /// Get collection with name based on the type.
-        mongocxx::collection get_collection(dot::string type_name);
+        dot::collection get_collection(dot::string typeName);
     };
 }

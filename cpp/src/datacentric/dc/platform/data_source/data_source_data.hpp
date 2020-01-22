@@ -22,10 +22,11 @@ limitations under the License.
 #include <dot/system/collections/generic/dictionary.hpp>
 #include <dot/system/collections/generic/hash_set.hpp>
 #include <dot/system/collections/generic/list.hpp>
+#include <dot/mongo/mongo_db/query/query.hpp>
 #include <dc/types/record/record.hpp>
 #include <dc/platform/data_source/database_key.hpp>
 #include <dc/platform/data_source/database_server_key.hpp>
-#include <dc/platform/query/query.hpp>
+#include <dc/platform/data_source/mongo/mongo_query.hpp>
 
 namespace dc
 {
@@ -37,9 +38,9 @@ namespace dc
     template <typename TKey, typename TRecord> class root_record_impl;
     class db_name_key_impl; using db_name_key = dot::ptr<db_name_key_impl>;
     class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;
-    class query_impl; using query = dot::ptr<query_impl>;
     class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
     class object_cursor_wrapper_impl; using object_cursor_wrapper = dot::ptr<object_cursor_wrapper_impl>;
+    class mongo_query_impl; using mongo_query = dot::ptr<mongo_query_impl>;
 
     /// Data source is a logical concept similar to database
     /// that can be implemented for a document DB, relational DB,
@@ -125,10 +126,10 @@ namespace dc
         /// The root dataset has empty dot::object_id value that is less
         /// than any other dot::object_id value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
-        virtual query get_query(dot::object_id data_set, dot::type type) = 0;
+        virtual mongo_query get_query(dot::object_id data_set, dot::type type) = 0;
 
         template <class TRecord>
-        query get_query(dot::object_id data_set)
+        mongo_query get_query(dot::object_id data_set)
         {
             return get_query(data_set, dot::typeof<TRecord>());
         }
@@ -193,21 +194,6 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         void save_data_set(data_set_data data_set_data, dot::object_id save_to);
-
-        /// Load enumeration of record by query
-        /// The lookup occurs first in the reverse
-        /// chronological order of datasets to one second resolution,
-        /// and then in the reverse chronological order of records
-        /// within the latest dataset that has at least one record.
-        ///
-        /// The root dataset has empty dot::object_id value that is less
-        /// than any other dot::object_id value. Accordingly, the root
-        /// dataset is the last one in the lookup order of datasets.
-        ///
-        /// The first record in this lookup order is returned, or null
-        /// if no records are found or if delete marker is the first
-        /// record.
-        virtual object_cursor_wrapper load_by_query(query query) = 0;
 
         /// Returns enumeration of parent datasets for specified dataset data,
         /// including parents of parents to unlimited depth with cyclic
