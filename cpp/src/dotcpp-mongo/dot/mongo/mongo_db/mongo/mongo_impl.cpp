@@ -46,6 +46,7 @@ limitations under the License.
 
 namespace dot
 {
+    /// Writes primitive value to bson builder.
     void append_token(bsoncxx::builder::core& builder, object value)
     {
         dot::type value_type = value->get_type();
@@ -97,10 +98,13 @@ namespace dot
             throw dot::exception("Unknown query token");
     }
 
+    /// Returns bson document serialized from filter tokens (and_list, or_list, operator_wrapper).
     bsoncxx::document::view_or_value serialize_tokens(filter_token_base value)
     {
         if (value.is<operator_wrapper>())
         {
+            // operator_wrapper -> { field_name : { operation : value } }
+            // e.g. { sub_doc_name.double_field : { $lt : 2.5 } }
             operator_wrapper wrapper = value.as<operator_wrapper>();
             bsoncxx::builder::core builder(false);
             builder.key_view(*(wrapper->prop_name_));
@@ -113,8 +117,8 @@ namespace dot
         }
         else if (value.is<and_list>())
         {
+            // and_list -> { $and : [ token1, token2, ... ] }
             and_list list = value.as<and_list>();
-
             bsoncxx::builder::core builder(false);
             builder.key_view("$and");
             builder.open_array();
@@ -129,8 +133,8 @@ namespace dot
         }
         else if (value.is<or_list>())
         {
+            // or_list -> { $or : [ token1, token2, ... ] }
             or_list list = value.as<or_list>();
-
             bsoncxx::builder::core builder(false);
             builder.key_view("$or");
             builder.open_array();
@@ -145,17 +149,21 @@ namespace dot
         else throw dot::exception("Unknown query token");
     }
 
+    /// Class implements dot::collection methods.
+    /// Holds mongocxx::collection object.
     class collection_inner : public collection_impl::collection_inner_base
     {
         friend class query_inner_impl;
 
     public:
 
+        /// Constructs from mongocxx::collection
         collection_inner(mongocxx::collection const& collection)
             : collection_(collection)
         {
         }
 
+        /// Serialize object and pass it to mongo collection.
         virtual void insert_one(object obj) override
         {
             bson_record_serializer serializer = make_bson_record_serializer();
@@ -165,11 +173,13 @@ namespace dot
             collection_.insert_one(writer->view());
         }
 
+        /// Delete one document according to filter.
         virtual void delete_one(filter_token_base filter) override
         {
             collection_.delete_one(serialize_tokens(filter));
         }
 
+        /// Delete many document according to filter.
         virtual void delete_many(filter_token_base filter) override
         {
             collection_.delete_many(serialize_tokens(filter));
@@ -180,15 +190,19 @@ namespace dot
         mongocxx::collection collection_;
     };
 
+    /// Class implements dot::database methods.
+    /// Holds mongocxx::database object.
     class database_inner : public database_impl::database_inner_base
     {
     public:
 
+        /// Constructs from mongocxx::database.
         database_inner(mongocxx::database const& database)
             : database_(database)
         {
         }
 
+        /// Returns collection from database by specified name.
         virtual collection get_collection(dot::string name) override
         {
             return new collection_impl( std::make_unique<collection_inner>(database_[*name]) );
@@ -201,10 +215,13 @@ namespace dot
 
 
 
+    /// Class implements dot::client methods.
+    /// Holds mongocxx::client object.
     class client_inner : public client_impl::client_inner_base
     {
     public:
 
+        /// Constructs from string with uri to mongo database.
         client_inner(string uri)
         {
             static mongocxx::instance instance{};
@@ -214,11 +231,13 @@ namespace dot
 
     protected:
 
+        /// Returns database from client by specified name.
         virtual database get_database(dot::string name) override
         {
             return new database_impl(std::make_unique<database_inner>(client_[*name]) );
         }
 
+        /// Drops database from client by specified name.
         virtual void drop_database(dot::string name) override
         {
             client_[*name].drop();
@@ -276,6 +295,10 @@ namespace dot
     }
 
 
+    /// Class implements dot::iterator_wrapper methods.
+    /// Holds mongocxx::iterator.
+    /// Constructs from mongo iterator and function dot::object(const bsoncxx::document::view&),
+    /// this function call bson deserializer to get object from bson document.
     class DOT_MONGO_CLASS iterator_inner : public iterator_inner_base
     {
     public:
@@ -315,33 +338,33 @@ namespace dot
         std::function<dot::object(const bsoncxx::document::view&)> f_;
     };
 
+    /// Class implements dot::object_cursor_wrapper_base.
+    /// Holds mongocxx::cursor.
+    /// Constructs from mongo cursor and function dot::object(const bsoncxx::document::view&),
+    /// this function call bson deserializer to get object from bson document.
     class DOT_MONGO_CLASS object_cursor_wrapper_impl : public dot::object_cursor_wrapper_base_impl
     {
     public:
 
-        /// Returns begin iterator of the underlying std::vector.
+        /// A dot::iterator_wrapper<dot::object> that points to the beginning of any available
+        /// results.  If begin() is called more than once, the dot::iterator_wrapper
+        /// returned points to the next remaining result, not the result of
+        /// the original call to begin().
+        ///
+        /// For a tailable cursor, when cursor.begin() == cursor.end(), no
+        /// documents are available.  Each call to cursor.begin() checks again
+        /// for newly-available documents.
         iterator_wrappper<dot::object> begin()
         {
             return iterator_wrappper<dot::object>(std::make_shared<iterator_inner>(cursor_->begin(), f_));
         }
 
-        /// Returns end iterator of the underlying std::vector.
+        /// A dot::iterator_wrapper<dot::object> indicating cursor exhaustion, meaning that
+        /// no documents are available from the cursor.
         iterator_wrappper<dot::object> end()
         {
             return iterator_wrappper<dot::object>(std::make_shared<iterator_inner>(cursor_->end(), f_));
         }
-
-        //template <class T>
-        //cursor_wrapper<T> to_cursor_wrapper()
-        //{
-        //    std::function<dot::object(const bsoncxx::document::view&)> f = f_;
-        //    return new cursor_wrapper_impl<T>(cursor_, [f](const bsoncxx::document::view& item)->T
-        //        {
-        //            return T(f(item));
-        //        }
-        //    );
-        //}
-
 
         object_cursor_wrapper_impl(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)
             : cursor_(std::make_shared<mongocxx::cursor>(std::move(cursor)))
@@ -355,16 +378,21 @@ namespace dot
 
     using object_cursor_wrapper = ptr<object_cursor_wrapper_impl>;
 
+    /// Class implements dot::query.
+    /// Holds mongocxx::pipeline.
+    /// Has LINQ-like API.
     class DOT_MONGO_CLASS query_inner_impl : public query_impl::query_inner_base_impl
     {
     public:
 
+        /// Adds filter.
         virtual void where(filter_token_base value) override
         {
             flush_sort();
             pipeline_.match(serialize_tokens(value));
         }
 
+        /// Groups docs by key.
         virtual void group_by(dot::field_info key_selectors) override
         {
             flush_sort();
@@ -379,6 +407,8 @@ namespace dot
             pipeline_.replace_root(bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("newRoot", "$doc")));
         }
 
+        /// First sort.
+        /// For subsequent sorting use then_by/then_by_descending after sort_by.
         virtual void sort_by(dot::field_info key_selector) override
         {
             if (!sort_.empty())
@@ -389,6 +419,8 @@ namespace dot
             sort_.push_back(std::make_pair(key_selector->name, 1));
         }
 
+        /// First sort.
+        /// For subsequent sorting use then_by/then_by_descending after sort_by_descending.
         virtual void sort_by_descending(dot::field_info key_selector) override
         {
             if (!sort_.empty())
@@ -399,16 +431,19 @@ namespace dot
             sort_.push_back(std::make_pair(key_selector->name, -1));
         }
 
+        /// Use in subsequent sorting after sort_by/sort_by_descending.
         virtual void then_by(dot::field_info key_selector) override
         {
             sort_.push_back(std::make_pair(key_selector->name, 1));
         }
 
+        /// Use in subsequent sorting after sort_by/sort_by_descending.
         virtual void then_by_descending(dot::field_info key_selector) override
         {
             sort_.push_back(std::make_pair(key_selector->name, -1));
         }
 
+        /// Returns cursor constructed from pipeline and document deserializator.
         virtual object_cursor_wrapper_base get_cursor() override
         {
             flush_sort();
@@ -424,6 +459,7 @@ namespace dot
                 );
         }
 
+        /// Returns cursor constructed from pipeline and tuple deserializator.
         virtual object_cursor_wrapper_base select(dot::list<dot::field_info> props, dot::type element_type) override
         {
             flush_sort();
@@ -446,6 +482,7 @@ namespace dot
 
         }
 
+        /// Sets up maximum count of documents in query.
         virtual void limit(int32_t limit_size) override
         {
             flush_sort();
@@ -454,6 +491,9 @@ namespace dot
 
     private:
 
+        /// Applies sort conditions to pipeline.
+        /// This method is called from other before
+        /// any operation except sort. 
         void flush_sort()
         {
             if (!sort_.empty())
@@ -527,10 +567,6 @@ namespace dot
     object_cursor_wrapper_base query_impl::select(dot::list<dot::field_info> props, dot::type element_type)
     {
         return impl_->select(props, element_type);
-        //this->element_type_ = element_type;
-        //this->select_ = props;
-        //return data_source_->load_by_query(this);
-        return nullptr;
     }
 
     query query_impl::limit(int32_t limit_size)
