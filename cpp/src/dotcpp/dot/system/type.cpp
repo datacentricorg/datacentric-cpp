@@ -183,6 +183,20 @@ namespace dot
             this->generic_args_ = make_list<type>(0);
         }
 
+        if (!data->custom_attributes_.is_empty())
+        {
+            this->custom_attributes_ = make_list<attribute>(data->custom_attributes_->count());
+            int i = 0;
+            for (attribute arg : data->custom_attributes_)
+            {
+                this->custom_attributes_[i++] = arg;
+            }
+        }
+        else
+        {
+            this->custom_attributes_ = make_list<attribute>(0);
+        }
+
         this->base_ = data->base_;
         this->is_class = data->is_class_;
         this->is_enum = data->is_enum_;

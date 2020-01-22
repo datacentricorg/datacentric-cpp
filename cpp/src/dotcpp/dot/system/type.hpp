@@ -25,6 +25,7 @@ limitations under the License.
 
 #include <dot/detail/traits.hpp>
 #include <dot/detail/reflection_macro.hpp>
+#include <dot/system/attribute.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/nullable.hpp>
@@ -40,7 +41,6 @@ limitations under the License.
 
 namespace dot
 {
-    class string_impl; class string;
     class type_impl; using type = ptr<type_impl>;
     class type_builder_impl; using type_builder = ptr<type_builder_impl>;
     class string_impl; class string;
@@ -67,6 +67,7 @@ namespace dot
         type base_;
         list<type> interfaces_;
         list<type> generic_args_;
+        list<attribute> custom_attributes_;
         bool is_class_;
         bool is_enum_ = false;
 
@@ -267,6 +268,7 @@ namespace dot
         list<type> generic_args_;
         type base_;
         list<field_info> fields_;
+        list<attribute> custom_attributes_;
 
     public: // PROPERTIES
 
@@ -287,6 +289,9 @@ namespace dot
 
         /// Gets a value indicating whether the current system.type represents an enumeration.
         bool is_enum; // TODO - replace by method
+
+        /// Gets a collection that contains this member's custom attributes.
+        list<attribute> get_custom_attributes() { return custom_attributes_; }
 
     public: // METHODS
 
@@ -375,7 +380,7 @@ namespace dot
 
     template <class T> type list_impl<T>::typeof()
     {
-        static type type_ = make_type_builder<list_impl<T>>("dot", "List`1")
+        static type type_ = make_type_builder<list_impl<T>>("dot", "list`1")
             //DOT_TYPE_CTOR(make_list<T>)
             ->with_constructor(static_cast<list<T>(*)()>(&make_list<T>), { })
             DOT_TYPE_GENERIC_ARGUMENT(T)
@@ -404,70 +409,70 @@ namespace dot
     struct type_traits<double>
     {
         static type typeof()
-    {
-        static type type_ = make_type_builder<double>("dot", "double")->build();
-        return type_;
-    }
+        {
+            static type type_ = make_type_builder<double>("dot", "double")->build();
+            return type_;
+        }
     };
 
     template <>
     struct type_traits<int64_t>
     {
         static type typeof()
-    {
-        static type type_ = make_type_builder<int64_t>("dot", "int64_t")->build();
-        return type_;
-    }
+        {
+            static type type_ = make_type_builder<int64_t>("dot", "int64_t")->build();
+            return type_;
+        }
     };
 
     template <>
     struct type_traits<int>
     {
         static type typeof()
-    {
-        static type type_ = make_type_builder<int>("dot", "int")->build();
-        return type_;
-    }
+        {
+            static type type_ = make_type_builder<int>("dot", "int")->build();
+            return type_;
+        }
     };
 
     template <>
     struct type_traits<void>
     {
         static type typeof()
-    {
-        static type type_ = make_type_builder<void>("dot", "void")->build();
-        return type_;
-    }
+        {
+            static type type_ = make_type_builder<void>("dot", "void")->build();
+            return type_;
+        }
     };
 
     template <>
     struct type_traits<bool>
     {
         static type typeof()
-    {
-        static type type_ = make_type_builder<bool>("dot", "bool")->build();
-        return type_;
-    }
+        {
+            static type type_ = make_type_builder<bool>("dot", "bool")->build();
+            return type_;
+        }
     };
 
     template <>
     struct type_traits<char>
     {
         static type typeof()
-    {
-        static type type_ = make_type_builder<char>("dot", "char")->build();
-        return type_;
-    }
+        {
+            static type type_ = make_type_builder<char>("dot", "char")->build();
+            return type_;
+        }
     };
 
     template <>
     struct type_traits<local_date>
     {
         static type typeof()
-    {
-        static type type_ = make_type_builder<local_date>("dot", "local_date")->build();
-        return type_;
-    }
+        {
+            static type type_ = make_type_builder<local_date>("dot", "local_date")->build();
+            return type_;
+        }
     };
 
     template <>
@@ -486,8 +491,8 @@ namespace dot
         static type typeof()
         {
             static type type_ = make_type_builder<local_time>("dot", "local_minute")->build();
-        return type_;
-    }
+            return type_;
+        }
     };
 
     template <>
@@ -518,8 +523,8 @@ namespace dot
             static type type_ = make_type_builder<nullable<T>>("dot", "nullable<" + dot::typeof<T>()->name + ">")
                 ->template with_generic_argument<T>()
                 ->build();
-        return type_;
-    }
+            return type_;
+        }
     };
 
     template <>
@@ -531,7 +536,6 @@ namespace dot
                 ->build();
             return type_;
         }
-
     };
 
     template <class ... T>
@@ -554,6 +558,7 @@ namespace dot
             static type type_ = builder->build();
             return type_;
         }
+
     private:
 
         static object contructor()
@@ -635,7 +640,6 @@ namespace dot
         {
             return tb->with_generic_argument<Head>();
         }
-
     };
 
     /// Get type object for the argument.
