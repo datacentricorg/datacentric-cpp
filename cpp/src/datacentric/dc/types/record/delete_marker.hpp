@@ -21,24 +21,24 @@ limitations under the License.
 
 namespace dc
 {
-    class DeleteMarkerImpl; using DeleteMarker = dot::ptr<DeleteMarkerImpl>;
+    class delete_marker_impl; using delete_marker = dot::ptr<delete_marker_impl>;
 
-    inline DeleteMarker make_DeleteMarker();
+    inline delete_marker make_delete_marker();
 
     /// When returned by the data source, this record has the same
     /// effect as if no record was found. It is used to indicate
     /// a deleted record when audit log must be preserved.
-    class DC_CLASS DeleteMarkerImpl : public record_base_impl
+    class DC_CLASS delete_marker_impl : public record_base_impl
     {
-        typedef DeleteMarkerImpl self;
+        typedef delete_marker_impl self;
 
-        friend DeleteMarker make_DeleteMarker();
+        friend delete_marker make_delete_marker();
 
     public: // PROPERTIES
 
         /// dot::string key consists of semicolon delimited primary key elements:
         ///
-        /// KeyElement1;KeyElement2
+        /// key_element1;key_element2
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
@@ -46,15 +46,15 @@ namespace dc
 
     public: // CONSTRUCTORS
 
-        DeleteMarkerImpl() = default;
+        delete_marker_impl() = default;
 
     public:
 
-        DOT_TYPE_BEGIN("dc", "DeleteMarker")
+        DOT_TYPE_BEGIN("dc", "delete_marker")
             DOT_TYPE_BASE(record_base)
-            DOT_TYPE_CTOR(make_DeleteMarker)
+            DOT_TYPE_CTOR(make_delete_marker)
         DOT_TYPE_END()
     };
 
-    inline DeleteMarker make_DeleteMarker() { return new DeleteMarkerImpl(); }
+    inline delete_marker make_delete_marker() { return new delete_marker_impl(); }
 }

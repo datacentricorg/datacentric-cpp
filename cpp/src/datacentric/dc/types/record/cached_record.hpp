@@ -68,7 +68,7 @@ namespace dc
             // Dataset for which the record is cached
             data_set = data_set;
 
-            if (!record.is_empty() && !record.is<DeleteMarker>())
+            if (!record.is_empty() && !record.is<delete_marker>())
             {
                 // Cache only if not a delete marker,
                 // otherwise Record will remain null

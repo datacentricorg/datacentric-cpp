@@ -100,7 +100,7 @@ namespace dc
             result->init(Context);
 
             // Check not only for null but also for the delete marker
-            if (!result.is<DeleteMarker>())
+            if (!result.is<delete_marker>())
                 return result;
         }
 
@@ -194,7 +194,7 @@ namespace dc
 
         bsoncxx::builder::basic::array typeList;
 
-        // append given type and DeleteMarker
+        // append given type and delete_marker
         typeList.append(*(dot::string) query->type_->name);
 
         // append derived types
@@ -258,7 +258,7 @@ namespace dc
     void mongo_data_source_data_impl::delete_record(key_base key, dot::object_id deleteIn)
     {
         // Create delete marker with the specified key
-        auto record = make_DeleteMarker();
+        auto record = make_delete_marker();
         record->get_key() = key->getValue();
 
         // Get collection

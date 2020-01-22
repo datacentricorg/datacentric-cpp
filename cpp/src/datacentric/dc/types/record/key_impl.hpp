@@ -81,7 +81,7 @@ namespace dc
             // not found or the found record has Deleted flag set
             dot::ptr<TRecord> result = (dot::ptr<TRecord>) context->reload_or_null(this, loadFrom);
 
-            if (result == nullptr || result.template is<DeleteMarker>())
+            if (result == nullptr || result.template is<delete_marker>())
             {
                 // If not null, it is a delete marker;
                 // check that has a matching key
