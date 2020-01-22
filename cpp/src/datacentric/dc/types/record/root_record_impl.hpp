@@ -27,6 +27,6 @@ namespace dc
         // For this base type of records stored in root dataset,
         // set DataSet element to the value designated for the
         // root dataset: TemporalId.Empty.
-        data_set = TemporalId::empty;
+        this->data_set = TemporalId::empty;
     }
 }
