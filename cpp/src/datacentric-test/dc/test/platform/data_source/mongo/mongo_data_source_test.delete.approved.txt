@@ -1,26 +1,26 @@
 initial load
-record A;0 in dataset A found and has type=mongo_test_data.
-record A;0 in dataset B found and has type=mongo_test_data.
+record A;0 in dataset A found and has type=MongoTestData.
+record A;0 in dataset B found and has type=MongoTestData.
 record B;0 in dataset A not found.
-record B;0 in dataset B found and has type=mongo_test_derived_data.
+record B;0 in dataset B found and has type=MongoTestDerivedData.
 query in dataset A
-record A;0 returned by query in dataset A and has type=mongo_test_data.
+record A;0 returned by query in dataset A and has type=MongoTestData.
 query in dataset B
-record A;0 returned by query in dataset B and has type=mongo_test_data.
-record B;0 returned by query in dataset B and has type=mongo_test_derived_data.
+record A;0 returned by query in dataset B and has type=MongoTestData.
+record B;0 returned by query in dataset B and has type=MongoTestDerivedData.
 delete A0 record in B dataset
-record A;0 in dataset A found and has type=mongo_test_data.
+record A;0 in dataset A found and has type=MongoTestData.
 record A;0 in dataset B not found.
 query in dataset A
-record A;0 returned by query in dataset A and has type=mongo_test_data.
+record A;0 returned by query in dataset A and has type=MongoTestData.
 query in dataset B
-record B;0 returned by query in dataset B and has type=mongo_test_derived_data.
+record B;0 returned by query in dataset B and has type=MongoTestDerivedData.
 delete A0 record in A dataset
 record A;0 in dataset A not found.
 record A;0 in dataset B not found.
 query in dataset A
 query in dataset B
-record B;0 returned by query in dataset B and has type=mongo_test_derived_data.
+record B;0 returned by query in dataset B and has type=MongoTestDerivedData.
 delete B0 record in B dataset
 record B;0 in dataset A not found.
 record B;0 in dataset B not found.

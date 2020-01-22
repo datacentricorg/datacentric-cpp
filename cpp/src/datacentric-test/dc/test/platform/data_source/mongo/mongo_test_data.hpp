@@ -26,9 +26,9 @@ limitations under the License.
 namespace dc
 {
     /// Enum type.
-    //class mongo_test_enum : public dot::EnumBase
+    //class MongoTestEnum : public dot::EnumBase
     //{
-    //    typedef mongo_test_enum self;
+    //    typedef MongoTestEnum self;
     //
     //public:
     //
@@ -39,7 +39,7 @@ namespace dc
     //        enum_value2
     //    };
     //
-    //    DOT_ENUM_BEGIN("dc", "mongo_test_enum")
+    //    DOT_ENUM_BEGIN("dc", "MongoTestEnum")
     //        DOT_ENUM_VALUE(empty)
     //        DOT_ENUM_VALUE(enum_value1)
     //        DOT_ENUM_VALUE(enum_value2)
@@ -47,7 +47,7 @@ namespace dc
     //};
 
     /// Enum sample.
-    enum class mongo_test_enum
+    enum class MongoTestEnum
     {
         /// Empty value.
         empty,
@@ -63,7 +63,7 @@ namespace dot
 {
     /// Helper class to implement to_string(value) via template specialization
     template <>
-    struct ToStringImpl<dc::mongo_test_enum>
+    struct ToStringImpl<dc::MongoTestEnum>
     {
         static dot::Dictionary<dot::String, int> get_enum_map(int size)
         {
@@ -72,7 +72,7 @@ namespace dot
                 auto result = dot::make_dictionary<dot::String, int>();
                 for (int i = 0; i < size; i++)
                 {
-                    dc::mongo_test_enum enum_value = (dc::mongo_test_enum)i;
+                    dc::MongoTestEnum enum_value = (dc::MongoTestEnum)i;
                     String string_value = to_string(enum_value);
                     result[string_value] = i;
                 }
@@ -82,42 +82,42 @@ namespace dot
         }
 
         /// Convert value to String; for empty or null values, return String::empty.
-        static String to_string(const dc::mongo_test_enum& value)
+        static String to_string(const dc::MongoTestEnum& value)
         {
             switch (value)
             {
-            case dc::mongo_test_enum::empty: return "empty";
-            case dc::mongo_test_enum::enum_value1: return "enum_value1";
-            case dc::mongo_test_enum::enum_value2: return "enum_value2";
+            case dc::MongoTestEnum::empty: return "empty";
+            case dc::MongoTestEnum::enum_value1: return "enum_value1";
+            case dc::MongoTestEnum::enum_value2: return "enum_value2";
             default: throw dot::Exception("Unknown enum value in to_string(...).");
             }
         }
 
         /// Convert value to String; for empty or null values, return String::empty.
-        static bool try_parse(String value, dc::mongo_test_enum& result)
+        static bool try_parse(String value, dc::MongoTestEnum& result)
         {
             dot::Dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
             int int_result;
             if (dict->try_get_value(value, int_result))
             {
-                result = (dc::mongo_test_enum)int_result;
+                result = (dc::MongoTestEnum)int_result;
                 return true;
             }
             else
             {
-                result = (dc::mongo_test_enum)0;
+                result = (dc::MongoTestEnum)0;
                 return false;
             }
         }
 
         /// Convert String to enum
-        static dc::mongo_test_enum parse(String value)
+        static dc::MongoTestEnum parse(String value)
         {
             dot::Dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
             int int_result;
             if (dict->try_get_value(value, int_result))
             {
-                return (dc::mongo_test_enum)int_result;
+                return (dc::MongoTestEnum)int_result;
             }
             else
             {
@@ -127,17 +127,17 @@ namespace dot
     };
 
     template <>
-    struct type_traits<dc::mongo_test_enum>
+    struct type_traits<dc::MongoTestEnum>
     {
         static Type typeof()
         {
             //! TODO resolve recursive typeof<enum>
-            if (TypeImpl::get_type_map().find("dc.mongo_test_enum") != TypeImpl::get_type_map().end())
-                return TypeImpl::get_type_map()["dc.mongo_test_enum"];
+            if (TypeImpl::get_type_map().find("dc.MongoTestEnum") != TypeImpl::get_type_map().end())
+                return TypeImpl::get_type_map()["dc.MongoTestEnum"];
 
-            static Type result = make_type_builder<dc::mongo_test_enum>("dc", "mongo_test_enum")
+            static Type result = make_type_builder<dc::MongoTestEnum>("dc", "MongoTestEnum")
                 ->is_enum()
-                ->with_method("parse", &ToStringImpl<dc::mongo_test_enum>::parse, { "value" })
+                ->with_method("parse", &ToStringImpl<dc::MongoTestEnum>::parse, { "value" })
                 ->build();
             return result;
         }
@@ -147,37 +147,37 @@ namespace dot
 namespace dc
 {
 
-    class mongo_test_key_impl; using mongo_test_key = dot::Ptr<mongo_test_key_impl>;
-    class mongo_test_data_impl; using mongo_test_data = dot::Ptr<mongo_test_data_impl>;
+    class MongoTestKeyImpl; using MongoTestKey = dot::Ptr<MongoTestKeyImpl>;
+    class MongoTestDataImpl; using MongoTestData = dot::Ptr<MongoTestDataImpl>;
 
-    mongo_test_key make_mongo_test_key();
+    MongoTestKey make_mongo_test_key();
 
     /// Key class.
-    class mongo_test_key_impl : public TypedKeyImpl<mongo_test_key_impl, mongo_test_data_impl>
+    class MongoTestKeyImpl : public TypedKeyImpl<MongoTestKeyImpl, MongoTestDataImpl>
     {
-        typedef mongo_test_key_impl self;
+        typedef MongoTestKeyImpl self;
 
     public:
 
         dot::String record_id;
         dot::Nullable<int> record_index;
 
-        DOT_TYPE_BEGIN("dc", "mongo_test_key")
+        DOT_TYPE_BEGIN("dc", "MongoTestKey")
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_PROP(record_index)
-            DOT_TYPE_BASE(TypedKey<mongo_test_key_impl, mongo_test_data_impl>)
+            DOT_TYPE_BASE(TypedKey<MongoTestKeyImpl, MongoTestDataImpl>)
             DOT_TYPE_CTOR(make_mongo_test_key)
         DOT_TYPE_END()
     };
 
-    inline mongo_test_key make_mongo_test_key() { return new mongo_test_key_impl; }
+    inline MongoTestKey make_mongo_test_key() { return new MongoTestKeyImpl; }
 
-    mongo_test_data make_mongo_test_data();
+    MongoTestData make_mongo_test_data();
 
     /// Base data class.
-    class mongo_test_data_impl : public TypedRecordImpl<mongo_test_key_impl, mongo_test_data_impl>
+    class MongoTestDataImpl : public TypedRecordImpl<MongoTestKeyImpl, MongoTestDataImpl>
     {
-        typedef mongo_test_data_impl self;
+        typedef MongoTestDataImpl self;
 
     public:
 
@@ -188,7 +188,7 @@ namespace dc
         dot::Nullable<dot::LocalTime> local_time_element;
         dot::Nullable<dot::LocalMinute> local_minute_element;
         dot::Nullable<dot::LocalDateTime> local_date_time_element;
-        mongo_test_enum enum_value = mongo_test_enum::empty;
+        MongoTestEnum enum_value = MongoTestEnum::empty;
         dot::Nullable<int> version;
 
     public: // REFLECTION
@@ -199,21 +199,21 @@ namespace dc
         {
             static dot::Type result = []()->dot::Type
             {
-                dot::Type t = dot::make_type_builder<mongo_test_data_impl>("dc", "mongo_test_data", {
+                dot::Type t = dot::make_type_builder<MongoTestDataImpl>("dc", "MongoTestData", {
                         make_index_elements_attribute("double_element, local_date_element, enum_value"),
                         make_index_elements_attribute("local_date_element"),
                         make_index_elements_attribute("record_id, -version", "custom_index_name"),
                         make_index_elements_attribute("-record_index") })
-                    ->with_field("record_id", &mongo_test_data_impl::record_id)
-                    ->with_field("record_index", &mongo_test_data_impl::record_index)
-                    ->with_field("double_element", &mongo_test_data_impl::double_element)
-                    ->with_field("local_date_element", &mongo_test_data_impl::local_date_element)
-                    ->with_field("local_time_element", &mongo_test_data_impl::local_time_element)
-                    ->with_field("local_minute_element", &mongo_test_data_impl::local_minute_element)
-                    ->with_field("local_date_time_element", &mongo_test_data_impl::local_date_time_element)
-                    ->with_field("enum_value", &mongo_test_data_impl::enum_value)
-                    ->with_field("version", &mongo_test_data_impl::version)
-                    ->template with_base<TypedRecord<mongo_test_key_impl, mongo_test_data_impl>>()
+                    ->with_field("record_id", &MongoTestDataImpl::record_id)
+                    ->with_field("record_index", &MongoTestDataImpl::record_index)
+                    ->with_field("double_element", &MongoTestDataImpl::double_element)
+                    ->with_field("local_date_element", &MongoTestDataImpl::local_date_element)
+                    ->with_field("local_time_element", &MongoTestDataImpl::local_time_element)
+                    ->with_field("local_minute_element", &MongoTestDataImpl::local_minute_element)
+                    ->with_field("local_date_time_element", &MongoTestDataImpl::local_date_time_element)
+                    ->with_field("enum_value", &MongoTestDataImpl::enum_value)
+                    ->with_field("version", &MongoTestDataImpl::version)
+                    ->template with_base<TypedRecord<MongoTestKeyImpl, MongoTestDataImpl>>()
                     ->with_constructor(&make_mongo_test_data, {})
                     ->build();
                 return t;
@@ -222,21 +222,21 @@ namespace dc
         }
     };
 
-    inline mongo_test_data make_mongo_test_data() { return new mongo_test_data_impl; }
+    inline MongoTestData make_mongo_test_data() { return new MongoTestDataImpl; }
 
-    class element_sample_data_impl; using element_sample_data = dot::Ptr<element_sample_data_impl>;
+    class ElementSampleDataImpl; using ElementSampleData = dot::Ptr<ElementSampleDataImpl>;
 
-    element_sample_data make_element_sample_data();
+    ElementSampleData make_element_sample_data();
 
     /// Element data class.
-    class element_sample_data_impl : public DataImpl
+    class ElementSampleDataImpl : public DataImpl
     {
-        typedef element_sample_data_impl self;
+        typedef ElementSampleDataImpl self;
     public:
         dot::Nullable<double> double_element3;
         dot::String string_element3;
 
-        DOT_TYPE_BEGIN("dc", "element_sample_data")
+        DOT_TYPE_BEGIN("dc", "ElementSampleData")
             DOT_TYPE_PROP(double_element3)
             DOT_TYPE_PROP(string_element3)
             DOT_TYPE_BASE(Data)
@@ -244,16 +244,16 @@ namespace dc
         DOT_TYPE_END()
     };
 
-    inline element_sample_data make_element_sample_data() { return new element_sample_data_impl; }
+    inline ElementSampleData make_element_sample_data() { return new ElementSampleDataImpl; }
 
-    class mongo_test_derived_data_impl; using mongo_test_derived_data = dot::Ptr<mongo_test_derived_data_impl>;
+    class MongoTestDerivedDataImpl; using MongoTestDerivedData = dot::Ptr<MongoTestDerivedDataImpl>;
 
-    mongo_test_derived_data make_mongo_test_derived_data();
+    MongoTestDerivedData make_mongo_test_derived_data();
 
     /// Derived data class.
-    class mongo_test_derived_data_impl : public mongo_test_data_impl
+    class MongoTestDerivedDataImpl : public MongoTestDataImpl
     {
-        typedef mongo_test_derived_data_impl self;
+        typedef MongoTestDerivedDataImpl self;
     public:
         dot::Nullable<double> double_element2;
         dot::String string_element2;
@@ -263,10 +263,10 @@ namespace dc
         dot::List<dot::Nullable<double>> array_of_nullable_double;
         dot::List<double> list_of_double;
         dot::List<dot::Nullable<double>> list_of_nullable_double;
-        element_sample_data data_element;
-        dot::List<element_sample_data> data_element_list;
-        mongo_test_key key_element;
-        dot::List<mongo_test_key> key_element_list;
+        ElementSampleData data_element;
+        dot::List<ElementSampleData> data_element_list;
+        MongoTestKey key_element;
+        dot::List<MongoTestKey> key_element_list;
 
     public: // REFLECTION
 
@@ -276,21 +276,21 @@ namespace dc
         {
             static dot::Type result = []()->dot::Type
             {
-                dot::Type t = dot::make_type_builder<mongo_test_derived_data_impl>("dc", "mongo_test_derived_data", {
+                dot::Type t = dot::make_type_builder<MongoTestDerivedDataImpl>("dc", "MongoTestDerivedData", {
                         make_index_elements_attribute("double_element2, -double_element")})
-                    ->with_field("double_element2", &mongo_test_derived_data_impl::double_element2)
-                    ->with_field("string_element2", &mongo_test_derived_data_impl::string_element2)
-                    ->with_field("array_of_string", &mongo_test_derived_data_impl::array_of_string)
-                    ->with_field("list_of_string", &mongo_test_derived_data_impl::list_of_string)
-                    ->with_field("array_of_double", &mongo_test_derived_data_impl::array_of_double)
-                    ->with_field("array_of_nullable_double", &mongo_test_derived_data_impl::array_of_nullable_double)
-                    ->with_field("list_of_double", &mongo_test_derived_data_impl::list_of_double)
-                    ->with_field("list_of_nullable_double", &mongo_test_derived_data_impl::list_of_nullable_double)
-                    ->with_field("data_element", &mongo_test_derived_data_impl::data_element)
-                    ->with_field("data_element_list", &mongo_test_derived_data_impl::data_element_list)
-                    ->with_field("key_element", &mongo_test_derived_data_impl::key_element)
-                    ->with_field("key_element_list", &mongo_test_derived_data_impl::key_element_list)
-                    ->template with_base<mongo_test_data>()
+                    ->with_field("double_element2", &MongoTestDerivedDataImpl::double_element2)
+                    ->with_field("string_element2", &MongoTestDerivedDataImpl::string_element2)
+                    ->with_field("array_of_string", &MongoTestDerivedDataImpl::array_of_string)
+                    ->with_field("list_of_string", &MongoTestDerivedDataImpl::list_of_string)
+                    ->with_field("array_of_double", &MongoTestDerivedDataImpl::array_of_double)
+                    ->with_field("array_of_nullable_double", &MongoTestDerivedDataImpl::array_of_nullable_double)
+                    ->with_field("list_of_double", &MongoTestDerivedDataImpl::list_of_double)
+                    ->with_field("list_of_nullable_double", &MongoTestDerivedDataImpl::list_of_nullable_double)
+                    ->with_field("data_element", &MongoTestDerivedDataImpl::data_element)
+                    ->with_field("data_element_list", &MongoTestDerivedDataImpl::data_element_list)
+                    ->with_field("key_element", &MongoTestDerivedDataImpl::key_element)
+                    ->with_field("key_element_list", &MongoTestDerivedDataImpl::key_element_list)
+                    ->template with_base<MongoTestData>()
                     ->with_constructor(&make_mongo_test_derived_data, {})
                     ->build();
                 return t;
@@ -299,16 +299,16 @@ namespace dc
         }
     };
 
-    inline mongo_test_derived_data make_mongo_test_derived_data() { return new mongo_test_derived_data_impl; }
+    inline MongoTestDerivedData make_mongo_test_derived_data() { return new MongoTestDerivedDataImpl; }
 
-    class mongo_test_other_derived_data_impl; using mongo_test_other_derived_data = dot::Ptr<mongo_test_other_derived_data_impl>;
+    class MongoTestOtherDerivedDataImpl; using MongoTestOtherDerivedData = dot::Ptr<MongoTestOtherDerivedDataImpl>;
 
-    mongo_test_other_derived_data make_mongo_test_other_derived_data();
+    MongoTestOtherDerivedData make_mongo_test_other_derived_data();
 
     /// Other derived data class.
-    class mongo_test_other_derived_data_impl : public mongo_test_data_impl
+    class MongoTestOtherDerivedDataImpl : public MongoTestDataImpl
     {
-        typedef mongo_test_other_derived_data_impl self;
+        typedef MongoTestOtherDerivedDataImpl self;
 
     public:
 
@@ -323,11 +323,11 @@ namespace dc
         {
             static dot::Type result = []()->dot::Type
             {
-                dot::Type t = dot::make_type_builder<mongo_test_other_derived_data_impl>("dc", "mongo_test_other_derived_data", {
+                dot::Type t = dot::make_type_builder<MongoTestOtherDerivedDataImpl>("dc", "MongoTestOtherDerivedData", {
                         make_index_elements_attribute("other_double_element2, other_string_element2, -record_index") })
-                    ->with_field("other_double_element2", &mongo_test_other_derived_data_impl::other_double_element2)
-                    ->with_field("other_string_element2", &mongo_test_other_derived_data_impl::other_string_element2)
-                    ->template with_base<mongo_test_data>()
+                    ->with_field("other_double_element2", &MongoTestOtherDerivedDataImpl::other_double_element2)
+                    ->with_field("other_string_element2", &MongoTestOtherDerivedDataImpl::other_string_element2)
+                    ->template with_base<MongoTestData>()
                     ->with_constructor(&make_mongo_test_other_derived_data, {})
                     ->build();
                 return t;
@@ -336,29 +336,29 @@ namespace dc
         }
     };
 
-    inline mongo_test_other_derived_data make_mongo_test_other_derived_data() { return new mongo_test_other_derived_data_impl; }
+    inline MongoTestOtherDerivedData make_mongo_test_other_derived_data() { return new MongoTestOtherDerivedDataImpl; }
 
-    class mongo_test_derived_from_derived_data_impl; using mongo_test_derived_from_derived_data = dot::Ptr<mongo_test_derived_from_derived_data_impl>;
+    class MongoTestDerivedFromDerivedDataImpl; using MongoTestDerivedFromDerivedData = dot::Ptr<MongoTestDerivedFromDerivedDataImpl>;
 
-    mongo_test_derived_from_derived_data make_mongo_test_derived_from_derived_data();
+    MongoTestDerivedFromDerivedData make_mongo_test_derived_from_derived_data();
 
     /// Next level in the inheritance chain.
-    class mongo_test_derived_from_derived_data_impl : public mongo_test_derived_data_impl
+    class MongoTestDerivedFromDerivedDataImpl : public MongoTestDerivedDataImpl
     {
-        typedef mongo_test_derived_from_derived_data_impl self;
+        typedef MongoTestDerivedFromDerivedDataImpl self;
 
     public:
 
         dot::Nullable<double> other_double_element3;
         dot::String other_string_element2;
 
-        DOT_TYPE_BEGIN("dc", "mongo_test_derived_from_derived_data")
+        DOT_TYPE_BEGIN("dc", "MongoTestDerivedFromDerivedData")
             DOT_TYPE_PROP(other_double_element3)
             DOT_TYPE_PROP(other_string_element2)
-            DOT_TYPE_BASE(mongo_test_derived_data)
+            DOT_TYPE_BASE(MongoTestDerivedData)
             DOT_TYPE_CTOR(make_mongo_test_derived_from_derived_data)
         DOT_TYPE_END()
     };
 
-    inline mongo_test_derived_from_derived_data make_mongo_test_derived_from_derived_data() { return new mongo_test_derived_from_derived_data_impl; }
+    inline MongoTestDerivedFromDerivedData make_mongo_test_derived_from_derived_data() { return new MongoTestDerivedFromDerivedDataImpl; }
 }

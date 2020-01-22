@@ -1,5 +1,5 @@
-key=B;0 type=mongo_test_derived_data
-key=B;1 type=mongo_test_derived_data
-key=B;2 type=mongo_test_derived_data
-key=B;3 type=mongo_test_derived_data
+key=B;0 type=MongoTestDerivedData
+key=B;1 type=MongoTestDerivedData
+key=B;2 type=MongoTestDerivedData
+key=B;3 type=MongoTestDerivedData
 

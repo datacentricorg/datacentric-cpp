@@ -21,12 +21,12 @@ limitations under the License.
 
 namespace dc
 {
-    class unit_test_context_base_impl; using unit_test_context_base = dot::Ptr<unit_test_context_base_impl>;
+    class UnitTestContextBaseImpl; using UnitTestContextBase = dot::Ptr<UnitTestContextBaseImpl>;
 
     /// Extends ContextBase with approval test functionality.
-    class unit_test_context_base_impl : public ContextBaseImpl
+    class UnitTestContextBaseImpl : public ContextBaseImpl
     {
-        typedef unit_test_context_base_impl self;
+        typedef UnitTestContextBaseImpl self;
 
     public:
 
@@ -40,18 +40,18 @@ namespace dc
         bool keep_db = true;
     };
 
-    class unit_test_context_impl; using unit_test_context = dot::Ptr<unit_test_context_impl>;
+    class UnitTestContextImpl; using UnitTestContext = dot::Ptr<UnitTestContextImpl>;
 
     /// Context for use in test fixtures that do not require MongoDB.
     ///
-    /// This class implements unit_test_context_base which extends ContextBase
+    /// This class implements UnitTestContextBase which extends ContextBase
     /// with approval test functionality. Attempting to access data_source
     /// using this context will cause an error.
     ///
     /// For tests that require MongoDB, use unit_test_data_context.
-    class unit_test_context_impl : public unit_test_context_base_impl
+    class UnitTestContextImpl : public UnitTestContextBaseImpl
     {
-        friend unit_test_context make_unit_test_context(dot::Object, dot::String, dot::String);
+        friend UnitTestContext make_unit_test_context(dot::Object, dot::String, dot::String);
 
     private:
 
@@ -60,7 +60,7 @@ namespace dc
         /// When ``this'' is passed as the the only argument to the
         /// constructor, the latter two arguments are provided by
         /// the compiler.
-        unit_test_context_impl();
+        UnitTestContextImpl();
 
     public:
         /// Releases resources and calls base.dispose().
@@ -74,11 +74,11 @@ namespace dc
         ///
         /// Each class must call base.dispose() at the end
         /// of its own dispose() method.
-        ~unit_test_context_impl();
+        ~UnitTestContextImpl();
     };
 
     /// Create with class name, method name, and source file path.
-    unit_test_context make_unit_test_context(
+    UnitTestContext make_unit_test_context(
         dot::Object class_instance,
         dot::String method_name,
         dot::String source_file_path);

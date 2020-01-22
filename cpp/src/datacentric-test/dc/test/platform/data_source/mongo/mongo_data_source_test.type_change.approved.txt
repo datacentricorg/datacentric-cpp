@@ -1,29 +1,29 @@
 initial load
-record A;0 in dataset A found and has type=mongo_test_derived_data.
-record A;0 in dataset B found and has type=mongo_test_derived_data.
+record A;0 in dataset A found and has type=MongoTestDerivedData.
+record A;0 in dataset B found and has type=MongoTestDerivedData.
 record B;0 in dataset A not found.
-record B;0 in dataset B found and has type=mongo_test_derived_from_derived_data.
-query in dataset A for type mongo_test_derived_data
-record A;0 returned by query in dataset A and has type=mongo_test_derived_data.
-query in dataset B for type mongo_test_derived_data
-record A;0 returned by query in dataset B and has type=mongo_test_derived_data.
-record B;0 returned by query in dataset B and has type=mongo_test_derived_from_derived_data.
+record B;0 in dataset B found and has type=MongoTestDerivedFromDerivedData.
+query in dataset A for type MongoTestDerivedData
+record A;0 returned by query in dataset A and has type=MongoTestDerivedData.
+query in dataset B for type MongoTestDerivedData
+record A;0 returned by query in dataset B and has type=MongoTestDerivedData.
+record B;0 returned by query in dataset B and has type=MongoTestDerivedFromDerivedData.
 change A0 record type in B dataset to C
-record A;0 in dataset A found and has type=mongo_test_derived_data.
-record A;0 in dataset B found and has type=mongo_test_other_derived_data.
-query in dataset A for type mongo_test_derived_data
-record A;0 returned by query in dataset A and has type=mongo_test_derived_data.
-query in dataset B for type mongo_test_derived_data
-record B;0 returned by query in dataset B and has type=mongo_test_derived_from_derived_data.
+record A;0 in dataset A found and has type=MongoTestDerivedData.
+record A;0 in dataset B found and has type=MongoTestOtherDerivedData.
+query in dataset A for type MongoTestDerivedData
+record A;0 returned by query in dataset A and has type=MongoTestDerivedData.
+query in dataset B for type MongoTestDerivedData
+record B;0 returned by query in dataset B and has type=MongoTestDerivedFromDerivedData.
 change A0 record type in A dataset to C
-record A;0 in dataset A found and has type=mongo_test_other_derived_data.
-record A;0 in dataset B found and has type=mongo_test_other_derived_data.
-query in dataset A for type mongo_test_derived_data
-query in dataset B for type mongo_test_derived_data
-record B;0 returned by query in dataset B and has type=mongo_test_derived_from_derived_data.
+record A;0 in dataset A found and has type=MongoTestOtherDerivedData.
+record A;0 in dataset B found and has type=MongoTestOtherDerivedData.
+query in dataset A for type MongoTestDerivedData
+query in dataset B for type MongoTestDerivedData
+record B;0 returned by query in dataset B and has type=MongoTestDerivedFromDerivedData.
 change B0 record type in B dataset to C
 record B;0 in dataset A not found.
-record B;0 in dataset B found and has type=mongo_test_other_derived_data.
-query in dataset A for type mongo_test_derived_data
-query in dataset B for type mongo_test_derived_data
+record B;0 in dataset B found and has type=MongoTestOtherDerivedData.
+query in dataset A for type MongoTestDerivedData
+query in dataset B for type MongoTestDerivedData
 

@@ -1,5 +1,5 @@
-record A;0 in dataset A found and has type=mongo_test_data.
-record A;0 in dataset B found and has type=mongo_test_data.
+record A;0 in dataset A found and has type=MongoTestData.
+record A;0 in dataset B found and has type=MongoTestData.
 record B;0 in dataset A not found.
-record B;0 in dataset B found and has type=mongo_test_derived_data.
+record B;0 in dataset B found and has type=MongoTestDerivedData.
 

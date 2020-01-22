@@ -44,19 +44,19 @@ namespace dc
     // TEST CLASSES
 
     /// This class counts test running time.
-    class test_duration_counter
+    class TestDurationCounter
     {
         std::chrono::steady_clock::time_point start_time;
         dot::String message;
 
     public:
 
-        test_duration_counter(dot::String msg)
+        TestDurationCounter(dot::String msg)
             : start_time(std::chrono::steady_clock::now())
             , message(msg)
         {}
 
-        ~test_duration_counter()
+        ~TestDurationCounter()
         {
             auto end_time = std::chrono::steady_clock::now();
             std::cout << *message << " "
@@ -65,47 +65,47 @@ namespace dc
         }
     };
 
-    class performance_test_impl; using performance_test = dot::Ptr<performance_test_impl>;
+    class PerformanceTestImpl; using PerformanceTest = dot::Ptr<PerformanceTestImpl>;
 
-    class performance_test_impl : public dot::ObjectImpl
+    class PerformanceTestImpl : public dot::ObjectImpl
     {
-        typedef performance_test_impl self;
+        typedef PerformanceTestImpl self;
 
     public:
 
-        DOT_TYPE_BEGIN("dc", "performance_test")
+        DOT_TYPE_BEGIN("dc", "PerformanceTest")
         DOT_TYPE_END()
     };
 
-    class performance_test_key_impl; using performance_test_key = dot::Ptr<performance_test_key_impl>;
-    class performance_test_data_impl; using performance_test_data = dot::Ptr<performance_test_data_impl>;
+    class PerformanceTestKeyImpl; using PerformanceTestKey = dot::Ptr<PerformanceTestKeyImpl>;
+    class PerformanceTestDataImpl; using PerformanceTestData = dot::Ptr<PerformanceTestDataImpl>;
 
-    performance_test_key make_performance_test_key();
+    PerformanceTestKey make_performance_test_key();
 
     /// Key class.
-    class performance_test_key_impl : public TypedKeyImpl<performance_test_key_impl, performance_test_data_impl>
+    class PerformanceTestKeyImpl : public TypedKeyImpl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
     {
-        typedef performance_test_key_impl self;
+        typedef PerformanceTestKeyImpl self;
 
     public:
 
         dot::String record_id;
 
-        DOT_TYPE_BEGIN("dc", "performance_test_key")
+        DOT_TYPE_BEGIN("dc", "PerformanceTestKey")
             DOT_TYPE_PROP(record_id)
-            DOT_TYPE_BASE(TypedKey<performance_test_key_impl, performance_test_data_impl>)
+            DOT_TYPE_BASE(TypedKey<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
             DOT_TYPE_CTOR(make_performance_test_key)
         DOT_TYPE_END()
     };
 
-    inline performance_test_key make_performance_test_key() { return new performance_test_key_impl; }
+    inline PerformanceTestKey make_performance_test_key() { return new PerformanceTestKeyImpl; }
 
-    performance_test_data make_performance_test_data();
+    PerformanceTestData make_performance_test_data();
 
     /// Data class.
-    class performance_test_data_impl : public TypedRecordImpl<performance_test_key_impl, performance_test_data_impl>
+    class PerformanceTestDataImpl : public TypedRecordImpl<PerformanceTestKeyImpl, PerformanceTestDataImpl>
     {
-        typedef performance_test_data_impl self;
+        typedef PerformanceTestDataImpl self;
 
     public:
 
@@ -113,16 +113,16 @@ namespace dc
         dot::List<double> double_list;
         dot::Nullable<int> version;
 
-        DOT_TYPE_BEGIN("dc", "performance_test_data")
+        DOT_TYPE_BEGIN("dc", "PerformanceTestData")
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_PROP(double_list)
             DOT_TYPE_PROP(version)
-            DOT_TYPE_BASE(TypedRecord<performance_test_key_impl, performance_test_data_impl>)
+            DOT_TYPE_BASE(TypedRecord<PerformanceTestKeyImpl, PerformanceTestDataImpl>)
             DOT_TYPE_CTOR(make_performance_test_data)
         DOT_TYPE_END()
     };
 
-    inline performance_test_data make_performance_test_data() { return new performance_test_data_impl; }
+    inline PerformanceTestData make_performance_test_data() { return new PerformanceTestDataImpl; }
 
 
     // HELPER FUNCTIONS
@@ -138,9 +138,9 @@ namespace dc
         return dot::String::format(data_set_pattern, index);
     }
 
-    TemporalId save_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_version, int record_size)
+    TemporalId save_record(UnitTestContextBase context, dot::String data_set_id, dot::String record_id, int record_version, int record_size)
     {
-        performance_test_data rec = make_performance_test_data();
+        PerformanceTestData rec = make_performance_test_data();
         rec->record_id = record_id;
         rec->version = record_version;
         rec->double_list = dot::make_list<double>();
@@ -154,7 +154,7 @@ namespace dc
         return rec->id;
     }
 
-    void save_records(unit_test_context_base context, int record_count, int record_size)
+    void save_records(UnitTestContextBase context, int record_count, int record_size)
     {
         // Create datasets
         TemporalId common_data_set = context->get_common();
@@ -182,7 +182,7 @@ namespace dc
         }
     }
 
-    void fill_database(unit_test_context_base context)
+    void fill_database(UnitTestContextBase context)
     {
         save_records(context, record_count, record_size);
     }
@@ -190,23 +190,23 @@ namespace dc
 
     TEST_CASE("performance")
     {
-        performance_test test = new performance_test_impl;
-        unit_test_context_base context = make_unit_test_context(test, "performance", ".");
+        PerformanceTest test = new PerformanceTestImpl;
+        UnitTestContextBase context = make_unit_test_context(test, "performance", ".");
 
         //fill_database(context);
     }
 
     TEST_CASE("load_by_key")
     {
-        performance_test test = new performance_test_impl;
-        unit_test_context_base context = make_unit_test_context(test, "performance", ".");
+        PerformanceTest test = new PerformanceTestImpl;
+        UnitTestContextBase context = make_unit_test_context(test, "performance", ".");
 
         fill_database(context);
-        test_duration_counter td("Keys loading");
+        TestDurationCounter td("Keys loading");
 
         for (int i = 0; i < record_count; ++i)
         {
-            performance_test_key key = make_performance_test_key();
+            PerformanceTestKey key = make_performance_test_key();
             key->record_id = get_record_key(i);
             context->load_or_null(key, context->data_set);
 
@@ -221,22 +221,22 @@ namespace dc
 
     TEST_CASE("query")
     {
-        performance_test test = new performance_test_impl;
-        unit_test_context_base context = make_unit_test_context(test, "performance", ".");
+        PerformanceTest test = new PerformanceTestImpl;
+        UnitTestContextBase context = make_unit_test_context(test, "performance", ".");
 
         fill_database(context);
-        test_duration_counter td("Query loading");
+        TestDurationCounter td("Query loading");
 
         dot::String record_id = get_record_key(2);
         dot::String data_set_name = get_data_set(2);
         TemporalId data_set = context->get_data_set(data_set_name);
 
-        dot::CursorWrapper<performance_test_data> query = context->data_source->get_query<performance_test_data>(data_set)
-            ->where(make_prop(&performance_test_data_impl::record_id) == record_id)
-            ->where(make_prop(&performance_test_data_impl::version) == record_versions - 1)
-            ->get_cursor<performance_test_data>();
+        dot::CursorWrapper<PerformanceTestData> query = context->data_source->get_query<PerformanceTestData>(data_set)
+            ->where(make_prop(&PerformanceTestDataImpl::record_id) == record_id)
+            ->where(make_prop(&PerformanceTestDataImpl::version) == record_versions - 1)
+            ->get_cursor<PerformanceTestData>();
 
-        for (performance_test_data data : query)
+        for (PerformanceTestData data : query)
         {
             dot::Console::write_line(data->to_string());
         }

@@ -22,10 +22,10 @@ limitations under the License.
 
 namespace dc
 {
-    unit_test_context_impl::unit_test_context_impl()
+    UnitTestContextImpl::UnitTestContextImpl()
     {}
 
-    unit_test_context_impl::~unit_test_context_impl()
+    UnitTestContextImpl::~UnitTestContextImpl()
     {
         if (!keep_db)
         {
@@ -35,15 +35,15 @@ namespace dc
         }
     }
 
-    unit_test_context make_unit_test_context(
+    UnitTestContext make_unit_test_context(
         dot::Object class_instance,
         dot::String method_name,
         dot::String source_file_path)
     {
-        unit_test_context obj = new unit_test_context_impl;
+        UnitTestContext obj = new UnitTestContextImpl;
 
-        //if (method_name == nullptr) throw dot::Exception("Method name passed to unit_test_context is null.");
-        //if (source_file_path == nullptr) throw dot::Exception("Source file path passed to unit_test_context is null.");
+        //if (method_name == nullptr) throw dot::Exception("Method name passed to UnitTestContext is null.");
+        //if (source_file_path == nullptr) throw dot::Exception("Source file path passed to UnitTestContext is null.");
 
         // Test class path is the path to source file followed by
         // subfolder whose name is source file name without extension

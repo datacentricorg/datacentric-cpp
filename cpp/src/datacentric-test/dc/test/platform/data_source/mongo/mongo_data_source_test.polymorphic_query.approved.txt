@@ -1,42 +1,42 @@
 load all types by key to type A
-    key=A;0 type=mongo_test_data
-    key=B;0 type=mongo_test_derived_data
-    key=C;0 type=mongo_test_other_derived_data
-    key=D;0 type=mongo_test_derived_from_derived_data
-query by mongo_test_data, unconstrained
-    key=A;0 type=mongo_test_data
-    key=A;1 type=mongo_test_data
-    key=A;2 type=mongo_test_data
-    key=A;3 type=mongo_test_data
-    key=B;0 type=mongo_test_derived_data
-    key=B;1 type=mongo_test_derived_data
-    key=B;2 type=mongo_test_derived_data
-    key=B;3 type=mongo_test_derived_data
-    key=C;0 type=mongo_test_other_derived_data
-    key=C;1 type=mongo_test_other_derived_data
-    key=C;2 type=mongo_test_other_derived_data
-    key=C;3 type=mongo_test_other_derived_data
-    key=D;0 type=mongo_test_derived_from_derived_data
-    key=D;1 type=mongo_test_derived_from_derived_data
-    key=D;2 type=mongo_test_derived_from_derived_data
-    key=D;3 type=mongo_test_derived_from_derived_data
-query by mongo_test_derived_data : mongo_test_data which also picks up mongo_test_derived_from_derived_data : mongo_test_derived_data, unconstrained
-    key=B;0 type=mongo_test_derived_data
-    key=B;1 type=mongo_test_derived_data
-    key=B;2 type=mongo_test_derived_data
-    key=B;3 type=mongo_test_derived_data
-    key=D;0 type=mongo_test_derived_from_derived_data
-    key=D;1 type=mongo_test_derived_from_derived_data
-    key=D;2 type=mongo_test_derived_from_derived_data
-    key=D;3 type=mongo_test_derived_from_derived_data
-query by mongo_test_other_derived_data : mongo_test_data, unconstrained
-    key=C;0 type=mongo_test_other_derived_data
-    key=C;1 type=mongo_test_other_derived_data
-    key=C;2 type=mongo_test_other_derived_data
-    key=C;3 type=mongo_test_other_derived_data
-query by mongo_test_derived_from_derived_data : mongo_test_derived_data, where mongo_test_derived_data : mongo_test_data, unconstrained
-    key=D;0 type=mongo_test_derived_from_derived_data
-    key=D;1 type=mongo_test_derived_from_derived_data
-    key=D;2 type=mongo_test_derived_from_derived_data
-    key=D;3 type=mongo_test_derived_from_derived_data
+    key=A;0 type=MongoTestData
+    key=B;0 type=MongoTestDerivedData
+    key=C;0 type=MongoTestOtherDerivedData
+    key=D;0 type=MongoTestDerivedFromDerivedData
+query by MongoTestData, unconstrained
+    key=A;0 type=MongoTestData
+    key=A;1 type=MongoTestData
+    key=A;2 type=MongoTestData
+    key=A;3 type=MongoTestData
+    key=B;0 type=MongoTestDerivedData
+    key=B;1 type=MongoTestDerivedData
+    key=B;2 type=MongoTestDerivedData
+    key=B;3 type=MongoTestDerivedData
+    key=C;0 type=MongoTestOtherDerivedData
+    key=C;1 type=MongoTestOtherDerivedData
+    key=C;2 type=MongoTestOtherDerivedData
+    key=C;3 type=MongoTestOtherDerivedData
+    key=D;0 type=MongoTestDerivedFromDerivedData
+    key=D;1 type=MongoTestDerivedFromDerivedData
+    key=D;2 type=MongoTestDerivedFromDerivedData
+    key=D;3 type=MongoTestDerivedFromDerivedData
+query by MongoTestDerivedData : MongoTestData which also picks up MongoTestDerivedFromDerivedData : MongoTestDerivedData, unconstrained
+    key=B;0 type=MongoTestDerivedData
+    key=B;1 type=MongoTestDerivedData
+    key=B;2 type=MongoTestDerivedData
+    key=B;3 type=MongoTestDerivedData
+    key=D;0 type=MongoTestDerivedFromDerivedData
+    key=D;1 type=MongoTestDerivedFromDerivedData
+    key=D;2 type=MongoTestDerivedFromDerivedData
+    key=D;3 type=MongoTestDerivedFromDerivedData
+query by MongoTestOtherDerivedData : MongoTestData, unconstrained
+    key=C;0 type=MongoTestOtherDerivedData
+    key=C;1 type=MongoTestOtherDerivedData
+    key=C;2 type=MongoTestOtherDerivedData
+    key=C;3 type=MongoTestOtherDerivedData
+query by MongoTestDerivedFromDerivedData : MongoTestDerivedData, where MongoTestDerivedData : MongoTestData, unconstrained
+    key=D;0 type=MongoTestDerivedFromDerivedData
+    key=D;1 type=MongoTestDerivedFromDerivedData
+    key=D;2 type=MongoTestDerivedFromDerivedData
+    key=D;3 type=MongoTestDerivedFromDerivedData
 
