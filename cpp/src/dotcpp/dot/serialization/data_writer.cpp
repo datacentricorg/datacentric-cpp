@@ -290,9 +290,11 @@ namespace dot
         else throw dot::exception(
             "A call to write_end_value(...) does not follow a matching write_value(...) at the same indent level.");
 
-        /// Check if dict contains specified field
+        // Check if dict contains _id field
+        // skip it if not.
         if (current_array_item_type_ == nullptr
-            && current_element_info_ == nullptr)
+            && current_element_info_ == nullptr
+            && current_element_name_ == "_id")
         {
             return;
         }
