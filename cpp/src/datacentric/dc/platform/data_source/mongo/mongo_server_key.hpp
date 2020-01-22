@@ -19,22 +19,20 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dc/types/record/typed_record.hpp>
-#include <dc/platform/data_source/mongo/mongo_server_key.hpp>
 
 namespace dc
 {
+    class MongoServerKeyImpl; using MongoServerKey = dot::Ptr<MongoServerKeyImpl>;
     class MongoServerImpl; using MongoServer = dot::Ptr<MongoServerImpl>;
 
-    /// Database server definition for MongoDB. This class is responsible
-    /// for assembling MongoDB URI from hostname, port, and other parameters.
+    /// Provides Mongo server URI.
     ///
-    /// Derived classes implement the API for the standard (``mongodb''),
-    /// and seedlist (``mongodb+srv'') connection formats as well as for
-    /// the default server running on localhost.
-    class DC_CLASS MongoServerImpl : public TypedRecordImpl<MongoServerKeyImpl, MongoServerImpl>
+    /// Server URI specified here must refer to the entire server, not
+    /// an individual database.
+    class DC_CLASS MongoServerKeyImpl : public TypedKeyImpl<MongoServerKeyImpl, MongoServerImpl>
     {
-        typedef MongoServerImpl self;
-        friend MongoServer make_mongo_server();
+        friend MongoServerKey make_mongo_server_key();
+        friend MongoServerKey make_mongo_server_key(dot::String);
 
     public: // PROPERTIES
 
@@ -44,10 +42,18 @@ namespace dc
         /// an individual database.
         dot::String mongo_server_uri;
 
+    public: // STATIC
+
+        /// Mongo server running on default port of localhost.
+        static MongoServerKey default_key;
+
     private: // CONSTRUCTORS
 
-        MongoServerImpl() = default;
+        MongoServerKeyImpl() = default;
+
+        MongoServerKeyImpl(dot::String uri);
     };
 
-    inline MongoServer make_mongo_server() { return new MongoServerImpl(); }
+    inline MongoServerKey make_mongo_server_key() { return new MongoServerKeyImpl(); }
+    inline MongoServerKey make_mongo_server_key(dot::String uri) { return new MongoServerKeyImpl(uri); }
 }

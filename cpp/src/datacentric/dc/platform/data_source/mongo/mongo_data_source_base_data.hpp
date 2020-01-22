@@ -18,8 +18,9 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/platform/data_source/instance_type.hpp>
+#include <dc/platform/data_source/env_type.hpp>
 #include <dc/platform/data_source/data_source_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_server_data.hpp>
 #include <dc/types/record/temporal_id.hpp>
 #include <dot/mongo/mongo_db/mongo/client.hpp>
 
@@ -51,7 +52,7 @@ namespace dc
 
         /// Type of instance controls the ability to do certain
         /// actions such as deleting (dropping) the database.
-        InstanceType instance_type_;
+        EnvType env_type_;
 
         /// Full name of the database on Mongo server including delimiters.
         dot::String db_name_;
@@ -64,6 +65,16 @@ namespace dc
 
         /// Previous TemporalId returned by create_ordered_object_id() method.
         TemporalId prev_object_id_ = TemporalId::empty;
+
+    public: // PROPERTIES
+
+        /// Specifies Mongo server for this data source.
+        ///
+        /// Defaults to local server on the standard port if not specified.
+        ///
+        /// Server URI specified here must refer to the entire server, not
+        /// an individual database.
+        MongoServerKey mongo_server;
 
     public: // METHODS
 

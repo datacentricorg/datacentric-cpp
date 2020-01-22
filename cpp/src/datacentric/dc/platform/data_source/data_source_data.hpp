@@ -24,8 +24,8 @@ limitations under the License.
 #include <dot/system/collections/generic/list.hpp>
 #include <dot/mongo/mongo_db/query/query.hpp>
 #include <dc/types/record/typed_record.hpp>
-#include <dc/platform/data_source/database_key.hpp>
-#include <dc/platform/data_source/database_server_key.hpp>
+#include <dc/types/record/typed_key.hpp>
+#include <dc/platform/data_source/env_type.hpp>
 #include <dc/platform/data_set/data_set_flags.hpp>
 
 namespace dc
@@ -320,33 +320,62 @@ namespace dc
 
     public: // PROPERTIES
 
-        /// This class enforces strict naming conventions
-        /// for database naming. While format of the resulting database
-        /// name is specific to data store Type, it always consists
-        /// of three tokens: InstanceType, instance_name, and env_name.
-        /// The meaning of instance_name and env_name tokens depends on
-        /// the value of InstanceType enumeration.
-        DbNameKey db_name;
+        /// Unique data source name.
+        dot::String data_source_name;
 
-        /// Identifies the database server used by this data source.
-        DbServerKey db_server;
-
-        /// Use this flag to mark dataset as readonly, but use either
-        /// is_read_only() or check_not_readonly() method to determine the
-        /// readonly status because the dataset may be readonly for
-        /// two reasons:
+        /// Environment type enumeration.
         ///
-        /// * read_only flag is true; or
-        /// * One of revised_before or revised_before_id is set
-        dot::Nullable<bool> read_only;
+        /// Some API functions are restricted based on the environment type.
+        EnvType env_type;
 
-        /// Unique data source identifier.
-        dot::String data_source_id;
+        /// The meaning of environment group depends on the environment type.
+        ///
+        /// * For PROD, UAT, and DEV environment types, environment group
+        ///   identifies the endpoint.
+        ///
+        /// * For USER environment type, environment group is user alias.
+        ///
+        /// * For TEST environment type, environment group is the name of
+        ///   the unit test class (test fixture).
+        dot::String env_group;
+
+        /// The meaning of environment name depends on the environment type.
+        ///
+        /// * For PROD, UAT, DEV, and USER environment types, it is the
+        ///   name of the user environment selected in the client.
+        ///
+        /// * For TEST environment type, it is the test method name.
+        dot::String env_name;
+
+        /// Flag indicating that the data source is non-temporal.
+        ///
+        /// For the data stored in data sources where NonTemporal == false,
+        /// the data source keeps permanent history of changes to each
+        /// record (except where dataset or record are marked as NonTemporal),
+        /// and provides the ability to access the record as of the specified
+        /// TemporalId, where TemporalId serves as a timeline (records created
+        /// later have greater TemporalId than records created earlier).
+        ///
+        /// For the data stored in data source where NonTemporal == true,
+        /// the data source keeps only the latest version of the record. All
+        /// datasets created by a NonTemporal data source must also be non-temporal.
+        ///
+        /// In a non-temporal data source, this flag is ignored as all
+        /// datasets in such data source are non-temporal.
+        bool non_temporal;
+
+        /// Use this flag to mark data source as readonly.
+        ///
+        /// Data source may also be readonly because CutoffTime is set.
+        bool read_only;
 
         DOT_TYPE_BEGIN("dc", "DataSource")
-            DOT_TYPE_PROP(data_source_id)
-            DOT_TYPE_PROP(db_name)
-            DOT_TYPE_PROP(db_server)
+            DOT_TYPE_PROP(data_source_name)
+            DOT_TYPE_PROP(env_type)
+            DOT_TYPE_PROP(env_group)
+            DOT_TYPE_PROP(env_name)
+            DOT_TYPE_PROP(non_temporal)
+            DOT_TYPE_PROP(read_only)
             DOT_TYPE_BASE(RootRecord<DataSourceKeyImpl, DataSourceImpl>)
         DOT_TYPE_END()
     };

@@ -16,20 +16,14 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/mongo_standard_format_server_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_server_key.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
-    dot::String MongoStandardFormatServerImpl::get_mongo_server_uri()
-    {
-        if (hosts == nullptr || hosts->count() == 0) throw dot::Exception(
-            dot::String::format("The list of hosts provided for MongoDB server {0} is null or empty.", db_server_uri));
+    MongoServerKey MongoServerKeyImpl::default_key = make_mongo_server_key("mongodb://localhost:27017");
 
-        // TODO uncoment when implemented
-        //dot::String host_names = dot::String::join(",", hosts);
-        //dot::String result = dot::String::concat("mongodb://", host_names, "/");
-        //return result;
-        throw dot::Exception("Not implemented.");
-    }
+    MongoServerKeyImpl::MongoServerKeyImpl(dot::String uri)
+        : mongo_server_uri(uri)
+    {}
 }

@@ -482,9 +482,9 @@ namespace dc
 
     void MongoDataSourceImpl::check_not_read_only(TemporalId data_set_id)
     {
-        if (read_only.has_value() && read_only.value())
+        if (read_only)
             throw dot::Exception(dot::String::format(
-                "Attempting write operation for data source {0} where ReadOnly flag is set.", data_source_id));
+                "Attempting write operation for data source {0} where ReadOnly flag is set.", data_source_name));
 
         DataSetDetail data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
         if (data_set_detail_data != nullptr && data_set_detail_data->read_only.has_value() && data_set_detail_data->read_only.value())
@@ -494,7 +494,7 @@ namespace dc
         if (cutoff_time != nullptr)
             throw dot::Exception(dot::String::format(
                 "Attempting write operation for data source {0} where "
-                "cutoff_time is set. Historical view of the data cannot be written to.", data_source_id));
+                "cutoff_time is set. Historical view of the data cannot be written to.", data_source_name));
 
         if (data_set_detail_data != nullptr && data_set_detail_data->cutoff_time != nullptr)
             throw dot::Exception(dot::String::format(

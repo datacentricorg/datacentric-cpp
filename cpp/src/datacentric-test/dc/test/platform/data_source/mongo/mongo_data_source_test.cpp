@@ -19,7 +19,6 @@ limitations under the License.
 #include <approvals/Catch.hpp>
 
 #include <dc/platform/data_source/data_source_data.hpp>
-#include <dc/platform/data_source/mongo/mongo_default_server_data.hpp>
 
 #include <dc/platform/data_set/data_set_key.hpp>
 #include <dc/platform/data_set/data_set_data.hpp>
@@ -751,10 +750,6 @@ namespace dc
                 received << *dot::String::format("    key={0} data_set={1} version={2}", obj->get_key(), data_set_id, obj->version) << std::endl;
             }
         }
-
-        // Set new value for the DB server key so that the reference to in-memory
-        // record is stored inside the key, otherwise it would not be found
-        context->data_source->db_server = make_mongo_default_server_data()->to_key();
 
         // Set revision time constraint
         context->data_source.as<MongoDataSource>()->cutoff_time = cutoff_object_id;

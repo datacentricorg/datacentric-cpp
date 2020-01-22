@@ -254,4 +254,6 @@ namespace dc
         /// removed, under TemporalId of the dataset.
         dot::Dictionary<TemporalId, dot::HashSet<TemporalId>> data_set_parent_dict_ = dot::make_dictionary<TemporalId, dot::HashSet<TemporalId>>();
     };
+
+    inline MongoDataSource make_mongo_data_source() { return new MongoDataSourceImpl(); }
 }

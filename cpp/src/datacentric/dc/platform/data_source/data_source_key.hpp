@@ -19,8 +19,7 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dc/types/record/typed_record.hpp>
-#include <dc/platform/data_source/database_key.hpp>
-#include <dc/platform/data_source/database_data.hpp>
+#include <dc/types/record/typed_key.hpp>
 
 namespace dc
 {
@@ -38,14 +37,14 @@ namespace dc
     /// (c) query record across a group of datasets.
     ///
     /// This record is stored in root dataset.
-    class DC_CLASS DataSourceKeyImpl : public RootKeyImpl<DataSourceKeyImpl, DataSourceImpl>
+    class DC_CLASS DataSourceKeyImpl : public TypedKeyImpl<DataSourceKeyImpl, DataSourceImpl>
     {
         typedef DataSourceKeyImpl self;
 
     public: // PROPERTIES
 
-        /// Unique data source identifier.
-        dot::String data_source_id;
+        /// Unique data source name.
+        dot::String data_source_name;
 
     public: // STATIC
 
@@ -62,8 +61,8 @@ namespace dc
         DataSourceKeyImpl(dot::String value);
 
         DOT_TYPE_BEGIN("dc", "DataSourceKey")
-            DOT_TYPE_PROP(data_source_id)
-            DOT_TYPE_BASE(RootKey<DataSourceKeyImpl, DataSourceImpl>)
+            DOT_TYPE_PROP(data_source_name)
+            DOT_TYPE_BASE(TypedKey<DataSourceKeyImpl, DataSourceImpl>)
         DOT_TYPE_END()
     };
 }

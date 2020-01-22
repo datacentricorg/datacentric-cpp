@@ -25,7 +25,7 @@ namespace dc
     {
         Record result = load_or_null(id, data_type);
         if (result.is_empty())
-            throw dot::Exception(dot::String::format("Record with TemporalId={0} is not found in data store {1}.", id.to_string(), this->data_source_id));
+            throw dot::Exception(dot::String::format("Record with TemporalId={0} is not found in data store {1}.", id.to_string(), this->data_source_name));
         return result;
     }
 
@@ -38,7 +38,7 @@ namespace dc
     {
         auto result = get_data_set_or_empty(data_set_id, load_from);
         if (result == nullptr) throw dot::Exception(
-            dot::String::format("Dataset {0} is not found in data store {1}.", data_set_id, data_source_id));
+            dot::String::format("Dataset {0} is not found in data store {1}.", data_set_id, data_source_name));
         return result.value();
     }
 

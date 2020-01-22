@@ -36,6 +36,5 @@ namespace dc
         DOT_TYPE_BEGIN("dc", "RootRecord")
             DOT_TYPE_BASE(TypedRecord<TKey, TRecord>)
         DOT_TYPE_END()
-
     };
 }

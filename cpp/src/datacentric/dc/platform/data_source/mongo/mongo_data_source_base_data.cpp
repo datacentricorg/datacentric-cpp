@@ -31,15 +31,36 @@ namespace dc
         // Initialize the base class
         DataSourceImpl::init(context);
 
-        // Configures serialization conventions for standard types
-        if (db_name == nullptr) throw dot::Exception("DB key is null or empty.");
-        if (db_name->db_instance_type == InstanceType::empty) throw dot::Exception("DB instance type is not specified.");
-        if (dot::String::is_null_or_empty(db_name->instance_name)) throw dot::Exception("DB instance name is not specified.");
-        if (dot::String::is_null_or_empty(db_name->env_name)) throw dot::Exception("DB environment name is not specified.");
+        // Perform validation
+        if (env_type == EnvType::empty) throw dot::Exception("DB environment type is not specified.");
+        if (dot::String::is_null_or_empty(env_group)) throw dot::Exception("DB environment group is not specified.");
+        if (dot::String::is_null_or_empty(env_name)) throw dot::Exception("DB environment name is not specified.");
 
-        // The name is the database key in the standard semicolon delimited format.
-        db_name_ = db_name->to_string();
-        instance_type_ = db_name->db_instance_type;
+        // Database name is a semicolon delimited format.
+        env_type_ = env_type;
+        db_name_ = dot::String();
+        switch (env_type_)
+        {
+            case EnvType::prod:
+            case EnvType::uat:
+            case EnvType::dev:
+            case EnvType::test:
+                db_name_ = env_type_.to_string()->to_upper() + ";" + env_group + ";" + env_name;
+                break;
+            case EnvType::custom:
+                if (!dot::String::is_null_or_empty(env_group))
+                    throw dot::Exception(dot::String::format(
+                        "EnvGroup={0} is specified, but "
+                        "should be empty for Custom environment type.",
+                        env_group));
+
+                db_name_ = env_name;
+                break;
+            case EnvType::empty:
+                throw dot::Exception(dot::String::format("env_type is empty for data_source_name={0}.", data_source_name));
+            default:
+                throw dot::Exception(dot::String::format("Unknown env_type={0}.", env_type));
+        }
 
         // Perform additional validation for restricted characters and database name length.
         if (db_name_->index_of_any(prohibited_db_name_symbols_) != -1)
@@ -51,8 +72,15 @@ namespace dc
                 dot::String::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", db_name_));
 
         // Get client interface using the server
-        dot::String db_uri = db_server->db_server_uri;
-        client_ = dot::make_client(db_uri);
+        if (mongo_server != nullptr)
+        {
+            // Create with the specified server URI
+            client_ = dot::make_client(mongo_server->mongo_server_uri);
+        }
+        else
+        {
+            throw dot::Exception("mongo_server is not specified for MongoDataSourceBase.");
+        }
 
         // Get database interface using the client and database name
         db_ = client_->get_database(db_name_);
@@ -89,9 +117,9 @@ namespace dc
 
     void MongoDataSourceBaseImpl::delete_db()
     {
-        if (read_only.has_value() && !read_only.value())
+        if (read_only)
         {
-            throw dot::Exception(dot::String::format("Attempting to drop (delete) database for the data source {0} where ReadOnly flag is set.", data_source_id));
+            throw dot::Exception(dot::String::format("Attempting to drop (delete) database for the data source {0} where ReadOnly flag is set.", data_source_name));
         }
 
         // Do not delete (drop) the database this class did not create
@@ -103,9 +131,9 @@ namespace dc
             //
             // Use other tokens such as UAT or PROD to protect the
             // database from accidental deletion
-            if (instance_type_ == InstanceType::dev
-                || instance_type_ == InstanceType::user
-                || instance_type_ == InstanceType::test)
+            if (env_type_ == EnvType::dev
+                || env_type_ == EnvType::user
+                || env_type_ == EnvType::test)
             {
                 // The name is the database key in the standard
                 // semicolon delimited format. However this method
@@ -118,7 +146,7 @@ namespace dc
                 throw dot::Exception(
                     dot::String::format("As an extra safety measure, database {0} cannot be ", db_name_) +
                     "dropped because this operation is not permitted for database " +
-                    dot::String::format("instance type {0}.", instance_type_.to_string()));
+                    dot::String::format("instance type {0}.", env_type_.to_string()));
             }
         }
     }

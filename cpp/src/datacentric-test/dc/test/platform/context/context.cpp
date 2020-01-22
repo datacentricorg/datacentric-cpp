@@ -18,7 +18,7 @@ limitations under the License.
 #include <dc/test/platform/context/context.hpp>
 
 #include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
-#include <dc/platform/data_source/mongo/mongo_default_server_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_server_data.hpp>
 
 namespace dc
 {
@@ -56,15 +56,13 @@ namespace dc
         // is actually used to access data.
         dot::String mapped_class_name = class_instance->get_type()->name();
 
-        DataSource data_source = new MongoDataSourceImpl();
+        MongoDataSource data_source = make_mongo_data_source();
         obj->data_source = data_source;
 
-        data_source->db_server = (make_mongo_default_server_data())->to_key();
-        data_source->db_name = new DbNameKeyImpl();
-
-        data_source->db_name->db_instance_type = InstanceType::test;
-        data_source->db_name->instance_name = mapped_class_name;
-        data_source->db_name->env_name = method_name;
+        data_source->env_type = EnvType::test;
+        data_source->env_group = mapped_class_name;
+        data_source->env_name = method_name;
+        data_source->mongo_server = MongoServerKeyImpl::default_key;
 
         data_source->init(obj);
 
