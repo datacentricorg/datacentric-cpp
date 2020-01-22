@@ -70,7 +70,7 @@ namespace dc
         DOT_TYPE_BEGIN("dc", "record_base")
             ->with_field("_id", &self::id)
             ->with_field("_dataset", &self::data_set)
-            ->with_field("_key", static_cast<dot::string record_base_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserealization) })
+            ->with_field("_key", static_cast<dot::string record_base_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization) })
             DOT_TYPE_BASE(data)
         DOT_TYPE_END()
     };
