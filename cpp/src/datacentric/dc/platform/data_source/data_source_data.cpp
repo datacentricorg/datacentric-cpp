@@ -39,7 +39,7 @@ namespace dc
         auto result = get_data_set_or_empty(data_set_id, load_from);
         if (result == nullptr) throw dot::exception(
             dot::string::format("Dataset {0} is not found in data store {1}.", data_set_id, data_source_id));
-        return result;
+        return result.value();
     }
 
     temporal_id data_source_data_impl::create_common(data_set_flags flags)
@@ -49,19 +49,19 @@ namespace dc
 
     temporal_id data_source_data_impl::create_common()
     {
-        return create_common(data_set_flags::default);
+        return create_common(data_set_flags::default_option);
     }
 
     temporal_id data_source_data_impl::create_data_set(dot::string data_set_id, temporal_id save_to)
     {
         // Create with default flags in parentDataSet
-        return create_data_set(data_set_id, nullptr, data_set_flags::default, save_to);
+        return create_data_set(data_set_id, nullptr, data_set_flags::default_option, save_to);
     }
 
     temporal_id data_source_data_impl::create_data_set(dot::string data_set_id, dot::list<temporal_id> parent_data_sets, temporal_id save_to)
     {
         // Create with default flags in parentDataSet
-        return create_data_set(data_set_id, parent_data_sets, data_set_flags::default, save_to);
+        return create_data_set(data_set_id, parent_data_sets, data_set_flags::default_option, save_to);
     }
     temporal_id data_source_data_impl::create_data_set(dot::string data_set_id, data_set_flags flags, temporal_id save_to)
     {

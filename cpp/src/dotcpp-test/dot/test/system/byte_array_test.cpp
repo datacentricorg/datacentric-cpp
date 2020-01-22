@@ -40,7 +40,7 @@ namespace dot
         REQUIRE(bytes[2] == 0);
 
         // From byte array
-        char arr[3] = { 0x0, 0xff, 0x80 };
+        char arr[3] = { (char)0x0, (char)0xff, (char)0x80 };
         bytes = make_byte_array(arr, 3);
         REQUIRE(bytes->get_length() == 3);
         REQUIRE((uint8_t) bytes[0] == 0x0);

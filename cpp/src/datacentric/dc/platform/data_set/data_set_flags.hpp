@@ -25,7 +25,7 @@ namespace dc
     enum class data_set_flags
     {
         /// <summary>Specifies that no flags are defined.</summary>
-        default = 0,
+        default_option = 0,
 
         /// <summary>
         /// By default, a dataset will hold temporal data if the data source

@@ -544,7 +544,7 @@ namespace dc
         save_complete_data(context);
 
         // Look in B dataset
-        temporal_id data_set_b = context->get_data_set_or_empty("B", context->data_set);
+        temporal_id data_set_b = context->get_data_set("B", context->data_set);
 
         mongo_test_key key = make_mongo_test_key();
         key->record_id = "BB";
@@ -585,7 +585,7 @@ namespace dc
         save_complete_data(context);
 
         // Look in B dataset
-        temporal_id data_set_d = context->get_data_set_or_empty("D", context->data_set);
+        temporal_id data_set_d = context->get_data_set("D", context->data_set);
 
         // Load record of derived types by base
         received << "load all types by key to type A" << std::endl;
@@ -665,7 +665,7 @@ namespace dc
         save_complete_data(context);
 
         // Look in B dataset
-        temporal_id data_set_d = context->get_data_set_or_empty("D", context->data_set);
+        temporal_id data_set_d = context->get_data_set("D", context->data_set);
 
         received << "query by mongo_test_data, sort by record_index descending, then by double_element ascending" << std::endl;
         dot::cursor_wrapper<mongo_test_data> base_query = context->data_source->get_query<mongo_test_data>(data_set_d)
