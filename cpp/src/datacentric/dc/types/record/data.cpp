@@ -116,7 +116,7 @@ namespace dc
         for (dot::field_info inner_element_info : inner_element_info_list)
         {
             // Get element name and value
-            dot::string inner_element_name = inner_element_info->name;
+            dot::string inner_element_name = inner_element_info->name();
 
             if (inner_element_name == "_t")
             {
@@ -175,7 +175,7 @@ namespace dc
             }
             else
             {
-                throw dot::exception(dot::string::format("Element type {0} is not supported for tree serialization.", inner_element_info->field_type));
+                throw dot::exception(dot::string::format("Element type {0} is not supported for tree serialization.", inner_element_info->field_type()));
             }
         }
 

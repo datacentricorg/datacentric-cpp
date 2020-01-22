@@ -50,7 +50,7 @@ namespace dot
 
     protected: // CONSTRUCTORS
 
-        list<parameter_info> parameters;
+        list<parameter_info> parameters_;
 
         /// Create from declaring type
         ///

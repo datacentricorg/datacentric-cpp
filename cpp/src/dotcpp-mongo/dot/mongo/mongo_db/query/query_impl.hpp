@@ -45,7 +45,7 @@ namespace dot
             flush_sort();
 
             bsoncxx::builder::basic::document gr;
-            gr.append(bsoncxx::builder::basic::kvp("_id", "$" + std::string(*(key_selectors->name))));
+            gr.append(bsoncxx::builder::basic::kvp("_id", "$" + std::string(*(key_selectors->name()))));
 
             gr.append(bsoncxx::builder::basic::kvp("doc",
                 bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("$first", "$$ROOT"))));
@@ -63,7 +63,7 @@ namespace dot
                 throw dot::exception("Attempt to sort_by while previous sort is not finished. Use then_by instead.");
             }
 
-            sort_.push_back(std::make_pair(key_selector->name, 1));
+            sort_.push_back(std::make_pair(key_selector->name(), 1));
         }
 
         /// First sort.
@@ -75,19 +75,19 @@ namespace dot
                 throw dot::exception("Attempt to sort_by_descending while previous sort is not finished. Use then_by_descending instead.");
             }
 
-            sort_.push_back(std::make_pair(key_selector->name, -1));
+            sort_.push_back(std::make_pair(key_selector->name(), -1));
         }
 
         /// Use in subsequent sorting after sort_by/sort_by_descending.
         virtual void then_by(dot::field_info key_selector) override
         {
-            sort_.push_back(std::make_pair(key_selector->name, 1));
+            sort_.push_back(std::make_pair(key_selector->name(), 1));
         }
 
         /// Use in subsequent sorting after sort_by/sort_by_descending.
         virtual void then_by_descending(dot::field_info key_selector) override
         {
-            sort_.push_back(std::make_pair(key_selector->name, -1));
+            sort_.push_back(std::make_pair(key_selector->name(), -1));
         }
 
         /// Returns cursor constructed from pipeline and document deserializator.
@@ -113,7 +113,7 @@ namespace dot
 
             bsoncxx::builder::basic::document selectList{};
             for (dot::field_info prop : props)
-                selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->name, 1));
+                selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->name(), 1));
             selectList.append(bsoncxx::builder::basic::kvp("_key", 1));
 
             pipeline_.project(selectList.view());

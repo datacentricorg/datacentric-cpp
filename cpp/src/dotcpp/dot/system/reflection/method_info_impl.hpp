@@ -29,14 +29,18 @@ namespace dot
 
     inline list<parameter_info> method_info_impl::get_parameters()
     {
-        return parameters;
+        return parameters_;
+    }
+
+    inline type method_info_impl::return_type()
+    {
+        return return_type_;
     }
 
     inline method_info_impl::method_info_impl(const string& name, type declaring_type, type return_type, list<attribute> custom_attributes)
         : member_info_impl(name, declaring_type, custom_attributes)
-    {
-        this->return_type = return_type;
-    }
+        , return_type_(return_type)
+    {}
 
     template <class class_, class return_t, class ... args>
     inline string member_method_info_impl<class_, return_t, args...>::to_string() { return "member_method_info"; }
@@ -59,8 +63,8 @@ namespace dot
     template <class class_, class return_t, class ... args>
     inline object member_method_info_impl<class_, return_t, args...>::invoke(object obj, list<object> params)
     {
-        if (params->count() != parameters->count())
-            throw exception("Wrong number of parameters for method " + this->declaring_type->name() + "." + this->name);
+        if (params->count() != parameters_->count())
+            throw exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
 
         return invoke_impl(obj, params, typename detail::make_index_sequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
     }
@@ -92,8 +96,8 @@ namespace dot
     template <class return_t, class ... args>
     inline object static_method_info_impl<return_t, args...>::invoke(object obj, list<object> params)
     {
-        if (params->count() != parameters->count())
-            throw exception("Wrong number of parameters for method " + this->declaring_type->name() + "." + this->name);
+        if (params->count() != parameters_->count())
+            throw exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
 
         return invoke_impl(obj, params, typename detail::make_index_sequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
     }

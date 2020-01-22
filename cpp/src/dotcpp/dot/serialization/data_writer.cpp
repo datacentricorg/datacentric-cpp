@@ -62,7 +62,7 @@ namespace dot
         current_element_name_ = root_element_name;
         auto current_dict_info_list = current_dict_->get_type()->get_fields();
         current_dict_elements_ = dot::make_dictionary<dot::string, dot::field_info>();
-        for(auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name, element_info);
+        for(auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name(), element_info);
         current_array_ = nullptr;
         current_array_item_type_ = nullptr;
     }
@@ -140,7 +140,7 @@ namespace dot
             // Set dictionary info
             dot::type created_dict_type = nullptr;
             if (current_array_ != nullptr) created_dict_type = current_array_item_type_;
-            else if (current_dict_ != nullptr) created_dict_type = current_element_info_->field_type;
+            else if (current_dict_ != nullptr) created_dict_type = current_element_info_->field_type();
             else throw dot::exception("Value can only be added to a dictionary or array.");
 
             created_dict = dot::activator::create_instance(created_dict_type);
@@ -154,7 +154,7 @@ namespace dot
         current_dict_ = created_dict;
         auto current_dict_info_list = created_dict->get_type()->get_fields();
         current_dict_elements_ = dot::make_dictionary<dot::string, dot::field_info>();
-        for (auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name, element_info);
+        for (auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name(), element_info);
         current_array_ = nullptr;
         current_array_item_type_ = nullptr;
     }
@@ -184,7 +184,7 @@ namespace dot
                 "A call to write_start_array() must follow write_start_element(...).");
 
         // Create the array
-        dot::object created_array_obj = dot::activator::create_instance(current_element_info_->field_type);
+        dot::object created_array_obj = dot::activator::create_instance(current_element_info_->field_type());
         if (created_array_obj.is<dot::list_base>()) // TODO Also support native arrays
         {
             // Add to array or dictionary, depending on what we are inside of
@@ -195,7 +195,7 @@ namespace dot
             current_array_ = (dot::list_base) created_array_obj;
 
             // Get array item type from array type using reflection
-            dot::type list_type = current_element_info_->field_type;      // TODO fix
+            dot::type list_type = current_element_info_->field_type();      // TODO fix
 //            if (!list_type->is_generic_type) throw dot::exception(dot::string::format(
 //                "Type {0} cannot be serialized because it implements only list_base but not list_base<T>.", list_type));
 //            list<type> generic_parameter_types = list_type->generic_type_arguments;
@@ -211,9 +211,9 @@ namespace dot
         }
         else
         {
-            dot::string class_name = current_element_info_->field_type->full_name();
+            dot::string class_name = current_element_info_->field_type()->full_name();
             throw dot::exception(dot::string::format(
-                "Element {0} of type {1} does not implement collection_base.", current_element_info_->name, class_name));
+                "Element {0} of type {1} does not implement collection_base.", current_element_info_->name(), class_name));
         }
     }
 
@@ -311,7 +311,7 @@ namespace dot
         // Check that we are either inside dictionary or array
         dot::type element_type = nullptr;
         if (current_array_ != nullptr) element_type = current_array_item_type_;
-        else if (current_dict_ != nullptr) element_type = current_element_info_->field_type;
+        else if (current_dict_ != nullptr) element_type = current_element_info_->field_type();
         else throw dot::exception(
             dot::string::format("Cannot write_value(...)for element {0} ", current_element_name_) +
             "is called outside dictionary or array.");

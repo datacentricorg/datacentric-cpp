@@ -35,10 +35,14 @@ namespace dot
     {
         typedef field_info_base_impl self;
 
+    private: // FIELDS
+
+        type field_type_;
+
     public: // METHODS
 
         /// Gets the type of this field.
-        type field_type;
+        type field_type() const { return field_type_; }
 
         /// A string representing the name of the current type.
         virtual string to_string() override { return "field_info"; }
@@ -57,9 +61,8 @@ namespace dot
         /// This constructor is protected. It is used by derived classes only.
         field_info_base_impl(string name, type declaring_type, type field_type, list<attribute> custom_attributes)
             : member_info_impl(name, declaring_type, custom_attributes)
-        {
-            this->field_type = field_type;
-        }
+            , field_type_(field_type)
+        {}
     };
 
     /// Implementation of field_info for field defined as a field (member variable).

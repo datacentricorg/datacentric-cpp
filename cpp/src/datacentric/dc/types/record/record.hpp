@@ -45,7 +45,7 @@ namespace dc
             {
                 dot::field_info key_prop = props[i];
 
-                dot::field_info prop = type_->get_field(key_prop->name);
+                dot::field_info prop = type_->get_field(key_prop->name());
 
                 dot::object value = prop->get_value(this);
 
@@ -57,9 +57,9 @@ namespace dc
                 }
                 else
                 {
-                    if (prop->field_type->is_subclass_of(dot::typeof<key_base>()))
+                    if (prop->field_type()->is_subclass_of(dot::typeof<key_base>()))
                     {
-                        dot::object empty_key = dot::activator::create_instance(prop->field_type);
+                        dot::object empty_key = dot::activator::create_instance(prop->field_type());
                         ss << *empty_key->to_string();
                     }
                 }

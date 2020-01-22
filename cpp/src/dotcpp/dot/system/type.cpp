@@ -251,7 +251,7 @@ namespace dot
 
         for (auto method : methods_)
         {
-            if (method->name == name)
+            if (method->name() == name)
                 return method;
         }
 
@@ -277,7 +277,7 @@ namespace dot
 
         for (auto field : fields_)
         {
-            if (field->name == name)
+            if (field->name() == name)
                 return field;
         }
 

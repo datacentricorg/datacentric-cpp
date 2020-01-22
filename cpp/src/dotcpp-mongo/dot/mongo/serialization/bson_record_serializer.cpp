@@ -324,7 +324,7 @@ namespace dot
         for (dot::field_info inner_element_info : inner_element_info_list)
         {
             // Get element name and value
-            dot::string inner_element_name = inner_element_info->name;
+            dot::string inner_element_name = inner_element_info->name();
 
             dot::object inner_element_value = inner_element_info->get_value(value);
 

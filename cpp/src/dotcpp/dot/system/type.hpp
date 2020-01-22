@@ -135,7 +135,7 @@ namespace dot
             }
 
             method_info method_info = new member_method_info_impl<class_t, return_t, args...>(name, type_, dot::typeof<return_t>(), mth, make_list(custom_attributes));
-            method_info->parameters = parameters;
+            method_info->parameters_ = parameters;
 
             methods_->add(method_info);
 
@@ -166,7 +166,7 @@ namespace dot
             }
 
             method_info method_info = new static_method_info_impl<return_t, args...>(name, type_, dot::typeof<return_t>(), mth, make_list(custom_attributes));
-            method_info->parameters = parameters;
+            method_info->parameters_ = parameters;
 
             methods_->add(method_info);
 
@@ -197,7 +197,7 @@ namespace dot
             }
 
             constructor_info ctor_info = new member_constructor_info_impl<class_t, args...>(type_, ctor, make_list(custom_attributes));
-            ctor_info->parameters = parameters;
+            ctor_info->parameters_ = parameters;
 
             ctors_->add(ctor_info);
 

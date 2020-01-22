@@ -30,26 +30,7 @@ limitations under the License.
 namespace dot
 {
     class member_info_impl; using member_info = ptr<member_info_impl>;
-    class member_info_data_impl; using member_info_data = ptr<member_info_data_impl>;
     class type_impl; using type = ptr<type_impl>;
-
-    /// Data for member_info.
-    class DOT_CLASS member_info_data_impl : public virtual object_impl
-    {
-        typedef member_info_data_impl self;
-
-    public: // PROPERTIES
-
-        /// Gets the name of the current member.
-        string name; // TODO - replace by method
-
-    protected: // CONSTRUCTORS
-
-        /// Create an empty instance of member_info_data.
-        ///
-        /// This constructor is protected. It is used by derived classes only.
-        member_info_data_impl() = default;
-    };
 
     /// Obtains information about the attributes of a member and provides access to member metadata.
     class member_info_impl : public virtual object_impl
@@ -58,15 +39,17 @@ namespace dot
 
     private: // FIELDS
 
+        string name_;
+        type declaring_type_;
         list<attribute> custom_attributes_;
 
     public: // METHODS
 
         /// Gets the name of the current member.
-        string name; // TODO - convert to method
+        string name() const { return name_; }
 
         /// Gets the class that declares this member.
-        type declaring_type; // TODO - convert to method
+        type declaring_type() const { return declaring_type_; }
 
         /// Gets a collection that contains this member's custom attributes.
         list<attribute> get_custom_attributes(bool) { return custom_attributes_; }
@@ -82,10 +65,9 @@ namespace dot
         ///
         /// This constructor is protected. It is used by derived classes only.
         member_info_impl(const string& name, type declaring_type, list<attribute> custom_attributes)
-            : custom_attributes_(custom_attributes)
-        {
-            this->name = name;
-            this->declaring_type = declaring_type;
-        }
+            : name_(name)
+            , declaring_type_(declaring_type)
+            , custom_attributes_(custom_attributes)
+        {}
     };
 }

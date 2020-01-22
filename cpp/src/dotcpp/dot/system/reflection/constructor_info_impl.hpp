@@ -30,7 +30,7 @@ namespace dot
     /// Gets the parameters of this constructor.
     inline list<parameter_info> constructor_info_impl::get_parameters()
     {
-        return parameters;
+        return parameters_;
     }
 
     inline constructor_info_impl::constructor_info_impl(type declaring_type, list<attribute> custom_attributes)
@@ -50,8 +50,8 @@ namespace dot
     template <class class_, class ... args>
     inline object member_constructor_info_impl<class_, args...>::invoke(list<object> params)
     {
-        if ((params.is_empty() && parameters->count() != 0) || (!params.is_empty() && (params->count() != parameters->count())))
-            throw exception("Wrong number of parameters for constructor " + this->declaring_type->name() + "." + this->name);
+        if ((params.is_empty() && parameters_->count() != 0) || (!params.is_empty() && (params->count() != parameters_->count())))
+            throw exception("Wrong number of parameters for constructor " + this->declaring_type()->name() + "." + this->name());
 
         return invoke_impl(params, typename detail::make_index_sequence<sizeof...(args)>::index_type());
     }

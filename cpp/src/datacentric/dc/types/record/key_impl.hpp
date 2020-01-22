@@ -174,30 +174,30 @@ namespace dc
             auto record_element_info_iterator = std::find_if(record_element_info_array->begin(), record_element_info_array->end()
                     , [&key_element_info](dot::field_info record_prop) -> bool
                                                           {
-                                                              return key_element_info->name == record_prop->name;
+                                                              return key_element_info->name() == record_prop->name();
                                                           } );
 
             // Check that names match
             if (record_element_info_iterator == record_element_info_array->end()) throw dot::exception(dot::string::format(
                         "Element {0} of key type {1} "
-                        "is not found in the root data type {2}.", key_element_info->name, dot::typeof<dot::ptr<TKey>>()->name(), get_type()->name()
+                        "is not found in the root data type {2}.", key_element_info->name(), dot::typeof<dot::ptr<TKey>>()->name(), get_type()->name()
             ));
 
             dot::field_info record_element_info = *record_element_info_iterator;
 
             // Check that types match
-            if (key_element_info->field_type != record_element_info->field_type)
+            if (key_element_info->field_type() != record_element_info->field_type())
                 throw dot::exception(dot::string::format(
                         "Property {0} of key type {1} "
                         "has type {2} "
                         "while property {3} of record type {4} "
                         "has type {5}."
-                        , key_element_info->name
+                        , key_element_info->name()
                         , dot::typeof<dot::ptr<TKey>>()->name()
-                        , key_element_info->field_type->name()
-                        , record_element_info->name
+                        , key_element_info->field_type()->name()
+                        , record_element_info->name()
                         , dot::typeof<dot::ptr<TRecord>>()->name()
-                        , record_element_info->field_type->name()
+                        , record_element_info->field_type()->name()
             ));
 
             // Read from the record and assign to the key

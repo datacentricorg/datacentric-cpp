@@ -101,7 +101,7 @@ namespace dot
         type result = obj->get_type();
         list<field_info> props = result->get_fields();
         field_info int_prop = props[0];
-        REQUIRE(int_prop->name == "int_field");
+        REQUIRE(int_prop->name() == "int_field");
         REQUIRE(int(int_prop->get_value(obj)) == 15);
 
         int_prop->set_value(obj, 19);
@@ -109,7 +109,7 @@ namespace dot
         REQUIRE(int(int_prop->get_value(obj)) == 19);
 
         field_info private_int_prop = props[1];
-        REQUIRE(private_int_prop->name == "private_int_field");
+        REQUIRE(private_int_prop->name() == "private_int_field");
         REQUIRE(int(private_int_prop->get_value(obj)) == 42);
 
         props[2]->set_value(obj, 2384);

@@ -208,7 +208,7 @@ namespace dot
 
             props_list<PropR> ret;
             ret.props_.swap(props_);
-            ret.props_.push_back(rhs.prop_->name);
+            ret.props_.push_back(rhs.prop_->name());
             return ret;
         }
 
@@ -321,56 +321,56 @@ namespace dot
         {
             // Compile time check
             static_assert(std::is_same<typename Prop::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
-            return props_list<PropR>{{ prop_->name, rhs.prop_->name }};
+            return props_list<PropR>{{ prop_->name(), rhs.prop_->name() }};
         }
 
         /// Wraps inner array item access into props_list.
         auto operator[](int rhs)
         {
             using ReturnType = typename std::remove_reference<decltype(std::declval<Prop>().operator[](rhs))>::type;
-            return props_list<ReturnType>{{ prop_->name, std::to_string(rhs) }};
+            return props_list<ReturnType>{{ prop_->name(), std::to_string(rhs) }};
         }
 
         /// Applies operator to prop_wrapper and rerurns operator_wrapper.
         template <class T>
         operator_wrapper operator==(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name, "$eq", rhs);
+            return new operator_wrapper_impl(prop_->name(), "$eq", rhs);
         }
 
         /// Applies operator to prop_wrapper and rerurns operator_wrapper.
         template <class T>
         operator_wrapper operator!=(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name, "$ne", rhs);
+            return new operator_wrapper_impl(prop_->name(), "$ne", rhs);
         }
 
         /// Applies operator to prop_wrapper and rerurns operator_wrapper.
         template <class T>
         operator_wrapper operator<(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name, "$lt", rhs);
+            return new operator_wrapper_impl(prop_->name(), "$lt", rhs);
         }
 
         /// Applies operator to prop_wrapper and rerurns operator_wrapper.
         template <class T>
         operator_wrapper operator<=(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name, "$lte", rhs);
+            return new operator_wrapper_impl(prop_->name(), "$lte", rhs);
         }
 
         /// Applies operator to prop_wrapper and rerurns operator_wrapper.
         template <class T>
         operator_wrapper operator>(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name, "$gt", rhs);
+            return new operator_wrapper_impl(prop_->name(), "$gt", rhs);
         }
 
         /// Applies operator to prop_wrapper and rerurns operator_wrapper.
         template <class T>
         operator_wrapper operator>=(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name, "$gte", rhs);
+            return new operator_wrapper_impl(prop_->name(), "$gte", rhs);
         }
 
         /// Applies "$in" operator to prop_wrapper and values list and rerurns operator_wrapper.
@@ -382,14 +382,14 @@ namespace dot
             {
                 l->add(item);
             }
-            return new operator_wrapper_impl(prop_->name, "$in", l);
+            return new operator_wrapper_impl(prop_->name(), "$in", l);
         }
 
         /// Applies "$in" operator to prop_wrapper and values list and rerurns operator_wrapper.
         template <class T>
         operator_wrapper in(dot::list<T> rhs)
         {
-            return new operator_wrapper_impl(prop_->name, "$in", rhs);
+            return new operator_wrapper_impl(prop_->name(), "$in", rhs);
         }
 
         /// Applies "$in" operator to prop_wrapper and values list and rerurns operator_wrapper.
@@ -401,7 +401,7 @@ namespace dot
             {
                 l->add(item);
             }
-            return new operator_wrapper_impl(prop_->name, "$in", l);
+            return new operator_wrapper_impl(prop_->name(), "$in", l);
         }
     };
 

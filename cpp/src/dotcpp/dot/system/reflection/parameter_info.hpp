@@ -39,19 +39,22 @@ namespace dot
     public: // METHODS
 
         /// Gets the type of this parameter.
-        type parameter_type; // TODO - convert to method
+        type parameter_type() const { return parameter_type_; }
 
         /// Gets the name of this parameter.
-        string name;  // TODO - convert to method
+        string name() const { return name_; }
 
         /// Gets the zero-based position of the parameter in the formal parameter list.
-        int position;  // TODO - convert to method
+        int position() const { return position_; }
 
         /// Gets a collection that contains this parameter's custom attributes.
         list<attribute> get_custom_attributes(bool) { return custom_attributes_; }
 
     private: // FIELDS
 
+        type parameter_type_;
+        string name_;
+        int position_;
         list<attribute> custom_attributes_;
 
     private: // CONSTRUCTORS
@@ -61,12 +64,11 @@ namespace dot
         /// This constructor is private. Use make_parameter_info(...)
         /// function with matching signature instead.
         parameter_info_impl(string name, type parameter_type, int position, list<attribute> custom_attributes)
-        {
-            this->parameter_type = parameter_type;
-            this->name = name;
-            this->position = position;
-            this->custom_attributes_ = custom_attributes;
-        }
+            : parameter_type_(parameter_type)
+            , name_(name)
+            , position_(position)
+            , custom_attributes_(custom_attributes)
+        {}
     };
 
     /// Create from parameter name, parameter type, and parameter position.

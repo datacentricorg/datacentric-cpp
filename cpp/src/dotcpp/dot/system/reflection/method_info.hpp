@@ -52,11 +52,12 @@ namespace dot
         virtual object invoke(object, list<object>) = 0;
 
         /// Gets the return type of this method.
-        type return_type; // TODO - convert to method
+        type return_type();
 
     protected: // FIELDS
 
-        list<parameter_info> parameters;
+        type return_type_;
+        list<parameter_info> parameters_;
 
     protected: // CONSTRUCTORS
 

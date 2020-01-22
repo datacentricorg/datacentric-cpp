@@ -63,15 +63,15 @@ namespace dot
                     return;
                 }
 
-                if (props_[i]->name == element_name)
+                if (props_[i]->name() == element_name)
                 {
                     index_of_current_ = i;
 
-                    if (dot::typeof<dot::list_base>()->is_assignable_from(props_[i]->field_type))
+                    if (dot::typeof<dot::list_base>()->is_assignable_from(props_[i]->field_type()))
                     {
                         data_writer_ = make_data_writer(nullptr);
                         data_writer_->current_element_info_ = props_[i];
-                        data_writer_->current_element_name_ = props_[i]->name;
+                        data_writer_->current_element_name_ = props_[i]->name();
                         data_writer_->current_state_ = tree_writer_state::element_started;
 
                         data_writer_->current_array_ = dot::make_list<dot::list<dot::object>>();
@@ -81,11 +81,11 @@ namespace dot
                         //writer->write_end_document(type_name);
                     }
 
-                    if (props_[i]->field_type->is_class() && props_[i]->field_type->get_fields()->size())
+                    if (props_[i]->field_type()->is_class() && props_[i]->field_type()->get_fields()->size())
                     {
-                        object result = dot::activator::create_instance(props_[i]->field_type);
+                        object result = dot::activator::create_instance(props_[i]->field_type());
                         data_writer_ = make_data_writer(result);
-                        data_writer_->write_start_document(props_[i]->field_type->name());
+                        data_writer_->write_start_document(props_[i]->field_type()->name());
 
                         tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, result }));
 

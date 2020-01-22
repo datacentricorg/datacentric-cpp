@@ -41,9 +41,9 @@ namespace dc
             }
             else
             {
-                if (prop->field_type->is_subclass_of(dot::typeof<key_base>()))
+                if (prop->field_type()->is_subclass_of(dot::typeof<key_base>()))
                 {
-                    dot::object empty_key = dot::activator::create_instance(prop->field_type);
+                    dot::object empty_key = dot::activator::create_instance(prop->field_type());
                     ss << *empty_key->to_string();
                 }
             }
@@ -59,9 +59,9 @@ namespace dc
 
         for (dot::field_info prop : props)
         {
-            if (prop->field_type->is_subclass_of(dot::typeof<key_base>()))
+            if (prop->field_type()->is_subclass_of(dot::typeof<key_base>()))
             {
-                key_base sub_key = (key_base)dot::activator::create_instance(prop->field_type);
+                key_base sub_key = (key_base)dot::activator::create_instance(prop->field_type());
                 sub_key->assign_string(value);
 
                 prop->set_value(this, sub_key);
@@ -74,15 +74,15 @@ namespace dc
                 if (token.empty())
                     continue;
 
-                if (prop->field_type->equals(dot::typeof<int>()) || prop->field_type->equals(dot::typeof<dot::nullable<int>>()))
+                if (prop->field_type()->equals(dot::typeof<int>()) || prop->field_type()->equals(dot::typeof<dot::nullable<int>>()))
                 {
                     prop->set_value(this, std::stoi(token));
                 }
-                else if (prop->field_type->equals(dot::typeof<dot::string>()))
+                else if (prop->field_type()->equals(dot::typeof<dot::string>()))
                 {
                     prop->set_value(this, dot::string(token));
                 }
-                else if (prop->field_type->equals(dot::typeof<dot::object_id>()))
+                else if (prop->field_type()->equals(dot::typeof<dot::object_id>()))
                 {
                     prop->set_value(this, dot::object_id(token));
                 }
