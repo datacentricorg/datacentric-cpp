@@ -184,6 +184,14 @@ namespace dot
         database db = db_client->get_database(db_name);
         collection db_collection = db->get_collection(db_collection_name);
 
+        // Create index
+        list<std::tuple<string, int>> indexes = make_list<std::tuple<string, int>>();
+        indexes->add({ "int_value", 1 });
+        indexes->add({ "string_value", -1 });
+        index_options idx_options = make_index_options();
+        idx_options->name = "test_index";
+        db_collection->create_index(indexes, idx_options);
+
         // Create documents and write to db
         test_class obj = make_test_class();
         obj->int_value = 66;
