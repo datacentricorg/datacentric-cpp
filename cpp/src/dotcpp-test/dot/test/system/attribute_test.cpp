@@ -75,6 +75,8 @@ namespace dot
     class test_class_impl; using test_class = ptr<test_class_impl>;
     test_class make_test_class();
 
+    inline test_class make_test_class();
+
     /// Test class with attributes.
     class test_class_impl : public object_impl
     {
@@ -114,7 +116,7 @@ namespace dot
                     ->with_method("get_int_field", &test_class_impl::get_int_field, {}, { make_test_attribute("class get_int_field method attribute") })
                     ->with_method("calculate_sum", &test_class_impl::calculate_sum, { "a", { "b", make_test_attribute("method parameter b attribute") } })
                     ->with_method("static_func", &test_class_impl::static_func, {}, { make_test_attribute("class static_func method attribute") })
-                    ->with_constructor(make_test_class, {}, { make_test_attribute("class constructor attribute") })
+                    ->with_constructor(&make_test_class, {}, { make_test_attribute("class constructor attribute") })
                     ->build();
             }();
 
