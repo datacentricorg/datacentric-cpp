@@ -39,7 +39,7 @@ namespace dc
     class DbNameKeyImpl; using DbNameKey = dot::Ptr<DbNameKeyImpl>;
     class DbServerKeyImpl; using DbServerKey = dot::Ptr<DbServerKeyImpl>;
     class DataSetImpl; using DataSet = dot::Ptr<DataSetImpl>;
-    class MongoQueryImpl; using MongoQuery = dot::Ptr<MongoQueryImpl>;
+    class TemporalMongoQueryImpl; using TemporalMongoQuery = dot::Ptr<TemporalMongoQueryImpl>;
 
     /// Data source is a logical concept similar to database
     /// that can be implemented for a document DB, relational DB,
@@ -185,10 +185,10 @@ namespace dc
         /// The root dataset has empty TemporalId value that is less
         /// than any other TemporalId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
-        virtual MongoQuery get_query(TemporalId data_set, dot::Type type) = 0;
+        virtual TemporalMongoQuery get_query(TemporalId data_set, dot::Type type) = 0;
 
         template <class TRecord>
-        MongoQuery get_query(TemporalId data_set)
+        TemporalMongoQuery get_query(TemporalId data_set)
         {
             return get_query(data_set, dot::typeof<TRecord>());
         }

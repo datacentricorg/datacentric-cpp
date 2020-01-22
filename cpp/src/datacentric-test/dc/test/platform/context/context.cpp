@@ -17,7 +17,7 @@ limitations under the License.
 #include <dc/test/implement.hpp>
 #include <dc/test/platform/context/context.hpp>
 
-#include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
+#include <dc/platform/data_source/mongo/temporal_mongo_data_source.hpp>
 #include <dc/platform/data_source/mongo/mongo_server_data.hpp>
 
 namespace dc
@@ -56,7 +56,7 @@ namespace dc
         // is actually used to access data.
         dot::String mapped_class_name = class_instance->get_type()->name();
 
-        MongoDataSource data_source = make_mongo_data_source();
+        TemporalMongoDataSource data_source = make_temporal_mongo_data_source();
         obj->data_source = data_source;
 
         data_source->env_type = EnvType::test;

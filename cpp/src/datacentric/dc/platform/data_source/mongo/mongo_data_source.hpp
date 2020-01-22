@@ -26,7 +26,7 @@ limitations under the License.
 
 namespace dc
 {
-    class MongoDataSourceBaseImpl; using MongoDataSourceBase = dot::Ptr<MongoDataSourceBaseImpl>;
+    class MongoDataSourceImpl; using MongoDataSource = dot::Ptr<MongoDataSourceImpl>;
     class ContextBaseImpl; using ContextBase = dot::Ptr<ContextBaseImpl>;
     class KeyImpl; using Key = dot::Ptr<KeyImpl>;
     class DataImpl; using Data = dot::Ptr<DataImpl>;
@@ -34,9 +34,9 @@ namespace dc
     /// Abstract base class for data source implementations based on MongoDB.
     ///
     /// This class provides functionality shared by all MongoDB data source types.
-    class DC_CLASS MongoDataSourceBaseImpl : public DataSourceImpl
+    class DC_CLASS MongoDataSourceImpl : public DataSourceImpl
     {
-        typedef MongoDataSourceBaseImpl self;
+        typedef MongoDataSourceImpl self;
 
     protected: // FIELDS
 
@@ -108,7 +108,7 @@ namespace dc
 
     protected: // PROTECTED
 
-        MongoDataSourceBaseImpl()
+        MongoDataSourceImpl()
         {
             // TODO uncomment
             //if (use_scalar_discriminator_convention_)

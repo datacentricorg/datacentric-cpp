@@ -16,34 +16,34 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/mongo_query.hpp>
+#include <dc/platform/data_source/mongo/temporal_mongo_query.hpp>
 #include <dc/platform/context/context_base.hpp>
-#include <dc/platform/data_source/mongo/mongo_query_cursor_impl.hpp>
+#include <dc/platform/data_source/mongo/temporal_mongo_query_cursor_impl.hpp>
 
 namespace dc
 {
-    MongoQuery MongoQueryImpl::where(dot::FilterTokenBase value)
+    TemporalMongoQuery TemporalMongoQueryImpl::where(dot::FilterTokenBase value)
     {
         // Save filter.
         where_.push_back(value);
         return this;
     }
 
-    MongoQuery MongoQueryImpl::sort_by(dot::FieldInfo key_selector)
+    TemporalMongoQuery TemporalMongoQueryImpl::sort_by(dot::FieldInfo key_selector)
     {
         // Save sort key.
         sort_.push_back(std::make_pair(key_selector, 1));
         return this;
     }
 
-    MongoQuery MongoQueryImpl::sort_by_descending(dot::FieldInfo key_selector)
+    TemporalMongoQuery TemporalMongoQueryImpl::sort_by_descending(dot::FieldInfo key_selector)
     {
         // Save sort key.
         sort_.push_back(std::make_pair(key_selector, -1));
         return this;
     }
 
-    dot::ObjectCursorWrapperBase MongoQueryImpl::get_cursor()
+    dot::ObjectCursorWrapperBase TemporalMongoQueryImpl::get_cursor()
     {
         dot::Type record_type = dot::typeof<Record>();
 
@@ -83,10 +83,10 @@ namespace dc
             ->then_by_descending(record_type->get_field("_dataset"))
             ->then_by_descending(record_type->get_field("_id"));
 
-        return new MongoQueryCursorImpl(query->get_cursor(), query->type_, this->data_source_->context);
+        return new TemporalMongoQueryCursorImpl(query->get_cursor(), query->type_, this->data_source_->context);
     }
 
-    dot::ObjectCursorWrapperBase MongoQueryImpl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
+    dot::ObjectCursorWrapperBase TemporalMongoQueryImpl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
     {
         if (props.is_empty() || props->size() != element_type->get_generic_arguments()->size())
         {

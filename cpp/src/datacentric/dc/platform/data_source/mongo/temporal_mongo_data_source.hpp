@@ -18,17 +18,17 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/platform/data_source/mongo/mongo_data_source_base_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_data_source.hpp>
 #include <dc/platform/data_set/data_set_detail_data.hpp>
 
 namespace dc
 {
-    class MongoDataSourceImpl; using MongoDataSource = dot::Ptr<MongoDataSourceImpl>;
+    class TemporalMongoDataSourceImpl; using TemporalMongoDataSource = dot::Ptr<TemporalMongoDataSourceImpl>;
 
     /// Data source implementation for MongoDB.
-    class DC_CLASS MongoDataSourceImpl : public MongoDataSourceBaseImpl
+    class DC_CLASS TemporalMongoDataSourceImpl : public MongoDataSourceImpl
     {
-        typedef MongoDataSourceImpl self;
+        typedef TemporalMongoDataSourceImpl self;
 
     public: // METHODS
 
@@ -89,7 +89,7 @@ namespace dc
         /// The root dataset has empty TemporalId value that is less
         /// than any other TemporalId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
-        virtual MongoQuery get_query(TemporalId data_set, dot::Type type) override;
+        virtual TemporalMongoQuery get_query(TemporalId data_set, dot::Type type) override;
 
         /// Write a delete marker for the specified data_set and data_key
         /// instead of actually deleting the record. This ensures that
@@ -255,5 +255,5 @@ namespace dc
         dot::Dictionary<TemporalId, dot::HashSet<TemporalId>> data_set_parent_dict_ = dot::make_dictionary<TemporalId, dot::HashSet<TemporalId>>();
     };
 
-    inline MongoDataSource make_mongo_data_source() { return new MongoDataSourceImpl(); }
+    inline TemporalMongoDataSource make_temporal_mongo_data_source() { return new TemporalMongoDataSourceImpl(); }
 }

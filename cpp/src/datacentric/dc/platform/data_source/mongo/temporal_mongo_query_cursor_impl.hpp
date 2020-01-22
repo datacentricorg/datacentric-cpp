@@ -25,12 +25,12 @@ limitations under the License.
 
 namespace dc
 {
-    class MongoQueryIteratorImpl; using MongoQueryIterator = dot::Ptr<MongoQueryIteratorImpl>;
-    class MongoQueryCursorImpl; using MongoQueryCursor = dot::Ptr<MongoQueryCursorImpl>;
+    class TemporalMongoQueryIteratorImpl; using TemporalMongoQueryIterator = dot::Ptr<TemporalMongoQueryIteratorImpl>;
+    class TemporalMongoQueryCursorImpl; using TemporalMongoQueryCursor = dot::Ptr<TemporalMongoQueryCursorImpl>;
 
     /// Class implements dot::iterator_wrapper methods.
     /// Constructs from IteratorInnerBase to filter input records and initialize them with context.
-    class DC_CLASS MongoQueryIteratorImpl : public dot::IteratorInnerBaseImpl
+    class DC_CLASS TemporalMongoQueryIteratorImpl : public dot::IteratorInnerBaseImpl
     {
     public:
 
@@ -52,16 +52,16 @@ namespace dc
 
         virtual bool operator!=(dot::IteratorInnerBase rhs) override
         {
-            return *iterator_ != rhs.as<MongoQueryIterator>()->iterator_;
+            return *iterator_ != rhs.as<TemporalMongoQueryIterator>()->iterator_;
         }
 
         virtual bool operator==(dot::IteratorInnerBase rhs) override
         {
-            return *iterator_ == rhs.as<MongoQueryIterator>()->iterator_;
+            return *iterator_ == rhs.as<TemporalMongoQueryIterator>()->iterator_;
         }
 
         /// Constructs from IteratorInnerBase and ContextBase.
-        MongoQueryIteratorImpl(dot::IteratorInnerBase iterator, dot::ObjectCursorWrapperBase cursor, dot::Type query_type, ContextBase context)
+        TemporalMongoQueryIteratorImpl(dot::IteratorInnerBase iterator, dot::ObjectCursorWrapperBase cursor, dot::Type query_type, ContextBase context)
             : iterator_(iterator)
             , cursor_(cursor)
             , query_type_(query_type)
@@ -139,12 +139,12 @@ namespace dc
     /// Class implements dot::ObjectCursorWrapperBase.
     /// Constructs from other ObjectCursorWrapperBase and ContextBase
     /// to use it in iterator.
-    class DC_CLASS MongoQueryCursorImpl : public dot::ObjectCursorWrapperBaseImpl
+    class DC_CLASS TemporalMongoQueryCursorImpl : public dot::ObjectCursorWrapperBaseImpl
     {
     public:
 
         /// Constructs from ObjectCursorWrapperBase and ContextBase.
-        MongoQueryCursorImpl(dot::ObjectCursorWrapperBase cursor, dot::Type query_type, ContextBase context)
+        TemporalMongoQueryCursorImpl(dot::ObjectCursorWrapperBase cursor, dot::Type query_type, ContextBase context)
             : cursor_(cursor)
             , query_type_(query_type)
             , context_(context)
@@ -160,14 +160,14 @@ namespace dc
         /// for newly-available documents.
         dot::IteratorWrappper<dot::Object> begin()
         {
-            return dot::IteratorWrappper<dot::Object>(new MongoQueryIteratorImpl(cursor_->begin().iterator_, cursor_, query_type_, context_));
+            return dot::IteratorWrappper<dot::Object>(new TemporalMongoQueryIteratorImpl(cursor_->begin().iterator_, cursor_, query_type_, context_));
         }
 
         /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
         dot::IteratorWrappper<dot::Object> end()
         {
-            return dot::IteratorWrappper<dot::Object>(new MongoQueryIteratorImpl(cursor_->end().iterator_, cursor_, query_type_, context_));
+            return dot::IteratorWrappper<dot::Object>(new TemporalMongoQueryIteratorImpl(cursor_->end().iterator_, cursor_, query_type_, context_));
         }
 
     private: // FIELDS

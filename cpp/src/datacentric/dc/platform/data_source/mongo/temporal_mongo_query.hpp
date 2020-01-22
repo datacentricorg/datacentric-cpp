@@ -21,22 +21,22 @@ limitations under the License.
 
 #include <dot/mongo/mongo_db/mongo/collection.hpp>
 #include <dot/mongo/mongo_db/query/query.hpp>
-#include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
+#include <dc/platform/data_source/mongo/temporal_mongo_data_source.hpp>
 
 namespace dc
 {
-    class MongoQueryImpl; using MongoQuery = dot::Ptr<MongoQueryImpl>;
-    class MongoDataSourceImpl; using MongoDataSource = dot::Ptr<MongoDataSourceImpl>;
+    class TemporalMongoQueryImpl; using TemporalMongoQuery = dot::Ptr<TemporalMongoQueryImpl>;
+    class TemporalMongoDataSourceImpl; using TemporalMongoDataSource = dot::Ptr<TemporalMongoDataSourceImpl>;
 
     /// Implements query for MongoDB.
     /// This implementation combines methods of mongo query with
     /// additional constraints and ordering to retrieve the correct version
     /// of the record across multiple datasets.
-    class DC_CLASS MongoQueryImpl : public dot::ObjectImpl
+    class DC_CLASS TemporalMongoQueryImpl : public dot::ObjectImpl
     {
-        typedef MongoQueryImpl self;
+        typedef TemporalMongoQueryImpl self;
 
-        friend MongoQuery make_mongo_query(dot::Collection collection,
+        friend TemporalMongoQuery make_temporal_mongo_query(dot::Collection collection,
             dot::Type type,
             DataSource data_source,
             TemporalId data_set);
@@ -44,13 +44,13 @@ namespace dc
     public: // METHODS
 
         /// Filters a sequence of values based on a predicate.
-        MongoQuery where(dot::FilterTokenBase value);
+        TemporalMongoQuery where(dot::FilterTokenBase value);
 
         /// Sorts the elements of a sequence in ascending order according to the selected key.
-        MongoQuery sort_by(dot::FieldInfo key_selector);
+        TemporalMongoQuery sort_by(dot::FieldInfo key_selector);
 
         /// Sorts the elements of a sequence in descending order according to the selected key.
-        MongoQuery sort_by_descending(dot::FieldInfo key_selector);
+        TemporalMongoQuery sort_by_descending(dot::FieldInfo key_selector);
 
         /// Converts query to cursor so iteration can be performed.
         dot::ObjectCursorWrapperBase get_cursor();
@@ -60,14 +60,14 @@ namespace dc
 
         /// Sorts the elements of a sequence in ascending order according to the selected key.
         template <class Class, class Prop>
-        MongoQuery sort_by(dot::PropWrapper<Class, Prop> key_selector)
+        TemporalMongoQuery sort_by(dot::PropWrapper<Class, Prop> key_selector)
         {
             return sort_by(key_selector.prop_);
         }
 
         /// Sorts the elements of a sequence in descending order according to the selected key.
         template <class Class, class Prop>
-        MongoQuery sort_by_descending(dot::PropWrapper<Class, Prop> key_selector)
+        TemporalMongoQuery sort_by_descending(dot::PropWrapper<Class, Prop> key_selector)
         {
             return sort_by_descending(key_selector.prop_);
         }
@@ -89,7 +89,7 @@ namespace dc
     private:
 
         /// Private query constructor from collection, type, data source and dataset.
-        MongoQueryImpl(dot::Collection collection,
+        TemporalMongoQueryImpl(dot::Collection collection,
             dot::Type type,
             DataSource data_source,
             TemporalId data_set)
@@ -102,7 +102,7 @@ namespace dc
 
         dot::Collection collection_;
         dot::Type type_;
-        MongoDataSource data_source_;
+        TemporalMongoDataSource data_source_;
         TemporalId data_set_;
 
         std::vector<dot::FilterTokenBase> where_;
@@ -110,11 +110,11 @@ namespace dc
     };
 
     /// Creates query from collection, type, data source and dataset.
-    inline MongoQuery make_mongo_query(dot::Collection collection,
+    inline TemporalMongoQuery make_temporal_mongo_query(dot::Collection collection,
                                         dot::Type type,
                                         DataSource data_source,
                                         TemporalId data_set)
     {
-        return new MongoQueryImpl(collection, type, data_source, data_set);
+        return new TemporalMongoQueryImpl(collection, type, data_source, data_set);
     }
 }

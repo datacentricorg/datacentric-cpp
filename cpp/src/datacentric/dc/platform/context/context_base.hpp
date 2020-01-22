@@ -21,7 +21,7 @@ limitations under the License.
 #include <dc/platform/data_set/data_set_data.hpp>
 #include <dc/platform/data_set/data_set_flags.hpp>
 #include <dc/platform/data_source/data_source_data.hpp>
-#include <dc/platform/data_source/mongo/mongo_query.hpp>
+#include <dc/platform/data_source/mongo/temporal_mongo_query.hpp>
 
 namespace dc
 {
@@ -163,7 +163,7 @@ namespace dc
         /// Generic parameter TRecord is not necessarily the root data Type;
         /// it may also be a Type derived from the root data Type.
         template <class TRecord>
-        MongoQuery get_query()
+        TemporalMongoQuery get_query()
         {
             return get_query(this->data_set, dot::typeof<TRecord>());
         }
@@ -184,7 +184,7 @@ namespace dc
         /// Generic parameter TRecord is not necessarily the root data Type;
         /// it may also be a Type derived from the root data Type.
         template <class TRecord>
-        MongoQuery get_query(TemporalId load_from)
+        TemporalMongoQuery get_query(TemporalId load_from)
         {
             return get_query(load_from, dot::typeof<TRecord>());
         }
@@ -514,7 +514,7 @@ namespace dc
 
         Record load_or_null(Key key, TemporalId load_from);
 
-        MongoQuery get_query(TemporalId load_from, dot::Type data_type);
+        TemporalMongoQuery get_query(TemporalId load_from, dot::Type data_type);
     };
 }
 

@@ -272,7 +272,7 @@ namespace dc
     {
         // Get dataset and query
         TemporalId data_set = context->get_data_set(data_set_id, context->data_set);
-        MongoQuery query = context->data_source->get_query<TRecord>(data_set);
+        TemporalMongoQuery query = context->data_source->get_query<TRecord>(data_set);
 
         // Iterate over records
         for (TRecord record : query->get_cursor<TRecord>())
@@ -618,7 +618,7 @@ namespace dc
         }
         {
             received << "query by MongoTestData, unconstrained" << std::endl;
-            MongoQuery query = context->data_source->get_query<MongoTestData>(data_set_d);
+            TemporalMongoQuery query = context->data_source->get_query<MongoTestData>(data_set_d);
             for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
@@ -626,7 +626,7 @@ namespace dc
         }
         {
             received << "query by MongoTestDerivedData : MongoTestData which also picks up MongoTestDerivedFromDerivedData : MongoTestDerivedData, unconstrained" << std::endl;
-            MongoQuery query = context->data_source->get_query<MongoTestDerivedData>(data_set_d);
+            TemporalMongoQuery query = context->data_source->get_query<MongoTestDerivedData>(data_set_d);
             for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
@@ -635,7 +635,7 @@ namespace dc
         {
             received << "query by MongoTestOtherDerivedData : MongoTestData, unconstrained" << std::endl;
             MongoTestOtherDerivedDataImpl::typeof();
-            MongoQuery query = context->data_source->get_query<MongoTestOtherDerivedData>(data_set_d);
+            TemporalMongoQuery query = context->data_source->get_query<MongoTestOtherDerivedData>(data_set_d);
             for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
@@ -643,7 +643,7 @@ namespace dc
         }
         {
             received << "query by MongoTestDerivedFromDerivedData : MongoTestDerivedData, where MongoTestDerivedData : MongoTestData, unconstrained" << std::endl;
-            MongoQuery query = context->data_source->get_query<MongoTestDerivedFromDerivedData>(data_set_d);
+            TemporalMongoQuery query = context->data_source->get_query<MongoTestDerivedFromDerivedData>(data_set_d);
             for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
@@ -752,7 +752,7 @@ namespace dc
         }
 
         // Set revision time constraint
-        context->data_source.as<MongoDataSource>()->cutoff_time = cutoff_object_id;
+        context->data_source.as<TemporalMongoDataSource>()->cutoff_time = cutoff_object_id;
 
         // Get each record by TemporalId
         received << "load records by TemporalId with revised_before_id constraint" << std::endl;
@@ -796,7 +796,7 @@ namespace dc
         // Clear revision time constraint before exiting to avoid an error
         // about deleting readonly database. The error occurs because
         // revision time constraint makes the data source readonly.
-        context->data_source.as<MongoDataSource>()->cutoff_time = dot::Nullable<TemporalId>();
+        context->data_source.as<TemporalMongoDataSource>()->cutoff_time = dot::Nullable<TemporalId>();
 
         std::string to_verify = received.str();
         received.str("");

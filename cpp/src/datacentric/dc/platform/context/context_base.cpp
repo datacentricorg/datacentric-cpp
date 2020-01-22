@@ -47,7 +47,7 @@ namespace dc
         return data_source->load_or_null(key, load_from);
     }
 
-    MongoQuery ContextBaseImpl::get_query(TemporalId load_from, dot::Type data_type)
+    TemporalMongoQuery ContextBaseImpl::get_query(TemporalId load_from, dot::Type data_type)
     {
         return data_source->get_query(load_from, data_type);
     }

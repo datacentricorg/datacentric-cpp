@@ -16,18 +16,18 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
+#include <dc/platform/data_source/mongo/temporal_mongo_data_source.hpp>
 #include <dc/platform/context/context_base.hpp>
 #include <dc/types/record/deleted_record.hpp>
 #include <dc/types/record/data_type_info.hpp>
 #include <dc/attributes/class/index_elements_attribute.hpp>
 
 #include <dot/mongo/mongo_db/mongo/collection.hpp>
-#include <dc/platform/data_source/mongo/mongo_query.hpp>
+#include <dc/platform/data_source/mongo/temporal_mongo_query.hpp>
 
 namespace dc
 {
-    Record MongoDataSourceImpl::load_or_null(TemporalId id, dot::Type data_type)
+    Record TemporalMongoDataSourceImpl::load_or_null(TemporalId id, dot::Type data_type)
     {
         if (cutoff_time != nullptr)
         {
@@ -77,7 +77,7 @@ namespace dc
         return nullptr;
     }
 
-    Record MongoDataSourceImpl::load_or_null(Key key, TemporalId load_from)
+    Record TemporalMongoDataSourceImpl::load_or_null(Key key, TemporalId load_from)
     {
         // dot::String key in semicolon delimited format used in the lookup
         dot::String key_value = key->to_string();
@@ -110,7 +110,7 @@ namespace dc
         return nullptr;
     }
 
-    void MongoDataSourceImpl::save_many(dot::List<Record> records, TemporalId save_to)
+    void TemporalMongoDataSourceImpl::save_many(dot::List<Record> records, TemporalId save_to)
     {
         check_not_read_only(save_to);
 
@@ -143,13 +143,13 @@ namespace dc
         collection->insert_many(records);
     }
 
-    MongoQuery MongoDataSourceImpl::get_query(TemporalId data_set, dot::Type type)
+    TemporalMongoQuery TemporalMongoDataSourceImpl::get_query(TemporalId data_set, dot::Type type)
     {
-        return make_mongo_query(get_or_create_collection(type), type, this, data_set);
+        return make_temporal_mongo_query(get_or_create_collection(type), type, this, data_set);
     }
 
 
-    void MongoDataSourceImpl::delete_record(Key key, TemporalId delete_in)
+    void TemporalMongoDataSourceImpl::delete_record(Key key, TemporalId delete_in)
     {
         check_not_read_only(delete_in);
 
@@ -174,7 +174,7 @@ namespace dc
         collection->insert_one(record);
     }
 
-    dot::Query MongoDataSourceImpl::apply_final_constraints(dot::Query query, TemporalId load_from)
+    dot::Query TemporalMongoDataSourceImpl::apply_final_constraints(dot::Query query, TemporalId load_from)
     {
         // Get lookup list by expanding the list of imports to arbitrary
         // depth with duplicates and cyclic references removed.
@@ -204,7 +204,7 @@ namespace dc
         return result;
     }
 
-    dot::Nullable<TemporalId> MongoDataSourceImpl::get_data_set_or_empty(dot::String data_set_id, TemporalId load_from)
+    dot::Nullable<TemporalId> TemporalMongoDataSourceImpl::get_data_set_or_empty(dot::String data_set_id, TemporalId load_from)
     {
         TemporalId result;
         if (data_set_dict_->try_get_value(data_set_id, result))
@@ -249,7 +249,7 @@ namespace dc
         }
     }
 
-    void MongoDataSourceImpl::save_data_set(DataSet data_set_data, TemporalId save_to)
+    void TemporalMongoDataSourceImpl::save_data_set(DataSet data_set_data, TemporalId save_to)
     {
         // Save dataset to storage. This updates its Id
             // to the new TemporalId created during save
@@ -264,7 +264,7 @@ namespace dc
         data_set_parent_dict_->add(data_set_data->id, lookup_list);
     }
 
-    dot::HashSet<TemporalId> MongoDataSourceImpl::get_data_set_lookup_list(TemporalId load_from)
+    dot::HashSet<TemporalId> TemporalMongoDataSourceImpl::get_data_set_lookup_list(TemporalId load_from)
     {
         dot::HashSet<TemporalId> result;
 
@@ -301,7 +301,7 @@ namespace dc
         }
     }
 
-    DataSetDetail MongoDataSourceImpl::get_data_set_detail_or_empty(TemporalId detail_for)
+    DataSetDetail TemporalMongoDataSourceImpl::get_data_set_detail_or_empty(TemporalId detail_for)
     {
         DataSetDetail result;
 
@@ -339,7 +339,7 @@ namespace dc
         }
     }
 
-    dot::Nullable<TemporalId> MongoDataSourceImpl::get_cutoff_time(TemporalId data_set_id)
+    dot::Nullable<TemporalId> TemporalMongoDataSourceImpl::get_cutoff_time(TemporalId data_set_id)
     {
         // Get imports cutoff time for the dataset detail record.
         // If the record is not found, consider its CutoffTime null.
@@ -352,7 +352,7 @@ namespace dc
         return result;
     }
 
-    dot::Nullable<TemporalId> MongoDataSourceImpl::get_imports_cutoff_time(TemporalId data_set_id)
+    dot::Nullable<TemporalId> TemporalMongoDataSourceImpl::get_imports_cutoff_time(TemporalId data_set_id)
     {
         // Get dataset detail record
         DataSetDetail data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
@@ -362,7 +362,7 @@ namespace dc
         else return nullptr;
     }
 
-    dot::Collection MongoDataSourceImpl::get_or_create_collection(dot::Type data_type)
+    dot::Collection TemporalMongoDataSourceImpl::get_or_create_collection(dot::Type data_type)
     {
         // Check if collection Object has already been cached
         // for this type and return cached result if found
@@ -424,7 +424,7 @@ namespace dc
         return typed_collection;
     }
 
-    dot::HashSet<TemporalId> MongoDataSourceImpl::build_data_set_lookup_list(DataSet data_set_data)
+    dot::HashSet<TemporalId> TemporalMongoDataSourceImpl::build_data_set_lookup_list(DataSet data_set_data)
     {
         // Delegate to the second overload
         dot::HashSet<TemporalId> result = dot::make_hash_set<TemporalId>();
@@ -432,7 +432,7 @@ namespace dc
         return result;
     }
 
-    void MongoDataSourceImpl::build_data_set_lookup_list(DataSet data_set_data, dot::HashSet<TemporalId> result)
+    void TemporalMongoDataSourceImpl::build_data_set_lookup_list(DataSet data_set_data, dot::HashSet<TemporalId> result)
     {
         // Return if the dataset is null or has no imports
         if (data_set_data == nullptr) return;
@@ -480,7 +480,7 @@ namespace dc
         }
     }
 
-    void MongoDataSourceImpl::check_not_read_only(TemporalId data_set_id)
+    void TemporalMongoDataSourceImpl::check_not_read_only(TemporalId data_set_id)
     {
         if (read_only)
             throw dot::Exception(dot::String::format(

@@ -16,17 +16,17 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/data_source/mongo/mongo_data_source_base_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_data_source.hpp>
 #include <dc/platform/data_source/mongo/mongo_server_data.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
-    dot::List<char> MongoDataSourceBaseImpl::prohibited_db_name_symbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
+    dot::List<char> MongoDataSourceImpl::prohibited_db_name_symbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
 
-    int MongoDataSourceBaseImpl::max_db_name_length_ = 64;
+    int MongoDataSourceImpl::max_db_name_length_ = 64;
 
-    void MongoDataSourceBaseImpl::init(ContextBase context)
+    void MongoDataSourceImpl::init(ContextBase context)
     {
         // Initialize the base class
         DataSourceImpl::init(context);
@@ -79,14 +79,14 @@ namespace dc
         }
         else
         {
-            throw dot::Exception("mongo_server is not specified for MongoDataSourceBase.");
+            throw dot::Exception("mongo_server is not specified for MongoDataSource.");
         }
 
         // Get database interface using the client and database name
         db_ = client_->get_database(db_name_);
     }
 
-    TemporalId MongoDataSourceBaseImpl::create_ordered_object_id()
+    TemporalId MongoDataSourceImpl::create_ordered_object_id()
     {
         // Generate TemporalId and check that it is later
         // than the previous generated TemporalId
@@ -115,7 +115,7 @@ namespace dc
         return result;
     }
 
-    void MongoDataSourceBaseImpl::delete_db()
+    void MongoDataSourceImpl::delete_db()
     {
         if (read_only)
         {
