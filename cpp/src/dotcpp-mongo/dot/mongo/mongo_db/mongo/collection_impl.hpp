@@ -52,6 +52,9 @@ namespace dot
         /// Serialize object and pass it to mongo collection.
         virtual void insert_many(list_base objs) override
         {
+            if (!objs->get_length())
+                return;
+
             mongocxx::bulk_write bulk = collection_.create_bulk_write();
 
             for (int i = 0; i < objs->get_length(); ++i)
@@ -59,10 +62,10 @@ namespace dot
                 bson_record_serializer serializer = make_bson_record_serializer();
                 bson_writer writer = make_bson_writer();
                 serializer->serialize(writer, objs->get_item(i));
+                bulk.append(mongocxx::model::insert_one(writer->view()));
             }
 
             bulk.execute();
-
         }
 
         /// Delete one document according to filter.
