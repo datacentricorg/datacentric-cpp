@@ -18,6 +18,7 @@ limitations under the License.
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/mongo/mongo_query.hpp>
 #include <dc/platform/context/context_base.hpp>
+#include <dc/platform/data_source/mongo/mongo_query_cursor_impl.hpp>
 
 namespace dc
 {
@@ -100,7 +101,7 @@ namespace dc
             ->then_by_descending(record_type->get_field("_dataset"))
             ->then_by_descending(record_type->get_field("_id"));
 
-        return query->get_cursor();
+        return new mongo_query_cursor_impl(query->get_cursor(), this->data_source_->context);
     }
 
     dot::object_cursor_wrapper_base mongo_query_impl::select(dot::list<dot::field_info> props, dot::type element_type)
