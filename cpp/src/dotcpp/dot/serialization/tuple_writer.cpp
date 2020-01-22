@@ -218,8 +218,8 @@ namespace dot
             // Check type match
             //if (!element_type->equals(value_type)) // TODO change to !element_type->is_assignable_from(value_type)
             //    throw dot::exception(
-            //        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
-            //        dot::string::format("into element of type {0}.", element_type->name));
+            //        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
+            //        dot::string::format("into element of type {0}.", element_type->name()));
 
             dot::object converted_value = value;
             if (element_type->equals(dot::typeof<double>()))

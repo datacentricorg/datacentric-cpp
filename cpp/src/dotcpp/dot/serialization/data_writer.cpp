@@ -253,7 +253,7 @@ namespace dot
         //else if (current_array_item_type_ == dot::typeof<local_date_time>()) added_item = dot::local_date_time();
         //else if (current_array_item_type_ == dot::typeof<nullable<local_date_time>>()) added_item = nullptr;
         //else if (current_array_item_type_->is_class) added_item = nullptr;
-        //else throw dot::exception(dot::string::format("Value type {0} is not supported for serialization.", current_array_item_type_->name));
+        //else throw dot::exception(dot::string::format("Value type {0} is not supported for serialization.", current_array_item_type_->name()));
 
         //current_array_->add_object(added_item);
         //current_array_item_ = added_item;
@@ -347,8 +347,8 @@ namespace dot
             // Check type match
             //if (!element_type->equals(value_type)) // TODO change to !element_type->is_assignable_from(value_type)
             //    throw dot::exception(
-            //        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
-            //        dot::string::format("into element of type {0}.", element_type->name));
+            //        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
+            //        dot::string::format("into element of type {0}.", element_type->name()));
 
             dot::object converted_value = value;
             if (element_type->equals(dot::typeof<double>()))

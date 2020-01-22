@@ -203,10 +203,9 @@ namespace dot
     }
 
     type_impl::type_impl(string nspace, string name)
-    {
-        this->name_space_ = nspace;
-        this->name_ = name;
-    }
+        : name_space_(nspace)
+        , name_(name)
+    {}
 
     list<attribute> type_impl::get_custom_attributes(bool inherit)
     {

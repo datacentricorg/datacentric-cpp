@@ -665,13 +665,13 @@ namespace dot
         template <class Head, class Second, class ... Tail>
         static string get_name()
         {
-            return dot::typeof<Head>()->name + get_name<Second, Tail...>();
+            return dot::typeof<Head>()->name() + get_name<Second, Tail...>();
         }
 
         template <class Head>
         static string get_name()
         {
-            return dot::typeof<Head>()->name;
+            return dot::typeof<Head>()->name();
         }
 
         template <class Head, class Second, class ... Tail>
