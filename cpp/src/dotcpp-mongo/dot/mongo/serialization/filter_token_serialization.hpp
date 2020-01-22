@@ -33,6 +33,7 @@ namespace dot
     {
         dot::type value_type = value->get_type();
 
+        // Convert value to supported type
         list<attribute> value_attributes = value_type->get_custom_attributes(dot::typeof<filter_token_serialization_attribute>(), true);
         if (value_attributes->count())
         {
@@ -40,6 +41,7 @@ namespace dot
              value_type = value->get_type();
         }
 
+        // Write value to bson
         if (value_type->equals(dot::typeof<dot::string>()))
             builder.append(*(dot::string)value);
         else

@@ -138,6 +138,20 @@ namespace dc
 
     private:
 
+        /// Bytes size and structure of object_id.
+        static const int oid_bytes_size_;
+        static const int oid_timestamp_offset_;
+        static const int oid_timestamp_size_;
+        static const int oid_other_offset_;
+        static const int oid_other_size_;
+
+        /// Bytes size and structure of temporal_id.
+        static const int bytes_size_;
+        static const int timestamp_offset_;
+        static const int timestamp_size_;
+        static const int other_offset_;
+        static const int other_size_;
+
         dot::byte_array bytes_;
     };
 }
