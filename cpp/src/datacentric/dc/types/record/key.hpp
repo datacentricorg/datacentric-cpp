@@ -20,14 +20,14 @@ limitations under the License.
 #include <dc/types/record/record.hpp>
 #include <dot/system/object.hpp>
 #include <dc/types/record/key_base.hpp>
-#include <dc/types/record/CachedRecord.hpp>
+#include <dc/types/record/cached_record.hpp>
 
 namespace dc
 {
     template <typename TKey, typename TRecord> class key_impl;
     template <typename TKey, typename TRecord> using key = dot::ptr<key_impl<TKey, TRecord>>;
 
-    class CachedRecordImpl; using CachedRecord = dot::ptr<CachedRecordImpl>;
+    class cached_record_impl; using cached_record = dot::ptr<cached_record_impl>;
     class context_base_impl; using context_base = dot::ptr<context_base_impl>;
 
     /// Keys must derive from this type
@@ -50,7 +50,7 @@ namespace dc
         /// an in-memory object to a key which will also set values
         /// of the elements of the key to the corresponding values
         /// of the record.
-        CachedRecord cachedRecord_;
+        cached_record cached_record_;
 
     public: // METHODS
 
@@ -160,13 +160,13 @@ namespace dc
             // the dataset of the record may not
             // be the same as the dataset where
             // the record is looked up.
-            if (cachedRecord_ != nullptr && cachedRecord_->data_set == loadFrom)
+            if (cached_record_ != nullptr && cached_record_->data_set == loadFrom)
             {
                 // If cached for the argument dataset, return the cached
                 // value unless it is the delete marker, in which case
                 // return null
-                if (cachedRecord_->Record == nullptr) return nullptr;
-                else return (dot::ptr<TRecord>)(record_base)(cachedRecord_->Record);
+                if (cached_record_->record == nullptr) return nullptr;
+                else return (dot::ptr<TRecord>)(record_base)(cached_record_->record);
             }
             else
             {
@@ -192,7 +192,7 @@ namespace dc
 
                     // Record not found or is a delete marker,
                     // cache an empty record and return null
-                    cachedRecord_ = make_CachedRecord(loadFrom);
+                    cached_record_ = make_cached_record(loadFrom);
                     return nullptr;
                 }
                 else
@@ -205,7 +205,7 @@ namespace dc
 
                     // Cache the record; the ctor of CachedRecord
                     // will cache null if the record is a delete marker
-                    cachedRecord_ = make_CachedRecord(loadFrom, result);
+                    cached_record_ = make_cached_record(loadFrom, result);
 
                     // Return the result after caching it inside the key
                     return result;
@@ -243,7 +243,7 @@ namespace dc
         /// record is null.
         bool HasCachedRecord()
         {
-            return cachedRecord_ != nullptr;
+            return cached_record_ != nullptr;
         }
 
         /// Use SetCachedRecord(record, dataSet) method to cache a
@@ -282,7 +282,7 @@ namespace dc
             AssignKeyElements(record);
 
             // Cache self inside the key
-            cachedRecord_ = make_CachedRecord(dataSet, record);
+            cached_record_ = make_cached_record(dataSet, record);
         }
 
         /// Clear the previously cached record so that a
@@ -290,7 +290,7 @@ namespace dc
         /// SetCachedRecord(record).
         void ClearCachedRecord()
         {
-            cachedRecord_ = nullptr;
+            cached_record_ = nullptr;
         }
 
         /// Assign key elements from record to key.

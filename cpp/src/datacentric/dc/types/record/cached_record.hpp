@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    class CachedRecordImpl; using CachedRecord = dot::ptr<CachedRecordImpl>;
+    class cached_record_impl; using cached_record = dot::ptr<cached_record_impl>;
     class dot::object_id;
     class record_base_impl; using record_base = dot::ptr<record_base_impl>;
 
@@ -45,11 +45,11 @@ namespace dc
     /// an in-memory object to a key which will also set values
     /// of the elements of the key to the corresponding values
     /// of the record.
-    class DC_CLASS CachedRecordImpl : public dot::object_impl
+    class DC_CLASS cached_record_impl : public dot::object_impl
     {
-        typedef CachedRecordImpl self;
+        typedef cached_record_impl self;
 
-        friend CachedRecord make_CachedRecord(dot::object_id, record_base);
+        friend cached_record make_cached_record(dot::object_id, record_base);
 
     public:
 
@@ -58,30 +58,30 @@ namespace dc
 
         /// Record passed to the constructor, or null for an
         /// empty cached record or a delete marker.
-        record_base Record;
+        record_base record;
 
     private:
         /// Cache dataset and record.
         ///
         /// Delete marker will be cached as null.
-        CachedRecordImpl(dot::object_id dataSet, record_base record = nullptr)
+        cached_record_impl(dot::object_id data_set, record_base record = nullptr)
         {
             // Dataset for which the record is cached
-            data_set = dataSet;
+            data_set = data_set;
 
             if (!record.is_empty() && !record.is<DeleteMarker>())
             {
                 // Cache only if not a delete marker,
                 // otherwise Record will remain null
                 // after the constructor exits
-                Record = record;
+                this->record = record;
             }
         }
 
     };
 
-    inline CachedRecord make_CachedRecord(dot::object_id dataSet, record_base record = nullptr)
+    inline cached_record make_cached_record(dot::object_id dataSet, record_base record = nullptr)
     {
-        return new CachedRecordImpl(dataSet, record);
+        return new cached_record_impl(dataSet, record);
     }
 }

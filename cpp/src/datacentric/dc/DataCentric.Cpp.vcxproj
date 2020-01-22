@@ -45,7 +45,7 @@
     <ClCompile Include="serialization\json_record_serializer.cpp" />
     <ClCompile Include="serialization\json_writer.cpp" />
     <ClCompile Include="serialization\tuple_writer.cpp" />
-    <ClCompile Include="types\record\CachedRecord.cpp" />
+    <ClCompile Include="types\record\cached_record.cpp" />
     <ClCompile Include="types\record\data.cpp" />
     <ClCompile Include="types\record\DeleteMarker.cpp" />
     <ClCompile Include="types\record\key_base.cpp" />
@@ -90,7 +90,7 @@
     <ClInclude Include="serialization\json_writer.hpp" />
     <ClInclude Include="serialization\tuple_writer.hpp" />
     <ClInclude Include="types\double\double_compare.hpp" />
-    <ClInclude Include="types\record\CachedRecord.hpp" />
+    <ClInclude Include="types\record\cached_record.hpp" />
     <ClInclude Include="types\record\data.hpp" />
     <ClInclude Include="types\record\DeleteMarker.hpp" />
     <ClInclude Include="types\record\key.hpp" />
