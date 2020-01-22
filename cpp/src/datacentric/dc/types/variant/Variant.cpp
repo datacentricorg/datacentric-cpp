@@ -107,7 +107,7 @@ namespace dc
         {
             // Perform comparison of doubles by function that uses numerical tolerance
             return otherValueType->equals(dot::typeof<double>())
-                && double_util::Equal(value_, other.value_);
+                && double_util::equal(value_, other.value_);
         }
         if (valueType->equals(dot::typeof<bool>()))
         {
