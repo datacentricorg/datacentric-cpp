@@ -52,7 +52,12 @@ namespace dot
         else if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::hierarchical)
         {
             bsoncxx::array::view type_array_view = doc["_t"].get_array();
-            type_name = (++type_array_view.begin())->get_utf8().value.to_string();
+            size_t type_array_length = std::distance(type_array_view.begin(), type_array_view.end());
+
+            if (type_array_length == 0)
+                throw exception("_t array has no elements.");
+
+            type_name = type_array_view.find(type_array_length - 1)->get_utf8().value.to_string();
         }
         else
         {

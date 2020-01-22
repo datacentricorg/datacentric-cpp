@@ -302,6 +302,21 @@ namespace dot
 
     }
 
+    list<type> type_impl::get_parents_list(type from_type, type to_type)
+    {
+        list<type> parents_list = make_list<type>();
+
+        // Appending base types to list front
+        type base = from_type->get_base_type();
+        while (base != nullptr && base != to_type)
+        {
+            parents_list->add(base);
+            base = base->get_base_type();
+        }
+
+        return parents_list;
+    }
+
     bool type_impl::is_subclass_of(type c)
     {
         // Search for c type within base types

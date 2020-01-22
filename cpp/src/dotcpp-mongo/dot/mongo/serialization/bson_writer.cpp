@@ -67,8 +67,12 @@ namespace dot
         }
         else if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::hierarchical)
         {
+            type root_element_type = dot::type_impl::get_type_of(root_element_name);
+            list<type> root_element_base_types = root_element_type->get_parents_list(root_element_type);
+
             bson_writer_.open_array();
-            bson_writer_.append(*dot::type_impl::get_type_of(root_element_name)->get_base_type()->name());
+            for (auto i = root_element_base_types->rbegin(); i != root_element_base_types->rend(); ++i)
+                bson_writer_.append(*(*i)->name());
             bson_writer_.append(*root_element_name);
             bson_writer_.close_array();
         }
