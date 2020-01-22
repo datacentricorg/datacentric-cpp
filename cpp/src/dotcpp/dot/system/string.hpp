@@ -243,7 +243,14 @@ namespace dot
     /// Helper class for fmt::format arguments conversion
     template<>
     struct format_forward<string> {
-        static inline const std::string& convert(const string& s) { return *s; }
+        static inline std::string convert(const string& s)
+        {
+            if (s.is_empty())
+                return std::string("");
+            else
+                return *s;
+        }
+
     };
 
     /// Helper class for fmt::format arguments conversion
