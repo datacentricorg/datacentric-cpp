@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="platform\context\Context.cpp" />
+    <ClCompile Include="platform\context\context.cpp" />
     <ClCompile Include="platform\data_source\mongo\mongo_data_source_test.cpp" />
     <ClCompile Include="platform\data_source\mongo\performance_test.cpp" />
   </ItemGroup>
@@ -20,7 +20,7 @@
     <ClInclude Include="declare.hpp" />
     <ClInclude Include="implement.hpp" />
     <ClInclude Include="import.hpp" />
-    <ClInclude Include="platform\context\Context.hpp" />
+    <ClInclude Include="platform\context\context.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_test_data.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
