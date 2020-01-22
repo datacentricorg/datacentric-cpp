@@ -44,7 +44,7 @@ namespace dot
     {}
 
     LocalTime::LocalTime(int hour, int minute, int second, int millisecond)
-        : boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1), boost::posix_time::time_duration {hour, minute, second, millisecond * 1000})
+        : boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1), boost::posix_time::time_duration {hour, minute, second, millisecond * (boost::posix_time::time_duration::ticks_per_second() / 1000) })
     {}
 
     LocalTime::LocalTime(const boost::posix_time::time_duration& time)

@@ -95,7 +95,7 @@ namespace dot
         int hour() const { return static_cast<int>(base::time_of_day().hours()); }
 
         /// Gets the millisecond of this local date and time within the second, in the range 0 to 999 inclusive.
-        int millisecond() const { return static_cast<int>(base::time_of_day().fractional_seconds() / 1000); }
+        int millisecond() const { return static_cast<int>(base::time_of_day().fractional_seconds() / (boost::posix_time::time_duration::ticks_per_second() / 1000)); }
 
         /// Gets the minute of this local date and time, in the range 0 to 59 inclusive.
         int minute() const { return static_cast<int>(base::time_of_day().minutes()); }

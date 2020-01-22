@@ -47,7 +47,7 @@ namespace dot
     {}
 
     LocalDateTime::LocalDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
-        : boost::posix_time::ptime(LocalDate {year, month, day}, {hour, minute, second, millisecond * 1000})
+        : boost::posix_time::ptime(LocalDate {year, month, day}, LocalTime {hour, minute, second, millisecond })
     {}
 
     LocalDateTime::LocalDateTime(const boost::posix_time::ptime& time)

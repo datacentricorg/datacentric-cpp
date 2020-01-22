@@ -76,6 +76,16 @@ namespace dot
         REQUIRE(dt3_str == "2005-01-02 03:04:05.006");
     }
 
+    TEST_CASE("milliseconds")
+    {
+        LocalDateTime t1(2005, 1, 1, 0, 0, 1, 500);
+        Period p1 = Period::from_milliseconds(600);
+        LocalTime r1 = t1 + p1;
+        LocalDateTime t3(2005, 1, 1, 0, 0, 2, 100);
+        REQUIRE(r1 == t3);
+        REQUIRE(r1.millisecond() == 100);
+    }
+
     TEST_CASE("operators")
     {
         LocalDateTime d(2005, 5, 10, 12, 0, 0, 0);

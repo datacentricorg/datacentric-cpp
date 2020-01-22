@@ -70,6 +70,16 @@ namespace dot
         REQUIRE(t4_str == "01:02:03.004");
     }
 
+    TEST_CASE("milliseconds")
+    {
+        LocalTime t1(0, 0, 1, 500);
+        Period p1 = Period::from_milliseconds(600);
+        LocalTime r1 = t1 + p1;
+        LocalTime t3(0, 0, 2, 100);
+        REQUIRE(r1 == t3);
+        REQUIRE(r1.millisecond() == 100);
+    }
+
     TEST_CASE("operators")
     {
         LocalTime t(12, 0, 0, 0);
