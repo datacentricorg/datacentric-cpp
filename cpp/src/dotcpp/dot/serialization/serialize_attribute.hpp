@@ -30,7 +30,6 @@ limitations under the License.
 
 namespace dot
 {
-
     class SerializeClassAttributeImpl; using SerializeClassAttribute = Ptr<SerializeClassAttributeImpl>;
 
     /// Attribute sets custom serializator for type

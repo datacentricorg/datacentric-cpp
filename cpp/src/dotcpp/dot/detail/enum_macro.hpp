@@ -29,10 +29,10 @@ private:                                                                        
                                                                                     \
 public:                                                                             \
     typedef self element_type;                                                      \
-    typedef dot::struct_wrapper_impl<self>* pointer_type;                           \
-    using dot::EnumBase::EnumBase;                                                \
+    typedef dot::StructWrapperImpl<self>* pointer_type;                             \
+    using dot::EnumBase::EnumBase;                                                  \
                                                                                     \
-    operator dot::Object() { return new dot::struct_wrapper_impl<self>(*this); }    \
+    operator dot::Object() { return new dot::StructWrapperImpl<self>(*this); }      \
     operator int() const { return value_; }                                         \
     self& operator=(int rhs) { value_ = rhs; return *this; }                        \
     self& operator=(const self& other) { value_ = other.value_; return *this; }     \
@@ -44,7 +44,7 @@ public:                                                                         
             dot::Type t = dot::make_type_builder<self>(nspace, name)                \
                 ->is_enum()                                                         \
                 ->with_constructor(&self::make_self, {})                            \
-                ->with_base<EnumBase>()                                            \
+                ->with_base<EnumBase>()                                             \
                 ->build();                                                          \
             return t;                                                               \
         }();                                                                        \

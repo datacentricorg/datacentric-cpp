@@ -93,7 +93,6 @@ namespace dc
 
             }
         }
-
     }
 
     dot::Object KeyImpl::deserialize(dot::Object value, dot::Type type)
@@ -113,7 +112,6 @@ namespace dc
 
         throw dot::Exception(dot::String::format("Couldn't construct {0}  from {1}", type->name(), value_type->name()));
         return dot::Object();
-
     }
 
     void KeyImpl::serialize(dot::tree_writer_base writer, dot::Object obj)

@@ -140,7 +140,7 @@ namespace dot
 
         /// Applies sort conditions to pipeline.
         /// This method is called from other before
-        /// any operation except sort. 
+        /// any operation except sort.
         void flush_sort()
         {
             if (!sort_.empty())

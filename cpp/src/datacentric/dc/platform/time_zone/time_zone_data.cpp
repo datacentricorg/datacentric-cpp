@@ -25,7 +25,7 @@ namespace dc
     dot::Type TimeZoneImpl::typeof()
     {
         static dot::Type type_ =
-            dot::make_type_builder<self>("dc", "time_zone")
+            dot::make_type_builder<self>("dc", "TimeZone")
             ->with_field("time_zone_id", &self::time_zone_id)
             ->template with_base<TypedRecord<TimeZoneKeyImpl, TimeZoneImpl>>()
             ->with_constructor(&make_time_zone_data, {  })

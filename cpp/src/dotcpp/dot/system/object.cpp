@@ -55,13 +55,13 @@ namespace dot
 
     Object::Object(char value) : base(new CharImpl(value)) {}
 
-    Object::Object(const LocalMinute & value) : base(new struct_wrapper_impl<LocalMinute>(value)) {}
+    Object::Object(const LocalMinute & value) : base(new StructWrapperImpl<LocalMinute>(value)) {}
 
-    Object::Object(const LocalTime & value) : base(new struct_wrapper_impl<LocalTime>(value)) {}
+    Object::Object(const LocalTime & value) : base(new StructWrapperImpl<LocalTime>(value)) {}
 
-    Object::Object(const LocalDate & value) : base(new struct_wrapper_impl<LocalDate>(value)) {}
+    Object::Object(const LocalDate & value) : base(new StructWrapperImpl<LocalDate>(value)) {}
 
-    Object::Object(const LocalDateTime & value) : base(new struct_wrapper_impl<LocalDateTime>(value)) {}
+    Object::Object(const LocalDateTime & value) : base(new StructWrapperImpl<LocalDateTime>(value)) {}
 
     bool Object::operator==(nullptr_t) const { return base::operator==(nullptr); }
 
@@ -85,13 +85,13 @@ namespace dot
 
     Object& Object::operator=(char value) { base::operator=(new CharImpl(value)); return *this; }
 
-    Object& Object::operator=(const LocalMinute& value) { base::operator=(new struct_wrapper_impl<LocalMinute>(value)); return *this; }
+    Object& Object::operator=(const LocalMinute& value) { base::operator=(new StructWrapperImpl<LocalMinute>(value)); return *this; }
 
-    Object& Object::operator=(const LocalTime& value) { base::operator=(new struct_wrapper_impl<LocalTime>(value)); return *this; }
+    Object& Object::operator=(const LocalTime& value) { base::operator=(new StructWrapperImpl<LocalTime>(value)); return *this; }
 
-    Object& Object::operator=(const LocalDate& value) { base::operator=(new struct_wrapper_impl<LocalDate>(value)); return *this; }
+    Object& Object::operator=(const LocalDate& value) { base::operator=(new StructWrapperImpl<LocalDate>(value)); return *this; }
 
-    Object& Object::operator=(const LocalDateTime& value) { base::operator=(new struct_wrapper_impl<LocalDateTime>(value)); return *this; }
+    Object& Object::operator=(const LocalDateTime& value) { base::operator=(new StructWrapperImpl<LocalDateTime>(value)); return *this; }
 
     Object::operator bool() const { return Ptr<BoolImpl>(*this)->value_; }
 
@@ -103,13 +103,13 @@ namespace dot
 
     Object::operator char() const { return Ptr<CharImpl>(*this)->value_; }
 
-    Object::operator LocalMinute() const { return *Ptr<struct_wrapper_impl<LocalMinute>>(*this); }
+    Object::operator LocalMinute() const { return *Ptr<StructWrapperImpl<LocalMinute>>(*this); }
 
-    Object::operator LocalTime() const { return *Ptr<struct_wrapper_impl<LocalTime>>(*this); }
+    Object::operator LocalTime() const { return *Ptr<StructWrapperImpl<LocalTime>>(*this); }
 
-    Object::operator LocalDate() const { return *Ptr<struct_wrapper_impl<LocalDate>>(*this); }
+    Object::operator LocalDate() const { return *Ptr<StructWrapperImpl<LocalDate>>(*this); }
 
-    Object::operator LocalDateTime() const { return *Ptr<struct_wrapper_impl<LocalDateTime>>(*this); }
+    Object::operator LocalDateTime() const { return *Ptr<StructWrapperImpl<LocalDateTime>>(*this); }
 
     Object::operator String() const { return *Ptr<StringImpl>(this->as<String>()); }
 

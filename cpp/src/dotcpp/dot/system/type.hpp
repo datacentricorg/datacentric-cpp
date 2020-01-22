@@ -47,7 +47,7 @@ namespace dot
     class MethodInfoImpl; using MethodInfo = Ptr<MethodInfoImpl>;
     class ConstructorInfoImpl; using constqructor_info = Ptr<ConstructorInfoImpl>;
     template <class T> class ListImpl; template <class T> using List = Ptr<ListImpl<T>>;
-    template <class class_t, class ... Args> class MemberConstructorInfoImpl;
+    template <class TClass, class ... Args> class MemberConstructorInfoImpl;
 
     template <class T> Type typeof();
 
@@ -100,20 +100,20 @@ namespace dot
     public: // METHODS
 
         /// Add public field of the current Type.
-        template <class class_t, class fld>
-        TypeBuilder with_field(String name, fld class_t::*prop, const std::initializer_list<Attribute>& custom_attributes = {})
+        template <class TClass, class fld>
+        TypeBuilder with_field(String name, fld TClass::*prop, const std::initializer_list<Attribute>& custom_attributes = {})
         {
             if (fields_.is_empty())
             {
                 fields_ = make_list<FieldInfo>();
             }
-            fields_->add(make_field_info<fld, class_t>(name, type_, dot::typeof<fld>(), prop, make_list(custom_attributes)));
+            fields_->add(make_field_info<fld, TClass>(name, type_, dot::typeof<fld>(), prop, make_list(custom_attributes)));
             return this;
         }
 
         /// Add public member method of the current Type.
-        template <class class_t, class ReturnType, class ... Args>
-        TypeBuilder with_method(String name, ReturnType(class_t::*mth) (Args ...), const std::initializer_list<detail::TypeMethodArgument>& arguments, const std::initializer_list<Attribute>& custom_attributes = {})
+        template <class TClass, class ReturnType, class ... Args>
+        TypeBuilder with_method(String name, ReturnType(TClass::*mth) (Args ...), const std::initializer_list<detail::TypeMethodArgument>& arguments, const std::initializer_list<Attribute>& custom_attributes = {})
         {
             const int args_count = sizeof...(Args);
             if (args_count != arguments.size())
@@ -134,7 +134,7 @@ namespace dot
                 i++;
             }
 
-            MethodInfo method_info = new MemberMethodInfoImpl<class_t, ReturnType, Args...>(name, type_, dot::typeof<ReturnType>(), mth, make_list(custom_attributes));
+            MethodInfo method_info = new MemberMethodInfoImpl<TClass, ReturnType, Args...>(name, type_, dot::typeof<ReturnType>(), mth, make_list(custom_attributes));
             method_info->parameters_ = parameters;
 
             methods_->add(method_info);
@@ -174,8 +174,8 @@ namespace dot
         }
 
         /// Add public constructor of the current Type.
-        template <class class_t, class ... Args>
-        TypeBuilder with_constructor(class_t(*ctor)(Args...), const std::initializer_list<detail::TypeMethodArgument>& arguments, const std::initializer_list<Attribute>& custom_attributes = {})
+        template <class TClass, class ... Args>
+        TypeBuilder with_constructor(TClass(*ctor)(Args...), const std::initializer_list<detail::TypeMethodArgument>& arguments, const std::initializer_list<Attribute>& custom_attributes = {})
         {
             const int args_count = sizeof...(Args);
             if (args_count != arguments.size())
@@ -196,7 +196,7 @@ namespace dot
                 i++;
             }
 
-            ConstructorInfo ctor_info = new MemberConstructorInfoImpl<class_t, Args...>(type_, ctor, make_list(custom_attributes));
+            ConstructorInfo ctor_info = new MemberConstructorInfoImpl<TClass, Args...>(type_, ctor, make_list(custom_attributes));
             ctor_info->parameters_ = parameters;
 
             ctors_->add(ctor_info);
@@ -213,35 +213,35 @@ namespace dot
         }
 
         /// Add base Type of the current Type.
-        template <class class_t>
+        template <class TClass>
         TypeBuilder with_base()
         {
             if (!(this->base_.is_empty()))
                 throw Exception("Base already defined in class " + full_name_);
 
-            this->base_ = dot::typeof<class_t>();
+            this->base_ = dot::typeof<TClass>();
             return this;
         }
 
         /// Add interface Type of the current Type.
-        template <class class_t>
+        template <class TClass>
         TypeBuilder with_interface()
         {
             if (this->interfaces_.is_empty())
                 this->interfaces_ = make_list<Type>();
 
-            this->interfaces_->add(dot::typeof<class_t>());
+            this->interfaces_->add(dot::typeof<TClass>());
             return this;
         }
 
         /// Add generic argument Type of the current Type.
-        template <class class_t>
+        template <class TClass>
         TypeBuilder with_generic_argument()
         {
             if (this->generic_args_.is_empty())
                 this->generic_args_ = make_list<Type>();
 
-            this->generic_args_->add(dot::typeof<class_t>());
+            this->generic_args_->add(dot::typeof<TClass>());
             return this;
         }
 

@@ -419,5 +419,4 @@ namespace dot
         // Write end tag
         writer->write_end_dict(value->get_type()->name());
     }
-
 }

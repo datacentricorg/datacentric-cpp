@@ -33,7 +33,7 @@ namespace dot
     class TypeImpl; using Type = Ptr<TypeImpl>;
 
     /// Obtains information about the attributes of a constructor and provides access to constructor metadata.
-    class ConstructorInfoImpl : public MemberInfoImpl
+    class DOT_CLASS ConstructorInfoImpl : public MemberInfoImpl
     {
         friend class TypeBuilderImpl;
 

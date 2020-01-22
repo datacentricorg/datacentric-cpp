@@ -40,7 +40,7 @@ namespace dot
 {
     /// Base class for mongo query tokens.
     /// It used for wrapping c++ expressions into mongo query tokens.
-    class FilterTokenBaseImpl : public ObjectImpl
+    class DOT_MONGO_CLASS FilterTokenBaseImpl : public ObjectImpl
     {
     };
 
@@ -50,7 +50,7 @@ namespace dot
     /// (obj->prop > 10)
     /// expression will be translated to
     /// { "prop" : { "$gt": "10" } }
-    class OperatorWrapperImpl : public FilterTokenBaseImpl
+    class DOT_MONGO_CLASS OperatorWrapperImpl : public FilterTokenBaseImpl
     {
     public:
 
@@ -76,7 +76,7 @@ namespace dot
     /// (token1 && token2 && token3)
     /// expression will be translated to
     /// "$and": [ token1, token2, token3 ]
-    class AndListImpl : public FilterTokenBaseImpl
+    class DOT_MONGO_CLASS AndListImpl : public FilterTokenBaseImpl
     {
     public:
 
@@ -95,7 +95,7 @@ namespace dot
     /// (token1 || token2 || token3)
     /// expression will be translated to
     /// "$or": [ token1, token2, token3 ]
-    class OrListImpl : public FilterTokenBaseImpl
+    class DOT_MONGO_CLASS OrListImpl : public FilterTokenBaseImpl
     {
     public:
 

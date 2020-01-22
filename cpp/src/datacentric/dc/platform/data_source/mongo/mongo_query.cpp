@@ -22,7 +22,6 @@ limitations under the License.
 
 namespace dc
 {
-
     MongoQuery MongoQueryImpl::where(dot::FilterTokenBase value)
     {
         // Save filter.

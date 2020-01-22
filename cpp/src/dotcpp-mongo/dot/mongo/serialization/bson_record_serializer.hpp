@@ -30,7 +30,6 @@ limitations under the License.
 #include <dot/system/collections/generic/list.hpp>
 #include <dot/mongo/serialization/bson_writer.hpp>
 
-
 namespace dot
 {
     class BsonRecordSerializerImpl; using BsonRecordSerializer = dot::Ptr<BsonRecordSerializerImpl>;

@@ -34,7 +34,6 @@ namespace dot
         default_convention = scalar
     };
 
-
     /// Class contains settings for mongo client, e.g. discriminator convention for a type.
     class DOT_MONGO_CLASS MongoClientSettings
     {

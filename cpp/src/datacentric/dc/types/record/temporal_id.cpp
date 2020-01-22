@@ -181,7 +181,7 @@ namespace dc
 
     TemporalId::operator dot::Object() const
     {
-        return dot::Object(new dot::struct_wrapper_impl<TemporalId>(*this));
+        return dot::Object(new dot::StructWrapperImpl<TemporalId>(*this));
     }
 
     void TemporalId::serialize(dot::tree_writer_base writer, dot::Object obj)

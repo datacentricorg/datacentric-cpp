@@ -33,7 +33,7 @@ namespace dc
         typedef RootRecordImpl<TKey, TRecord> self;
     public:
 
-        DOT_TYPE_BEGIN("dc", "root_record")
+        DOT_TYPE_BEGIN("dc", "RootRecord")
             DOT_TYPE_BASE(TypedRecord<TKey, TRecord>)
         DOT_TYPE_END()
 

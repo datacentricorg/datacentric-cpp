@@ -25,7 +25,6 @@ limitations under the License.
 
 namespace dot
 {
-
     /// Class implements dot::Client methods.
     /// Holds mongocxx::client object.
     class ClientInner : public ClientImpl::ClientInnerBase

@@ -105,7 +105,7 @@ namespace dot
         /// Boxing operator
         operator dot::Object() const
         {
-            return dot::Object(new dot::struct_wrapper_impl<ObjectId>(*this));
+            return dot::Object(new dot::StructWrapperImpl<ObjectId>(*this));
         }
 
         /// Min method for Nullable ObjectId.

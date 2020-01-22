@@ -30,7 +30,7 @@ namespace dot
     class ParameterInfoImpl; using ParameterInfo = Ptr<ParameterInfoImpl>;
 
     /// Discovers the attributes of a parameter and provides access to parameter metadata.
-    class ParameterInfoImpl : public virtual ObjectImpl
+    class DOT_CLASS ParameterInfoImpl : public virtual ObjectImpl
     {
         friend ParameterInfo make_parameter_info(String , Type, int, List<Attribute>);
 

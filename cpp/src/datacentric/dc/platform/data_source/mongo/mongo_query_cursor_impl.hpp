@@ -139,7 +139,7 @@ namespace dc
     /// Class implements dot::ObjectCursorWrapperBase.
     /// Constructs from other ObjectCursorWrapperBase and ContextBase
     /// to use it in iterator.
-    class MongoQueryCursorImpl : public dot::ObjectCursorWrapperBaseImpl
+    class DC_CLASS MongoQueryCursorImpl : public dot::ObjectCursorWrapperBaseImpl
     {
     public:
 

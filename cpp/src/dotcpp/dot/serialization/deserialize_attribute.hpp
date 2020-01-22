@@ -29,7 +29,6 @@ limitations under the License.
 
 namespace dot
 {
-
     class DeserializeClassAttributeImpl; using DeserializeClassAttribute = Ptr<DeserializeClassAttributeImpl>;
 
     /// Attribute sets custom deserializator for type

@@ -145,5 +145,4 @@ namespace dot
         }
         else throw dot::Exception("Unknown query token");
     }
-
 }

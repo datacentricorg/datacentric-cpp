@@ -68,5 +68,4 @@ namespace dot
     {
         return typeof();
     }
-
 }

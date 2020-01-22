@@ -37,8 +37,8 @@ namespace dot
     class LocalDate;
     class LocalDateTime;
     template <class T> class EnumImpl;
-    template <class T> class struct_wrapper_impl;
-    template <class T> using struct_wrapper = Ptr<struct_wrapper_impl<T>>;
+    template <class T> class StructWrapperImpl;
+    template <class T> using struct_wrapper = Ptr<StructWrapperImpl<T>>;
     template <class T> Type typeof();
 
     namespace detail
@@ -121,7 +121,7 @@ namespace dot
 
         /// Construct Object from tuple, boxing the value if necessary.
         template <typename ... T>
-        Object(const std::tuple<T...> & value) : Object(new struct_wrapper_impl<std::tuple<T...>>(value)) {}
+        Object(const std::tuple<T...> & value) : Object(new StructWrapperImpl<std::tuple<T...>>(value)) {}
 
     public: // METHODS
 
@@ -173,7 +173,7 @@ namespace dot
 
         /// Assign tuple to Object by boxing.
         template <typename ... T>
-        Object& operator=(const std::tuple<T...> & value) { base::operator=(new struct_wrapper_impl<std::tuple<T...>>(value)); return *this; }
+        Object& operator=(const std::tuple<T...> & value) { base::operator=(new StructWrapperImpl<std::tuple<T...>>(value)); return *this; }
 
         /// Assign Nullable to Object by boxing.
         template <class T>
@@ -254,15 +254,15 @@ namespace dot
 {
     /// Wraps struct into Object.
     template <class T>
-    class struct_wrapper_impl
+    class StructWrapperImpl
         : public virtual ObjectImpl
         , public T
-        , public detail::InheritToString<struct_wrapper_impl<T>, T>
-        , public detail::InheritGetHashCode<struct_wrapper_impl<T>, T>
-        , public detail::InheritEquals<struct_wrapper_impl<T>, T>
+        , public detail::InheritToString<StructWrapperImpl<T>, T>
+        , public detail::InheritGetHashCode<StructWrapperImpl<T>, T>
+        , public detail::InheritEquals<StructWrapperImpl<T>, T>
     {
     public:
-        struct_wrapper_impl(const T& value) : T(value) {}
+        StructWrapperImpl(const T& value) : T(value) {}
 
     public:
         static Type typeof()
@@ -275,11 +275,11 @@ namespace dot
             return typeof();
         }
 
-        virtual String to_string() override { return detail::InheritToString<struct_wrapper_impl<T>, T>::to_string(); }
+        virtual String to_string() override { return detail::InheritToString<StructWrapperImpl<T>, T>::to_string(); }
 
-        virtual size_t hash_code() override { return detail::InheritGetHashCode<struct_wrapper_impl<T>, T>::hash_code(); }
+        virtual size_t hash_code() override { return detail::InheritGetHashCode<StructWrapperImpl<T>, T>::hash_code(); }
 
-        bool equals(Object obj) override { return detail::InheritEquals<struct_wrapper_impl<T>, T>::equals(obj); }
+        bool equals(Object obj) override { return detail::InheritEquals<StructWrapperImpl<T>, T>::equals(obj); }
     };
 }
 

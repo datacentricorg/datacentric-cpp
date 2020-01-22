@@ -172,8 +172,8 @@ namespace dot
 
         /// Write an array of elements with no inner nodes.
         /// Element Type is inferred by calling obj.get_type().
-        template <class container>
-        void write_value_array(dot::String element_name, container values)
+        template <class Container>
+        void write_value_array(dot::String element_name, Container values)
         {
             this->write_start_array_element(element_name);
             for (dot::Object value : values)
