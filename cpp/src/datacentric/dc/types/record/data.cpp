@@ -19,14 +19,27 @@ limitations under the License.
 #include <dc/types/record/data.hpp>
 #include <dot/system/collections/generic/list.hpp>
 #include <dot/system/reflection/activator.hpp>
-#include <dc/types/record/key_base.hpp>
+#include <dc/types/record/key.hpp>
 #include <dc/platform/reflection/class_info.hpp>
 #include <dc/platform/context/context_base.hpp>
-#include <dc/types/record/record_base.hpp>
+#include <dc/types/record/record.hpp>
 #include <dot/mongo/mongo_db/mongo/settings.hpp>
 
 namespace dc
 {
- 
+    dot::type data_impl::get_type()
+    {
+        return typeof();
+    }
 
+    dot::type data_impl::typeof()
+    {
+        static dot::type result = []()-> dot::type
+        {
+            dot::type t = dot::make_type_builder<data_impl>("dc", "data")
+                ->build();
+            return t;
+        }();
+        return result;
+    }
 }

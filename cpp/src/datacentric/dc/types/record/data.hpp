@@ -25,7 +25,7 @@ limitations under the License.
 namespace dc
 {
     class data_impl; using data = dot::ptr<data_impl>;
-    class key_base_impl; using key_base = dot::ptr<key_base_impl>;
+    class key_impl; using key = dot::ptr<key_impl>;
 
     /// Data objects must derive from this type.
     class DC_CLASS data_impl : public virtual dot::object_impl
@@ -37,17 +37,8 @@ namespace dc
 
     public:
 
-        virtual dot::type get_type() { return typeof(); }
-        static dot::type typeof()
-        {
-            static dot::type result = []()-> dot::type
-            {
-                dot::type t = dot::make_type_builder<data_impl>("dc", "data")
-                    ->build();
-                return t;
-            }();
-            return result;
-        }
+        virtual dot::type get_type();
+        static dot::type typeof();
 
     protected:
 
