@@ -27,7 +27,6 @@ limitations under the License.
 
 namespace dc
 {
-    /// <summary>
     /// A 16-byte, unique, ordered identifier that consists of two int64_t
     /// elements:
     ///
@@ -55,7 +54,6 @@ namespace dc
     /// it can be used with distributed, web scale databases where getting
     /// a strictly increasing auto-incremented identifier would cause a
     /// performance hit.
-    /// </summary>
     class DC_CLASS temporal_id
     {
         template <class T>

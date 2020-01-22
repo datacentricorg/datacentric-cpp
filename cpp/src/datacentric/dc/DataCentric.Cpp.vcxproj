@@ -16,6 +16,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="attributes\class\index_elements_attribute.cpp" />
     <ClCompile Include="platform\context\context_base.cpp" />
     <ClCompile Include="platform\data_set\data_set_data.cpp" />
     <ClCompile Include="platform\data_set\data_set_detail_data.cpp" />
@@ -48,6 +49,7 @@
     <ClCompile Include="types\variant\variant.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="attributes\class\index_elements_attribute.hpp" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="declare.hpp" />
     <ClInclude Include="implement.hpp" />
