@@ -65,7 +65,7 @@ namespace dc
         // than the previous generated temporal_id
         temporal_id result = temporal_id::generate_new_id();
         int retry_counter = 0;
-        while (result.oid() <= prev_object_id_.oid())
+        while (result <= prev_object_id_)
         {
             // Getting inside the while loop will be very rare as this would
             // require the increment to roll from max int to min int within

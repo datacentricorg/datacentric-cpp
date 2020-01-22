@@ -17,6 +17,7 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/types/record/temporal_id.hpp>
+#include <chrono>
 
 namespace dc
 {
@@ -24,88 +25,133 @@ namespace dc
 
     temporal_id::temporal_id()
     {
-        static const char empty_buffer[12] = { 0 };
-        id_ = bsoncxx::oid(empty_buffer, 12);
+        bytes_ = dot::make_byte_array(16);
     }
 
-    temporal_id::temporal_id(bsoncxx::oid id) : id_(id) {}
+    temporal_id::temporal_id(bsoncxx::oid id)
+    {
+        bytes_ = dot::make_byte_array(16);
+        memcpy(bytes_->get_data(), id.bytes(), 4);
+        memcpy(bytes_->get_data() + 8, id.bytes() + 4, 8);
+    }
 
     temporal_id::temporal_id(dot::object obj)
     {
-        id_ = ((dot::struct_wrapper<temporal_id>)obj)->id_;
+        bytes_ = ((dot::struct_wrapper<temporal_id>) obj)->bytes_;
     }
 
     temporal_id::temporal_id(dot::string str)
-        : id_(*str)
-    {}
+    {
+        if (str->length() != 32)
+            throw dot::exception("Passed srting shoud be 32 characters long.");
+
+        unsigned long long p1 = std::stoull(*str->substring(0, 16), nullptr, 16);
+        unsigned long long p2 = std::stoull(*str->substring(16, 16), nullptr, 16);
+
+        bytes_ = dot::make_byte_array(16);
+        std::memcpy(bytes_->get_data(), &p1, sizeof(p1));
+        std::memcpy(bytes_->get_data() + 8, &p2, sizeof(p2));
+    }
 
     temporal_id::temporal_id(const char* bytes, std::size_t len)
-        : id_(bytes, len)
-    {}
+    {
+        if (len != 16)
+            throw dot::exception("Passed byte array shoud be 16 bytes long.");
+
+        bytes_ = dot::make_byte_array(bytes, len);
+    }
 
     temporal_id::temporal_id(dot::byte_array bytes)
-        : id_(bytes->get_data(), bytes->get_length())
-    {}
+    {
+        if (bytes->get_length() != 16)
+            throw dot::exception("Passed byte array shoud be 16 bytes long.");
+
+        bytes_ = bytes;
+    }
 
     temporal_id::temporal_id(dot::local_date_time value)
     {
-        char bytes[12] = { 0 };
-
         boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
-        boost::posix_time::time_duration d = (boost::posix_time::ptime)value - epoch;
+        boost::posix_time::time_duration d = (boost::posix_time::ptime) value - epoch;
         int64_t seconds = d.total_seconds();
-        std::memcpy(bytes, &seconds, sizeof(seconds));
-        id_ = bsoncxx::oid(bytes, 12);
+
+        bytes_ = dot::make_byte_array(16);
+        std::memcpy(bytes_->get_data(), &seconds, sizeof(seconds));
     }
 
     bool temporal_id::is_empty()
     {
-        return *id_.bytes() == 0; // TODO check
+        static char empty_bytes[16] = { 0 };
+        return memcmp(bytes_->get_data(), empty_bytes, bytes_->get_length()) == 0;
     }
 
     temporal_id temporal_id::generate_new_id()
     {
-        return bsoncxx::oid();
+        //int64_t time_now2 = time(nullptr);
+        int64_t time_now = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        bsoncxx::oid id = bsoncxx::oid();
+
+        dot::byte_array bytes = dot::make_byte_array(16);
+        memcpy(bytes->get_data(), &time_now, sizeof(time_now));
+        memcpy(bytes->get_data() + 8, id.bytes() + 4, 8);
+
+        dot::string s = temporal_id(bytes).to_string();
+
+        return temporal_id(bytes);
     }
 
     dot::byte_array temporal_id::to_byte_array()
     {
-        return dot::make_byte_array(id_.bytes(), 12);
+        return bytes_;
     }
 
     dot::string temporal_id::to_string() const
     {
-        return id_.to_string();
+        unsigned long long p1, p2;
+        memcpy(&p1, bytes_->get_data(), sizeof(p1));
+        memcpy(&p2, bytes_->get_data() + 8, sizeof(p2));
+
+        std::ostringstream ss;
+        ss << std::hex << std::setfill('0') << std::setw(8) << std::nouppercase << p1;
+        ss << std::hex << std::setfill('0') << std::setw(8) << std::nouppercase << p2;
+
+        return ss.str();
     }
 
     bool temporal_id::operator==(const temporal_id& rhs) const
     {
-        return id_ == rhs.id_;
+        return memcmp(bytes_->get_data(), rhs.bytes_->get_data(), 16) == 0;
     }
 
     bool temporal_id::operator!=(const temporal_id& rhs) const
     {
-        return id_ != rhs.id_;
+        return memcmp(bytes_->get_data(), rhs.bytes_->get_data(), 16) != 0;
     }
 
     bool temporal_id::operator>=(const temporal_id& rhs) const
     {
-        return id_ >= rhs.id_;
+        return memcmp(bytes_->get_data(), rhs.bytes_->get_data(), 16) >= 0;
     }
 
     bool temporal_id::operator>(const temporal_id& rhs) const
     {
-        return id_ > rhs.id_;
+        return memcmp(bytes_->get_data(), rhs.bytes_->get_data(), 16) > 0;
     }
 
     bool temporal_id::operator<=(const temporal_id& rhs) const
     {
-        return id_ <= rhs.id_;
+        return memcmp(bytes_->get_data(), rhs.bytes_->get_data(), 16) <= 0;
     }
 
     bool temporal_id::operator<(const temporal_id& rhs) const
     {
-        return id_ < rhs.id_;
+        return memcmp(bytes_->get_data(), rhs.bytes_->get_data(), 16) < 0;
+    }
+
+    temporal_id::operator dot::object() const
+    {
+        return dot::object(new dot::struct_wrapper_impl<temporal_id>(*this));
     }
 
     void temporal_id::serialize(dot::tree_writer_base writer, dot::object obj)

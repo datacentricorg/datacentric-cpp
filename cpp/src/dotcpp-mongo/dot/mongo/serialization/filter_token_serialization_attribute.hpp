@@ -50,6 +50,7 @@ namespace dot
 
     private:
 
+        /// Constructs from serializer_func_type.
         filter_token_serialization_attribute_impl(serializer_func_type serializer)
             : serializer_(serializer)
         {}

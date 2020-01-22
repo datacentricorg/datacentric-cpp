@@ -95,13 +95,13 @@ namespace dc
 
     public: // METHODS
 
-        /// Return the internal BSON oid type
-        bsoncxx::oid oid() const { return id_; }
-
+        /// Check if temporal_id is empty.
         bool is_empty();
 
+        /// Generates new temporal_id.
         static temporal_id generate_new_id();
 
+        /// Converts temporal_id to byte_array.
         dot::byte_array to_byte_array();
 
         /// Returns hexadecimal string representation
@@ -128,10 +128,7 @@ namespace dc
         bool operator<(const temporal_id& rhs) const;
 
         /// Boxing operator
-        operator dot::object() const
-        {
-            return dot::object(new dot::struct_wrapper_impl<temporal_id>(*this));
-        }
+        operator dot::object() const;
 
     private:
 
@@ -140,7 +137,8 @@ namespace dc
         static dot::object serialize_token(dot::object obj);
 
     private:
-        bsoncxx::oid id_;
+
+        dot::byte_array bytes_;
     };
 }
 
@@ -166,7 +164,7 @@ namespace std
     {
         size_t operator()(const dc::temporal_id& id) const
         {
-            return hash<string>()(id.oid().to_string());
+            return hash<string>()(*id.to_string());
         }
     };
 
