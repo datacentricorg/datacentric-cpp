@@ -246,8 +246,8 @@ namespace dot
             else if (bson_type == bsoncxx::type::k_binary)
             {
                 auto value = elem.get_binary();
-                //dot::byte_array arr = new bso
-                writer->write_value_array_item(value);
+                //dot::byte_array arr;
+                //writer->write_value_array_item(value);
             }
             else
                 throw dot::exception(
