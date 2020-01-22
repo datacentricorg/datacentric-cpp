@@ -46,8 +46,8 @@ namespace dc
 
     public:
 
-        /// dot::object_id of the referenced dataset.
-        dot::object_id data_set_id;
+        /// temporal_id of the referenced dataset.
+        temporal_id data_set_id;
 
         DOT_TYPE_BEGIN("dc", "data_set_detail_key")
             DOT_TYPE_PROP(data_set_id)

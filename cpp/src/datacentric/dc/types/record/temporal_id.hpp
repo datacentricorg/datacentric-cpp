@@ -101,6 +101,9 @@ namespace dc
         /// Generates new temporal_id.
         static temporal_id generate_new_id();
 
+        /// Min method for nullable temporal_id.
+        static dot::nullable<temporal_id> min(dot::nullable<temporal_id> lhs, dot::nullable<temporal_id> rhs);
+
         /// Converts temporal_id to byte_array.
         dot::byte_array to_byte_array();
 

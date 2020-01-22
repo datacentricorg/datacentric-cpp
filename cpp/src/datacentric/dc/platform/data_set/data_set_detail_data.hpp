@@ -46,8 +46,8 @@ namespace dc
 
     public:
 
-        /// dot::object_id of the referenced dataset.
-        dot::object_id data_set_id;
+        /// temporal_id of the referenced dataset.
+        temporal_id data_set_id;
 
         /// <summary>
         /// If specified, write operations to the referenced dataset
@@ -65,7 +65,7 @@ namespace dc
         /// CutoffTime may be set in data source globally, or for a specific dataset
         /// in its details record. If CutoffTime is set for both, the earlier of the
         /// two values will be used.
-        dot::nullable<dot::object_id> cutoff_time;
+        dot::nullable<temporal_id> cutoff_time;
 
         /// Imported records (records loaded through the Imports list)
         /// where TemporalId is greater than or equal to CutoffTime
@@ -82,7 +82,7 @@ namespace dc
         ///
         /// If ImportsCutoffTime is set for both data source and dataset,
         /// the earlier of the two values will be used.
-        dot::nullable<dot::object_id> imports_cutoff_time;
+        dot::nullable<temporal_id> imports_cutoff_time;
 
         DOT_TYPE_BEGIN("dc", "data_set_detail_data")
             DOT_TYPE_PROP(data_set_id)

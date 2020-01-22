@@ -304,8 +304,6 @@ namespace dc
         /// This method updates in-memory cache to the saved dataset.
         temporal_id create_data_set(dot::string data_set_id, dot::list<temporal_id> parent_data_sets, temporal_id save_to);
 
-        temporal_id create_data_set(dot::string data_set_id, dot::list<temporal_id> parent_data_sets, temporal_id save_to);
-
         /// Create dataset with the specified dataSetName and flags
         /// in context.DataSet, and make context.DataSet its sole import.
         ///

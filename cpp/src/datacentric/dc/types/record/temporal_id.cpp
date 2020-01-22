@@ -112,6 +112,25 @@ namespace dc
         return temporal_id(bytes);
     }
 
+    dot::nullable<temporal_id> temporal_id::min(dot::nullable<temporal_id> lhs, dot::nullable<temporal_id> rhs)
+    {
+        if (lhs != nullptr && rhs != nullptr)
+        {
+            // Neither is null, returns the smaller value
+            if (lhs.value() < rhs.value()) return lhs;
+            else return rhs;
+        }
+        else if (lhs == nullptr)
+        {
+            // Also covers the case when both are null
+            return rhs;
+        }
+        else
+        {
+            return lhs;
+        }
+    }
+
     dot::byte_array temporal_id::to_byte_array()
     {
         return bytes_;
