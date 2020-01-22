@@ -19,7 +19,6 @@ limitations under the License.
 #include <dc/platform/data_source/mongo/mongo_data_source_base_data.hpp>
 #include <dc/platform/data_source/mongo/mongo_server_data.hpp>
 #include <dc/platform/context/context_base.hpp>
-#include <dc/platform/reflection/class_info.hpp>
 
 namespace dc
 {
@@ -122,25 +121,5 @@ namespace dc
                     dot::string::format("instance type {0}.", instance_type_.to_string()));
             }
         }
-    }
-
-    dot::collection mongo_data_source_base_data_impl::get_collection(dot::type data_type)
-    {
-        dot::type curr = data_type;
-        // Searching for base record or key
-        while (!curr->get_base_type()->equals(dot::typeof<record>())
-            && !curr->get_base_type()->equals(dot::typeof<key>()))
-        {
-            curr = curr->get_base_type();
-            if (curr.is_empty())
-                throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", data_type->name()));
-        }
-        // First generic argument in record or key class is base data class
-        return db_->get_collection(class_info_impl::get_or_create(curr->get_generic_arguments()[0])->mapped_class_name);
-    }
-
-    dot::collection mongo_data_source_base_data_impl::get_collection(dot::string type_name)
-    {
-        return get_collection(dot::type_impl::get_type_of(type_name));
     }
 }

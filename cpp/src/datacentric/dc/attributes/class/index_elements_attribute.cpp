@@ -17,6 +17,7 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/attributes/class/index_elements_attribute.hpp>
+#include <dc/types/record/key.hpp>
 #include <dc/types/record/record.hpp>
 
 namespace dc
@@ -51,7 +52,7 @@ namespace dc
         // including index definitions of its base classes, eliminating
         // duplicate definitions.
         dot::type class_type = record_type;
-        while (class_type != dot::typeof<record>())
+        while (class_type != dot::typeof<record>() && class_type != dot::typeof<key>())
         {
             if (class_type == nullptr)
                 throw dot::exception(dot::string::format(

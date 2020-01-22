@@ -45,7 +45,7 @@ namespace dc
         /// Maximum length of the database on Mongo server including delimiters.
         static int max_db_name_length_;
 
-        const bool useScalarDiscriminatorConvention_ = false;
+        const bool use_scalar_discriminator_convention_ = false;
 
     protected: // FIELDS
 
@@ -97,16 +97,10 @@ namespace dc
 
     protected: // PROTECTED
 
-        /// Get collection with name based on the type.
-        dot::collection get_collection(dot::type data_type);
-
-        /// Get collection with name based on the type.
-        dot::collection get_collection(dot::string type_name);
-
         mongo_data_source_base_data_impl()
         {
             // TODO uncomment
-            //if (useScalarDiscriminatorConvention_)
+            //if (use_scalar_discriminator_convention_)
             //{
             //    // Set discriminator convention to scalar. For this convention,
             //    // BSON element _t is a single string value equal to GetType().Name,

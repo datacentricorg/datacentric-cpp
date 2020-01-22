@@ -19,7 +19,8 @@ limitations under the License.
 #include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
 #include <dc/platform/context/context_base.hpp>
 #include <dc/types/record/deleted_record.hpp>
-#include <dc/platform/reflection/class_info.hpp>
+#include <dc/types/record/data_type_info.hpp>
+#include <dc/attributes/class/index_elements_attribute.hpp>
 
 #include <dot/mongo/mongo_db/mongo/collection.hpp>
 #include <dc/platform/data_source/mongo/mongo_query.hpp>
@@ -35,7 +36,7 @@ namespace dc
             if (id >= cutoff_time.value()) return nullptr;
         }
 
-        dot::query query = dot::make_query(get_collection(data_type), data_type);
+        dot::query query = dot::make_query(get_or_create_collection(data_type), data_type);
         dot::object_cursor_wrapper_base cursor = query->where(new dot::operator_wrapper_impl("_id", "$eq", id))
             ->limit(1)
             ->get_cursor();
@@ -83,7 +84,7 @@ namespace dc
 
         dot::type record_type = dot::typeof<record>();
 
-        dot::query base_query = dot::make_query(get_collection(key->get_type()), key->get_type())
+        dot::query base_query = dot::make_query(get_or_create_collection(key->get_type()), key->get_type())
             ->where(new dot::operator_wrapper_impl("_key", "$eq", key_value))
             ;
 
@@ -113,7 +114,7 @@ namespace dc
     {
         check_not_read_only(save_to);
 
-        auto collection = get_collection(records[0]->get_type());
+        auto collection = get_or_create_collection(records[0]->get_type());
 
 
         // Iterate over list elements to populate fields
@@ -144,7 +145,7 @@ namespace dc
 
     mongo_query mongo_data_source_data_impl::get_query(temporal_id data_set, dot::type type)
     {
-        return make_mongo_query(get_collection(type), type, this, data_set);
+        return make_mongo_query(get_or_create_collection(type), type, this, data_set);
     }
 
 
@@ -152,7 +153,7 @@ namespace dc
     {
         check_not_read_only(delete_in);
 
-        dot::collection collection = get_collection(key->get_type());
+        dot::collection collection = get_or_create_collection(key->get_type());
 
         deleted_record record = make_deleted_record(key);
 
@@ -361,8 +362,21 @@ namespace dc
         else return nullptr;
     }
 
-    dot::collection mongo_data_source_data_impl::get_collection(dot::type data_type)
+    dot::collection mongo_data_source_data_impl::get_or_create_collection(dot::type data_type)
     {
+        // Check if collection object has already been cached
+        // for this type and return cached result if found
+        dot::object collection_obj;
+        if (collection_dict_->try_get_value(data_type, collection_obj))
+        {
+            dot::collection cached_result = collection_obj.as<dot::collection>();
+            return cached_result;
+        }
+
+        // Collection name is root class name of the record without prefix
+        //dot::string collectionName = data_type_info_impl::get_or_create(data_type)->get_collection_name();
+
+        //-----------
         dot::type curr = data_type;
         // Searching for base record or key
         while (!curr->get_base_type()->equals(dot::typeof<record>())
@@ -373,7 +387,55 @@ namespace dc
                 throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", data_type->name()));
         }
         // First generic argument in record or key class is base data class
-        return db_->get_collection(class_info_impl::get_or_create(curr->get_generic_arguments()[0])->mapped_class_name);
+        dot::string collection_name = data_type_info_impl::get_or_create(curr->get_generic_arguments()[0])->mapped_class_name;
+        //-----------
+
+        // Get interfaces to base and typed collections for the same name
+        dot::collection typed_collection = db_->get_collection(collection_name);
+
+        //--- Load standard index types
+
+        // Each data type has an index for optimized loading by key.
+        // This index consists of Key in ascending order, followed by
+        // DataSet and ID in descending order.
+        dot::list<std::tuple<dot::string, int>> load_index_keys = dot::make_list<std::tuple<dot::string, int>>();
+        load_index_keys->add({ "_key", 1 }); // .key
+        load_index_keys->add({ "_dataset", -1 }); // .data_set
+        load_index_keys->add({ "_id", -1 }); // .id
+
+        // Use index definition convention to specify the index name
+        dot::string load_index_name = "Key-DataSet-Id";
+        dot::index_options load_index_options = dot::make_index_options();
+        load_index_options->name = load_index_name;
+        typed_collection->create_index(load_index_keys, load_index_options);
+
+        //--- Load custom index types
+
+        // Additional indices are provided using IndexAttribute for the class.
+        // Get a sorted dictionary of (definition, name) pairs
+        // for the inheritance chain of the specified type.
+        dot::dictionary<dot::string, dot::string> index_dict = index_elements_attribute_impl::get_attributes_dict(data_type);
+
+        // Iterate over the dictionary to define the index
+        for (auto index_info : index_dict)
+        {
+            dot::string index_definition = index_info.first;
+            dot::string index_name = index_info.second;
+
+            // Parse index definition to get a list of (ElementName,SortOrder) tuples
+            dot::list<std::tuple<dot::string, int>> index_tokens = index_elements_attribute_impl::parse_definition(index_definition, data_type);
+
+            if (index_name == nullptr) throw dot::exception("Index name cannot be null.");
+
+            // Add to indexes for the collection
+            dot::index_options index_opt = dot::make_index_options();
+            index_opt->name = index_name;
+            typed_collection->create_index(index_tokens, index_opt);
+        }
+
+        // Add the result to the collection dictionary and return
+        collection_dict_->add(data_type, typed_collection);
+        return typed_collection;
     }
 
     dot::hash_set<temporal_id> mongo_data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data)

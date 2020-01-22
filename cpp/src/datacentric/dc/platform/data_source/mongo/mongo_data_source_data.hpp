@@ -181,7 +181,7 @@ namespace dc
     private: // METHODS
 
         /// Get collection with name based on the type.
-        dot::collection get_collection(dot::type data_type);
+        dot::collection get_or_create_collection(dot::type data_type);
 
         /// Builds hashset of import datasets for specified dataset data,
         /// including imports of imports to unlimited depth with cyclic
