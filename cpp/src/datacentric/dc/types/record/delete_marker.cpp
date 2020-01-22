@@ -20,4 +20,7 @@ limitations under the License.
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc
-{}
+{
+    dot::string delete_marker_impl::get_key() { return key_->to_string(); }
+
+}

@@ -23,6 +23,7 @@ namespace dc
 {
     class delete_marker_impl; using delete_marker = dot::ptr<delete_marker_impl>;
 
+    inline delete_marker make_delete_marker(key_base key);
     inline delete_marker make_delete_marker();
 
     /// When returned by the data source, this record has the same
@@ -32,6 +33,7 @@ namespace dc
     {
         typedef delete_marker_impl self;
 
+        friend delete_marker make_delete_marker(key_base key);
         friend delete_marker make_delete_marker();
 
     public: // PROPERTIES
@@ -42,19 +44,30 @@ namespace dc
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except double.
-        virtual dot::string get_key() { return dot::string::empty; }
+        virtual dot::string get_key();
 
-    public: // CONSTRUCTORS
+        key_base key_;
 
-        delete_marker_impl() = default;
+    private: // CONSTRUCTORS
 
+        delete_marker_impl(key_base key)
+            : key_(key)
+        {
+        }
+
+        delete_marker_impl()
+            : key_()
+        {
+        }
     public:
 
         DOT_TYPE_BEGIN("dc", "delete_marker")
             DOT_TYPE_BASE(record_base)
-            DOT_TYPE_CTOR(make_delete_marker)
+            ->with_constructor(static_cast<delete_marker (*)(key_base)>(&make_delete_marker), { "key" })
+            ->with_constructor(static_cast<delete_marker(*) ()>(&make_delete_marker), {})
         DOT_TYPE_END()
     };
 
+    inline delete_marker make_delete_marker(key_base key) { return new delete_marker_impl(key); }
     inline delete_marker make_delete_marker() { return new delete_marker_impl(); }
 }
