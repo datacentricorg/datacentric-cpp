@@ -45,7 +45,7 @@ namespace dc
     /// Context for use in test fixtures that do not require MongoDB.
     ///
     /// This class implements unit_test_context_base which extends context_base
-    /// with approval test functionality. Attempting to access DataSource
+    /// with approval test functionality. Attempting to access data_source
     /// using this context will cause an error.
     ///
     /// For tests that require MongoDB, use unit_test_data_context.
@@ -74,6 +74,5 @@ namespace dc
         /// Each class must call base.dispose() at the end
         /// of its own dispose() method.
         ~unit_test_context_impl();
-
     };
 }

@@ -21,4 +21,3 @@ limitations under the License.
 #ifndef DC_TEST_CLASS
 #   define DC_TEST_CLASS DOT_DECLARE
 #endif
-

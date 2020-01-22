@@ -16,4 +16,4 @@ limitations under the License.
 
 #pragma once
 
-#include <dc/import.hpp>
+#include <dc/declare.hpp>

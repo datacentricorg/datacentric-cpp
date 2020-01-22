@@ -16,4 +16,3 @@ limitations under the License.
 
 #define APPROVALS_CATCH
 #include <approvals/ApprovalTests.hpp>
-

@@ -1,26 +1,26 @@
-Load records by dot::object_id without constraint
-    Found by dot::object_id=A0 = true
-    Found by dot::object_id=A1 = true
-    Found by dot::object_id=A2 = true
-    Found by dot::object_id=C0 = true
-Load records by string key without constraint
-    Version found for key=A;0: 2
-    Version found for key=C;0: 0
-Query records without constraint
-    Key=A;0 data_set=A Version=2
-    Key=B;0 data_set=B Version=2
-    Key=C;0 data_set=A Version=0
-    Key=D;0 data_set=B Version=0
-Load records by dot::object_id with RevisedBeforeId constraint
-    Found by dot::object_id=A0 = true
-    Found by dot::object_id=A1 = true
-    Found by dot::object_id=A2 = false
-    Found by dot::object_id=C0 = false
-Load records by string key with RevisedBeforeId constraint
-    Version found for key=A;0: 2
-Query records with RevisedBeforeId constraint
-    Key=A;0 data_set=A Version=2
-    Key=B;0 data_set=B Version=2
-    Key=C;0 data_set=A Version=0
-    Key=D;0 data_set=B Version=0
+load records by dot::object_id without constraint
+    found by dot::object_id=A0 = true
+    found by dot::object_id=A1 = true
+    found by dot::object_id=A2 = true
+    found by dot::object_id=C0 = true
+load records by string key without constraint
+    version found for key=A;0: 2
+    version found for key=C;0: 0
+query records without constraint
+    key=A;0 data_set=A version=2
+    key=B;0 data_set=B version=2
+    key=C;0 data_set=A version=0
+    key=D;0 data_set=B version=0
+load records by dot::object_id with revised_before_id constraint
+    found by dot::object_id=A0 = true
+    found by dot::object_id=A1 = true
+    found by dot::object_id=A2 = false
+    found by dot::object_id=C0 = false
+load records by string key with revised_before_id constraint
+    version found for key=A;0: 2
+query records with revised_before_id constraint
+    key=A;0 data_set=A version=2
+    key=B;0 data_set=B version=2
+    key=C;0 data_set=A version=0
+    key=D;0 data_set=B version=0
 

@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
 #include <dc/test/implement.hpp>
 #include <dc/test/platform/context/context.hpp>
 

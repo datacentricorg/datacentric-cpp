@@ -24,23 +24,23 @@ limitations under the License.
 namespace dc
 {
     /// Enum type.
-    //class MongoTestEnum : public dot::enum_base
+    //class mongo_test_enum : public dot::enum_base
     //{
-    //    typedef MongoTestEnum self;
+    //    typedef mongo_test_enum self;
     //
     //public:
     //
     //    enum enum_type
     //    {
     //        empty,
-    //        EnumValue1,
-    //        EnumValue2
+    //        enum_value1,
+    //        enum_value2
     //    };
     //
-    //    DOT_ENUM_BEGIN("dc", "MongoTestEnum")
+    //    DOT_ENUM_BEGIN("dc", "mongo_test_enum")
     //        DOT_ENUM_VALUE(empty)
-    //        DOT_ENUM_VALUE(EnumValue1)
-    //        DOT_ENUM_VALUE(EnumValue2)
+    //        DOT_ENUM_VALUE(enum_value1)
+    //        DOT_ENUM_VALUE(enum_value2)
     //    DOT_ENUM_END()
     //};
 
@@ -85,8 +85,8 @@ namespace dot
             switch (value)
             {
             case dc::mongo_test_enum::empty: return "empty";
-            case dc::mongo_test_enum::enum_value1: return "EnumValue1";
-            case dc::mongo_test_enum::enum_value2: return "EnumValue2";
+            case dc::mongo_test_enum::enum_value1: return "enum_value1";
+            case dc::mongo_test_enum::enum_value2: return "enum_value2";
             default: throw dot::exception("Unknown enum value in to_string(...).");
             }
         }
@@ -130,10 +130,10 @@ namespace dot
         static type typeof()
         {
             //! TODO resolve recursive typeof<enum>
-            if (type_impl::get_type_map().find("dc.MongoTestEnum") != type_impl::get_type_map().end())
-                return type_impl::get_type_map()["dc.MongoTestEnum"];
+            if (type_impl::get_type_map().find("dc.mongo_test_enum") != type_impl::get_type_map().end())
+                return type_impl::get_type_map()["dc.mongo_test_enum"];
 
-            static type result = make_type_builder<dc::mongo_test_enum>("dc", "MongoTestEnum")
+            static type result = make_type_builder<dc::mongo_test_enum>("dc", "mongo_test_enum")
                 ->is_enum()
                 ->with_method("parse", &to_string_impl<dc::mongo_test_enum>::parse, { "value" })
                 ->build();

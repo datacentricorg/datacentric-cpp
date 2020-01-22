@@ -1,18 +1,18 @@
-Query by MongoTestData, sort by RecordIndex descending, then by DoubleElement ascending
-    RecordIndex=3 DoubleElement=100 Key=A;3 Type=mongo_test_data
-    RecordIndex=3 DoubleElement=300 Key=B;3 Type=mongo_test_derived_data
-    RecordIndex=3 DoubleElement=300 Key=C;3 Type=mongo_test_other_derived_data
-    RecordIndex=3 DoubleElement=300 Key=D;3 Type=mongo_test_derived_from_derived_data
-    RecordIndex=2 DoubleElement=100 Key=A;2 Type=mongo_test_data
-    RecordIndex=2 DoubleElement=300 Key=B;2 Type=mongo_test_derived_data
-    RecordIndex=2 DoubleElement=300 Key=C;2 Type=mongo_test_other_derived_data
-    RecordIndex=2 DoubleElement=300 Key=D;2 Type=mongo_test_derived_from_derived_data
-    RecordIndex=1 DoubleElement=100 Key=A;1 Type=mongo_test_data
-    RecordIndex=1 DoubleElement=300 Key=B;1 Type=mongo_test_derived_data
-    RecordIndex=1 DoubleElement=300 Key=C;1 Type=mongo_test_other_derived_data
-    RecordIndex=1 DoubleElement=300 Key=D;1 Type=mongo_test_derived_from_derived_data
-    RecordIndex=0 DoubleElement=100 Key=A;0 Type=mongo_test_data
-    RecordIndex=0 DoubleElement=300 Key=B;0 Type=mongo_test_derived_data
-    RecordIndex=0 DoubleElement=300 Key=C;0 Type=mongo_test_other_derived_data
-    RecordIndex=0 DoubleElement=300 Key=D;0 Type=mongo_test_derived_from_derived_data
+query by mongo_test_data, sort by record_index descending, then by double_element ascending
+    record_index=3 double_element=100 key=A;3 type=mongo_test_data
+    record_index=3 double_element=300 key=B;3 type=mongo_test_derived_data
+    record_index=3 double_element=300 key=C;3 type=mongo_test_other_derived_data
+    record_index=3 double_element=300 key=D;3 type=mongo_test_derived_from_derived_data
+    record_index=2 double_element=100 key=A;2 type=mongo_test_data
+    record_index=2 double_element=300 key=B;2 type=mongo_test_derived_data
+    record_index=2 double_element=300 key=C;2 type=mongo_test_other_derived_data
+    record_index=2 double_element=300 key=D;2 type=mongo_test_derived_from_derived_data
+    record_index=1 double_element=100 key=A;1 type=mongo_test_data
+    record_index=1 double_element=300 key=B;1 type=mongo_test_derived_data
+    record_index=1 double_element=300 key=C;1 type=mongo_test_other_derived_data
+    record_index=1 double_element=300 key=D;1 type=mongo_test_derived_from_derived_data
+    record_index=0 double_element=100 key=A;0 type=mongo_test_data
+    record_index=0 double_element=300 key=B;0 type=mongo_test_derived_data
+    record_index=0 double_element=300 key=C;0 type=mongo_test_other_derived_data
+    record_index=0 double_element=300 key=D;0 type=mongo_test_derived_from_derived_data
 

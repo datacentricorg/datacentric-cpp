@@ -131,13 +131,13 @@ namespace dc
     // HELPER FUNCTIONS
     dot::string get_record_key(int index)
     {
-        static const dot::string record_id_pattern = "Key{0}";
+        static const dot::string record_id_pattern = "key_{0}";
         return dot::string::format(record_id_pattern, index);
     }
 
     dot::string get_data_set(int index)
     {
-        static const dot::string data_set_pattern = "DS{0}";
+        static const dot::string data_set_pattern = "data_set_{0}";
         return dot::string::format(data_set_pattern, index);
     }
 
@@ -191,18 +191,18 @@ namespace dc
     }
 
 
-    TEST_CASE("Performance")
+    TEST_CASE("performance")
     {
         performance_test test = new performance_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "Performance", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "performance", ".");
 
         //fill_database(context);
     }
 
-    TEST_CASE("LoadByKey")
+    TEST_CASE("load_by_key")
     {
         performance_test test = new performance_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "Performance", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "performance", ".");
         test_duration_counter td("Keys loading");
 
         for (int i = 0; i < record_count; ++i)
@@ -220,10 +220,10 @@ namespace dc
         }
     }
 
-    TEST_CASE("Query")
+    TEST_CASE("query")
     {
         performance_test test = new performance_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "Performance", ".");
+        unit_test_context_base context = new unit_test_context_impl(test, "performance", ".");
         test_duration_counter td("Query loading");
 
         dot::string record_id = get_record_key(2);
