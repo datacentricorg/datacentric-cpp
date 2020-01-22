@@ -165,7 +165,7 @@ namespace dc
         return !equals(other);
     }
 
-    variant variant::parse(ValueType value_type, dot::string value)
+    variant variant::parse(value_type value_type, dot::string value)
     {
         if (dot::string::is_null_or_empty(value))
         {
@@ -176,16 +176,16 @@ namespace dc
         // Switch on type of default value
         switch (value_type)
         {
-        case ValueType::String:           return variant(value);
-        case ValueType::Double:           return variant(dot::double_impl::parse(value));
-        case ValueType::Bool:             return variant(dot::bool_impl::parse(value));
-        case ValueType::Int:              return variant(dot::int_impl::parse(value));
-        case ValueType::Long:             return variant(dot::long_impl::parse(value));
-        case ValueType::local_date:        return variant(dot::local_date_util::parse(value));
-        case ValueType::local_time:        return variant(dot::local_time_util::parse(value));
-        case ValueType::local_minute:      return variant(dot::local_minute_util::parse(value));
-        case ValueType::local_date_time:    return variant(dot::local_date_time_util::parse(value));
-        case ValueType::Enum:
+        case value_type::string_type:           return variant(value);
+        case value_type::double_type:           return variant(dot::double_impl::parse(value));
+        case value_type::bool_type:             return variant(dot::bool_impl::parse(value));
+        case value_type::int_type:              return variant(dot::int_impl::parse(value));
+        case value_type::long_type:             return variant(dot::long_impl::parse(value));
+        case value_type::local_date_type:        return variant(dot::local_date_util::parse(value));
+        case value_type::local_time_type:        return variant(dot::local_time_util::parse(value));
+        case value_type::local_minute_type:      return variant(dot::local_minute_util::parse(value));
+        case value_type::local_date_time_type:    return variant(dot::local_date_time_util::parse(value));
+        case value_type::enum_type:
             throw dot::exception("variant cannot be created as enum without specifying enum typename.");
         default:
             // Error message if any other type

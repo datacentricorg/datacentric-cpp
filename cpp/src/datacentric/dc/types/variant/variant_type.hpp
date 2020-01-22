@@ -24,27 +24,27 @@ namespace dc
     enum class DC_CLASS variant_type : int
     {
         /// Empty value.
-        empty,
+        empty_type,
 
         /// String value.
-        string,
+        string_type,
 
         /// Double value.
-        Double,
+        double_type,
 
         /// Boolean value.
-        Bool,
+        bool_type,
 
         /// 32-bit integer value.
-        Int,
+        int_type,
 
         /// 64-bit integer value.
-        Long,
+        long_type,
 
         /// Date without the time component.
-        date,
+        date_type,
 
         /// Datetime in UTC timezone.
-        date_time
+        date_time_type
     };
 }

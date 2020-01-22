@@ -51,24 +51,24 @@ namespace dc
     public: // PROPERTIES
 
         /// Type of the value held by the variant.
-        ValueType get_value_type()
+        value_type get_value_type()
         {
             if (value_ == nullptr)
-                return ValueType::empty;
+                return value_type::empty_type;
 
             dot::type value_type = value_->get_type();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
-            if (value_type->equals(dot::typeof<dot::string>()))        return ValueType::String;
-            if (value_type->equals(dot::typeof<double>()))             return ValueType::Double;
-            if (value_type->equals(dot::typeof<bool>()))               return ValueType::Bool;
-            if (value_type->equals(dot::typeof<int>()))                return ValueType::Int;
-            if (value_type->equals(dot::typeof<int64_t>()))            return ValueType::Long;
-            if (value_type->equals(dot::typeof<dot::local_date>()))     return ValueType::local_date;
-            if (value_type->equals(dot::typeof<dot::local_time>()))     return ValueType::local_time;
-            if (value_type->equals(dot::typeof<dot::local_minute>()))   return ValueType::local_minute;
-            if (value_type->equals(dot::typeof<dot::local_date_time>())) return ValueType::local_date_time;
-            if (value_type->is_enum)                                    return ValueType::Enum;
+            if (value_type->equals(dot::typeof<dot::string>()))        return value_type::string_type;
+            if (value_type->equals(dot::typeof<double>()))             return value_type::double_type;
+            if (value_type->equals(dot::typeof<bool>()))               return value_type::bool_type;
+            if (value_type->equals(dot::typeof<int>()))                return value_type::int_type;
+            if (value_type->equals(dot::typeof<int64_t>()))            return value_type::long_type;
+            if (value_type->equals(dot::typeof<dot::local_date>()))     return value_type::local_date_type;
+            if (value_type->equals(dot::typeof<dot::local_time>()))     return value_type::local_time_type;
+            if (value_type->equals(dot::typeof<dot::local_minute>()))   return value_type::local_minute_type;
+            if (value_type->equals(dot::typeof<dot::local_date_time>())) return value_type::local_date_time_type;
+            if (value_type->is_enum)                                    return value_type::enum_type;
 
             // Error message if any other type, should normally not get to here
             throw dot::exception(get_wrong_type_error_message(value_));
@@ -107,7 +107,7 @@ namespace dc
 
     public: // STATIC
 
-        static variant parse(ValueType value_type, dot::string value);
+        static variant parse(value_type value_type, dot::string value);
 
         template <class T>
         static variant parse(dot::string value)
