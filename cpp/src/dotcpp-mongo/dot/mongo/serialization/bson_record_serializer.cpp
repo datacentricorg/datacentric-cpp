@@ -31,12 +31,11 @@ limitations under the License.
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_date_time.hpp>
 #include <dot/mongo/serialization/bson_record_serializer.hpp>
-#include <dot/mongo/serialization/data_writer.hpp>
-#include <dot/mongo/serialization/tuple_writer.hpp>
+#include <dot/serialization/data_writer.hpp>
+#include <dot/serialization/tuple_writer.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
-
 
 namespace dot
 {
@@ -109,7 +108,6 @@ namespace dot
                 {
                     continue;
                 }
-
                 else
                 {
                     writer->write_value_element(element_name, value);

@@ -21,10 +21,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dot/mongo/precompiled.hpp>
+#include <dot/precompiled.hpp>
 #define RAPIDJSON_HAS_STDSTRING 1
-#include <dot/mongo/implement.hpp>
-#include <dot/mongo/serialization/json_writer.hpp>
+#include <dot/implement.hpp>
+#include <dot/serialization/json_writer.hpp>
 #include <dot/system/enum.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/object.hpp>
@@ -33,7 +33,7 @@ limitations under the License.
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_minute.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-#include <dot/mongo/mongo_db/bson/object_id.hpp>
+//#include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
@@ -290,9 +290,9 @@ namespace dot
         else
         if (value_type->equals(dot::typeof<dot::local_date_time>()))
             json_writer_.Int64(dot::local_date_time_util::to_iso_long((dot::local_date_time)value));
-        else
-        if (value_type->equals(dot::typeof<dot::object_id>()))
-            json_writer_.String(*value->to_string());
+        //else
+        //if (value_type->equals(dot::typeof<dot::object_id>()))
+        //    json_writer_.String(*value->to_string());
         else
         if (value_type->is_enum)
             json_writer_.String(*value->to_string());

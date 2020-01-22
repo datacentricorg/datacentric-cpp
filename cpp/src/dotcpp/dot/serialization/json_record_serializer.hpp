@@ -23,11 +23,11 @@ limitations under the License.
 
 #pragma once
 
-#include <dot/mongo/declare.hpp>
+#include <dot/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dot/mongo/serialization/tree_writer_base.hpp>
+#include <dot/system/type.hpp>
+#include <dot/serialization/tree_writer_base.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <dot/mongo/serialization/bson_writer.hpp>
 
 #include <rapidjson/document.h>
 
@@ -37,7 +37,7 @@ namespace dot
     class data_impl; using data = dot::ptr<data_impl>;
 
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
-    class DOT_MONGO_CLASS json_record_serializer_impl : public virtual dot::object_impl
+    class DOT_CLASS json_record_serializer_impl : public virtual dot::object_impl
     {
         friend json_record_serializer make_json_record_serializer();
 

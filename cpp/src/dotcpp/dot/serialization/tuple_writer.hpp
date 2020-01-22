@@ -23,14 +23,13 @@ limitations under the License.
 
 #pragma once
 
-#include <dot/mongo/declare.hpp>
-#include <dot/mongo/serialization/tree_writer_base.hpp>
+#include <dot/declare.hpp>
+#include <dot/serialization/tree_writer_base.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/system/type.hpp>
 #include <dot/system/collections/generic/list.hpp>
 #include <dot/system/collections/generic/dictionary.hpp>
-#include <dot/system/reflection/field_info.hpp>
-#include <dot/mongo/serialization/data_writer.hpp>
+#include <dot/serialization/data_writer.hpp>
 #include <stack>
 
 namespace dot
@@ -38,7 +37,7 @@ namespace dot
     class tuple_writer_impl; using tuple_writer = dot::ptr<tuple_writer_impl>;
 
     /// Implementation of tree_writer_base for data.
-    class DOT_MONGO_CLASS tuple_writer_impl : public tree_writer_base_impl
+    class DOT_CLASS tuple_writer_impl : public tree_writer_base_impl
     {
         friend tuple_writer make_tuple_writer(dot::object tuple, dot::list<dot::field_info> props);
 

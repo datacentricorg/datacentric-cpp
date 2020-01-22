@@ -21,12 +21,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dot/mongo/precompiled.hpp>
-#include <dot/mongo/implement.hpp>
-#include <dot/mongo/serialization/json_record_serializer.hpp>
-#include <dot/mongo/serialization/json_writer.hpp>
-#include <dot/mongo/serialization/data_writer.hpp>
-#include <dot/mongo/serialization/tuple_writer.hpp>
+#include <dot/precompiled.hpp>
+#include <dot/implement.hpp>
+#include <dot/serialization/json_record_serializer.hpp>
+#include <dot/serialization/json_writer.hpp>
+#include <dot/serialization/data_writer.hpp>
+#include <dot/serialization/tuple_writer.hpp>
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>

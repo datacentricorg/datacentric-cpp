@@ -21,9 +21,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dot/mongo/precompiled.hpp>
-#include <dot/mongo/implement.hpp>
-#include <dot/mongo/serialization/tree_writer_base.hpp>
+#include <dot/precompiled.hpp>
+#include <dot/implement.hpp>
+#include <dot/serialization/tree_writer_base.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/object.hpp>
 

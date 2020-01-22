@@ -21,9 +21,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dot/mongo/precompiled.hpp>
-#include <dot/mongo/implement.hpp>
-#include <dot/mongo/serialization/data_writer.hpp>
+#include <dot/precompiled.hpp>
+#include <dot/implement.hpp>
+#include <dot/serialization/data_writer.hpp>
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_minute_util.hpp>
 #include <dot/noda_time/local_date_util.hpp>
@@ -34,7 +34,7 @@ limitations under the License.
 #include <dot/noda_time/local_minute.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-#include <dot/mongo/mongo_db/bson/object_id.hpp>
+//#include <dot/mongo/mongo_db/bson/object_id.hpp>
 
 namespace dot
 {
@@ -317,8 +317,8 @@ namespace dot
             element_type->equals(dot::typeof<double>()) || element_type->equals(dot::typeof<dot::nullable<double>>()) ||
             element_type->equals(dot::typeof<bool>()) || element_type->equals(dot::typeof<dot::nullable<bool>>()) ||
             element_type->equals(dot::typeof<int>()) || element_type->equals(dot::typeof<dot::nullable<int>>()) ||
-            element_type->equals(dot::typeof<int64_t>()) || element_type->equals(dot::typeof<dot::nullable<int64_t>>()) ||
-            element_type->equals(dot::typeof<dot::object_id>())
+            element_type->equals(dot::typeof<int64_t>()) || element_type->equals(dot::typeof<dot::nullable<int64_t>>())
+            //element_type->equals(dot::typeof<dot::object_id>())
             )
         {
             // Check type match
@@ -341,10 +341,10 @@ namespace dot
             {
                 converted_value = static_cast<int>((int64_t) value);
             }
-            else if (element_type->equals(dot::typeof<dot::object_id>()) && value_type->equals(dot::typeof<dot::string>()))
-            {
-                converted_value = dot::object_id((dot::string) value);
-            }
+            //else if (element_type->equals(dot::typeof<dot::object_id>()) && value_type->equals(dot::typeof<dot::string>()))
+            //{
+            //    converted_value = dot::object_id((dot::string) value);
+            //}
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(converted_value);

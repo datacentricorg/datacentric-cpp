@@ -23,7 +23,7 @@ limitations under the License.
 
 #pragma once
 
-#include <dot/mongo/declare.hpp>
+#include <dot/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/system/object_impl.hpp>
 
@@ -92,7 +92,7 @@ namespace dot
     class tree_writer_base_impl; using tree_writer_base = dot::ptr<tree_writer_base_impl>;
 
     /// Interface for writing tree data.
-    class DOT_MONGO_CLASS tree_writer_base_impl : public dot::object_impl
+    class DOT_CLASS tree_writer_base_impl : public dot::object_impl
     {
     public:
 

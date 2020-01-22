@@ -19,7 +19,7 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dot/system/type.hpp>
-#include <dot/mongo/serialization/tree_writer_base.hpp>
+#include <dot/serialization/tree_writer_base.hpp>
 
 namespace dc
 {

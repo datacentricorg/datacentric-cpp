@@ -23,55 +23,35 @@ limitations under the License.
 
 #pragma once
 
-#include <dot/mongo/declare.hpp>
-#include <dot/mongo/serialization/tree_writer_base.hpp>
+#include <dot/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dot/system/type.hpp>
 #include <dot/system/collections/generic/list.hpp>
-#include <dot/system/collections/generic/dictionary.hpp>
-#include <dot/system/reflection/field_info.hpp>
+#include <dot/serialization/tree_writer_base.hpp>
+#include <rapidjson/document.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/stringbuffer.h>
 #include <stack>
 
 namespace dot
 {
-    class data_writer_impl; using data_writer = dot::ptr<data_writer_impl>;
-    class tuple_writer_impl; using tuple_writer = dot::ptr<tuple_writer_impl>;
+    class json_writer_impl; using json_writer = dot::ptr<json_writer_impl>;
 
-    /// Implementation of tree_writer_base for data.
-    class DOT_MONGO_CLASS data_writer_impl : public tree_writer_base_impl
+    /// Implementation of tree_writer_base_impl using RapidJSON lib.
+    class DOT_CLASS json_writer_impl : public tree_writer_base_impl
     {
-        friend data_writer make_data_writer(object data_obj);
-        friend tuple_writer_impl;
+        friend json_writer make_json_writer();
 
     private:
-        struct data_writer_position
-        {
-            dot::string current_element_name;
-            tree_writer_state current_state;
-            object current_dict;
-            dot::dictionary<dot::string, dot::field_info> current_dict_elements;
-            dot::field_info current_element_info;
-            dot::list_base current_array;
-            dot::type current_array_item_type;
-        };
 
-    private: // FIELDS
-
-        std::stack<data_writer_position> element_stack_; // TODO make dot::stack
-        dot::string root_element_name_;
-        dot::string current_element_name_;
+        rapidjson::StringBuffer buffer_;
+        rapidjson::Writer<rapidjson::StringBuffer> json_writer_;
+        std::stack<std::pair<dot::string, tree_writer_state>> element_stack_; // TODO make dot::stack
         tree_writer_state current_state_;
-        object current_dict_;
-        dot::dictionary<dot::string, dot::field_info> current_dict_elements_;
-        dot::field_info current_element_info_;
-        dot::list_base current_array_;
-        dot::type current_array_item_type_;
 
-    private: // CONSTRUCTORS
+    private:
+        json_writer_impl();
 
-        data_writer_impl(object data_obj);
-
-    public: //  METHODS
+    public:
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
@@ -129,17 +109,10 @@ namespace dot
         /// will be inferred from object.get_type().
         void write_value(dot::object value) override;
 
-        /// Convert to BSON string without checking that BSON document is complete.
-        /// This permits the use of this method to inspect the BSON content during creation.
+        /// Convert to JSON string without checking that JSON document is complete.
+        /// This permits the use of this method to inspect the JSON content during creation.
         dot::string to_string() override;
-
-    private:
-        /// Push state to the stack.
-        void push_state();
-
-        /// Pop state from the stack.
-        void pop_state();
     };
 
-    inline data_writer make_data_writer(object data_obj) { return new data_writer_impl(data_obj); }
+    inline json_writer make_json_writer() { return new json_writer_impl; }
 }

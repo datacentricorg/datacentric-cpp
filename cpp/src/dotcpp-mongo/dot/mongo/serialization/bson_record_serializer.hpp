@@ -25,7 +25,7 @@ limitations under the License.
 
 #include <dot/mongo/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dot/mongo/serialization/tree_writer_base.hpp>
+#include <dot/serialization/tree_writer_base.hpp>
 #include <dot/system/collections/generic/list.hpp>
 #include <dot/mongo/serialization/bson_writer.hpp>
 
