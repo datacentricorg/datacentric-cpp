@@ -47,7 +47,7 @@ namespace dc
         /// Assign key elements from record to key.
         void populate_from(typed_record<TKey, TRecord> record);
 
-        DOT_TYPE_BEGIN("dc", "key")
+        DOT_TYPE_BEGIN("dc", "typed_key")
             DOT_TYPE_BASE(key)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
