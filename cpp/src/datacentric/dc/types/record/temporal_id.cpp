@@ -44,12 +44,9 @@ namespace dc
     {
         // Copy iod bytes structure
         bytes_ = dot::make_byte_array(bytes_size_);
-        bytes_->copy(timestamp_offset_ - oid_timestamp_size_,
-            id.bytes() + oid_timestamp_offset_,
-            oid_timestamp_size_);
-        bytes_->copy(other_offset_,
-            id.bytes() + oid_other_offset_,
-            oid_other_size_);
+        int64_t id_time = id.get_time_t() * 1000;
+        bytes_->copy_value(timestamp_offset_, id_time);
+        bytes_->copy(other_offset_, id.bytes() + oid_other_offset_, oid_other_size_);
     }
 
     temporal_id::temporal_id(dot::object obj)
@@ -93,7 +90,7 @@ namespace dc
         int64_t milliseconds = d.total_milliseconds();
 
         bytes_ = dot::make_byte_array(bytes_size_);
-        bytes_->copy_value(milliseconds);
+        bytes_->copy_value(timestamp_offset_, milliseconds);
     }
 
     bool temporal_id::is_empty()
@@ -109,7 +106,7 @@ namespace dc
         bsoncxx::oid id = bsoncxx::oid();
 
         dot::byte_array bytes = dot::make_byte_array(bytes_size_);
-        bytes->copy_value(time_now);
+        bytes->copy_value(timestamp_offset_, time_now);
         bytes->copy(other_offset_, id.bytes() + oid_other_offset_, oid_other_size_);
 
         return temporal_id(bytes);
