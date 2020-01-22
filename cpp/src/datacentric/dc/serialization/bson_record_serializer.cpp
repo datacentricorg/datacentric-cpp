@@ -31,37 +31,37 @@ limitations under the License.
 
 namespace dc
 {
-    data bson_record_serializer_impl::Deserialize(bsoncxx::document::view doc)
+    data bson_record_serializer_impl::deserialize(bsoncxx::document::view doc)
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = doc["_t"].get_utf8().value.to_string();
         data result = (data)dot::activator::create_instance("", typeName);
         tree_writer_base writer = make_data_writer(result);
 
-        writer->WriteStartDocument(typeName);
-        DeserializeDocument(doc, writer);
-        writer->WriteEndDocument(typeName);
+        writer->write_start_document(typeName);
+        deserialize_document(doc, writer);
+        writer->write_end_document(typeName);
         return result;
     }
 
-    dot::object bson_record_serializer_impl::DeserializeTuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tupleType)
+    dot::object bson_record_serializer_impl::deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tupleType)
     {
         // Create instance to which BSON will be deserialized
         dot::string typeName = tupleType->name;
         dot::object result = dot::activator::create_instance(tupleType);
         tree_writer_base writer = make_tuple_writer(result, props);
 
-        writer->WriteStartDocument(typeName);
-        DeserializeDocument(doc, writer);
-        writer->WriteEndDocument(typeName);
+        writer->write_start_document(typeName);
+        deserialize_document(doc, writer);
+        writer->write_end_document(typeName);
         return result;
 
     }
 
-    void bson_record_serializer_impl::DeserializeDocument(const bsoncxx::document::view & doc, tree_writer_base writer)
+    void bson_record_serializer_impl::deserialize_document(const bsoncxx::document::view & doc, tree_writer_base writer)
     {
         // Each document is a dictionary at root level
-        writer->WriteStartDict();
+        writer->write_start_dict();
 
         // Loop over elements until
 
@@ -78,7 +78,7 @@ namespace dc
             else if (bsonType == bsoncxx::type::k_oid)
             {
                 dot::object_id value = elem.get_oid().value;
-                writer->WriteValueElement(elementName, value);
+                writer->write_value_element(elementName, value);
             }
             else if (bsonType == bsoncxx::type::k_utf8)
             {
@@ -103,33 +103,33 @@ namespace dc
 
                 else
                 {
-                    writer->WriteValueElement(elementName, value);
+                    writer->write_value_element(elementName, value);
                 }
             }
             else if (bsonType == bsoncxx::type::k_double)
             {
                 double value = elem.get_double();
-                writer->WriteValueElement(elementName, value);
+                writer->write_value_element(elementName, value);
             }
             else if (bsonType == bsoncxx::type::k_bool)
             {
                 bool value = elem.get_bool();
-                writer->WriteValueElement(elementName, value);
+                writer->write_value_element(elementName, value);
             }
             else if (bsonType == bsoncxx::type::k_int32)
             {
                 int value = elem.get_int32();
-                writer->WriteValueElement(elementName, value);
+                writer->write_value_element(elementName, value);
             }
             else if (bsonType == bsoncxx::type::k_int64)
             {
                 int64_t value = elem.get_int64();
-                writer->WriteValueElement(elementName, value);
+                writer->write_value_element(elementName, value);
             }
             else if (bsonType == bsoncxx::type::k_date)
             {
                 bsoncxx::types::b_date value = elem.get_date();
-                writer->WriteValueElement(elementName, dot::local_date_time_util::from_std_chrono(value.value));
+                writer->write_value_element(elementName, dot::local_date_time_util::from_std_chrono(value.value));
             }
             else if (bsonType == bsoncxx::type::k_document)
             {
@@ -139,9 +139,9 @@ namespace dc
 
                 // Deserialize embedded data element
 
-                writer->WriteStartElement(elementName);
-                DeserializeDocument(sub_doc, writer);
-                writer->WriteEndElement(elementName);
+                writer->write_start_element(elementName);
+                deserialize_document(sub_doc, writer);
+                writer->write_end_element(elementName);
             }
             else if (bsonType == bsoncxx::type::k_array)
             {
@@ -152,19 +152,19 @@ namespace dc
 
                 // We can finally deserialize array here
                 // This method checks that array is not sparse
-                writer->WriteStartArrayElement(elementName);
-                DeserializeArray(sub_doc, writer);
-                writer->WriteEndArrayElement(elementName);
+                writer->write_start_array_element(elementName);
+                deserialize_array(sub_doc, writer);
+                writer->write_end_array_element(elementName);
             }
             else throw dot::exception(
                 "Deserialization of BSON type {0} is not supported.");
         }
 
         // Each document is a dictionary at root level
-        writer->WriteEndDict();
+        writer->write_end_dict();
     }
 
-    void bson_record_serializer_impl::DeserializeArray(const bsoncxx::array::view & arr, tree_writer_base writer)
+    void bson_record_serializer_impl::deserialize_array(const bsoncxx::array::view & arr, tree_writer_base writer)
     {
         // Loop over elements until
         for (auto elem : arr)
@@ -174,37 +174,37 @@ namespace dc
             if (bsonType == bsoncxx::type::k_null)
             {
                 // Unlike for dictionaries, in case of arrays we write null item values
-                writer->WriteValueArrayItem(nullptr);
+                writer->write_value_array_item(nullptr);
             }
             else if (bsonType == bsoncxx::type::k_utf8)
             {
                 dot::string value = elem.get_utf8().value.to_string();
-                writer->WriteValueArrayItem(value);
+                writer->write_value_array_item(value);
             }
             else if (bsonType == bsoncxx::type::k_double)
             {
                 double value = elem.get_double();
-                writer->WriteValueArrayItem(value);
+                writer->write_value_array_item(value);
             }
             else if (bsonType == bsoncxx::type::k_bool)
             {
                 bool value = elem.get_bool();
-                writer->WriteValueArrayItem(value);
+                writer->write_value_array_item(value);
             }
             else if (bsonType == bsoncxx::type::k_int32)
             {
                 int value = elem.get_int32();
-                writer->WriteValueArrayItem(value);
+                writer->write_value_array_item(value);
             }
             else if (bsonType == bsoncxx::type::k_int64)
             {
                 int64_t value = elem.get_int64();
-                writer->WriteValueArrayItem(value);
+                writer->write_value_array_item(value);
             }
             else if (bsonType == bsoncxx::type::k_oid)
             {
                 dot::object_id value = elem.get_oid().value;
-                writer->WriteValueArrayItem(value);
+                writer->write_value_array_item(value);
             }
             else if (bsonType == bsoncxx::type::k_document)
             {
@@ -212,9 +212,9 @@ namespace dc
                 bsoncxx::document::view sub_doc = elem.get_document().view();
 
                 // Deserialize embedded data element
-                writer->WriteStartArrayItem();
-                DeserializeDocument(sub_doc, writer);
-                writer->WriteEndArrayItem();
+                writer->write_start_array_item();
+                deserialize_document(sub_doc, writer);
+                writer->write_end_array_item();
             }
             else if (bsonType == bsoncxx::type::k_array)
             {
@@ -226,14 +226,14 @@ namespace dc
         }
     }
 
-    void bson_record_serializer_impl::Serialize(tree_writer_base writer, data value)
+    void bson_record_serializer_impl::serialize(tree_writer_base writer, data value)
     {
         // Root name is written in JSON as _t element
         dot::string rootName = value->get_type()->full_name();
 
-        writer->WriteStartDocument(rootName);
+        writer->write_start_document(rootName);
         value->serialize_to(writer);
-        writer->WriteEndDocument(rootName);
+        writer->write_end_document(rootName);
     }
 
 }

@@ -32,21 +32,21 @@ limitations under the License.
 
 namespace dc
 {
-    void tuple_writer_impl::WriteStartDocument(dot::string rootElementName)
+    void tuple_writer_impl::write_start_document(dot::string rootElementName)
     {
 
     }
 
-    void tuple_writer_impl::WriteEndDocument(dot::string rootElementName)
+    void tuple_writer_impl::write_end_document(dot::string rootElementName)
     {
 
     }
 
-    void tuple_writer_impl::WriteStartElement(dot::string elementName)
+    void tuple_writer_impl::write_start_element(dot::string elementName)
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteStartElement(elementName);
+            dataWriter_->write_start_element(elementName);
         }
         else
         {
@@ -65,13 +65,13 @@ namespace dc
                     {
                         data result = (data)dot::activator::create_instance(props_[i]->field_type);
                         dataWriter_ = make_data_writer(result);
-                        dataWriter_->WriteStartDocument(props_[i]->field_type->name);
+                        dataWriter_->write_start_document(props_[i]->field_type->name);
 
                         tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, result }));
 
-                        //dataWriter_->WriteStartElement(elementName);
+                        //dataWriter_->write_start_element(elementName);
                         //DeserializeDocument(doc, writer);
-                        //writer->WriteEndDocument(typeName);
+                        //writer->write_end_document(typeName);
                     }
 
                     if (! props_[i]->field_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
@@ -83,9 +83,9 @@ namespace dc
 
                         dataWriter_->currentArray_ = dot::make_list<dot::list<dot::object>>();
 
-                        //dataWriter_->WriteStartElement(elementName);
+                        //dataWriter_->write_start_element(elementName);
                         //DeserializeDocument(doc, writer);
-                        //writer->WriteEndDocument(typeName);
+                        //writer->write_end_document(typeName);
                     }
 
                     return;
@@ -95,94 +95,94 @@ namespace dc
         }
     }
 
-    void tuple_writer_impl::WriteEndElement(dot::string elementName)
+    void tuple_writer_impl::write_end_element(dot::string elementName)
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteEndElement(elementName);
+            dataWriter_->write_end_element(elementName);
         }
     }
 
-    void tuple_writer_impl::WriteStartDict()
+    void tuple_writer_impl::write_start_dict()
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteStartDict();
+            dataWriter_->write_start_dict();
         }
 
     }
 
-    void tuple_writer_impl::WriteEndDict()
+    void tuple_writer_impl::write_end_dict()
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteEndDict();
+            dataWriter_->write_end_dict();
             if (dataWriter_->currentState_ == tree_writer_state::DocumentStarted)
                 dataWriter_ = nullptr;
         }
     }
 
-    void tuple_writer_impl::WriteStartArray()
+    void tuple_writer_impl::write_start_array()
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteStartArray();
+            dataWriter_->write_start_array();
         }
 
     }
 
-    void tuple_writer_impl::WriteEndArray()
+    void tuple_writer_impl::write_end_array()
     {
         if (dataWriter_ != nullptr)
         {
             tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, indexOfCurrent_, dataWriter_->currentArray_ }));
-            dataWriter_->WriteEndArray();
+            dataWriter_->write_end_array();
             dataWriter_ = nullptr;
         }
 
     }
 
-    void tuple_writer_impl::WriteStartArrayItem()
+    void tuple_writer_impl::write_start_array_item()
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteStartArrayItem();
+            dataWriter_->write_start_array_item();
         }
 
     }
 
-    void tuple_writer_impl::WriteEndArrayItem()
+    void tuple_writer_impl::write_end_array_item()
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteEndArrayItem();
+            dataWriter_->write_end_array_item();
         }
 
     }
 
-    void tuple_writer_impl::WriteStartValue()
+    void tuple_writer_impl::write_start_value()
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteStartValue();
+            dataWriter_->write_start_value();
         }
 
     }
 
-    void tuple_writer_impl::WriteEndValue()
+    void tuple_writer_impl::write_end_value()
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteEndValue();
+            dataWriter_->write_end_value();
         }
 
     }
 
-    void tuple_writer_impl::WriteValue(dot::object value)
+    void tuple_writer_impl::write_value(dot::object value)
     {
         if (dataWriter_ != nullptr)
         {
-            dataWriter_->WriteValue(value);
+            dataWriter_->write_value(value);
             return;
         }
 

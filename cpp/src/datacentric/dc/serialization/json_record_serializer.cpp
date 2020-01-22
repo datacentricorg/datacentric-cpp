@@ -40,9 +40,9 @@ namespace dc
         data result = (data)dot::activator::create_instance("", typeName);
         tree_writer_base writer = make_data_writer(result);
 
-        writer->WriteStartDocument(typeName);
+        writer->write_start_document(typeName);
         DeserializeDocument(doc.GetObject(), writer);
-        writer->WriteEndDocument(typeName);
+        writer->write_end_document(typeName);
         return result;
     }
 
@@ -53,9 +53,9 @@ namespace dc
         dot::object result = dot::activator::create_instance(tupleType);
         tree_writer_base writer = make_tuple_writer(result, props);
 
-        writer->WriteStartDocument(typeName);
+        writer->write_start_document(typeName);
         DeserializeDocument(doc, writer);
-        writer->WriteEndDocument(typeName);
+        writer->write_end_document(typeName);
         return result;
 
     }
@@ -63,7 +63,7 @@ namespace dc
     void json_record_serializer_impl::DeserializeDocument(rapidjson::Document::ConstObject doc, tree_writer_base writer)
     {
         // Each document is a dictionary at root level
-        writer->WriteStartDict();
+        writer->write_start_dict();
 
         // Loop over elements until
 
@@ -87,7 +87,7 @@ namespace dc
                 }
                 else
                 {
-                    writer->WriteValueElement(elementName, value);
+                    writer->write_value_element(elementName, value);
                 }
             }
             else if (jsonType == rapidjson::Type::kNumberType)
@@ -95,23 +95,23 @@ namespace dc
                 if (elem.value.IsDouble())
                 {
                     double value = elem.value.GetDouble();
-                    writer->WriteValueElement(elementName, value);
+                    writer->write_value_element(elementName, value);
                 }
                 else if (elem.value.IsInt())
                 {
                     int value = elem.value.GetInt();
-                    writer->WriteValueElement(elementName, value);
+                    writer->write_value_element(elementName, value);
                 }
                 else
                 {
                     int64_t value = elem.value.GetInt64();
-                    writer->WriteValueElement(elementName, value);
+                    writer->write_value_element(elementName, value);
                 }
             }
             else if (jsonType == rapidjson::Type::kFalseType || jsonType == rapidjson::Type::kTrueType)
             {
                 bool value = elem.value.GetBool();
-                writer->WriteValueElement(elementName, value);
+                writer->write_value_element(elementName, value);
             }
             else if (jsonType == rapidjson::Type::kObjectType)
             {
@@ -121,9 +121,9 @@ namespace dc
 
                 // Deserialize embedded data element
 
-                writer->WriteStartElement(elementName);
+                writer->write_start_element(elementName);
                 DeserializeDocument(sub_doc, writer);
-                writer->WriteEndElement(elementName);
+                writer->write_end_element(elementName);
             }
             else if (jsonType == rapidjson::Type::kArrayType)
             {
@@ -134,16 +134,16 @@ namespace dc
 
                 // We can finally deserialize array here
                 // This method checks that array is not sparse
-                writer->WriteStartArrayElement(elementName);
+                writer->write_start_array_element(elementName);
                 DeserializeArray(sub_doc, writer);
-                writer->WriteEndArrayElement(elementName);
+                writer->write_end_array_element(elementName);
             }
             else throw dot::exception(
                 "Deserialization of JSON type {0} is not supported.");
         }
 
         // Each document is a dictionary at root level
-        writer->WriteEndDict();
+        writer->write_end_dict();
     }
 
     void json_record_serializer_impl::DeserializeArray(rapidjson::Document::ConstArray arr, tree_writer_base writer)
@@ -156,35 +156,35 @@ namespace dc
             if (jsonType == rapidjson::Type::kNullType)
             {
                 // Unlike for dictionaries, in case of arrays we write null item values
-                writer->WriteValueArrayItem(nullptr);
+                writer->write_value_array_item(nullptr);
             }
             else if (jsonType == rapidjson::Type::kStringType)
             {
                 dot::string value = elem.GetString();
-                writer->WriteValueArrayItem(value);
+                writer->write_value_array_item(value);
             }
             else if (jsonType == rapidjson::Type::kNumberType)
             {
                 if (elem.IsDouble())
                 {
                     double value = elem.GetDouble();
-                    writer->WriteValueArrayItem(value);
+                    writer->write_value_array_item(value);
                 }
                 else if (elem.IsInt())
                 {
                     int value = elem.GetInt();
-                    writer->WriteValueArrayItem(value);
+                    writer->write_value_array_item(value);
                 }
                 else
                 {
                     int64_t value = elem.GetInt64();
-                    writer->WriteValueArrayItem(value);
+                    writer->write_value_array_item(value);
                 }
             }
             else if (jsonType == rapidjson::Type::kFalseType || jsonType == rapidjson::Type::kTrueType)
             {
                 bool value = elem.GetBool();
-                writer->WriteValueArrayItem(value);
+                writer->write_value_array_item(value);
             }
             else if (jsonType == rapidjson::Type::kObjectType)
             {
@@ -192,9 +192,9 @@ namespace dc
                 rapidjson::Document::ConstObject sub_doc = elem.GetObject();
 
                 // Deserialize embedded data element
-                writer->WriteStartArrayItem();
+                writer->write_start_array_item();
                 DeserializeDocument(sub_doc, writer);
-                writer->WriteEndArrayItem();
+                writer->write_end_array_item();
             }
             else if (jsonType == rapidjson::Type::kArrayType)
             {
@@ -211,9 +211,9 @@ namespace dc
         // Root name is written in JSON as _t element
         dot::string rootName = value->get_type()->full_name();
 
-        writer->WriteStartDocument(rootName);
+        writer->write_start_document(rootName);
         value->serialize_to(writer);
-        writer->WriteEndDocument(rootName);
+        writer->write_end_document(rootName);
     }
 
 }

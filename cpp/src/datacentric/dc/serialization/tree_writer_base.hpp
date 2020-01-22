@@ -27,58 +27,58 @@ namespace dc
         /// Empty
         empty,
 
-        /// State following WriteStartDocument.
+        /// State following write_start_document.
         DocumentStarted,
 
-        /// State following WriteEndDocument.
+        /// State following write_end_document.
         DocumentCompleted,
 
-        /// State following WriteStartElement.
+        /// State following write_start_element.
         ElementStarted,
 
-        /// State following WriteEndElement.
+        /// State following write_end_element.
         ElementCompleted,
 
-        /// State following WriteStartArray.
+        /// State following write_start_array.
         ArrayStarted,
 
-        /// State following WriteEndArray.
+        /// State following write_end_array.
         ArrayCompleted,
 
-        /// State following WriteStartArrayItem.
+        /// State following write_start_array_item.
         ArrayItemStarted,
 
-        /// State following WriteEndArrayItem.
+        /// State following write_end_array_item.
         ArrayItemCompleted,
 
-        /// State following WriteStartDict that is not inside an array.
+        /// State following write_start_dict that is not inside an array.
         DictStarted,
 
-        /// State following WriteEndDict that is not inside an array.
+        /// State following write_end_dict that is not inside an array.
         DictCompleted,
 
-        /// State following WriteStartDict inside an array.
+        /// State following write_start_dict inside an array.
         DictArrayItemStarted,
 
-        /// State following WriteEndDict inside an array.
+        /// State following write_end_dict inside an array.
         DictArrayItemCompleted,
 
-        /// State following WriteStartValue that is not inside an array.
+        /// State following write_start_value that is not inside an array.
         ValueStarted,
 
-        /// State following WriteValue that is not inside an array.
+        /// State following write_value that is not inside an array.
         ValueWritten,
 
-        /// State following WriteEndValue that is not inside an array.
+        /// State following write_end_value that is not inside an array.
         ValueCompleted,
 
-        /// State following WriteStartValue inside an array.
+        /// State following write_start_value inside an array.
         ValueArrayItemStarted,
 
-        /// State following WriteValue inside an array.
+        /// State following write_value inside an array.
         ValueArrayItemWritten,
 
-        /// State following WriteEndValue inside an array.
+        /// State following write_end_value inside an array.
         ValueArrayItemCompleted
     };
 
@@ -93,59 +93,59 @@ namespace dc
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        virtual void WriteStartDocument(dot::string rootElementName) = 0;
+        virtual void write_start_document(dot::string rootElementName) = 0;
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
-        /// name passed to the preceding call to WriteStartDocument(...).
-        virtual void WriteEndDocument(dot::string rootElementName) = 0;
+        /// name passed to the preceding call to write_start_document(...).
+        virtual void write_end_document(dot::string rootElementName) = 0;
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        virtual void WriteStartElement(dot::string elementName) = 0;
+        virtual void write_start_element(dot::string elementName) = 0;
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
-        /// to the matching WriteStartElement(name) call at the same indent level.
-        virtual void WriteEndElement(dot::string elementName) = 0;
+        /// to the matching write_start_element(name) call at the same indent level.
+        virtual void write_end_element(dot::string elementName) = 0;
 
         /// Write dictionary start tag. A call to this method
-        /// must follow WriteStartElement(name).
-        virtual void WriteStartDict() = 0;
+        /// must follow write_start_element(name).
+        virtual void write_start_dict() = 0;
 
         /// Write dictionary end tag. A call to this method
-        /// must be followed by WriteEndElement(name).
-        virtual void WriteEndDict() = 0;
+        /// must be followed by write_end_element(name).
+        virtual void write_end_dict() = 0;
 
         /// Write start tag for an array. A call to this method
-        /// must follow WriteStartElement(name).
-        virtual void WriteStartArray() = 0;
+        /// must follow write_start_element(name).
+        virtual void write_start_array() = 0;
 
         /// Write end tag for an array. A call to this method
-        /// must be followed by WriteEndElement(name).
-        virtual void WriteEndArray() = 0;
+        /// must be followed by write_end_element(name).
+        virtual void write_end_array() = 0;
 
         /// Write start tag for an array item. A call to this method
-        /// must follow either WriteStartArray() or WriteEndArrayItem().
-        virtual void WriteStartArrayItem() = 0;
+        /// must follow either write_start_array() or write_end_array_item().
+        virtual void write_start_array_item() = 0;
 
         /// Write end tag for an array item. A call to this method
-        /// must be followed by either WriteEndArray() or WriteStartArrayItem().
-        virtual void WriteEndArrayItem() = 0;
+        /// must be followed by either write_end_array() or write_start_array_item().
+        virtual void write_end_array_item() = 0;
 
         /// Write value start tag. A call to this method
-        /// must follow WriteStartElement(name).
-        virtual void WriteStartValue() = 0;
+        /// must follow write_start_element(name).
+        virtual void write_start_value() = 0;
 
         /// Write value end tag. A call to this method
-        /// must be followed by WriteEndElement(name).
-        virtual void WriteEndValue() = 0;
+        /// must be followed by write_end_element(name).
+        virtual void write_end_value() = 0;
 
         /// Write atomic value. Value type
         /// will be inferred from object.get_type().
-        virtual void WriteValue(dot::object value) = 0;
+        virtual void write_value(dot::object value) = 0;
 
         /// Cast to IXmlWriter (throws if the cast fails).
         //IXmlWriter AsXmlWriter() { return (IXmlWriter)obj; }
@@ -153,46 +153,46 @@ namespace dc
         /// Cast to IBsonWriter (throws if the cast fails).
         //IBsonWriter AsBsonWriter() { return (IBsonWriter)obj; }
 
-        /// WriteStartElement(...) followed by WriteStartDict().
-        void WriteStartDictElement(dot::string elementName);
+        /// write_start_element(...) followed by write_start_dict().
+        void write_start_dict_element(dot::string elementName);
 
-        /// WriteEndDict(...) followed by WriteEndElement(...).
-        void WriteEndDictElement(dot::string elementName);
+        /// write_end_dict(...) followed by write_end_element(...).
+        void write_end_dict_element(dot::string elementName);
 
-        /// WriteStartElement(...) followed by WriteStartArray().
-        void WriteStartArrayElement(dot::string elementName);
+        /// write_start_element(...) followed by write_start_array().
+        void write_start_array_element(dot::string elementName);
 
-        /// WriteEndArray(...) followed by WriteEndElement(...).
-        void WriteEndArrayElement(dot::string elementName);
+        /// write_end_array(...) followed by write_end_element(...).
+        void write_end_array_element(dot::string elementName);
 
-        /// WriteStartArrayItem(...) followed by WriteStartDict().
-        void WriteStartDictArrayItem();
+        /// write_start_array_item(...) followed by write_start_dict().
+        void write_start_dict_array_item();
 
-        /// WriteEndDict(...) followed by WriteEndArrayItem(...).
-        void WriteEndDictArrayItem();
+        /// write_end_dict(...) followed by write_end_array_item(...).
+        void write_end_dict_array_item();
 
         /// Write an element with no inner nodes.
         /// Element type is inferred by calling obj.get_type().
-        void WriteValueElement(dot::string elementName, dot::object value);
+        void write_value_element(dot::string elementName, dot::object value);
 
         /// Write an array item with no inner nodes.
         /// Element type is inferred by calling obj.get_type().
-        void WriteValueArrayItem(dot::object value);
+        void write_value_array_item(dot::object value);
 
         /// Write a single array item.
-        void WriteArrayItem(dot::object value);
+        void write_array_item(dot::object value);
 
         /// Write an array of elements with no inner nodes.
         /// Element type is inferred by calling obj.get_type().
         template <class container>
-        void WriteValueArray(dot::string elementName, container values)
+        void write_value_array(dot::string elementName, container values)
         {
-            this->WriteStartArrayElement(elementName);
+            this->write_start_array_element(elementName);
             for (dot::object value : values)
             {
-                this->WriteArrayItem(value);
+                this->write_array_item(value);
             }
-            this->WriteEndArrayElement(elementName);
+            this->write_end_array_element(elementName);
         }
     };
 

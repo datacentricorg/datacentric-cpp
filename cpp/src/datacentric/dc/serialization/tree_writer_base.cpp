@@ -23,84 +23,84 @@ limitations under the License.
 namespace dc
 {
 
-    /// WriteStartElement(...) followed by WriteStartDict().
-    void tree_writer_base_impl::WriteStartDictElement(dot::string elementName)
+    /// write_start_element(...) followed by write_start_dict().
+    void tree_writer_base_impl::write_start_dict_element(dot::string elementName)
     {
-        this->WriteStartElement(elementName);
-        this->WriteStartDict();
+        this->write_start_element(elementName);
+        this->write_start_dict();
     }
 
-    /// WriteEndDict(...) followed by WriteEndElement(...).
-    void tree_writer_base_impl::WriteEndDictElement(dot::string elementName)
+    /// write_end_dict(...) followed by write_end_element(...).
+    void tree_writer_base_impl::write_end_dict_element(dot::string elementName)
     {
-        this->WriteEndDict();
-        this->WriteEndElement(elementName);
+        this->write_end_dict();
+        this->write_end_element(elementName);
     }
 
-    /// WriteStartElement(...) followed by WriteStartArray().
-    void tree_writer_base_impl::WriteStartArrayElement(dot::string elementName)
+    /// write_start_element(...) followed by write_start_array().
+    void tree_writer_base_impl::write_start_array_element(dot::string elementName)
     {
-        this->WriteStartElement(elementName);
-        this->WriteStartArray();
+        this->write_start_element(elementName);
+        this->write_start_array();
     }
 
-    /// WriteEndArray(...) followed by WriteEndElement(...).
-    void tree_writer_base_impl::WriteEndArrayElement(dot::string elementName)
+    /// write_end_array(...) followed by write_end_element(...).
+    void tree_writer_base_impl::write_end_array_element(dot::string elementName)
     {
-        this->WriteEndArray();
-        this->WriteEndElement(elementName);
+        this->write_end_array();
+        this->write_end_element(elementName);
     }
 
-    /// WriteStartArrayItem(...) followed by WriteStartDict().
-    void tree_writer_base_impl::WriteStartDictArrayItem()
+    /// write_start_array_item(...) followed by write_start_dict().
+    void tree_writer_base_impl::write_start_dict_array_item()
     {
-        this->WriteStartArrayItem();
-        this->WriteStartDict();
+        this->write_start_array_item();
+        this->write_start_dict();
     }
 
-    /// WriteEndDict(...) followed by WriteEndArrayItem(...).
-    void tree_writer_base_impl::WriteEndDictArrayItem()
+    /// write_end_dict(...) followed by write_end_array_item(...).
+    void tree_writer_base_impl::write_end_dict_array_item()
     {
-        this->WriteEndDict();
-        this->WriteEndArrayItem();
+        this->write_end_dict();
+        this->write_end_array_item();
     }
 
     /// Write an element with no inner nodes.
     /// Element type is inferred by calling obj.get_type().
-    void tree_writer_base_impl::WriteValueElement(dot::string elementName, dot::object value)
+    void tree_writer_base_impl::write_value_element(dot::string elementName, dot::object value)
     {
         // Do not serialize null or empty value
         if (!value.is_empty())
         {
-            this->WriteStartElement(elementName);
-            this->WriteStartValue();
-            this->WriteValue(value);
-            this->WriteEndValue();
-            this->WriteEndElement(elementName);
+            this->write_start_element(elementName);
+            this->write_start_value();
+            this->write_value(value);
+            this->write_end_value();
+            this->write_end_element(elementName);
         }
     }
 
     /// Write an array item with no inner nodes.
     /// Element type is inferred by calling obj.get_type().
-    void tree_writer_base_impl::WriteValueArrayItem(dot::object value)
+    void tree_writer_base_impl::write_value_array_item(dot::object value)
     {
         // Writes null or empty value as BSON null
-        this->WriteStartArrayItem();
-        this->WriteStartValue();
-        this->WriteValue(value);
-        this->WriteEndValue();
-        this->WriteEndArrayItem();
+        this->write_start_array_item();
+        this->write_start_value();
+        this->write_value(value);
+        this->write_end_value();
+        this->write_end_array_item();
     }
 
     /// Write a single array item.
-    void tree_writer_base_impl::WriteArrayItem(dot::object value)
+    void tree_writer_base_impl::write_array_item(dot::object value)
     {
         // Will serialize null or empty value
-        this->WriteStartArrayItem();
-        this->WriteStartValue();
-        this->WriteValue(value);
-        this->WriteEndValue();
-        this->WriteEndArrayItem();
+        this->write_start_array_item();
+        this->write_start_value();
+        this->write_value(value);
+        this->write_end_value();
+        this->write_end_array_item();
     }
 
 }

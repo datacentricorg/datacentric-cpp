@@ -36,10 +36,10 @@ limitations under the License.
 namespace dc
 {
 
-    void bson_writer_impl::WriteStartDocument(dot::string rootElementName)
+    void bson_writer_impl::write_start_document(dot::string rootElementName)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
-        // one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
+        // one of write_start_dict, write_start_array_item, or write_start_value calls.
         elementStack_.push({ rootElementName, currentState_ });
 
         if (currentState_ == tree_writer_state::empty && elementStack_.size() == 1)
@@ -48,11 +48,11 @@ namespace dc
         }
         else
             throw dot::exception(
-                "A call to WriteStartDocument(...) must be the first call to the tree writer.");
+                "A call to write_start_document(...) must be the first call to the tree writer.");
 
     }
 
-    void bson_writer_impl::WriteEndDocument(dot::string rootElementName)
+    void bson_writer_impl::write_end_document(dot::string rootElementName)
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::DictCompleted && elementStack_.size() == 1)
@@ -61,7 +61,7 @@ namespace dc
         }
         else
             throw dot::exception(
-                "A call to WriteEndDocument(...) does not follow  WriteEndElement(...) at at root level.");
+                "A call to write_end_document(...) does not follow  write_end_element(...) at at root level.");
 
         // Pop the outer element name and state from the element stack
         dot::string currentElementName;
@@ -71,16 +71,16 @@ namespace dc
         currentState_ = top.second;
 
         // Check that the current element name matches the specified name. Writing the actual end tag
-        // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
+        // occurs inside one of write_start_dict, write_start_array_item, or write_start_value calls.
         if (rootElementName != currentElementName)
             throw dot::exception(dot::string::format(
-                "WriteEndDocument({0}) follows WriteStartDocument({1}), root element name mismatch.", rootElementName, currentElementName));
+                "write_end_document({0}) follows write_start_document({1}), root element name mismatch.", rootElementName, currentElementName));
     }
 
-    void bson_writer_impl::WriteStartElement(dot::string elementName)
+    void bson_writer_impl::write_start_element(dot::string elementName)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
-        // one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
+        // one of write_start_dict, write_start_array_item, or write_start_value calls.
         elementStack_.push({ elementName, currentState_ });
 
         if (currentState_ == tree_writer_state::DocumentStarted) currentState_ = tree_writer_state::ElementStarted;
@@ -89,13 +89,13 @@ namespace dc
         else if (currentState_ == tree_writer_state::DictArrayItemStarted) currentState_ = tree_writer_state::ElementStarted;
         else
             throw dot::exception(
-                "A call to WriteStartElement(...) must be the first call or follow WriteEndElement(prevName).");
+                "A call to write_start_element(...) must be the first call or follow write_end_element(prevName).");
 
         // Write "elementName" :
         bsonWriter_.key_owned(*(elementStack_.top().first));
     }
 
-    void bson_writer_impl::WriteEndElement(dot::string elementName)
+    void bson_writer_impl::write_end_element(dot::string elementName)
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::ElementStarted) currentState_ = tree_writer_state::ElementCompleted;
@@ -103,7 +103,7 @@ namespace dc
         else if (currentState_ == tree_writer_state::ValueCompleted) currentState_ = tree_writer_state::ElementCompleted;
         else if (currentState_ == tree_writer_state::ArrayCompleted) currentState_ = tree_writer_state::ElementCompleted;
         else throw dot::exception(
-            "A call to WriteEndElement(...) does not follow a matching WriteStartElement(...) at the same indent level.");
+            "A call to write_end_element(...) does not follow a matching write_start_element(...) at the same indent level.");
 
         // Pop the outer element name and state from the element stack
         //(currentElementName, currentState_) = elementStack_.Pop();
@@ -114,7 +114,7 @@ namespace dc
         currentState_ = top.second;
 
         // Check that the current element name matches the specified name. Writing the actual end tag
-        // occurs inside one of WriteStartDict, WriteStartArrayItem, or WriteStartValue calls.
+        // occurs inside one of write_start_dict, write_start_array_item, or write_start_value calls.
         if (elementName != currentElementName)
             throw dot::exception(
                 dot::string::format("EndComplexElement({0}) follows StartComplexElement({1}), element name mismatch.", elementName, currentElementName));
@@ -123,8 +123,8 @@ namespace dc
     }
 
     /// Write dictionary start tag. A call to this method
-    /// must follow WriteStartElement(...) or WriteStartArrayItem().
-    void bson_writer_impl::WriteStartDict()
+    /// must follow write_start_element(...) or write_start_array_item().
+    void bson_writer_impl::write_start_dict()
     {
         // Save initial state to be used below
         tree_writer_state prevState = currentState_;
@@ -135,7 +135,7 @@ namespace dc
         else if (currentState_ == tree_writer_state::ArrayItemStarted) currentState_ = tree_writer_state::DictArrayItemStarted;
         else
             throw dot::exception(
-                "A call to WriteStartDict() must follow WriteStartElement(...) or WriteStartArrayItem().");
+                "A call to write_start_dict() must follow write_start_element(...) or write_start_array_item().");
 
         // Write {
         bsonWriter_.open_document();
@@ -145,11 +145,11 @@ namespace dc
         //{
         //    dot::string rootElementName = elementStack_.top().first;
         //    if (!rootElementName->ends_with("Key"))  // TODO remove it
-        //        this->WriteValueElement("_t", rootElementName);
+        //        this->write_value_element("_t", rootElementName);
         //}
     }
 
-    void bson_writer_impl::WriteEndDict()
+    void bson_writer_impl::write_end_dict()
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::DictStarted) currentState_ = tree_writer_state::DictCompleted;
@@ -157,49 +157,49 @@ namespace dc
         else if (currentState_ == tree_writer_state::ElementCompleted) currentState_ = tree_writer_state::DictCompleted;
         else
             throw dot::exception(
-                "A call to WriteEndDict(...) does not follow a matching WriteStartDict(...) at the same indent level.");
+                "A call to write_end_dict(...) does not follow a matching write_start_dict(...) at the same indent level.");
 
         // Write }
         bsonWriter_.close_document();
     }
 
-    void bson_writer_impl::WriteStartArray()
+    void bson_writer_impl::write_start_array()
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::ElementStarted) currentState_ = tree_writer_state::ArrayStarted;
         else
             throw dot::exception(
-                "A call to WriteStartArray() must follow WriteStartElement(...).");
+                "A call to write_start_array() must follow write_start_element(...).");
 
         // Write [
         bsonWriter_.open_array();
     }
 
-    void bson_writer_impl::WriteEndArray()
+    void bson_writer_impl::write_end_array()
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::ArrayStarted) currentState_ = tree_writer_state::ArrayCompleted;
         else if (currentState_ == tree_writer_state::ArrayItemCompleted) currentState_ = tree_writer_state::ArrayCompleted;
         else
             throw dot::exception(
-                "A call to WriteEndArray(...) does not follow WriteEndArrayItem(...).");
+                "A call to write_end_array(...) does not follow write_end_array_item(...).");
 
         // Write ]
         bsonWriter_.close_array();
     }
 
-    void bson_writer_impl::WriteStartArrayItem()
+    void bson_writer_impl::write_start_array_item()
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::ArrayStarted) currentState_ = tree_writer_state::ArrayItemStarted;
         else if (currentState_ == tree_writer_state::ArrayItemCompleted) currentState_ = tree_writer_state::ArrayItemStarted;
         else throw dot::exception(
-            "A call to WriteStartArrayItem() must follow WriteStartElement(...) or WriteEndArrayItem().");
+            "A call to write_start_array_item() must follow write_start_element(...) or write_end_array_item().");
 
         // Nothing to write here
     }
 
-    void bson_writer_impl::WriteEndArrayItem()
+    void bson_writer_impl::write_end_array_item()
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::ArrayItemStarted) currentState_ = tree_writer_state::ArrayItemCompleted;
@@ -207,43 +207,43 @@ namespace dc
         else if (currentState_ == tree_writer_state::ValueArrayItemCompleted) currentState_ = tree_writer_state::ArrayItemCompleted;
         else
             throw dot::exception(
-                "A call to WriteEndArrayItem(...) does not follow a matching WriteStartArrayItem(...) at the same indent level.");
+                "A call to write_end_array_item(...) does not follow a matching write_start_array_item(...) at the same indent level.");
 
         // Nothing to write here
     }
 
-    void bson_writer_impl::WriteStartValue()
+    void bson_writer_impl::write_start_value()
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::ElementStarted) currentState_ = tree_writer_state::ValueStarted;
         else if (currentState_ == tree_writer_state::ArrayItemStarted) currentState_ = tree_writer_state::ValueArrayItemStarted;
         else
             throw dot::exception(
-                "A call to WriteStartValue() must follow WriteStartElement(...) or WriteStartArrayItem().");
+                "A call to write_start_value() must follow write_start_element(...) or write_start_array_item().");
 
         // Nothing to write here
     }
 
-    void bson_writer_impl::WriteEndValue()
+    void bson_writer_impl::write_end_value()
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::ValueWritten) currentState_ = tree_writer_state::ValueCompleted;
         else if (currentState_ == tree_writer_state::ValueArrayItemWritten) currentState_ = tree_writer_state::ValueArrayItemCompleted;
         else
             throw dot::exception(
-                "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
+                "A call to write_end_value(...) does not follow a matching write_value(...) at the same indent level.");
 
         // Nothing to write here
     }
 
-    void bson_writer_impl::WriteValue(dot::object value)
+    void bson_writer_impl::write_value(dot::object value)
     {
         // Check state transition matrix
         if (currentState_ == tree_writer_state::ValueStarted) currentState_ = tree_writer_state::ValueWritten;
         else if (currentState_ == tree_writer_state::ValueArrayItemStarted) currentState_ = tree_writer_state::ValueArrayItemWritten;
         else
             throw dot::exception(
-                "A call to WriteEndValue(...) does not follow a matching WriteValue(...) at the same indent level.");
+                "A call to write_end_value(...) does not follow a matching write_value(...) at the same indent level.");
 
         if (value.is_empty())
         {

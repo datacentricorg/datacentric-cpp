@@ -28,7 +28,7 @@ namespace dc
     void serialize_to(dot::list_base obj, dot::string element_name, tree_writer_base writer)
     {
         // Write start element tag
-        writer->WriteStartArrayElement(element_name);
+        writer->write_start_array_element(element_name);
 
         int length = obj->get_length();
 
@@ -38,14 +38,14 @@ namespace dc
             dot::object item = obj->get_item(i);
 
             // Write array item start tag
-            writer->WriteStartArrayItem();
+            writer->write_start_array_item();
 
             if (item.is_empty())
             {
-                writer->WriteStartValue();
-                writer->WriteValue(item);
-                writer->WriteEndValue();
-                writer->WriteEndArrayItem();
+                writer->write_start_value();
+                writer->write_value(item);
+                writer->write_end_value();
+                writer->write_end_array_item();
                 continue;
             }
 
@@ -65,9 +65,9 @@ namespace dc
                 || item_type->equals(dot::typeof<dot::object_id>())
                 )
             {
-                writer->WriteStartValue();
-                writer->WriteValue(item);
-                writer->WriteEndValue();
+                writer->write_start_value();
+                writer->write_value(item);
+                writer->write_end_value();
             }
             else if (!item_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
             {
@@ -80,9 +80,9 @@ namespace dc
                 if (item_type->name->ends_with("Key"))
                 {
                     // Embedded as string key
-                    writer->WriteStartValue();
-                    writer->WriteValue(item->to_string());
-                    writer->WriteEndValue();
+                    writer->write_start_value();
+                    writer->write_value(item->to_string());
+                    writer->write_end_value();
                 }
                 else
                 {
@@ -97,18 +97,18 @@ namespace dc
 
 
             // Write array item end tag
-            writer->WriteEndArrayItem();
+            writer->write_end_array_item();
         }
 
         // Write matching end element tag
-        writer->WriteEndArrayElement(element_name);
+        writer->write_end_array_element(element_name);
     }
 
 
     void data_impl::serialize_to(tree_writer_base writer)
     {
         // Write start tag
-        writer->WriteStartDict();
+        writer->write_start_dict();
 
         // Iterate over the list of elements
         dot::list<dot::field_info> inner_element_info_list = get_type()->get_fields();
@@ -138,7 +138,7 @@ namespace dc
                 || element_type->equals(dot::typeof<dot::object_id>())
                 )
             {
-                writer->WriteValueElement(inner_element_name, inner_element_value);
+                writer->write_value_element(inner_element_name, inner_element_value);
             }
             else
             if (!element_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
@@ -151,14 +151,14 @@ namespace dc
                 if (inner_element_value->get_type()->name->ends_with("Key"))
                 {
                     // Embedded as string key
-                    writer->WriteValueElement(inner_element_name, inner_element_value->to_string());
+                    writer->write_value_element(inner_element_name, inner_element_value->to_string());
                 }
                 else
                 {
                     // Embedded as data
-                    writer->WriteStartElement(inner_element_name);
+                    writer->write_start_element(inner_element_name);
                     ((data)inner_element_value)->serialize_to(writer);
-                    writer->WriteEndElement(inner_element_name);
+                    writer->write_end_element(inner_element_name);
                 }
             }
             else
@@ -168,7 +168,7 @@ namespace dc
         }
 
         // Write end tag
-        writer->WriteEndDict();
+        writer->write_end_dict();
     }
 
 }

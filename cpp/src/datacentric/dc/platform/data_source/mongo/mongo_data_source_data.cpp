@@ -47,7 +47,7 @@ namespace dc
         if (res != bsoncxx::stdx::nullopt)
         {
             bson_record_serializer serializer = make_bson_record_serializer();
-            record_base record = (record_base) serializer->Deserialize(res->view());
+            record_base record = (record_base) serializer->deserialize(res->view());
             record->init(Context);
             return record;
         }
@@ -98,7 +98,7 @@ namespace dc
         if (res.begin() != res.end())
         {
             bson_record_serializer serializer = make_bson_record_serializer();
-            record_base result = (record_base) serializer->Deserialize(*res.begin());
+            record_base result = (record_base) serializer->deserialize(*res.begin());
             result->init(Context);
 
             // Check not only for null but also for the delete marker
@@ -137,7 +137,7 @@ namespace dc
         // Serialize record.
         bson_record_serializer serializer = make_bson_record_serializer();
         bson_writer writer = make_bson_writer();
-        serializer->Serialize(writer, record);
+        serializer->serialize(writer, record);
 
         // By design, insert will fail if dot::object_id is not unique within the collection
         //collection.insert_one(writer->view());
@@ -230,7 +230,7 @@ namespace dc
                 [context](const bsoncxx::document::view& item)->dot::object
                 {
                     bson_record_serializer serializer = make_bson_record_serializer();
-                    record_base record = (record_base)serializer->Deserialize(item);
+                    record_base record = (record_base)serializer->deserialize(item);
 
                     record->init(context);
                     return record;
@@ -251,7 +251,7 @@ namespace dc
                 [context, query](const bsoncxx::document::view& item)->dot::object
                 {
                     bson_record_serializer serializer = make_bson_record_serializer();
-                    dot::object record = serializer->DeserializeTuple(item, query->select_, query->element_type_);
+                    dot::object record = serializer->deserialize_tuple(item, query->select_, query->element_type_);
                     return record;
                 }
             );
@@ -282,7 +282,7 @@ namespace dc
         // Serialize record.
         bson_record_serializer serializer = make_bson_record_serializer();
         bson_writer writer = make_bson_writer();
-        serializer->Serialize(writer, record);
+        serializer->serialize(writer, record);
 
         // By design, insert will fail if dot::object_id is not unique within the collection
         //collection.insert_one(writer->view());

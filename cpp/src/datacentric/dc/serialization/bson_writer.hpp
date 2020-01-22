@@ -45,59 +45,59 @@ namespace dc
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        void WriteStartDocument(dot::string rootElementName);
+        void write_start_document(dot::string rootElementName);
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
-        /// name passed to the preceding call to WriteStartDocument(...).
-        void WriteEndDocument(dot::string rootElementName);
+        /// name passed to the preceding call to write_start_document(...).
+        void write_end_document(dot::string rootElementName);
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        void WriteStartElement(dot::string elementName);
+        void write_start_element(dot::string elementName);
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
-        /// to the matching WriteStartElement(...) call at the same indent level.
-        void WriteEndElement(dot::string elementName);
+        /// to the matching write_start_element(...) call at the same indent level.
+        void write_end_element(dot::string elementName);
 
         /// Write dictionary start tag. A call to this method
-        /// must follow WriteStartElement(...) or WriteStartArrayItem().
-        void WriteStartDict();
+        /// must follow write_start_element(...) or write_start_array_item().
+        void write_start_dict();
 
         /// Write dictionary end tag. A call to this method
-        /// must be followed by WriteEndElement(...) or WriteEndArrayItem().
-        void WriteEndDict();
+        /// must be followed by write_end_element(...) or write_end_array_item().
+        void write_end_dict();
 
         /// Write start tag for an array. A call to this method
-        /// must follow WriteStartElement(name).
-        void WriteStartArray();
+        /// must follow write_start_element(name).
+        void write_start_array();
 
         /// Write end tag for an array. A call to this method
-        /// must be followed by WriteEndElement(name).
-        void WriteEndArray();
+        /// must be followed by write_end_element(name).
+        void write_end_array();
 
         /// Write start tag for an array item. A call to this method
-        /// must follow either WriteStartArray() or WriteEndArrayItem().
-        void WriteStartArrayItem();
+        /// must follow either write_start_array() or write_end_array_item().
+        void write_start_array_item();
 
         /// Write end tag for an array item. A call to this method
-        /// must be followed by either WriteEndArray() or WriteStartArrayItem().
-        void WriteEndArrayItem();
+        /// must be followed by either write_end_array() or write_start_array_item().
+        void write_end_array_item();
 
         /// Write value start tag. A call to this method
-        /// must follow WriteStartElement(...) or WriteStartArrayItem().
-        void WriteStartValue();
+        /// must follow write_start_element(...) or write_start_array_item().
+        void write_start_value();
 
         /// Write value end tag. A call to this method
-        /// must be followed by WriteEndElement(...) or WriteEndArrayItem().
-        void WriteEndValue();
+        /// must be followed by write_end_element(...) or write_end_array_item().
+        void write_end_value();
 
         /// Write atomic value. Value type
         /// will be inferred from object.get_type().
-        void WriteValue(dot::object value);
+        void write_value(dot::object value);
 
         /// Convert to BSON string without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.

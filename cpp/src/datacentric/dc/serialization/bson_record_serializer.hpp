@@ -36,19 +36,19 @@ namespace dc
     public:
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        data Deserialize(bsoncxx::document::view doc);
+        data deserialize(bsoncxx::document::view doc);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        dot::object DeserializeTuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tupleType);
+        dot::object deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tupleType);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        void DeserializeDocument(const bsoncxx::document::view & doc, tree_writer_base writer);
+        void deserialize_document(const bsoncxx::document::view & doc, tree_writer_base writer);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        void DeserializeArray(const bsoncxx::array::view & arr, tree_writer_base writer);
+        void deserialize_array(const bsoncxx::array::view & arr, tree_writer_base writer);
 
         /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
-        void Serialize(tree_writer_base writer, data value);
+        void serialize(tree_writer_base writer, data value);
 
     private:
         bson_record_serializer_impl() = default;
