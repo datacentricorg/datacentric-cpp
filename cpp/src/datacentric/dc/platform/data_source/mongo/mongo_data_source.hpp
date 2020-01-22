@@ -20,7 +20,7 @@ limitations under the License.
 #include <dot/system/ptr.hpp>
 #include <dc/platform/data_source/env_type.hpp>
 #include <dc/platform/data_source/data_source_data.hpp>
-#include <dc/platform/data_source/mongo/mongo_server_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_server.hpp>
 #include <dc/types/record/temporal_id.hpp>
 #include <dot/mongo/mongo_db/mongo/client.hpp>
 

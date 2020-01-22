@@ -27,7 +27,7 @@
     <ClCompile Include="platform\data_source\mongo\mongo_data_source.cpp" />
     <ClCompile Include="platform\data_source\mongo\temporal_mongo_data_source.cpp" />
     <ClCompile Include="platform\data_source\mongo\temporal_mongo_query.cpp" />
-    <ClCompile Include="platform\data_source\mongo\mongo_server_data.cpp" />
+    <ClCompile Include="platform\data_source\mongo\mongo_server.cpp" />
     <ClCompile Include="platform\data_source\mongo\mongo_server_key.cpp" />
     <ClCompile Include="types\record\data_type_info.cpp" />
     <ClCompile Include="platform\time_zone\time_zone_data.cpp" />
@@ -61,7 +61,7 @@
     <ClInclude Include="platform\data_source\mongo\mongo_data_source.hpp" />
     <ClInclude Include="platform\data_source\mongo\temporal_mongo_data_source.hpp" />
     <ClInclude Include="platform\data_source\mongo\temporal_mongo_query.hpp" />
-    <ClInclude Include="platform\data_source\mongo\mongo_server_data.hpp" />
+    <ClInclude Include="platform\data_source\mongo\mongo_server.hpp" />
     <ClInclude Include="platform\data_source\mongo\temporal_mongo_query_cursor_impl.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_server_key.hpp" />
     <ClInclude Include="platform\logging\log_entry_type.hpp" />

@@ -17,7 +17,7 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/platform/data_source/mongo/mongo_data_source.hpp>
-#include <dc/platform/data_source/mongo/mongo_server_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_server.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc

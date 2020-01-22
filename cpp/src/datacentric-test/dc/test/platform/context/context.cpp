@@ -18,7 +18,7 @@ limitations under the License.
 #include <dc/test/platform/context/context.hpp>
 
 #include <dc/platform/data_source/mongo/temporal_mongo_data_source.hpp>
-#include <dc/platform/data_source/mongo/mongo_server_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_server.hpp>
 
 namespace dc
 {
