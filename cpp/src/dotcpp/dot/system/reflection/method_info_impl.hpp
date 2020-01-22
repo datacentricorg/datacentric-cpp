@@ -25,9 +25,9 @@ limitations under the License.
 
 namespace dot
 {
-    inline string method_info_impl::to_string() { return "MethodInfo"; }
+    inline string method_info_impl::to_string() { return "method_info"; }
 
-    inline list<parameter_info> method_info_impl::GetParameters()
+    inline list<parameter_info> method_info_impl::get_parameters()
     {
         return parameters;
     }
@@ -39,7 +39,7 @@ namespace dot
     }
 
     template <class class_, class return_t, class ... args>
-    inline string member_method_info_impl<class_, return_t, args...>::to_string() { return "MemberMethodInfo"; }
+    inline string member_method_info_impl<class_, return_t, args...>::to_string() { return "member_method_info"; }
 
     template <class class_, class return_t, class ... args>
     template <int ... I>
@@ -47,7 +47,7 @@ namespace dot
     {
         return ((*ptr<class_>(obj)).*ptr_)(params[I]...);
     }
-    
+
     template <class class_, class return_t, class ... args>
     template <int ... I>
     inline object member_method_info_impl<class_, return_t, args...>::invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type)
@@ -55,13 +55,13 @@ namespace dot
         ((*ptr<class_>(obj)).*ptr_)(params[I]...);
         return object();
     }
-    
+
     template <class class_, class return_t, class ... args>
     inline object member_method_info_impl<class_, return_t, args...>::invoke(object obj, list<object> params)
     {
         if (params->count() != parameters->count())
             throw exception("Wrong number of parameters for method " + this->declaring_type->name + "." + this->name);
-    
+
         return invoke_impl(obj, params, typename detail::make_index_sequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
     }
 
@@ -72,7 +72,7 @@ namespace dot
     {}
 
     template <class return_t, class ... args>
-    inline string static_method_info_impl<return_t, args...>::to_string() { return "StaticMethodInfo"; }
+    inline string static_method_info_impl<return_t, args...>::to_string() { return "static_method_info"; }
 
     template <class return_t, class ... args>
     template <int ... I>

@@ -29,7 +29,6 @@ limitations under the License.
 
 namespace dot
 {
-
     class list_base_impl; using list_base = ptr<list_base_impl>;
 
     class DOT_CLASS list_base_impl : virtual public object_impl
@@ -53,7 +52,5 @@ namespace dot
 
         /// Gets the type of the collection_base_impl.
         static type typeof();
-
     };
-
 }

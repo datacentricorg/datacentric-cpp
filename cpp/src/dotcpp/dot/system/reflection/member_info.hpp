@@ -31,7 +31,7 @@ namespace dot
     class member_info_data_impl; using member_info_data = ptr<member_info_data_impl>;
     class type_impl; using type = ptr<type_impl>;
 
-    /// Data for MemberInfo.
+    /// Data for member_info.
     class DOT_CLASS member_info_data_impl : public virtual object_impl
     {
         typedef member_info_data_impl self;
@@ -43,7 +43,7 @@ namespace dot
 
     protected: // CONSTRUCTORS
 
-        /// Create an empty instance of MemberInfoData.
+        /// Create an empty instance of member_info_data.
         ///
         /// This constructor is protected. It is used by derived classes only.
         member_info_data_impl() = default;
@@ -63,7 +63,7 @@ namespace dot
         type declaring_type; // TODO - convert to method
 
         /// A string representing the name of the current type.
-        virtual string to_string() override { return "MemberInfo"; }
+        virtual string to_string() override { return "member_info"; }
 
     protected: // CONSTRUCTORS
 

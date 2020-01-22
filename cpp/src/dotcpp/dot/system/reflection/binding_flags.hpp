@@ -32,20 +32,19 @@ namespace dot
     enum class binding_flags : int
     {
         /// Specifies that no binding flags are defined.
-        Default = 0,
+        default_flag = 0,
 
         /// Specifies that only members declared at the level of the supplied type's
         /// hierarchy should be considered. Inherited members are not considered.
-        DeclaredOnly = 2,
+        declared_only_flag = 2,
 
         /// Specifies that instance members are to be included in the search.
-        Instance = 4,
+        instance_flag = 4,
 
         /// Specifies that static members are to be included in the search.
-        Static = 8,
+        static_flag = 8,
 
         /// Specifies that public members are to be included in the search.
-        Public = 16
+        public_flag = 16
     };
 }
-

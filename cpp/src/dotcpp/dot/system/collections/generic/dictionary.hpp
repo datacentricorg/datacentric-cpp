@@ -80,7 +80,7 @@ namespace dot
             this->add(std::pair<key_t, value_t>(key, value));
         }
 
-        /// Adds the specified value to the ICollection with the specified key.
+        /// Adds the specified value to the collection_base with the specified key.
         void add(const std::pair<key_t, value_t>& key_value_pair)
         {
             auto res = this->insert(key_value_pair);

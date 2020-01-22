@@ -30,7 +30,7 @@ namespace dot
 {
     type list_base_impl::typeof()
     {
-        static type type_ = make_type_builder<list_base_impl>("System.Collections", "ListBase")
+        static type type_ = make_type_builder<list_base_impl>("dit", "list_base")
             ->build();
         return type_;
     }
@@ -39,5 +39,4 @@ namespace dot
     {
         return typeof();
     }
-
 }

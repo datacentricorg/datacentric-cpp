@@ -46,7 +46,7 @@ namespace dot
         inline virtual string to_string() override;
 
         /// Gets the parameters of this method.
-        inline virtual list<parameter_info> GetParameters();
+        inline virtual list<parameter_info> get_parameters();
 
         /// Invokes specified method with given parameters.
         virtual object invoke(object, list<object>) = 0;
@@ -91,14 +91,14 @@ namespace dot
         template <int ... I>
         inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type);
 
-        /// Invokes the method reflected by this MethodInfo instance.
+        /// Invokes the method reflected by this method_info instance.
         inline virtual object invoke(object obj, list<object> params);
 
     private: // CONSTRUCTORS
 
         /// Create from method name, declaring type, return type, and pointer to method.
         ///
-        /// This constructor is private. Use make_MethodInfo(...)
+        /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
         inline member_method_info_impl(const string& name, type declaring_type, type return_type, method_type p);
     };
@@ -119,22 +119,22 @@ namespace dot
         /// A string representing the name of the current type.
         virtual string to_string() override;
 
-        /// Invokes the method reflected by this MethodInfo instance.
+        /// Invokes the method reflected by this method_info instance.
         template <int ... I>
         inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::false_type);
 
-        /// Invokes the method reflected by this MethodInfo instance.
+        /// Invokes the method reflected by this method_info instance.
         template <int ... I>
         inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type);
 
-        /// Invokes the method reflected by this MethodInfo instance.
+        /// Invokes the method reflected by this method_info instance.
         inline virtual object invoke(object obj, list<object> params);
 
     private: // CONSTRUCTORS
 
         /// Create from method name, declaring type, return type, and pointer to method.
         ///
-        /// This constructor is private. Use make_MethodInfo(...)
+        /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
         inline static_method_info_impl(const string& name, type declaring_type, type return_type, method_type p);
     };

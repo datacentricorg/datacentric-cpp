@@ -75,18 +75,18 @@ namespace dot
         /// A string representing the name of the current type.
         inline virtual string to_string() override;
 
-        /// Invokes the constructor reflected by this ConstructorInfo instance.
+        /// Invokes the constructor reflected by this constructor_info instance.
         template <int ... I>
         inline object invoke_impl(list<object> params, detail::index_sequence<I...>);
 
-        /// Invokes the constructor reflected by this ConstructorInfo instance.
+        /// Invokes the constructor reflected by this constructor_info instance.
         inline virtual object invoke(list<object> params);
 
     private: // CONSTRUCTORS
 
         /// Create from declaring type, and pointer to constructor.
         ///
-        /// This constructor is private. Use make_ConstructorInfo(...)
+        /// This constructor is private. Use make_constructor_info(...)
         /// function with matching signature instead.
         inline member_constructor_info_impl(type declaring_type, ctor_type p);
     };

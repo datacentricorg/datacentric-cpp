@@ -69,7 +69,7 @@ namespace dc
                 writer->write_value(item);
                 writer->write_end_value();
             }
-            else if (!item_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
+            else if (!item_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
             {
                 throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", element_name));
@@ -141,7 +141,7 @@ namespace dc
                 writer->write_value_element(inner_element_name, inner_element_value);
             }
             else
-            if (!element_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
+            if (!element_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
             {
                 dc::serialize_to((dot::list_base)inner_element_value, inner_element_name, writer);
             }

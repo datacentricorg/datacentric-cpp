@@ -51,7 +51,7 @@ namespace dot
 
         /// Create from parameter name, parameter type, and parameter position.
         ///
-        /// This constructor is private. Use make_ParameterInfo(...)
+        /// This constructor is private. Use make_parameter_info(...)
         /// function with matching signature instead.
         parameter_info_impl(string name, type parameter_type, int position)
         {

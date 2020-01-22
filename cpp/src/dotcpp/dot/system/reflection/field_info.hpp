@@ -112,5 +112,4 @@ namespace dot
     }
 
     class type_builder_impl;
-
 }

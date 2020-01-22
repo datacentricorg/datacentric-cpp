@@ -44,11 +44,11 @@ namespace dot
 
     protected: // CONSTRUCTORS
 
-        /// Initializes a new instance of the HashSet class that is empty
+        /// Initializes a new instance of the hash_set class that is empty
         /// and uses the default equality comparer for the set type.
         hash_set_impl() = default;
 
-        /// Initializes a new instance of the HashSet class that uses the default
+        /// Initializes a new instance of the hash_set class that uses the default
         /// equality comparer for the set type, contains elements copied from the specified
         /// collection, and has sufficient capacity to accommodate the number of elements copied.
         explicit hash_set_impl(list<T> collection)
@@ -71,20 +71,20 @@ namespace dot
             //return res.second;
         }
 
-        /// Determines whether a HashSet object contains the specified element.
+        /// Determines whether a hash_set object contains the specified element.
         bool contains(const T& item)
         {
             auto iter = this->find(item);
             return iter != this->end();
         }
 
-        /// Removes the specified element from a HashSet object.
+        /// Removes the specified element from a hash_set object.
         bool remove(const T& item)
         {
             return this->erase(item) != 0;
         }
 
-        /// Sets the capacity of a HashSet object to the actual number of elements
+        /// Sets the capacity of a hash_set object to the actual number of elements
         /// it contains,rounded up to a nearby, implementation-specific value.
         void trim_excess()
         {
@@ -103,16 +103,16 @@ namespace dot
             return false;
         }
 
-        /// Removes all elements in the specified collection from the current HashSet object.
+        /// Removes all elements in the specified collection from the current hash_set object.
         void except_with(list<T> other)
         {
             for (T const& item : other)
             {
-                this->Remove(item);
+                this->remove(item);
             }
         }
 
-        /// Modifies the current HashSet object to contain only elements
+        /// Modifies the current hash_set object to contain only elements
         /// that are present in that object and in the specified collection.
         void intersect_with(list<T> other)
         {

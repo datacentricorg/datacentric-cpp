@@ -89,9 +89,9 @@ namespace dot
         }
 
         /// Adds the elements of the specified collection to the end of the list.
-        // TODO - implement void AddRange(const IEnumerable<T>& collection);
+        // TODO - implement void add_range(const enumerable_base<T>& collection);
 
-        /// Removes the first occurrence of a specific object from the List.
+        /// Removes the first occurrence of a specific object from the list.
         bool remove(const T& item)
         {
             auto iter = std::find(this->begin(), this->end(), item);
