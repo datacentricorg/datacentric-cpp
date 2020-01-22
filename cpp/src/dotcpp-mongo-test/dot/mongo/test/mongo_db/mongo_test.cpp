@@ -33,13 +33,13 @@ namespace dot
 {
     const String db_url = "mongodb://localhost/";
 
-    class test_class_impl; using test_class = Ptr<test_class_impl>;
-    inline test_class make_test_class();
+    class TestClassImpl; using TestClass = Ptr<TestClassImpl>;
+    inline TestClass make_test_class();
 
     /// Test class for saving to db.
-    class test_class_impl : public ObjectImpl
+    class TestClassImpl : public ObjectImpl
     {
-        typedef test_class_impl self;
+        typedef TestClassImpl self;
 
     public:
 
@@ -47,7 +47,7 @@ namespace dot
         Nullable<int> nullable_int_value;
         String string_value;
         List<int64_t> list_value;
-        test_class object_value;
+        TestClass object_value;
 
     public: // REFLECTION
 
@@ -57,12 +57,12 @@ namespace dot
         {
             static Type result = []()->Type
             {
-                return make_type_builder<test_class_impl>("dot", "test_class")
-                    ->with_field("int_value", &test_class_impl::int_value)
-                    ->with_field("nullable_int_value", &test_class_impl::nullable_int_value)
-                    ->with_field("string_value", &test_class_impl::string_value)
-                    ->with_field("list_value", &test_class_impl::list_value)
-                    ->with_field("object_value", &test_class_impl::object_value)
+                return make_type_builder<TestClassImpl>("dot", "TestClass")
+                    ->with_field("int_value", &TestClassImpl::int_value)
+                    ->with_field("nullable_int_value", &TestClassImpl::nullable_int_value)
+                    ->with_field("string_value", &TestClassImpl::string_value)
+                    ->with_field("list_value", &TestClassImpl::list_value)
+                    ->with_field("object_value", &TestClassImpl::object_value)
                     ->with_constructor(&make_test_class, {})
                     ->build();
             }();
@@ -71,7 +71,7 @@ namespace dot
         }
     };
 
-    inline test_class make_test_class() { return new test_class_impl; }
+    inline TestClass make_test_class() { return new TestClassImpl; }
 
     TEST_CASE("create_collection")
     {
@@ -87,7 +87,7 @@ namespace dot
         Collection db_collection = db->get_collection(db_collection_name);
 
         // Create document and write to db
-        test_class obj = make_test_class();
+        TestClass obj = make_test_class();
         obj->int_value = 66;
         obj->nullable_int_value = 77;
         obj->string_value = "str66";
@@ -98,8 +98,8 @@ namespace dot
 
         // Create query and load document
         int doc_count = 0;
-        Query db_query = make_query(db_collection, typeof<test_class>());
-        for (test_class loaded_obj : db_query->get_cursor<test_class>())
+        Query db_query = make_query(db_collection, typeof<TestClass>());
+        for (TestClass loaded_obj : db_query->get_cursor<TestClass>())
         {
             // Check loaded class values
             REQUIRE(loaded_obj->int_value == obj->int_value);
@@ -131,7 +131,7 @@ namespace dot
         Collection db_collection = db->get_collection(db_collection_name);
 
         // Create document and write to db
-        test_class obj = make_test_class();
+        TestClass obj = make_test_class();
         obj->int_value = 66;
         obj->string_value = "str66";
         db_collection->insert_one(obj);
@@ -142,15 +142,15 @@ namespace dot
         db_collection->insert_one(obj);
 
         // Delete document
-        db_collection->delete_one(make_prop(&test_class_impl::int_value) == 66);
+        db_collection->delete_one(make_prop(&TestClassImpl::int_value) == 66);
 
         int doc_count;
         Query db_query;
 
         // Create query and count documents
         doc_count = 0;
-        db_query = make_query(db_collection, typeof<test_class>());
-        for (test_class loaded_obj : db_query->get_cursor<test_class>())
+        db_query = make_query(db_collection, typeof<TestClass>());
+        for (TestClass loaded_obj : db_query->get_cursor<TestClass>())
         {
             ++doc_count;
         }
@@ -158,12 +158,12 @@ namespace dot
         REQUIRE(doc_count == 4);
 
         // Delete documents
-        db_collection->delete_many(make_prop(&test_class_impl::int_value) == 77);
+        db_collection->delete_many(make_prop(&TestClassImpl::int_value) == 77);
 
         // Create query and count documents
         doc_count = 0;
-        db_query = make_query(db_collection, typeof<test_class>());
-        for (test_class loaded_obj : db_query->get_cursor<test_class>())
+        db_query = make_query(db_collection, typeof<TestClass>());
+        for (TestClass loaded_obj : db_query->get_cursor<TestClass>())
         {
             ++doc_count;
         }
@@ -193,7 +193,7 @@ namespace dot
         db_collection->create_index(indexes, idx_options);
 
         // Create documents and write to db
-        test_class obj = make_test_class();
+        TestClass obj = make_test_class();
         obj->int_value = 66;
         obj->string_value = "str66";
         obj->list_value = make_list<int64_t>({ 1, 2, 3 });
@@ -225,9 +225,9 @@ namespace dot
 
         // Create query and count documents where int_value >= 77
         doc_count = 0;
-        db_query = make_query(db_collection, typeof<test_class>())
-            ->where(make_prop(&test_class_impl::int_value) >= 77);
-        for (test_class loaded_obj : db_query->get_cursor<test_class>())
+        db_query = make_query(db_collection, typeof<TestClass>())
+            ->where(make_prop(&TestClassImpl::int_value) >= 77);
+        for (TestClass loaded_obj : db_query->get_cursor<TestClass>())
         {
             ++doc_count;
         }
@@ -236,9 +236,9 @@ namespace dot
 
         // Create query and count documents where object_value->int_value == 11
         doc_count = 0;
-        db_query = make_query(db_collection, typeof<test_class>())
-            ->where(make_prop(&test_class_impl::object_value)->*make_prop(&test_class_impl::int_value) == 11);
-        for (test_class loaded_obj : db_query->get_cursor<test_class>())
+        db_query = make_query(db_collection, typeof<TestClass>())
+            ->where(make_prop(&TestClassImpl::object_value)->*make_prop(&TestClassImpl::int_value) == 11);
+        for (TestClass loaded_obj : db_query->get_cursor<TestClass>())
         {
             ++doc_count;
         }
@@ -247,9 +247,9 @@ namespace dot
 
         // Create query and count documents where list_value[1] == 2
         doc_count = 0;
-        db_query = make_query(db_collection, typeof<test_class>())
-            ->where(make_prop(&test_class_impl::list_value)[1] == 2);
-        for (test_class loaded_obj : db_query->get_cursor<test_class>())
+        db_query = make_query(db_collection, typeof<TestClass>())
+            ->where(make_prop(&TestClassImpl::list_value)[1] == 2);
+        for (TestClass loaded_obj : db_query->get_cursor<TestClass>())
         {
             ++doc_count;
         }
@@ -258,9 +258,9 @@ namespace dot
 
         // Create query and count documents where int_value == 66 && string_value == "str66"
         doc_count = 0;
-        db_query = make_query(db_collection, typeof<test_class>())
-            ->where(make_prop(&test_class_impl::int_value) == 66 && make_prop(&test_class_impl::string_value) == "str66");
-        for (test_class loaded_obj : db_query->get_cursor<test_class>())
+        db_query = make_query(db_collection, typeof<TestClass>())
+            ->where(make_prop(&TestClassImpl::int_value) == 66 && make_prop(&TestClassImpl::string_value) == "str66");
+        for (TestClass loaded_obj : db_query->get_cursor<TestClass>())
         {
             ++doc_count;
         }
