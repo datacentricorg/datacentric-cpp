@@ -69,8 +69,9 @@ namespace dc
 
         DOT_TYPE_BEGIN("dc", "record_base")
             ->with_field("_id", &self::id)
+            ->with_field("_t", static_cast<dot::string record_base_impl::*>(nullptr))
             ->with_field("_dataset", &self::data_set)
-          //  ->with_property("_key", &self::key)
+            ->with_field("_key", static_cast<dot::string record_base_impl::*>(nullptr))
             DOT_TYPE_BASE(data)
         DOT_TYPE_END()
     };
