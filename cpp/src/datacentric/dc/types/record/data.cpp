@@ -17,13 +17,15 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/types/record/data.hpp>
-#include <dc/serialization/tree_writer_base.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dc/types/record/key_base.hpp>
+#include <dc/platform/reflection/class_info.hpp>
+#include <dc/platform/context/context_base.hpp>
+#include <dc/types/record/record_base.hpp>
 
 namespace dc
 {
-    void serialize_to(dot::list_base obj, dot::string element_name, tree_writer_base writer)
+    void serialize_to(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer)
     {
         // Write start element tag
         writer->write_start_array_element(element_name);
@@ -103,7 +105,7 @@ namespace dc
     }
 
 
-    void data_impl::serialize_to(tree_writer_base writer)
+    void data_impl::serialize_to(dot::tree_writer_base writer)
     {
         // Write start tag
         writer->write_start_dict();
@@ -114,6 +116,18 @@ namespace dc
         {
             // Get element name and value
             dot::string inner_element_name = inner_element_info->name;
+
+            if (inner_element_name == "_t")
+            {
+                writer->write_value_element(inner_element_name, class_info_impl::get_or_create(this->get_type())->mapped_class_name);
+                continue;
+            }
+            if (inner_element_name == "_key")
+            {
+                writer->write_value_element(inner_element_name, dynamic_cast<record_base_impl*>(this)->get_key());
+                continue;
+            }
+
             dot::object inner_element_value = inner_element_info->get_value(this);
 
             if (inner_element_value.is_empty())
@@ -146,7 +160,7 @@ namespace dc
             else
             if (inner_element_value.is<data>())
             {
-                if (inner_element_value->get_type()->name->ends_with("key"))
+                if (inner_element_value->get_type()->name->ends_with("key")) // TODO chanche to is_base_of or attribute
                 {
                     // Embedded as string key
                     writer->write_value_element(inner_element_name, inner_element_value->to_string());

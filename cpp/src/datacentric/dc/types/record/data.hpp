@@ -19,10 +19,10 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dot/system/type.hpp>
+#include <dot/mongo/serialization/tree_writer_base.hpp>
 
 namespace dc
 {
-    class tree_writer_base_impl; using tree_writer_base = dot::ptr<tree_writer_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
 
@@ -34,9 +34,10 @@ namespace dc
     public: // METHODS
 
         /// Creates dictionary at current writer level.
-        void serialize_to(tree_writer_base writer);
+        void serialize_to(dot::tree_writer_base writer);
 
         DOT_TYPE_BEGIN("dc", "data")
+            ->with_method("serialize_to", &data_impl::serialize_to, {"writer"})
         DOT_TYPE_END()
 
     protected:
