@@ -152,7 +152,7 @@ namespace dot
             else if (bson_type == bsoncxx::type::k_date)
             {
                 bsoncxx::types::b_date value = elem.get_date();
-                writer->write_value_element(element_name, dot::local_date_time_util::from_std_chrono(value.value));
+                writer->write_value_element(element_name, dot::LocalDateTimeUtil::from_std_chrono(value.value));
             }
             else if (bson_type == bsoncxx::type::k_binary)
             {
@@ -315,10 +315,10 @@ namespace dot
                 || item_type->equals(dot::typeof<bool>())
                 || item_type->equals(dot::typeof<int>())
                 || item_type->equals(dot::typeof<int64_t>())
-                || item_type->equals(dot::typeof<dot::local_date>())
-                || item_type->equals(dot::typeof<dot::local_date_time>())
-                || item_type->equals(dot::typeof<dot::local_time>())
-                || item_type->equals(dot::typeof<dot::local_minute>())
+                || item_type->equals(dot::typeof<dot::LocalDate>())
+                || item_type->equals(dot::typeof<dot::LocalDateTime>())
+                || item_type->equals(dot::typeof<dot::LocalTime>())
+                || item_type->equals(dot::typeof<dot::LocalMinute>())
                 || item_type->equals(dot::typeof<dot::byte_array>())
                 || item_type->is_enum()
                 || item_type->equals(dot::typeof<dot::object_id>())
@@ -391,10 +391,10 @@ namespace dot
                 || element_type->equals(dot::typeof<bool>())
                 || element_type->equals(dot::typeof<int>())
                 || element_type->equals(dot::typeof<int64_t>())
-                || element_type->equals(dot::typeof<dot::local_date>())
-                || element_type->equals(dot::typeof<dot::local_date_time>())
-                || element_type->equals(dot::typeof<dot::local_time>())
-                || element_type->equals(dot::typeof<dot::local_minute>())
+                || element_type->equals(dot::typeof<dot::LocalDate>())
+                || element_type->equals(dot::typeof<dot::LocalDateTime>())
+                || element_type->equals(dot::typeof<dot::LocalTime>())
+                || element_type->equals(dot::typeof<dot::LocalMinute>())
                 || element_type->equals(dot::typeof<dot::byte_array>())
                 || element_type->is_enum()
                 || element_type->equals(dot::typeof<dot::object_id>())

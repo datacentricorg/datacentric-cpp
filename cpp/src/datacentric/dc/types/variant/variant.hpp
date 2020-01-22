@@ -64,10 +64,10 @@ namespace dc
             if (value_type->equals(dot::typeof<bool>()))               return value_type::bool_type;
             if (value_type->equals(dot::typeof<int>()))                return value_type::int_type;
             if (value_type->equals(dot::typeof<int64_t>()))            return value_type::long_type;
-            if (value_type->equals(dot::typeof<dot::local_date>()))     return value_type::local_date_type;
-            if (value_type->equals(dot::typeof<dot::local_time>()))     return value_type::local_time_type;
-            if (value_type->equals(dot::typeof<dot::local_minute>()))   return value_type::local_minute_type;
-            if (value_type->equals(dot::typeof<dot::local_date_time>())) return value_type::local_date_time_type;
+            if (value_type->equals(dot::typeof<dot::LocalDate>()))     return value_type::local_date_type;
+            if (value_type->equals(dot::typeof<dot::LocalTime>()))     return value_type::local_time_type;
+            if (value_type->equals(dot::typeof<dot::LocalMinute>()))   return value_type::local_minute_type;
+            if (value_type->equals(dot::typeof<dot::LocalDateTime>())) return value_type::local_date_time_type;
             if (value_type->is_enum())                                   return value_type::enum_type;
 
             // Error message if any other type, should normally not get to here
@@ -126,10 +126,10 @@ namespace dc
             if (value_type->equals(dot::typeof<bool>()))          return variant(dot::bool_impl::parse(value));
             if (value_type->equals(dot::typeof<int>()))           return variant(dot::int_impl::parse(value));
             if (value_type->equals(dot::typeof<int64_t>()))       return variant(dot::long_impl::parse(value));
-            if (value_type->equals(dot::typeof<dot::local_date>()))     return variant(dot::local_date_util::parse(value));
-            if (value_type->equals(dot::typeof<dot::local_time>()))     return variant(dot::local_time_util::parse(value));
-            if (value_type->equals(dot::typeof<dot::local_minute>()))   return variant(dot::local_minute_util::parse(value));
-            if (value_type->equals(dot::typeof<dot::local_date_time>())) return variant(dot::local_date_time_util::parse(value));
+            if (value_type->equals(dot::typeof<dot::LocalDate>()))     return variant(dot::LocalDateUtil::parse(value));
+            if (value_type->equals(dot::typeof<dot::LocalTime>()))     return variant(dot::LocalTimeUtil::parse(value));
+            if (value_type->equals(dot::typeof<dot::LocalMinute>()))   return variant(dot::LocalMinuteUtil::parse(value));
+            if (value_type->equals(dot::typeof<dot::LocalDateTime>())) return variant(dot::LocalDateTimeUtil::parse(value));
             if (value_type->is_enum())                               return variant(dot::enum_base::parse(value_type, value));
 
             // Error message if any other type

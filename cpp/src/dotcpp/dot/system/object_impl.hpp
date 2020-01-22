@@ -34,7 +34,7 @@ namespace dot
 
     /// All classes with reference semantics should derive from this type.
     /// It works with ptr to provide an emulation of reference semantics in C++.
-    class DOT_CLASS object_impl : public reference_counter
+    class DOT_CLASS object_impl : public ReferenceCounter
     {
         template<typename T>
         friend class ptr;

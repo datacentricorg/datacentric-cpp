@@ -130,39 +130,39 @@ namespace dot
         }
 
         {
-            // Boxing local_time
-            local_time time(12, 0);
-            local_time time2(12, 0);
+            // Boxing LocalTime
+            LocalTime time(12, 0);
+            LocalTime time2(12, 0);
 
             object boxed = time;
-            CHECK_NOTHROW((local_time) boxed);
+            CHECK_NOTHROW((LocalTime) boxed);
 
-            REQUIRE((local_time) boxed == time);
-            REQUIRE((local_time) boxed == time2);
+            REQUIRE((LocalTime) boxed == time);
+            REQUIRE((LocalTime) boxed == time2);
         }
 
         {
-            // Boxing local_date
-            local_date date(2005, 1, 1);
-            local_date date2(2005, 1, 1);
+            // Boxing LocalDate
+            LocalDate date(2005, 1, 1);
+            LocalDate date2(2005, 1, 1);
 
             object boxed = date;
-            CHECK_NOTHROW((local_date) boxed);
+            CHECK_NOTHROW((LocalDate) boxed);
 
-            REQUIRE((local_date) boxed == date);
-            REQUIRE((local_date) boxed == date2);
+            REQUIRE((LocalDate) boxed == date);
+            REQUIRE((LocalDate) boxed == date2);
         }
 
         {
-            // Boxing local_date_time
-            local_date_time date(2005, 1, 1, 12, 0);
-            local_date_time date2(2005, 1, 1, 12, 0);
+            // Boxing LocalDateTime
+            LocalDateTime date(2005, 1, 1, 12, 0);
+            LocalDateTime date2(2005, 1, 1, 12, 0);
 
             object boxed = date;
-            CHECK_NOTHROW((local_date_time) boxed);
+            CHECK_NOTHROW((LocalDateTime) boxed);
 
-            REQUIRE((local_date_time) boxed == date);
-            REQUIRE((local_date_time) boxed == date2);
+            REQUIRE((LocalDateTime) boxed == date);
+            REQUIRE((LocalDateTime) boxed == date2);
         }
     }
 }

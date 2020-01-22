@@ -247,12 +247,12 @@ namespace dot
         //else if (current_array_item_type_ == dot::typeof<nullable<int>>()) added_item = nullptr;
         //else if (current_array_item_type_ == dot::typeof<int64_t>()) added_item = int64_t();
         //else if (current_array_item_type_ == dot::typeof<nullable<int64_t>>()) added_item = nullptr;
-        //else if (current_array_item_type_ == dot::typeof<local_date>()) added_item = dot::local_date();
-        //else if (current_array_item_type_ == dot::typeof<nullable<local_date>>()) added_item = nullptr;
-        //else if (current_array_item_type_ == dot::typeof<local_time>()) added_item = dot::local_time();
-        //else if (current_array_item_type_ == dot::typeof<nullable<local_time>>()) added_item = nullptr;
-        //else if (current_array_item_type_ == dot::typeof<local_date_time>()) added_item = dot::local_date_time();
-        //else if (current_array_item_type_ == dot::typeof<nullable<local_date_time>>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<LocalDate>()) added_item = dot::LocalDate();
+        //else if (current_array_item_type_ == dot::typeof<nullable<LocalDate>>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<LocalTime>()) added_item = dot::LocalTime();
+        //else if (current_array_item_type_ == dot::typeof<nullable<LocalTime>>()) added_item = nullptr;
+        //else if (current_array_item_type_ == dot::typeof<LocalDateTime>()) added_item = dot::LocalDateTime();
+        //else if (current_array_item_type_ == dot::typeof<nullable<LocalDateTime>>()) added_item = nullptr;
         //else if (current_array_item_type_->is_class) added_item = nullptr;
         //else throw dot::exception(dot::string::format("Value type {0} is not supported for serialization.", current_array_item_type_->name()));
 
@@ -371,105 +371,105 @@ namespace dot
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, converted_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (element_type->equals(dot::typeof<dot::local_date>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_date>>()))
+        else if (element_type->equals(dot::typeof<dot::LocalDate>()) || element_type->equals(dot::typeof<dot::nullable<dot::LocalDate>>()))
         {
-            dot::local_date date_value;
+            dot::LocalDate date_value;
 
             // Check type match
             if (value_type->equals(dot::typeof<int>()))
             {
-                // Deserialize local_date as ISO int in yyyymmdd format
-                date_value = dot::local_date_util::parse_iso_int((int) value);
+                // Deserialize LocalDate as ISO int in yyyymmdd format
+                date_value = dot::LocalDateUtil::parse_iso_int((int) value);
             }
             else if (value_type->equals(dot::typeof<int64_t>()))
             {
-                // Deserialize local_date as ISO int in yyyymmdd format
-                date_value = dot::local_date_util::parse_iso_int((int) value);
+                // Deserialize LocalDate as ISO int in yyyymmdd format
+                date_value = dot::LocalDateUtil::parse_iso_int((int) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-                    "into local_date; type should be int32.");
+                    "into LocalDate; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(date_value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, date_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (element_type->equals(dot::typeof<dot::local_time>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_time>>()))
+        else if (element_type->equals(dot::typeof<dot::LocalTime>()) || element_type->equals(dot::typeof<dot::nullable<dot::LocalTime>>()))
         {
-            dot::local_time time_value;
+            dot::LocalTime time_value;
 
             // Check type match
             if (value_type->equals(dot::typeof<int>()))
             {
-                // Deserialize local_time as ISO int in hhmmssfff format
-                time_value = dot::local_time_util::parse_iso_int((int) value);
+                // Deserialize LocalTime as ISO int in hhmmssfff format
+                time_value = dot::LocalTimeUtil::parse_iso_int((int) value);
             }
             else if (value_type->equals(dot::typeof<int64_t>()))
             {
-                // Deserialize local_time as ISO int in hhmmssfff format
-                time_value = dot::local_time_util::parse_iso_int((int) value);
+                // Deserialize LocalTime as ISO int in hhmmssfff format
+                time_value = dot::LocalTimeUtil::parse_iso_int((int) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-                    "into local_time; type should be int32.");
+                    "into LocalTime; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(time_value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, time_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (element_type->equals(dot::typeof<dot::local_minute>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_minute>>()))
+        else if (element_type->equals(dot::typeof<dot::LocalMinute>()) || element_type->equals(dot::typeof<dot::nullable<dot::LocalMinute>>()))
         {
-            dot::local_minute minute_value;
+            dot::LocalMinute minute_value;
 
             // Check type match
             if (value_type->equals(dot::typeof<int>()))
             {
-                // Deserialize local_minute as ISO int in hhmmssfff format
-                minute_value = dot::local_minute_util::parse_iso_int((int) value);
+                // Deserialize LocalMinute as ISO int in hhmmssfff format
+                minute_value = dot::LocalMinuteUtil::parse_iso_int((int) value);
             }
             else if (value_type->equals(dot::typeof<int64_t>()))
             {
-                // Deserialize local_minute as ISO int in hhmmssfff format
-                minute_value = dot::local_minute_util::parse_iso_int((int) value);
+                // Deserialize LocalMinute as ISO int in hhmmssfff format
+                minute_value = dot::LocalMinuteUtil::parse_iso_int((int) value);
             }
             else throw dot::exception(
                 dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-                "into local_minute; type should be int32.");
+                "into LocalMinute; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(minute_value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, minute_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (element_type->equals(dot::typeof<dot::local_date_time>()) || element_type->equals(dot::typeof<dot::nullable<dot::local_date_time>>()))
+        else if (element_type->equals(dot::typeof<dot::LocalDateTime>()) || element_type->equals(dot::typeof<dot::nullable<dot::LocalDateTime>>()))
         {
-        dot::local_date_time date_time_value;
+        dot::LocalDateTime date_time_value;
 
             // Check type match
-            if (value_type->equals(dot::typeof<dot::local_date_time>()))
+            if (value_type->equals(dot::typeof<dot::LocalDateTime>()))
             {
-                date_time_value = (dot::local_date_time) value;
+                date_time_value = (dot::LocalDateTime) value;
             }
             else if (value_type->equals(dot::typeof<int64_t>()))
             {
-                // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
-                date_time_value = dot::local_date_time_util::parse_iso_long((int64_t) value);
+                // Deserialize LocalDateTime as ISO long in yyyymmddhhmmssfff format
+                date_time_value = dot::LocalDateTimeUtil::parse_iso_long((int64_t) value);
             }
             else if (value_type->equals(dot::typeof<int>()))
             {
-                // Deserialize local_date_time as ISO long in yyyymmddhhmmssfff format
-                date_time_value = dot::local_date_time_util::parse_iso_long((int) value);
+                // Deserialize LocalDateTime as ISO long in yyyymmddhhmmssfff format
+                date_time_value = dot::LocalDateTimeUtil::parse_iso_long((int) value);
             }
             else if (value_type->equals(dot::typeof<dot::string>()))
             {
-                // Deserialize local_date_time as ISO string
-                date_time_value = dot::local_date_time_util::parse((dot::string) value);
+                // Deserialize LocalDateTime as ISO string
+                date_time_value = dot::LocalDateTimeUtil::parse((dot::string) value);
             }
             else throw dot::exception(
                     dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-                    "into local_date_time; type should be local_date_time.");
+                    "into LocalDateTime; type should be LocalDateTime.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(date_time_value);

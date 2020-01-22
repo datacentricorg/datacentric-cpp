@@ -31,7 +31,7 @@ limitations under the License.
 
 namespace dot
 {
-    class local_date_time;
+    class LocalDateTime;
 
     /// Repesents 12-byte MongoDB identifier that is unique within the server.
     ///
@@ -68,7 +68,7 @@ namespace dot
         /// that falls on the same second.
         ///
         /// Error message if the timestamp does not fall on the second // TODO - need to check
-        explicit object_id(dot::local_date_time value);
+        explicit object_id(dot::LocalDateTime value);
 
     public: // METHODS
 

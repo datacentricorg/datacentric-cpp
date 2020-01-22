@@ -34,21 +34,21 @@ namespace dot
 {
     TEST_CASE("constructors")
     {
-        local_date_time default_constructed;
-        local_date_time jan_one_year_one_constructed(1970, 1, 1, 0, 0, 0);
+        LocalDateTime default_constructed;
+        LocalDateTime jan_one_year_one_constructed(1970, 1, 1, 0, 0, 0);
         REQUIRE(default_constructed == jan_one_year_one_constructed);
     }
 
     TEST_CASE("properties")
     {
-        local_date_time d(2005, 1, 10, 12, 10, 20, 30);
-        REQUIRE((local_date)d.date() == local_date(2005, 1, 10));
+        LocalDateTime d(2005, 1, 10, 12, 10, 20, 30);
+        REQUIRE((LocalDate)d.date() == LocalDate(2005, 1, 10));
         REQUIRE(d.year() == 2005);
         REQUIRE(d.month() == 1);
         REQUIRE(d.day() == 10);
         REQUIRE(d.day_of_week() == boost::gregorian::Monday);
         REQUIRE(d.day_of_year() == 10);
-        REQUIRE((local_time)d.time_of_day() == local_time(12, 10, 20, 30));
+        REQUIRE((LocalTime)d.time_of_day() == LocalTime(12, 10, 20, 30));
         REQUIRE(d.hour() == 12);
         REQUIRE(d.minute() == 10);
         REQUIRE(d.second() == 20);
@@ -57,34 +57,34 @@ namespace dot
 
     TEST_CASE("methods")
     {
-        local_date_time dt1(2005, 1, 10, 12, 10, 20, 30);
-        REQUIRE(dt1.plus_days(10) == local_date_time(2005, 1, 20, 12, 10, 20, 30));
-        REQUIRE(dt1.plus_weeks(1) == local_date_time(2005, 1, 17, 12, 10, 20, 30));
-        REQUIRE(dt1.plus_months(1) == local_date_time(2005, 2, 10, 12, 10, 20, 30));
-        REQUIRE(dt1.plus_years(1) == local_date_time(2006, 1, 10, 12, 10, 20, 30));
-        REQUIRE(dt1.plus_hours(1) == local_date_time(2005, 1, 10, 13, 10, 20, 30));
-        REQUIRE(dt1.plus_minutes(1) == local_date_time(2005, 1, 10, 12, 11, 20, 30));
-        REQUIRE(dt1.plus_seconds(1) == local_date_time(2005, 1, 10, 12, 10, 21, 30));
-        REQUIRE(dt1.plus_milliseconds(1) == local_date_time(2005, 1, 10, 12, 10, 20, 31));
+        LocalDateTime dt1(2005, 1, 10, 12, 10, 20, 30);
+        REQUIRE(dt1.plus_days(10) == LocalDateTime(2005, 1, 20, 12, 10, 20, 30));
+        REQUIRE(dt1.plus_weeks(1) == LocalDateTime(2005, 1, 17, 12, 10, 20, 30));
+        REQUIRE(dt1.plus_months(1) == LocalDateTime(2005, 2, 10, 12, 10, 20, 30));
+        REQUIRE(dt1.plus_years(1) == LocalDateTime(2006, 1, 10, 12, 10, 20, 30));
+        REQUIRE(dt1.plus_hours(1) == LocalDateTime(2005, 1, 10, 13, 10, 20, 30));
+        REQUIRE(dt1.plus_minutes(1) == LocalDateTime(2005, 1, 10, 12, 11, 20, 30));
+        REQUIRE(dt1.plus_seconds(1) == LocalDateTime(2005, 1, 10, 12, 10, 21, 30));
+        REQUIRE(dt1.plus_milliseconds(1) == LocalDateTime(2005, 1, 10, 12, 10, 20, 31));
 
-        local_date_time dt2(2005, 1, 10, 12, 10);
-        REQUIRE(dt2.previous(boost::gregorian::Monday) == local_date_time(2005, 1, 3, 12, 10));
-        REQUIRE(dt2.next(boost::gregorian::Monday) == local_date_time(2005, 1, 17, 12, 10));
+        LocalDateTime dt2(2005, 1, 10, 12, 10);
+        REQUIRE(dt2.previous(boost::gregorian::Monday) == LocalDateTime(2005, 1, 3, 12, 10));
+        REQUIRE(dt2.next(boost::gregorian::Monday) == LocalDateTime(2005, 1, 17, 12, 10));
 
-        local_date_time dt3(2005, 1, 2, 3, 4, 5, 6);
+        LocalDateTime dt3(2005, 1, 2, 3, 4, 5, 6);
         string dt3_str = dt3.to_string();
         REQUIRE(dt3_str == "2005-01-02 03:04:05.006");
     }
 
     TEST_CASE("operators")
     {
-        local_date_time d(2005, 5, 10, 12, 0, 0, 0);
-        local_date_time d1(2005, 5, 10, 12, 0, 0, 0);
-        local_date_time d2(2005, 5, 15, 13, 1, 1, 1);
-        local_date_time d3(2005, 5, 20, 14, 2, 2, 2);
+        LocalDateTime d(2005, 5, 10, 12, 0, 0, 0);
+        LocalDateTime d1(2005, 5, 10, 12, 0, 0, 0);
+        LocalDateTime d2(2005, 5, 15, 13, 1, 1, 1);
+        LocalDateTime d3(2005, 5, 20, 14, 2, 2, 2);
 
-        period p1 = period::between(d1, d2);
-        period p2 = period::between(d2, d3);
+        Period p1 = Period::between(d1, d2);
+        Period p2 = Period::between(d2, d3);
 
         REQUIRE(d2 + p1 == d3);
         REQUIRE(d2 - d1 == p2);

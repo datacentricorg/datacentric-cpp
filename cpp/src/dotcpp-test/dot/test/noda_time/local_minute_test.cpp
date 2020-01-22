@@ -32,7 +32,7 @@ namespace dot
 {
     TEST_CASE("properties")
     {
-        local_minute t(12, 10);
+        LocalMinute t(12, 10);
         REQUIRE(t.hour() == 12);
         REQUIRE(t.minute() == 10);
         REQUIRE(t.minute_of_day() == 730);
@@ -40,12 +40,12 @@ namespace dot
 
     TEST_CASE("methods")
     {
-        local_minute local_minute1(12, 10);
-        local_minute local_minute2(12, 10);
-        local_minute local_minute_after(13, 20);
-        local_minute local_minute_before(11, 0);
+        LocalMinute local_minute1(12, 10);
+        LocalMinute local_minute2(12, 10);
+        LocalMinute local_minute_after(13, 20);
+        LocalMinute local_minute_before(11, 0);
 
-        local_time local_time(12, 10);
+        LocalTime local_time(12, 10);
         REQUIRE(local_minute1.to_local_time() == local_time);
         REQUIRE(local_minute1.to_string() == "12:10");
 
@@ -64,10 +64,10 @@ namespace dot
 
     TEST_CASE("operators")
     {
-        local_minute t(12, 0);
-        local_minute t1(12, 0);
-        local_minute t2(13, 1);
-        local_minute t3(14, 2);
+        LocalMinute t(12, 0);
+        LocalMinute t1(12, 0);
+        LocalMinute t2(13, 1);
+        LocalMinute t3(14, 2);
 
         REQUIRE(t1 == t);
         REQUIRE(t1 != t2);

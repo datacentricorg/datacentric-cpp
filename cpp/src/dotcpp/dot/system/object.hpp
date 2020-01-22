@@ -32,10 +32,10 @@ limitations under the License.
 namespace dot
 {
     template <class T> class nullable;
-    class local_minute;
-    class local_time;
-    class local_date;
-    class local_date_time;
+    class LocalMinute;
+    class LocalTime;
+    class LocalDate;
+    class LocalDateTime;
     template <class T> class enum_impl;
     template <class T> class struct_wrapper_impl;
     template <class T> using struct_wrapper = ptr<struct_wrapper_impl<T>>;
@@ -43,9 +43,9 @@ namespace dot
 
     namespace detail
     {
-        template<class W, class T> class inherit_to_string;
-        template<class W, class T> class inherit_get_hashcode;
-        template<class W, class T> class inherit_equals;
+        template<class W, class T> class InheritToString;
+        template<class W, class T> class InheritGetHashCode;
+        template<class W, class T> class InheritEquals;
     }
 
     /// Adds support for boxing value types to ptr(object_impl).
@@ -99,17 +99,17 @@ namespace dot
         template <class T>
         object(const nullable<T>& value) { if (value.has_value()) *this = value.value(); }
 
-        /// Construct object from local_minute by boxing.
-        object(const local_minute & value);
+        /// Construct object from LocalMinute by boxing.
+        object(const LocalMinute & value);
 
-        /// Construct object from local_time by boxing.
-        object(const local_time& value);
+        /// Construct object from LocalTime by boxing.
+        object(const LocalTime& value);
 
-        /// Construct object from local_date by boxing.
-        object(const local_date& value);
+        /// Construct object from LocalDate by boxing.
+        object(const LocalDate& value);
 
-        /// Construct object from local_date_time by boxing.
-        object(const local_date_time& value);
+        /// Construct object from LocalDateTime by boxing.
+        object(const LocalDateTime& value);
 
         /// Construct object from enum by wrapping it in enum_impl(T).
         template <class T>
@@ -179,17 +179,17 @@ namespace dot
         template <class T>
         object& operator=(const nullable<T>& value) { if (value.has_value()) *this = value.value(); else *this = nullptr; return *this; }
 
-        /// Assign local_minute to object by boxing.
-        object& operator=(const local_minute& value);
+        /// Assign LocalMinute to object by boxing.
+        object& operator=(const LocalMinute& value);
 
-        /// Assign local_time to object by boxing.
-        object& operator=(const local_time& value);
+        /// Assign LocalTime to object by boxing.
+        object& operator=(const LocalTime& value);
 
-        /// Assign local_date to object by boxing.
-        object& operator=(const local_date& value);
+        /// Assign LocalDate to object by boxing.
+        object& operator=(const LocalDate& value);
 
-        /// Assign local_date_time to object by boxing.
-        object& operator=(const local_date_time& value);
+        /// Assign LocalDateTime to object by boxing.
+        object& operator=(const LocalDateTime& value);
 
         /// Convert object to bool by unboxing. Error if object does is not a boxed double.
         operator bool() const;
@@ -206,17 +206,17 @@ namespace dot
         /// Convert object to char by unboxing. Error if object does is not a boxed long.
         operator char() const;
 
-        /// Convert object to local_minute by unboxing. Error if object does is not a boxed local_minute.
-        operator local_minute() const;
+        /// Convert object to LocalMinute by unboxing. Error if object does is not a boxed LocalMinute.
+        operator LocalMinute() const;
 
-        /// Convert object to local_time by unboxing. Error if object does is not a boxed local_time.
-        operator local_time() const;
+        /// Convert object to LocalTime by unboxing. Error if object does is not a boxed LocalTime.
+        operator LocalTime() const;
 
-        /// Convert object to local_date by unboxing. Error if object does is not a boxed local_date.
-        operator local_date() const;
+        /// Convert object to LocalDate by unboxing. Error if object does is not a boxed LocalDate.
+        operator LocalDate() const;
 
-        /// Convert object to local_date_time by unboxing. Error if object does is not a boxed local_date_time.
-        operator local_date_time() const;
+        /// Convert object to LocalDateTime by unboxing. Error if object does is not a boxed LocalDateTime.
+        operator LocalDateTime() const;
 
         /// Convert object to struct_wrapper by unboxing. Error if object does is not a boxed T.
         template <class T>
@@ -257,9 +257,9 @@ namespace dot
     class struct_wrapper_impl
         : public virtual object_impl
         , public T
-        , public detail::inherit_to_string<struct_wrapper_impl<T>, T>
-        , public detail::inherit_get_hashcode<struct_wrapper_impl<T>, T>
-        , public detail::inherit_equals<struct_wrapper_impl<T>, T>
+        , public detail::InheritToString<struct_wrapper_impl<T>, T>
+        , public detail::InheritGetHashCode<struct_wrapper_impl<T>, T>
+        , public detail::InheritEquals<struct_wrapper_impl<T>, T>
     {
     public:
         struct_wrapper_impl(const T& value) : T(value) {}
@@ -275,11 +275,11 @@ namespace dot
             return typeof();
         }
 
-        virtual string to_string() override { return detail::inherit_to_string<struct_wrapper_impl<T>, T>::to_string(); }
+        virtual string to_string() override { return detail::InheritToString<struct_wrapper_impl<T>, T>::to_string(); }
 
-        virtual size_t hash_code() override { return detail::inherit_get_hashcode<struct_wrapper_impl<T>, T>::hash_code(); }
+        virtual size_t hash_code() override { return detail::InheritGetHashCode<struct_wrapper_impl<T>, T>::hash_code(); }
 
-        bool equals(object obj) override { return detail::inherit_equals<struct_wrapper_impl<T>, T>::equals(obj); }
+        bool equals(object obj) override { return detail::InheritEquals<struct_wrapper_impl<T>, T>::equals(obj); }
     };
 }
 

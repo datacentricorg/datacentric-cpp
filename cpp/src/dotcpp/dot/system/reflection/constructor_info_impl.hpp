@@ -42,7 +42,7 @@ namespace dot
 
     template <class class_, class ... args>
     template <int ... I>
-    inline object member_constructor_info_impl<class_, args...>::invoke_impl(list<object> params, detail::index_sequence<I...>)
+    inline object member_constructor_info_impl<class_, args...>::invoke_impl(list<object> params, detail::IndexSequence<I...>)
     {
         return (*ptr_)(params[I]...);
     }
@@ -53,7 +53,7 @@ namespace dot
         if ((params.is_empty() && parameters_->count() != 0) || (!params.is_empty() && (params->count() != parameters_->count())))
             throw exception("Wrong number of parameters for constructor " + this->declaring_type()->name() + "." + this->name());
 
-        return invoke_impl(params, typename detail::make_index_sequence<sizeof...(args)>::index_type());
+        return invoke_impl(params, typename detail::MakeIndexSequence<sizeof...(args)>::index_type());
     }
 
     template <class class_, class ... args>

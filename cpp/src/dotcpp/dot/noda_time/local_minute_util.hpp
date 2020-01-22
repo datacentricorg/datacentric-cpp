@@ -28,19 +28,19 @@ limitations under the License.
 
 namespace dot
 {
-    class DOT_CLASS local_minute_util
+    class DOT_CLASS LocalMinuteUtil
     {
     public: // STATIC
 
         /// Parse string using standard ISO 8601 time pattern hh:mm:ss.fff, throw if invalid format.
         /// No variations from the standard format are accepted and no delimiters can be changed or omitted.
         /// Specifically, ISO int-like string using hhmmssfff format without delimiters is not accepted.
-        static dot::local_minute parse(dot::string value);
+        static dot::LocalMinute parse(dot::string value);
 
-        /// Convert local_minute to ISO 8601 4 digit int hhmm format.
-        static int to_iso_int(dot::local_minute value);
+        /// Convert LocalMinute to ISO 8601 4 digit int hhmm format.
+        static int to_iso_int(dot::LocalMinute value);
 
         /// Parse ISO 8601 4 digit int in hhmm format, throw if invalid format.
-        static dot::local_minute parse_iso_int(int value);
+        static dot::LocalMinute parse_iso_int(int value);
     };
 }

@@ -29,20 +29,20 @@ namespace dot
     {
         /// Helper class for member_info.invoke.
         template <int... I>
-        struct index_sequence {};
+        struct IndexSequence {};
 
         /// Helper class for member_info.invoke.
         template <int N, int... I>
-        struct make_index_sequence : public make_index_sequence<N - 1, N - 1, I...>
+        struct MakeIndexSequence : public MakeIndexSequence<N - 1, N - 1, I...>
         {
-            typedef typename make_index_sequence<N - 1, N - 1, I...>::index_type index_type;
+            typedef typename MakeIndexSequence<N - 1, N - 1, I...>::index_type index_type;
         };
 
         /// Helper class for member_info.invoke.
         template <int... I>
-        struct make_index_sequence<0, I...> : public index_sequence<I...>
+        struct MakeIndexSequence<0, I...> : public IndexSequence<I...>
         {
-            typedef index_sequence<I...> index_type;
+            typedef IndexSequence<I...> index_type;
         };
     }
 }

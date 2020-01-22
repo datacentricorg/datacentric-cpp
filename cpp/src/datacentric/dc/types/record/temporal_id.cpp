@@ -83,7 +83,7 @@ namespace dc
         bytes_ = bytes;
     }
 
-    temporal_id::temporal_id(dot::local_date_time value)
+    temporal_id::temporal_id(dot::LocalDateTime value)
     {
         boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
         boost::posix_time::time_duration d = (boost::posix_time::ptime) value - epoch;

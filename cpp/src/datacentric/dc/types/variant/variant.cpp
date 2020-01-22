@@ -45,10 +45,10 @@ namespace dc
         {
             value_ = value;
         }
-        else if (value_type->equals(dot::typeof<dot::local_date>())
-            || value_type->equals(dot::typeof<dot::local_time>())
-            || value_type->equals(dot::typeof<dot::local_minute>())
-            || value_type->equals(dot::typeof<dot::local_date_time>()))
+        else if (value_type->equals(dot::typeof<dot::LocalDate>())
+            || value_type->equals(dot::typeof<dot::LocalTime>())
+            || value_type->equals(dot::typeof<dot::LocalMinute>())
+            || value_type->equals(dot::typeof<dot::LocalDateTime>()))
         {
             value_ = value;
         }
@@ -124,25 +124,25 @@ namespace dc
             return other_value_type->equals(dot::typeof<int64_t>())
                 && (int64_t) value_ == (int64_t) other.value_;
         }
-        if (value_type->equals(dot::typeof<dot::local_date>()))
+        if (value_type->equals(dot::typeof<dot::LocalDate>()))
         {
-            return other_value_type->equals(dot::typeof<dot::local_date>())
-                && (dot::local_date) value_ == (dot::local_date) other.value_;
+            return other_value_type->equals(dot::typeof<dot::LocalDate>())
+                && (dot::LocalDate) value_ == (dot::LocalDate) other.value_;
         }
-        if (value_type->equals(dot::typeof<dot::local_time>()))
+        if (value_type->equals(dot::typeof<dot::LocalTime>()))
         {
-            return other_value_type->equals(dot::typeof<dot::local_time>())
-                && (dot::local_time) value_ == (dot::local_time) other.value_;
+            return other_value_type->equals(dot::typeof<dot::LocalTime>())
+                && (dot::LocalTime) value_ == (dot::LocalTime) other.value_;
         }
-        if (value_type->equals(dot::typeof<dot::local_minute>()))
+        if (value_type->equals(dot::typeof<dot::LocalMinute>()))
         {
-            return other_value_type->equals(dot::typeof<dot::local_minute>())
-                && (dot::local_minute) value_ == (dot::local_minute) other.value_;
+            return other_value_type->equals(dot::typeof<dot::LocalMinute>())
+                && (dot::LocalMinute) value_ == (dot::LocalMinute) other.value_;
         }
-        if (value_type->equals(dot::typeof<dot::local_date_time>()))
+        if (value_type->equals(dot::typeof<dot::LocalDateTime>()))
         {
-            return other_value_type->equals(dot::typeof<dot::local_date_time>())
-                && (dot::local_date_time) value_ == (dot::local_date_time) other.value_;
+            return other_value_type->equals(dot::typeof<dot::LocalDateTime>())
+                && (dot::LocalDateTime) value_ == (dot::LocalDateTime) other.value_;
         }
         if (value_type->is_enum())
         {
@@ -181,10 +181,10 @@ namespace dc
         case value_type::bool_type:             return variant(dot::bool_impl::parse(value));
         case value_type::int_type:              return variant(dot::int_impl::parse(value));
         case value_type::long_type:             return variant(dot::long_impl::parse(value));
-        case value_type::local_date_type:        return variant(dot::local_date_util::parse(value));
-        case value_type::local_time_type:        return variant(dot::local_time_util::parse(value));
-        case value_type::local_minute_type:      return variant(dot::local_minute_util::parse(value));
-        case value_type::local_date_time_type:    return variant(dot::local_date_time_util::parse(value));
+        case value_type::local_date_type:        return variant(dot::LocalDateUtil::parse(value));
+        case value_type::local_time_type:        return variant(dot::LocalTimeUtil::parse(value));
+        case value_type::local_minute_type:      return variant(dot::LocalMinuteUtil::parse(value));
+        case value_type::local_date_time_type:    return variant(dot::LocalDateTimeUtil::parse(value));
         case value_type::enum_type:
             throw dot::exception("variant cannot be created as enum without specifying enum typename.");
         default:
@@ -197,7 +197,7 @@ namespace dc
     {
         return dot::string::format(
             "variant cannot hold {0} type. Available types are "
-            "string, double, bool, int, long, local_date, local_time, local_minute, local_date_time, or enum.",
+            "string, double, bool, int, long, LocalDate, LocalTime, LocalMinute, LocalDateTime, or enum.",
             value->get_type());
     }
 }

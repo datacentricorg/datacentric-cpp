@@ -282,17 +282,17 @@ namespace dot
         if (value_type->equals(dot::typeof<int64_t>()))
             json_writer_.Int64((int64_t)value);
         else
-        if (value_type->equals(dot::typeof<dot::local_date>()))
-            json_writer_.Int(dot::local_date_util::to_iso_int((dot::local_date)value));
+        if (value_type->equals(dot::typeof<dot::LocalDate>()))
+            json_writer_.Int(dot::LocalDateUtil::to_iso_int((dot::LocalDate)value));
         else
-        if (value_type->equals(dot::typeof<dot::local_time>()))
-            json_writer_.Int(dot::local_time_util::to_iso_int((dot::local_time)value));
+        if (value_type->equals(dot::typeof<dot::LocalTime>()))
+            json_writer_.Int(dot::LocalTimeUtil::to_iso_int((dot::LocalTime)value));
         else
-        if (value_type->equals(dot::typeof<dot::local_minute>()))
-            json_writer_.Int(dot::local_minute_util::to_iso_int((dot::local_minute) value));
+        if (value_type->equals(dot::typeof<dot::LocalMinute>()))
+            json_writer_.Int(dot::LocalMinuteUtil::to_iso_int((dot::LocalMinute) value));
         else
-        if (value_type->equals(dot::typeof<dot::local_date_time>()))
-            json_writer_.Int64(dot::local_date_time_util::to_iso_long((dot::local_date_time)value));
+        if (value_type->equals(dot::typeof<dot::LocalDateTime>()))
+            json_writer_.Int64(dot::LocalDateTimeUtil::to_iso_long((dot::LocalDateTime)value));
         //else
         //if (value_type->equals(dot::typeof<dot::object_id>()))
         //    json_writer_.String(*value->to_string());

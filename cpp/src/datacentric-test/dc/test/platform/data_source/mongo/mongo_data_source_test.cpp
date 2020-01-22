@@ -64,10 +64,10 @@ namespace dc
         rec->record_id = record_id;
         rec->record_index = record_index;
         rec->double_element = 100.0;
-        rec->local_date_element = dot::local_date(2003, 5, 1);
-        rec->local_time_element = dot::local_time(10, 15, 30); // 10:15:30
-        rec->local_minute_element = dot::local_minute(10, 15); // 10:15
-        rec->local_date_time_element = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->local_date_element = dot::LocalDate(2003, 5, 1);
+        rec->local_time_element = dot::LocalTime(10, 15, 30); // 10:15:30
+        rec->local_minute_element = dot::LocalMinute(10, 15); // 10:15
+        rec->local_date_time_element = dot::LocalDateTime(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->enum_value = mongo_test_enum::enum_value2;
 
         temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
@@ -86,10 +86,10 @@ namespace dc
         rec->record_id = record_id;
         rec->record_index = record_index;
         rec->double_element = 300.0;
-        rec->local_date_element = dot::local_date(2003, 5, 1);
-        rec->local_time_element = dot::local_time(10, 15, 30); // 10:15:30
-        rec->local_minute_element = dot::local_minute(10, 15); // 10:15
-        rec->local_date_time_element = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->local_date_element = dot::LocalDate(2003, 5, 1);
+        rec->local_time_element = dot::LocalTime(10, 15, 30); // 10:15:30
+        rec->local_minute_element = dot::LocalMinute(10, 15); // 10:15
+        rec->local_date_time_element = dot::LocalDateTime(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->string_element2 = dot::string::empty; // Test how empty value is recorded
         rec->double_element2 = 200.0;
 
@@ -149,10 +149,10 @@ namespace dc
         rec->record_id = record_id;
         rec->record_index = record_index;
         rec->double_element = 300.0;
-        rec->local_date_element = dot::local_date(2003, 5, 1);
-        rec->local_time_element = dot::local_time(10, 15, 30); // 10:15:30
-        rec->local_minute_element = dot::local_minute(10, 15); // 10:15
-        rec->local_date_time_element = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->local_date_element = dot::LocalDate(2003, 5, 1);
+        rec->local_time_element = dot::LocalTime(10, 15, 30); // 10:15:30
+        rec->local_minute_element = dot::LocalMinute(10, 15); // 10:15
+        rec->local_date_time_element = dot::LocalDateTime(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->other_string_element2 = dot::string::empty; // Test how empty value is recorded
         rec->other_double_element2 = 200.0;
 
@@ -168,10 +168,10 @@ namespace dc
         rec->record_id = record_id;
         rec->record_index = record_index;
         rec->double_element = 300.0;
-        rec->local_date_element = dot::local_date(2003, 5, 1);
-        rec->local_time_element = dot::local_time(10, 15, 30); // 10:15:30
-        rec->local_minute_element = dot::local_minute(10, 15); // 10:15
-        rec->local_date_time_element = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
+        rec->local_date_element = dot::LocalDate(2003, 5, 1);
+        rec->local_time_element = dot::LocalTime(10, 15, 30); // 10:15:30
+        rec->local_minute_element = dot::LocalMinute(10, 15); // 10:15
+        rec->local_date_time_element = dot::LocalDateTime(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->other_string_element2 = dot::string::empty; // Test how empty value is recorded
         rec->other_double_element3 = 200.0;
 
@@ -553,15 +553,15 @@ namespace dc
         dot::cursor_wrapper<mongo_test_derived_data> test_query = context->data_source->get_query<mongo_test_derived_data>(data_set_b)
             ->where(make_prop(&mongo_test_derived_data_impl::data_element_list)[0]->*make_prop(&element_sample_data_impl::double_element3) == 1.0)
             ->where(make_prop(&mongo_test_derived_data_impl::data_element_list)[0]->*make_prop(&element_sample_data_impl::string_element3) == "A0")
-            ->where(make_prop(&mongo_test_derived_data_impl::local_date_element) < dot::local_date(2003, 5, 2))
-            ->where(make_prop(&mongo_test_derived_data_impl::local_date_element) > dot::local_date(2003, 4, 30))
-            ->where(make_prop(&mongo_test_derived_data_impl::local_date_element) == dot::local_date(2003, 5, 1))
-            ->where(make_prop(&mongo_test_derived_data_impl::local_time_element) < dot::local_time(10, 15, 31))
-            ->where(make_prop(&mongo_test_derived_data_impl::local_time_element) > dot::local_time(10, 15, 29))
-            ->where(make_prop(&mongo_test_derived_data_impl::local_time_element) == dot::local_time(10, 15, 30))
-            ->where(make_prop(&mongo_test_derived_data_impl::local_date_time_element) < dot::local_date_time(2003, 5, 1, 10, 15, 01))
-            ->where(make_prop(&mongo_test_derived_data_impl::local_date_time_element) > dot::local_date_time(2003, 5, 1, 10, 14, 59))
-            ->where(make_prop(&mongo_test_derived_data_impl::local_date_time_element) == dot::local_date_time(2003, 5, 1, 10, 15))
+            ->where(make_prop(&mongo_test_derived_data_impl::local_date_element) < dot::LocalDate(2003, 5, 2))
+            ->where(make_prop(&mongo_test_derived_data_impl::local_date_element) > dot::LocalDate(2003, 4, 30))
+            ->where(make_prop(&mongo_test_derived_data_impl::local_date_element) == dot::LocalDate(2003, 5, 1))
+            ->where(make_prop(&mongo_test_derived_data_impl::local_time_element) < dot::LocalTime(10, 15, 31))
+            ->where(make_prop(&mongo_test_derived_data_impl::local_time_element) > dot::LocalTime(10, 15, 29))
+            ->where(make_prop(&mongo_test_derived_data_impl::local_time_element) == dot::LocalTime(10, 15, 30))
+            ->where(make_prop(&mongo_test_derived_data_impl::local_date_time_element) < dot::LocalDateTime(2003, 5, 1, 10, 15, 01))
+            ->where(make_prop(&mongo_test_derived_data_impl::local_date_time_element) > dot::LocalDateTime(2003, 5, 1, 10, 14, 59))
+            ->where(make_prop(&mongo_test_derived_data_impl::local_date_time_element) == dot::LocalDateTime(2003, 5, 1, 10, 15))
             ->where(make_prop(&mongo_test_derived_data_impl::string_element2) == dot::string::empty)
             ->where(make_prop(&mongo_test_derived_data_impl::key_element) == key->to_string())
             ->get_cursor<mongo_test_derived_data>();

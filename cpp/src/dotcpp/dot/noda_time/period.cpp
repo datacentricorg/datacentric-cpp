@@ -30,90 +30,90 @@ limitations under the License.
 
 namespace dot
 {
-    period::period(const boost::posix_time::time_duration& d)
+    Period::Period(const boost::posix_time::time_duration& d)
         : boost::posix_time::time_duration(d)
     {}
 
-    period::period(const boost::gregorian::date_duration& d)
+    Period::Period(const boost::gregorian::date_duration& d)
         : boost::posix_time::time_duration(24 * d.days(), 0, 0)
     {}
 
-    period::period(const period& other)
+    Period::Period(const Period& other)
     {
         *this = other;
     }
 
-    period period::between(const local_date& start, const local_date& end)
+    Period Period::between(const LocalDate& start, const LocalDate& end)
     {
         return end - start;
     }
 
-    period period::between(const local_date_time& start, const local_date_time& end)
+    Period Period::between(const LocalDateTime& start, const LocalDateTime& end)
     {
         return end - start;
     }
 
-    period period::between(const local_time& start, const local_time& end)
+    Period Period::between(const LocalTime& start, const LocalTime& end)
     {
         return end - start;
     }
 
-    bool period::equals(const period& other) const
+    bool Period::equals(const Period& other) const
     {
         return *this == other;
     }
 
-    period period::from_days(int days)
+    Period Period::from_days(int days)
     {
         return boost::gregorian::date_duration(days);
     }
 
-    period period::from_hours(int64_t hours)
+    Period Period::from_hours(int64_t hours)
     {
         return boost::posix_time::hours(hours);
     }
 
-    period period::from_milliseconds(int64_t milliseconds)
+    Period Period::from_milliseconds(int64_t milliseconds)
     {
         return boost::posix_time::millisec(milliseconds);
     }
 
-    period period::from_minutes(int64_t minutes)
+    Period Period::from_minutes(int64_t minutes)
     {
         return boost::posix_time::minutes(minutes);
     }
 
-    period period::from_seconds(int64_t seconds)
+    Period Period::from_seconds(int64_t seconds)
     {
         return boost::posix_time::seconds(seconds);
     }
 
-    period period::from_weeks(int weeks)
+    Period Period::from_weeks(int weeks)
     {
         return boost::gregorian::weeks(weeks);
     }
 
-    period period::operator+(const period& other) const
+    Period Period::operator+(const Period& other) const
     {
         return static_cast<boost::posix_time::time_duration>(*this) + static_cast<boost::posix_time::time_duration>(other);
     }
 
-    bool period::operator==(const period & other) const
+    bool Period::operator==(const Period & other) const
     {
         return static_cast<boost::posix_time::time_duration>(*this) == static_cast<boost::posix_time::time_duration>(other);;
     }
 
-    bool period::operator!=(const period & other) const
+    bool Period::operator!=(const Period & other) const
     {
         return static_cast<boost::posix_time::time_duration>(*this) != static_cast<boost::posix_time::time_duration>(other);;
     }
 
-    period period::operator-(const period & other) const
+    Period Period::operator-(const Period & other) const
     {
         return static_cast<boost::posix_time::time_duration>(*this) - static_cast<boost::posix_time::time_duration>(other);
     }
 
-    period::operator boost::gregorian::date_duration() const
+    Period::operator boost::gregorian::date_duration() const
     {
         return boost::gregorian::date_duration(base::hours() / 24);
     }

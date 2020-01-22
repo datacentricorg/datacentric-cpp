@@ -32,42 +32,42 @@ limitations under the License.
 
 namespace dot
 {
-    local_date::local_date()
+    LocalDate::LocalDate()
         : boost::gregorian::date(1970, 1, 1)
     {
     }
 
-    local_date::local_date(int year, int month, int day)
+    LocalDate::LocalDate(int year, int month, int day)
         : boost::gregorian::date(year, month, day)
     {}
 
-    local_date::local_date(boost::gregorian::date date)
+    LocalDate::LocalDate(boost::gregorian::date date)
         : boost::gregorian::date(date)
     {}
 
-    local_date::local_date(const local_date& other)
+    LocalDate::LocalDate(const LocalDate& other)
     {
         *this = other;
     }
 
-    local_date::local_date(object const& rhs) { *this = rhs.operator local_date(); }
+    LocalDate::LocalDate(object const& rhs) { *this = rhs.operator LocalDate(); }
 
-    local_date local_date::add(const local_date& date, const period& period)
+    LocalDate LocalDate::add(const LocalDate& date, const Period& period)
     {
         return date + period;
     }
 
-    local_date_time local_date::at(const local_time& time) const
+    LocalDateTime LocalDate::at(const LocalTime& time) const
     {
         return *this + time;
     }
 
-    local_date_time local_date::at_midnight() const
+    LocalDateTime LocalDate::at_midnight() const
     {
-        return *this + local_time(0, 0);
+        return *this + LocalTime(0, 0);
     }
 
-    int local_date::compare_to(const local_date& other) const
+    int LocalDate::compare_to(const LocalDate& other) const
     {
         if (*this == other)
             return 0;
@@ -75,12 +75,12 @@ namespace dot
         return *this > other ? 1 : -1;
     }
 
-    bool local_date::equals(const local_date& other) const
+    bool LocalDate::equals(const LocalDate& other) const
     {
         return *this == other;
     }
 
-    string local_date::to_string() const
+    string LocalDate::to_string() const
     {
         boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
         facet->format("%Y-%m-%d");
@@ -90,17 +90,17 @@ namespace dot
         return stream.str();
     }
 
-    period local_date::minus(const local_date& date) const
+    Period LocalDate::minus(const LocalDate& date) const
     {
         return *this - date;
     }
 
-    local_date local_date::minus(const period& period) const
+    LocalDate LocalDate::minus(const Period& period) const
     {
         return *this - period;
     }
 
-    local_date local_date::next(int target_day_of_week) const
+    LocalDate LocalDate::next(int target_day_of_week) const
     {
         if (day_of_week() == target_day_of_week)
             return plus_weeks(1);
@@ -108,32 +108,32 @@ namespace dot
         return boost::gregorian::next_weekday(*this, wd);
     }
 
-    local_date local_date::plus(const period& period) const
+    LocalDate LocalDate::plus(const Period& period) const
     {
         return *this + period;
     }
 
-    local_date local_date::plus_days(int days) const
+    LocalDate LocalDate::plus_days(int days) const
     {
         return *this + boost::gregorian::days(days);
     }
 
-    local_date local_date::plus_months(int months) const
+    LocalDate LocalDate::plus_months(int months) const
     {
         return *this + boost::gregorian::months(months);
     }
 
-    local_date local_date::plus_weeks(int weeks) const
+    LocalDate LocalDate::plus_weeks(int weeks) const
     {
         return *this + boost::gregorian::weeks(weeks);
     }
 
-    local_date local_date::plus_years(int years) const
+    LocalDate LocalDate::plus_years(int years) const
     {
         return *this + boost::gregorian::years(years);
     }
 
-    local_date local_date::previous(int target_day_of_week) const
+    LocalDate LocalDate::previous(int target_day_of_week) const
     {
         if (day_of_week() == target_day_of_week)
             return plus_weeks(-1);
@@ -141,62 +141,62 @@ namespace dot
         return boost::gregorian::previous_weekday(*this, wd);
     }
 
-    period local_date::subtract(const local_date& lhs, const local_date& rhs)
+    Period LocalDate::subtract(const LocalDate& lhs, const LocalDate& rhs)
     {
         return lhs - rhs;
     }
 
-    local_date local_date::subtract(const local_date& date, const period& period)
+    LocalDate LocalDate::subtract(const LocalDate& date, const Period& period)
     {
         return date + period;
     }
 
-    local_date_time local_date::operator+(const local_time& time) const
+    LocalDateTime LocalDate::operator+(const LocalTime& time) const
     {
         return {*this, time};
     }
 
-    local_date local_date::operator+(const period& period) const
+    LocalDate LocalDate::operator+(const Period& period) const
     {
         return static_cast<boost::gregorian::date>(*this) + static_cast<boost::gregorian::date_duration>(period);
     }
 
-    bool local_date::operator==(const local_date& other) const
+    bool LocalDate::operator==(const LocalDate& other) const
     {
         return static_cast<boost::gregorian::date>(*this) == static_cast<boost::gregorian::date>(other);
     }
 
-    bool local_date::operator!=(const local_date& other) const
+    bool LocalDate::operator!=(const LocalDate& other) const
     {
         return static_cast<boost::gregorian::date>(*this) != static_cast<boost::gregorian::date>(other);
     }
 
-    bool local_date::operator>(const local_date& other) const
+    bool LocalDate::operator>(const LocalDate& other) const
     {
         return static_cast<boost::gregorian::date>(*this) > static_cast<boost::gregorian::date>(other);
     }
 
-    bool local_date::operator>=(const local_date& other) const
+    bool LocalDate::operator>=(const LocalDate& other) const
     {
         return static_cast<boost::gregorian::date>(*this) >= static_cast<boost::gregorian::date>(other);
     }
 
-    bool local_date::operator<(const local_date& other) const
+    bool LocalDate::operator<(const LocalDate& other) const
     {
         return static_cast<boost::gregorian::date>(*this) < static_cast<boost::gregorian::date>(other);
     }
 
-    bool local_date::operator<=(const local_date& other) const
+    bool LocalDate::operator<=(const LocalDate& other) const
     {
         return static_cast<boost::gregorian::date>(*this) <= static_cast<boost::gregorian::date>(other);
     }
 
-    period local_date::operator-(const local_date& other) const
+    Period LocalDate::operator-(const LocalDate& other) const
     {
         return static_cast<boost::gregorian::date>(*this) - static_cast<boost::gregorian::date>(other);
     }
 
-    local_date local_date::operator-(const period& period) const
+    LocalDate LocalDate::operator-(const Period& period) const
     {
         return static_cast<boost::gregorian::date>(*this) - static_cast<boost::gregorian::date_duration>(period);
     }

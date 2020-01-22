@@ -34,14 +34,14 @@ namespace dot
 {
     TEST_CASE("constructors")
     {
-        local_time default_constructed;
-        local_time jan_one_year_one_constructed(0, 0, 0);
+        LocalTime default_constructed;
+        LocalTime jan_one_year_one_constructed(0, 0, 0);
         REQUIRE(default_constructed == jan_one_year_one_constructed);
     }
 
     TEST_CASE("properties")
     {
-        local_time t(12, 10, 20, 30);
+        LocalTime t(12, 10, 20, 30);
         REQUIRE(t.hour() == 12);
         REQUIRE(t.minute() == 10);
         REQUIRE(t.second() == 20);
@@ -50,34 +50,34 @@ namespace dot
 
     TEST_CASE("methods")
     {
-        local_time t1(12, 10, 20, 30);
-        REQUIRE(t1.plus_hours(1) == local_time(13, 10, 20, 30));
-        REQUIRE(t1.plus_minutes(1) == local_time(12, 11, 20, 30));
-        REQUIRE(t1.plus_seconds(1) == local_time(12, 10, 21, 30));
-        REQUIRE(t1.plus_milliseconds(1) == local_time(12, 10, 20, 31));
+        LocalTime t1(12, 10, 20, 30);
+        REQUIRE(t1.plus_hours(1) == LocalTime(13, 10, 20, 30));
+        REQUIRE(t1.plus_minutes(1) == LocalTime(12, 11, 20, 30));
+        REQUIRE(t1.plus_seconds(1) == LocalTime(12, 10, 21, 30));
+        REQUIRE(t1.plus_milliseconds(1) == LocalTime(12, 10, 20, 31));
 
-        local_time t2(23, 59);
-        REQUIRE(t2.plus_hours(2) == local_time(1, 59));
-        REQUIRE(t2.plus_minutes(2) == local_time(0, 1));
+        LocalTime t2(23, 59);
+        REQUIRE(t2.plus_hours(2) == LocalTime(1, 59));
+        REQUIRE(t2.plus_minutes(2) == LocalTime(0, 1));
 
-        local_date_time dt3(2005, 5, 10, 12, 10);
-        local_date d3(2005, 5, 10);
-        local_time t3(12, 10);
+        LocalDateTime dt3(2005, 5, 10, 12, 10);
+        LocalDate d3(2005, 5, 10);
+        LocalTime t3(12, 10);
         REQUIRE(t3.on(d3) == dt3);
 
-        local_time t4(1, 2, 3, 4);
+        LocalTime t4(1, 2, 3, 4);
         string t4_str = t4.to_string();
         REQUIRE(t4_str == "01:02:03.004");
     }
 
     TEST_CASE("operators")
     {
-        local_time t(12, 0, 0, 0);
-        local_time t1(12, 0, 0, 0);
-        local_time t2(13, 1, 1, 1);
-        local_time t3(14, 2, 2, 2);
-        period p1 = period::between(t1, t2);
-        period p2 = period::between(t2, t3);
+        LocalTime t(12, 0, 0, 0);
+        LocalTime t1(12, 0, 0, 0);
+        LocalTime t2(13, 1, 1, 1);
+        LocalTime t3(14, 2, 2, 2);
+        Period p1 = Period::between(t1, t2);
+        Period p2 = Period::between(t2, t3);
 
         REQUIRE(t2 + p1 == t3);
         REQUIRE(t2 - t1 == p2);

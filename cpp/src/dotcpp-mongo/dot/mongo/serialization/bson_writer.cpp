@@ -309,17 +309,17 @@ namespace dot
         if (value_type->equals(dot::typeof<int64_t>()))
             bson_writer_.append((int64_t)value);
         else
-        if (value_type->equals(dot::typeof<dot::local_date>()))
-            bson_writer_.append(dot::local_date_util::to_iso_int((dot::local_date)value));
+        if (value_type->equals(dot::typeof<dot::LocalDate>()))
+            bson_writer_.append(dot::LocalDateUtil::to_iso_int((dot::LocalDate)value));
         else
-        if (value_type->equals(dot::typeof<dot::local_time>()))
-            bson_writer_.append(dot::local_time_util::to_iso_int((dot::local_time)value));
+        if (value_type->equals(dot::typeof<dot::LocalTime>()))
+            bson_writer_.append(dot::LocalTimeUtil::to_iso_int((dot::LocalTime)value));
         else
-        if (value_type->equals(dot::typeof<dot::local_minute>()))
-            bson_writer_.append(dot::local_minute_util::to_iso_int((dot::local_minute) value));
+        if (value_type->equals(dot::typeof<dot::LocalMinute>()))
+            bson_writer_.append(dot::LocalMinuteUtil::to_iso_int((dot::LocalMinute) value));
         else
-        if (value_type->equals(dot::typeof<dot::local_date_time>()))
-            bson_writer_.append(bsoncxx::types::b_date{ dot::local_date_time_util::to_std_chrono((dot::local_date_time)value) });
+        if (value_type->equals(dot::typeof<dot::LocalDateTime>()))
+            bson_writer_.append(bsoncxx::types::b_date{ dot::LocalDateTimeUtil::to_std_chrono((dot::LocalDateTime)value) });
         else
         if (value_type->equals(dot::typeof<dot::object_id>()))
             bson_writer_.append(((dot::struct_wrapper<dot::object_id>)value)->oid());

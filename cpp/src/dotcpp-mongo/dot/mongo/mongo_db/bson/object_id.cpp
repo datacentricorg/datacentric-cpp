@@ -54,7 +54,7 @@ namespace dot
     {
     }
 
-    object_id::object_id(dot::local_date_time value)
+    object_id::object_id(dot::LocalDateTime value)
     {
         char bytes[12] = { 0 };
 

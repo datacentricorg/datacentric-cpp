@@ -39,10 +39,10 @@ namespace dot
     /// Immutable string type.
     ///
     /// The string is encoded internally as UTF-8.
-    class DOT_CLASS string_impl : public virtual object_impl, public detail::const_string_base
+    class DOT_CLASS string_impl : public virtual object_impl, public detail::ConstStringBase
     {
         typedef string_impl self;
-        typedef detail::const_string_base base;
+        typedef detail::ConstStringBase base;
         friend string make_string(const std::string& rhs);
         friend string make_string(const char* rhs);
 

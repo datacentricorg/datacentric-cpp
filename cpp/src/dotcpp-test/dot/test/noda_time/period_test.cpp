@@ -35,17 +35,17 @@ namespace dot
     TEST_CASE("create")
     {
         {
-            local_date_time date1(2005, 1, 1, 0, 0);
-            local_date_time date2(2006, 1, 1, 0, 0);
+            LocalDateTime date1(2005, 1, 1, 0, 0);
+            LocalDateTime date2(2006, 1, 1, 0, 0);
 
-            period p = period::between(date1, date2);
+            Period p = Period::between(date1, date2);
             REQUIRE(p.days() == 365);
         }
 
         {
-            local_date_time date1(2005, 1, 1, 1, 11, 11, 111);
-            local_date_time date2(2005, 1, 10, 2, 22, 22, 222);
-            period p = period::between(date1, date2);
+            LocalDateTime date1(2005, 1, 1, 1, 11, 11, 111);
+            LocalDateTime date2(2005, 1, 10, 2, 22, 22, 222);
+            Period p = Period::between(date1, date2);
             REQUIRE(p.days() == 9);
             REQUIRE(p.hours() == 1);
             REQUIRE(p.minutes() == 11);
@@ -54,9 +54,9 @@ namespace dot
         }
 
         {
-            local_date date1(2005, 1, 1);
-            local_date date2(2005, 1, 10);
-            period p = period::between(date1, date2);
+            LocalDate date1(2005, 1, 1);
+            LocalDate date2(2005, 1, 10);
+            Period p = Period::between(date1, date2);
             REQUIRE(p.days() == 9);
             REQUIRE(p.hours() == 0);
             REQUIRE(p.minutes() == 0);
@@ -66,9 +66,9 @@ namespace dot
         }
 
         {
-            local_time time1(1, 11, 11, 111);
-            local_time time2(2, 22, 22, 222);
-            period p = period::between(time2, time1);
+            LocalTime time1(1, 11, 11, 111);
+            LocalTime time2(2, 22, 22, 222);
+            Period p = Period::between(time2, time1);
             REQUIRE(p.days() == 0);
             REQUIRE(p.hours() == -1);
             REQUIRE(p.minutes() == -11);
@@ -78,34 +78,34 @@ namespace dot
         }
 
         {
-            period p = period::from_weeks(1);
+            Period p = Period::from_weeks(1);
             REQUIRE(p.days() == 7);
 
-            p = period::from_days(1);
+            p = Period::from_days(1);
             REQUIRE(p.days() == 1);
 
-            p = period::from_hours(1);
+            p = Period::from_hours(1);
             REQUIRE(p.hours() == 1);
 
-            p = period::from_minutes(1);
+            p = Period::from_minutes(1);
             REQUIRE(p.minutes() == 1);
 
-            p = period::from_seconds(1);
+            p = Period::from_seconds(1);
             REQUIRE(p.seconds() == 1);
 
-            p = period::from_milliseconds(1);
+            p = Period::from_milliseconds(1);
             REQUIRE(p.milliseconds() == 1);
         }
     }
 
     TEST_CASE("methods")
     {
-        local_date_time date1(2005, 1, 1, 0, 0, 0, 0);
-        local_date_time date2(2005, 1, 2, 1, 1, 1, 1);
-        local_date_time date3(2005, 1, 3, 2, 2, 2, 2);
-        period p1 = period::between(date1, date2);
-        period p2 = period::between(date2, date3);
-        period p3 = period::between(date1, date3);
+        LocalDateTime date1(2005, 1, 1, 0, 0, 0, 0);
+        LocalDateTime date2(2005, 1, 2, 1, 1, 1, 1);
+        LocalDateTime date3(2005, 1, 3, 2, 2, 2, 2);
+        Period p1 = Period::between(date1, date2);
+        Period p2 = Period::between(date2, date3);
+        Period p3 = Period::between(date1, date3);
 
         REQUIRE(p1 == p2);
         REQUIRE(p1 + p2 == p3);

@@ -86,11 +86,11 @@ namespace dot
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::false_type);
+        inline object invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::false_type);
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type);
+        inline object invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::true_type);
 
         /// Invokes the method reflected by this method_info instance.
         inline virtual object invoke(object obj, list<object> params);
@@ -122,11 +122,11 @@ namespace dot
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::false_type);
+        inline object invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::false_type);
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type);
+        inline object invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::true_type);
 
         /// Invokes the method reflected by this method_info instance.
         inline virtual object invoke(object obj, list<object> params);

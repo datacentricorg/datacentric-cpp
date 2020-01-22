@@ -32,22 +32,22 @@ namespace dot
         /// This class is used as base class of string_impl.
         ///
         /// The objective is to make it possible to pass this class to functions
-        /// accepting  std::string. Because C# string is immutable, const_string_base
+        /// accepting  std::string. Because C# string is immutable, ConstStringBase
         /// derives from std::string and then hides all non-const methods.
-        class const_string_base : public std::string
+        class ConstStringBase : public std::string
         {
             typedef std::string base;
 
         public:
 
             /// Create empty string.
-            const_string_base() = default;
+            ConstStringBase() = default;
 
             /// Create from std::string or string literal.
-            const_string_base(const std::string& value) : base(value) {}
+            ConstStringBase(const std::string& value) : base(value) {}
 
             /// Create from const char*, null pointer is converted to to empty value.
-            const_string_base(const char* value) : base(value) {}
+            ConstStringBase(const char* value) : base(value) {}
 
             // TODO - delete non-const methods of std::string
         };

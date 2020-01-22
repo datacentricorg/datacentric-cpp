@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dot
 {
-    dot::local_date local_date_util::parse(dot::string value)
+    dot::LocalDate LocalDateUtil::parse(dot::string value)
     {
         boost::posix_time::time_input_facet* facet = new boost::posix_time::time_input_facet();
         facet->format("%Y-%m-%d");
@@ -42,18 +42,18 @@ namespace dot
         // If default constructed date is passed, error message
         if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::format(
             "String representation of default constructed date {0} "
-            "passed to local_date_util.parse(value) method.", value));
+            "passed to LocalDateUtil.parse(value) method.", value));
 
         return ptime.date();
     }
 
-    int local_date_util::to_iso_int(dot::local_date value)
+    int LocalDateUtil::to_iso_int(dot::LocalDate value)
     {
         int result = value.year() * 10'000 + value.month() * 100 + value.day();
         return result;
     }
 
-    dot::local_date local_date_util::parse_iso_int(int value)
+    dot::LocalDate LocalDateUtil::parse_iso_int(int value)
     {
         // Extract year, month, day
         int year = value / 100'00;
@@ -62,7 +62,7 @@ namespace dot
         value -= month * 100;
         int day = value;
 
-        // Create local_date object
-        return dot::local_date(year, month, day);
+        // Create LocalDate object
+        return dot::LocalDate(year, month, day);
     }
 }

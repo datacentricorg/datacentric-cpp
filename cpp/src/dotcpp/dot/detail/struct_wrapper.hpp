@@ -33,13 +33,13 @@ namespace dot
     namespace detail
     {
         /// Empty structure.
-        class dummy_no_to_string : public virtual object_impl
+        class DummyNoToString : public virtual object_impl
         {};
 
         /// objects inherit this structure in case their inner struct class has method to_string
         /// so object also have these method.
         template <class W, class T>
-        class obj_to_string : public virtual object_impl
+        class ObjToString : public virtual object_impl
         {
         public:
             virtual string to_string() override { return static_cast<T*>(static_cast<W*>(this))->to_string(); }
@@ -47,33 +47,33 @@ namespace dot
 
         /// Detects existance of to_string method.
         template<class T>
-        struct has_to_string
+        struct HasToString
         {
         private:
-            static dummy_no_to_string detect(...);
+            static DummyNoToString detect(...);
             template<class U> static decltype(std::declval<U>().to_string()) detect(const U&);
         public:
-            static constexpr bool value = !std::is_same<dummy_no_to_string, decltype(detect(std::declval<T>()))>::value;
+            static constexpr bool value = !std::is_same<DummyNoToString, decltype(detect(std::declval<T>()))>::value;
             typedef std::integral_constant<bool, value> type;
         };
 
         /// For inheritance of to_string method.
         template<class W, class T>
-        class inherit_to_string : public std::conditional<
-                has_to_string<T>::value,
-                obj_to_string<W, T>,
-                dummy_no_to_string
+        class InheritToString : public std::conditional<
+                HasToString<T>::value,
+                ObjToString<W, T>,
+                DummyNoToString
             >::type
         {};
 
         /// Empty structure.
-        class dummy_no_get_hashcode : public virtual object_impl
+        class DummyNoGetHashCode : public virtual object_impl
         {};
 
         /// objects inherit this structure in case their inner struct class has method hash_code
         /// so object also have these method.
         template <class W, class T>
-        class obj_get_hashcode : public virtual object_impl
+        class ObjGetHashCode : public virtual object_impl
         {
         public:
             virtual size_t hash_code() override { return static_cast<T*>(static_cast<W*>(this))->hash_code(); }
@@ -81,33 +81,33 @@ namespace dot
 
         /// Detects existance of hash_code method.
         template<class T>
-        struct has_get_hashcode
+        struct HasGetHashCode
         {
         private:
-            static dummy_no_get_hashcode detect(...);
+            static DummyNoGetHashCode detect(...);
             template<class U> static decltype(std::declval<U>().hash_code()) detect(const U&);
         public:
-            static constexpr bool value = !std::is_same<dummy_no_get_hashcode, decltype(detect(std::declval<T>()))>::value;
+            static constexpr bool value = !std::is_same<DummyNoGetHashCode, decltype(detect(std::declval<T>()))>::value;
             typedef std::integral_constant<bool, value> type;
         };
 
         /// For inheritance of hash_code method.
         template<class W, class T>
-        class inherit_get_hashcode : public std::conditional<
-            has_get_hashcode<T>::value,
-            obj_get_hashcode<W, T>,
-            dummy_no_get_hashcode
+        class InheritGetHashCode : public std::conditional<
+            HasGetHashCode<T>::value,
+            ObjGetHashCode<W, T>,
+            DummyNoGetHashCode
         >::type
         {};
 
         /// Empty structure.
-        class dummy_no_equals : public virtual object_impl
+        class DummyNoEquals : public virtual object_impl
         {};
 
         /// objects inherit this structure in case their inner struct class has method equals
         /// so object also have these method.
         template <class W, class T>
-        class obj_equals : public virtual object_impl
+        class ObjEquals : public virtual object_impl
         {
         public:
             bool equals(object obj) override { return static_cast<T*>(static_cast<W*>(this))->equals(obj); }
@@ -115,22 +115,22 @@ namespace dot
 
         /// Detects existance of equals method.
         template<class T>
-        struct has_equals
+        struct HasEquals
         {
         private:
-            static dummy_no_equals detect(...);
+            static DummyNoEquals detect(...);
             template<class U> static decltype(std::declval<U>().equals(std::declval<object>())) detect(const U&);
         public:
-            static constexpr bool value = !std::is_same<dummy_no_equals, decltype(detect(std::declval<T>()))>::value;
+            static constexpr bool value = !std::is_same<DummyNoEquals, decltype(detect(std::declval<T>()))>::value;
             typedef std::integral_constant<bool, value> type;
         };
 
         /// For inheritance of equals method.
         template<class W, class T>
-        class inherit_equals : public std::conditional<
-            has_equals<T>::value,
-            obj_equals<W, T>,
-            dummy_no_equals
+        class InheritEquals : public std::conditional<
+            HasEquals<T>::value,
+            ObjEquals<W, T>,
+            DummyNoEquals
         >::type
         {};
     }

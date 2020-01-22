@@ -184,10 +184,10 @@ namespace dc
         dot::string record_id;
         dot::nullable<int> record_index;
         dot::nullable<double> double_element;
-        dot::nullable<dot::local_date> local_date_element;
-        dot::nullable<dot::local_time> local_time_element;
-        dot::nullable<dot::local_minute> local_minute_element;
-        dot::nullable<dot::local_date_time> local_date_time_element;
+        dot::nullable<dot::LocalDate> local_date_element;
+        dot::nullable<dot::LocalTime> local_time_element;
+        dot::nullable<dot::LocalMinute> local_minute_element;
+        dot::nullable<dot::LocalDateTime> local_date_time_element;
         mongo_test_enum enum_value = mongo_test_enum::empty;
         dot::nullable<int> version;
 

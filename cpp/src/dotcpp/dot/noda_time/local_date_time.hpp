@@ -32,20 +32,20 @@ limitations under the License.
 namespace dot
 {
     class string;
-    class period;
+    class Period;
     class object;
 
     /// A date and time in a particular calendar system.
-    /// A local_date_time value does not represent an instant on the global time line,
+    /// A LocalDateTime value does not represent an instant on the global time line,
     /// because it has no associated time zone: "November 12th 2009 7pm, ISO calendar"
     /// occurred at different instants for different people around the world.
     ///
-    class DOT_CLASS local_date_time : public boost::posix_time::ptime
+    class DOT_CLASS LocalDateTime : public boost::posix_time::ptime
     {
-        typedef local_date_time self;
+        typedef LocalDateTime self;
         typedef boost::posix_time::ptime base;
-        friend local_date;
-        friend local_time;
+        friend LocalDate;
+        friend LocalTime;
 
     public: // CONSTRUCTORS
 
@@ -54,31 +54,31 @@ namespace dot
         /// constructed value corresponds to 0001-01-01 00:00:00. Because Boost date_time
         /// library does not accept the date 0001-01-01, we will instead use the Unix epoch
         /// 1970-01-01 as default constructed value.
-        local_date_time();
+        LocalDateTime();
 
-        /// Initializes a new instance of the local_date_time struct using the ISO calendar system.
-        local_date_time(int year, int month, int day, int hour, int minute);
+        /// Initializes a new instance of the LocalDateTime struct using the ISO calendar system.
+        LocalDateTime(int year, int month, int day, int hour, int minute);
 
-        /// Initializes a new instance of the local_date_time struct using the ISO calendar system.
-        local_date_time(int year, int month, int day, int hour, int minute, int second);
+        /// Initializes a new instance of the LocalDateTime struct using the ISO calendar system.
+        LocalDateTime(int year, int month, int day, int hour, int minute, int second);
 
-        /// Initializes a new instance of the local_date_time struct using the ISO calendar system.
-        local_date_time(int year, int month, int day, int hour, int minute, int second, int millisecond);
+        /// Initializes a new instance of the LocalDateTime struct using the ISO calendar system.
+        LocalDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond);
 
         /// Create from Boost posix_time.
-        local_date_time(const boost::posix_time::ptime& time);
+        LocalDateTime(const boost::posix_time::ptime& time);
 
         /// Create from object.
-        local_date_time(object const& rhs);
+        LocalDateTime(object const& rhs);
 
 
         /// Copy constructor.
-        local_date_time(const local_date_time& other);
+        LocalDateTime(const LocalDateTime& other);
 
     private: // CONSTRUCTORS
 
         /// Create from date and time.
-        local_date_time(const local_date& date, const local_time& time);
+        LocalDateTime(const LocalDate& date, const LocalTime& time);
 
     public: // PROPERTIES
 
@@ -106,105 +106,105 @@ namespace dot
         /// Gets the second of this local date and time within the minute, in the range 0 to 59 inclusive.
         int second() const { return static_cast<int>(base::time_of_day().seconds()); }
 
-        /// Gets the time portion of this local date and time as a local_time.
-        local_time time_of_day() const { return base::time_of_day(); }
+        /// Gets the time portion of this local date and time as a LocalTime.
+        LocalTime time_of_day() const { return base::time_of_day(); }
 
         /// Gets the year of this local date and time.
         int year() const { return date().year(); }
 
 
     public:
-        /// Add the specified period to the date and time. Friendly alternative to operator+().
-        static local_date_time add(const local_date_time& local_date_time, const period& period);
+        /// Add the specified Period to the date and time. Friendly alternative to operator+().
+        static LocalDateTime add(const LocalDateTime& local_date_time, const Period& period);
 
         /// Indicates whether this date/time is earlier, later or the same as another one.
-        int compare_to(const local_date_time& other) const;
+        int compare_to(const LocalDateTime& other) const;
 
         /// Indicates whether the current object is equal to another object of the same type.
-        bool equals(const local_date_time& other) const;
+        bool equals(const LocalDateTime& other) const;
 
         /// String that represents the current object.
         string to_string() const;
 
-        /// Subtracts the specified date/time from this date/time, returning the result as a period. Fluent alternative to operator-().
-        period minus(const local_date_time& local_date_time) const;
+        /// Subtracts the specified date/time from this date/time, returning the result as a Period. Fluent alternative to operator-().
+        Period minus(const LocalDateTime& local_date_time) const;
 
-        /// Subtracts a period from a local date/time. Fields are subtracted in the order provided by the period.
-        local_date_time minus(const period& period) const;
+        /// Subtracts a Period from a local date/time. Fields are subtracted in the order provided by the Period.
+        LocalDateTime minus(const Period& period) const;
 
-        /// Returns the next local_date_time falling on the specified iso_day_of_week, at the same time of day as this value.
+        /// Returns the next LocalDateTime falling on the specified iso_day_of_week, at the same time of day as this value.
         /// This is a strict "next" - if this value on already falls on the target day of the week,
         /// the returned value will be a week later.
         ///
-        local_date_time next(int target_day_of_week) const;
+        LocalDateTime next(int target_day_of_week) const;
 
-        /// Adds a period to this local date/time. Fields are added in the order provided by the period.
-        local_date_time plus(const period& period) const;
+        /// Adds a Period to this local date/time. Fields are added in the order provided by the Period.
+        LocalDateTime plus(const Period& period) const;
 
-        /// Returns a new local_date_time representing the current value with the given number of days added.
-        local_date_time plus_days(int days) const;
+        /// Returns a new LocalDateTime representing the current value with the given number of days added.
+        LocalDateTime plus_days(int days) const;
 
-        /// Returns a new local_date_time representing the current value with the given number of hours added.
-        local_date_time plus_hours(int64_t hours) const;
+        /// Returns a new LocalDateTime representing the current value with the given number of hours added.
+        LocalDateTime plus_hours(int64_t hours) const;
 
-        /// Returns a new local_date_time representing the current value with the given number of milliseconds added.
-        local_date_time plus_milliseconds(int64_t milliseconds) const;
+        /// Returns a new LocalDateTime representing the current value with the given number of milliseconds added.
+        LocalDateTime plus_milliseconds(int64_t milliseconds) const;
 
-        /// Returns a new local_date_time representing the current value with the given number of minutes added.
-        local_date_time plus_minutes(int64_t minutes) const;
+        /// Returns a new LocalDateTime representing the current value with the given number of minutes added.
+        LocalDateTime plus_minutes(int64_t minutes) const;
 
-        /// Returns a new local_date_time representing the current value with the given number of months added.
-        local_date_time plus_months(int months) const;
+        /// Returns a new LocalDateTime representing the current value with the given number of months added.
+        LocalDateTime plus_months(int months) const;
 
-        /// Returns a new local_date_time representing the current value with the given number of seconds added.
-        local_date_time plus_seconds(int64_t seconds) const;
+        /// Returns a new LocalDateTime representing the current value with the given number of seconds added.
+        LocalDateTime plus_seconds(int64_t seconds) const;
 
-        /// Returns a new local_date_time representing the current value with the given number of weeks added.
-        local_date_time plus_weeks(int weeks) const;
+        /// Returns a new LocalDateTime representing the current value with the given number of weeks added.
+        LocalDateTime plus_weeks(int weeks) const;
 
-        /// Returns a new local_date_time representing the current value with the given number of years added.
-        local_date_time plus_years(int years) const;
+        /// Returns a new LocalDateTime representing the current value with the given number of years added.
+        LocalDateTime plus_years(int years) const;
 
-        /// Returns the previous local_date_time falling on the specified iso_day_of_week, at the same time of day as this value.
+        /// Returns the previous LocalDateTime falling on the specified iso_day_of_week, at the same time of day as this value.
         /// This is a strict "previous" - if this value on already falls on the target day of the week,
         /// the returned value will be a week earlier.
-        local_date_time previous(int target_day_of_week) const;
+        LocalDateTime previous(int target_day_of_week) const;
 
-        /// Subtracts one date/time from another, returning the result as a period.
-        static period subtract(const local_date_time& lhs, const local_date_time& rhs);
+        /// Subtracts one date/time from another, returning the result as a Period.
+        static Period subtract(const LocalDateTime& lhs, const LocalDateTime& rhs);
 
-        /// Subtracts the specified period from the date and time. Friendly alternative to operator-().
-        static local_date_time subtract(const local_date_time& local_date_time, const period& period);
+        /// Subtracts the specified Period from the date and time. Friendly alternative to operator-().
+        static LocalDateTime subtract(const LocalDateTime& local_date_time, const Period& period);
 
     public:
-        /// Adds a period to a local date/time. Fields are added in the order provided by the period.
-        /// This is a convenience operator over the plus(period) method.
-        local_date_time operator+(const period& period) const;
+        /// Adds a Period to a local date/time. Fields are added in the order provided by the Period.
+        /// This is a convenience operator over the plus(Period) method.
+        LocalDateTime operator+(const Period& period) const;
 
         /// Implements the operator == (equality).
-        bool operator==(const local_date_time& other) const;
+        bool operator==(const LocalDateTime& other) const;
 
         /// Implements the operator != (inequality).
-        bool operator!=(const local_date_time& other) const;
+        bool operator!=(const LocalDateTime& other) const;
 
-        /// Compares two local_date_time values to see if the left one is strictly later than the right one.
-        bool operator>(const local_date_time& other) const;
+        /// Compares two LocalDateTime values to see if the left one is strictly later than the right one.
+        bool operator>(const LocalDateTime& other) const;
 
-        /// Compares two local_date_time values to see if the left one is later than or equal to the right one.
-        bool operator>=(const local_date_time& other) const;
+        /// Compares two LocalDateTime values to see if the left one is later than or equal to the right one.
+        bool operator>=(const LocalDateTime& other) const;
 
-        /// Compares two local_date_time values to see if the left one is strictly earlier than the right one.
-        bool operator<(const local_date_time& other) const;
+        /// Compares two LocalDateTime values to see if the left one is strictly earlier than the right one.
+        bool operator<(const LocalDateTime& other) const;
 
-        /// Compares two local_date_time values to see if the left one is earlier than or equal to the right one.
-        bool operator<=(const local_date_time& other) const;
+        /// Compares two LocalDateTime values to see if the left one is earlier than or equal to the right one.
+        bool operator<=(const LocalDateTime& other) const;
 
-        /// Subtracts one date/time from another, returning the result as a period.
-        period operator-(const local_date_time& other) const;
+        /// Subtracts one date/time from another, returning the result as a Period.
+        Period operator-(const LocalDateTime& other) const;
 
-        /// Subtracts a period from a local date/time.
-        /// Fields are subtracted in the order provided by the period.
-        /// This is a convenience operator over the minus(period) method.
-        local_date_time operator-(const period& period) const;
+        /// Subtracts a Period from a local date/time.
+        /// Fields are subtracted in the order provided by the Period.
+        /// This is a convenience operator over the minus(Period) method.
+        LocalDateTime operator-(const Period& period) const;
     };
 }

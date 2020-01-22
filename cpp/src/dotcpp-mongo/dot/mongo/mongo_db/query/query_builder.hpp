@@ -410,7 +410,7 @@ namespace dot
     struct prop_wrapper<Class, dot::object_id>
     {
         /// Applies operator to prop_wrapper and rerurns operator_wrapper.
-        operator_wrapper operator==(dot::local_date_time rhs) const
+        operator_wrapper operator==(dot::LocalDateTime rhs) const
         {
             char bytes[12] = { 0 };
 
@@ -422,7 +422,7 @@ namespace dot
         }
 
         /// Applies operator to prop_wrapper and rerurns operator_wrapper.
-        operator_wrapper operator<(dot::local_date_time rhs) const
+        operator_wrapper operator<(dot::LocalDateTime rhs) const
         {
             char bytes[12] = { 0 };
 

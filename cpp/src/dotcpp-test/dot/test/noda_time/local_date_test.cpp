@@ -34,14 +34,14 @@ namespace dot
 {
     TEST_CASE("constructors")
     {
-        local_date default_constructed;
-        local_date jan_one_year_one_constructed(1970, 1, 1);
+        LocalDate default_constructed;
+        LocalDate jan_one_year_one_constructed(1970, 1, 1);
         REQUIRE(default_constructed == jan_one_year_one_constructed);
     }
 
     TEST_CASE("properties")
     {
-        local_date d(2005, 1, 10);
+        LocalDate d(2005, 1, 10);
         REQUIRE(d.year() == 2005);
         REQUIRE(d.month() == 1);
         REQUIRE(d.day() == 10);
@@ -51,36 +51,36 @@ namespace dot
 
     TEST_CASE("methods")
     {
-        local_date d1(2005, 1, 10);
-        REQUIRE(d1.plus_days(10) == local_date(2005, 1, 20));
-        REQUIRE(d1.plus_weeks(1) == local_date(2005, 1, 17));
-        REQUIRE(d1.plus_months(1) == local_date(2005, 2, 10));
-        REQUIRE(d1.plus_years(1) == local_date(2006, 1, 10));
+        LocalDate d1(2005, 1, 10);
+        REQUIRE(d1.plus_days(10) == LocalDate(2005, 1, 20));
+        REQUIRE(d1.plus_weeks(1) == LocalDate(2005, 1, 17));
+        REQUIRE(d1.plus_months(1) == LocalDate(2005, 2, 10));
+        REQUIRE(d1.plus_years(1) == LocalDate(2006, 1, 10));
 
-        local_date d2(2005, 1, 10);
-        REQUIRE(d2.previous(boost::gregorian::Monday) == local_date(2005, 1, 3));
-        REQUIRE(d2.next(boost::gregorian::Monday) == local_date(2005, 1, 17));
+        LocalDate d2(2005, 1, 10);
+        REQUIRE(d2.previous(boost::gregorian::Monday) == LocalDate(2005, 1, 3));
+        REQUIRE(d2.next(boost::gregorian::Monday) == LocalDate(2005, 1, 17));
 
-        local_date_time dt3(2005, 5, 10, 12, 10);
-        local_date d3(2005, 5, 10);
-        local_time t3(12, 10);
+        LocalDateTime dt3(2005, 5, 10, 12, 10);
+        LocalDate d3(2005, 5, 10);
+        LocalTime t3(12, 10);
         REQUIRE(d3.at(t3) == dt3);
-        REQUIRE(d3.at_midnight() == local_date_time(2005, 5, 10, 0, 0));
+        REQUIRE(d3.at_midnight() == LocalDateTime(2005, 5, 10, 0, 0));
 
-        local_date d4(2005, 1, 2);
+        LocalDate d4(2005, 1, 2);
         string d4_str = d4.to_string();
         REQUIRE(d4_str == "2005-01-02");
     }
 
     TEST_CASE("operators")
     {
-        local_date d(2005, 5, 10);
-        local_date d1(2005, 5, 10);
-        local_date d2(2005, 5, 15);
-        local_date d3(2005, 5, 20);
+        LocalDate d(2005, 5, 10);
+        LocalDate d1(2005, 5, 10);
+        LocalDate d2(2005, 5, 15);
+        LocalDate d3(2005, 5, 20);
 
-        period p1 = period::between(d1, d2);
-        period p2 = period::between(d2, d3);
+        Period p1 = Period::between(d1, d2);
+        Period p2 = Period::between(d2, d3);
 
         REQUIRE(d2 + p1 == d3);
         REQUIRE(d2 - d1 == p2);

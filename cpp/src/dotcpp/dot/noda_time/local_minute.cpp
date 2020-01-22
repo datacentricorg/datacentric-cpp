@@ -30,75 +30,75 @@ limitations under the License.
 
 namespace dot
 {
-    local_minute::local_minute(int hour, int minute)
+    LocalMinute::LocalMinute(int hour, int minute)
     {
-        if (hour < 0 || hour > 23) throw exception(string::format("Hour {0} specified in local_minute constructor is not between 0 and 23.", hour));
-        if (minute < 0 || minute > 59) throw exception(string::format("Minute {0} specified in local_minute constructor is not between 0 and 59.", minute));
+        if (hour < 0 || hour > 23) throw exception(string::format("Hour {0} specified in LocalMinute constructor is not between 0 and 23.", hour));
+        if (minute < 0 || minute > 59) throw exception(string::format("Minute {0} specified in LocalMinute constructor is not between 0 and 59.", minute));
 
         hour_ = hour;
         minute_ = minute;
     }
 
-    local_minute::local_minute(const local_minute& other)
+    LocalMinute::LocalMinute(const LocalMinute& other)
     {
         *this = other;
     }
 
-    local_time local_minute::to_local_time() const
+    LocalTime LocalMinute::to_local_time() const
     {
-        return local_time(hour(), minute());
+        return LocalTime(hour(), minute());
     }
 
-    int local_minute::compare_to(const local_minute& other) const
+    int LocalMinute::compare_to(const LocalMinute& other) const
     {
         if (minute_of_day() > other.minute_of_day()) return 1;
         if (minute_of_day() < other.minute_of_day()) return -1;
         return 0;
     }
 
-    size_t local_minute::hash_code() const
+    size_t LocalMinute::hash_code() const
     {
         return std::hash<int>()(minute_of_day());
     }
 
-    bool local_minute::equals(const local_minute& other) const
+    bool LocalMinute::equals(const LocalMinute& other) const
     {
         return *this == other;
     }
 
-    string local_minute::to_string() const
+    string LocalMinute::to_string() const
     {
-        // local_minute is serialized to ISO 8601 string in hh:mm format
+        // LocalMinute is serialized to ISO 8601 string in hh:mm format
         string result = string::format("{0:02}:{1:02}", hour(), minute());
         return result;
     }
 
-    bool local_minute::operator==(const local_minute& other) const
+    bool LocalMinute::operator==(const LocalMinute& other) const
     {
         return minute_of_day() == other.minute_of_day();
     }
 
-    bool local_minute::operator!=(const local_minute& other) const
+    bool LocalMinute::operator!=(const LocalMinute& other) const
     {
         return minute_of_day() != other.minute_of_day();
     }
 
-    bool local_minute::operator<(const local_minute& other) const
+    bool LocalMinute::operator<(const LocalMinute& other) const
     {
         return minute_of_day() < other.minute_of_day();
     }
 
-    bool local_minute::operator<=(const local_minute& other) const
+    bool LocalMinute::operator<=(const LocalMinute& other) const
     {
         return minute_of_day() <= other.minute_of_day();
     }
 
-    bool local_minute::operator>(const local_minute& other) const
+    bool LocalMinute::operator>(const LocalMinute& other) const
     {
         return minute_of_day() > other.minute_of_day();
     }
 
-    bool local_minute::operator>=(const local_minute& other) const
+    bool LocalMinute::operator>=(const LocalMinute& other) const
     {
         return minute_of_day() >= other.minute_of_day();
     }

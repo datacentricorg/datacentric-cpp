@@ -27,7 +27,7 @@ namespace dot
 {
     /// All classes with reference semantics should derive from this type.
     /// It works with ptr to provide an emulation of reference semantics in C++.
-    class reference_counter
+    class ReferenceCounter
     {
     private: // FIELDS
 
@@ -38,7 +38,7 @@ namespace dot
 
         /// Virtual destructor to ensure that destructor
         /// of the derived type is called by ptr.
-        virtual ~reference_counter() = default;
+        virtual ~ReferenceCounter() = default;
 
     public: // METHODS
 
@@ -60,16 +60,16 @@ namespace dot
     protected: // CONSTRUCTORS
 
         /// Prevent construction on stack.
-        reference_counter() = default;
+        ReferenceCounter() = default;
 
     private: // CONSTRUCTORS
 
         /// Prevent copying object instead of copying pointer.
-        reference_counter(const reference_counter&) = delete;
+        ReferenceCounter(const ReferenceCounter&) = delete;
 
     private: // OPERATORS
 
         /// Prevent assignment of object instead of assignment of pointer.
-        reference_counter& operator=(const reference_counter& rhs) = delete;
+        ReferenceCounter& operator=(const ReferenceCounter& rhs) = delete;
     };
 }

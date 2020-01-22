@@ -47,14 +47,14 @@ namespace dot
 
     template <class class_, class return_t, class ... args>
     template <int ... I>
-    inline object member_method_info_impl<class_, return_t, args...>::invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::false_type)
+    inline object member_method_info_impl<class_, return_t, args...>::invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::false_type)
     {
         return ((*ptr<class_>(obj)).*ptr_)(params[I]...);
     }
 
     template <class class_, class return_t, class ... args>
     template <int ... I>
-    inline object member_method_info_impl<class_, return_t, args...>::invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type)
+    inline object member_method_info_impl<class_, return_t, args...>::invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::true_type)
     {
         ((*ptr<class_>(obj)).*ptr_)(params[I]...);
         return object();
@@ -66,7 +66,7 @@ namespace dot
         if (params->count() != parameters_->count())
             throw exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
 
-        return invoke_impl(obj, params, typename detail::make_index_sequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
+        return invoke_impl(obj, params, typename detail::MakeIndexSequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
     }
 
     template <class class_, class return_t, class ... args>
@@ -80,14 +80,14 @@ namespace dot
 
     template <class return_t, class ... args>
     template <int ... I>
-    inline object static_method_info_impl<return_t, args...>::invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::false_type)
+    inline object static_method_info_impl<return_t, args...>::invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::false_type)
     {
         return (*ptr_)(params[I]...);
     }
 
     template <class return_t, class ... args>
     template <int ... I>
-    inline object static_method_info_impl<return_t, args...>::invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type)
+    inline object static_method_info_impl<return_t, args...>::invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::true_type)
     {
         (*ptr_)(params[I]...);
         return object();
@@ -99,7 +99,7 @@ namespace dot
         if (params->count() != parameters_->count())
             throw exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
 
-        return invoke_impl(obj, params, typename detail::make_index_sequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
+        return invoke_impl(obj, params, typename detail::MakeIndexSequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
     }
 
     template <class return_t, class ... args>

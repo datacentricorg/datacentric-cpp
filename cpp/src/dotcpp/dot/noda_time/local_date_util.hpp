@@ -28,19 +28,19 @@ limitations under the License.
 
 namespace dot
 {
-    class DOT_CLASS local_date_util
+    class DOT_CLASS LocalDateUtil
     {
     public: // STATIC
 
         /// Parse string using standard ISO 8601 date pattern yyyy-mm-dd, throw if invalid format.
         /// No variations from the standard format are accepted and no delimiters can be changed or omitted.
         /// Specifically, ISO int-like string using yyyymmdd format without delimiters is not accepted.
-        static dot::local_date parse(dot::string value);
+        static dot::LocalDate parse(dot::string value);
 
-        /// Convert local_date to to ISO 8601 8 digit int in yyyymmdd format.
-        static int to_iso_int(dot::local_date value);
+        /// Convert LocalDate to to ISO 8601 8 digit int in yyyymmdd format.
+        static int to_iso_int(dot::LocalDate value);
 
         /// Parse ISO 8601 8 digit int in yyyymmdd format, throw if invalid format.
-        static dot::local_date parse_iso_int(int value);
+        static dot::LocalDate parse_iso_int(int value);
     };
 }

@@ -31,7 +31,7 @@ limitations under the License.
 
 namespace dot
 {
-    dot::local_minute local_minute_util::parse(dot::string value)
+    dot::LocalMinute LocalMinuteUtil::parse(dot::string value)
     {
         boost::posix_time::time_input_facet* facet = new boost::posix_time::time_input_facet();
         facet->format("%H:%M");
@@ -44,27 +44,27 @@ namespace dot
         // If default constructed time is passed, error message
         if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::format(
             "String representation of default constructed time {0} "
-            "passed to local_minute_util.parse(time) method.", value));
+            "passed to LocalMinuteUtil.parse(time) method.", value));
 
         auto time = ptime.time_of_day();
-        return dot::local_minute(time.hours(), time.minutes());
+        return dot::LocalMinute(time.hours(), time.minutes());
     }
 
-    int local_minute_util::to_iso_int(dot::local_minute value)
+    int LocalMinuteUtil::to_iso_int(dot::LocalMinute value)
     {
         // Serialized to one minute precision in ISO 8601 4 digit int hhmm format
         int result = value.hour() * 100 + value.minute();
         return result;
     }
 
-    dot::local_minute local_minute_util::parse_iso_int(int value)
+    dot::LocalMinute LocalMinuteUtil::parse_iso_int(int value)
     {
         // Extract
         int hour = value / 100;
         value -= hour * 100;
         int minute = value;
 
-        // Create new local_minute object, validates values on input
-        return dot::local_minute(hour, minute);
+        // Create new LocalMinute object, validates values on input
+        return dot::LocalMinute(hour, minute);
     }
 }

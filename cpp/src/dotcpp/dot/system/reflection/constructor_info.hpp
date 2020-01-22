@@ -77,7 +77,7 @@ namespace dot
 
         /// Invokes the constructor reflected by this constructor_info instance.
         template <int ... I>
-        inline object invoke_impl(list<object> params, detail::index_sequence<I...>);
+        inline object invoke_impl(list<object> params, detail::IndexSequence<I...>);
 
         /// Invokes the constructor reflected by this constructor_info instance.
         inline virtual object invoke(list<object> params);

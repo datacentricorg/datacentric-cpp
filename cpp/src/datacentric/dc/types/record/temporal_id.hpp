@@ -89,7 +89,7 @@ namespace dc
         /// that falls on the same second.
         ///
         /// Error message if the timestamp does not fall on the second // TODO - need to check
-        explicit temporal_id(dot::local_date_time value);
+        explicit temporal_id(dot::LocalDateTime value);
 
     public: // METHODS
 

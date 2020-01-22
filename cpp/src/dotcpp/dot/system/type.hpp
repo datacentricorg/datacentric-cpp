@@ -511,51 +511,51 @@ namespace dot
     };
 
     template <>
-    struct type_traits<local_date>
+    struct type_traits<LocalDate>
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<local_date>("dot", "local_date")->build();
+            static type type_ = make_type_builder<LocalDate>("dot", "LocalDate")->build();
             return type_;
         }
     };
 
     template <>
-    struct type_traits<local_time>
+    struct type_traits<LocalTime>
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<local_time>("dot", "local_time")->build();
+            static type type_ = make_type_builder<LocalTime>("dot", "LocalTime")->build();
             return type_;
         }
     };
 
     template <>
-    struct type_traits<local_minute>
+    struct type_traits<LocalMinute>
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<local_time>("dot", "local_minute")->build();
+            static type type_ = make_type_builder<LocalTime>("dot", "LocalMinute")->build();
             return type_;
         }
     };
 
     template <>
-    struct type_traits<local_date_time>
+    struct type_traits<LocalDateTime>
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<local_date_time>("dot", "local_date_time")->build();
+            static type type_ = make_type_builder<LocalDateTime>("dot", "LocalDateTime")->build();
             return type_;
         }
     };
 
     template <>
-    struct type_traits<period>
+    struct type_traits<Period>
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<local_date_time>("dot", "period")->build();
+            static type type_ = make_type_builder<LocalDateTime>("dot", "Period")->build();
             return type_;
         }
     };
