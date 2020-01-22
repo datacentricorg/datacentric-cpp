@@ -71,6 +71,8 @@ namespace dot
         /// Gets a collection that contains this member's custom attributes.
         list<attribute> get_custom_attributes(bool) { return custom_attributes_; }
 
+        list<attribute> get_custom_attributes(dot::type attr_type, bool);
+
         /// A string representing the name of the current type.
         virtual string to_string() override { return "member_info"; }
 

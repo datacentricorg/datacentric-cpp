@@ -30,16 +30,16 @@ limitations under the License.
 namespace dot
 {
 
-    class deserialize_attribute_impl; using deserialize_attribute = ptr<deserialize_attribute_impl>;
+    class deserialize_class_attribute_impl; using deserialize_class_attribute = ptr<deserialize_class_attribute_impl>;
 
     /// Attribute sets custom deserealizator
-    class DOT_CLASS deserialize_attribute_impl : public attribute_impl
+    class DOT_CLASS deserialize_class_attribute_impl : public attribute_impl
     {
 
     public:
         typedef object(*deserializer_func_type)(object, dot::type);
 
-        friend deserialize_attribute make_deserialize_attribute(deserializer_func_type);
+        friend deserialize_class_attribute make_deserialize_class_attribute(deserializer_func_type);
 
         object deserialize(object value, dot::type);
 
@@ -50,15 +50,52 @@ namespace dot
 
     private:
 
-        deserialize_attribute_impl(deserializer_func_type deserializer)
+        deserialize_class_attribute_impl(deserializer_func_type deserializer)
             : deserializer_(deserializer)
         {}
 
         deserializer_func_type deserializer_;
     };
 
-    inline deserialize_attribute make_deserialize_attribute(deserialize_attribute_impl::deserializer_func_type deserializer)
+    inline deserialize_class_attribute make_deserialize_class_attribute(deserialize_class_attribute_impl::deserializer_func_type deserializer)
     {
-        return new deserialize_attribute_impl(deserializer);
+        return new deserialize_class_attribute_impl(deserializer);
+    }
+
+
+    class deserialize_field_attribute_impl; using deserialize_field_attribute = ptr<deserialize_field_attribute_impl>;
+
+    /// Attribute sets custom deserealizator
+    class DOT_CLASS deserialize_field_attribute_impl : public attribute_impl
+    {
+
+    public:
+        typedef void(*deserializer_func_type)(object, field_info, object);
+
+        friend deserialize_field_attribute make_deserialize_field_attribute(deserializer_func_type);
+
+        void deserialize(object value, field_info field, object obj);
+
+    public: // REFLECTION
+
+        static type typeof();
+        type get_type() override;
+
+    private:
+
+        deserialize_field_attribute_impl(deserializer_func_type deserializer)
+            : deserializer_(deserializer)
+        {}
+
+        deserializer_func_type deserializer_;
+    };
+
+    inline void ignore_field_deserealization(object, field_info, object)
+    {
+    }
+
+    inline deserialize_field_attribute make_deserialize_field_attribute(deserialize_field_attribute_impl::deserializer_func_type deserializer)
+    {
+        return new deserialize_field_attribute_impl(deserializer);
     }
 }

@@ -57,7 +57,7 @@ namespace dc
         {
             static dot::type result = []()-> dot::type
             {
-                dot::type t = dot::make_type_builder<self>("dc", "key_base", { dot::make_deserialize_attribute(&key_base_impl::deserialize) })
+                dot::type t = dot::make_type_builder<self>("dc", "key_base", { dot::make_deserialize_class_attribute(&key_base_impl::deserialize) })
                           ->with_method("assign_string", static_cast<void (key_base_impl::*)(dot::string)>(&key_base_impl::assign_string), {"value"})
                           ->build();
                 return t;

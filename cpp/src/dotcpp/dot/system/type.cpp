@@ -297,4 +297,17 @@ namespace dot
     {
         return this->full_name()->hash_code();
     }
+
+    list<attribute> member_info_impl::get_custom_attributes(dot::type attr_type, bool)
+    {
+        list<attribute> attrs = dot::make_list<attribute>();
+        for (attribute item : custom_attributes_)
+        {
+            if (item->get_type()->equals(attr_type))
+            {
+                attrs->add(item);
+            }
+        }
+        return attrs;
+    }
 }

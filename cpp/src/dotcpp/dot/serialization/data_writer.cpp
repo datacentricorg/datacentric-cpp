@@ -136,12 +136,6 @@ namespace dot
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
         dot::object created_dict = dot::activator::create_instance(created_dict_type);
-        //if (!(created_dict_obj.is<data>())) // TODO Also support native dictionaries
-        //{
-        //    dot::string mapped_class_name = current_element_info_->field_type->full_name();
-        //    throw dot::exception(dot::string::format(
-        //        "Element {0} of type {1} does not implement data.", current_element_info_->name, mapped_class_name));
-        //}
 
         // Add to array or dictionary, depending on what we are inside of
         if (current_array_ != nullptr) current_array_->add_object(created_dict);
@@ -206,11 +200,12 @@ namespace dot
             current_element_info_ = nullptr;
             current_dict_elements_ = nullptr;
         }
-        //else {
-        //    dot::string mapped_class_name = current_element_info_->field_type->get_full_name();
-        //    throw dot::exception(dot::string::format(
-        //        "Element {0} of type {1} does not implement collection_base.", current_element_info_->name, mapped_class_name));
-        //}
+        else
+        {
+            dot::string class_name = current_element_info_->field_type->full_name();
+            throw dot::exception(dot::string::format(
+                "Element {0} of type {1} does not implement collection_base.", current_element_info_->name, class_name));
+        }
     }
 
     void data_writer_impl::write_end_array()
@@ -303,6 +298,18 @@ namespace dot
             dot::string::format("Cannot write_value(...)for element {0} ", current_element_name_) +
             "is called outside dictionary or array.");
 
+        // Check for deserialize_field_attribute
+        // Points to custom field deserializer
+        if (current_dict_ != nullptr && current_element_info_ != nullptr)
+        {
+            list<attribute> attrs = current_element_info_->get_custom_attributes(dot::typeof<deserialize_field_attribute>(), true);
+            if (attrs->size())
+            {
+                deserialize_field_attribute(attrs[0])->deserialize(value, current_element_info_, current_dict_);
+                return;
+            }
+        }
+
         if (value.is_empty())  // TODO is_empty method should be implemented according to c# extension
         {
             // Do not record null or empty value into dictionary, but add it to an array
@@ -311,7 +318,6 @@ namespace dot
             return;
         }
 
-        // Write based on element type
         dot::type value_type = value->get_type();
         if (element_type->equals(dot::typeof<dot::string>()) ||
             element_type->equals(dot::typeof<double>()) || element_type->equals(dot::typeof<dot::nullable<double>>()) ||
@@ -340,10 +346,6 @@ namespace dot
             {
                 converted_value = static_cast<int>((int64_t) value);
             }
-            //else if (element_type->equals(dot::typeof<dot::object_id>()) && value_type->equals(dot::typeof<dot::string>()))
-            //{
-            //    converted_value = dot::object_id((dot::string) value);
-            //}
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(converted_value);
@@ -472,11 +474,11 @@ namespace dot
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, enum_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (element_type->get_custom_attributes(dot::typeof<deserialize_attribute>(), true)->size())
+        // Check for custom deserializer for element type
+        else if (element_type->get_custom_attributes(dot::typeof<deserialize_class_attribute>(), true)->size())
         {
-            deserialize_attribute attr = (deserialize_attribute)element_type->get_custom_attributes(dot::typeof<deserialize_attribute>(), true)[0];
-            // We run out of value types at this point, now we can create
-            // a reference type and check that it is derived from key_base
+            deserialize_class_attribute attr = (deserialize_class_attribute)element_type->get_custom_attributes(dot::typeof<deserialize_class_attribute>(), true)[0];
+
             dot::object obj = attr->deserialize(value, element_type);
 
             if (current_array_ != nullptr) current_array_->add_object(obj);
