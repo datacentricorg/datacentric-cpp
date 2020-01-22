@@ -24,19 +24,21 @@ namespace dc
 
     mongo_query mongo_query_impl::where(dot::token_base value)
     {
+        // Save filter.
         where_.push_back(value);
         return this;
     }
 
     mongo_query mongo_query_impl::sort_by(dot::field_info key_selector)
     {
-
+        // Save sort key.
         sort_.push_back(std::make_pair(key_selector, 1));
         return this;
     }
 
     mongo_query mongo_query_impl::sort_by_descending(dot::field_info key_selector)
     {
+        // Save sort key.
         sort_.push_back(std::make_pair(key_selector, -1));
         return this;
     }
@@ -47,23 +49,30 @@ namespace dc
         dot::list<dot::object_id> lookup_list = dot::make_list<dot::object_id>(std::vector<dot::object_id>(lookup_set->begin(), lookup_set->end()));
         dot::type record_type = dot::typeof<record_base>();
 
+        // Apply dataset filters to query.
         dot::query query = dot::make_query(collection_, type_)
             ->where(new dot::operator_wrapper_impl("_dataset", "$in", lookup_list));
 
+        // Apply custom filters to query.
         for (dot::token_base token : where_)
         {
             query->where(token);
         }
 
+        // Perform ordering by key, data_set, and _id.
+        // Because we are created the ordered queryable for
+        // the first time, begin from order_by, not then_by.
         query
             ->sort_by(record_type->get_field("_key"))
             ->then_by_descending(record_type->get_field("_dataset"))
             ->then_by_descending(record_type->get_field("_id"));
 
+        // Perform group by key to get only one document per each key.
         query->group_by(record_type->get_field("_key"));
 
         dot::list<dot::type> derivedTypes = dot::type_impl::get_derived_types(query->type_);
 
+        // Apply filter by types.
         if (derivedTypes != nullptr)
         {
             dot::list<dot::string> derivedTypeNames = dot::make_list<dot::string>();
@@ -76,6 +85,7 @@ namespace dc
         else
             query->where(dot::token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name)));
 
+        // Apply custom sort.
         for (std::pair<dot::field_info, int> sort_token : sort_)
         {
             if (sort_token.second == 1)
@@ -84,6 +94,7 @@ namespace dc
                 query->then_by_descending(sort_token.first);
         }
 
+        // Apply sort by key, data_set, and _id.
         query
             ->then_by(record_type->get_field("_key"))
             ->then_by_descending(record_type->get_field("_dataset"))
@@ -98,6 +109,7 @@ namespace dc
         dot::list<dot::object_id> lookup_list = dot::make_list<dot::object_id>(std::vector<dot::object_id>(lookup_set->begin(), lookup_set->end()));
         dot::type record_type = dot::typeof<record_base>();
 
+        // Apply dataset filters to query.
         dot::query query = dot::make_query(collection_, type_)
             ->where(new dot::operator_wrapper_impl("_dataset", "$in", lookup_list));
 
@@ -106,15 +118,20 @@ namespace dc
             query->where(token);
         }
 
+        // Perform ordering by key, data_set, and _id.
+        // Because we are created the ordered queryable for
+        // the first time, begin from order_by, not then_by.
         query
             ->sort_by(record_type->get_field("_key"))
             ->then_by_descending(record_type->get_field("_dataset"))
             ->then_by_descending(record_type->get_field("_id"));
 
+        // Perform group by key to get only one document per each key.
         query->group_by(record_type->get_field("_key"));
 
         dot::list<dot::type> derivedTypes = dot::type_impl::get_derived_types(query->type_);
 
+        // Apply filter by types.
         if (derivedTypes != nullptr)
         {
             dot::list<dot::string> derivedTypeNames = dot::make_list<dot::string>();
@@ -127,6 +144,7 @@ namespace dc
         else
             query->where(dot::token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name)));
 
+        // Apply custom sort.
         for (std::pair<dot::field_info, int> sort_token : sort_)
         {
             if (sort_token.second == 1)
@@ -135,6 +153,7 @@ namespace dc
                 query->then_by_descending(sort_token.first);
         }
 
+        // Apply sort by key, data_set, and _id
         query
             ->then_by(record_type->get_field("_key"))
             ->then_by_descending(record_type->get_field("_dataset"))
