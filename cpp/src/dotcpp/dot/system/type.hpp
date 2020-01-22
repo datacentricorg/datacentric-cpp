@@ -55,7 +55,7 @@ namespace dot
     class DOT_CLASS type_builder_impl final : public virtual object_impl
     {
         template <class>
-        friend type_builder make_type_builder(string nspace, string name);
+        friend type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes);
         friend class type_impl;
 
     private:
@@ -213,7 +213,6 @@ namespace dot
             return this;
         }
 
-
         /// Build type object from this type builder.
         type build();
 
@@ -227,10 +226,11 @@ namespace dot
 
     /// Create an empty instance of type_builder.
     template <class T>
-    inline type_builder make_type_builder(string nspace, string name)
+    inline type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes = {})
     {
         type_builder td = new type_builder_impl(nspace, name, typeid(T).name());
         td->is_class_ = std::is_base_of<object_impl, T>::value;
+        td->custom_attributes_ = make_list(custom_attributes);
         return td;
     }
 

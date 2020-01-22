@@ -23,7 +23,9 @@ limitations under the License.
 
 #pragma once
 
+#include <dot/system/attribute.hpp>
 #include <dot/system/object.hpp>
+#include <dot/system/collections/generic/list.hpp>
 
 namespace dot
 {
@@ -54,6 +56,10 @@ namespace dot
     {
         typedef member_info_impl self;
 
+    private: // FIELDS
+
+        list<attribute> custom_attributes_;
+
     public: // METHODS
 
         /// Gets the name of the current member.
@@ -61,6 +67,9 @@ namespace dot
 
         /// Gets the class that declares this member.
         type declaring_type; // TODO - convert to method
+
+        /// Gets a collection that contains this member's custom attributes.
+        list<attribute> get_custom_attributes() { return custom_attributes_; }
 
         /// A string representing the name of the current type.
         virtual string to_string() override { return "member_info"; }
@@ -70,7 +79,8 @@ namespace dot
         /// Create from property name and declaring type.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        member_info_impl(const string& name, type declaring_type)
+        member_info_impl(const string& name, type declaring_type, std::initializer_list<attribute> custom_attributes = {})
+            : custom_attributes_(make_list(custom_attributes))
         {
             this->name = name;
             this->declaring_type = declaring_type;
