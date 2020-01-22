@@ -60,6 +60,10 @@ namespace dc
         /// can have any atomic type except double.
         virtual dot::string get_key() = 0;
 
+    private: // METHODS
+
+        static void serialize_key(dot::tree_writer_base writer, dot::object obj);
+
     public: // METHODS
 
         /// Set context and perform fast initialization or validation

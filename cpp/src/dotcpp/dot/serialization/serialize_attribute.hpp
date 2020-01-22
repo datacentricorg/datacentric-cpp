@@ -63,4 +63,38 @@ namespace dot
     {
         return new serialize_class_attribute_impl(serializer);
     }
+
+
+    class serialize_field_attribute_impl; using serialize_field_attribute = ptr<serialize_field_attribute_impl>;
+
+    /// Attribute sets custom serializator for field
+    /// Constructs from method that accepts tree writer base and object
+    class DOT_CLASS serialize_field_attribute_impl : public attribute_impl
+    {
+
+    public:
+        typedef void(*serializer_func_type)(dot::tree_writer_base, dot::object);
+
+        friend serialize_field_attribute make_serialize_field_attribute(serializer_func_type);
+
+        void serialize(tree_writer_base writer, dot::object obj);
+
+    public: // REFLECTION
+
+        static type typeof();
+        type get_type() override;
+
+    private:
+
+        serialize_field_attribute_impl(serializer_func_type serializer)
+            : serializer_(serializer)
+        {}
+
+        serializer_func_type serializer_;
+    };
+
+    inline serialize_field_attribute make_serialize_field_attribute(serialize_field_attribute_impl::serializer_func_type serializer)
+    {
+        return new serialize_field_attribute_impl(serializer);
+    }
 }

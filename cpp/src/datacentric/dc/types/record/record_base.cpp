@@ -33,6 +33,11 @@ namespace dc
             dot::string::format("Null context is passed to the init(...) method for {0}.", get_type()->name()));
     }
 
+    void record_base_impl::serialize_key(dot::tree_writer_base writer, dot::object obj)
+    {
+        writer->write_value_element("_key", ((record_base)obj)->get_key());
+    }
+
     dot::type record_base_impl::typeof()
     {
         static dot::type result = []()-> dot::type
@@ -40,7 +45,8 @@ namespace dc
             dot::type t = dot::make_type_builder<record_base_impl>("dc", "record_base", { dot::make_bson_root_class_attribute() })
                 ->with_field("_id", &self::id)
                 ->with_field("_dataset", &self::data_set)
-                ->with_field("_key", static_cast<dot::string record_base_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization) })
+                ->with_field("_key", static_cast<dot::string record_base_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization)
+                    , dot::make_serialize_field_attribute(&record_base_impl::serialize_key) })
                 ->template with_base<data>()
                 ->build();
             return t;

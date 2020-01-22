@@ -34,7 +34,7 @@ namespace dot
     class type_impl; using type = ptr<type_impl>;
 
     /// Obtains information about the attributes of a method and provides access to method metadata.
-    class method_info_impl : public member_info_impl
+    class DOT_CLASS method_info_impl : public member_info_impl
     {
         friend class type_builder_impl;
 

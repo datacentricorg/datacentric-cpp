@@ -35,16 +35,6 @@ namespace dc
 
     public: // METHODS
 
-        /// Creates dictionary at current writer level.
-        void serialize_to(dot::tree_writer_base writer);
-
-    private:
-
-        static void serialize_data(dot::tree_writer_base writer, dot::object data_obj)
-        {
-            ((data)data_obj)->serialize_to(writer);
-        }
-
     public:
 
         virtual dot::type get_type() { return typeof(); }
@@ -52,9 +42,7 @@ namespace dc
         {
             static dot::type result = []()-> dot::type
             {
-                dot::type t = dot::make_type_builder<data_impl>("dc", "data", {dot::make_serialize_class_attribute(&data_impl::serialize_data)})
-                    ->with_field("_t", static_cast<t_type data_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization) })
-                    ->with_method("serialize_to", &data_impl::serialize_to, {"writer"})
+                dot::type t = dot::make_type_builder<data_impl>("dc", "data")
                     ->build();
                 return t;
             }();

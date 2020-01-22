@@ -33,7 +33,7 @@ namespace dot
     class type_impl; using type = ptr<type_impl>;
 
     /// Obtains information about the attributes of a member and provides access to member metadata.
-    class member_info_impl : public virtual object_impl
+    class DOT_CLASS member_info_impl : public virtual object_impl
     {
         typedef member_info_impl self;
 

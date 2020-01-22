@@ -50,6 +50,7 @@ namespace dc
         void assign_string(std::stringstream & value);
 
         static dot::object deserialize(dot::object value, dot::type type);
+        static void serialize(dot::tree_writer_base writer, dot::object obj);
 
     public: // REFLECTION
         virtual dot::type get_type() { return typeof(); }
@@ -57,7 +58,8 @@ namespace dc
         {
             static dot::type result = []()-> dot::type
             {
-                dot::type t = dot::make_type_builder<self>("dc", "key_base", { dot::make_deserialize_class_attribute(&key_base_impl::deserialize) })
+                dot::type t = dot::make_type_builder<self>("dc", "key_base", { dot::make_deserialize_class_attribute(&key_base_impl::deserialize)
+                    , dot::make_serialize_class_attribute(&key_base_impl::serialize) })
                           ->with_method("assign_string", static_cast<void (key_base_impl::*)(dot::string)>(&key_base_impl::assign_string), {"value"})
                           ->build();
                 return t;

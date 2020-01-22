@@ -295,6 +295,11 @@ namespace dot
             // Serialize based on type of the item
             dot::type item_type = item->get_type();
 
+            if (item_type->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)->size())
+            {
+                serialize_class_attribute(item_type->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)[0])->serialize(writer, item);
+            }
+            else
             if (item_type->equals(dot::typeof<dot::string>())
                 || item_type->equals(dot::typeof<double>())
                 || item_type->equals(dot::typeof<bool>())
@@ -339,6 +344,13 @@ namespace dot
         dot::list<dot::field_info> inner_element_info_list = value->get_type()->get_fields();
         for (dot::field_info inner_element_info : inner_element_info_list)
         {
+
+            if (inner_element_info->get_custom_attributes(dot::typeof<serialize_field_attribute>(), true)->size())
+            {
+                serialize_field_attribute(inner_element_info->get_custom_attributes(dot::typeof<serialize_field_attribute>(), true)[0])->serialize(writer, value);
+                continue;
+            }
+
             // Get element name and value
             dot::string inner_element_name = inner_element_info->name();
 
@@ -351,6 +363,13 @@ namespace dot
 
             dot::type element_type = inner_element_value->get_type();
 
+            if (element_type->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)->size())
+            {
+                writer->write_start_element(inner_element_name);
+                serialize_class_attribute(element_type->get_custom_attributes(dot::typeof<serialize_class_attribute>(), true)[0])->serialize(writer, inner_element_value);
+                writer->write_end_element(inner_element_name);
+            }
+            else
             if (element_type->equals(dot::typeof<dot::string>())
                 || element_type->equals(dot::typeof<double>())
                 || element_type->equals(dot::typeof<bool>())

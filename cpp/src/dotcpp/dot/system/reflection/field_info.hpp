@@ -31,7 +31,7 @@ namespace dot
     class field_info_base_impl; using field_info = ptr<field_info_base_impl>;
 
     /// Discovers the attributes of a field and provides access to field metadata.
-    class field_info_base_impl : public member_info_impl
+    class DOT_CLASS field_info_base_impl : public member_info_impl
     {
         typedef field_info_base_impl self;
 

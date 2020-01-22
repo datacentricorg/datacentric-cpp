@@ -116,6 +116,13 @@ namespace dc
 
     }
 
+    void key_base_impl::serialize(dot::tree_writer_base writer, dot::object obj)
+    {
+        writer->write_start_value();
+        writer->write_value(((key_base)obj)->get_value());
+        writer->write_end_value();
+    }
+
     void key_base_impl::assign_string(dot::string value)
     {
         std::stringstream ss;

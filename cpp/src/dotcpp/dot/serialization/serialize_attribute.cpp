@@ -49,4 +49,25 @@ namespace dot
         return typeof();
     }
 
+    void serialize_field_attribute_impl::serialize(tree_writer_base writer, dot::object obj)
+    {
+        serializer_(writer, obj);
+    }
+
+    type serialize_field_attribute_impl::typeof()
+    {
+        static type result = []()->type
+        {
+            type t = make_type_builder<serialize_field_attribute_impl>("dot", "serialize_field_attribute")
+                ->build();
+            return t;
+        }();
+        return result;
+    }
+
+    type serialize_field_attribute_impl::get_type()
+    {
+        return typeof();
+    }
+
 }
