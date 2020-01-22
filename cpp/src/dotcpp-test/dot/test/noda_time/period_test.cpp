@@ -32,7 +32,7 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Create")
+    TEST_CASE("create")
     {
         {
             local_date_time date1(2005, 1, 1, 0, 0);
@@ -98,7 +98,7 @@ namespace dot
         }
     }
 
-    TEST_CASE("Methods")
+    TEST_CASE("methods")
     {
         local_date_time date1(2005, 1, 1, 0, 0, 0, 0);
         local_date_time date2(2005, 1, 2, 1, 1, 1, 1);

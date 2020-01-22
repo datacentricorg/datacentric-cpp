@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Smoke")
+    TEST_CASE("smoke")
     {
         dot::nullable<double> x;
         REQUIRE(x.has_value() == false);

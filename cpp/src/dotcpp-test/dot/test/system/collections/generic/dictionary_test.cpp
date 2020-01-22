@@ -30,7 +30,7 @@ limitations under the License.
 
 namespace dot
 {
-    dictionary<string, string> Createdictionary()
+    dictionary<string, string> create_dictionary()
     {
         dictionary<string, string> dict = make_dictionary<string, string>();
 
@@ -41,9 +41,9 @@ namespace dot
         return dict;
     }
 
-    TEST_CASE("Properties")
+    TEST_CASE("properties")
     {
-        dictionary<string, string> dict = Createdictionary();
+        dictionary<string, string> dict = create_dictionary();
 
         REQUIRE(dict->count() == 3);
 
@@ -62,9 +62,9 @@ namespace dot
         //REQUIRE(values->contains(""));
     }
 
-    TEST_CASE("Methods")
+    TEST_CASE("methods")
     {
-        dictionary<string, string> dict = Createdictionary();
+        dictionary<string, string> dict = create_dictionary();
 
         // Get
         REQUIRE(dict["a"] == "b");
@@ -98,7 +98,7 @@ namespace dot
         REQUIRE(dict->count() == 0);
     }
 
-    TEST_CASE("Interfaces")
+    TEST_CASE("interfaces")
     {
         dictionary<string, string> dict = make_dictionary<string, string>();
         dict->add("a", "b");

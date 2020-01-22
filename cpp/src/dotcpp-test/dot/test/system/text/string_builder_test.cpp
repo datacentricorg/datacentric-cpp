@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Smoke")
+    TEST_CASE("smoke")
     {
         int x = 1;
         double y = 2.5;

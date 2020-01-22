@@ -42,14 +42,19 @@ namespace dot
     public: // FIELDS
 
         int int_field;
+        int count;
         double double_field;
         list<double> double_list_field_field;
+
+    private:
+
+        int private_int_field = 42;
 
     public: // METHODS
 
         int sample_method(int param)
         {
-            received << "Invoked reflection_base_sample.sample_method";
+            received << "invoked reflection_base_sample.sample_method";
             return 42 + param;
         }
 
@@ -58,15 +63,13 @@ namespace dot
             // Create type object with thread safety guarantee as per C++ Standard
             static type result = []()->type
             {
-                received << "Creating type object (this should run only once)." << std::endl;
+                received << "creating type object (this should run only once)." << std::endl;
 
-                return make_type_builder<reflection_base_sample_impl>("System.Test", "reflection_base_sample")
-
-                    //->WithProperty("IntFld", &reflection_base_sample_impl::IntFld)
-                    //->WithProperty("PrivateIntFld", &reflection_base_sample_impl::PrivateIntFld)
-                    //->WithProperty("Count", &reflection_base_sample_impl::Count)
-                    //->WithProperty("Count2", &reflection_base_sample_impl::Count2)
-
+                return make_type_builder<reflection_base_sample_impl>("dot", "reflection_base_sample")
+                    ->with_field("int_field", &reflection_base_sample_impl::int_field)
+                    ->with_field("private_int_field", &reflection_base_sample_impl::private_int_field)
+                    ->with_field("count", &reflection_base_sample_impl::count)
+                    ->with_method("sample_method", &reflection_base_sample_impl::sample_method, { "param" })
                     ->build();
             }();
 
@@ -89,43 +92,41 @@ namespace dot
 
     TEST_CASE("property_info")
     {
-        // TODO - enable
-        /*
         reflection_base_sample obj = make_reflection_base_sample();
-        obj->IntFld = 15;
-        obj->count() = 15;
+        obj->int_field = 15;
+        obj->count = 15;
 
-        object x = obj->count();
+        object x = obj->count;
 
         type result = obj->get_type();
-        list<property_info> props = type->get_properties();
-        property_info int_prop = props[0];
-        REQUIRE(int_prop->Name == "IntFld");
-        REQUIRE(int(int_prop->GetValue(obj)) == 15);
+        list<field_info> props = result->get_fields();
+        field_info int_prop = props[0];
+        REQUIRE(int_prop->name == "int_field");
+        REQUIRE(int(int_prop->get_value(obj)) == 15);
 
-        int_prop->SetValue(obj, 19);
-        REQUIRE(obj->IntFld == 19);
-        REQUIRE(int(int_prop->GetValue(obj)) == 19);
+        int_prop->set_value(obj, 19);
+        REQUIRE(obj->int_field == 19);
+        REQUIRE(int(int_prop->get_value(obj)) == 19);
 
-        property_info private_int_prop = props[1];
-        REQUIRE(private_int_prop->Name == "PrivateIntFld");
-        REQUIRE(int(private_int_prop->GetValue(obj)) == 42);
+        field_info private_int_prop = props[1];
+        REQUIRE(private_int_prop->name == "private_int_field");
+        REQUIRE(int(private_int_prop->get_value(obj)) == 42);
 
-        props[2]->SetValue(obj, 2384);
-        REQUIRE(obj->count() == 2384);
-        REQUIRE(int(props[2]->GetValue(obj)) == 2384);
+        props[2]->set_value(obj, 2384);
+        REQUIRE(obj->count == 2384);
+        REQUIRE(int(props[2]->get_value(obj)) == 2384);
 
         reflection_derived_sample obj2 = make_reflection_derived_sample();
 
-        props[2]->SetValue(obj2, -15);
-        REQUIRE(obj2->count() == -15);
-        REQUIRE(int(props[2]->GetValue(obj2)) == -15);
+        props[2]->set_value(obj2, -15);
+        REQUIRE(obj2->count == -15);
+        REQUIRE(int(props[2]->get_value(obj2)) == -15);
 
         list<object> params = make_list<object>(1);
         params[0] = 15;
-        REQUIRE(int(type->GetMethods()[0]->Invoke(obj2, params)) == 42 + 15);
-        */
-        //Approvals::verify(received.str());
+        REQUIRE(int(result->get_methods()[0]->invoke(obj2, params)) == 42 + 15);
+
+        Approvals::verify(received.str());
         received.clear();
     }
 }

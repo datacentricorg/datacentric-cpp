@@ -1,10 +1,10 @@
-Serialization
-Serialized=red
-NullableSerialized(null).IsNull=false
-NullableSerialized(null).IsEmpty=true
-NullableSerialized(red)=red
-String=red TryParse=true Value=red
-String=blue TryParse=false Value=empty
-Boxing
-Boxed=red Unboxed=red
+serialization
+serialized=red
+nullable_serialized(null).is_null=false
+nullable_serialized(null).is_empty=true
+nullable_serialized(red)=red
+string=red try_parse=true value=red
+string=blue try_parse=false value=empty
+boxing
+boxed=red unboxed=red
 

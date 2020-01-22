@@ -37,7 +37,7 @@ namespace dot
         string_builder received = make_string_builder();
 
         // Serialization
-        received->append_line("Serialization");
+        received->append_line("serialization");
         //received->indent++;
 
         // Serialize
@@ -45,23 +45,23 @@ namespace dot
         {
             apples_sample value = apples_sample::red;
             string serialized_value = to_string(value);
-            received->append_line(dot::string::format("Serialized={0}", serialized_value));
+            received->append_line(dot::string::format("serialized={0}", serialized_value));
         }
 
         // Serialize nullable enum
         if (true)
         {
-            // Establish that null.ToString() is String.Empty, not null
+            // Establish that null.to_string() is string.empty, not null
             nullable<apples_sample> nullable_value = nullptr;
             string serialized_value = to_string(nullable_value);
-            received->append_line(string::format("NullableSerialized(null).IsNull={0}", serialized_value == nullptr));
-            received->append_line(string::format("NullableSerialized(null).IsEmpty={0}", serialized_value == string::empty));
+            received->append_line(string::format("nullable_serialized(null).is_null={0}", serialized_value == nullptr));
+            received->append_line(string::format("nullable_serialized(null).is_empty={0}", serialized_value == string::empty));
         }
         if (true)
         {
             nullable<apples_sample> nullable_value = apples_sample::red;
-            string serializedValue = to_string(nullable_value);
-            received->append_line(string::format("NullableSerialized(red)={0}", serializedValue));
+            string serialized_value = to_string(nullable_value);
+            received->append_line(string::format("nullable_serialized(red)={0}", serialized_value));
         }
 
         // Deserialization
@@ -70,7 +70,7 @@ namespace dot
             dot::string str = "red";
             apples_sample result;
             bool success = to_string_impl<apples_sample>::try_parse(str, result);
-            received->append_line(dot::string::format("String={0} TryParse={1} Value={2}", str, success, to_string(result)));
+            received->append_line(dot::string::format("string={0} try_parse={1} value={2}", str, success, to_string(result)));
         }
 
         if (true)
@@ -78,20 +78,20 @@ namespace dot
             dot::string str = "blue";
             apples_sample result;
             bool success = to_string_impl<apples_sample>::try_parse(str, result);
-            received->append_line(dot::string::format("String={0} TryParse={1} Value={2}", str, success, to_string(result)));
+            received->append_line(dot::string::format("string={0} try_parse={1} value={2}", str, success, to_string(result)));
         }
 
         // Boxing
-        received->append_line("Boxing");
+        received->append_line("boxing");
         //received->indent++;
-        
+
         // Check type of boxed enum
         dot::object boxed = apples_sample::red;
-        // received->append_line(dot::string::format("Type(Boxed)={0}", boxed->get_type()));
+        // received->append_line(dot::string::format("type(boxed)={0}", boxed->get_type()));
 
         // Unbox to the correct type
         apples_sample unboxed = boxed.to_enum<apples_sample>();
-        received->append_line(dot::string::format("Boxed={0} Unboxed={1}", boxed->to_string(), to_string(unboxed)));
+        received->append_line(dot::string::format("boxed={0} unboxed={1}", boxed->to_string(), to_string(unboxed)));
 
         // Establish that unboxing DOES enforce enum type, unlike in C#.
         //

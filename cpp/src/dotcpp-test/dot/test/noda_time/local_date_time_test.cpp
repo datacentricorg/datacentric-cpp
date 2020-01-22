@@ -32,14 +32,14 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Constructors")
+    TEST_CASE("constructors")
     {
-        local_date_time defaultConstructed;
-        local_date_time janOneYearOneConstructed(1970, 1, 1, 0, 0, 0);
-        REQUIRE(defaultConstructed == janOneYearOneConstructed);
+        local_date_time default_constructed;
+        local_date_time jan_one_year_one_constructed(1970, 1, 1, 0, 0, 0);
+        REQUIRE(default_constructed == jan_one_year_one_constructed);
     }
 
-    TEST_CASE("Properties")
+    TEST_CASE("properties")
     {
         local_date_time d(2005, 1, 10, 12, 10, 20, 30);
         REQUIRE((local_date)d.date() == local_date(2005, 1, 10));
@@ -55,7 +55,7 @@ namespace dot
         REQUIRE(d.millisecond() == 30);
     }
 
-    TEST_CASE("Methods")
+    TEST_CASE("methods")
     {
         local_date_time dt1(2005, 1, 10, 12, 10, 20, 30);
         REQUIRE(dt1.plus_days(10) == local_date_time(2005, 1, 20, 12, 10, 20, 30));
@@ -76,7 +76,7 @@ namespace dot
         REQUIRE(dt3_str == "2005-01-02 03:04:05.006");
     }
 
-    TEST_CASE("Operators")
+    TEST_CASE("operators")
     {
         local_date_time d(2005, 5, 10, 12, 0, 0, 0);
         local_date_time d1(2005, 5, 10, 12, 0, 0, 0);

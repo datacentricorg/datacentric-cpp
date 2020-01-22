@@ -33,7 +33,7 @@ namespace dot
     static std::stringstream received;
 
     /// Print double vector to received on one line in JSON format.
-    static void PrintList(string name, list<double> v)
+    static void print_list(string name, list<double> v)
     {
         received << "\"" << *name << "\" : [ ";
         for (int i = 0; i < v->count(); ++i)
@@ -44,7 +44,7 @@ namespace dot
         received << " ]" << std::endl;
     }
 
-    TEST_CASE("Smoke")
+    TEST_CASE("smoke")
     {
         list<double> a = make_list<double>();
         a->add(0.0);
@@ -55,11 +55,11 @@ namespace dot
 
     }
 
-    TEST_CASE("Interfaces")
+    TEST_CASE("interfaces")
     {
         list<double> a = make_list<double>();
 
-        // Add elements to List interface
+        // Add elements to list interface
         list<double> b = a;
         b->add(2.0);
         b->add(1.0);
@@ -70,9 +70,9 @@ namespace dot
         REQUIRE(b->count() == 3);
 
         // Access the underlying std::vector<double> class
-        PrintList("Unsorted", a);
+        print_list("unsorted", a);
         std::sort(a->begin(), a->end());
-        PrintList("Sorted", a);
+        print_list("sorted", a);
 
         // Access by object
         object obj = b;
@@ -83,7 +83,7 @@ namespace dot
         received.clear();
     }
 
-    TEST_CASE("Iterators")
+    TEST_CASE("iterators")
     {
         list<string> string_list = make_list<string>();
         string_list->add("000");
@@ -98,14 +98,14 @@ namespace dot
         }
     }
 
-    TEST_CASE("Capacity")
+    TEST_CASE("capacity")
     {
         list<string> string_list = make_list<string>();
         string_list->set_capacity(100);
         REQUIRE(string_list->capacity() == 100);
     }
 
-    TEST_CASE("Find")
+    TEST_CASE("find")
     {
         dot::list<string> string_list = make_list<string>();
         string_list->add("000");
@@ -114,7 +114,7 @@ namespace dot
         string_list->add("333");
         string_list->add("444");
 
-        // TODO string_list.findLast([](std::string const& s) { return s == "222"; }) = "57";
-        // TODO REQUIRE(string_list.findLastIndex([](std::string const& s) { return s == "111"; }) == 0);
+        // TODO string_list.find_last([](std::string const& s) { return s == "222"; }) = "57";
+        // TODO REQUIRE(string_list.find_last_index([](std::string const& s) { return s == "111"; }) == 0);
     }
 }

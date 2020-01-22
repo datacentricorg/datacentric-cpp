@@ -1,8 +1,2 @@
-Creating Type (this should run only once).
-ReflectionBaseSample.setCount
-ReflectionBaseSample.getCount
-ReflectionBaseSample.getCount
-ReflectionDerivedSample.setCount
-ReflectionDerivedSample.getCount
-ReflectionDerivedSample.getCount
-Invoked ReflectionBaseSample.SampleMethod
+creating type object (this should run only once).
+invoked reflection_base_sample.sample_method

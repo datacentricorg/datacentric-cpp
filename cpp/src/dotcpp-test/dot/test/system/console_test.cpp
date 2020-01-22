@@ -28,7 +28,7 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Format")
+    TEST_CASE("format")
     {
         int x = 1;
         string s = "{1}";

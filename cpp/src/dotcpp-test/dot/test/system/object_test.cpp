@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Clear object")
+    TEST_CASE("clear object")
     {
         object a = make_object();
         object b = make_object();
@@ -39,7 +39,7 @@ namespace dot
         REQUIRE(a->hash_code() != b->hash_code());
     }
 
-    TEST_CASE("Equals")
+    TEST_CASE("equals")
     {
         object a = make_string("str");
         object b = make_string("str");

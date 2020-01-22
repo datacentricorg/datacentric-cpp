@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Smoke")
+    TEST_CASE("smoke")
     {
         string_builder received = make_string_builder();
 

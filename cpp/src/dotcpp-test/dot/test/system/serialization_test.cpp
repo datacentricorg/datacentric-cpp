@@ -58,7 +58,7 @@ namespace dot
         {
             static type result = []()-> type
             {
-                type t = make_type_builder<self>("System.Test", "sample_data_2")
+                type t = make_type_builder<self>("dot", "sample_data_2")
                     ->with_field("data_field", &self::data_field)
                     ->build();
 
@@ -107,13 +107,13 @@ namespace dot
 
     public: // REFLECTION
 
-        DOT_TYPE_BEGIN("System.Test", "sample_data")
+        DOT_TYPE_BEGIN("dot", "sample_data")
             DOT_TYPE_CTOR(make_sample_data)
-            ->with_field("string_field", &self::string_field)
-            ->with_field("int_field", &self::int_field)
-            ->with_field("double_field", &self::double_field)
-            ->with_field("data_field", &self::data_field)
-            ->with_field("double_list_field", &self::double_list_field)
+            DOT_TYPE_PROP(string_field)
+            DOT_TYPE_PROP(int_field)
+            DOT_TYPE_PROP(double_field)
+            DOT_TYPE_PROP(data_field)
+            DOT_TYPE_PROP(double_list_field)
             DOT_TYPE_METHOD(foo, "dbl_arg", "int_arg")
             DOT_TYPE_METHOD(bar, "int_arg")
             DOT_TYPE_METHOD(static_foo, "int_arg")
@@ -130,14 +130,13 @@ namespace dot
 
         std::stringstream ss;
 
-        if (t->name == "List`1")
+        if (t->name == "list`1")
         {
             list<double> vec = (list<double>)obj;
             for (object item : vec)
             {
                 ss << *(obj_to_string(item));
             }
-
         }
         else if (t == typeof<string>())
         {
@@ -172,14 +171,14 @@ namespace dot
 
         sample_data dt = (sample_data)activator::create_instance(obj->get_type());
 
-        list<dot::object> paramsFoo = make_list<object>(2);
-        paramsFoo[0] = 15;
-        paramsFoo[1] = 42;
-        double ret = obj->get_type()->get_methods()[0]->invoke(obj, paramsFoo);
+        list<dot::object> params_foo = make_list<object>(2);
+        params_foo[0] = 15;
+        params_foo[1] = 42;
+        double ret = obj->get_type()->get_methods()[0]->invoke(obj, params_foo);
 
-        list<dot::object> paramsBar = make_list<object>(1);
-        paramsBar[0] = 15;
-        obj->get_type()->get_methods()[1]->invoke(obj, paramsBar);
+        list<dot::object> params_bar = make_list<object>(1);
+        params_bar[0] = 15;
+        obj->get_type()->get_methods()[1]->invoke(obj, params_bar);
 
         object o2 = obj->get_type()->get_constructors()[0]->invoke({});
     }

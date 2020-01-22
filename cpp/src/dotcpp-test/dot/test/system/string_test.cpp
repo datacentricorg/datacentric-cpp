@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Smoke")
+    TEST_CASE("smoke")
     {
         // Create from std::string
         string s1 = std::string("abc");
@@ -46,7 +46,7 @@ namespace dot
         // TODO  REQUIRE(s11 == "abc");
     }
 
-    TEST_CASE("Format")
+    TEST_CASE("format")
     {
         int x = 1;
         double y = 2.5;
@@ -59,12 +59,12 @@ namespace dot
 
         REQUIRE(string::format(string("{0}, {1}, {2}"), 1, "str1", string("str2")) == "1, str1, str2");
         REQUIRE(string::format("123") == "123");
-        
+
         REQUIRE(string::format("{0}, {1}, {2}", 'a', 'b', 'c') == "a, b, c");
         REQUIRE(string::format("{}, {}, {}", 'a', 'b', 'c') == "a, b, c");
         REQUIRE(string::format("{2}, {1}, {0}", 'a', 'b', 'c') == "c, b, a");
         REQUIRE(string::format("{0}{1}{0}", "abra", "cad") == "abracadabra");
-        
+
         REQUIRE(string::format("{:<15}", "left aligned") == "left aligned   ");
         REQUIRE(string::format("{:>15}", "right aligned") == "  right aligned");
         REQUIRE(string::format("{:^16}", "centered") == "    centered    ");
@@ -81,7 +81,7 @@ namespace dot
         REQUIRE(string::format("{:#04x}", 0) == "0x00");
     }
 
-    TEST_CASE("Compare")
+    TEST_CASE("compare")
     {
         // Compare to literal strings
         string str = "abcd";

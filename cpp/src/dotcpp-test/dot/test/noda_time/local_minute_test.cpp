@@ -30,7 +30,7 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Properties")
+    TEST_CASE("properties")
     {
         local_minute t(12, 10);
         REQUIRE(t.hour() == 12);
@@ -38,31 +38,31 @@ namespace dot
         REQUIRE(t.minute_of_day() == 730);
     }
 
-    TEST_CASE("Methods")
+    TEST_CASE("methods")
     {
-        local_minute localMinute(12, 10);
-        local_minute localMinute2(12, 10);
-        local_minute localMinuteAfter(13, 20);
-        local_minute localMinuteBefore(11, 0);
+        local_minute local_minute1(12, 10);
+        local_minute local_minute2(12, 10);
+        local_minute local_minute_after(13, 20);
+        local_minute local_minute_before(11, 0);
 
-        local_time localTime(12, 10);
-        REQUIRE(localMinute.to_local_time() == localTime);
-        REQUIRE(localMinute.to_string() == "12:10");
+        local_time local_time(12, 10);
+        REQUIRE(local_minute1.to_local_time() == local_time);
+        REQUIRE(local_minute1.to_string() == "12:10");
 
-        REQUIRE(localMinute.compare_to(localMinute2) == 0);
-        REQUIRE(localMinute.compare_to(localMinuteAfter) == -1);
-        REQUIRE(localMinute.compare_to(localMinuteBefore) == 1);
+        REQUIRE(local_minute1.compare_to(local_minute2) == 0);
+        REQUIRE(local_minute1.compare_to(local_minute_after) == -1);
+        REQUIRE(local_minute1.compare_to(local_minute_before) == 1);
 
-        REQUIRE(localMinute.hash_code() == localMinute2.hash_code());
-        REQUIRE(localMinute.hash_code() != localMinuteBefore.hash_code());
-        REQUIRE(localMinute.hash_code() != localMinuteAfter.hash_code());
+        REQUIRE(local_minute1.hash_code() == local_minute2.hash_code());
+        REQUIRE(local_minute1.hash_code() != local_minute_before.hash_code());
+        REQUIRE(local_minute1.hash_code() != local_minute_after.hash_code());
 
-        REQUIRE(localMinute.equals(localMinute2) == true);
-        REQUIRE(localMinute.equals(localMinuteAfter) == false);
-        REQUIRE(localMinute.equals(localMinuteBefore) == false);
+        REQUIRE(local_minute1.equals(local_minute2) == true);
+        REQUIRE(local_minute1.equals(local_minute_after) == false);
+        REQUIRE(local_minute1.equals(local_minute_before) == false);
     }
 
-    TEST_CASE("Operators")
+    TEST_CASE("operators")
     {
         local_minute t(12, 0);
         local_minute t1(12, 0);

@@ -28,4 +28,3 @@ limitations under the License.
 #ifndef DOT_TEST_CLASS
 #   define DOT_TEST_CLASS DOT_DECLARE
 #endif
-

@@ -35,7 +35,7 @@ limitations under the License.
 
 namespace dot
 {
-    TEST_CASE("Smoke")
+    TEST_CASE("smoke")
     {
         {
             // Boxing list of double
@@ -63,7 +63,7 @@ namespace dot
         }
 
         {
-            // Boxing nullableBool
+            // Boxing nullable_bool
             nullable<bool> x;
             object boxed = x;
             REQUIRE(((nullable<bool>)boxed).has_value() == false);
@@ -82,7 +82,7 @@ namespace dot
         }
 
         {
-            // Boxing nullableDouble
+            // Boxing nullable_double
             nullable<double> x;
             object boxed = x;
             REQUIRE(((nullable<double>)boxed).has_value() == false);
@@ -101,7 +101,7 @@ namespace dot
         }
 
         {
-            // Boxing nullableInt
+            // Boxing nullable_int
             nullable<int> x;
             object boxed = x;
             REQUIRE(((nullable<int>)boxed).has_value() == false);
@@ -120,7 +120,7 @@ namespace dot
         }
 
         {
-            // Boxing nullableLong
+            // Boxing nullable_long
             nullable<int64_t> x;
             object boxed = x;
             REQUIRE(((nullable<int64_t>)boxed).has_value() == false);

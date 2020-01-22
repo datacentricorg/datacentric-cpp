@@ -56,7 +56,7 @@ namespace dot
     using derived = ptr<derived_impl>;
     derived make_derived() { return new derived_impl; }
 
-    TEST_CASE("Smoke")
+    TEST_CASE("smoke")
     {
         base b = make_base();
         REQUIRE(b->foo() == "base");
@@ -70,7 +70,7 @@ namespace dot
         REQUIRE(d->foo() == "derived");
     }
 
-    TEST_CASE("Cast")
+    TEST_CASE("cast")
     {
         base b = make_base();
 
