@@ -79,7 +79,7 @@ namespace dc
                         dataWriter_ = make_data_writer(nullptr);
                         dataWriter_->currentElementInfo_ = props_[i];
                         dataWriter_->currentElementName_ = props_[i]->name;
-                        dataWriter_->currentState_ = tree_writer_state::ElementStarted;
+                        dataWriter_->currentState_ = tree_writer_state::element_started;
 
                         dataWriter_->currentArray_ = dot::make_list<dot::list<dot::object>>();
 
@@ -117,7 +117,7 @@ namespace dc
         if (dataWriter_ != nullptr)
         {
             dataWriter_->write_end_dict();
-            if (dataWriter_->currentState_ == tree_writer_state::DocumentStarted)
+            if (dataWriter_->currentState_ == tree_writer_state::document_started)
                 dataWriter_ = nullptr;
         }
     }

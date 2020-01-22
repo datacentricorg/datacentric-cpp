@@ -28,58 +28,58 @@ namespace dc
         empty,
 
         /// State following write_start_document.
-        DocumentStarted,
+        document_started,
 
         /// State following write_end_document.
-        DocumentCompleted,
+        document_completed,
 
         /// State following write_start_element.
-        ElementStarted,
+        element_started,
 
         /// State following write_end_element.
-        ElementCompleted,
+        element_completed,
 
         /// State following write_start_array.
-        ArrayStarted,
+        array_started,
 
         /// State following write_end_array.
-        ArrayCompleted,
+        array_completed,
 
         /// State following write_start_array_item.
-        ArrayItemStarted,
+        array_item_started,
 
         /// State following write_end_array_item.
-        ArrayItemCompleted,
+        array_item_completed,
 
         /// State following write_start_dict that is not inside an array.
-        DictStarted,
+        dict_started,
 
         /// State following write_end_dict that is not inside an array.
-        DictCompleted,
+        dict_completed,
 
         /// State following write_start_dict inside an array.
-        DictArrayItemStarted,
+        dict_array_item_started,
 
         /// State following write_end_dict inside an array.
-        DictArrayItemCompleted,
+        dict_array_item_completed,
 
         /// State following write_start_value that is not inside an array.
-        ValueStarted,
+        value_started,
 
         /// State following write_value that is not inside an array.
-        ValueWritten,
+        value_written,
 
         /// State following write_end_value that is not inside an array.
-        ValueCompleted,
+        value_completed,
 
         /// State following write_start_value inside an array.
-        ValueArrayItemStarted,
+        value_array_item_started,
 
         /// State following write_value inside an array.
-        ValueArrayItemWritten,
+        value_array_item_written,
 
         /// State following write_end_value inside an array.
-        ValueArrayItemCompleted
+        value_array_item_completed
     };
 
     class tree_writer_base_impl; using tree_writer_base = dot::ptr<tree_writer_base_impl>;
