@@ -21,7 +21,6 @@ limitations under the License.
 
 namespace dc
 {
-
     void record_base_impl::init(context_base context)
     {
         // The line below is an example of calling init(...) method for base class.
@@ -29,9 +28,8 @@ namespace dc
         //
         // base.init(context);
 
-        this->Context = context;
+        this->context = context;
         if (context == nullptr) throw dot::exception(
             dot::string::format("Null context is passed to the init(...) method for {0}.", get_type()->name));
     }
-
 }

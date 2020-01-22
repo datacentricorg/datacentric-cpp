@@ -21,4 +21,3 @@ limitations under the License.
 #ifndef DC_CLASS
 #   define DC_CLASS DOT_IMPLEMENT
 #endif
-

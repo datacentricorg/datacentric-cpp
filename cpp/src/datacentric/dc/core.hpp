@@ -17,4 +17,3 @@ limitations under the License.
 #pragma once
 
 #include <dot/system/core.hpp>
-

@@ -21,10 +21,8 @@ limitations under the License.
 #include <dot/system/reflection/activator.hpp>
 #include <dc/types/record/key_base.hpp>
 
-
 namespace dc
 {
-
     void serialize_to(dot::list_base obj, dot::string element_name, tree_writer_base writer)
     {
         // Write start element tag
@@ -77,7 +75,7 @@ namespace dc
             else
             if (item.is<data>())
             {
-                if (item_type->name->ends_with("Key"))
+                if (item_type->name->ends_with("key"))
                 {
                     // Embedded as string key
                     writer->write_start_value();
@@ -170,5 +168,4 @@ namespace dc
         // Write end tag
         writer->write_end_dict();
     }
-
 }

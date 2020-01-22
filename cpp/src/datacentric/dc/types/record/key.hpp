@@ -194,5 +194,4 @@ namespace dc
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
         DOT_TYPE_END()
     };
-
 }

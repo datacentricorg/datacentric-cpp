@@ -47,7 +47,7 @@ namespace dc
         dot::object_id data_set;
 
         /// Use context to access resources.
-        context_base Context;
+        context_base context;
 
     public: // PROPERTIES
 
@@ -70,7 +70,7 @@ namespace dc
         DOT_TYPE_BEGIN("dc", "record_base")
             ->with_field("_id", &self::id)
             ->with_field("_dataset", &self::data_set)
-          //  ->WithProperty("_key", &self::key)
+          //  ->with_property("_key", &self::key)
             DOT_TYPE_BASE(data)
         DOT_TYPE_END()
     };

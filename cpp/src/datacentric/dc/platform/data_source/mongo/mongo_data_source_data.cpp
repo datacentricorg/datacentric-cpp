@@ -48,7 +48,7 @@ namespace dc
         {
             bson_record_serializer serializer = make_bson_record_serializer();
             record_base record = (record_base) serializer->deserialize(res->view());
-            record->init(Context);
+            record->init(context);
             return record;
         }
 
@@ -97,7 +97,7 @@ namespace dc
         {
             bson_record_serializer serializer = make_bson_record_serializer();
             record_base result = (record_base) serializer->deserialize(*res.begin());
-            result->init(Context);
+            result->init(context);
 
             // Check not only for null but also for the delete marker
             if (!result.is<delete_marker>())
@@ -130,7 +130,7 @@ namespace dc
         // initialization code may use record.id and record.data_set
         record->id = objectId;
         record->data_set = saveTo;
-        record->init(Context);
+        record->init(context);
 
         // Serialize record.
         bson_record_serializer serializer = make_bson_record_serializer();
@@ -221,7 +221,7 @@ namespace dc
 
         if (query->select_.is_empty())
         {
-            context_base context = this->Context;
+            context_base context = this->context;
             return make_object_cursor_wrapper(std::move(get_collection(query->type_).aggregate(pipeline)),
                 [context](const bsoncxx::document::view& item)->dot::object
                 {
@@ -242,7 +242,7 @@ namespace dc
 
             pipeline.project(selectList.view());
 
-            context_base context = this->Context;
+            context_base context = this->context;
             return make_object_cursor_wrapper(std::move(get_collection(query->type_).aggregate(pipeline)),
                 [context, query](const bsoncxx::document::view& item)->dot::object
                 {

@@ -55,7 +55,7 @@ namespace dc
                 dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", dbName_));
 
         // Get client interface using the server
-        dot::string dbUri = db_server->load(Context).as<mongo_server_data>()->get_mongo_server_uri();
+        dot::string dbUri = db_server->load(this->context).as<mongo_server_data>()->get_mongo_server_uri();
         client_ = mongocxx::client{ mongocxx::uri(*dbUri) };
 
         // Get database interface using the client and database name

@@ -51,6 +51,5 @@ namespace dc
         DOT_TYPE_BEGIN("dc", "key_base")
             //DOT_TYPE_BASE(data)
         DOT_TYPE_END()
-
     };
 }

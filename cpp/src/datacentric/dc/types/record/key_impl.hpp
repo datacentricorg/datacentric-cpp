@@ -16,10 +16,8 @@ limitations under the License.
 
 #pragma once
 
-
 namespace dc
 {
-
     template <typename TKey, typename TRecord>
     dot::ptr<TRecord> key_impl<TKey, TRecord>::load(context_base context)
     {
@@ -42,8 +40,6 @@ namespace dc
 
         return result;
     }
-
-
 
     template <typename TKey, typename TRecord>
     dot::ptr<TRecord> key_impl<TKey, TRecord>::load_or_null(context_base context)

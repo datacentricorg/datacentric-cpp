@@ -21,7 +21,6 @@ limitations under the License.
 
 namespace dc
 {
-
     dot::string key_base_impl::to_string()
     {
         dot::list<dot::field_info> props = get_type()->get_fields();
