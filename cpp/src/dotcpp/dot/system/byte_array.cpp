@@ -55,6 +55,63 @@ namespace dot
         return array_.data();
     }
 
+    int byte_array_impl::compare(byte_array other)
+    {
+        if (get_length() != other->get_length())
+            throw dot::exception("Size of byte arrays should be equal.");
+
+        return compare(other->get_data());
+    }
+
+    int byte_array_impl::compare(char* other)
+    {
+        return memcmp(get_data(), other, get_length());
+    }
+
+    void byte_array_impl::copy(byte_array src, int length)
+    {
+        // Call copy(int offset, byte_array src, int src_offset, int length)
+        copy(0, src, 0, length);
+    }
+
+    void byte_array_impl::copy(byte_array src, int src_offset, int length)
+    {
+        // Call copy(int offset, byte_array src, int src_offset, int length)
+        copy(0, src, src_offset, length);
+    }
+
+    void byte_array_impl::copy(int offset, byte_array src, int length)
+    {
+        // Call copy(int offset, byte_array src, int src_offset, int length)
+        copy(offset, src, 0, length);
+    }
+
+    void byte_array_impl::copy(int offset, byte_array src, int src_offset, int length)
+    {
+        // Check sizes
+        if (src_offset + length > src->get_length())
+            throw dot::exception("Not enough byte_array size to copy.");
+
+        // Call copy(int offset, const char* src, int length)
+        copy(offset, src->get_data() + src_offset, length);
+    }
+
+    void byte_array_impl::copy(const char* src, int length)
+    {
+        // Call copy(int offset, const char* src, int length)
+        copy(0, src, length);
+    }
+
+    void byte_array_impl::copy(int offset, const char* src, int length)
+    {
+        // Check sizes
+        if (offset + length > get_length())
+            throw dot::exception("Not enough byte_array size to copy.");
+
+        // Native bytes copy
+        memcpy(get_data() + offset, src, length);
+    }
+
     char& byte_array_impl::operator[](int i)
     {
         return array_[i];

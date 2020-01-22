@@ -68,6 +68,95 @@ namespace dot
         /// Gets raw byte array.
         char* get_data();
 
+        /// Compares byte arrays. Size of arrays should be equal.
+        int compare(byte_array other);
+
+        /// Compares byte arrays. Size of arrays should be equal.
+        int compare(char* other);
+
+        /// Copy length bytes of src to this.
+        void copy(byte_array src, int length);
+
+        /// Copy length bytes of src with src_offset to this.
+        void copy(byte_array src, int src_offset, int length);
+
+        /// Copy length bytes of src to this with offset.
+        void copy(int offset, byte_array src, int length);
+
+        /// Copy length bytes of src with src_offset to this with offset.
+        void copy(int offset, byte_array src, int src_offset, int length);
+
+        /// Copy length bytes of src to this.
+        void copy(const char* src, int length);
+
+        /// Copy length bytes of src to this with offset.
+        void copy(int offset, const char* src, int length);
+
+        /// Copy primitive type value to this.
+        template <typename T>
+        void copy_value(T value)
+        {
+            copy_value(0, value);
+        }
+
+        /// Copy primitive type value to this with offset.
+        template <typename T>
+        void copy_value(int offset, T value)
+        {
+            const int value_size = sizeof(T);
+            if (offset + value_size > get_length())
+                throw dot::exception("Not enough byte_array size to copy.");
+
+            copy_value(get_data() + offset, value);
+        }
+
+        /// Copy primitive type value to dist.
+        template <typename T>
+        static void copy_value(char* dist, T value)
+        {
+            const int value_size = sizeof(T);
+            for (int i = 0; i < value_size; ++i)
+            {
+                dist[i] = (char) (value >> (8 * (value_size - i - 1)) & 0xff);
+            }
+        }
+
+        /// Convert byte array to primitive type.
+        template <typename T>
+        T to_primitive()
+        {
+            return to_primitive<T>(0);
+        }
+
+        /// Convert byte array with offset to primitive type.
+        template <typename T>
+        T to_primitive(int offset)
+        {
+            const int value_size = sizeof(T);
+            if (offset + value_size > get_length())
+                throw dot::exception("Not enough byte_array size to convert.");
+
+            return to_primitive<T>(get_data() + offset);
+        }
+
+        /// Convert byte array to primitive type.
+        template <typename T>
+        static T to_primitive(char* src)
+        {
+            const int value_size = sizeof(T);
+            T res = 0;
+
+            for (int i = 0; i < value_size; ++i)
+            {
+                res <<= 8;
+                res |= src[i];
+            }
+
+            return res;
+        }
+
+    public: // OPERATORS
+
         /// Gets or sets the element at the specified index.
         char& operator[](int i);
 
