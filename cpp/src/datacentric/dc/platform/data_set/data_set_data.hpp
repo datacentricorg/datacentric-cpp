@@ -37,11 +37,11 @@ namespace dc
 
     public:
 
-        /// dot::object_id of the dataset where the record is stored.
+        /// temporal_id of the dataset where the record is stored.
         ///
         /// This override for the data_set_data record sets data_set to
-        /// dot::object_id.empty for the common dataset.
-        dot::object_id data_set;
+        /// temporal_id.empty for the common dataset.
+        temporal_id data_set;
 
         /// Unique dataset identifier.
         dot::string data_set_id;
@@ -53,7 +53,7 @@ namespace dc
         virtual void init(context_base context);
 
         /// data_set parents.
-        dot::list<dot::object_id> parents;
+        dot::list<temporal_id> parents;
 
         DOT_TYPE_BEGIN("dc", "data_set_data")
             DOT_TYPE_PROP(data_set_id)

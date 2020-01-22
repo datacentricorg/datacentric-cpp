@@ -48,20 +48,20 @@ namespace dc
     };
 
     /// Save record with minimal data for testing how the records are found.
-    dot::object_id save_minimal_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_index, dot::nullable<int> version = dot::nullable<int>())
+    temporal_id save_minimal_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_index, dot::nullable<int> version = dot::nullable<int>())
     {
         mongo_test_data rec = make_mongo_test_data();
         rec->record_id = record_id;
         rec->record_index = record_index;
         rec->version = version;
 
-        dot::object_id data_set = context->get_data_set(data_set_id, context->data_set);
+        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
         context->save(rec, data_set);
         return rec->id;
     }
 
     /// Save base record
-    dot::object_id save_base_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_index)
+    temporal_id save_base_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_index)
     {
         mongo_test_data rec = new mongo_test_data_impl();
         rec->record_id = record_id;
@@ -73,7 +73,7 @@ namespace dc
         rec->local_date_time_element = dot::local_date_time(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->enum_value = mongo_test_enum::enum_value2;
 
-        dot::object_id data_set = context->get_data_set(data_set_id, context->get_common());
+        temporal_id data_set = context->get_data_set(data_set_id, context->get_common());
         context->save(rec, data_set);
 
         mongo_test_data rec2 = context->load_or_null<mongo_test_data>(rec->id);
@@ -83,7 +83,7 @@ namespace dc
     }
 
     /// Save derived record
-    dot::object_id save_derived_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_index)
+    temporal_id save_derived_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_index)
     {
         mongo_test_derived_data rec = make_mongo_test_derived_data();
         rec->record_id = record_id;
@@ -140,13 +140,13 @@ namespace dc
         key_list1->record_index = 4;
         rec->key_element_list->add(key_list1);
 
-        dot::object_id data_set = context->get_data_set(data_set_id, context->get_common());
+        temporal_id data_set = context->get_data_set(data_set_id, context->get_common());
         context->save(rec, data_set);
         return rec->id;
     }
 
     /// Save other derived record.
-    dot::object_id save_other_derived_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_index)
+    temporal_id save_other_derived_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_index)
     {
         mongo_test_other_derived_data rec = make_mongo_test_other_derived_data();
         rec->record_id = record_id;
@@ -159,13 +159,13 @@ namespace dc
         rec->other_string_element2 = dot::string::empty; // Test how empty value is recorded
         rec->other_double_element2 = 200.0;
 
-        dot::object_id data_set = context->get_data_set(data_set_id, context->data_set);
+        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
         context->save(rec, data_set);
         return rec->id;
     }
 
     /// Save record that is derived from derived.
-    dot::object_id save_derived_from_derived_record(unit_test_context_base context, string data_set_id, string record_id, int record_index)
+    temporal_id save_derived_from_derived_record(unit_test_context_base context, string data_set_id, string record_id, int record_index)
     {
         mongo_test_derived_from_derived_data rec = make_mongo_test_derived_from_derived_data();
         rec->record_id = record_id;
@@ -178,7 +178,7 @@ namespace dc
         rec->other_string_element2 = dot::string::empty; // Test how empty value is recorded
         rec->other_double_element3 = 200.0;
 
-        dot::object_id data_set = context->get_data_set(data_set_id, context->data_set);
+        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
         context->save(rec, data_set);
         return rec->id;
     }
@@ -187,11 +187,11 @@ namespace dc
     void save_basic_data(unit_test_context_base context)
     {
         // Create datasets
-        dot::object_id data_set_a = context->create_data_set("A", context->data_set);
-        dot::list<dot::object_id> parents = dot::make_list<dot::object_id>();
+        temporal_id data_set_a = context->create_data_set("A", context->data_set);
+        dot::list<temporal_id> parents = dot::make_list<temporal_id>();
         parents->add(data_set_a);
 
-        dot::object_id data_set_b = context->create_data_set("B", parents, context->data_set);
+        temporal_id data_set_b = context->create_data_set("B", parents, context->data_set);
 
         // Create records with minimal data
         save_base_record(context, "A", "A", 0);
@@ -202,10 +202,10 @@ namespace dc
     void save_complete_data(unit_test_context_base context)
     {
         // Create datasets
-        dot::object_id data_set_a = context->create_data_set("A", context->data_set);
-        dot::object_id data_set_b = context->create_data_set("B", dot::make_list<dot::object_id>({ data_set_a }), context->data_set);
-        dot::object_id data_set_c = context->create_data_set("C", dot::make_list<dot::object_id>({ data_set_a }), context->data_set);
-        dot::object_id data_set_d = context->create_data_set("D", dot::make_list<dot::object_id>({ data_set_a, data_set_b, data_set_c }), context->data_set);
+        temporal_id data_set_a = context->create_data_set("A", context->data_set);
+        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
+        temporal_id data_set_c = context->create_data_set("C", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
+        temporal_id data_set_d = context->create_data_set("D", dot::make_list<temporal_id>({ data_set_a, data_set_b, data_set_c }), context->data_set);
 
         // Create records with minimal data
         save_base_record(context, "A", "A", 0);
@@ -230,10 +230,10 @@ namespace dc
     void save_multi_data_set_data(unit_test_context_base context)
     {
         // Create datasets
-        dot::object_id data_set_a = context->create_data_set("A", context->data_set);
-        dot::object_id data_set_b = context->create_data_set("B", dot::make_list<dot::object_id>({ data_set_a }), context->data_set);
-        dot::object_id data_set_c = context->create_data_set("C", dot::make_list<dot::object_id>({ data_set_a }), context->data_set);
-        dot::object_id data_set_d = context->create_data_set("D", dot::make_list<dot::object_id>({ data_set_a, data_set_b, data_set_c }), context->data_set);
+        temporal_id data_set_a = context->create_data_set("A", context->data_set);
+        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
+        temporal_id data_set_c = context->create_data_set("C", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
+        temporal_id data_set_d = context->create_data_set("D", dot::make_list<temporal_id>({ data_set_a, data_set_b, data_set_c }), context->data_set);
 
         // Create records
         save_minimal_record(context, "A", "A", 0);
@@ -251,7 +251,7 @@ namespace dc
     void verify_load(unit_test_context_base context, typed_key<TKey, TRecord> key, dot::string data_set_id)
     {
         // Get dataset and try loading the record
-        dot::object_id data_set = context->get_data_set(data_set_id, context->get_common());
+        temporal_id data_set = context->get_data_set(data_set_id, context->get_common());
         dot::ptr<TRecord> record = key->load_or_null(context, data_set);
 
         if (record == nullptr)
@@ -275,7 +275,7 @@ namespace dc
     void verify_query(unit_test_context_base context, dot::string data_set_id)
     {
         // Get dataset and query
-        dot::object_id data_set = context->get_data_set(data_set_id, context->data_set);
+        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
         mongo_query query = context->data_source->get_query<TRecord>(data_set);
 
         // Iterate over records
@@ -301,8 +301,8 @@ namespace dc
         save_basic_data(context);
 
         // Get dataset identifiers
-        dot::object_id data_set_a = context->get_data_set("A", context->get_common());
-        dot::object_id data_set_b = context->get_data_set("B", context->get_common());
+        temporal_id data_set_a = context->get_data_set("A", context->get_common());
+        temporal_id data_set_b = context->get_data_set("B", context->get_common());
 
         // Create keys
         mongo_test_key key_a0 = make_mongo_test_key();
@@ -333,10 +333,10 @@ namespace dc
         unit_test_context_base context = make_unit_test_context(test, "query", ".");
 
         // Create datasets
-        dot::object_id data_set_a = context->create_data_set("A", context->data_set);
-        dot::object_id data_set_b = context->create_data_set("B", dot::make_list<dot::object_id>({ data_set_a }), context->data_set);
-        dot::object_id data_set_c = context->create_data_set("C", dot::make_list<dot::object_id>({ data_set_a }), context->data_set);
-        dot::object_id data_set_d = context->create_data_set("D", dot::make_list<dot::object_id>({ data_set_a, data_set_b, data_set_c }), context->data_set);
+        temporal_id data_set_a = context->create_data_set("A", context->data_set);
+        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
+        temporal_id data_set_c = context->create_data_set("C", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
+        temporal_id data_set_d = context->create_data_set("D", dot::make_list<temporal_id>({ data_set_a, data_set_b, data_set_c }), context->data_set);
 
         // Create initial version of the records
         save_minimal_record(context, "A", "A", 0, 0);
@@ -403,8 +403,8 @@ namespace dc
         save_basic_data(context);
 
         // Get dataset identifiers
-        dot::object_id data_set_a = context->get_data_set("A", context->data_set);
-        dot::object_id data_set_b = context->get_data_set("B", context->data_set);
+        temporal_id data_set_a = context->get_data_set("A", context->data_set);
+        temporal_id data_set_b = context->get_data_set("B", context->data_set);
 
         // Create keys
         mongo_test_key key_a0 = new mongo_test_key_impl();
@@ -475,8 +475,8 @@ namespace dc
         unit_test_context_base context = make_unit_test_context(test, "type_change", ".");
 
         // Create datasets
-        dot::object_id data_set_a = context->create_data_set("A", context->data_set);
-        dot::object_id data_set_b = context->create_data_set("B", dot::make_list<dot::object_id>({ data_set_a }), context->data_set);
+        temporal_id data_set_a = context->create_data_set("A", context->data_set);
+        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
 
         // Create records with minimal data
         save_derived_record(context, "A", "A", 0);
@@ -547,7 +547,7 @@ namespace dc
         save_complete_data(context);
 
         // Look in B dataset
-        dot::object_id data_set_b = context->get_data_set_or_empty("B", context->data_set);
+        temporal_id data_set_b = context->get_data_set_or_empty("B", context->data_set);
 
         mongo_test_key key = make_mongo_test_key();
         key->record_id = "BB";
@@ -588,7 +588,7 @@ namespace dc
         save_complete_data(context);
 
         // Look in B dataset
-        dot::object_id data_set_d = context->get_data_set_or_empty("D", context->data_set);
+        temporal_id data_set_d = context->get_data_set_or_empty("D", context->data_set);
 
         // Load record of derived types by base
         received << "load all types by key to type A" << std::endl;
@@ -668,7 +668,7 @@ namespace dc
         save_complete_data(context);
 
         // Look in B dataset
-        dot::object_id data_set_d = context->get_data_set_or_empty("D", context->data_set);
+        temporal_id data_set_d = context->get_data_set_or_empty("D", context->data_set);
 
         received << "query by mongo_test_data, sort by record_index descending, then by double_element ascending" << std::endl;
         dot::cursor_wrapper<mongo_test_data> base_query = context->data_source->get_query<mongo_test_data>(data_set_d)
@@ -696,32 +696,32 @@ namespace dc
         unit_test_context_base context = make_unit_test_context(test, "revision_time", ".");
 
         // Create datasets
-        dot::object_id data_set_a = context->create_data_set("A", context->data_set);
-        dot::object_id data_set_b = context->create_data_set("B", dot::make_list<dot::object_id>({ data_set_a }), context->data_set);
+        temporal_id data_set_a = context->create_data_set("A", context->data_set);
+        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
 
         // Create initial version of the records
-        dot::object_id obj_a0 = save_minimal_record(context, "A", "A", 0, 0);
-        dot::object_id obj_b0 = save_minimal_record(context, "B", "B", 0, 0);
+        temporal_id obj_a0 = save_minimal_record(context, "A", "A", 0, 0);
+        temporal_id obj_b0 = save_minimal_record(context, "B", "B", 0, 0);
 
         // Create second version of the records
-        dot::object_id obj_a1 = save_minimal_record(context, "A", "A", 0, 1);
-        dot::object_id obj_b1 = save_minimal_record(context, "B", "B", 0, 1);
+        temporal_id obj_a1 = save_minimal_record(context, "A", "A", 0, 1);
+        temporal_id obj_b1 = save_minimal_record(context, "B", "B", 0, 1);
 
-        dot::object_id cutoff_object_id = context->data_source->create_ordered_object_id();
+        temporal_id cutoff_object_id = context->data_source->create_ordered_object_id();
 
         // Create third version of the records
-        dot::object_id obj_a2 = save_minimal_record(context, "A", "A", 0, 2);
-        dot::object_id obj_b2 = save_minimal_record(context, "B", "B", 0, 2);
+        temporal_id obj_a2 = save_minimal_record(context, "A", "A", 0, 2);
+        temporal_id obj_b2 = save_minimal_record(context, "B", "B", 0, 2);
 
         // Create new records that did not exist before
-        dot::object_id obj_c0 = save_minimal_record(context, "A", "C", 0, 0);
-        dot::object_id obj_d0 = save_minimal_record(context, "B", "D", 0, 0);
+        temporal_id obj_c0 = save_minimal_record(context, "A", "C", 0, 0);
+        temporal_id obj_d0 = save_minimal_record(context, "B", "D", 0, 0);
 
-        received << "load records by dot::object_id without constraint" << std::endl;
-        received << *dot::string::format("    found by dot::object_id=A0 = {0}", context->load_or_null<mongo_test_data>(obj_a0) != nullptr) << std::endl;
-        received << *dot::string::format("    found by dot::object_id=A1 = {0}", context->load_or_null<mongo_test_data>(obj_a1) != nullptr) << std::endl;
-        received << *dot::string::format("    found by dot::object_id=A2 = {0}", context->load_or_null<mongo_test_data>(obj_a2) != nullptr) << std::endl;
-        received << *dot::string::format("    found by dot::object_id=C0 = {0}", context->load_or_null<mongo_test_data>(obj_c0) != nullptr) << std::endl;
+        received << "load records by temporal_id without constraint" << std::endl;
+        received << *dot::string::format("    found by temporal_id=A0 = {0}", context->load_or_null<mongo_test_data>(obj_a0) != nullptr) << std::endl;
+        received << *dot::string::format("    found by temporal_id=A1 = {0}", context->load_or_null<mongo_test_data>(obj_a1) != nullptr) << std::endl;
+        received << *dot::string::format("    found by temporal_id=A2 = {0}", context->load_or_null<mongo_test_data>(obj_a2) != nullptr) << std::endl;
+        received << *dot::string::format("    found by temporal_id=C0 = {0}", context->load_or_null<mongo_test_data>(obj_c0) != nullptr) << std::endl;
 
         // Load each record by string key
         {
@@ -762,12 +762,12 @@ namespace dc
         // Set revision time constraint
         context->data_source->revised_before_id = cutoff_object_id;
 
-        // Get each record by dot::object_id
-        received << "load records by dot::object_id with revised_before_id constraint" << std::endl;
-        received << *dot::string::format("    found by dot::object_id=A0 = {0}", context->load_or_null<mongo_test_data>(obj_a0) != nullptr) << std::endl;
-        received << *dot::string::format("    found by dot::object_id=A1 = {0}", context->load_or_null<mongo_test_data>(obj_a1) != nullptr) << std::endl;
-        received << *dot::string::format("    found by dot::object_id=A2 = {0}", context->load_or_null<mongo_test_data>(obj_a2) != nullptr) << std::endl;
-        received << *dot::string::format("    found by dot::object_id=C0 = {0}", context->load_or_null<mongo_test_data>(obj_c0) != nullptr) << std::endl;
+        // Get each record by temporal_id
+        received << "load records by temporal_id with revised_before_id constraint" << std::endl;
+        received << *dot::string::format("    found by temporal_id=A0 = {0}", context->load_or_null<mongo_test_data>(obj_a0) != nullptr) << std::endl;
+        received << *dot::string::format("    found by temporal_id=A1 = {0}", context->load_or_null<mongo_test_data>(obj_a1) != nullptr) << std::endl;
+        received << *dot::string::format("    found by temporal_id=A2 = {0}", context->load_or_null<mongo_test_data>(obj_a2) != nullptr) << std::endl;
+        received << *dot::string::format("    found by temporal_id=C0 = {0}", context->load_or_null<mongo_test_data>(obj_c0) != nullptr) << std::endl;
 
         // Load each record by string key
         {
@@ -804,7 +804,7 @@ namespace dc
         // Clear revision time constraint before exiting to avoid an error
         // about deleting readonly database. The error occurs because
         // revision time constraint makes the data source readonly.
-        context->data_source->revised_before_id = dot::nullable<dot::object_id>();
+        context->data_source->revised_before_id = dot::nullable<temporal_id>();
 
         std::string to_verify = received.str();
         received.str("");

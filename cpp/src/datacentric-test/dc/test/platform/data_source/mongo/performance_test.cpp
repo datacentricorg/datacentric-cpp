@@ -136,7 +136,7 @@ namespace dc
         return dot::string::format(data_set_pattern, index);
     }
 
-    dot::object_id save_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_version, int record_size)
+    temporal_id save_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_version, int record_size)
     {
         performance_test_data rec = make_performance_test_data();
         rec->record_id = record_id;
@@ -147,7 +147,7 @@ namespace dc
         for (int i = 0; i < record_size; ++i)
             rec->double_list->add(std::rand());
 
-        dot::object_id data_set = context->get_data_set(data_set_id);
+        temporal_id data_set = context->get_data_set(data_set_id);
         context->save(rec, data_set);
         return rec->id;
     }
@@ -155,11 +155,11 @@ namespace dc
     void save_records(unit_test_context_base context, int record_count, int record_size)
     {
         // Create datasets
-        dot::object_id common_data_set = context->get_common();
+        temporal_id common_data_set = context->get_common();
         for (int i = 0; i < data_set_count; ++i)
         {
             dot::string data_set_name = get_data_set(i);
-            context->create_data_set(data_set_name, dot::make_list<dot::object_id>({ common_data_set }));
+            context->create_data_set(data_set_name, dot::make_list<temporal_id>({ common_data_set }));
         }
 
         // Create records
@@ -209,7 +209,7 @@ namespace dc
             for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {
                 dot::string data_set_name = get_data_set(data_set_index);
-                dot::object_id data_set = context->get_data_set_or_empty(data_set_name);
+                temporal_id data_set = context->get_data_set_or_empty(data_set_name);
                 context->reload_or_null(key, data_set);
             }
         }
@@ -223,7 +223,7 @@ namespace dc
 
         dot::string record_id = get_record_key(2);
         dot::string data_set_name = get_data_set(2);
-        dot::object_id data_set = context->get_data_set_or_empty(data_set_name);
+        temporal_id data_set = context->get_data_set_or_empty(data_set_name);
 
         dot::cursor_wrapper<performance_test_data> query = context->data_source->get_query<performance_test_data>(data_set)
       // TODO - fix compilation      ->where(make_prop(&performance_test_data_impl::key) == record_id)

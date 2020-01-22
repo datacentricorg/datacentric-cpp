@@ -77,7 +77,7 @@ namespace dc
         /// can have any atomic type except Double.
         void populate_from(dot::string value);
 
-        dot::object_id _id;
+        temporal_id _id;
 
     private:
 

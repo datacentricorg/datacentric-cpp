@@ -20,7 +20,7 @@ limitations under the License.
 #include <dot/system/ptr.hpp>
 #include <dc/platform/data_source/instance_type.hpp>
 #include <dc/platform/data_source/data_source_data.hpp>
-#include <dot/mongo/mongo_db/bson/object_id.hpp>
+#include <dc/types/record/temporal_id.hpp>
 #include <dot/mongo/mongo_db/mongo/client.hpp>
 
 namespace dc
@@ -62,8 +62,8 @@ namespace dc
         /// Interface to Mongo database in MongoDB C++ driver.
         dot::database db_;
 
-        /// Previous dot::object_id returned by create_ordered_object_id() method.
-        dot::object_id prev_object_id_ = dot::object_id::empty;
+        /// Previous temporal_id returned by create_ordered_object_id() method.
+        temporal_id prev_object_id_ = temporal_id::empty;
 
     public: // METHODS
 
@@ -73,16 +73,16 @@ namespace dc
         /// before executing the the rest of the code in the method override.
         void init(context_base context) override;
 
-        /// The returned dot::object_ids have the following order guarantees:
+        /// The returned temporal_ids have the following order guarantees:
         ///
         /// * For this data source instance, to arbitrary resolution; and
         /// * Across all processes and machines, to one second resolution
         ///
-        /// One second resolution means that two dot::object_ids created within
+        /// One second resolution means that two temporal_ids created within
         /// the same second by different instances of the data source
         /// class may not be ordered chronologically unless they are at
         /// least one second apart.
-        virtual dot::object_id create_ordered_object_id() override;
+        virtual temporal_id create_ordered_object_id() override;
 
         /// Permanently deletes (drops) the database with all records
         /// in it without the possibility to recover them later.

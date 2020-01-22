@@ -101,7 +101,7 @@ namespace dc
                     // Check if object could cast to query_type_.
                     // Skip, do not throw, if the cast fails.
                     //
-                    // This behavior is different from loading by object_id or string key
+                    // This behavior is different from loading by temporal_id or string key
                     // using load_or_null method. In case of load_or_null, the API requires
                     // an error when wrong type is requested. Here, we want to proceed
                     // as though the record does not exist because the query is expected

@@ -44,6 +44,7 @@
     <ClCompile Include="types\record\deleted_record.cpp" />
     <ClCompile Include="types\record\key.cpp" />
     <ClCompile Include="types\record\record.cpp" />
+    <ClCompile Include="types\record\temporal_id.cpp" />
     <ClCompile Include="types\variant\variant.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +89,7 @@
     <ClInclude Include="types\record\record.hpp" />
     <ClInclude Include="types\record\root_key.hpp" />
     <ClInclude Include="types\record\root_record.hpp" />
+    <ClInclude Include="types\record\temporal_id.hpp" />
     <ClInclude Include="types\record\value_type.hpp" />
     <ClInclude Include="types\variant\variant.hpp" />
     <ClInclude Include="types\variant\variant_type.hpp" />

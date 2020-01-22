@@ -17,8 +17,8 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dot/system/type.hpp>
+#include <dc/types/record/temporal_id.hpp>
 #include <dot/serialization/tree_writer_base.hpp>
 #include <dot/serialization/serialize_attribute.hpp>
 

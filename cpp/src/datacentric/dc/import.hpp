@@ -18,6 +18,3 @@ limitations under the License.
 
 // Includes DotCpp headers
 #include <dot/mongo/declare.hpp>
-
-// DotCpp Mongo headers
-#include <dot/mongo/mongo_db/bson/object_id.hpp>

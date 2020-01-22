@@ -32,20 +32,20 @@ namespace dc
 
     public: // FIELDS
 
-        /// dot::object_id of the record is specific to its version.
+        /// temporal_id of the record is specific to its version.
         ///
         /// For the record's history to be captured correctly, all
-        /// update operations must assign a new dot::object_id with the
+        /// update operations must assign a new temporal_id with the
         /// timestamp that matches update time.
-        dot::object_id id;
+        temporal_id id;
 
-        /// dot::object_id of the dataset where the record is stored.
+        /// temporal_id of the dataset where the record is stored.
         ///
         /// The records that may be stored in root dataset (including
         /// data source, database, database server, and common dataset
         /// records) must override this property to avoid an error about
         /// dataset not being set for the record.
-        dot::object_id data_set;
+        temporal_id data_set;
 
         /// Use context to access resources.
         dot::weak_ptr<context_base_impl> context;

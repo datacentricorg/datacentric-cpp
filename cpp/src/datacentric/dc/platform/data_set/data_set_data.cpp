@@ -27,23 +27,23 @@ namespace dc
 
         if (dot::string::is_null_or_empty(data_set_id)) throw dot::exception("data_set_id has not been set.");
 
-        if (!dot::list<dot::object_id>(parents).is_empty())
-        for (dot::object_id parent : parents)
+        if (!dot::list<temporal_id>(parents).is_empty())
+        for (temporal_id parent : parents)
         {
             if (id <= parent)
             {
                 if (id == parent)
                 {
                     throw dot::exception(dot::string::format(
-                        "Dataset {0} has a parent with the same dot::object_id={1} "
-                        "as its own dot::object_id. Each dot::object_id must be unique.", data_set_id, parent.to_string()));
+                        "Dataset {0} has a parent with the same temporal_id={1} "
+                        "as its own temporal_id. Each temporal_id must be unique.", data_set_id, parent.to_string()));
                 }
                 else
                 {
                     throw dot::exception(dot::string::format(
-                        "Dataset {0} has a parent whose dot::object_id={1} is greater "
-                        "than its own dot::object_id={2}. The dot::object_id of each parent must be strictly "
-                        "less than the dot::object_id of the dataset itself.", data_set_id, parent.to_string(), dot::object_id(id).to_string()));
+                        "Dataset {0} has a parent whose temporal_id={1} is greater "
+                        "than its own temporal_id={2}. The temporal_id of each parent must be strictly "
+                        "less than the temporal_id of the dataset itself.", data_set_id, parent.to_string(), temporal_id(id).to_string()));
                 }
             }
         }

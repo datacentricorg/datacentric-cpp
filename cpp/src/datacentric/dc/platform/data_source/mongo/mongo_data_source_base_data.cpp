@@ -59,31 +59,31 @@ namespace dc
         db_ = client_->get_database(db_name_);
     }
 
-    dot::object_id mongo_data_source_base_data_impl::create_ordered_object_id()
+    temporal_id mongo_data_source_base_data_impl::create_ordered_object_id()
     {
-        // Generate dot::object_id and check that it is later
-        // than the previous generated dot::object_id
-        dot::object_id result = dot::object_id::generate_new_id();
+        // Generate temporal_id and check that it is later
+        // than the previous generated temporal_id
+        temporal_id result = temporal_id::generate_new_id();
         int retry_counter = 0;
         while (result.oid() <= prev_object_id_.oid())
         {
             // Getting inside the while loop will be very rare as this would
             // require the increment to roll from max int to min int within
             // the same second, therefore it is a good idea to log the event
-            if (retry_counter++ == 0) std::cerr << "MongoDB generated dot::object_id not in increasing order, retrying." << std::endl;
+            if (retry_counter++ == 0) std::cerr << "MongoDB generated temporal_id not in increasing order, retrying." << std::endl;
 
-            // If new dot::object_id is not strictly greater than the previous one,
-            // keep generating new dot::object_ids until it changes
-            result = dot::object_id::generate_new_id();
+            // If new temporal_id is not strictly greater than the previous one,
+            // keep generating new temporal_ids until it changes
+            result = temporal_id::generate_new_id();
         }
 
         // Report the number of retries
         if (retry_counter != 0)
         {
-            std::cerr << *dot::string::format("Generated dot::object_id in increasing order after {0} retries.", retry_counter);
+            std::cerr << *dot::string::format("Generated temporal_id in increasing order after {0} retries.", retry_counter);
         }
 
-        // Update previous dot::object_id and return
+        // Update previous temporal_id and return
         prev_object_id_ = result;
         return result;
     }

@@ -39,7 +39,7 @@ namespace dc
         friend mongo_query make_mongo_query(dot::collection collection,
             dot::type type,
             data_source_data data_source,
-            dot::object_id data_set);
+            temporal_id data_set);
 
     public: // METHODS
 
@@ -92,7 +92,7 @@ namespace dc
         mongo_query_impl(dot::collection collection,
             dot::type type,
             data_source_data data_source,
-            dot::object_id data_set)
+            temporal_id data_set)
             : collection_(collection)
             , type_(type)
             , data_source_(data_source)
@@ -103,7 +103,7 @@ namespace dc
         dot::collection collection_;
         dot::type type_;
         data_source_data data_source_;
-        dot::object_id data_set_;
+        temporal_id data_set_;
 
         std::vector<dot::filter_token_base> where_;
         std::vector<std::pair<dot::field_info, int>> sort_;
@@ -113,7 +113,7 @@ namespace dc
     inline mongo_query make_mongo_query(dot::collection collection,
                                         dot::type type,
                                         data_source_data data_source,
-                                        dot::object_id data_set)
+                                        temporal_id data_set)
     {
         return new mongo_query_impl(collection, type, data_source, data_set);
     }
