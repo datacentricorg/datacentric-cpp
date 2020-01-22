@@ -64,12 +64,12 @@ namespace dot
 
         T operator*()
         {
-            return iterator_->operator*().operator T();
+            return iterator_->operator*();
         }
 
         T operator*() const
         {
-            return iterator_->operator*().operator T();
+            return iterator_->operator*();
         }
 
         iterator_wrappper<T>& operator++()
