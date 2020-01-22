@@ -66,10 +66,10 @@ namespace dot
         /// This constructor is private. Use make_list(...) function instead.
         explicit list_impl(const std::initializer_list<T>& obj) : base(obj) {}
 
-       /// Construct from int.
-       ///
-       /// This constructor is private. Use make_list(...) function instead.
-          explicit list_impl(int size) : base(size) {}
+        /// Construct from int.
+        ///
+        /// This constructor is private. Use make_list(...) function instead.
+        explicit list_impl(int size) : base(size) {}
 
     public: // METHODS
 
@@ -89,7 +89,16 @@ namespace dot
         }
 
         /// Adds the elements of the specified collection to the end of the list.
-        // TODO - implement void add_range(const enumerable_base<T>& collection);
+        void add_range(const std::initializer_list<T>& collection)
+        {
+            this->insert(this->end(), collection.begin(), collection.end());
+        }
+
+        /// Adds the elements of the specified collection to the end of the list.
+        void add_range(list<T> collection)
+        {
+            this->insert(this->end(), collection->begin(), collection->end());
+        }
 
         /// Removes the first occurrence of a specific object from the list.
         bool remove(const T& item)

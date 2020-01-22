@@ -75,13 +75,13 @@ namespace dot
     }
 
     template <class T>
-    inline type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes = {});
+    inline type_builder make_type_builder(string nspace, string name, const std::initializer_list<attribute>& custom_attributes = {});
 
     /// builder for type.
     class DOT_CLASS type_builder_impl final : public virtual object_impl
     {
         template <class>
-        friend type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes);
+        friend type_builder make_type_builder(string nspace, string name, const std::initializer_list<attribute>& custom_attributes);
         friend class type_impl;
 
     private:
@@ -101,7 +101,7 @@ namespace dot
 
         /// Add public field of the current type.
         template <class class_t, class fld>
-        type_builder with_field(string name, fld class_t::*prop, std::initializer_list<attribute> custom_attributes = {})
+        type_builder with_field(string name, fld class_t::*prop, const std::initializer_list<attribute>& custom_attributes = {})
         {
             if (fields_.is_empty())
             {
@@ -113,7 +113,7 @@ namespace dot
 
         /// Add public member method of the current type.
         template <class class_t, class return_t, class ... args>
-        type_builder with_method(string name, return_t(class_t::*mth) (args ...), std::initializer_list<detail::type_method_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
+        type_builder with_method(string name, return_t(class_t::*mth) (args ...), const std::initializer_list<detail::type_method_argument>& arguments, const std::initializer_list<attribute>& custom_attributes = {})
         {
             const int args_count = sizeof...(args);
             if (args_count != arguments.size())
@@ -144,7 +144,7 @@ namespace dot
 
         /// Add public static method of the current type.
         template <class return_t, class ... args>
-        type_builder with_method(string name, return_t(*mth) (args ...), std::initializer_list<detail::type_method_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
+        type_builder with_method(string name, return_t(*mth) (args ...), const std::initializer_list<detail::type_method_argument>& arguments, const std::initializer_list<attribute>& custom_attributes = {})
         {
             const int args_count = sizeof...(args);
             if (args_count != arguments.size())
@@ -175,7 +175,7 @@ namespace dot
 
         /// Add public constructor of the current type.
         template <class class_t, class ... args>
-        type_builder with_constructor(class_t(*ctor)(args...), std::initializer_list<detail::type_method_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
+        type_builder with_constructor(class_t(*ctor)(args...), const std::initializer_list<detail::type_method_argument>& arguments, const std::initializer_list<attribute>& custom_attributes = {})
         {
             const int args_count = sizeof...(args);
             if (args_count != arguments.size())
@@ -258,7 +258,7 @@ namespace dot
 
     /// Create an empty instance of type_builder.
     template <class T>
-    inline type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes)
+    inline type_builder make_type_builder(string nspace, string name, const std::initializer_list<attribute>& custom_attributes)
     {
         type_builder td = new type_builder_impl(nspace, name, typeid(T).name());
         td->is_class_ = std::is_base_of<object_impl, T>::value;

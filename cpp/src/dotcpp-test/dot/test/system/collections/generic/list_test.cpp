@@ -117,4 +117,22 @@ namespace dot
         // TODO string_list.find_last([](std::string const& s) { return s == "222"; }) = "57";
         // TODO REQUIRE(string_list.find_last_index([](std::string const& s) { return s == "111"; }) == 0);
     }
+
+    TEST_CASE("methods")
+    {
+        // Add range
+        list<int> int_list = make_list<int>();
+
+        int_list->add_range({1, 2});
+        REQUIRE(int_list->count() == 2);
+        REQUIRE(int_list[0] == 1);
+        REQUIRE(int_list[1] == 2);
+
+        int_list->add_range(make_list<int>({ 3, 4 }));
+        REQUIRE(int_list->count() == 4);
+        REQUIRE(int_list[0] == 1);
+        REQUIRE(int_list[1] == 2);
+        REQUIRE(int_list[2] == 3);
+        REQUIRE(int_list[3] == 4);
+    }
 }
