@@ -58,7 +58,7 @@ namespace dc
 
         // Apply dataset filters to query.
         dot::Query query = dot::make_query(collection_, type_);
-        query = data_source_->apply_final_constraints(query, data_set_);
+        query = data_source_->apply_final_constraints(query, load_from_);
 
         for (dot::FilterTokenBase token : where_)
         {

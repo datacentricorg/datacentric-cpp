@@ -17,12 +17,11 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dot/system/ptr.hpp>
-
-#include <dc/types/record/record.hpp>
-#include <dot/mongo/mongo_db/cursor/cursor_wrapper.hpp>
 #include <dc/platform/data_source/mongo/temporal_mongo_query.hpp>
+#include <dc/types/record/record.hpp>
 #include <dc/types/record/deleted_record.hpp>
+#include <dot/mongo/mongo_db/cursor/cursor_wrapper.hpp>
+#include <dot/system/collections/generic/hash_set.hpp>
 
 namespace dc
 {
@@ -47,8 +46,7 @@ namespace dc
 
         virtual void operator++() override
         {
-            iterator_->operator++();
-            current_record_ = skip_records();
+            current_record_ = get_next_record();
         }
 
         virtual bool operator!=(dot::IteratorInnerBase rhs) override
@@ -68,6 +66,7 @@ namespace dc
         /// Constructs from TemporalMongoQuery and end flag.
         TemporalMongoQueryIteratorImpl(TemporalMongoQuery temporal_query, bool end)
             : temporal_query_(temporal_query)
+            , begin_(!end)
             , end_(end)
         {
             // Return if it is end iterator.
@@ -75,26 +74,15 @@ namespace dc
 
             dot::Type record_type = dot::typeof<Record>();
 
-            // Apply dataset filters to query.
+            // Apply final constraints to query.
             dot::Query query = dot::make_query(temporal_query_->collection_, temporal_query_->type_);
-            query = temporal_query_->data_source_->apply_final_constraints(query, temporal_query_->data_set_);
+            query = temporal_query_->data_source_->apply_final_constraints(query, temporal_query_->load_from_);
 
             // Apply custom filters to query.
             for (dot::FilterTokenBase token : temporal_query_->where_)
             {
                 query->where(token);
             }
-
-            // Perform ordering by key, data_set, and _id.
-            // Because we are created the ordered queryable for
-            // the first time, begin from order_by, not then_by.
-            query
-                ->sort_by(record_type->get_field("_key"))
-                ->then_by_descending(record_type->get_field("_dataset"))
-                ->then_by_descending(record_type->get_field("_id"));
-
-            // Perform group by key to get only one document per each key.
-            query->group_by(record_type->get_field("_key"));
 
             // Apply custom sort.
             for (std::pair<dot::FieldInfo, int> sort_token : temporal_query_->sort_)
@@ -105,45 +93,59 @@ namespace dc
                     query->then_by_descending(sort_token.first);
             }
 
-            // Apply sort by key, data_set, and _id.
-            query
-                ->then_by(record_type->get_field("_key"))
-                ->then_by_descending(record_type->get_field("_dataset"))
-                ->then_by_descending(record_type->get_field("_id"));
+            // Temporal query consists of three parts.
+            //
+            // * First, a typed query with filter and sort options specified by the caller
+            //   is executed in batches, and its result is projected to a list of keys.
+            // * Second, untyped query for all keys retrieved during the batch is executed
+            //   and projected to (Id, DataSet, Key) elements only. Using Imports lookup
+            //   sequence and FreezeImports flag, a list of TemporalIds for the latest
+            //   record in the latest dataset is obtained. Records for which type does
+            //   not match are skipped.
+            // * Finally, typed query is executed for each of these Ids and the results
+            //   are yield returned to the caller.
+            //
+            // Project to key instead of returning the entire record
+            projected_batch_queryable_ = query
+                ->select<std::tuple<TemporalId, dot::String>>(dot::make_list<dot::FieldInfo>({ record_type->get_field("_id"), record_type->get_field("_key") }));
+            step_one_enumerator_ = projected_batch_queryable_->begin();
 
-            cursor_ = query->get_cursor();
-            iterator_ = cursor_->begin().iterator_;
-
-            current_record_ = skip_records();
+            current_record_ = get_next_record();
         }
 
     private:
 
-        /// Skips old and deleted documents and returns next relevant record.
-        Record skip_records()
+        // Returns next relevant record.
+        Record get_next_record()
         {
-            // Iterate over documents returned by the cursor
-            for(; *iterator_ != cursor_->end().iterator_; iterator_->operator++())
+            while (!end_)
             {
-                Record obj = iterator_->operator*().as<Record>();
-                dot::String obj_key = obj->get_key();
-
-                if (!current_key_.is_empty() && current_key_ == obj_key)
+                // Firstly, load batch of records
+                if (batch_ids_list_item_ < 0)
                 {
-                    // The key was encountered before. Because the data is sorted by
-                    // key and then by dataset and ID, this indicates that the Object
-                    // is not the latest and can be skipped
-                    // Continue to next record without returning
-                    // the next item in the iterator result
+                    end_ = !batch_load();
+                    if (end_) break;
+                }
+
+                // Then iterate over batch and return records
+                if (++batch_ids_list_item_ >= batch_ids_list_->count())
+                {
+                    batch_ids_list_item_ = -1;
                     continue;
                 }
-                else
-                {
-                    // The key was not encountered before, assign new value
-                    current_key_ = obj_key;
 
-                    // Skip if the result is a delete marker
-                    if(obj.is<DeletedRecord>()) continue;
+                // Using the list ensures that records are returned
+                // in the same order as the original query
+                TemporalId batch_id = batch_ids_list_[batch_ids_list_item_];
+
+                // If a record TemporalId is present in batchIds but not
+                // in recordDict, this indicates that the record found
+                // by the query is not the latest and it should be skipped
+                Record result;
+                if (record_dict_->try_get_value(batch_id, result))
+                {
+                    // Skip if the result is a deleted record
+                    if (result.is<DeletedRecord>()) continue;
 
                     // Check if Object could cast to query_type_.
                     // Skip, do not throw, if the cast fails.
@@ -153,22 +155,168 @@ namespace dc
                     // an error when wrong type is requested. Here, we want to proceed
                     // as though the record does not exist because the query is expected
                     // to skip over records of type not derived from query_type_.
-                    dot::Type obj_type = obj->get_type();
+                    dot::Type obj_type = result->get_type();
                     if (!obj_type->equals(temporal_query_->type_) && !obj_type->is_subclass_of(temporal_query_->type_)) continue;
 
-                    // Otherwise return the result
-                    return to_record(obj);
+                    // Yield return the result
+                    return init_record(result);
                 }
             }
 
-            end_ = true;
             return nullptr;
         }
 
-        /// Initializes record with context.
-        Record to_record(dot::Object obj) const
+        // Loads batch of records.
+        bool batch_load()
         {
-            Record rec = obj.as<Record>();
+            const int batch_size = 1000;
+            dot::Type record_type = dot::typeof<Record>();
+
+            while (continue_query_)
+            {
+                // First step is to get all keys in this batch returned
+                // by the user specified query and sort order
+                int batch_index = 0;
+                dot::HashSet<dot::String> batch_keys_hash_set = dot::make_hash_set<dot::String>();
+                dot::HashSet<TemporalId> batch_ids_hash_set = dot::make_hash_set<TemporalId>();
+                batch_ids_list_ = dot::make_list<TemporalId>();
+                while (true)
+                {
+                    // Advance cursor and check if there are more results left in the query
+                    if (begin_) begin_ = false;
+                    else ++step_one_enumerator_;
+                    continue_query_ = step_one_enumerator_ != projected_batch_queryable_->end();
+
+                    if (continue_query_)
+                    {
+                        // If yes, get key from the enumerator
+                        std::tuple<TemporalId, dot::String> record_info = *step_one_enumerator_;
+                        TemporalId batch_id = std::get<0>(record_info);
+                        dot::String batch_key = std::get<1>(record_info);
+
+                        // Add Key and Id to hashsets, increment
+                        // batch index only if this is a new key
+                        if (batch_keys_hash_set->add(batch_key)) batch_index++;
+                        batch_ids_hash_set->add(batch_id);
+                        batch_ids_list_->add(batch_id);
+
+                        // Break if batch size has been reached
+                        if (batch_index == batch_size) break;
+                    }
+                    else
+                    {
+                        // Otherwise exit from the while loop
+                        break;
+                    }
+                }
+
+                // We reach this point in the code if batch size is reached,
+                // or there are no more records in the query. Break from while
+                // loop if query is complete but there is nothing in the batch
+                if (!continue_query_ && batch_index == 0) break;
+
+                // The second step is to get (Id,DataSet,Key) for records with
+                // the specified keys using a query without type restriction.
+                //
+                // First, query base collection for records with keys in the hashset
+                dot::List<dot::String> batch_keys_list = dot::make_list<dot::String>(std::vector<dot::String>(batch_keys_hash_set->begin(), batch_keys_hash_set->end()));
+                dot::Query id_queryable = dot::make_query(temporal_query_->collection_, temporal_query_->type_);
+                id_queryable->where(new dot::OperatorWrapperImpl("_key", "$in", batch_keys_list));
+
+                // Apply the same final constraints (list of datasets, savedBy, etc.)
+                id_queryable = temporal_query_->data_source_->apply_final_constraints(id_queryable, temporal_query_->load_from_);
+
+                // Apply ordering to get last object in last dataset for the keys
+                id_queryable = id_queryable
+                    ->sort_by(record_type->get_field("_key")) // _key
+                    ->then_by_descending(record_type->get_field("_dataset")) // _dataset
+                    ->then_by_descending(record_type->get_field("_id")); // _id
+
+                // Finally, project to (Id,DataSet,Key)
+                dot::CursorWrapper<std::tuple<TemporalId, TemporalId, dot::String>> projected_id_queryable = id_queryable
+                    ->select<std::tuple<TemporalId, TemporalId, dot::String>>(dot::make_list<dot::FieldInfo>({ record_type->get_field("_id"), record_type->get_field("_dataset"), record_type->get_field("_key") }));
+
+                // Gets ImportsCutoffTime from the dataset detail record.
+                // Returns null if dataset detail record is not found.
+                dot::Nullable<TemporalId> imports_cutoff_time = temporal_query_->data_source_->get_imports_cutoff_time(temporal_query_->load_from_);
+
+                // Create a list of TemporalIds for the records obtained using
+                // dataset lookup rules for the keys in the batch
+                dot::List<TemporalId> record_ids = dot::make_list<TemporalId>();
+                dot::String current_key;
+                for (auto obj : projected_id_queryable)
+                {
+                    dot::String obj_key = std::get<2>(obj);
+                    if (!current_key.is_empty() && current_key == obj_key)
+                    {
+                        // The key was encountered before. Because the data is sorted by
+                        // key and then by dataset and ID, this indicates that the object
+                        // is not the latest and can be skipped
+                        continue;
+                    }
+                    else
+                    {
+                        TemporalId record_id = std::get<0>(obj);
+                        TemporalId record_data_set = std::get<1>(obj);
+
+                        // Include the record if one of the following is true:
+                        //
+                        // * ImportsCutoffTime is not set
+                        // * ImportsCutoffTime does not apply because the record
+                        //   is in the dataset itself, not its Imports list
+                        // * The record is in the list of Imports, and its TemporalId
+                        //   is earlier than ImportsCutoffTime
+                        if (imports_cutoff_time == nullptr
+                            || record_data_set == temporal_query_->load_from_
+                            || record_id < imports_cutoff_time)
+                        {
+                            // Iterating over the dataset lookup list in descending order,
+                            // we reached dataset of the record before finding a dataset
+                            // that is earlier than the record. This is the latest record
+                            // in the latest dataset for this key subject to the freeze rule.
+
+                            // Take the first object for a new key, relying on sorting
+                            // by dataset and then by record's TemporalId in descending
+                            // order.
+                            current_key = obj_key;
+
+                            // Add to dictionary only if found in the list of batch Ids
+                            // Otherwise this is not the latest record in the latest
+                            // dataset (subject to freeze rule) and it should be skipped.
+                            if (batch_ids_hash_set->contains(record_id))
+                            {
+                                record_ids->add(record_id);
+                            }
+                        }
+                    }
+                }
+
+                // If the list of record Ids is empty, continue
+                if (record_ids->count() == 0) break;
+
+                // Finally, retrieve the records only for the Ids in the list
+                //
+                // Create a typed queryable
+                dot::Query record_queryable = dot::make_query(temporal_query_->collection_, temporal_query_->type_);
+                record_queryable
+                    ->where(new dot::OperatorWrapperImpl("_id", "$in", record_ids));
+
+                // Populate a dictionary of records by Id
+                record_dict_ = dot::make_dictionary<TemporalId, Record>();
+                for (Record record : record_queryable->get_cursor<Record>())
+                {
+                    record_dict_->add(record->id, record);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// Initializes record with context.
+        Record init_record(Record rec) const
+        {
             rec->init(temporal_query_->data_source_->context);
             return rec;
         }
@@ -176,13 +324,17 @@ namespace dc
     private: // FIELDS
 
         TemporalMongoQuery temporal_query_;
+        bool begin_;
         bool end_;
-
-        dot::IteratorInnerBase iterator_;
-        dot::ObjectCursorWrapperBase cursor_;
-
-        dot::String current_key_;
         Record current_record_;
+
+        dot::CursorWrapper<std::tuple<TemporalId, dot::String>> projected_batch_queryable_;
+        dot::IteratorWrappper<std::tuple<TemporalId, dot::String>> step_one_enumerator_;
+
+        bool continue_query_ = true;
+        int batch_ids_list_item_ = -1;
+        dot::List<TemporalId> batch_ids_list_;
+        dot::Dictionary<TemporalId, Record> record_dict_;
     };
 
     /// Class implements dot::ObjectCursorWrapperBase.

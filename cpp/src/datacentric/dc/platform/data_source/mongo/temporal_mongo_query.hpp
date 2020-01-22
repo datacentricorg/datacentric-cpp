@@ -94,18 +94,18 @@ namespace dc
         TemporalMongoQueryImpl(dot::Collection collection,
             dot::Type type,
             DataSource data_source,
-            TemporalId data_set)
+            TemporalId load_from)
             : collection_(collection)
             , type_(type)
             , data_source_(data_source)
-            , data_set_(data_set)
+            , load_from_(load_from)
         {
         }
 
         dot::Collection collection_;
         dot::Type type_;
         TemporalMongoDataSource data_source_;
-        TemporalId data_set_;
+        TemporalId load_from_;
 
         std::vector<dot::FilterTokenBase> where_;
         std::vector<std::pair<dot::FieldInfo, int>> sort_;
