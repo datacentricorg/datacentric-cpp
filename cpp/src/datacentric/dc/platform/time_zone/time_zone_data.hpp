@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/types/record/record.hpp>
+#include <dc/types/record/typed_record.hpp>
 #include <dc/platform/time_zone/time_zone_key.hpp>
 
 namespace dc
@@ -47,7 +47,7 @@ namespace dc
     /// timezone database precisely. The IANA city timezone code
     /// has two slash-delimited tokens, the first referencing the
     /// country and the other the city, for example America/New_York.
-    class DC_CLASS time_zone_data_impl : public record_impl<time_zone_key_impl, time_zone_data_impl>
+    class DC_CLASS time_zone_data_impl : public typed_record_impl<time_zone_key_impl, time_zone_data_impl>
     {
         typedef time_zone_data_impl self;
         friend time_zone_data make_time_zone_data();

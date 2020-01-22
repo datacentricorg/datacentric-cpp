@@ -248,7 +248,7 @@ namespace dc
 
     /// Load the object and verify the outcome.
     template <class TKey, class TRecord>
-    void verify_load(unit_test_context_base context, key<TKey, TRecord> key, dot::string data_set_id)
+    void verify_load(unit_test_context_base context, typed_key<TKey, TRecord> key, dot::string data_set_id)
     {
         // Get dataset and try loading the record
         dot::object_id data_set = context->get_data_set(data_set_id, context->get_common());
@@ -314,10 +314,10 @@ namespace dc
         key_b0->record_index = dot::nullable<int>(0);
 
         // Verify the result of loading records from datasets A and B
-        verify_load(context, ( key<mongo_test_key_impl, mongo_test_data_impl>)key_a0, "A");
-        verify_load(context, ( key<mongo_test_key_impl, mongo_test_data_impl>)key_a0, "B");
-        verify_load(context, ( key<mongo_test_key_impl, mongo_test_data_impl>)key_b0, "A");
-        verify_load(context, ( key<mongo_test_key_impl, mongo_test_data_impl>)key_b0, "B");
+        verify_load(context, ( typed_key<mongo_test_key_impl, mongo_test_data_impl>)key_a0, "A");
+        verify_load(context, ( typed_key<mongo_test_key_impl, mongo_test_data_impl>)key_a0, "B");
+        verify_load(context, ( typed_key<mongo_test_key_impl, mongo_test_data_impl>)key_b0, "A");
+        verify_load(context, ( typed_key<mongo_test_key_impl, mongo_test_data_impl>)key_b0, "B");
 
         context->keep_db = true;
 
@@ -417,10 +417,10 @@ namespace dc
 
         // Verify the result of loading records from datasets A and B
         received << "initial load" << std::endl;
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
 
         received << "query in dataset A" << std::endl;
         verify_query<mongo_test_data>(context, "A");
@@ -429,8 +429,8 @@ namespace dc
 
         received << "delete A0 record in B dataset" << std::endl;
         context->delete_record(key_a0, data_set_b);
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
 
         received << "query in dataset A" << std::endl;
         verify_query<mongo_test_data>(context, "A");
@@ -439,8 +439,8 @@ namespace dc
 
         received << "delete A0 record in A dataset" << std::endl;
         context->delete_record(key_a0, data_set_a);
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
 
         received << "query in dataset A" << std::endl;
         verify_query<mongo_test_data>(context, "A");
@@ -449,8 +449,8 @@ namespace dc
 
         received << "delete B0 record in B dataset" << std::endl;
         context->delete_record(key_b0, data_set_b);
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
 
         received << "query in dataset A" << std::endl;
         verify_query<mongo_test_data>(context, "A");
@@ -493,10 +493,10 @@ namespace dc
 
         // Verify the result of loading records from datasets A and B
         received << "initial load" << std::endl;
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
 
         received << "query in dataset A for type mongo_test_derived_data" << std::endl;
         verify_query<mongo_test_derived_data>(context, "A");
@@ -505,8 +505,8 @@ namespace dc
 
         received << "change A0 record type in B dataset to C" << std::endl;
         save_other_derived_record(context, "B", "A", 0);
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
 
         received << "query in dataset A for type mongo_test_derived_data" << std::endl;
         verify_query<mongo_test_derived_data>(context, "A");
@@ -515,8 +515,8 @@ namespace dc
 
         received << "change A0 record type in A dataset to C" << std::endl;
         save_other_derived_record(context, "A", "A", 0);
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
 
         received << "query in dataset A for type mongo_test_derived_data" << std::endl;
         verify_query<mongo_test_derived_data>(context, "A");
@@ -525,8 +525,8 @@ namespace dc
 
         received << "change B0 record type in B dataset to C" << std::endl;
         save_other_derived_record(context, "B", "B", 0);
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
-        verify_load(context, (key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
+        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
 
         received << "query in dataset A for type mongo_test_derived_data" << std::endl;
         verify_query<mongo_test_derived_data>(context, "A");
@@ -596,34 +596,34 @@ namespace dc
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "A";
             key->record_index = dot::nullable<int>(0);
-            record_base obj = key->load_or_null(context, data_set_d);
+            record obj = key->load_or_null(context, data_set_d);
             received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "B";
             key->record_index = dot::nullable<int>(0);
-            record_base obj = key->load_or_null(context, data_set_d);
+            record obj = key->load_or_null(context, data_set_d);
             received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "C";
             key->record_index = dot::nullable<int>(0);
-            record_base obj = key->load_or_null(context, data_set_d);
+            record obj = key->load_or_null(context, data_set_d);
             received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "D";
             key->record_index = dot::nullable<int>(0);
-            record_base obj = key->load_or_null(context, data_set_d);
+            record obj = key->load_or_null(context, data_set_d);
             received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             received << "query by mongo_test_data, unconstrained" << std::endl;
             mongo_query query = context->data_source->get_query<mongo_test_data>(data_set_d);
-            for (record_base obj : query->get_cursor<record_base>())
+            for (record obj : query->get_cursor<record>())
             {
                 received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
@@ -631,7 +631,7 @@ namespace dc
         {
             received << "query by mongo_test_derived_data : mongo_test_data which also picks up mongo_test_derived_from_derived_data : mongo_test_derived_data, unconstrained" << std::endl;
             mongo_query query = context->data_source->get_query<mongo_test_derived_data>(data_set_d);
-            for (record_base obj : query->get_cursor<record_base>())
+            for (record obj : query->get_cursor<record>())
             {
                 received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
@@ -640,7 +640,7 @@ namespace dc
             received << "query by mongo_test_other_derived_data : mongo_test_data, unconstrained" << std::endl;
             mongo_test_other_derived_data_impl::typeof();
             mongo_query query = context->data_source->get_query<mongo_test_other_derived_data>(data_set_d);
-            for (record_base obj : query->get_cursor<record_base>())
+            for (record obj : query->get_cursor<record>())
             {
                 received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
@@ -648,7 +648,7 @@ namespace dc
         {
             received << "query by mongo_test_derived_from_derived_data : mongo_test_derived_data, where mongo_test_derived_data : mongo_test_data, unconstrained" << std::endl;
             mongo_query query = context->data_source->get_query<mongo_test_derived_from_derived_data>(data_set_d);
-            for (record_base obj : query->get_cursor<record_base>())
+            for (record obj : query->get_cursor<record>())
             {
                 received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }

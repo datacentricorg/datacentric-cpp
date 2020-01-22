@@ -19,8 +19,9 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 
-#include <dc/types/record/record_base.hpp>
+#include <dc/types/record/record.hpp>
 #include <dot/mongo/mongo_db/cursor/cursor_wrapper.hpp>
+#include <dc/types/record/deleted_record.hpp>
 
 namespace dc
 {
@@ -72,12 +73,12 @@ namespace dc
     private:
 
         /// Skips old and deleted documents and returns next relevant record.
-        record_base skip_records()
+        record skip_records()
         {
             // Iterate over documents returned by the cursor
             for(; *iterator_ != cursor_->end().iterator_; iterator_->operator++())
             {
-                record_base obj = iterator_->operator*().as<record_base>();
+                record obj = iterator_->operator*().as<record>();
                 dot::string obj_key = obj->get_key();
 
                 if (!current_key_.is_empty() && current_key_ == obj_key)
@@ -95,7 +96,7 @@ namespace dc
                     current_key_ = obj_key;
 
                     // Skip if the result is a delete marker
-                    if(obj.is<delete_marker>()) continue;
+                    if(obj.is<deleted_record>()) continue;
 
                     // Check if object could cast to query_type_.
                     // Skip, do not throw, if the cast fails.
@@ -117,9 +118,9 @@ namespace dc
         }
 
         /// Initializes record with context.
-        record_base to_record(dot::object obj) const
+        record to_record(dot::object obj) const
         {
-            record_base rec = obj.as<record_base>();
+            record rec = obj.as<record>();
             rec->init(context_);
             return rec;
         }
@@ -132,7 +133,7 @@ namespace dc
         context_base context_;
 
         dot::string current_key_;
-        record_base current_record_;
+        record current_record_;
     };
 
     /// Class implements dot::object_cursor_wrapper_base.

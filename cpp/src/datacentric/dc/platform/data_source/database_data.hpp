@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/types/record/record.hpp>
+#include <dc/types/record/typed_record.hpp>
 #include <dc/platform/data_source/instance_type.hpp>
 #include <dc/platform/data_source/database_key.hpp>
 

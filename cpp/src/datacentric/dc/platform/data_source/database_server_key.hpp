@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
-#include <dc/types/record/record.hpp>
+#include <dc/types/record/typed_record.hpp>
 
 namespace dc
 {

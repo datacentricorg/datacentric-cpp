@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/record.hpp>
+#include <dc/types/record/typed_record.hpp>
 #include <dc/platform/data_set/data_set_key.hpp>
 
 namespace dc
@@ -30,7 +30,7 @@ namespace dc
     /// data_set key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
     /// same DB collection or table.
-    class DC_CLASS data_set_data_impl : public record_impl<data_set_key_impl, data_set_data_impl>
+    class DC_CLASS data_set_data_impl : public typed_record_impl<data_set_key_impl, data_set_data_impl>
     {
         typedef data_set_data_impl self;
         friend data_set_data make_data_set_data();
@@ -59,7 +59,7 @@ namespace dc
             DOT_TYPE_PROP(data_set_id)
             DOT_TYPE_PROP(parents)
             DOT_TYPE_CTOR(make_data_set_data)
-            DOT_TYPE_BASE(record<data_set_key_impl, data_set_data_impl>)
+            DOT_TYPE_BASE(typed_record<data_set_key_impl, data_set_data_impl>)
         DOT_TYPE_END()
 
     protected: // CONSTRUCTORS

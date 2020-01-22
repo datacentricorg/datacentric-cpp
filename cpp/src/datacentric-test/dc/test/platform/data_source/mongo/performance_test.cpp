@@ -25,7 +25,7 @@ limitations under the License.
 
 #include <dc/test/platform/context/context.hpp>
 
-#include <dc/types/record/record.hpp>
+#include <dc/types/record/typed_record.hpp>
 
 #include <chrono>
 
@@ -81,7 +81,7 @@ namespace dc
     performance_test_key make_performance_test_key();
 
     /// Key class.
-    class performance_test_key_impl : public key_impl<performance_test_key_impl, performance_test_data_impl>
+    class performance_test_key_impl : public typed_key_impl<performance_test_key_impl, performance_test_data_impl>
     {
         typedef performance_test_key_impl self;
 
@@ -91,7 +91,7 @@ namespace dc
 
         DOT_TYPE_BEGIN("dc", "performance_test_key")
             DOT_TYPE_PROP(record_id)
-            DOT_TYPE_BASE(key<performance_test_key_impl, performance_test_data_impl>)
+            DOT_TYPE_BASE(typed_key<performance_test_key_impl, performance_test_data_impl>)
             DOT_TYPE_CTOR(make_performance_test_key)
         DOT_TYPE_END()
     };
@@ -101,7 +101,7 @@ namespace dc
     performance_test_data make_performance_test_data();
 
     /// Data class.
-    class performance_test_data_impl : public record_impl<performance_test_key_impl, performance_test_data_impl>
+    class performance_test_data_impl : public typed_record_impl<performance_test_key_impl, performance_test_data_impl>
     {
         typedef performance_test_data_impl self;
 
@@ -115,7 +115,7 @@ namespace dc
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_PROP(double_list)
             DOT_TYPE_PROP(version)
-            DOT_TYPE_BASE(record<performance_test_key_impl, performance_test_data_impl>)
+            DOT_TYPE_BASE(typed_record<performance_test_key_impl, performance_test_data_impl>)
             DOT_TYPE_CTOR(make_performance_test_data)
         DOT_TYPE_END()
     };

@@ -48,7 +48,7 @@ namespace dc
     {
         dot::hash_set<dot::object_id> lookup_set = data_source_->get_data_set_lookup_list(data_set_);
         dot::list<dot::object_id> lookup_list = dot::make_list<dot::object_id>(std::vector<dot::object_id>(lookup_set->begin(), lookup_set->end()));
-        dot::type record_type = dot::typeof<record_base>();
+        dot::type record_type = dot::typeof<record>();
 
         // Apply dataset filters to query.
         dot::query query = dot::make_query(collection_, type_)
@@ -98,7 +98,7 @@ namespace dc
 
         dot::hash_set<dot::object_id> lookup_set = data_source_->get_data_set_lookup_list(data_set_);
         dot::list<dot::object_id> lookup_list = dot::make_list<dot::object_id>(std::vector<dot::object_id>(lookup_set->begin(), lookup_set->end()));
-        dot::type record_type = dot::typeof<record_base>();
+        dot::type record_type = dot::typeof<record>();
 
         // Apply dataset filters to query.
         dot::query query = dot::make_query(collection_, type_)

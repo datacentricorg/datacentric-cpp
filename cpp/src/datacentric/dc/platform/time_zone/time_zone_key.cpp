@@ -27,7 +27,7 @@ namespace dc
         static dot::type type_ =
             dot::make_type_builder<self>("dc", "time_zone")
             ->with_field("time_zone_id", &self::time_zone_id)
-            ->template with_base<key<time_zone_key_impl, time_zone_data_impl>>()
+            ->template with_base<typed_key<time_zone_key_impl, time_zone_data_impl>>()
             ->with_constructor(&make_time_zone_key, {  })
             ->build();
         return type_;

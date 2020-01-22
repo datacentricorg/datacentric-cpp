@@ -18,7 +18,7 @@ limitations under the License.
 
 #include <dc/test/implement.hpp>
 #include <dc/platform/context/context_base.hpp>
-#include <dc/types/record/record.hpp>
+#include <dc/types/record/typed_record.hpp>
 #include <dot/system/enum.hpp>
 
 namespace dc
@@ -151,7 +151,7 @@ namespace dc
     mongo_test_key make_mongo_test_key();
 
     /// Key class.
-    class mongo_test_key_impl : public key_impl<mongo_test_key_impl, mongo_test_data_impl>
+    class mongo_test_key_impl : public typed_key_impl<mongo_test_key_impl, mongo_test_data_impl>
     {
         typedef mongo_test_key_impl self;
 
@@ -163,7 +163,7 @@ namespace dc
         DOT_TYPE_BEGIN("dc", "mongo_test_key")
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_PROP(record_index)
-            DOT_TYPE_BASE(key<mongo_test_key_impl, mongo_test_data_impl>)
+            DOT_TYPE_BASE(typed_key<mongo_test_key_impl, mongo_test_data_impl>)
             DOT_TYPE_CTOR(make_mongo_test_key)
         DOT_TYPE_END()
     };
@@ -173,7 +173,7 @@ namespace dc
     mongo_test_data make_mongo_test_data();
 
     /// Base data class.
-    class mongo_test_data_impl : public record_impl<mongo_test_key_impl, mongo_test_data_impl>
+    class mongo_test_data_impl : public typed_record_impl<mongo_test_key_impl, mongo_test_data_impl>
     {
         typedef mongo_test_data_impl self;
 
@@ -199,7 +199,7 @@ namespace dc
             DOT_TYPE_PROP(local_date_time_element)
             DOT_TYPE_PROP(enum_value)
             DOT_TYPE_PROP(version)
-            DOT_TYPE_BASE(record<mongo_test_key_impl, mongo_test_data_impl>)
+            DOT_TYPE_BASE(typed_record<mongo_test_key_impl, mongo_test_data_impl>)
             DOT_TYPE_CTOR(make_mongo_test_data)
         DOT_TYPE_END()
     };
