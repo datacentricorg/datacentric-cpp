@@ -18,6 +18,7 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dc/types/record/data.hpp>
+#include <dot/serialization/deserialize_attribute.hpp>
 
 namespace dc
 {
@@ -48,7 +49,9 @@ namespace dc
 
         void assign_string(std::stringstream & value);
 
-        DOT_TYPE_BEGIN("dc", "key_base")
+        static dot::object deserialize(dot::object value, dot::type type);
+
+        DOT_TYPE_BEGIN("dc", "key_base", { dot::make_deserialize_attribute(&key_base_impl::deserialize) })
             //DOT_TYPE_BASE(data)
             ->with_method("assign_string", static_cast<void (key_base_impl::*)(dot::string)>(&key_base_impl::assign_string), {"value"})
         DOT_TYPE_END()

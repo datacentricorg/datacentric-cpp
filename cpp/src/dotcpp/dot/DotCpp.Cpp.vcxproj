@@ -25,8 +25,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="serialization\data_writer.cpp" />
+    <ClCompile Include="serialization\deserialize_attribute.cpp" />
     <ClCompile Include="serialization\json_record_serializer.cpp" />
     <ClCompile Include="serialization\json_writer.cpp" />
+    <ClCompile Include="serialization\serialize_attribute.cpp" />
     <ClCompile Include="serialization\tree_writer_base.cpp" />
     <ClCompile Include="serialization\tuple_writer.cpp" />
     <ClCompile Include="system\attribute.cpp" />
@@ -67,8 +69,10 @@
     <ClInclude Include="noda_time\period.hpp" />
     <ClInclude Include="precompiled.hpp" />
     <ClInclude Include="serialization\data_writer.hpp" />
+    <ClInclude Include="serialization\deserialize_attribute.hpp" />
     <ClInclude Include="serialization\json_record_serializer.hpp" />
     <ClInclude Include="serialization\json_writer.hpp" />
+    <ClInclude Include="serialization\serialize_attribute.hpp" />
     <ClInclude Include="serialization\tree_writer_base.hpp" />
     <ClInclude Include="serialization\tuple_writer.hpp" />
     <ClInclude Include="system\attribute.hpp" />

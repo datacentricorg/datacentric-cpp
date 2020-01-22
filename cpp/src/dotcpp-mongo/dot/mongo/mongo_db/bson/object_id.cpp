@@ -109,4 +109,21 @@ namespace dot
     {
         return id_ < rhs.id_;
     }
+
+    object object_id::deserialize(object value, dot::type type)
+    {
+        dot::type value_type = value->get_type();
+
+        if (value_type->equals(dot::typeof<object_id>()))
+        {
+            return value;
+        }
+        if (value_type->equals(dot::typeof<string>()))
+        {
+            return object_id((string)value);
+        }
+
+        throw dot::exception("Couldn't construct object_id from " + value_type->name);
+        return object();
+    }
 }

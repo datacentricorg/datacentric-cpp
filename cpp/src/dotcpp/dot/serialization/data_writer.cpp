@@ -34,7 +34,7 @@ limitations under the License.
 #include <dot/noda_time/local_minute.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_date_time.hpp>
-//#include <dot/mongo/mongo_db/bson/object_id.hpp>
+#include <dot/serialization/deserialize_attribute.hpp>
 
 namespace dot
 {
@@ -318,7 +318,6 @@ namespace dot
             element_type->equals(dot::typeof<bool>()) || element_type->equals(dot::typeof<dot::nullable<bool>>()) ||
             element_type->equals(dot::typeof<int>()) || element_type->equals(dot::typeof<dot::nullable<int>>()) ||
             element_type->equals(dot::typeof<int64_t>()) || element_type->equals(dot::typeof<dot::nullable<int64_t>>())
-            //element_type->equals(dot::typeof<dot::object_id>())
             )
         {
             // Check type match
@@ -473,33 +472,21 @@ namespace dot
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, enum_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else
+        else if (element_type->get_custom_attributes(dot::typeof<deserialize_attribute>(), true)->size())
         {
+            deserialize_attribute attr = (deserialize_attribute)element_type->get_custom_attributes(dot::typeof<deserialize_attribute>(), true)[0];
             // We run out of value types at this point, now we can create
             // a reference type and check that it is derived from key_base
-            dot::object obj = dot::activator::create_instance(element_type);
-            if (/*key_obj.is<key_base>()*/ 1 ) // Change to attribute
-            {
-                // Check type match
-                if (!value_type->equals(dot::typeof<dot::string>()) && !value_type->equals(element_type))
-                    throw dot::exception(
-                        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
-                        dot::string::format("into key type {0}; keys should be serialized into semicolon delimited string.", element_type->name));
+            dot::object obj = attr->deserialize(value, element_type);
 
-                // Populate from semicolon delimited string
-                dot::string string_value = value->to_string();
-                obj->get_type()->get_method("assign_string")->invoke(obj, make_list<object>({ string_value }));
-
-                // Add to array or dictionary, depending on what we are inside of
-                if (current_array_ != nullptr) current_array_->add_object(obj);
-                else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, obj);
-                else throw dot::exception("Value can only be added to a dictionary or array.");
-            }
-            else
-            {
-                // Argument type is unsupported, error message
-                throw dot::exception(dot::string::format("Element type {0} is not supported for serialization.", value->get_type()));
-            }
+            if (current_array_ != nullptr) current_array_->add_object(obj);
+            else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, obj);
+            else throw dot::exception("Value can only be added to a dictionary or array.");
+        }
+        else
+        {
+            // Argument type is unsupported, error message
+            throw dot::exception(dot::string::format("Element type {0} is not supported for serialization.", value->get_type()));
         }
     }
 

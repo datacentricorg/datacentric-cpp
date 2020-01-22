@@ -27,6 +27,7 @@ limitations under the License.
 #include <dot/system/ptr.hpp>
 #include <dot/system/type.hpp>
 #include <bsoncxx/oid.hpp>
+#include <dot/serialization/deserialize_attribute.hpp>
 
 namespace dot
 {
@@ -37,6 +38,9 @@ namespace dot
     /// This type is immutable.
     class DOT_MONGO_CLASS object_id
     {
+        template <class T>
+        friend inline type typeof();
+
     public: // STATIC
 
         /// Represents empty object id, all bytes are zero
@@ -105,6 +109,10 @@ namespace dot
         }
 
     private:
+
+        static object deserialize(object value, dot::type type);
+
+    private:
         bsoncxx::oid id_;
     };
 }
@@ -114,7 +122,8 @@ namespace dot
     template <>
     inline type typeof<dot::object_id>()
     {
-        static dot::type type_ = dot::make_type_builder<dot::object_id>("dot", "object_id")->build();
+        static dot::type type_ = dot::make_type_builder<dot::object_id>("dot", "object_id", { make_deserialize_attribute( &object_id::deserialize) })
+            ->build();
         return type_;
     }
 }

@@ -96,6 +96,26 @@ namespace dc
 
     }
 
+    dot::object key_base_impl::deserialize(dot::object value, dot::type type)
+    {
+        dot::type value_type = value->get_type();
+
+        if (value.is<key_base>())
+        {
+            return value;
+        }
+        if (value_type->equals(dot::typeof<dot::string>()))
+        {
+            key_base key = dot::activator::create_instance(type);
+            key->assign_string((dot::string)value);
+            return key;
+        }
+
+        throw dot::exception(dot::string::format("Couldn't construct {0}  from {1}", type->name, value_type->name));
+        return dot::object();
+
+    }
+
     void key_base_impl::assign_string(dot::string value)
     {
         std::stringstream ss;
