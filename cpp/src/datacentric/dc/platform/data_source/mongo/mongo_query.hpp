@@ -21,12 +21,12 @@ limitations under the License.
 
 #include <dot/mongo/mongo_db/mongo/collection.hpp>
 #include <dot/mongo/mongo_db/query/query.hpp>
-#include <dc/platform/data_source/data_source_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
 
 namespace dc
 {
     class mongo_query_impl; using mongo_query = dot::ptr<mongo_query_impl>;
-    class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
+    class mongo_data_source_data_impl; using mongo_data_source_data = dot::ptr<mongo_data_source_data_impl>;
 
     /// Implements query for MongoDB.
     /// This implementation combines methods of mongo query with
@@ -102,7 +102,7 @@ namespace dc
 
         dot::collection collection_;
         dot::type type_;
-        data_source_data data_source_;
+        mongo_data_source_data data_source_;
         temporal_id data_set_;
 
         std::vector<dot::filter_token_base> where_;

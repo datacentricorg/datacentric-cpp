@@ -46,13 +46,11 @@ namespace dc
 
     dot::object_cursor_wrapper_base mongo_query_impl::get_cursor()
     {
-        dot::hash_set<temporal_id> lookup_set = data_source_->get_data_set_lookup_list(data_set_);
-        dot::list<temporal_id> lookup_list = dot::make_list<temporal_id>(std::vector<temporal_id>(lookup_set->begin(), lookup_set->end()));
         dot::type record_type = dot::typeof<record>();
 
         // Apply dataset filters to query.
-        dot::query query = dot::make_query(collection_, type_)
-            ->where(new dot::operator_wrapper_impl("_dataset", "$in", lookup_list));
+        dot::query query = dot::make_query(collection_, type_);
+        query = data_source_->apply_final_constraints(query, data_set_);
 
         // Apply custom filters to query.
         for (dot::filter_token_base token : where_)
@@ -95,14 +93,11 @@ namespace dc
         {
             throw dot::exception("Wrong number of field_info passed to select method.");
         }
-
-        dot::hash_set<temporal_id> lookup_set = data_source_->get_data_set_lookup_list(data_set_);
-        dot::list<temporal_id> lookup_list = dot::make_list<temporal_id>(std::vector<temporal_id>(lookup_set->begin(), lookup_set->end()));
         dot::type record_type = dot::typeof<record>();
 
         // Apply dataset filters to query.
-        dot::query query = dot::make_query(collection_, type_)
-            ->where(new dot::operator_wrapper_impl("_dataset", "$in", lookup_list));
+        dot::query query = dot::make_query(collection_, type_);
+        query = data_source_->apply_final_constraints(query, data_set_);
 
         for (dot::filter_token_base token : where_)
         {
