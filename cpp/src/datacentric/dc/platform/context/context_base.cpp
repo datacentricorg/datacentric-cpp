@@ -20,7 +20,6 @@ limitations under the License.
 #include <dc/platform/data_source/data_source_data.hpp>
 #include <dc/platform/data_source/data_source_key.hpp>
 
-
 namespace dc
 {
     void context_base_impl::set_data_source(data_source_data value)
@@ -28,14 +27,14 @@ namespace dc
         data_source = value;
     }
 
-    record_base context_base_impl::load_or_null(dot::object_id id, dot::type dataType)
+    record_base context_base_impl::load_or_null(dot::object_id id, dot::type data_type)
     {
-        return data_source->load_or_null(id, dataType);
+        return data_source->load_or_null(id, data_type);
     }
 
-    record_base context_base_impl::reload_or_null(key_base key, dot::object_id loadFrom)
+    record_base context_base_impl::reload_or_null(key_base key, dot::object_id load_from)
     {
-        return data_source->reload_or_null(key, loadFrom);
+        return data_source->reload_or_null(key, load_from);
     }
 
     void context_base_impl::save(record_base record)
@@ -43,9 +42,9 @@ namespace dc
         data_source->save(record, data_set);
     }
 
-    void context_base_impl::save(record_base record, dot::object_id saveTo)
+    void context_base_impl::save(record_base record, dot::object_id save_to)
     {
-        data_source->save(record, saveTo);
+        data_source->save(record, save_to);
     }
 
     void context_base_impl::delete_record(key_base key)
@@ -53,9 +52,9 @@ namespace dc
         data_source->delete_record(key, data_set);
     }
 
-    void context_base_impl::delete_record(key_base key, dot::object_id deleteIn)
+    void context_base_impl::delete_record(key_base key, dot::object_id delete_in)
     {
-        data_source->delete_record(key, deleteIn);
+        data_source->delete_record(key, delete_in);
     }
 
     void context_base_impl::delete_db()
@@ -68,24 +67,24 @@ namespace dc
         return data_source->get_common();
     }
 
-    dot::object_id context_base_impl::get_data_set(dot::string dataSetID)
+    dot::object_id context_base_impl::get_data_set(dot::string data_set_id)
     {
-        return data_source->get_data_set(dataSetID, data_set);
+        return data_source->get_data_set(data_set_id, data_set);
     }
 
-    dot::object_id context_base_impl::get_data_set(dot::string dataSetID, dot::object_id loadFrom)
+    dot::object_id context_base_impl::get_data_set(dot::string data_set_id, dot::object_id load_from)
     {
-        return data_source->get_data_set(dataSetID, loadFrom);
+        return data_source->get_data_set(data_set_id, load_from);
     }
 
-    dot::object_id context_base_impl::get_data_set_or_empty(dot::string dataSetID)
+    dot::object_id context_base_impl::get_data_set_or_empty(dot::string data_set_id)
     {
-        return data_source->get_data_set_or_empty(dataSetID, data_set);
+        return data_source->get_data_set_or_empty(data_set_id, data_set);
     }
 
-    dot::object_id context_base_impl::get_data_set_or_empty(dot::string dataSetID, dot::object_id loadFrom)
+    dot::object_id context_base_impl::get_data_set_or_empty(dot::string data_set_id, dot::object_id load_from)
     {
-        return data_source->get_data_set_or_empty(dataSetID, loadFrom);
+        return data_source->get_data_set_or_empty(data_set_id, load_from);
     }
 
     dot::object_id context_base_impl::create_common()
@@ -93,33 +92,33 @@ namespace dc
         return data_source->create_common();
     }
 
-    dot::object_id context_base_impl::create_data_set(dot::string dataSetID)
+    dot::object_id context_base_impl::create_data_set(dot::string data_set_id)
     {
-        return data_source->create_data_set(dataSetID, data_set);
+        return data_source->create_data_set(data_set_id, data_set);
     }
 
-    dot::object_id context_base_impl::create_data_set(dot::string dataSetID, dot::object_id saveTo)
+    dot::object_id context_base_impl::create_data_set(dot::string data_set_id, dot::object_id save_to)
     {
-        return data_source->create_data_set(dataSetID, saveTo);
+        return data_source->create_data_set(data_set_id, save_to);
     }
 
-    dot::object_id context_base_impl::create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentdata_sets)
+    dot::object_id context_base_impl::create_data_set(dot::string data_set_id, dot::list<dot::object_id> parentdata_sets)
     {
-        return data_source->create_data_set(dataSetID, parentdata_sets, data_set);
+        return data_source->create_data_set(data_set_id, parentdata_sets, data_set);
     }
 
-    dot::object_id context_base_impl::create_data_set(dot::string dataSetID, dot::list<dot::object_id> parentdata_sets, dot::object_id saveTo)
+    dot::object_id context_base_impl::create_data_set(dot::string data_set_id, dot::list<dot::object_id> parentdata_sets, dot::object_id save_to)
     {
-        return data_source->create_data_set(dataSetID, parentdata_sets, saveTo);
+        return data_source->create_data_set(data_set_id, parentdata_sets, save_to);
     }
 
-    void context_base_impl::save_data_set(data_set_data data_set_data)
+    void context_base_impl::save_data_set(data_set_data value)
     {
-        data_source->save_data_set(data_set_data, data_set);
+        data_source->save_data_set(value, data_set);
     }
 
-    void context_base_impl::save_data_set(data_set_data data_set_data, dot::object_id saveTo)
+    void context_base_impl::save_data_set(data_set_data value, dot::object_id save_to)
     {
-        data_source->save_data_set(data_set_data, saveTo);
+        data_source->save_data_set(value, save_to);
     }
 }

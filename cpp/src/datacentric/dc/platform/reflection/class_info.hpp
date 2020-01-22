@@ -29,7 +29,6 @@ namespace dc
     class DC_CLASS class_info_impl : public virtual dot::object_impl
     {
         typedef class_info_impl self;
-        //typedef dot::type type_;
 
     public: // PROPERTIES
 
@@ -62,7 +61,7 @@ namespace dc
     public: // STATIC
 
         /// Get cached instance for the specified object, or create
-        /// using settings from Settings.Default.ClassMap
+        /// using settings from settings.default.class_map
         /// and add to thread static cache if does not exist.
         ///
         /// This object contains information about the
@@ -70,23 +69,23 @@ namespace dc
         static class_info get_or_create(dot::object value);
 
         /// Get cached instance for the specified type, or create
-        /// using settings from Settings.Default.ClassMap
+        /// using settings from settings.default.class_map
         /// and add to thread static cache if does not exist.
         ///
         /// This object contains information about the
         /// class including its name, namespace, etc.
-        static class_info get_or_create(dot::type type);
+        static class_info get_or_create(dot::type value);
 
     private: // CONSTRUCTORS
 
-        /// Create using settings from Settings.Default.ClassMap.
+        /// Create using settings from settings.default.class_map.
         ///
         /// This constructor is private because it is only called
-        /// from the GetOrCreate(...) method. Users should rely
-        /// on GetOrCreate(...) method only which uses thread static
+        /// from the get_or_create(...) method. Users should rely
+        /// on get_or_create(...) method only which uses thread static
         /// cached value if any, and creates the instance only if
         /// it is not yet cached for the thread.
-        class_info_impl(dot::type type);
+        class_info_impl(dot::type value);
 
     private: // PRIVATE
 

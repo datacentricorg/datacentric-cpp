@@ -23,7 +23,6 @@ limitations under the License.
 
 namespace dc
 {
-
     class object_cursor_wrapper_impl; using object_cursor_wrapper = dot::ptr<object_cursor_wrapper_impl>;
     template <class T> class cursor_wrapper_impl;
     template <class T> using cursor_wrapper = dot::ptr<cursor_wrapper_impl<T>>;
@@ -56,8 +55,8 @@ namespace dc
         iterator_wrappper& operator++()
         {
             // Uncomment in case removing _key aggregation in query.
-            //String currKey = (*iterator_)["_key"].get_utf8().value.to_string();
-            //while (!iterator_->empty() && dot::string((*iterator_)["_key"].get_utf8().value.to_string()) == currKey)
+            //string curr_key = (*iterator_)["_key"].get_utf8().value.to_string();
+            //while (!iterator_->empty() && dot::string((*iterator_)["_key"].get_utf8().value.to_string()) == curr_key)
                 ++iterator_;
             return *this;
         }
@@ -137,11 +136,8 @@ namespace dc
         std::function<T(const bsoncxx::document::view&)> f_;
     };
 
-
-
     inline object_cursor_wrapper make_object_cursor_wrapper(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)
     {
         return new object_cursor_wrapper_impl(std::move(cursor), f);
     }
-
 }

@@ -29,7 +29,7 @@ namespace dc
         /// Namespace prefixes including dot separators ignored by class mapping (empty by default).
         ///
         /// Thread safety requires that this property is modified as a whole by
-        /// assigning a new instance of List; values should not be appended to
+        /// assigning a new instance of list; values should not be appended to
         /// an existing list.
         static dot::list<dot::string> ignored_namespace_prefixes()
         {
@@ -39,7 +39,7 @@ namespace dc
         /// Namespace suffixes including dot separators ignored by class mapping (empty by default).
         ///
         /// Thread safety requires that this property is modified as a whole by
-        /// assigning a new instance of List; values should not be appended to
+        /// assigning a new instance of list; values should not be appended to
         /// an existing list.
         static dot::list<dot::string> ignored_namespace_suffixes()
         {
@@ -49,7 +49,7 @@ namespace dc
         /// Class name prefixes ignored by class mapping (empty by default).
         ///
         /// Thread safety requires that this property is modified as a whole by
-        /// assigning a new instance of List; values should not be appended to
+        /// assigning a new instance of list; values should not be appended to
         /// an existing list.
         static dot::list<dot::string> ignored_class_name_prefixes()
         {
@@ -59,18 +59,18 @@ namespace dc
         /// Class name prefixes ignored by class mapping.
         ///
         /// Thread safety requires that this property is modified as a whole by
-        /// assigning a new instance of List; values should not be appended to
+        /// assigning a new instance of list; values should not be appended to
         /// an existing list.
         static dot::list<dot::string> ignored_class_name_suffixes()
         {
-            static auto result = dot::make_list<dot::string>({ "Data", "Key" });
+            static auto result = dot::make_list<dot::string>({ "_data", "_key" });
             return result;
         }
 
         /// Method name prefixes ignored by class mapping (empty by default).
         ///
         /// Thread safety requires that this property is modified as a whole by
-        /// assigning a new instance of List; values should not be appended to
+        /// assigning a new instance of list; values should not be appended to
         /// an existing list.
         static dot::list<dot::string> ignored_method_name_prefixes()
         {
@@ -80,7 +80,7 @@ namespace dc
         /// Method name prefixes ignored by class mapping (empty by default).
         ///
         /// Thread safety requires that this property is modified as a whole by
-        /// assigning a new instance of List; values should not be appended to
+        /// assigning a new instance of list; values should not be appended to
         /// an existing list.
         static dot::list<dot::string> ignored_method_name_suffixes()
         {

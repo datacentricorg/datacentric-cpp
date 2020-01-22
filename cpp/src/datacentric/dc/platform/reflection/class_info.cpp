@@ -31,13 +31,13 @@ namespace dc
         return get_or_create(value->get_type());
     }
 
-    class_info class_info_impl::get_or_create(dot::type type)
+    class_info class_info_impl::get_or_create(dot::type value)
     {
         dot::dictionary<dot::type, class_info> dict_ = class_info_impl::get_type_dict();
         class_info result;
 
         // Check if a cached instance exists in dictionary
-        if (dict_->try_get_value(type, result))
+        if (dict_->try_get_value(value, result))
         {
             // Return if found
             return result;
@@ -45,19 +45,19 @@ namespace dc
         else
         {
             // Otherwise create and add to dictionary
-            result = new class_info_impl(type);
-            dict_->add(type, result);
+            result = new class_info_impl(value);
+            dict_->add(value, result);
             return result;
         }
     }
 
-    class_info_impl::class_info_impl(dot::type type)
+    class_info_impl::class_info_impl(dot::type value)
     {
         // Set type, raw full name, class name, and namespace
-        this->type = type;
-        raw_full_name = type->full_name();
-        raw_class_name = type->name;
-        raw_namespace = type->name_space;
+        this->type = value;
+        raw_full_name = value->full_name();
+        raw_class_name = value->name;
+        raw_namespace = value->name_space;
 
         // Remove ignored class name prefix
         mapped_class_name = raw_class_name;

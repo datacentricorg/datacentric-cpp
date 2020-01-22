@@ -50,5 +50,4 @@ namespace dc
         this->select_ = props;
         return data_source_->load_by_query(this);
     }
-
 }

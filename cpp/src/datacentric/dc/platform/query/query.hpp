@@ -93,10 +93,8 @@ namespace dc
         }
     };
 
-
     inline query make_query(data_source_data data_source, dot::object_id data_set, dot::type type)
     {
         return new query_impl(data_source, data_set, type);
     }
 }
-
