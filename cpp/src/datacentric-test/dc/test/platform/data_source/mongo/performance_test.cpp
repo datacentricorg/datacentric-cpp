@@ -148,14 +148,14 @@ namespace dc
             rec->double_list->add(std::rand());
 
         temporal_id data_set = context->get_data_set(data_set_id);
-        context->save(rec, data_set);
+        context->save_one(rec, data_set);
         return rec->id;
     }
 
     void save_records(unit_test_context_base context, int record_count, int record_size)
     {
         // Create datasets
-        temporal_id common_data_set = context->get_common();
+        temporal_id common_data_set = context->data_set;
         for (int i = 0; i < data_set_count; ++i)
         {
             dot::string data_set_name = get_data_set(i);
@@ -204,13 +204,13 @@ namespace dc
         {
             performance_test_key key = make_performance_test_key();
             key->record_id = get_record_key(i);
-            context->reload_or_null(key, context->get_common());
+            context->load_or_null(key, context->data_set);
 
             for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {
                 dot::string data_set_name = get_data_set(data_set_index);
                 temporal_id data_set = context->get_data_set_or_empty(data_set_name);
-                context->reload_or_null(key, data_set);
+                context->load_or_null(key, data_set);
             }
         }
     }
