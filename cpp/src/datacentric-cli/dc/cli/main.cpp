@@ -15,11 +15,9 @@ limitations under the License.
 */
 
 #include <dc/cli/precompiled.hpp>
-#include <dc/cli/commands/Run.hpp>
+#include <dc/cli/commands/run.hpp>
 
 #include <cli/CLI11.hpp>
-
-using namespace dc;
 
 int main(int argc, char** argv)
 {
@@ -28,7 +26,7 @@ int main(int argc, char** argv)
         CLI::App app{ "CLI example with multi commands" };
         app.require_subcommand(1);
 
-        SetupRun(app);
+        setup_run(app);
 
         CLI11_PARSE(app, argc, argv);
     }

@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <dc/declare.hpp>
+#pragma once
+
 #include <dc/platform/context/context_base.hpp>
 #include <dc/types/record/data.hpp>
-

@@ -1,32 +1,48 @@
-#include <dc/cli/precompiled.hpp>
-#include <dc/cli/commands/Run.hpp>
+/*
+Copyright (C) 2013-present The DataCentric Authors.
 
-void SetupRun(CLI::App& app)
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+#include <dc/cli/precompiled.hpp>
+#include <dc/cli/commands/run.hpp>
+
+void setup_run(CLI::App& app)
 {
-    auto opt = std::make_shared<RunOptions>();
+    auto opt = std::make_shared<run_options>();
 
     CLI::App* run_command = app.add_subcommand("run", "Execute handler.");
-    run_command->add_option("-s,--source", opt->Source, "Source")->required();
-    run_command->add_option("-e,--environment", opt->Environment, "Environment")->required();
-    run_command->add_option("-d,--dataset", opt->Dataset, "Dataset")->required();
-    run_command->add_option("-k,--key", opt->Key, "Key")->required();
-    run_command->add_option("-t,--type", opt->Type, "Type")->required();
-    run_command->add_option("-n,--handler", opt->Handler, "Handler")->required();
-    run_command->add_option("-a,--arguments", opt->Arguments, "Handler arguments");
+    run_command->add_option("-s,--source", opt->source, "source")->required();
+    run_command->add_option("-e,--environment", opt->environment, "environment")->required();
+    run_command->add_option("-d,--dataset", opt->dataset, "dataset")->required();
+    run_command->add_option("-k,--key", opt->key, "key")->required();
+    run_command->add_option("-t,--type", opt->type, "type")->required();
+    run_command->add_option("-n,--handler", opt->handler, "handler")->required();
+    run_command->add_option("-a,--arguments", opt->arguments, "handler arguments");
 
-    run_command->callback([opt]() { Run(*opt); });
+    run_command->callback([opt]() { run(*opt); });
 }
 
-void Run(RunOptions const& opt)
+void run(run_options const& opt)
 {
-    std::cout << "Source: " << opt.Source << std::endl;
-    std::cout << "Environment: " << opt.Environment << std::endl;
-    std::cout << "Dataset: " << opt.Dataset << std::endl;
-    std::cout << "Key: " << opt.Key << std::endl;
-    std::cout << "Type: " << opt.Type << std::endl;
-    std::cout << "Handler: " << opt.Handler << std::endl;
-    for (auto& arg : opt.Arguments)
+    std::cout << "source: " << opt.source << std::endl;
+    std::cout << "environment: " << opt.environment << std::endl;
+    std::cout << "dataset: " << opt.dataset << std::endl;
+    std::cout << "key: " << opt.key << std::endl;
+    std::cout << "type: " << opt.type << std::endl;
+    std::cout << "handler: " << opt.handler << std::endl;
+    for (auto& arg : opt.arguments)
     {
-        std::cout << "Argument: " << arg << std::endl;
+        std::cout << "argument: " << arg << std::endl;
     }
 }

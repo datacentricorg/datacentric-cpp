@@ -16,9 +16,8 @@ limitations under the License.
 
 #pragma once
 
-#include <cl/console/import.hpp>
+#include <dc/cli/import.hpp>
 
 #ifndef DOT_CLI_CLASS
 #   define DOT_CLI_CLASS DOT_IMPLEMENT
 #endif
-
