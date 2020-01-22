@@ -44,7 +44,8 @@ namespace dc
     {
         // Copy iod bytes structure
         bytes_ = dot::make_byte_array(bytes_size_);
-        int64_t id_time = id.get_time_t() * 1000;
+        int64_t id_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::from_time_t(id.get_time_t()).time_since_epoch()).count();;
         bytes_->copy_value(timestamp_offset_, id_time);
         bytes_->copy(other_offset_, id.bytes() + oid_other_offset_, oid_other_size_);
     }

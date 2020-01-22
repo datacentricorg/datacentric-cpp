@@ -347,7 +347,7 @@ namespace dot
     {
         return bsoncxx::types::b_binary
         {
-            bsoncxx::v_noabi::binary_sub_type::k_binary,
+            bsoncxx::binary_sub_type::k_binary,
             (uint32_t)obj->get_length(),
             (uint8_t*)obj->get_data()
         };
