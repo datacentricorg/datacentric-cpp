@@ -29,7 +29,6 @@ limitations under the License.
 
 namespace dot
 {
-    class Null;
     class exception;
 
     /// Reference counted smart pointer based on std::shared_ptr

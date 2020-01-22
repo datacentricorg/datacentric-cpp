@@ -35,7 +35,6 @@ namespace dot
     template <class T> class list_impl; template <class T> using list = ptr<list_impl<T>>;
     template <class T> class nullable;
     enum class string_split_options;
-    class Char;
 
     /// Immutable string type.
     ///
@@ -51,9 +50,6 @@ namespace dot
 
         /// Creates an empty string.
         string_impl() {}
-
-        /// Create from a single Unicode character.
-        string_impl(const Char& value);
 
         /// Initializes from std::string or string literal.
         ///
@@ -88,32 +84,32 @@ namespace dot
 
         /// Retrieves a substring which starts at the specified
         /// character position and has the specified length.
-        string substring(int startIndex, int length);
+        string substring(int start_index, int length);
 
         /// Compares this instance with a specified string object and indicates
         /// whether this instance precedes, follows, or appears in the same position
         /// in the sort order as the specified string.
-        int compare_to(const string& strB) const; // TODO - implement
+        int compare_to(const string& str_b) const; // TODO - implement
 
         /// Reports the zero-based index of the first occurrence in this instance of any
         /// character in a specified array of Unicode characters.
-        int index_of_any(list<char> anyOf);
+        int index_of_any(list<char> any_of);
 
         /// Returns a new string in which all the characters in the current instance, beginning
         /// at a specified position and continuing through the last position, have been deleted.
-        string remove(int startIndex);
+        string remove(int start_index);
 
         /// Returns a new string in which a specified number of characters in the current
         /// instance beginning at a specified position have been deleted.
-        string remove(int startIndex, int count);
+        string remove(int start_index, int count);
 
         /// Returns a new string in which all occurrences of a specified string
         /// in the current instance are replaced with another specified string.
-        string replace(const string& oldValue, const string& newValue) const; // TODO - implement
+        string replace(const string& old_value, const string& new_value) const; // TODO - implement
 
         /// Returns a new string in which all occurrences of a specified character
         /// in this instance are replaced with another specified character.
-        string replace(const char oldChar, const char newChar) const;
+        string replace(const char old_char, const char new_char) const;
 
         /// Returns a string array that contains the substrings of the current string
         /// that are delimited by any of the specified 8-bit characters.
@@ -134,9 +130,6 @@ namespace dot
         string to_upper() const; // TODO - implement
 
     public: // OPERATORS
-
-        /// Gets the Char object at a specified position in the current string object.
-        Char operator[](int index) const;
 
         /// Returns a string containing characters from lhs followed by the characters from rhs.
         friend string operator+(const string& lhs, const string& rhs);
@@ -181,7 +174,7 @@ namespace dot
         /// Supports cast (explicit constructor) from object.
         ///
         /// Error if object does is not a boxed int.
-        /// Null object becomes empty nullableInt.
+        /// Null object becomes empty nullable int.
         explicit string(const ptr<object_impl>& rhs) : base(rhs) {}
 
     public: // STATIC
@@ -191,7 +184,7 @@ namespace dot
         template <typename ...Args>
         static string format(const string& format_string, const Args& ...args);
 
-        /// Indicates whether the specified string is null or an string.Empty string.
+        /// Indicates whether the specified string is null or an string.empty string.
         static bool is_null_or_empty(string value);
 
     public: // OPERATORS
@@ -222,7 +215,7 @@ namespace dot
 
     private: // STATIC
 
-        /// Non-template implementation of string.Format.
+        /// Non-template implementation of string.format.
         static std::string format_impl(fmt::string_view format_str, fmt::format_args args);
     };
 

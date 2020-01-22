@@ -272,7 +272,7 @@ namespace dot
         typedef int64_t value_type;
 
         /// Convert to native long, error if the object is in uninitialized (empty) state.
-        int64_t value() const { if (value_ == long_impl::empty) throw std::runtime_error("long_impl value is empty"); return value_; }
+        int64_t value() const { if (value_ == long_impl::empty) throw std::runtime_error("Long value is empty"); return value_; }
 
         /// Returns true if the object is in uninitialized (empty) state.
         bool has_value() const { return value_ != long_impl::empty; }

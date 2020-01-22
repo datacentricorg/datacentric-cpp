@@ -51,7 +51,7 @@ namespace dot
 
     template <class T> type typeof();
 
-    /// builder for Type.
+    /// builder for type.
     class DOT_CLASS type_builder_impl final : public virtual object_impl
     {
         template <class>
@@ -72,7 +72,7 @@ namespace dot
 
     public: // METHODS
 
-        /// Add public field of the current Type.
+        /// Add public field of the current type.
         template <class class_t, class fld>
         type_builder with_field(string name, fld class_t::*prop)
         {
@@ -84,9 +84,9 @@ namespace dot
             return this;
         }
 
-        /// Add public member method of the current Type.
+        /// Add public member method of the current type.
         template <class class_t, class return_t, class ... args>
-        type_builder with_method(string name, return_t(class_t::*mth) (args ...), std::vector<string> const& names) // TODO Change to List? Make overload?
+        type_builder with_method(string name, return_t(class_t::*mth) (args ...), std::vector<string> const& names) // TODO Change to list? Make overload?
         {
             const int args_count = sizeof...(args);
             if (args_count != names.size())
@@ -113,9 +113,9 @@ namespace dot
             return this;
         }
 
-        /// Add public static method of the current Type.
+        /// Add public static method of the current type.
         template <class return_t, class ... args>
-        type_builder with_method(string name, return_t(*mth) (args ...), std::vector<string> const& names) // TODO Change to List? Make overload?
+        type_builder with_method(string name, return_t(*mth) (args ...), std::vector<string> const& names) // TODO Change to list? Make overload?
         {
             const int args_count = sizeof...(args);
             if (args_count != names.size())
@@ -142,9 +142,9 @@ namespace dot
             return this;
         }
 
-        /// Add public constructor of the current Type.
+        /// Add public constructor of the current type.
         template <class class_t, class ... args>
-        type_builder with_constructor(class_t(*ctor)(args...), std::vector<string> const& names) // TODO Change to List? Make overload?
+        type_builder with_constructor(class_t(*ctor)(args...), std::vector<string> const& names) // TODO Change to list? Make overload?
         {
             const int args_count = sizeof...(args);
             if (args_count != names.size())
@@ -171,7 +171,7 @@ namespace dot
             return this;
         }
 
-        /// Set IsEnum to true.
+        /// Set is_enum to true.
         type_builder is_enum()
         {
             this->is_class_ = false;
@@ -179,7 +179,7 @@ namespace dot
             return this;
         }
 
-        /// Add base type of the current Type.
+        /// Add base type of the current type.
         template <class class_t>
         type_builder with_base()
         {
@@ -190,7 +190,7 @@ namespace dot
             return this;
         }
 
-        /// Add interface type of the current Type.
+        /// Add interface type of the current type.
         template <class class_t>
         type_builder with_interface()
         {
@@ -201,7 +201,7 @@ namespace dot
             return this;
         }
 
-        /// Add generic argument type of the current Type.
+        /// Add generic argument type of the current type.
         template <class class_t>
         type_builder with_generic_argument()
         {
@@ -236,19 +236,19 @@ namespace dot
     /// Represents type declarations: class types, interface types, array types, value types, enumeration types,
     /// type parameters, generic type definitions, and open or closed constructed generic types.
     ///
-    /// type_t is the root of the System.Reflection functionality and is the primary way to access metadata.
-    /// Use the members of type_t to get information about a type declaration, about the members of a type
+    /// type is the root of the system.reflection functionality and is the primary way to access metadata.
+    /// Use the members of type to get information about a type declaration, about the members of a type
     /// (such as the constructors, methods, fields, properties, and events of a class), as well as the module
     /// and the assembly in which the class is deployed.
     ///
-    /// The type_t object associated with a particular type can be obtained in the following ways:
+    /// The type object associated with a particular type can be obtained in the following ways:
     ///
     /// \begin{itemize}
     ///
-    /// \item The instance object.Gettype_t method returns a type_t object that represents the type of an instance.
-    /// Because all managed types derive from object, the Gettype_t method can be called on an instance of any type.
+    /// \item The instance object.get_type method returns a type object that represents the type of an instance.
+    /// Because all managed types derive from object, the get_type method can be called on an instance of any type.
     ///
-    /// \item The typeof method obtains the type_t object for the argument type.
+    /// \item The typeof method obtains the type object for the argument type.
     ///
     /// \end{itemize}
     class DOT_CLASS type_impl final : public virtual object_impl
@@ -277,15 +277,15 @@ namespace dot
         string name_space; // TODO - replace by method
 
         /// Gets the fully qualified name of the type, including its namespace but not its assembly.
-        string full_name() const { return string::format("{0}.{1}", this->name_space, this->name); } // TODO - replace by string::Join
+        string full_name() const { return string::format("{0}.{1}", this->name_space, this->name); } // TODO - replace by string::join
 
         /// Gets the base type if current type.
         type get_base_type() { return base_; }
 
-        /// Gets a value indicating whether the System.type_t is a class or a delegate; that is, not a value type or interface.
+        /// Gets a value indicating whether the system.type is a class or a delegate; that is, not a value type or interface.
         bool is_class; // TODO - replace by method
 
-        /// Gets a value indicating whether the current System.type_t represents an enumeration.
+        /// Gets a value indicating whether the current system.type represents an enumeration.
         bool is_enum; // TODO - replace by method
 
     public: // METHODS
@@ -317,7 +317,7 @@ namespace dot
         /// A string representing the name of the current type.
         virtual string to_string() override { return full_name(); }
 
-        /// Get type_t object for the name.
+        /// Get type object for the name.
         static type get_type_of(string name) { return get_type_map()[name]; }
 
         /// Get derived types list for the name.
@@ -361,8 +361,7 @@ namespace dot
 
 namespace dot
 {
-
-    /// Initializes a new instance of the type_t class for untyped instance of object.
+    /// Initializes a new instance of the type class for untyped instance of object.
     inline type object_impl::get_type()
     {
         return typeof();
@@ -370,13 +369,13 @@ namespace dot
 
     inline type object_impl::typeof()
     {
-        static type type_ = make_type_builder<object_impl>("System", "object")->build();
+        static type type_ = make_type_builder<object_impl>("dot", "object")->build();
         return type_;
     }
 
     template <class T> type list_impl<T>::typeof()
     {
-        static type type_ = make_type_builder<list_impl<T>>("System.Collections.Generic", "List`1")
+        static type type_ = make_type_builder<list_impl<T>>("dot", "List`1")
             //DOT_TYPE_CTOR(make_list<T>)
             ->with_constructor(static_cast<list<T>(*)()>(&make_list<T>), { })
             DOT_TYPE_GENERIC_ARGUMENT(T)
@@ -406,7 +405,7 @@ namespace dot
     {
         static type typeof()
     {
-        static type type_ = make_type_builder<double>("System", "Double")->build();
+        static type type_ = make_type_builder<double>("dot", "double")->build();
         return type_;
     }
     };
@@ -416,7 +415,7 @@ namespace dot
     {
         static type typeof()
     {
-        static type type_ = make_type_builder<int64_t>("System", "Int64")->build();
+        static type type_ = make_type_builder<int64_t>("dot", "int64_t")->build();
         return type_;
     }
     };
@@ -426,7 +425,7 @@ namespace dot
     {
         static type typeof()
     {
-        static type type_ = make_type_builder<int>("System", "Int32")->build();
+        static type type_ = make_type_builder<int>("dot", "int")->build();
         return type_;
     }
     };
@@ -436,7 +435,7 @@ namespace dot
     {
         static type typeof()
     {
-        static type type_ = make_type_builder<void>("System", "Void")->build();
+        static type type_ = make_type_builder<void>("dot", "void")->build();
         return type_;
     }
     };
@@ -446,7 +445,7 @@ namespace dot
     {
         static type typeof()
     {
-        static type type_ = make_type_builder<bool>("System", "Bool")->build();
+        static type type_ = make_type_builder<bool>("dot", "bool")->build();
         return type_;
     }
     };
@@ -456,7 +455,7 @@ namespace dot
     {
         static type typeof()
     {
-        static type type_ = make_type_builder<char>("System", "Char")->build();
+        static type type_ = make_type_builder<char>("dot", "char")->build();
         return type_;
     }
     };
@@ -466,7 +465,7 @@ namespace dot
     {
         static type typeof()
     {
-        static type type_ = make_type_builder<local_date>("System", "local_date")->build();
+        static type type_ = make_type_builder<local_date>("dot", "local_date")->build();
         return type_;
     }
     };
@@ -476,7 +475,7 @@ namespace dot
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<local_time>("System", "local_time")->build();
+            static type type_ = make_type_builder<local_time>("dot", "local_time")->build();
             return type_;
         }
     };
@@ -486,7 +485,7 @@ namespace dot
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<local_time>("System", "local_minute")->build();
+            static type type_ = make_type_builder<local_time>("dot", "local_minute")->build();
         return type_;
     }
     };
@@ -496,7 +495,7 @@ namespace dot
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<local_date_time>("System", "local_date_time")->build();
+            static type type_ = make_type_builder<local_date_time>("dot", "local_date_time")->build();
             return type_;
         }
     };
@@ -506,7 +505,7 @@ namespace dot
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<local_date_time>("System", "Period")->build();
+            static type type_ = make_type_builder<local_date_time>("dot", "period")->build();
             return type_;
         }
     };
@@ -516,7 +515,7 @@ namespace dot
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<nullable<T>>("System", "nullable<" + dot::typeof<T>()->name + ">")
+            static type type_ = make_type_builder<nullable<T>>("dot", "nullable<" + dot::typeof<T>()->name + ">")
                 ->template with_generic_argument<T>()
                 ->build();
         return type_;
@@ -528,7 +527,7 @@ namespace dot
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<std::tuple<>>("System", "Tuple<>")
+            static type type_ = make_type_builder<std::tuple<>>("dot", "tuple<>")
                 ->build();
             return type_;
         }
@@ -543,10 +542,10 @@ namespace dot
             static type_builder builder =
             []()
             {
-                type_builder type_builder = make_type_builder<std::tuple<T...>>("System", "Tuple<" + get_name<T...>() + ">");
+                type_builder type_builder = make_type_builder<std::tuple<T...>>("dot", "tuple<" + get_name<T...>() + ">");
                 set_generic_args<T ...>(type_builder);
-                type_builder->with_method("GetItem", &get_item, { "tuple", "index" })
-                    ->with_method("SetItem", &set_item, { "tuple", "index", "value" })
+                type_builder->with_method("get_item", &get_item, { "tuple", "index" })
+                    ->with_method("set_item", &set_item, { "tuple", "index", "value" })
                     ->with_constructor(&contructor, {})
                     ;
                 return type_builder;
@@ -570,7 +569,7 @@ namespace dot
             static object impl(object tuple, int index)
             {
                 if (I == index) return std::get<I>(*(struct_wrapper<std::tuple<T...>>)tuple);
-                    else return get_item_impl<I + 1>::Impl(tuple, index);
+                    else return get_item_impl<I + 1>::impl(tuple, index);
             }
         };
 

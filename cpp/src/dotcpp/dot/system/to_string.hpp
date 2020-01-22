@@ -30,7 +30,7 @@ namespace dot
 {
     /// Helper class to provide to_string(value) for atomic and external
     /// classes where we cannot define member function to_string().
-    /// 
+    ///
     /// This helper class is necessary because C++ permits partial specialization
     /// of classes, but not functions. Partial specialization is necessary when
     /// defining to_string for a type that is itself a template, for example
@@ -42,7 +42,7 @@ namespace dot
         ///
         /// The purpose of making this a deleted method here is to generate the
         /// following error when to_string(...) is invoked for a user defined type,
-        /// while to_string_impl template is not specialized for this type. 
+        /// while to_string_impl template is not specialized for this type.
         ///
         /// dot::string dot::to_string_impl<T>::to_string(const T &)'
         /// attempting to reference a deleted function
@@ -68,7 +68,7 @@ namespace dot
     };
 
     /// Convert value to string; for empty or null values, return string::empty.
-    /// 
+    ///
     /// This function must be defined for atomic and external classes where we
     /// cannot define member function to_string() via template specialization of
     /// the helper type to_string_impl.
@@ -87,7 +87,7 @@ namespace dot
         //
         // the reason is most likely that to_string(...) was invoked for a
         // user defined type, while to_string_impl template was not specialized
-        // for this type. 
+        // for this type.
         //
         // To eliminate this error, add template specialization of to_string_impl
         // for the specified type:

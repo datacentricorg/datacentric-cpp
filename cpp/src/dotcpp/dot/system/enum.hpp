@@ -75,7 +75,7 @@ namespace dot
 
         /// Converts the string representation of the name or numeric value of
         /// one or more enumerated constants to an equivalent enumerated object.
-        static object parse(type enumType, string value);
+        static object parse(type enum_type, string value);
 
     protected: // PROTECTED
 
@@ -94,9 +94,8 @@ namespace dot
 
     public:
 
-        DOT_TYPE_BEGIN("System", "Enum")
+        DOT_TYPE_BEGIN("dot", "enum")
             ->is_enum()
         DOT_TYPE_END()
     };
 }
-

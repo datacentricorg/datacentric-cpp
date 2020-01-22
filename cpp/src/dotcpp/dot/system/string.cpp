@@ -32,14 +32,13 @@ limitations under the License.
 
 namespace dot
 {
-    /// Empty string.
     string string::empty = make_string("");
 
     dot::type string_impl::typeof()
     {
         static dot::type result = []()->dot::type
         {
-            dot::type t = dot::make_type_builder<string_impl>("System", "string")
+            dot::type t = dot::make_type_builder<string_impl>("dot", "string")
                 ->build();
             return t;
         }();
@@ -74,8 +73,6 @@ namespace dot
         return this;
     }
 
-    /// Determines whether the end of this
-    /// string matches the specified string.
     bool string_impl::ends_with(const string& value)
     {
         int p = length() - value->length();
@@ -84,8 +81,6 @@ namespace dot
         return false;
     }
 
-    /// Determines whether the beginning of this
-    /// string matches the specified string.
     bool string_impl::starts_with(const string& value)
     {
         int p = length() - value->length();
@@ -94,35 +89,33 @@ namespace dot
         return false;
     }
 
-    /// Retrieves a substring which starts at the specified
-    /// character position and has the specified length.
-    string string_impl::substring(int startIndex, int length)
+    string string_impl::substring(int start_index, int length)
     {
-        return make_string(this->substr(startIndex, length));
+        return make_string(this->substr(start_index, length));
     }
 
-    int string_impl::index_of_any(list<char> anyOf)
+    int string_impl::index_of_any(list<char> any_of)
     {
-        size_t pos = find_first_of(anyOf->data(), 0, anyOf->size());
+        size_t pos = find_first_of(any_of->data(), 0, any_of->size());
         if (pos != std::string::npos)
             return pos;
         return -1;
     }
 
-    string string_impl::remove(int startIndex)
+    string string_impl::remove(int start_index)
     {
-        return make_string(*this)->erase(startIndex);
+        return make_string(*this)->erase(start_index);
     }
 
-    string string_impl::remove(int startIndex, int count)
+    string string_impl::remove(int start_index, int count)
     {
-        return make_string(*this)->erase(startIndex, count);
+        return make_string(*this)->erase(start_index, count);
     }
 
-    string string_impl::replace(const char oldChar, const char newChar) const
+    string string_impl::replace(const char old_char, const char new_char) const
     {
         string make_str = *this;
-        std::replace(make_str->begin(), make_str->end(), oldChar, newChar);
+        std::replace(make_str->begin(), make_str->end(), old_char, new_char);
         return make_str;
     }
 
@@ -133,7 +126,6 @@ namespace dot
         return false;
     }
 
-    /// Case sensitive comparison to object.
     bool string::operator==(const object& rhs) const
     {
         // If rhs is null, return false. Otherwise, check if
@@ -145,13 +137,12 @@ namespace dot
         }
         else
         {
-            string rhsStr = rhs.as<string>();
-            if (rhsStr != nullptr) return operator==(rhsStr);
+            string rhs_str = rhs.as<string>();
+            if (rhs_str != nullptr) return operator==(rhs_str);
             else return false;
         }
     }
 
-    /// Non-template implementation of string.Format.
     std::string string::format_impl(fmt::string_view format_str, fmt::format_args args)
     {
         return fmt::vformat(format_str, args);

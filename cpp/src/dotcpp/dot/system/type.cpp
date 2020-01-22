@@ -32,6 +32,15 @@ limitations under the License.
 
 namespace dot
 {
+    type_builder_impl::type_builder_impl(string name_space, string name, string cpp_name)
+        : full_name_(name_space + "." + name)
+    {
+        type_ = new type_impl(name_space, name);
+        type_impl::get_type_map()[full_name_] = type_;
+        type_impl::get_type_map()[name] = type_;
+        type_impl::get_type_map()[cpp_name] = type_;
+    }
+
     type type_builder_impl::build()
     {
         type_->fill(this);
@@ -183,16 +192,6 @@ namespace dot
     {
         this->name_space = nspace;
         this->name = name;
-    }
-
-
-    type_builder_impl::type_builder_impl(string name_space, string name, string cpp_name)
-        : full_name_(name_space + "." + name)
-    {
-        type_ = new type_impl(name_space, name);
-        type_impl::get_type_map()[full_name_] = type_;
-        type_impl::get_type_map()[name] = type_;
-        type_impl::get_type_map()[cpp_name] = type_;
     }
 
     method_info type_impl::get_method(string name)

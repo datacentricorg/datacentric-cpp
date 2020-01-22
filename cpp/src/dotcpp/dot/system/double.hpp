@@ -68,6 +68,4 @@ namespace dot
         static type typeof();
         type get_type() override;
     };
-
 }
-

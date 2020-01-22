@@ -44,15 +44,15 @@ namespace dot
         /// Sentinel value representing uninitialized state.
         static constexpr int empty = INT32_MIN;
 
-        /// Represents the Boolean value false as a string. This field is read-only.
+        /// Represents the boolean value false as a string. This field is read-only.
         static const string false_string;
 
-        /// Represents the Boolean value true as a string. This field is read-only.
+        /// Represents the boolean value true as a string. This field is read-only.
         static const string true_string;
 
     public: // STATIC
 
-        /// Converts the specified string representation of a logical value to its Boolean equivalent.
+        /// Converts the specified string representation of a logical value to its boolean equivalent.
         static bool parse(string s);
 
     public: // METHODS

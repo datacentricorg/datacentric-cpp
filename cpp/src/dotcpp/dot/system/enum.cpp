@@ -31,9 +31,9 @@ namespace dot
 {
     string enum_base::to_string()
     {
-        auto valuesMap = get_enum_map();
+        auto values_map = get_enum_map();
 
-        for (auto& x : valuesMap)
+        for (auto& x : values_map)
         {
             if (x.second == value_)
                 return x.first;
@@ -57,19 +57,19 @@ namespace dot
         return false;
     }
 
-    object enum_base::parse(type enumType, string value)
+    object enum_base::parse(type enum_type, string value)
     {
-        object enum_obj = activator::create_instance(enumType);
+        object enum_obj = activator::create_instance(enum_type);
         enum_base* en = dynamic_cast<enum_base*>(enum_obj.operator->());
-        auto valuesMap = en->get_enum_map();
+        auto values_map = en->get_enum_map();
 
-        int intValue = 0;
-        if(!valuesMap->try_get_value(value, intValue))
+        int int_value = 0;
+        if(!values_map->try_get_value(value, int_value))
         {
-            throw exception("value is outside the range of the underlying type of enumType.");
+            throw exception("value is outside the range of the underlying type of enum_type.");
         }
 
-        en->value_ = intValue;
+        en->value_ = int_value;
         return enum_obj;
     }
 }

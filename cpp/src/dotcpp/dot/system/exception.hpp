@@ -54,6 +54,4 @@ namespace dot
         /// Message that describes the current exception.
         virtual string message() const;
     };
-
-
 }

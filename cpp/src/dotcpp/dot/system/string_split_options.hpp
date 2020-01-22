@@ -32,9 +32,9 @@ namespace dot
     enum class DOT_CLASS string_split_options : int
     {
         /// The return value includes array elements that contain an empty string.
-        None,
+        none,
 
         /// The return value does not include array elements that contain an empty string.
-        RemoveEmptyEntries
+        remove_empty_entries
     };
 }

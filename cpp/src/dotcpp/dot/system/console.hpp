@@ -41,7 +41,7 @@ namespace dot
 
     public: // STATIC
 
-        /// Writes the text representation of the argument array of objects 
+        /// Writes the text representation of the argument array of objects
         /// to the standard output stream using the specified format information.
         template <typename First, typename ...Args>
         static void write(const string& format, const First& f, const Args& ...args)
@@ -49,7 +49,7 @@ namespace dot
             std::cout << *string::format(format, f, args...);
         }
 
-        /// Writes the text representation of the specified object 
+        /// Writes the text representation of the specified object
         /// to the standard output stream.
         template <typename T>
         static void write(const T& arg)

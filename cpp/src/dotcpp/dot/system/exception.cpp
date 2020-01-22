@@ -28,20 +28,13 @@ limitations under the License.
 
 namespace dot
 {
-    /// Create with default message.
-    exception::exception() : base("exception of type 'System.exception' was thrown.") {}
+    exception::exception() : base("exception of type 'dot.exception' was thrown.") {}
 
-    /// Create with a specified error message.
     exception::exception(const std::string& msg) : base(msg.c_str()) {}
 
-    /// Create with a specified error message.
     exception::exception(const char* msg) : base(msg ? msg : "") {}
 
-    /// Create with a specified error message.
     exception::exception(string msg) : base(*msg) {}
 
-    /// Message that describes the current exception.
     string exception::message() const { return string(what()); }
-
-
 }

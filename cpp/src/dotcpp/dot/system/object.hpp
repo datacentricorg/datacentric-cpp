@@ -237,12 +237,11 @@ namespace dot
     public: // STATIC
 
         /// Determines whether the specified System.object instances are the same instance.
-        static bool ReferenceEquals(object objA, object objB);
+        static bool reference_equals(object obj_a, object obj_b);
     };
 
     /// Initializes a new instance of object.
     inline object make_object() { return object(new object_impl); }
-
 }
 
 #include <dot/system/enum_impl.hpp>
