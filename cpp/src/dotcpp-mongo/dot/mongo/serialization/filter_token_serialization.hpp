@@ -23,12 +23,22 @@ limitations under the License.
 
 #pragma once
 
+#include <dot/system/byte_array.hpp>
+#include <dot/mongo/serialization/filter_token_serialization_attribute.hpp>
+
 namespace dot
 {
-        /// Writes primitive value to bson builder.
+    /// Writes primitive value to bson builder.
     void append_token(bsoncxx::builder::core& builder, object value)
     {
         dot::type value_type = value->get_type();
+
+        list<attribute> value_attributes = value_type->get_custom_attributes(dot::typeof<filter_token_serialization_attribute>(), true);
+        if (value_attributes->count())
+        {
+             value = ((filter_token_serialization_attribute) value_attributes[0])->serialize(value);
+             value_type = value->get_type();
+        }
 
         if (value_type->equals(dot::typeof<dot::string>()))
             builder.append(*(dot::string)value);
@@ -72,6 +82,17 @@ namespace dot
                 append_token(builder, l->get_item(i));
             }
             builder.close_array();
+        }
+        else
+        if (value.is<dot::byte_array>())
+        {
+            byte_array arr = value.as<byte_array>();
+
+            builder.append(bsoncxx::v_noabi::types::b_binary {
+                bsoncxx::v_noabi::binary_sub_type::k_binary,
+                (uint32_t) arr->count(),
+                (uint8_t*) arr->get_data()
+            });
         }
         else
             throw dot::exception("Unknown query token");

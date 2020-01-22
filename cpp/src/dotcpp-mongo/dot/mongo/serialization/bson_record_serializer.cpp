@@ -27,6 +27,7 @@ limitations under the License.
 #include <dot/mongo/serialization/bson_writer.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/type.hpp>
+#include <dot/system/byte_array.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_date_time.hpp>
@@ -241,6 +242,12 @@ namespace dot
             else if (bson_type == bsoncxx::type::k_array)
             {
                 throw dot::exception("Deserializaion of an array inside another array is not supported.");
+            }
+            else if (bson_type == bsoncxx::type::k_binary)
+            {
+                auto value = elem.get_binary();
+                //dot::byte_array arr = new bso
+                writer->write_value_array_item(value);
             }
             else
                 throw dot::exception(

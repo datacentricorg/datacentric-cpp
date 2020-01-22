@@ -19,9 +19,11 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/system/type.hpp>
+#include <dot/system/byte_array.hpp>
 #include <dot/serialization/serialize_attribute.hpp>
 #include <dot/serialization/deserialize_attribute.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
+#include <dot/mongo/serialization/filter_token_serialization_attribute.hpp>
 
 namespace dc
 {
@@ -132,6 +134,7 @@ namespace dc
 
         static void serialize(dot::tree_writer_base writer, dot::object obj);
         static dot::object deserialize(dot::object value, dot::type type);
+        static dot::object serialize_token(dot::object obj);
 
     private:
         bsoncxx::oid id_;
@@ -145,7 +148,8 @@ namespace dot
     {
         static dot::type type_ = dot::make_type_builder<dc::temporal_id>("dc", "temporal_id", {
                 make_serialize_class_attribute(&dc::temporal_id::serialize),
-                make_deserialize_class_attribute(&dc::temporal_id::deserialize) })
+                make_deserialize_class_attribute(&dc::temporal_id::deserialize),
+                make_filter_token_serialization_attribute(&dc::temporal_id::serialize_token) })
             ->build();
         return type_;
     }

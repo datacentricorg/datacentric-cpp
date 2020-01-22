@@ -20,6 +20,7 @@
     <ClCompile Include="serialization\bson_record_serializer.cpp" />
     <ClCompile Include="serialization\bson_root_class_attribute.cpp" />
     <ClCompile Include="serialization\bson_writer.cpp" />
+    <ClCompile Include="serialization\filter_token_serialization_attribute.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="declare.hpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="serialization\bson_record_serializer.hpp" />
     <ClInclude Include="serialization\bson_writer.hpp" />
     <ClInclude Include="precompiled.hpp" />
+    <ClInclude Include="serialization\filter_token_serialization_attribute.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ED9333DD-8D40-4103-A01E-B1D26D95AEF8}</ProjectGuid>
