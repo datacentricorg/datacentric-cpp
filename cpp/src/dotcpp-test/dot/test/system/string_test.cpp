@@ -100,4 +100,62 @@ namespace dot
         // TODO - fix by implemnenting equals(...) REQUIRE((object)str == str2);
         // TODO - fix by implemnenting equals(...) REQUIRE((object)str == (object)str2);
     }
+
+    TEST_CASE("methods")
+    {
+        // To lower/upper case
+        {
+            string str = "ABCabc123_!@#$%^&*()=+-:;";
+            string lower_str = str->to_lower();
+            REQUIRE(lower_str == "abcabc123_!@#$%^&*()=+-:;");
+            string upper_str = str->to_upper();
+            REQUIRE(upper_str == "ABCABC123_!@#$%^&*()=+-:;");
+            REQUIRE(str == "ABCabc123_!@#$%^&*()=+-:;");
+        }
+
+        // Contains
+        {
+            string str = "string";
+            string substr1 = "str";
+            string substr2 = "ing";
+            string substr3 = "rin";
+            string substr4 = "abc";
+
+            REQUIRE(str->contains(substr1));
+            REQUIRE(str->contains(substr2));
+            REQUIRE(str->contains(substr3));
+            REQUIRE(!str->contains(substr4));
+        }
+
+        // Split
+        {
+            string str = ";ab;ef;";
+            list<string> seplited_str = make_list<string>({ "", "ab", "ef", "" });
+
+            list<string> res_list = str->split(';');
+            REQUIRE(res_list->count() == seplited_str->count());
+            REQUIRE(res_list[0] == seplited_str[0]);
+            REQUIRE(res_list[1] == seplited_str[1]);
+            REQUIRE(res_list[2] == seplited_str[2]);
+            REQUIRE(res_list[3] == seplited_str[3]);
+
+            str = "42, 12, 19";
+            seplited_str = make_list<string>({ "42", "", "12", "", "19" });
+            res_list = str->split(" ,");
+            REQUIRE(res_list->count() == seplited_str->count());
+            REQUIRE(res_list[0] == seplited_str[0]);
+            REQUIRE(res_list[1] == seplited_str[1]);
+            REQUIRE(res_list[2] == seplited_str[2]);
+            REQUIRE(res_list[3] == seplited_str[3]);
+
+            str = "42..12..19";
+            seplited_str = make_list<string>({ "42", "", "12", "", "19" });
+            res_list = str->split(".");
+            REQUIRE(res_list->count() == seplited_str->count());
+            REQUIRE(res_list[0] == seplited_str[0]);
+            REQUIRE(res_list[1] == seplited_str[1]);
+            REQUIRE(res_list[2] == seplited_str[2]);
+            REQUIRE(res_list[3] == seplited_str[3]);
+        }
+    }
 }

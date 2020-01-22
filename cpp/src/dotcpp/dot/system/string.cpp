@@ -94,6 +94,11 @@ namespace dot
         return make_string(this->substr(start_index, length));
     }
 
+    int string_impl::compare_to(const string& str_b) const
+    {
+        return this->compare(*str_b);
+    }
+
     int string_impl::index_of_any(list<char> any_of)
     {
         size_t pos = find_first_of(any_of->data(), 0, any_of->size());
@@ -117,6 +122,59 @@ namespace dot
         string make_str = *this;
         std::replace(make_str->begin(), make_str->end(), old_char, new_char);
         return make_str;
+    }
+
+    list<string> string_impl::split(char separator) const
+    {
+        list<string> result = make_list<string>();
+
+        std::size_t current, previous = 0;
+        current = this->find(separator);
+        while (current != std::string::npos) {
+            result->add(this->substr(previous, current - previous));
+            previous = current + 1;
+            current = this->find(separator, previous);
+        }
+        result->add(this->substr(previous, current - previous));
+
+        return result;
+    }
+
+    list<string> string_impl::split(string separator) const
+    {
+        list<string> result = make_list<string>();
+
+        std::size_t current, previous = 0;
+        current = this->find_first_of(*separator);
+        while (current != std::string::npos) {
+            result->add(this->substr(previous, current - previous));
+            previous = current + 1;
+            current = this->find_first_of(*separator, previous);
+        }
+        result->add(this->substr(previous, current - previous));
+
+        return result;
+    }
+
+    bool string_impl::contains(const string& s) const
+    {
+        return this->find(*s) != std::string::npos;
+    }
+
+    string string_impl::to_lower() const
+    {
+        string result = make_string(*this);
+        std::transform(result->begin(), result->end(), result->begin(),
+            [](unsigned char c) { return std::tolower(c); });
+        return result;
+    }
+
+    string string_impl::to_upper() const
+    {
+        string result = make_string(*this);
+        std::transform(result->begin(), result->end(), result->begin(),
+            [](unsigned char c) { return std::toupper(c); });
+        return result;
     }
 
     bool string::is_null_or_empty(string value)

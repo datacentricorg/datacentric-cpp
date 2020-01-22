@@ -89,7 +89,7 @@ namespace dot
         /// Compares this instance with a specified string object and indicates
         /// whether this instance precedes, follows, or appears in the same position
         /// in the sort order as the specified string.
-        int compare_to(const string& str_b) const; // TODO - implement
+        int compare_to(const string& str_b) const;
 
         /// Reports the zero-based index of the first occurrence in this instance of any
         /// character in a specified array of Unicode characters.
@@ -113,7 +113,10 @@ namespace dot
 
         /// Returns a string array that contains the substrings of the current string
         /// that are delimited by any of the specified 8-bit characters.
-        list<string> split(char separator) const;  // TODO - implement
+        list<string> split(char separator) const;
+
+        /// Splits a string into substrings that are based on the characters in an array.
+        list<string> split(string separator) const;
 
         /// Returns a string array that contains the substrings in
         /// this string that are delimited by any of the specified strings.
@@ -121,13 +124,13 @@ namespace dot
         list<string> split(const list<string>& separator, const string_split_options& options) const; // TODO - implement
 
         /// Indicates whether the argument occurs within this string.
-        bool contains(string const& s) const; // TODO - implement
+        bool contains(const string& s) const;
 
         /// Returns a copy of this string converted to lowercase.
-        string to_lower() const; // TODO - implement
+        string to_lower() const;
 
         /// Returns a copy of this string converted to uppercase.
-        string to_upper() const; // TODO - implement
+        string to_upper() const;
 
     public: // OPERATORS
 
