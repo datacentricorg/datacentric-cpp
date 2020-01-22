@@ -114,7 +114,6 @@ namespace dot
             bsoncxx::builder::basic::document selectList{};
             for (dot::FieldInfo prop : props)
                 selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::String) prop->name(), 1));
-            selectList.append(bsoncxx::builder::basic::kvp("_key", 1));
 
             pipeline_.project(selectList.view());
 

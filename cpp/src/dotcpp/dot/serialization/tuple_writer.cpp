@@ -57,12 +57,6 @@ namespace dot
         {
             for (int i = 0; i < props_->count(); ++i)
             {
-                if (element_name == "_key" || element_name == "_id")
-                {
-                    index_of_current_ = -1;
-                    return;
-                }
-
                 if (props_[i]->name() == element_name)
                 {
                     index_of_current_ = i;
@@ -115,7 +109,6 @@ namespace dot
         {
             data_writer_->write_start_dict(type_name);
         }
-
     }
 
     void TupleWriterImpl::write_end_dict(dot::String type_name)
@@ -134,7 +127,6 @@ namespace dot
         {
             data_writer_->write_start_array();
         }
-
     }
 
     void TupleWriterImpl::write_end_array()
@@ -145,7 +137,6 @@ namespace dot
             data_writer_->write_end_array();
             data_writer_ = nullptr;
         }
-
     }
 
     void TupleWriterImpl::write_start_array_item()
@@ -154,7 +145,6 @@ namespace dot
         {
             data_writer_->write_start_array_item();
         }
-
     }
 
     void TupleWriterImpl::write_end_array_item()
@@ -163,7 +153,6 @@ namespace dot
         {
             data_writer_->write_end_array_item();
         }
-
     }
 
     void TupleWriterImpl::write_start_value()
@@ -172,7 +161,6 @@ namespace dot
         {
             data_writer_->write_start_value();
         }
-
     }
 
     void TupleWriterImpl::write_end_value()
@@ -181,7 +169,6 @@ namespace dot
         {
             data_writer_->write_end_value();
         }
-
     }
 
     void TupleWriterImpl::write_value(dot::Object value)
@@ -212,7 +199,6 @@ namespace dot
             element_type->equals(dot::typeof<bool>()) || element_type->equals(dot::typeof<dot::Nullable<bool>>()) ||
             element_type->equals(dot::typeof<int>()) || element_type->equals(dot::typeof<dot::Nullable<int>>()) ||
             element_type->equals(dot::typeof<int64_t>()) || element_type->equals(dot::typeof<dot::Nullable<int64_t>>())
-            //element_type->equals(dot::typeof<dot::ObjectId>())
             )
         {
             // Check Type match

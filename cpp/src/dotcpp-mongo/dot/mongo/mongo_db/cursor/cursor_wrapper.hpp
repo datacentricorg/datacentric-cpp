@@ -61,6 +61,8 @@ namespace dot
 
         typedef T value_type;
 
+        IteratorWrappper() = default;
+
         IteratorWrappper(IteratorInnerBase iterator)
             :iterator_(iterator)
         {}

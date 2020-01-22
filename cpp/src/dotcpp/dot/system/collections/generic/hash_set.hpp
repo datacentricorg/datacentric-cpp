@@ -65,10 +65,10 @@ namespace dot
     public: // METHODS
 
         /// Adds the specified element to a set.
-        void add(const T& item)
+        bool add(const T& item)
         {
             std::pair<typename base::iterator, bool> res = this->insert(item);
-            //return res.second;
+            return res.second;
         }
 
         /// Determines whether a HashSet Object contains the specified element.
