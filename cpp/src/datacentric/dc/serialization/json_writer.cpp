@@ -108,7 +108,7 @@ namespace dc
             "A call to write_end_element(...) does not follow a matching write_start_element(...) at the same indent level.");
 
         // Pop the outer element name and state from the element stack
-        //(currentElementName, currentState_) = elementStack_.Pop();
+        //(current_element_name, current_state_) = element_stack_.pop();
         dot::string current_element_name;
         std::pair<dot::string, tree_writer_state> top = element_stack_.top();
         element_stack_.pop();
@@ -144,7 +144,7 @@ namespace dc
         //if (prev_state == tree_writer_state::document_started)
         //{
         //    dot::string root_element_name = element_stack_.top().first;
-        //    if (!root_element_name->ends_with("Key"))  // TODO remove it
+        //    if (!root_element_name->ends_with("key"))  // TODO remove it
         //        this->write_value_element("_t", root_element_name);
         //}
     }
@@ -260,7 +260,7 @@ namespace dc
         if (value_type->equals(dot::typeof<dot::string>()))
             json_writer_.String(*(dot::string)value);
         else
-        if (value_type->equals(dot::typeof<double>())) // ? TODO check dot::typeof<Double>() dot::typeof<NullableDouble>()
+        if (value_type->equals(dot::typeof<double>())) // ? TODO check dot::typeof<double>() dot::typeof<nullable_double>()
             json_writer_.Double((double)value);
         else
         if (value_type->equals(dot::typeof<bool>()))

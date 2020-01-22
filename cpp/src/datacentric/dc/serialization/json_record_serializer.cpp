@@ -75,7 +75,7 @@ namespace dc
             dot::string element_name = elem.name.GetString();
             if (json_type == rapidjson::Type::kNullType)
             {
-                //reader.ReadNull();
+                //reader.read_null();
             }
             else if (json_type == rapidjson::Type::kStringType)
             {
@@ -116,7 +116,7 @@ namespace dc
             else if (json_type == rapidjson::Type::kObjectType)
             {
                 // Read JSON stream for the embedded data element
-                //IByteBuffer documentBuffer = reader.ReadRawBsonDocument();
+                //byte_buffer_base document_buffer = reader.read_raw_bson_document();
                 rapidjson::Document::ConstObject sub_doc = elem.value.GetObject();
 
                 // Deserialize embedded data element
@@ -215,5 +215,4 @@ namespace dc
         value->serialize_to(writer);
         writer->write_end_document(root_name);
     }
-
 }

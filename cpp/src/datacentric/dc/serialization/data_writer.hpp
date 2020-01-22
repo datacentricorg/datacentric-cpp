@@ -31,7 +31,7 @@ namespace dc
     class data_writer_impl; using data_writer = dot::ptr<data_writer_impl>;
     class tuple_writer_impl; using tuple_writer = dot::ptr<tuple_writer_impl>;
 
-    /// Implementation of tree_writer_base for Data.
+    /// Implementation of tree_writer_base for data.
     class DC_CLASS data_writer_impl : public tree_writer_base_impl
     {
         friend data_writer make_data_writer(data data_obj);
@@ -51,7 +51,7 @@ namespace dc
 
     private: // FIELDS
 
-        std::stack<data_writer_position> element_stack_; // TODO make dot::Stack
+        std::stack<data_writer_position> element_stack_; // TODO make dot::stack
         dot::string root_element_name_;
         dot::string current_element_name_;
         tree_writer_state current_state_;
@@ -133,9 +133,7 @@ namespace dc
 
         /// Pop state from the stack.
         void pop_state();
-
     };
 
     inline data_writer make_data_writer(data data_obj) { return new data_writer_impl(data_obj); }
 }
-

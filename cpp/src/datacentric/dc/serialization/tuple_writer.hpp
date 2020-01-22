@@ -29,10 +29,9 @@ limitations under the License.
 
 namespace dc
 {
-
     class tuple_writer_impl; using tuple_writer = dot::ptr<tuple_writer_impl>;
 
-    /// Implementation of tree_writer_base for Data.
+    /// Implementation of tree_writer_base for data.
     class DC_CLASS tuple_writer_impl : public tree_writer_base_impl
     {
         friend tuple_writer make_tuple_writer(dot::object tuple, dot::list<dot::field_info> props);
@@ -110,7 +109,6 @@ namespace dc
         int index_of_current_;
         data_writer data_writer_;
         data data_;
-
     };
 
     inline tuple_writer make_tuple_writer(dot::object tuple, dot::list<dot::field_info> props) { return new tuple_writer_impl(tuple, props); }

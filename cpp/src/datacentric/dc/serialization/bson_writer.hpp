@@ -28,16 +28,15 @@ namespace dc
 {
     class bson_writer_impl; using bson_writer = dot::ptr<bson_writer_impl>;
 
-    /// Implementation of IBsonWriter using MongoDB IBsonWriter.
+    /// Implementation of bson_writer_base using MongoDB bson_writer_base.
     class DC_CLASS bson_writer_impl : public tree_writer_base_impl
     {
-
         friend bson_writer make_bson_writer();
 
     private:
 
         bsoncxx::builder::core bson_writer_;
-        std::stack<std::pair<dot::string, tree_writer_state>> element_stack_; // TODO make dot::Stack
+        std::stack<std::pair<dot::string, tree_writer_state>> element_stack_; // TODO make dot::stack
         tree_writer_state current_state_;
 
     public:

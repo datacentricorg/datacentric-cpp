@@ -38,7 +38,7 @@ namespace dc
 
         rapidjson::StringBuffer buffer_;
         rapidjson::Writer<rapidjson::StringBuffer> json_writer_;
-        std::stack<std::pair<dot::string, tree_writer_state>> element_stack_; // TODO make dot::Stack
+        std::stack<std::pair<dot::string, tree_writer_state>> element_stack_; // TODO make dot::stack
         tree_writer_state current_state_;
 
     private:

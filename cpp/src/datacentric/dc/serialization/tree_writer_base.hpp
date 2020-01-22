@@ -187,5 +187,4 @@ namespace dc
             this->write_end_array_element(element_name);
         }
     };
-
 }

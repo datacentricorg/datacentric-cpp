@@ -73,7 +73,7 @@ namespace dc
             dot::string element_name = elem.key().to_string();
             if (bson_type == bsoncxx::type::k_null)
             {
-                //reader.ReadNull();
+                //reader.read_null();
             }
             else if (bson_type == bsoncxx::type::k_oid)
             {
@@ -134,7 +134,7 @@ namespace dc
             else if (bson_type == bsoncxx::type::k_document)
             {
                 // Read BSON stream for the embedded data element
-                //IByteBuffer documentBuffer = reader.ReadRawBsonDocument();
+                // byte_buffer_base document_buffer = reader.read_raw_bson_document();
                 bsoncxx::document::view sub_doc = elem.get_document().view();
 
                 // Deserialize embedded data element
@@ -235,5 +235,4 @@ namespace dc
         value->serialize_to(writer);
         writer->write_end_document(root_name);
     }
-
 }

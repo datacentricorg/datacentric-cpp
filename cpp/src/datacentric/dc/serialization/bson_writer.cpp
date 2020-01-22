@@ -35,7 +35,6 @@ limitations under the License.
 
 namespace dc
 {
-
     void bson_writer_impl::write_start_document(dot::string root_element_name)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
@@ -49,7 +48,6 @@ namespace dc
         else
             throw dot::exception(
                 "A call to write_start_document(...) must be the first call to the tree writer.");
-
     }
 
     void bson_writer_impl::write_end_document(dot::string root_element_name)
@@ -106,7 +104,7 @@ namespace dc
             "A call to write_end_element(...) does not follow a matching write_start_element(...) at the same indent level.");
 
         // Pop the outer element name and state from the element stack
-        //(currentElementName, currentState_) = elementStack_.Pop();
+        //(current_element_name, current_state_) = element_stack_.pop();
         dot::string current_element_name;
         std::pair<dot::string, tree_writer_state> top = element_stack_.top();
         element_stack_.pop();
@@ -122,8 +120,6 @@ namespace dc
         // Nothing to write here but array closing bracket was written above
     }
 
-    /// Write dictionary start tag. A call to this method
-    /// must follow write_start_element(...) or write_start_array_item().
     void bson_writer_impl::write_start_dict()
     {
         // Save initial state to be used below
@@ -144,7 +140,7 @@ namespace dc
         //if (prev_state == tree_writer_state::document_started)
         //{
         //    dot::string root_element_name = element_stack_.top().first;
-        //    if (!root_element_name->ends_with("Key"))  // TODO remove it
+        //    if (!root_element_name->ends_with("key"))  // TODO remove it
         //        this->write_value_element("_t", root_element_name);
         //}
     }
@@ -260,7 +256,7 @@ namespace dc
         if (value_type->equals(dot::typeof<dot::string>()))
             bson_writer_.append(*(dot::string)value);
         else
-        if (value_type->equals(dot::typeof<double>())) // ? TODO check dot::typeof<Double>() dot::typeof<NullableDouble>()
+        if (value_type->equals(dot::typeof<double>())) // ? TODO check dot::typeof<double>() dot::typeof<nullable_double>()
             bson_writer_.append((double)value);
         else
         if (value_type->equals(dot::typeof<bool>()))
@@ -302,5 +298,4 @@ namespace dc
     {
         return bson_writer_.view_array()[0].get_document().view();
     }
-
 }

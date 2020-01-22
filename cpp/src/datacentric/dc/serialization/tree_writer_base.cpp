@@ -22,51 +22,42 @@ limitations under the License.
 
 namespace dc
 {
-
-    /// write_start_element(...) followed by write_start_dict().
     void tree_writer_base_impl::write_start_dict_element(dot::string element_name)
     {
         this->write_start_element(element_name);
         this->write_start_dict();
     }
 
-    /// write_end_dict(...) followed by write_end_element(...).
     void tree_writer_base_impl::write_end_dict_element(dot::string element_name)
     {
         this->write_end_dict();
         this->write_end_element(element_name);
     }
 
-    /// write_start_element(...) followed by write_start_array().
     void tree_writer_base_impl::write_start_array_element(dot::string element_name)
     {
         this->write_start_element(element_name);
         this->write_start_array();
     }
 
-    /// write_end_array(...) followed by write_end_element(...).
     void tree_writer_base_impl::write_end_array_element(dot::string element_name)
     {
         this->write_end_array();
         this->write_end_element(element_name);
     }
 
-    /// write_start_array_item(...) followed by write_start_dict().
     void tree_writer_base_impl::write_start_dict_array_item()
     {
         this->write_start_array_item();
         this->write_start_dict();
     }
 
-    /// write_end_dict(...) followed by write_end_array_item(...).
     void tree_writer_base_impl::write_end_dict_array_item()
     {
         this->write_end_dict();
         this->write_end_array_item();
     }
 
-    /// Write an element with no inner nodes.
-    /// Element type is inferred by calling obj.get_type().
     void tree_writer_base_impl::write_value_element(dot::string element_name, dot::object value)
     {
         // Do not serialize null or empty value
@@ -80,8 +71,6 @@ namespace dc
         }
     }
 
-    /// Write an array item with no inner nodes.
-    /// Element type is inferred by calling obj.get_type().
     void tree_writer_base_impl::write_value_array_item(dot::object value)
     {
         // Writes null or empty value as BSON null
@@ -92,7 +81,6 @@ namespace dc
         this->write_end_array_item();
     }
 
-    /// Write a single array item.
     void tree_writer_base_impl::write_array_item(dot::object value)
     {
         // Will serialize null or empty value
@@ -102,5 +90,4 @@ namespace dc
         this->write_end_value();
         this->write_end_array_item();
     }
-
 }

@@ -227,7 +227,7 @@ namespace dc
         else throw dot::exception(
             "A call to write_start_array_item() must follow write_start_element(...) or write_end_array_item().");
 
-        //Object added_item = nullptr;
+        //dot::object added_item = nullptr;
         //if (current_array_item_type_ == dot::typeof<string>()) added_item = nullptr;
         //else if (current_array_item_type_ == dot::typeof<double>()) added_item = double();
         //else if (current_array_item_type_ == dot::typeof<nullable<double>>()) added_item = nullptr;
@@ -536,5 +536,4 @@ namespace dc
         current_array_ = stack_item.current_array;
         current_array_item_type_ = stack_item.current_array_item_type;
     }
-
 }

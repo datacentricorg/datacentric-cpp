@@ -29,26 +29,26 @@ namespace dc
     class json_record_serializer_impl; using json_record_serializer = dot::ptr<json_record_serializer_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
-    /// Implementation of IBsonWriter using MongoDB IBsonWriter.
+    /// Implementation of bson_writer_base using MongoDB bson_writer_base.
     class DC_CLASS json_record_serializer_impl : public virtual dot::object_impl
     {
         friend json_record_serializer make_json_record_serializer();
 
     public:
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         data deserialize(const rapidjson::Document& doc);
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         dot::object deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type);
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         void deserialize_document(rapidjson::Document::ConstObject doc, tree_writer_base writer);
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         void deserialize_array(rapidjson::Document::ConstArray arr, tree_writer_base writer);
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         void serialize(tree_writer_base writer, data value);
 
     private:

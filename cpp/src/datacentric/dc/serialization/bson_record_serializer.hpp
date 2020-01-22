@@ -22,32 +22,31 @@ limitations under the License.
 #include <dot/system/collections/generic/list.hpp>
 #include <dc/serialization/bson_writer.hpp>
 
-
 namespace dc
 {
     class bson_record_serializer_impl; using bson_record_serializer = dot::ptr<bson_record_serializer_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
-    /// Implementation of IBsonWriter using MongoDB IBsonWriter.
+    /// Implementation of bson_writer_base using MongoDB bson_writer_base.
     class DC_CLASS bson_record_serializer_impl : public virtual dot::object_impl
     {
         friend bson_record_serializer make_bson_record_serializer();
 
     public:
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         data deserialize(bsoncxx::document::view doc);
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         dot::object deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tuple_type);
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         void deserialize_document(const bsoncxx::document::view & doc, tree_writer_base writer);
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         void deserialize_array(const bsoncxx::array::view & arr, tree_writer_base writer);
 
-        /// Null value is handled via [BsonIgnoreIfNull] attribute and is not expected here.
+        /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         void serialize(tree_writer_base writer, data value);
 
     private:
