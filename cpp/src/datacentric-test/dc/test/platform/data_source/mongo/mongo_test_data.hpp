@@ -17,8 +17,10 @@ limitations under the License.
 #pragma once
 
 #include <dc/test/implement.hpp>
+#include <dc/attributes/class/index_elements_attribute.hpp>
 #include <dc/platform/context/context_base.hpp>
 #include <dc/types/record/typed_record.hpp>
+#include <dc/types/record/data_type_info.hpp>
 #include <dot/system/enum.hpp>
 
 namespace dc
@@ -189,19 +191,35 @@ namespace dc
         mongo_test_enum enum_value = mongo_test_enum::empty;
         dot::nullable<int> version;
 
-        DOT_TYPE_BEGIN("dc", "mongo_test_data")
-            DOT_TYPE_PROP(record_id)
-            DOT_TYPE_PROP(record_index)
-            DOT_TYPE_PROP(double_element)
-            DOT_TYPE_PROP(local_date_element)
-            DOT_TYPE_PROP(local_time_element)
-            DOT_TYPE_PROP(local_minute_element)
-            DOT_TYPE_PROP(local_date_time_element)
-            DOT_TYPE_PROP(enum_value)
-            DOT_TYPE_PROP(version)
-            DOT_TYPE_BASE(typed_record<mongo_test_key_impl, mongo_test_data_impl>)
-            DOT_TYPE_CTOR(make_mongo_test_data)
-        DOT_TYPE_END()
+    public: // REFLECTION
+
+        dot::type get_type() override { return typeof(); }
+
+        static dot::type typeof()
+        {
+            static dot::type result = []()->dot::type
+            {
+                dot::type t = dot::make_type_builder<mongo_test_data_impl>("dc", "mongo_test_data", {
+                        make_index_elements_attribute("double_element, local_date_element, enum_value"),
+                        make_index_elements_attribute("local_date_element"),
+                        make_index_elements_attribute("record_id, -version", "custom_index_name"),
+                        make_index_elements_attribute("-record_index") })
+                    ->with_field("record_id", &mongo_test_data_impl::record_id)
+                    ->with_field("record_index", &mongo_test_data_impl::record_index)
+                    ->with_field("double_element", &mongo_test_data_impl::double_element)
+                    ->with_field("local_date_element", &mongo_test_data_impl::local_date_element)
+                    ->with_field("local_time_element", &mongo_test_data_impl::local_time_element)
+                    ->with_field("local_minute_element", &mongo_test_data_impl::local_minute_element)
+                    ->with_field("local_date_time_element", &mongo_test_data_impl::local_date_time_element)
+                    ->with_field("enum_value", &mongo_test_data_impl::enum_value)
+                    ->with_field("version", &mongo_test_data_impl::version)
+                    ->template with_base<typed_record<mongo_test_key_impl, mongo_test_data_impl>>()
+                    ->with_constructor(&make_mongo_test_data, {})
+                    ->build();
+                return t;
+            }();
+            return result;
+        }
     };
 
     inline mongo_test_data make_mongo_test_data() { return new mongo_test_data_impl; }
@@ -250,22 +268,35 @@ namespace dc
         mongo_test_key key_element;
         dot::list<mongo_test_key> key_element_list;
 
-        DOT_TYPE_BEGIN("dc", "mongo_test_derived_data")
-            DOT_TYPE_PROP(double_element2)
-            DOT_TYPE_PROP(string_element2)
-            DOT_TYPE_PROP(array_of_string)
-            DOT_TYPE_PROP(list_of_string)
-            DOT_TYPE_PROP(array_of_double)
-            DOT_TYPE_PROP(array_of_nullable_double)
-            DOT_TYPE_PROP(list_of_double)
-            DOT_TYPE_PROP(list_of_nullable_double)
-            DOT_TYPE_PROP(data_element)
-            DOT_TYPE_PROP(data_element_list)
-            DOT_TYPE_PROP(key_element)
-            DOT_TYPE_PROP(key_element_list)
-            DOT_TYPE_BASE(mongo_test_data)
-            DOT_TYPE_CTOR(make_mongo_test_derived_data)
-        DOT_TYPE_END()
+    public: // REFLECTION
+
+        dot::type get_type() override { return typeof(); }
+
+        static dot::type typeof()
+        {
+            static dot::type result = []()->dot::type
+            {
+                dot::type t = dot::make_type_builder<mongo_test_derived_data_impl>("dc", "mongo_test_derived_data", {
+                        make_index_elements_attribute("double_element2, -double_element")})
+                    ->with_field("double_element2", &mongo_test_derived_data_impl::double_element2)
+                    ->with_field("string_element2", &mongo_test_derived_data_impl::string_element2)
+                    ->with_field("array_of_string", &mongo_test_derived_data_impl::array_of_string)
+                    ->with_field("list_of_string", &mongo_test_derived_data_impl::list_of_string)
+                    ->with_field("array_of_double", &mongo_test_derived_data_impl::array_of_double)
+                    ->with_field("array_of_nullable_double", &mongo_test_derived_data_impl::array_of_nullable_double)
+                    ->with_field("list_of_double", &mongo_test_derived_data_impl::list_of_double)
+                    ->with_field("list_of_nullable_double", &mongo_test_derived_data_impl::list_of_nullable_double)
+                    ->with_field("data_element", &mongo_test_derived_data_impl::data_element)
+                    ->with_field("data_element_list", &mongo_test_derived_data_impl::data_element_list)
+                    ->with_field("key_element", &mongo_test_derived_data_impl::key_element)
+                    ->with_field("key_element_list", &mongo_test_derived_data_impl::key_element_list)
+                    ->template with_base<mongo_test_data>()
+                    ->with_constructor(&make_mongo_test_derived_data, {})
+                    ->build();
+                return t;
+            }();
+            return result;
+        }
     };
 
     inline mongo_test_derived_data make_mongo_test_derived_data() { return new mongo_test_derived_data_impl; }
@@ -284,12 +315,25 @@ namespace dc
         dot::nullable<double> other_double_element2;
         dot::string other_string_element2;
 
-        DOT_TYPE_BEGIN("dc", "mongo_test_other_derived_data")
-            DOT_TYPE_PROP(other_double_element2)
-            DOT_TYPE_PROP(other_string_element2)
-            DOT_TYPE_BASE(mongo_test_data)
-            DOT_TYPE_CTOR(make_mongo_test_other_derived_data)
-        DOT_TYPE_END()
+    public: // REFLECTION
+
+        dot::type get_type() override { return typeof(); }
+
+        static dot::type typeof()
+        {
+            static dot::type result = []()->dot::type
+            {
+                dot::type t = dot::make_type_builder<mongo_test_other_derived_data_impl>("dc", "mongo_test_other_derived_data", {
+                        make_index_elements_attribute("other_double_element2, other_string_element2, -record_index") })
+                    ->with_field("other_double_element2", &mongo_test_other_derived_data_impl::other_double_element2)
+                    ->with_field("other_string_element2", &mongo_test_other_derived_data_impl::other_string_element2)
+                    ->template with_base<mongo_test_data>()
+                    ->with_constructor(&make_mongo_test_other_derived_data, {})
+                    ->build();
+                return t;
+            }();
+            return result;
+        }
     };
 
     inline mongo_test_other_derived_data make_mongo_test_other_derived_data() { return new mongo_test_other_derived_data_impl; }
