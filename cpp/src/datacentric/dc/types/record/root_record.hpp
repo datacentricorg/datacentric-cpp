@@ -17,24 +17,24 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/record.hpp>
+#include <dc/types/record/typed_record.hpp>
 
 namespace dc
 {
     template <typename TKey, typename TRecord> class root_record_for_impl;
     template <typename TKey, typename TRecord> using root_record_for = dot::ptr<root_record_for_impl<TKey, TRecord>>;
-    template <typename TKey, typename TRecord> class record_impl;
-    template <typename TKey, typename TRecord> using record = dot::ptr<record_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class typed_record_impl;
+    template <typename TKey, typename TRecord> using typed_record = dot::ptr<typed_record_impl<TKey, TRecord>>;
 
     /// Root record is recorded without a dataset.
     template <typename TKey, typename TRecord>
-    class root_record_for_impl : public virtual record_impl<TKey, TRecord>
+    class root_record_for_impl : public virtual typed_record_impl<TKey, TRecord>
     {
         typedef root_record_for_impl<TKey, TRecord> self;
     public:
 
         DOT_TYPE_BEGIN("dc", "root_record")
-            DOT_TYPE_BASE(record<TKey, TRecord>)
+            DOT_TYPE_BASE(typed_record<TKey, TRecord>)
         DOT_TYPE_END()
 
     };

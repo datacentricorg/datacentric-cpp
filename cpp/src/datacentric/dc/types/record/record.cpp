@@ -16,12 +16,12 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/types/record/record_base.hpp>
+#include <dc/types/record/record.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
-    void record_base_impl::init(context_base context)
+    void record_impl::init(context_base context)
     {
         // The line below is an example of calling init(...) method for base class.
         // It should be uncommented for all classes derived from this class.
@@ -33,20 +33,20 @@ namespace dc
             dot::string::format("Null context is passed to the init(...) method for {0}.", get_type()->name()));
     }
 
-    void record_base_impl::serialize_key(dot::tree_writer_base writer, dot::object obj)
+    void record_impl::serialize_key(dot::tree_writer_base writer, dot::object obj)
     {
-        writer->write_value_element("_key", ((record_base)obj)->get_key());
+        writer->write_value_element("_key", ((record)obj)->get_key());
     }
 
-    dot::type record_base_impl::typeof()
+    dot::type record_impl::typeof()
     {
         static dot::type result = []()-> dot::type
         {
-            dot::type t = dot::make_type_builder<record_base_impl>("dc", "record_base", { dot::make_bson_root_class_attribute() })
+            dot::type t = dot::make_type_builder<record_impl>("dc", "record", { dot::make_bson_root_class_attribute() })
                 ->with_field("_id", &self::id)
                 ->with_field("_dataset", &self::data_set)
-                ->with_field("_key", static_cast<dot::string record_base_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization)
-                    , dot::make_serialize_field_attribute(&record_base_impl::serialize_key) })
+                ->with_field("_key", static_cast<dot::string record_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization)
+                    , dot::make_serialize_field_attribute(&record_impl::serialize_key) })
                 ->template with_base<data>()
                 ->build();
             return t;
@@ -54,7 +54,7 @@ namespace dc
         return result;
     }
 
-    dot::type record_base_impl::get_type()
+    dot::type record_impl::get_type()
     {
         return typeof();
     }
