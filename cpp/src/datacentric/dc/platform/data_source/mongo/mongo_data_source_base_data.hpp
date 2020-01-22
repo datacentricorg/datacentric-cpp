@@ -27,7 +27,7 @@ namespace dc
 {
     class mongo_data_source_base_data_impl; using mongo_data_source_base_data = dot::ptr<mongo_data_source_base_data_impl>;
     class context_base_impl; using context_base = dot::ptr<context_base_impl>;
-    class key_base_impl; using key_base = dot::ptr<key_base_impl>;
+    class key_impl; using key = dot::ptr<key_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
 
     /// Abstract base class for data source implementations based on MongoDB.
@@ -44,6 +44,8 @@ namespace dc
 
         /// Maximum length of the database on Mongo server including delimiters.
         static int max_db_name_length_;
+
+        const bool useScalarDiscriminatorConvention_ = false;
 
     private: // FIELDS
 
@@ -100,5 +102,26 @@ namespace dc
 
         /// Get collection with name based on the type.
         dot::collection get_collection(dot::string type_name);
+
+        mongo_data_source_base_data_impl()
+        {
+            if (useScalarDiscriminatorConvention_)
+            {
+                // Set discriminator convention to scalar. For this convention,
+                // BSON element _t is a single string value equal to GetType().Name,
+                // rather than the list of names for the entire inheritance chain.
+                dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::scalar);
+            }
+            else
+            {
+                // Set discriminator convention to hierarchical. For this convention,
+                // BSON element _t is either an array of GetType().Name values for ell
+                // types in the inheritance chain, or a single string value for a chain
+                // of length 1.
+                //
+                // Choosing root type to be Record ensures that _t is always an array.
+                dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::hierarchical);
+            }
+        }
     };
 }

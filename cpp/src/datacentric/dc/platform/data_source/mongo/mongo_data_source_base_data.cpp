@@ -52,7 +52,7 @@ namespace dc
                 dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", db_name_));
 
         // Get client interface using the server
-        dot::string db_uri = db_server->load(context).as<mongo_server_data>()->get_mongo_server_uri();
+        dot::string db_uri = db_server->db_server_id;
         client_ = dot::make_client(db_uri);
 
         // Get database interface using the client and database name
@@ -61,8 +61,6 @@ namespace dc
 
     dot::object_id mongo_data_source_base_data_impl::create_ordered_object_id()
     {
-        check_not_read_only();
-
         // Generate dot::object_id and check that it is later
         // than the previous generated dot::object_id
         dot::object_id result = dot::object_id::generate_new_id();
@@ -92,7 +90,10 @@ namespace dc
 
     void mongo_data_source_base_data_impl::delete_db()
     {
-        check_not_read_only();
+        if (!read_only)
+        {
+            throw dot::exception(dot::string::format("Attempting to drop (delete) database for the data source {0} where ReadOnly flag is set.", data_source_id));
+        }
 
         // Do not delete (drop) the database this class did not create
         if (!client_.is_empty() && !db_.is_empty())
@@ -127,8 +128,8 @@ namespace dc
     {
         dot::type curr = data_type;
         // Searching for base record or key
-        while (!curr->get_base_type()->equals(dot::typeof<record_base>())
-            && !curr->get_base_type()->equals(dot::typeof<key_base>()))
+        while (!curr->get_base_type()->equals(dot::typeof<record>())
+            && !curr->get_base_type()->equals(dot::typeof<key>()))
         {
             curr = curr->get_base_type();
             if (curr.is_empty())
