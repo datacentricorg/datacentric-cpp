@@ -54,7 +54,7 @@ namespace dc
     class_info_impl::class_info_impl(dot::type type)
     {
         // Set type, raw full name, class name, and namespace
-        type = type;
+        this->type = type;
         raw_full_name = type->full_name();
         raw_class_name = type->name;
         raw_namespace = type->name_space;
