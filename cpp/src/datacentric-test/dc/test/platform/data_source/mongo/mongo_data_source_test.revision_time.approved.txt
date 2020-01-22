@@ -1,8 +1,8 @@
-load records by dot::object_id without constraint
-    found by dot::object_id=A0 = true
-    found by dot::object_id=A1 = true
-    found by dot::object_id=A2 = true
-    found by dot::object_id=C0 = true
+load records by temporal_id without constraint
+    found by temporal_id=A0 = true
+    found by temporal_id=A1 = true
+    found by temporal_id=A2 = true
+    found by temporal_id=C0 = true
 load records by string key without constraint
     version found for key=A;0: 2
     version found for key=C;0: 0
@@ -11,11 +11,11 @@ query records without constraint
     key=B;0 data_set=B version=2
     key=C;0 data_set=A version=0
     key=D;0 data_set=B version=0
-load records by dot::object_id with revised_before_id constraint
-    found by dot::object_id=A0 = true
-    found by dot::object_id=A1 = true
-    found by dot::object_id=A2 = false
-    found by dot::object_id=C0 = false
+load records by temporal_id with revised_before_id constraint
+    found by temporal_id=A0 = true
+    found by temporal_id=A1 = true
+    found by temporal_id=A2 = false
+    found by temporal_id=C0 = false
 load records by string key with revised_before_id constraint
     version found for key=A;0: 2
 query records with revised_before_id constraint

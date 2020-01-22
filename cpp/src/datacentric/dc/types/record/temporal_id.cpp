@@ -111,8 +111,7 @@ namespace dc
     void temporal_id::serialize(dot::tree_writer_base writer, dot::object obj)
     {
         writer->write_start_value();
-        writer->write_value((dot::object_id) ((temporal_id) obj).oid());
-        //writer->write_value(((temporal_id) obj).to_byte_array());
+        writer->write_value(((temporal_id) obj).to_byte_array());
         writer->write_end_value();
     }
 
@@ -140,7 +139,6 @@ namespace dc
     dot::object temporal_id::serialize_token(dot::object obj)
     {
         temporal_id tid = (temporal_id) obj;
-        return dot::object_id(tid.id_);
-        //return tid.to_byte_array();
+        return tid.to_byte_array();
     }
 }
