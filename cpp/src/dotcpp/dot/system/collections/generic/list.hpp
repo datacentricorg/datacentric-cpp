@@ -28,20 +28,20 @@ limitations under the License.
 
 namespace dot
 {
-    template <class T> class list_impl; template <class T> using list = Ptr<list_impl<T>>;
+    template <class T> class ListImpl; template <class T> using List = Ptr<ListImpl<T>>;
     class TypeBuilderImpl; using TypeBuilder = Ptr<TypeBuilderImpl>;
 
     /// Represents a strongly typed collection of objects that can be accessed by index.
     template <class T>
-    class list_impl : public virtual ObjectImpl, public std::vector<T>, public list_base_impl
+    class ListImpl : public virtual ObjectImpl, public std::vector<T>, public ListBaseImpl
     {
-        template <class R> friend list<R> make_list();
-        template <class R> friend list<R> make_list(const std::vector<R> & obj);
-        template <class R> friend list<R> make_list(std::vector<R>&& obj);
-        template <class R> friend list<R> make_list(const std::initializer_list<R> & obj);
-        template <class R> friend list<R> make_list(int size);
+        template <class R> friend List<R> make_list();
+        template <class R> friend List<R> make_list(const std::vector<R> & obj);
+        template <class R> friend List<R> make_list(std::vector<R>&& obj);
+        template <class R> friend List<R> make_list(const std::initializer_list<R> & obj);
+        template <class R> friend List<R> make_list(int size);
 
-        typedef list_impl<T> self;
+        typedef ListImpl<T> self;
         typedef std::vector<T> base;
 
     private: // CONSTRUCTORS
@@ -49,27 +49,27 @@ namespace dot
         /// Create empty list with default initial capacity.
         ///
         /// This constructor is private. Use make_list(...) function instead.
-        list_impl() {}
+        ListImpl() {}
 
         /// Construct from vector using deep copy semantics.
         ///
         /// This constructor is private. Use make_list(...) function instead.
-        explicit list_impl(const std::vector<T>& obj) : base(obj) {}
+        explicit ListImpl(const std::vector<T>& obj) : base(obj) {}
 
         /// Construct from vector using move semantics.
         ///
         /// This constructor is private. Use make_list(...) function instead.
-        explicit list_impl(std::vector<T>&& obj) : base(obj) {}
+        explicit ListImpl(std::vector<T>&& obj) : base(obj) {}
 
         /// Construct from initializer list.
         ///
         /// This constructor is private. Use make_list(...) function instead.
-        explicit list_impl(const std::initializer_list<T>& obj) : base(obj) {}
+        explicit ListImpl(const std::initializer_list<T>& obj) : base(obj) {}
 
         /// Construct from int.
         ///
         /// This constructor is private. Use make_list(...) function instead.
-        explicit list_impl(int size) : base(size) {}
+        explicit ListImpl(int size) : base(size) {}
 
     public: // METHODS
 
@@ -95,7 +95,7 @@ namespace dot
         }
 
         /// Adds the elements of the specified collection to the end of the list.
-        void add_range(list<T> collection)
+        void add_range(List<T> collection)
         {
             this->insert(this->end(), collection->begin(), collection->end());
         }
@@ -154,21 +154,21 @@ namespace dot
 
     /// Create empty list with default initial capacity.
     template <class T>
-    list<T> make_list() { return new list_impl<T>(); }
+    List<T> make_list() { return new ListImpl<T>(); }
 
     /// Construct from vector using deep copy semantics.
     template <class T>
-    list<T> make_list(const std::vector<T> & obj) { return new list_impl<T>(obj); }
+    List<T> make_list(const std::vector<T> & obj) { return new ListImpl<T>(obj); }
 
     /// Construct from vector using move semantics.
     template <class T>
-    list<T> make_list(std::vector<T>&& obj) { return new list_impl<T>(std::forward<std::vector<T>>(obj)); }
+    List<T> make_list(std::vector<T>&& obj) { return new ListImpl<T>(std::forward<std::vector<T>>(obj)); }
 
     /// Construct from initializer list.
     template <class T>
-    list<T> make_list(const std::initializer_list<T> & obj) { return new list_impl<T>(obj); }
+    List<T> make_list(const std::initializer_list<T> & obj) { return new ListImpl<T>(obj); }
 
     /// Construct from int.
     template <class T>
-    list<T> make_list(int size) { return new list_impl<T>(size); }
+    List<T> make_list(int size) { return new ListImpl<T>(size); }
 }

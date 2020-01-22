@@ -65,9 +65,9 @@ namespace dot
     template <>
     struct ToStringImpl<dc::mongo_test_enum>
     {
-        static dot::dictionary<dot::String, int> get_enum_map(int size)
+        static dot::Dictionary<dot::String, int> get_enum_map(int size)
         {
-            static dot::dictionary<dot::String, int> func = [size]()
+            static dot::Dictionary<dot::String, int> func = [size]()
             {
                 auto result = dot::make_dictionary<dot::String, int>();
                 for (int i = 0; i < size; i++)
@@ -96,7 +96,7 @@ namespace dot
         /// Convert value to String; for empty or null values, return String::empty.
         static bool try_parse(String value, dc::mongo_test_enum& result)
         {
-            dot::dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
+            dot::Dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
             int int_result;
             if (dict->try_get_value(value, int_result))
             {
@@ -113,7 +113,7 @@ namespace dot
         /// Convert String to enum
         static dc::mongo_test_enum parse(String value)
         {
-            dot::dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
+            dot::Dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
             int int_result;
             if (dict->try_get_value(value, int_result))
             {
@@ -257,16 +257,16 @@ namespace dc
     public:
         dot::Nullable<double> double_element2;
         dot::String string_element2;
-        dot::list<dot::String> array_of_string;
-        dot::list<dot::String> list_of_string;
-        dot::list<double> array_of_double;
-        dot::list<dot::Nullable<double>> array_of_nullable_double;
-        dot::list<double> list_of_double;
-        dot::list<dot::Nullable<double>> list_of_nullable_double;
+        dot::List<dot::String> array_of_string;
+        dot::List<dot::String> list_of_string;
+        dot::List<double> array_of_double;
+        dot::List<dot::Nullable<double>> array_of_nullable_double;
+        dot::List<double> list_of_double;
+        dot::List<dot::Nullable<double>> list_of_nullable_double;
         element_sample_data data_element;
-        dot::list<element_sample_data> data_element_list;
+        dot::List<element_sample_data> data_element_list;
         mongo_test_key key_element;
-        dot::list<mongo_test_key> key_element_list;
+        dot::List<mongo_test_key> key_element_list;
 
     public: // REFLECTION
 

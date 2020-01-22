@@ -110,7 +110,7 @@ namespace dc
         return nullptr;
     }
 
-    void mongo_data_source_data_impl::save_many(dot::list<record> records, temporal_id save_to)
+    void mongo_data_source_data_impl::save_many(dot::List<record> records, temporal_id save_to)
     {
         check_not_read_only(save_to);
 
@@ -182,8 +182,8 @@ namespace dc
         // The list will not include datasets that are after the value of
         // CutoffTime if specified, or their imports (including
         // even those imports that are earlier than the constraint).
-        dot::hash_set<temporal_id> lookup_set = get_data_set_lookup_list(load_from);
-        dot::list<temporal_id> lookup_list = dot::make_list<temporal_id>(std::vector<temporal_id>(lookup_set->begin(), lookup_set->end()));
+        dot::HashSet<temporal_id> lookup_set = get_data_set_lookup_list(load_from);
+        dot::List<temporal_id> lookup_list = dot::make_list<temporal_id>(std::vector<temporal_id>(lookup_set->begin(), lookup_set->end()));
 
 
         // Apply constraint that the value is _dataset is
@@ -237,7 +237,7 @@ namespace dc
             data_set_dict_[data_set_id] = data_set_data->id;
             data_set_owners_dict_[data_set_data->id] = data_set_data->data_set;
 
-            dot::hash_set<temporal_id> import_set;
+            dot::HashSet<temporal_id> import_set;
             // Build and cache dataset lookup list if not found
             if (!data_set_parent_dict_->try_get_value(data_set_data->id, import_set))
             {
@@ -260,13 +260,13 @@ namespace dc
         data_set_owners_dict_[data_set_data->id] = data_set_data->data_set;
 
         // Update lookup list dictionary
-        dot::hash_set<temporal_id> lookup_list = build_data_set_lookup_list(data_set_data);
+        dot::HashSet<temporal_id> lookup_list = build_data_set_lookup_list(data_set_data);
         data_set_parent_dict_->add(data_set_data->id, lookup_list);
     }
 
-    dot::hash_set<temporal_id> mongo_data_source_data_impl::get_data_set_lookup_list(temporal_id load_from)
+    dot::HashSet<temporal_id> mongo_data_source_data_impl::get_data_set_lookup_list(temporal_id load_from)
     {
-        dot::hash_set<temporal_id> result;
+        dot::HashSet<temporal_id> result;
 
         // Root dataset has no imports (there is not even a record
         // where these imports can be specified).
@@ -384,7 +384,7 @@ namespace dc
         // Each data type has an index for optimized loading by key.
         // This index consists of Key in ascending order, followed by
         // DataSet and ID in descending order.
-        dot::list<std::tuple<dot::String, int>> load_index_keys = dot::make_list<std::tuple<dot::String, int>>();
+        dot::List<std::tuple<dot::String, int>> load_index_keys = dot::make_list<std::tuple<dot::String, int>>();
         load_index_keys->add({ "_key", 1 }); // .key
         load_index_keys->add({ "_dataset", -1 }); // .data_set
         load_index_keys->add({ "_id", -1 }); // .id
@@ -400,7 +400,7 @@ namespace dc
         // Additional indices are provided using IndexAttribute for the class.
         // Get a sorted dictionary of (definition, name) pairs
         // for the inheritance chain of the specified type.
-        dot::dictionary<dot::String, dot::String> index_dict = index_elements_attribute_impl::get_attributes_dict(data_type);
+        dot::Dictionary<dot::String, dot::String> index_dict = index_elements_attribute_impl::get_attributes_dict(data_type);
 
         // Iterate over the dictionary to define the index
         for (auto index_info : index_dict)
@@ -409,7 +409,7 @@ namespace dc
             dot::String index_name = index_info.second;
 
             // Parse index definition to get a list of (ElementName,SortOrder) tuples
-            dot::list<std::tuple<dot::String, int>> index_tokens = index_elements_attribute_impl::parse_definition(index_definition, data_type);
+            dot::List<std::tuple<dot::String, int>> index_tokens = index_elements_attribute_impl::parse_definition(index_definition, data_type);
 
             if (index_name == nullptr) throw dot::Exception("Index name cannot be null.");
 
@@ -424,15 +424,15 @@ namespace dc
         return typed_collection;
     }
 
-    dot::hash_set<temporal_id> mongo_data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data)
+    dot::HashSet<temporal_id> mongo_data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data)
     {
         // Delegate to the second overload
-        dot::hash_set<temporal_id> result = dot::make_hash_set<temporal_id>();
+        dot::HashSet<temporal_id> result = dot::make_hash_set<temporal_id>();
         build_data_set_lookup_list(data_set_data, result);
         return result;
     }
 
-    void mongo_data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data, dot::hash_set<temporal_id> result)
+    void mongo_data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data, dot::HashSet<temporal_id> result)
     {
         // Return if the dataset is null or has no imports
         if (data_set_data == nullptr) return;
@@ -470,7 +470,7 @@ namespace dc
                 {
                     result->add(data_set_id);
                     // Add recursively if not already present in the hashset
-                    dot::hash_set<temporal_id> cached_import_list = get_data_set_lookup_list(data_set_id);
+                    dot::HashSet<temporal_id> cached_import_list = get_data_set_lookup_list(data_set_id);
                     for (temporal_id import_id : cached_import_list)
                     {
                         result->add(import_id);

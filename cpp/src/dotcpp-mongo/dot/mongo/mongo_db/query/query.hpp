@@ -100,7 +100,7 @@ namespace dot
         /// Makes projection according to specified fields.
         /// Result of projection is represented by tuple.
         /// Returns non-typed cursor to the result set of a query on a MongoDB server.
-        virtual object_cursor_wrapper_base select(dot::list<dot::FieldInfo> props, dot::Type element_type);
+        virtual object_cursor_wrapper_base select(dot::List<dot::FieldInfo> props, dot::Type element_type);
 
         /// Makes group by some field.
         /// Example:
@@ -180,7 +180,7 @@ namespace dot
         ///   query->select<std::tuple<elem_type1, elemtype2, ...>>(list_with_field_info)
         /// @endcode
         template <class element>
-        cursor_wrapper<element> select(dot::list<dot::FieldInfo> props)
+        cursor_wrapper<element> select(dot::List<dot::FieldInfo> props)
         {
             return make_cursor_wrapper<element>(select(props, dot::typeof<element>()));
         }
@@ -212,7 +212,7 @@ namespace dot
 
             virtual object_cursor_wrapper_base get_cursor() = 0;
 
-            virtual object_cursor_wrapper_base select(dot::list<dot::FieldInfo> props, dot::Type element_type) = 0;
+            virtual object_cursor_wrapper_base select(dot::List<dot::FieldInfo> props, dot::Type element_type) = 0;
 
             virtual void limit(int32_t limit_size) = 0;
         };

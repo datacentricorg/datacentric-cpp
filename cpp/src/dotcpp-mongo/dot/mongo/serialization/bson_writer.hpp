@@ -119,7 +119,7 @@ namespace dot
     private:
 
         /// Get parent types list of from_type.
-        static list<Type> get_parents_list(Type from_type);
+        static List<Type> get_parents_list(Type from_type);
 
     private:
 

@@ -28,8 +28,8 @@ namespace dc
         // proper value for the record.
         //
         // Get FieldInfo arrays for TKey and TRecord
-        dot::list<dot::FieldInfo> key_element_info_array = dot::typeof<dot::Ptr<TKey>>()->get_fields();
-        dot::list<dot::FieldInfo> record_element_info_array = dot::typeof<dot::Ptr<TRecord>>()->get_fields();
+        dot::List<dot::FieldInfo> key_element_info_array = dot::typeof<dot::Ptr<TKey>>()->get_fields();
+        dot::List<dot::FieldInfo> record_element_info_array = dot::typeof<dot::Ptr<TRecord>>()->get_fields();
 
         // Check that TRecord has the same or greater number of elements
         // as TKey (all elements of TKey must also be present in TRecord)

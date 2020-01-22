@@ -46,7 +46,7 @@ namespace dot
     class StringImpl; class String;
     class MethodInfoImpl; using MethodInfo = Ptr<MethodInfoImpl>;
     class ConstructorInfoImpl; using constqructor_info = Ptr<ConstructorInfoImpl>;
-    template <class T> class list_impl; template <class T> using list = Ptr<list_impl<T>>;
+    template <class T> class ListImpl; template <class T> using List = Ptr<ListImpl<T>>;
     template <class class_t, class ... Args> class MemberConstructorInfoImpl;
 
     template <class T> Type typeof();
@@ -57,7 +57,7 @@ namespace dot
         struct TypeMethodArgument
         {
             String name;
-            list<Attribute> custom_attributes;
+            List<Attribute> custom_attributes;
 
             /// Constructor from parameter name.
             TypeMethodArgument(const char* name)
@@ -86,14 +86,14 @@ namespace dot
 
     private:
         String full_name_;
-        list<MethodInfo> methods_;
-        list<ConstructorInfo> ctors_;
-        list<FieldInfo> fields_;
+        List<MethodInfo> methods_;
+        List<ConstructorInfo> ctors_;
+        List<FieldInfo> fields_;
         Type type_;
         Type base_;
-        list<Type> interfaces_;
-        list<Type> generic_args_;
-        list<Attribute> custom_attributes_;
+        List<Type> interfaces_;
+        List<Type> generic_args_;
+        List<Attribute> custom_attributes_;
         bool is_class_;
         bool is_enum_ = false;
 
@@ -124,7 +124,7 @@ namespace dot
                 methods_ = make_list<MethodInfo>();
             }
 
-            list<ParameterInfo> parameters = make_list<ParameterInfo>(sizeof...(Args));
+            List<ParameterInfo> parameters = make_list<ParameterInfo>(sizeof...(Args));
             std::vector<Type> param_types = { dot::typeof<Args>()... };
 
             int i = 0;
@@ -155,7 +155,7 @@ namespace dot
                 methods_ = make_list<MethodInfo>();
             }
 
-            list<ParameterInfo> parameters = make_list<ParameterInfo>(sizeof...(Args));
+            List<ParameterInfo> parameters = make_list<ParameterInfo>(sizeof...(Args));
             std::vector<Type> param_types = { dot::typeof<Args>()... };
 
             int i = 0;
@@ -186,7 +186,7 @@ namespace dot
                 ctors_ = make_list<ConstructorInfo>();
             }
 
-            list<ParameterInfo> parameters = make_list<ParameterInfo>(sizeof...(Args));
+            List<ParameterInfo> parameters = make_list<ParameterInfo>(sizeof...(Args));
             std::vector<Type> param_types = { dot::typeof<Args>()... };
 
             int i = 0;
@@ -298,13 +298,13 @@ namespace dot
         String name_space_;
         bool is_class_;
         bool is_enum_;
-        list<MethodInfo> methods_;
-        list<ConstructorInfo> ctors_;
-        list<Type> interfaces_;
-        list<Type> generic_args_;
+        List<MethodInfo> methods_;
+        List<ConstructorInfo> ctors_;
+        List<Type> interfaces_;
+        List<Type> generic_args_;
         Type base_;
-        list<FieldInfo> fields_;
-        list<Attribute> custom_attributes_;
+        List<FieldInfo> fields_;
+        List<Attribute> custom_attributes_;
 
     public: // PROPERTIES
 
@@ -327,27 +327,27 @@ namespace dot
         bool is_enum() const { return is_enum_; }
 
         /// Gets a collection that contains this member's custom attributes.
-        list<Attribute> get_custom_attributes(bool inherit);
+        List<Attribute> get_custom_attributes(bool inherit);
 
         /// Gets a collection that contains this member's custom attributes that are assignable to specified attribute Type.
-        list<Attribute> get_custom_attributes(Type attribute_type, bool inherit);
+        List<Attribute> get_custom_attributes(Type attribute_type, bool inherit);
 
     public: // METHODS
 
         /// Returns methods of the current Type.
-        list<MethodInfo> get_methods() { return methods_; }
+        List<MethodInfo> get_methods() { return methods_; }
 
         /// Returns constructors of the current Type.
-        list<ConstructorInfo> get_constructors() { return ctors_; }
+        List<ConstructorInfo> get_constructors() { return ctors_; }
 
         /// Returns fields of the current Type.
-        list<FieldInfo> get_fields() { return fields_; }
+        List<FieldInfo> get_fields() { return fields_; }
 
         /// Returns interfaces of the current Type.
-        list<Type> get_interfaces() { return interfaces_; }
+        List<Type> get_interfaces() { return interfaces_; }
 
         /// Returns interfaces of the current Type.
-        list<Type> get_generic_arguments() { return generic_args_; }
+        List<Type> get_generic_arguments() { return generic_args_; }
 
         /// Searches for the public method with the specified name.
         MethodInfo get_method(String name);
@@ -365,10 +365,10 @@ namespace dot
         static Type get_type_of(String name) { return get_type_map()[name]; }
 
         /// Get derived types list for the name.
-        static list<Type> get_derived_types(String name) { return get_derived_types_map()[name]; }
+        static List<Type> get_derived_types(String name) { return get_derived_types_map()[name]; }
 
         /// Get derived types list for the Type.
-        static list<Type> get_derived_types(Type t) { return get_derived_types_map()[t->full_name()]; }
+        static List<Type> get_derived_types(Type t) { return get_derived_types_map()[t->full_name()]; }
 
         /// Determines whether the current Type derives from the specified Type.
         bool is_subclass_of(Type c);
@@ -391,9 +391,9 @@ namespace dot
             return map_;
         }
 
-        static std::map<String, list<Type>>& get_derived_types_map()
+        static std::map<String, List<Type>>& get_derived_types_map()
         {
-            static std::map<String, list<Type>> map_;
+            static std::map<String, List<Type>> map_;
             return map_;
         }
 
@@ -423,13 +423,13 @@ namespace dot
         return type_;
     }
 
-    template <class T> Type list_impl<T>::typeof()
+    template <class T> Type ListImpl<T>::typeof()
     {
-        static Type type_ = make_type_builder<list_impl<T>>("dot", "list`1")
+        static Type type_ = make_type_builder<ListImpl<T>>("dot", "List`1")
             //DOT_TYPE_CTOR(make_list<T>)
-            ->with_constructor(static_cast<list<T>(*)()>(&make_list<T>), { })
+            ->with_constructor(static_cast<List<T>(*)()>(&make_list<T>), { })
             DOT_TYPE_GENERIC_ARGUMENT(T)
-            ->template with_interface<dot::list_base>()
+            ->template with_interface<dot::ListBase>()
             ->build();
         return type_;
     }

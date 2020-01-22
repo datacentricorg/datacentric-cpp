@@ -231,7 +231,7 @@ namespace dc
         ///
         /// This method guarantees that TemporalIds of the saved records will be in
         /// strictly increasing order.
-        void save_many(dot::list<record> record);
+        void save_many(dot::List<record> record);
 
         /// Save multiple records to the specified dataset. After the method exits,
         /// for each record the property record.DataSet will be set to the value of
@@ -245,7 +245,7 @@ namespace dc
         ///
         /// This method guarantees that TemporalIds of the saved records will be in
         /// strictly increasing order.
-        void save_many(dot::list<record> record, temporal_id save_to);
+        void save_many(dot::List<record> record, temporal_id save_to);
 
         /// Write a delete marker for the dataset of the context and the specified
         /// key instead of actually deleting the record. This ensures that
@@ -412,7 +412,7 @@ namespace dc
         /// uses context.data_set for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets);
+        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets);
 
         /// Create new version of the dataset with the specified data_set_id
         /// and parent dataset temporal_ids passed as an array, and return
@@ -422,7 +422,7 @@ namespace dc
         /// the save_to parameter explicitly.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets, temporal_id save_to);
+        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, temporal_id save_to);
 
         /// Create dataset with the specified dataSetName and flags
         /// in context.DataSet, and make context.DataSet its sole import.
@@ -461,7 +461,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets, data_set_flags flags);
+        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags);
 
         /// Create dataset with the specified dataSetName, imports,
         /// and flags in parentDataSet.
@@ -474,7 +474,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to);
+        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to);
 
         /// Save new version of the dataset.
         ///

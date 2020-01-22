@@ -44,7 +44,7 @@ namespace dc
         ///
         /// Root data type is the type that inherits directly
         /// from Key(TKey, TRecord).
-        dot::list<dot::String> inheritance_chain() { return inheritance_chain_; }
+        dot::List<dot::String> inheritance_chain() { return inheritance_chain_; }
 
     public: // METHODS
 
@@ -89,12 +89,12 @@ namespace dc
 
     private: // PRIVATE
 
-        static dot::dictionary<dot::Type, data_type_info>& get_type_dict();
+        static dot::Dictionary<dot::Type, data_type_info>& get_type_dict();
 
     private: // FIELDS
 
         data_kind_enum data_kind_ = data_kind_enum::empty;
-        dot::list<dot::String> inheritance_chain_;
+        dot::List<dot::String> inheritance_chain_;
 
         dot::Type type_;
         dot::Type root_type_;

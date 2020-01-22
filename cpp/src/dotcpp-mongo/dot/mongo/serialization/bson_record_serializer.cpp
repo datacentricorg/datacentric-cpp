@@ -75,7 +75,7 @@ namespace dot
         return result;
     }
 
-    dot::Object bson_record_serializer_impl::deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::FieldInfo> props, dot::Type tuple_type)
+    dot::Object bson_record_serializer_impl::deserialize_tuple(bsoncxx::document::view doc, dot::List<dot::FieldInfo> props, dot::Type tuple_type)
     {
         // Create instance to which BSON will be deserialized
         dot::String type_name = tuple_type->name();
@@ -278,7 +278,7 @@ namespace dot
         writer->write_end_document(root_name);
     }
 
-    void bson_record_serializer_impl::standard_serialize(dot::list_base obj, dot::String element_name, dot::tree_writer_base writer)
+    void bson_record_serializer_impl::standard_serialize(dot::ListBase obj, dot::String element_name, dot::tree_writer_base writer)
     {
         // Write start element tag
         writer->write_start_array_element(element_name);
@@ -328,7 +328,7 @@ namespace dot
                 writer->write_value(item);
                 writer->write_end_value();
             }
-            else if (dot::typeof<dot::list_base>()->is_assignable_from(item_type))
+            else if (dot::typeof<dot::ListBase>()->is_assignable_from(item_type))
             {
                 throw dot::Exception(dot::String::format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", element_name));
@@ -357,7 +357,7 @@ namespace dot
         writer->write_start_dict(value->get_type()->name());
 
         // Iterate over the list of elements
-        dot::list<dot::FieldInfo> inner_element_info_list = value->get_type()->get_fields();
+        dot::List<dot::FieldInfo> inner_element_info_list = value->get_type()->get_fields();
         for (dot::FieldInfo inner_element_info : inner_element_info_list)
         {
 
@@ -403,9 +403,9 @@ namespace dot
                 writer->write_value_element(inner_element_name, inner_element_value);
             }
             else
-            if (dot::typeof<dot::list_base>()->is_assignable_from(element_type))
+            if (dot::typeof<dot::ListBase>()->is_assignable_from(element_type))
             {
-                standard_serialize((dot::list_base)inner_element_value, inner_element_name, writer);
+                standard_serialize((dot::ListBase)inner_element_value, inner_element_name, writer);
             }
             else
             {

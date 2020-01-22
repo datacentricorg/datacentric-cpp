@@ -34,7 +34,7 @@ namespace dot
         dot::Type value_type = value->get_type();
 
         // Convert value to supported type
-        list<Attribute> value_attributes = value_type->get_custom_attributes(dot::typeof<filter_token_serialization_attribute>(), true);
+        List<Attribute> value_attributes = value_type->get_custom_attributes(dot::typeof<filter_token_serialization_attribute>(), true);
         if (value_attributes->count())
         {
              value = ((filter_token_serialization_attribute) value_attributes[0])->serialize(value);
@@ -75,9 +75,9 @@ namespace dot
         if (value_type->is_enum())
             builder.append(*value->to_string());
         else
-        if (value.is<dot::list_base>())
+        if (value.is<dot::ListBase>())
         {
-            list_base l = value.as<list_base>();
+            ListBase l = value.as<ListBase>();
             builder.open_array();
             for (int i = 0; i < l->get_length(); ++i)
             {

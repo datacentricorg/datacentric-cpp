@@ -42,7 +42,7 @@ namespace dc
         /// can have any atomic type except Double.
         dot::String get_key() override
         {
-            dot::list<dot::FieldInfo> props =  dot::typeof<dot::Ptr<TKey>>()->get_fields();
+            dot::List<dot::FieldInfo> props =  dot::typeof<dot::Ptr<TKey>>()->get_fields();
             dot::Type type_ = get_type();
 
             std::stringstream ss;

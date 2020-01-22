@@ -74,8 +74,8 @@ namespace dot
                 data->methods_ = make_list<MethodInfo>();
             }
 
-            list<MethodInfo> base_methods = data->base_->get_methods();
-            list<MethodInfo> make_methods = make_list<MethodInfo>();
+            List<MethodInfo> base_methods = data->base_->get_methods();
+            List<MethodInfo> make_methods = make_list<MethodInfo>();
             for (MethodInfo meth_info_data : base_methods)
             {
                 make_methods->add(meth_info_data);
@@ -134,8 +134,8 @@ namespace dot
                 data->fields_ = make_list<FieldInfo>();
             }
 
-            list<FieldInfo> base_fields = data->base_->get_fields();
-            list<FieldInfo> make_fields = make_list<FieldInfo>();
+            List<FieldInfo> base_fields = data->base_->get_fields();
+            List<FieldInfo> make_fields = make_list<FieldInfo>();
             for (FieldInfo field_info_data : base_fields)
             {
                 make_fields->add(field_info_data);
@@ -225,14 +225,14 @@ namespace dot
         , name_(name)
     {}
 
-    list<Attribute> TypeImpl::get_custom_attributes(bool inherit)
+    List<Attribute> TypeImpl::get_custom_attributes(bool inherit)
     {
         if (!inherit)
         {
             return custom_attributes_;
         }
 
-        list<Attribute> ret;
+        List<Attribute> ret;
         if (base_.is_empty())
         {
             ret = make_list<Attribute>();
@@ -250,9 +250,9 @@ namespace dot
         return ret;
     }
 
-    list<Attribute> TypeImpl::get_custom_attributes(Type attribute_type, bool inherit)
+    List<Attribute> TypeImpl::get_custom_attributes(Type attribute_type, bool inherit)
     {
-        list<Attribute> ret = make_list<Attribute>();
+        List<Attribute> ret = make_list<Attribute>();
 
         for (Attribute item : get_custom_attributes(inherit))
         {
@@ -350,9 +350,9 @@ namespace dot
         return this->full_name()->hash_code();
     }
 
-    list<Attribute> MemberInfoImpl::get_custom_attributes(dot::Type attr_type, bool)
+    List<Attribute> MemberInfoImpl::get_custom_attributes(dot::Type attr_type, bool)
     {
-        list<Attribute> attrs = dot::make_list<Attribute>();
+        List<Attribute> attrs = dot::make_list<Attribute>();
         for (Attribute item : custom_attributes_)
         {
             if (item->get_type()->equals(attr_type))

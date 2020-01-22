@@ -23,7 +23,7 @@ namespace dc
 {
     dot::String key_impl::to_string()
     {
-        dot::list<dot::FieldInfo> props = get_type()->get_fields();
+        dot::List<dot::FieldInfo> props = get_type()->get_fields();
 
         std::stringstream ss;
 
@@ -55,7 +55,7 @@ namespace dc
 
     void key_impl::populate_from(std::stringstream & value)
     {
-        dot::list<dot::FieldInfo> props = get_type()->get_fields();
+        dot::List<dot::FieldInfo> props = get_type()->get_fields();
 
         for (dot::FieldInfo prop : props)
         {

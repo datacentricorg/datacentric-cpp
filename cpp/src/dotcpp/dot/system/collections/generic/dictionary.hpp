@@ -29,90 +29,90 @@ limitations under the License.
 
 namespace dot
 {
-    template <class key_t, class value_t> class dictionary_impl;
-    template <class key_t, class value_t> using dictionary = Ptr<dictionary_impl<key_t, value_t>>;
+    template <class TKey, class TValue> class DictionaryImpl;
+    template <class TKey, class TValue> using Dictionary = Ptr<DictionaryImpl<TKey, TValue>>;
 
     /// Represents a collection of keys and values.
-    template <class key_t, class value_t>
-    class dictionary_impl
+    template <class TKey, class TValue>
+    class DictionaryImpl
         : public virtual ObjectImpl
-        , public std::unordered_map<key_t, value_t>
+        , public std::unordered_map<TKey, TValue>
     {
-        typedef dictionary_impl<key_t, value_t> self;
-        typedef std::unordered_map<key_t, value_t> base;
+        typedef DictionaryImpl<TKey, TValue> self;
+        typedef std::unordered_map<TKey, TValue> base;
 
         template <class key_t_, class value_t_>
-        friend dictionary<key_t_, value_t_> make_dictionary();
+        friend Dictionary<key_t_, value_t_> make_dictionary();
 
     private: // CONSTRUCTORS
 
-        /// Initializes a new instance of dictionary.
+        /// Initializes a new instance of Dictionary.
         ///
         /// This constructor is private. Use make_dictionary() function instead.
-        dictionary_impl() : base() {}
+        DictionaryImpl() : base() {}
 
     public: // PROPERTIES
 
-        /// Gets the number of key/value pairs contained in the dictionary.
+        /// Gets the number of key/value pairs contained in the Dictionary.
         int count() { return this->size(); }
 
-        /// Gets a collection containing the keys in the dictionary.
-        list<key_t> keys()
+        /// Gets a collection containing the keys in the Dictionary.
+        List<TKey> keys()
         {
-            list<key_t> list = make_list<key_t>();
+            List<TKey> list = make_list<TKey>();
             for (auto& x : *this) list->add(x.first);
             return list;
         }
 
-        /// Gets a collection containing the values in the dictionary.
-        list<value_t> values()
+        /// Gets a collection containing the values in the Dictionary.
+        List<TValue> values()
         {
-            list<value_t> list = make_list<value_t>();
+            List<TValue> list = make_list<TValue>();
             for (auto& x : *this) list->add(x.second);
             return list;
         }
 
     public: // METHODS
 
-        /// Adds the specified key and value to the dictionary.
-        void add(const key_t& key, const value_t& value)
+        /// Adds the specified key and value to the Dictionary.
+        void add(const TKey& key, const TValue& value)
         {
-            this->add(std::pair<key_t, value_t>(key, value));
+            this->add(std::pair<TKey, TValue>(key, value));
         }
 
         /// Adds the specified value to the collection_base with the specified key.
-        void add(const std::pair<key_t, value_t>& key_value_pair)
+        void add(const std::pair<TKey, TValue>& key_value_pair)
         {
             auto res = this->insert(key_value_pair);
             if (!res.second)
-                throw Exception("An element with the same key already exists in the dictionary");
+                throw Exception("An element with the same key already exists in the Dictionary");
         }
 
-        /// Determines whether the dictionary contains the specified key.
-        bool contains_key(const key_t& key)
+        /// Determines whether the Dictionary contains the specified key.
+        bool contains_key(const TKey& key)
         {
             return this->find(key) != this->end();
         }
 
-        /// Determines whether the dictionary contains a specific value.
-        virtual bool contains_value(const value_t& value)
+        /// Determines whether the Dictionary contains a specific value.
+        virtual bool contains_value(const TValue& value)
         {
             for (auto& x : *this)
             {
-                if (std::equal_to<value_t>()(x.second, value))
+                if (std::equal_to<TValue>()(x.second, value))
                     return true;
             }
             return false;
         }
 
-        /// Removes the value with the specified key from the dictionary.
-        bool remove(const key_t& key)
+        /// Removes the value with the specified key from the Dictionary.
+        bool remove(const TKey& key)
         {
             return this->erase(key) != 0;
         }
 
         /// Gets the value associated with the specified key.
-        bool try_get_value(const key_t& key, value_t& value)
+        bool try_get_value(const TKey& key, TValue& value)
         {
             auto iter = this->find(key);
             if (iter != this->end())
@@ -126,13 +126,13 @@ namespace dot
     public: // OPERATORS
 
         /// Gets or sets the value associated with the specified key.
-        value_t& operator[](const key_t& key)
+        TValue& operator[](const TKey& key)
         {
             return base::operator[](key);
         }
     };
 
-    /// Initializes a new instance of dictionary.
-    template <class key_t, class value_t>
-    inline dictionary<key_t, value_t> make_dictionary() { return new dictionary_impl<key_t, value_t>(); }
+    /// Initializes a new instance of Dictionary.
+    template <class TKey, class TValue>
+    inline Dictionary<TKey, TValue> make_dictionary() { return new DictionaryImpl<TKey, TValue>(); }
 }

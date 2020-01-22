@@ -107,7 +107,7 @@ namespace dot
         }
 
         /// Returns cursor constructed from pipeline and tuple deserializator.
-        virtual object_cursor_wrapper_base select(dot::list<dot::FieldInfo> props, dot::Type element_type) override
+        virtual object_cursor_wrapper_base select(dot::List<dot::FieldInfo> props, dot::Type element_type) override
         {
             flush_sort();
 
@@ -163,7 +163,7 @@ namespace dot
         std::deque<std::pair<String, int>> sort_;
         dot::Type type_;
         dot::Type element_type_;
-        dot::list<dot::FieldInfo> select_;
+        dot::List<dot::FieldInfo> select_;
 
         mongocxx::pipeline pipeline_;
     };
@@ -211,7 +211,7 @@ namespace dot
         return this;
     }
 
-    object_cursor_wrapper_base query_impl::select(dot::list<dot::FieldInfo> props, dot::Type element_type)
+    object_cursor_wrapper_base query_impl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
     {
         return impl_->select(props, element_type);
     }

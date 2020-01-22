@@ -79,7 +79,7 @@ namespace dot
 
     protected: // PROTECTED
 
-        virtual dictionary<String, int> get_enum_map() = 0;
+        virtual Dictionary<String, int> get_enum_map() = 0;
 
     public: // OPERATORS
 

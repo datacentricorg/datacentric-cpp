@@ -67,14 +67,14 @@ namespace dot
                 {
                     index_of_current_ = i;
 
-                    if (dot::typeof<dot::list_base>()->is_assignable_from(props_[i]->field_type()))
+                    if (dot::typeof<dot::ListBase>()->is_assignable_from(props_[i]->field_type()))
                     {
                         data_writer_ = make_data_writer(nullptr);
                         data_writer_->current_element_info_ = props_[i];
                         data_writer_->current_element_name_ = props_[i]->name();
                         data_writer_->current_state_ = TreeWriterState::element_started;
 
-                        data_writer_->current_array_ = dot::make_list<dot::list<dot::Object>>();
+                        data_writer_->current_array_ = dot::make_list<dot::List<dot::Object>>();
 
                         //data_writer_->write_start_element(element_name);
                         //deserialize_document(doc, writer);
@@ -370,7 +370,7 @@ namespace dot
         return tuple_->to_string();
     }
 
-    TupleWriterImpl::TupleWriterImpl(dot::Object tuple, dot::list<dot::FieldInfo> props)
+    TupleWriterImpl::TupleWriterImpl(dot::Object tuple, dot::List<dot::FieldInfo> props)
         : tuple_(tuple)
         , props_(props)
     {

@@ -36,7 +36,7 @@ namespace dc
         /// MongoDB server hostname or the list of MongoDB cluster
         /// hostnames with optional port in ``host'' or ``host::port''
         /// format.
-        dot::list<dot::String> hosts;
+        dot::List<dot::String> hosts;
 
     public: // METHODS
 

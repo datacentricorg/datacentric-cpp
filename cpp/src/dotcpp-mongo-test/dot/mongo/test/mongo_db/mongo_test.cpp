@@ -46,7 +46,7 @@ namespace dot
         int int_value;
         Nullable<int> nullable_int_value;
         String string_value;
-        list<int64_t> list_value;
+        List<int64_t> list_value;
         test_class object_value;
 
     public: // REFLECTION
@@ -185,7 +185,7 @@ namespace dot
         collection db_collection = db->get_collection(db_collection_name);
 
         // Create index
-        list<std::tuple<String, int>> indexes = make_list<std::tuple<String, int>>();
+        List<std::tuple<String, int>> indexes = make_list<std::tuple<String, int>>();
         indexes->add({ "int_value", 1 });
         indexes->add({ "string_value", -1 });
         index_options idx_options = make_index_options();

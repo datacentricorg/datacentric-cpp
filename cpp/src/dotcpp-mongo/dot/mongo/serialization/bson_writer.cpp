@@ -70,7 +70,7 @@ namespace dot
         {
             // Get Type parrents
             Type root_element_type = dot::TypeImpl::get_type_of(root_element_name);
-            list<Type> root_element_base_types = get_parents_list(root_element_type);
+            List<Type> root_element_base_types = get_parents_list(root_element_type);
 
             // And wirte them to array
             bson_writer_.open_array();
@@ -353,9 +353,9 @@ namespace dot
         };
     }
 
-    list<Type> bson_writer_impl::get_parents_list(Type from_type)
+    List<Type> bson_writer_impl::get_parents_list(Type from_type)
     {
-        list<Type> parents_list = make_list<Type>();
+        List<Type> parents_list = make_list<Type>();
 
         // Appending base types to list
         Type base = from_type->get_base_type();

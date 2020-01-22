@@ -63,7 +63,7 @@ namespace dot
 
             /// Inserts a many objects into the collection. If the Object->_id is missing or empty
             /// one will be generated for it.
-            virtual void insert_many(dot::list_base objs) = 0;
+            virtual void insert_many(dot::ListBase objs) = 0;
 
             /// Deletes a single matching document from the collection.
             virtual void delete_one(filter_token_base filter) = 0;
@@ -72,7 +72,7 @@ namespace dot
             virtual void delete_many(filter_token_base filter) = 0;
 
             /// Creates an index over the collection for the provided keys with the provided options.
-            virtual void create_index(list<std::tuple<String, int>> indexes, index_options options) = 0;
+            virtual void create_index(List<std::tuple<String, int>> indexes, index_options options) = 0;
         };
 
     public:
@@ -83,7 +83,7 @@ namespace dot
 
         /// Inserts a many objects into the collection. If the Object->_id is missing or empty
         /// one will be generated for it.
-        void insert_many(dot::list_base objs);
+        void insert_many(dot::ListBase objs);
 
         /// Deletes a single matching document from the collection.
         void delete_one(filter_token_base filter);
@@ -92,7 +92,7 @@ namespace dot
         void delete_many(filter_token_base filter);
 
         /// Creates an index over the collection for the provided keys with the provided options.
-        void create_index(list<std::tuple<String, int>> indexes, index_options options = nullptr);
+        void create_index(List<std::tuple<String, int>> indexes, index_options options = nullptr);
 
     private:
 

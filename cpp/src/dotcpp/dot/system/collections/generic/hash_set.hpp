@@ -29,29 +29,29 @@ limitations under the License.
 
 namespace dot
 {
-    template <class T> class hash_set_impl;
-    template <class T> using hash_set = Ptr<hash_set_impl<T>>;
+    template <class T> class HashSetImpl;
+    template <class T> using HashSet = Ptr<HashSetImpl<T>>;
 
     /// Represents a set of values.
     template <class T>
-    class hash_set_impl : public virtual ObjectImpl, public std::unordered_set<T>
+    class HashSetImpl : public virtual ObjectImpl, public std::unordered_set<T>
     {
-        typedef hash_set_impl<T> self;
+        typedef HashSetImpl<T> self;
         typedef std::unordered_set<T> base;
 
-        template <class R> friend hash_set<R> make_hash_set();
-        template <class R> friend hash_set<R> make_hash_set(list<R> collection);
+        template <class R> friend HashSet<R> make_hash_set();
+        template <class R> friend HashSet<R> make_hash_set(List<R> collection);
 
     protected: // CONSTRUCTORS
 
-        /// Initializes a new instance of the hash_set class that is empty
+        /// Initializes a new instance of the HashSet class that is empty
         /// and uses the default equality comparer for the set type.
-        hash_set_impl() = default;
+        HashSetImpl() = default;
 
-        /// Initializes a new instance of the hash_set class that uses the default
+        /// Initializes a new instance of the HashSet class that uses the default
         /// equality comparer for the set type, contains elements copied from the specified
         /// collection, and has sufficient capacity to accommodate the number of elements copied.
-        explicit hash_set_impl(list<T> collection)
+        explicit HashSetImpl(List<T> collection)
         {
             for (T const & item : collection)
                 this->add(item);
@@ -71,20 +71,20 @@ namespace dot
             //return res.second;
         }
 
-        /// Determines whether a hash_set Object contains the specified element.
+        /// Determines whether a HashSet Object contains the specified element.
         bool contains(const T& item)
         {
             auto iter = this->find(item);
             return iter != this->end();
         }
 
-        /// Removes the specified element from a hash_set Object.
+        /// Removes the specified element from a HashSet Object.
         bool remove(const T& item)
         {
             return this->erase(item) != 0;
         }
 
-        /// Sets the capacity of a hash_set Object to the actual number of elements
+        /// Sets the capacity of a HashSet Object to the actual number of elements
         /// it contains,rounded up to a nearby, implementation-specific value.
         void trim_excess()
         {
@@ -103,8 +103,8 @@ namespace dot
             return false;
         }
 
-        /// Removes all elements in the specified collection from the current hash_set Object.
-        void except_with(list<T> other)
+        /// Removes all elements in the specified collection from the current HashSet Object.
+        void except_with(List<T> other)
         {
             for (T const& item : other)
             {
@@ -112,11 +112,11 @@ namespace dot
             }
         }
 
-        /// Modifies the current hash_set Object to contain only elements
+        /// Modifies the current HashSet Object to contain only elements
         /// that are present in that Object and in the specified collection.
-        void intersect_with(list<T> other)
+        void intersect_with(List<T> other)
         {
-            list<T> left = make_list<T>();
+            List<T> left = make_list<T>();
             for (T const& item : other)
             {
                 if (this->contains(item))
@@ -129,8 +129,8 @@ namespace dot
     };
 
     template <class T>
-    inline hash_set<T> make_hash_set() { return new hash_set_impl<T>(); }
+    inline HashSet<T> make_hash_set() { return new HashSetImpl<T>(); }
 
     template <class T>
-    inline hash_set<T> make_hash_set(list<T> collection) { return new hash_set_impl<T>(collection); }
+    inline HashSet<T> make_hash_set(List<T> collection) { return new HashSetImpl<T>(collection); }
 }

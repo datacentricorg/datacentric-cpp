@@ -52,9 +52,9 @@ public:                                                                         
     }                                                                               \
                                                                                     \
 protected:                                                                          \
-    virtual dot::dictionary<dot::String, int> get_enum_map() override               \
+    virtual dot::Dictionary<dot::String, int> get_enum_map() override               \
     {                                                                               \
-        static dot::dictionary<dot::String, int> enum_map_ = []()                   \
+        static dot::Dictionary<dot::String, int> enum_map_ = []()                   \
         {                                                                           \
             auto map_ = dot::make_dictionary<dot::String, int>();
 

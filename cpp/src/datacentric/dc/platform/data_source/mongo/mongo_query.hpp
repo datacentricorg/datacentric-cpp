@@ -56,7 +56,7 @@ namespace dc
         dot::object_cursor_wrapper_base get_cursor();
 
         /// Makes projection and converts query to cursor so iteration can be performed.
-        dot::object_cursor_wrapper_base select(dot::list<dot::FieldInfo> props, dot::Type element_type);
+        dot::object_cursor_wrapper_base select(dot::List<dot::FieldInfo> props, dot::Type element_type);
 
         /// Sorts the elements of a sequence in ascending order according to the selected key.
         template <class Class, class prop>
@@ -81,7 +81,7 @@ namespace dc
 
         /// Makes projection and converts query to typed cursor so iteration can be performed.
         template <class element>
-        dot::cursor_wrapper<element> select(dot::list<dot::FieldInfo> props)
+        dot::cursor_wrapper<element> select(dot::List<dot::FieldInfo> props)
         {
             return dot::make_cursor_wrapper<element>(select(props, dot::typeof<element>()));
         }

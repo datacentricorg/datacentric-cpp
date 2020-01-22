@@ -53,7 +53,7 @@ namespace dc
         virtual void init(context_base context);
 
         /// data_set parents.
-        dot::list<temporal_id> parents;
+        dot::List<temporal_id> parents;
 
         DOT_TYPE_BEGIN("dc", "data_set_data")
             DOT_TYPE_PROP(data_set_id)

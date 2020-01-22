@@ -28,12 +28,12 @@ namespace dot
     inline String ConstructorInfoImpl::to_string() { return "ConstructorInfo"; }
 
     /// Gets the parameters of this constructor.
-    inline list<ParameterInfo> ConstructorInfoImpl::get_parameters()
+    inline List<ParameterInfo> ConstructorInfoImpl::get_parameters()
     {
         return parameters_;
     }
 
-    inline ConstructorInfoImpl::ConstructorInfoImpl(Type declaring_type, list<Attribute> custom_attributes)
+    inline ConstructorInfoImpl::ConstructorInfoImpl(Type declaring_type, List<Attribute> custom_attributes)
             : MemberInfoImpl(".ctor", declaring_type, custom_attributes)
     {}
 
@@ -42,13 +42,13 @@ namespace dot
 
     template <class Class, class ... Args>
     template <int ... I>
-    inline Object MemberConstructorInfoImpl<Class, Args...>::invoke_impl(list<Object> params, detail::IndexSequence<I...>)
+    inline Object MemberConstructorInfoImpl<Class, Args...>::invoke_impl(List<Object> params, detail::IndexSequence<I...>)
     {
         return (*ptr_)(params[I]...);
     }
 
     template <class Class, class ... Args>
-    inline Object MemberConstructorInfoImpl<Class, Args...>::invoke(list<Object> params)
+    inline Object MemberConstructorInfoImpl<Class, Args...>::invoke(List<Object> params)
     {
         if ((params.is_empty() && parameters_->count() != 0) || (!params.is_empty() && (params->count() != parameters_->count())))
             throw Exception("Wrong number of parameters for constructor " + this->declaring_type()->name() + "." + this->name());
@@ -57,7 +57,7 @@ namespace dot
     }
 
     template <class Class, class ... Args>
-    inline MemberConstructorInfoImpl<Class, Args...>::MemberConstructorInfoImpl(Type declaring_type, CtorType p, list<Attribute> custom_attributes)
+    inline MemberConstructorInfoImpl<Class, Args...>::MemberConstructorInfoImpl(Type declaring_type, CtorType p, List<Attribute> custom_attributes)
             : ConstructorInfoImpl(declaring_type, custom_attributes)
             , ptr_(p)
     {}

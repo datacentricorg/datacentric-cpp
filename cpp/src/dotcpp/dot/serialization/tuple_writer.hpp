@@ -39,7 +39,7 @@ namespace dot
     /// Implementation of tree_writer_base for data.
     class DOT_CLASS TupleWriterImpl : public TreeWriterBaseImpl
     {
-        friend TupleWriter make_tuple_writer(dot::Object tuple, dot::list<dot::FieldInfo> props);
+        friend TupleWriter make_tuple_writer(dot::Object tuple, dot::List<dot::FieldInfo> props);
 
     public:
 
@@ -105,17 +105,17 @@ namespace dot
 
     private:
 
-        TupleWriterImpl(dot::Object tuple, dot::list<dot::FieldInfo> props);
+        TupleWriterImpl(dot::Object tuple, dot::List<dot::FieldInfo> props);
 
     private:
 
         dot::Object tuple_;
-        dot::list<dot::FieldInfo> props_;
+        dot::List<dot::FieldInfo> props_;
         int index_of_current_;
         DataWriter data_writer_;
         Object data_;
 
     };
 
-    inline TupleWriter make_tuple_writer(dot::Object tuple, dot::list<dot::FieldInfo> props) { return new TupleWriterImpl(tuple, props); }
+    inline TupleWriter make_tuple_writer(dot::Object tuple, dot::List<dot::FieldInfo> props) { return new TupleWriterImpl(tuple, props); }
 }

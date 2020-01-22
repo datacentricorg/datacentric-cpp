@@ -41,12 +41,12 @@ namespace dc
         return name_;
     }
 
-    dot::dictionary<dot::String, dot::String> index_elements_attribute_impl::get_attributes_dict(dot::Type record_type)
+    dot::Dictionary<dot::String, dot::String> index_elements_attribute_impl::get_attributes_dict(dot::Type record_type)
     {
         // The dictionary uses definition as key and name as value;
         // the name is the same as definition unless specified in
         // the attribute explicitly.
-        dot::dictionary<dot::String, dot::String> index_dict = dot::make_dictionary<dot::String, dot::String>();
+        dot::Dictionary<dot::String, dot::String> index_dict = dot::make_dictionary<dot::String, dot::String>();
 
         // Create a list of index definition strings for the class,
         // including index definitions of its base classes, eliminating
@@ -61,7 +61,7 @@ namespace dc
                     record_type->name()));
 
             // Get class attributes with inheritance
-            dot::list<dot::Attribute> class_attributes = class_type->get_custom_attributes(dot::typeof<index_elements_attribute>(), true);
+            dot::List<dot::Attribute> class_attributes = class_type->get_custom_attributes(dot::typeof<index_elements_attribute>(), true);
             for (dot::Attribute attr : class_attributes)
             {
                 index_elements_attribute class_attribute = (index_elements_attribute) attr;
@@ -100,9 +100,9 @@ namespace dc
         return index_dict;
     }
 
-    dot::list<std::tuple<dot::String, int>> index_elements_attribute_impl::parse_definition(dot::String definition, dot::Type record_type)
+    dot::List<std::tuple<dot::String, int>> index_elements_attribute_impl::parse_definition(dot::String definition, dot::Type record_type)
     {
-        dot::list<std::tuple<dot::String, int>> result = dot::make_list<std::tuple<dot::String, int>>();
+        dot::List<std::tuple<dot::String, int>> result = dot::make_list<std::tuple<dot::String, int>>();
 
         // Validation of the definition String
         if (dot::String::is_null_or_empty(definition))
@@ -114,7 +114,7 @@ namespace dc
 
         // Parse comma separated index definition String into tokens
         // and iterate over each token
-        dot::list<dot::String> tokens = definition->split(',');
+        dot::List<dot::String> tokens = definition->split(',');
         for (dot::String token : tokens)
         {
             // Trim leading and trailing whitespace from the token

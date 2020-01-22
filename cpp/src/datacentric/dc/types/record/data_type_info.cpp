@@ -39,7 +39,7 @@ namespace dc
 
     data_type_info data_type_info_impl::get_or_create(dot::Type value)
     {
-        dot::dictionary<dot::Type, data_type_info> dict_ = data_type_info_impl::get_type_dict();
+        dot::Dictionary<dot::Type, data_type_info> dict_ = data_type_info_impl::get_type_dict();
 
         // Check if a cached instance exists in dictionary
         data_type_info result;
@@ -64,7 +64,7 @@ namespace dc
         // Populate the inheritance chain from parent to base,
         // stop when one of the base classes is reached or
         // there is no base class
-        dot::list<dot::Type> inheritance_chain = dot::make_list<dot::Type>();
+        dot::List<dot::Type> inheritance_chain = dot::make_list<dot::Type>();
         dot::Type current_type = value;
 
         while (current_type->get_base_type() != nullptr)
@@ -127,9 +127,9 @@ namespace dc
             inheritance_chain_->add(t->name());
     }
 
-    dot::dictionary<dot::Type, data_type_info>& data_type_info_impl::get_type_dict()
+    dot::Dictionary<dot::Type, data_type_info>& data_type_info_impl::get_type_dict()
     {
-        static dot::dictionary<dot::Type, data_type_info> dict_ = dot::make_dictionary<dot::Type, data_type_info>();
+        static dot::Dictionary<dot::Type, data_type_info> dict_ = dot::make_dictionary<dot::Type, data_type_info>();
         return dict_;
     }
 }

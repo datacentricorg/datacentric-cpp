@@ -32,7 +32,7 @@ namespace dot
     /// Discovers the attributes of a parameter and provides access to parameter metadata.
     class ParameterInfoImpl : public virtual ObjectImpl
     {
-        friend ParameterInfo make_parameter_info(String , Type, int, list<Attribute>);
+        friend ParameterInfo make_parameter_info(String , Type, int, List<Attribute>);
 
         typedef ParameterInfoImpl self;
 
@@ -48,14 +48,14 @@ namespace dot
         int position() const { return position_; }
 
         /// Gets a collection that contains this parameter's custom attributes.
-        list<Attribute> get_custom_attributes(bool) { return custom_attributes_; }
+        List<Attribute> get_custom_attributes(bool) { return custom_attributes_; }
 
     private: // FIELDS
 
         Type parameter_type_;
         String name_;
         int position_;
-        list<Attribute> custom_attributes_;
+        List<Attribute> custom_attributes_;
 
     private: // CONSTRUCTORS
 
@@ -63,7 +63,7 @@ namespace dot
         ///
         /// This constructor is private. Use make_parameter_info(...)
         /// function with matching signature instead.
-        ParameterInfoImpl(String name, Type parameter_type, int position, list<Attribute> custom_attributes)
+        ParameterInfoImpl(String name, Type parameter_type, int position, List<Attribute> custom_attributes)
             : parameter_type_(parameter_type)
             , name_(name)
             , position_(position)
@@ -72,7 +72,7 @@ namespace dot
     };
 
     /// Create from parameter name, parameter Type, and parameter position.
-    inline ParameterInfo make_parameter_info(String name, Type parameter_type, int position, list<Attribute> custom_attributes)
+    inline ParameterInfo make_parameter_info(String name, Type parameter_type, int position, List<Attribute> custom_attributes)
     {
         return new ParameterInfoImpl(name, parameter_type, position, custom_attributes);
     }

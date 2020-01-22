@@ -62,12 +62,12 @@ namespace dc
         data_source->save_one(record, save_to);
     }
 
-    void context_base_impl::save_many(dot::list<record> records)
+    void context_base_impl::save_many(dot::List<record> records)
     {
         data_source->save_many(records, data_set);
     }
 
-    void context_base_impl::save_many(dot::list<record> records, temporal_id save_to)
+    void context_base_impl::save_many(dot::List<record> records, temporal_id save_to)
     {
         data_source->save_many(records, save_to);
     }
@@ -132,12 +132,12 @@ namespace dc
         return data_source->create_data_set(data_set_id, save_to);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::list<temporal_id> parentdata_sets)
+    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parentdata_sets)
     {
         return data_source->create_data_set(data_set_id, parentdata_sets, data_set);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::list<temporal_id> parentdata_sets, temporal_id save_to)
+    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parentdata_sets, temporal_id save_to)
     {
         return data_source->create_data_set(data_set_id, parentdata_sets, save_to);
     }
@@ -152,12 +152,12 @@ namespace dc
         return data_source->create_data_set(data_set_id, flags, save_to);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets, data_set_flags flags)
+    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags)
     {
         return data_source->create_data_set(data_set_id, parent_data_sets, flags, data_set);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to)
+    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to)
     {
         return data_source->create_data_set(data_set_id, parent_data_sets, flags, save_to);
     }

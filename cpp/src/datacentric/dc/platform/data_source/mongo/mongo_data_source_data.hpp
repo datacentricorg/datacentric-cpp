@@ -77,7 +77,7 @@ namespace dc
         ///
         /// This method guarantees that TemporalIds of the saved records will be in
         /// strictly increasing order.
-        virtual void save_many(dot::list<record> records, temporal_id save_to) override;
+        virtual void save_many(dot::List<record> records, temporal_id save_to) override;
 
         /// Get query for the specified Type.
         ///
@@ -132,7 +132,7 @@ namespace dc
         /// The list will not include datasets that are after the value of
         /// CutoffTime if specified, or their imports (including
         /// even those imports that are earlier than the constraint).
-        dot::hash_set<temporal_id> get_data_set_lookup_list(temporal_id load_from);
+        dot::HashSet<temporal_id> get_data_set_lookup_list(temporal_id load_from);
 
         /// Get detail of the specified dataset.
         ///
@@ -196,7 +196,7 @@ namespace dc
         ///
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
-        dot::hash_set<temporal_id> build_data_set_lookup_list(data_set_data data_set_data);
+        dot::HashSet<temporal_id> build_data_set_lookup_list(data_set_data data_set_data);
 
         /// Builds hashset of import datasets for specified dataset data,
         /// including imports of imports to unlimited depth with cyclic
@@ -211,7 +211,7 @@ namespace dc
         ///
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
-        void build_data_set_lookup_list(data_set_data data_set_data, dot::hash_set<temporal_id> result);
+        void build_data_set_lookup_list(data_set_data data_set_data, dot::HashSet<temporal_id> result);
 
         /// Error message if one of the following is the case:
         ///
@@ -238,20 +238,20 @@ namespace dc
     private: // FIELDS
 
         /// Dictionary of collections indexed by Type T.
-        dot::dictionary<dot::Type, dot::Object> collection_dict_ = dot::make_dictionary<dot::Type, dot::Object>();
+        dot::Dictionary<dot::Type, dot::Object> collection_dict_ = dot::make_dictionary<dot::Type, dot::Object>();
 
         /// Dictionary of dataset temporal_ids stored under String data_set_id.
-        dot::dictionary<dot::String, temporal_id> data_set_dict_ = dot::make_dictionary<dot::String, temporal_id>();
+        dot::Dictionary<dot::String, temporal_id> data_set_dict_ = dot::make_dictionary<dot::String, temporal_id>();
 
         /// Dictionary of datasets and datasets that holds them
-        dot::dictionary<temporal_id, temporal_id> data_set_owners_dict_ = dot::make_dictionary<temporal_id, temporal_id>();
+        dot::Dictionary<temporal_id, temporal_id> data_set_owners_dict_ = dot::make_dictionary<temporal_id, temporal_id>();
 
         /// Dictionary of dataset temporal_ids stored under String data_set_id.
-        dot::dictionary<temporal_id, data_set_detail_data> data_set_detail_dict_ = dot::make_dictionary<temporal_id, data_set_detail_data>();
+        dot::Dictionary<temporal_id, data_set_detail_data> data_set_detail_dict_ = dot::make_dictionary<temporal_id, data_set_detail_data>();
 
         /// Dictionary of the expanded list of parent temporal_ids of dataset, including
         /// parents of parents to unlimited depth with cyclic references and duplicates
         /// removed, under temporal_id of the dataset.
-        dot::dictionary<temporal_id, dot::hash_set<temporal_id>> data_set_parent_dict_ = dot::make_dictionary<temporal_id, dot::hash_set<temporal_id>>();
+        dot::Dictionary<temporal_id, dot::HashSet<temporal_id>> data_set_parent_dict_ = dot::make_dictionary<temporal_id, dot::HashSet<temporal_id>>();
     };
 }

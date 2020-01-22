@@ -44,12 +44,12 @@ namespace dot
         static Object create_instance(Type t);
 
         /// Creates an instance of the specified Type using the constructor that best matches the specified parameters.
-        static Object create_instance(Type t, list<Object> params);
+        static Object create_instance(Type t, List<Object> params);
 
         /// Creates an instance of the Type whose name is specified, using the named assembly and default constructor.
         static Object create_instance(String assembly_name, String type_name);
 
         /// Creates an instance of the Type whose name is specified, using the named assembly and default constructor.
-        static Object create_instance(String assembly_name, String type_name, list<Object> params);
+        static Object create_instance(String assembly_name, String type_name, List<Object> params);
     };
 }

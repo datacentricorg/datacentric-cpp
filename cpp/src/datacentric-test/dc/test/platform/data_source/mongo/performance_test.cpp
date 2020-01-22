@@ -110,7 +110,7 @@ namespace dc
     public:
 
         dot::String record_id;
-        dot::list<double> double_list;
+        dot::List<double> double_list;
         dot::Nullable<int> version;
 
         DOT_TYPE_BEGIN("dc", "performance_test_data")

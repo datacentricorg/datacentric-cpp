@@ -47,7 +47,7 @@ namespace dot
         Object deserialize(const rapidjson::Document& doc);
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
-        dot::Object deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::FieldInfo> props, dot::Type tuple_type);
+        dot::Object deserialize_tuple(rapidjson::Document::ConstObject doc, dot::List<dot::FieldInfo> props, dot::Type tuple_type);
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         void deserialize_document(rapidjson::Document::ConstObject doc, tree_writer_base writer);
@@ -62,7 +62,7 @@ namespace dot
 
         void standard_serialize(tree_writer_base writer, dot::Object value);
 
-        void standard_serialize(dot::list_base obj, dot::String element_name, dot::tree_writer_base writer);
+        void standard_serialize(dot::ListBase obj, dot::String element_name, dot::tree_writer_base writer);
 
     private:
         JsonRecordSerializerImpl() = default;

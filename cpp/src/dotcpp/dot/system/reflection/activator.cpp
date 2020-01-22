@@ -38,9 +38,9 @@ namespace dot
         return create_instance(t, nullptr);
     }
 
-    Object Activator::create_instance(Type t, list<Object> params)
+    Object Activator::create_instance(Type t, List<Object> params)
     {
-        list<ConstructorInfo> ctors = t->get_constructors();
+        List<ConstructorInfo> ctors = t->get_constructors();
 
         // If no constructors
         if (ctors.is_empty() || ctors->count() == 0)
@@ -97,7 +97,7 @@ namespace dot
         return create_instance(TypeImpl::get_type_of(type_name), nullptr);
     }
 
-    Object Activator::create_instance(String assembly_name, String type_name, list<Object> params)
+    Object Activator::create_instance(String assembly_name, String type_name, List<Object> params)
     {
         return create_instance(TypeImpl::get_type_of(type_name), params);
     }

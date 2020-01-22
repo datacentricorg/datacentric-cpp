@@ -46,10 +46,10 @@ namespace dot
         inline virtual String to_string() override;
 
         /// Gets the parameters of this method.
-        inline virtual list<ParameterInfo> get_parameters();
+        inline virtual List<ParameterInfo> get_parameters();
 
         /// Invokes specified method with given parameters.
-        virtual Object invoke(Object, list<Object>) = 0;
+        virtual Object invoke(Object, List<Object>) = 0;
 
         /// Gets the return Type of this method.
         Type return_type();
@@ -57,14 +57,14 @@ namespace dot
     protected: // FIELDS
 
         Type return_type_;
-        list<ParameterInfo> parameters_;
+        List<ParameterInfo> parameters_;
 
     protected: // CONSTRUCTORS
 
         /// Create from method name, declaring Type, return Type.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        inline MethodInfoImpl(const String& name, Type declaring_type, Type return_type, list<Attribute> custom_attributes);
+        inline MethodInfoImpl(const String& name, Type declaring_type, Type return_type, List<Attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a non-static method and provides access to method metadata.
@@ -86,14 +86,14 @@ namespace dot
 
         /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
-        inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type);
+        inline Object invoke_impl(Object obj, List<Object> params, detail::IndexSequence<I...>, std::false_type);
 
         /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
-        inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type);
+        inline Object invoke_impl(Object obj, List<Object> params, detail::IndexSequence<I...>, std::true_type);
 
         /// Invokes the method reflected by this MethodInfo instance.
-        inline virtual Object invoke(Object obj, list<Object> params);
+        inline virtual Object invoke(Object obj, List<Object> params);
 
     private: // CONSTRUCTORS
 
@@ -101,7 +101,7 @@ namespace dot
         ///
         /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
-        inline MemberMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, list<Attribute> custom_attributes);
+        inline MemberMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, List<Attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a static method and provides access to method metadata.
@@ -122,14 +122,14 @@ namespace dot
 
         /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
-        inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type);
+        inline Object invoke_impl(Object obj, List<Object> params, detail::IndexSequence<I...>, std::false_type);
 
         /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
-        inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type);
+        inline Object invoke_impl(Object obj, List<Object> params, detail::IndexSequence<I...>, std::true_type);
 
         /// Invokes the method reflected by this MethodInfo instance.
-        inline virtual Object invoke(Object obj, list<Object> params);
+        inline virtual Object invoke(Object obj, List<Object> params);
 
     private: // CONSTRUCTORS
 
@@ -137,6 +137,6 @@ namespace dot
         ///
         /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
-        inline StaticMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, list<Attribute> custom_attributes);
+        inline StaticMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, List<Attribute> custom_attributes);
     };
 }

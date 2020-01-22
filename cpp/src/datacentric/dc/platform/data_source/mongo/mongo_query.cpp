@@ -87,7 +87,7 @@ namespace dc
         return new mongo_query_cursor_impl(query->get_cursor(), query->type_, this->data_source_->context);
     }
 
-    dot::object_cursor_wrapper_base mongo_query_impl::select(dot::list<dot::FieldInfo> props, dot::Type element_type)
+    dot::object_cursor_wrapper_base mongo_query_impl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
     {
         if (props.is_empty() || props->size() != element_type->get_generic_arguments()->size())
         {
@@ -115,12 +115,12 @@ namespace dc
         // Perform group by key to get only one document per each key.
         query->group_by(record_type->get_field("_key"));
 
-        dot::list<dot::Type> derived_types = dot::TypeImpl::get_derived_types(query->type_);
+        dot::List<dot::Type> derived_types = dot::TypeImpl::get_derived_types(query->type_);
 
         // Apply filter by types.
         if (derived_types != nullptr)
         {
-            dot::list<dot::String> derived_type_names = dot::make_list<dot::String>();
+            dot::List<dot::String> derived_type_names = dot::make_list<dot::String>();
             for (dot::Type der_type : derived_types)
                 derived_type_names->add(der_type->name());
 

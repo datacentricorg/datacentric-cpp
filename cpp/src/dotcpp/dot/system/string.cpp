@@ -104,7 +104,7 @@ namespace dot
         return this->compare(*str_b);
     }
 
-    int StringImpl::index_of_any(list<char> any_of)
+    int StringImpl::index_of_any(List<char> any_of)
     {
         size_t pos = find_first_of(any_of->data(), 0, any_of->size());
         if (pos != std::string::npos)
@@ -129,9 +129,9 @@ namespace dot
         return make_str;
     }
 
-    list<String> StringImpl::split(char separator) const
+    List<String> StringImpl::split(char separator) const
     {
-        list<String> result = make_list<String>();
+        List<String> result = make_list<String>();
 
         std::size_t current, previous = 0;
         current = this->find(separator);
@@ -145,9 +145,9 @@ namespace dot
         return result;
     }
 
-    list<String> StringImpl::split(String separator) const
+    List<String> StringImpl::split(String separator) const
     {
-        list<String> result = make_list<String>();
+        List<String> result = make_list<String>();
 
         std::size_t current, previous = 0;
         current = this->find_first_of(*separator);

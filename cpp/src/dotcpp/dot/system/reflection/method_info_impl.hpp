@@ -27,7 +27,7 @@ namespace dot
 {
     inline String MethodInfoImpl::to_string() { return "MethodInfo"; }
 
-    inline list<ParameterInfo> MethodInfoImpl::get_parameters()
+    inline List<ParameterInfo> MethodInfoImpl::get_parameters()
     {
         return parameters_;
     }
@@ -37,7 +37,7 @@ namespace dot
         return return_type_;
     }
 
-    inline MethodInfoImpl::MethodInfoImpl(const String& name, Type declaring_type, Type return_type, list<Attribute> custom_attributes)
+    inline MethodInfoImpl::MethodInfoImpl(const String& name, Type declaring_type, Type return_type, List<Attribute> custom_attributes)
         : MemberInfoImpl(name, declaring_type, custom_attributes)
         , return_type_(return_type)
     {}
@@ -47,21 +47,21 @@ namespace dot
 
     template <class Class, class ReturnType, class ... Args>
     template <int ... I>
-    inline Object MemberMethodInfoImpl<Class, ReturnType, Args...>::invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type)
+    inline Object MemberMethodInfoImpl<Class, ReturnType, Args...>::invoke_impl(Object obj, List<Object> params, detail::IndexSequence<I...>, std::false_type)
     {
         return ((*Ptr<Class>(obj)).*ptr_)(params[I]...);
     }
 
     template <class Class, class ReturnType, class ... Args>
     template <int ... I>
-    inline Object MemberMethodInfoImpl<Class, ReturnType, Args...>::invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type)
+    inline Object MemberMethodInfoImpl<Class, ReturnType, Args...>::invoke_impl(Object obj, List<Object> params, detail::IndexSequence<I...>, std::true_type)
     {
         ((*Ptr<Class>(obj)).*ptr_)(params[I]...);
         return Object();
     }
 
     template <class Class, class ReturnType, class ... Args>
-    inline Object MemberMethodInfoImpl<Class, ReturnType, Args...>::invoke(Object obj, list<Object> params)
+    inline Object MemberMethodInfoImpl<Class, ReturnType, Args...>::invoke(Object obj, List<Object> params)
     {
         if (params->count() != parameters_->count())
             throw Exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
@@ -70,7 +70,7 @@ namespace dot
     }
 
     template <class Class, class ReturnType, class ... Args>
-    inline MemberMethodInfoImpl<Class, ReturnType, Args...>::MemberMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, list<Attribute> custom_attributes)
+    inline MemberMethodInfoImpl<Class, ReturnType, Args...>::MemberMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, List<Attribute> custom_attributes)
             : MethodInfoImpl(name, declaring_type, return_type, custom_attributes)
             , ptr_(p)
     {}
@@ -80,21 +80,21 @@ namespace dot
 
     template <class ReturnType, class ... Args>
     template <int ... I>
-    inline Object StaticMethodInfoImpl<ReturnType, Args...>::invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type)
+    inline Object StaticMethodInfoImpl<ReturnType, Args...>::invoke_impl(Object obj, List<Object> params, detail::IndexSequence<I...>, std::false_type)
     {
         return (*ptr_)(params[I]...);
     }
 
     template <class ReturnType, class ... Args>
     template <int ... I>
-    inline Object StaticMethodInfoImpl<ReturnType, Args...>::invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type)
+    inline Object StaticMethodInfoImpl<ReturnType, Args...>::invoke_impl(Object obj, List<Object> params, detail::IndexSequence<I...>, std::true_type)
     {
         (*ptr_)(params[I]...);
         return Object();
     }
 
     template <class ReturnType, class ... Args>
-    inline Object StaticMethodInfoImpl<ReturnType, Args...>::invoke(Object obj, list<Object> params)
+    inline Object StaticMethodInfoImpl<ReturnType, Args...>::invoke(Object obj, List<Object> params)
     {
         if (params->count() != parameters_->count())
             throw Exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
@@ -103,7 +103,7 @@ namespace dot
     }
 
     template <class ReturnType, class ... Args>
-    inline StaticMethodInfoImpl<ReturnType, Args...>::StaticMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, list<Attribute> custom_attributes)
+    inline StaticMethodInfoImpl<ReturnType, Args...>::StaticMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, List<Attribute> custom_attributes)
             : MethodInfoImpl(name, declaring_type, return_type, custom_attributes)
             , ptr_(p)
     {}

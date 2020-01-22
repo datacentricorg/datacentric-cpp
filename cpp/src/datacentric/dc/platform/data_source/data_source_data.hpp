@@ -158,7 +158,7 @@ namespace dc
         /// order for this instance of the data source class always, and across
         /// all processes and machine if they are not created within the same
         /// second.
-        virtual void save_many(dot::list<record> records, temporal_id data_set) = 0;
+        virtual void save_many(dot::List<record> records, temporal_id data_set) = 0;
 
         /// Save one record to the specified dataset. After the method exits,
         /// record.DataSet will be set to the value of the dataSet parameter.
@@ -301,7 +301,7 @@ namespace dc
         /// the new temporal_id assigned to the saved dataset.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets, temporal_id save_to);
+        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, temporal_id save_to);
 
         /// Create dataset with the specified dataSetName and flags
         /// in context.DataSet, and make context.DataSet its sole import.
@@ -315,7 +315,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to);
+        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to);
 
         dot::String to_string() { return get_key(); }
 

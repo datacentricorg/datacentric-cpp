@@ -130,9 +130,9 @@ namespace dot
         // Split
         {
             String str = ";ab;ef;";
-            list<String> seplited_str = make_list<String>({ "", "ab", "ef", "" });
+            List<String> seplited_str = make_list<String>({ "", "ab", "ef", "" });
 
-            list<String> res_list = str->split(';');
+            List<String> res_list = str->split(';');
             REQUIRE(res_list->count() == seplited_str->count());
             REQUIRE(res_list[0] == seplited_str[0]);
             REQUIRE(res_list[1] == seplited_str[1]);

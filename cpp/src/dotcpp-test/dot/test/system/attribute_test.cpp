@@ -136,7 +136,7 @@ namespace dot
         Type obj_type = obj->get_type();
 
         // Get class attributes
-        list<Attribute> class_attributes = obj_type->get_custom_attributes(false);
+        List<Attribute> class_attributes = obj_type->get_custom_attributes(false);
         REQUIRE(class_attributes->count() == 1);
 
         attr = class_attributes[0];
@@ -146,7 +146,7 @@ namespace dot
         REQUIRE(attr->get_type()->get_method("get_message")->invoke(attr, make_list<Object>())->equals("class attribute"));
 
         // Get class field attributes
-        list<Attribute> field_attributes = obj_type->get_field("int_field")->get_custom_attributes(false);
+        List<Attribute> field_attributes = obj_type->get_field("int_field")->get_custom_attributes(false);
         REQUIRE(field_attributes->count() == 1);
 
         attr = field_attributes[0];
@@ -155,7 +155,7 @@ namespace dot
         REQUIRE(field_attribute->get_message() == "class field attribute");
 
         // Get class method attributes
-        list<Attribute> method_attributes = obj_type->get_method("get_int_field")->get_custom_attributes(false);
+        List<Attribute> method_attributes = obj_type->get_method("get_int_field")->get_custom_attributes(false);
         REQUIRE(method_attributes->count() == 1);
 
         attr = method_attributes[0];
@@ -164,14 +164,14 @@ namespace dot
         REQUIRE(method_attribute->get_message() == "class get_int_field method attribute");
 
         // Get class method attributes
-        list<Attribute> method2_attributes = obj_type->get_method("calculate_sum")->get_custom_attributes(false);
+        List<Attribute> method2_attributes = obj_type->get_method("calculate_sum")->get_custom_attributes(false);
         REQUIRE(method2_attributes->count() == 0);
 
         // Get class method parameters attributes
-        list<ParameterInfo> method_parameters = obj_type->get_method("calculate_sum")->get_parameters();
+        List<ParameterInfo> method_parameters = obj_type->get_method("calculate_sum")->get_parameters();
         REQUIRE(method_parameters->count() == 2);
 
-        list<Attribute> method_parameter_attributes = method_parameters[0]->get_custom_attributes(false);
+        List<Attribute> method_parameter_attributes = method_parameters[0]->get_custom_attributes(false);
         REQUIRE(method_parameter_attributes->count() == 0);
 
         method_parameter_attributes = method_parameters[1]->get_custom_attributes(false);
@@ -183,7 +183,7 @@ namespace dot
         REQUIRE(method_parameter_attribute->get_message() == "method parameter b attribute");
 
         // Get class static method attributes
-        list<Attribute> static_method_attributes = obj_type->get_method("static_func")->get_custom_attributes(false);
+        List<Attribute> static_method_attributes = obj_type->get_method("static_func")->get_custom_attributes(false);
         REQUIRE(static_method_attributes->count() == 1);
 
         attr = static_method_attributes[0];
@@ -192,10 +192,10 @@ namespace dot
         REQUIRE(static_method_attribute->get_message() == "class static_func method attribute");
 
         // Get class constructor attributes
-        list<constqructor_info> class_constructors = obj_type->get_constructors();
+        List<constqructor_info> class_constructors = obj_type->get_constructors();
         REQUIRE(class_constructors->count() == 1);
 
-        list<Attribute> constructor_attributes = class_constructors[0]->get_custom_attributes(false);
+        List<Attribute> constructor_attributes = class_constructors[0]->get_custom_attributes(false);
         REQUIRE(constructor_attributes->count() == 1);
 
         attr = constructor_attributes[0];

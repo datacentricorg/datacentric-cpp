@@ -33,7 +33,7 @@ namespace dot
     static std::stringstream received;
 
     /// Print double vector to received on one line in JSON format.
-    static void print_list(String name, list<double> v)
+    static void print_list(String name, List<double> v)
     {
         received << "\"" << *name << "\" : [ ";
         for (int i = 0; i < v->count(); ++i)
@@ -46,7 +46,7 @@ namespace dot
 
     TEST_CASE("smoke")
     {
-        list<double> a = make_list<double>();
+        List<double> a = make_list<double>();
         a->add(0.0);
         a->add(1.0);
         a->add(2.0);
@@ -57,10 +57,10 @@ namespace dot
 
     TEST_CASE("interfaces")
     {
-        list<double> a = make_list<double>();
+        List<double> a = make_list<double>();
 
-        // Add elements to list interface
-        list<double> b = a;
+        // Add elements to List interface
+        List<double> b = a;
         b->add(2.0);
         b->add(1.0);
         b->add(0.0);
@@ -85,7 +85,7 @@ namespace dot
 
     TEST_CASE("iterators")
     {
-        list<String> string_list = make_list<String>();
+        List<String> string_list = make_list<String>();
         string_list->add("000");
         string_list->add("111");
         string_list->add("222");
@@ -100,14 +100,14 @@ namespace dot
 
     TEST_CASE("capacity")
     {
-        list<String> string_list = make_list<String>();
+        List<String> string_list = make_list<String>();
         string_list->set_capacity(100);
         REQUIRE(string_list->capacity() == 100);
     }
 
     TEST_CASE("find")
     {
-        dot::list<String> string_list = make_list<String>();
+        dot::List<String> string_list = make_list<String>();
         string_list->add("000");
         string_list->add("111");
         string_list->add("222");
@@ -121,7 +121,7 @@ namespace dot
     TEST_CASE("methods")
     {
         // Add range
-        list<int> int_list = make_list<int>();
+        List<int> int_list = make_list<int>();
 
         int_list->add_range({1, 2});
         REQUIRE(int_list->count() == 2);

@@ -48,9 +48,9 @@ namespace dot
             dot::String current_element_name;
             TreeWriterState current_state;
             Object current_dict;
-            dot::dictionary<dot::String, dot::FieldInfo> current_dict_elements;
+            dot::Dictionary<dot::String, dot::FieldInfo> current_dict_elements;
             dot::FieldInfo current_element_info;
-            dot::list_base current_array;
+            dot::ListBase current_array;
             dot::Type current_array_item_type;
         };
 
@@ -61,9 +61,9 @@ namespace dot
         dot::String current_element_name_;
         TreeWriterState current_state_;
         Object current_dict_;
-        dot::dictionary<dot::String, dot::FieldInfo> current_dict_elements_;
+        dot::Dictionary<dot::String, dot::FieldInfo> current_dict_elements_;
         dot::FieldInfo current_element_info_;
-        dot::list_base current_array_;
+        dot::ListBase current_array_;
         dot::Type current_array_item_type_;
 
     private: // CONSTRUCTORS

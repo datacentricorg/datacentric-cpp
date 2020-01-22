@@ -44,7 +44,7 @@ namespace dot
         int int_field;
         int count;
         double double_field;
-        list<double> double_list_field_field;
+        List<double> double_list_field_field;
 
     private:
 
@@ -99,7 +99,7 @@ namespace dot
         Object x = obj->count;
 
         Type result = obj->get_type();
-        list<FieldInfo> props = result->get_fields();
+        List<FieldInfo> props = result->get_fields();
         FieldInfo int_prop = props[0];
         REQUIRE(int_prop->name() == "int_field");
         REQUIRE(int(int_prop->get_value(obj)) == 15);
@@ -122,7 +122,7 @@ namespace dot
         REQUIRE(obj2->count == -15);
         REQUIRE(int(props[2]->get_value(obj2)) == -15);
 
-        list<Object> params = make_list<Object>(1);
+        List<Object> params = make_list<Object>(1);
         params[0] = 15;
         REQUIRE(int(result->get_methods()[0]->invoke(obj2, params)) == 42 + 15);
 

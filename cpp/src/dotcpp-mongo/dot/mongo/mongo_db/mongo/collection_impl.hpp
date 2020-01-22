@@ -51,7 +51,7 @@ namespace dot
         }
 
         /// Serialize Object and pass it to mongo collection.
-        virtual void insert_many(list_base objs) override
+        virtual void insert_many(ListBase objs) override
         {
             if (!objs->get_length())
                 return;
@@ -82,7 +82,7 @@ namespace dot
         }
 
         /// Creates an index over the collection for the provided keys with the provided options.
-        virtual void create_index(list<std::tuple<String, int>> indexes, index_options options) override
+        virtual void create_index(List<std::tuple<String, int>> indexes, index_options options) override
         {
             namespace bsonb = bsoncxx::builder::basic;
             bsoncxx::builder::core index_builder(false);
@@ -148,7 +148,7 @@ namespace dot
         impl_->insert_one(obj);
     }
 
-    void collection_impl::insert_many(dot::list_base objs)
+    void collection_impl::insert_many(dot::ListBase objs)
     {
         impl_->insert_many(objs);
     }
@@ -163,7 +163,7 @@ namespace dot
         impl_->delete_many(filter);
     }
 
-    void collection_impl::create_index(list<std::tuple<String, int>> indexes, index_options options)
+    void collection_impl::create_index(List<std::tuple<String, int>> indexes, index_options options)
     {
         impl_->create_index(indexes, options);
     }

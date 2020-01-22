@@ -27,7 +27,7 @@ namespace dc
 
         if (dot::String::is_null_or_empty(data_set_id)) throw dot::Exception("data_set_id has not been set.");
 
-        if (!dot::list<temporal_id>(parents).is_empty())
+        if (!dot::List<temporal_id>(parents).is_empty())
         for (temporal_id parent : parents)
         {
             if (id <= parent)

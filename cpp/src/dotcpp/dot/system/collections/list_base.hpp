@@ -29,9 +29,9 @@ limitations under the License.
 
 namespace dot
 {
-    class list_base_impl; using list_base = Ptr<list_base_impl>;
+    class ListBaseImpl; using ListBase = Ptr<ListBaseImpl>;
 
-    class DOT_CLASS list_base_impl : virtual public ObjectImpl
+    class DOT_CLASS ListBaseImpl : virtual public ObjectImpl
     {
     public:
 

@@ -38,14 +38,14 @@ namespace dot
     TEST_CASE("smoke")
     {
         {
-            // Boxing list of double
-            list<double> obj = make_list<double>();
+            // Boxing List of double
+            List<double> obj = make_list<double>();
             obj->add(1.);
             obj->add(2.);
             obj->add(3.);
 
             Object boxed = obj;
-            list<double> unboxed = (list<double>)boxed;
+            List<double> unboxed = (List<double>)boxed;
             int i = 0;
             for (Object item : unboxed)
             {

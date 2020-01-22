@@ -43,19 +43,19 @@ namespace dot
         inline virtual String to_string() override;
 
         /// Gets the parameters of this constructor.
-        inline virtual list<ParameterInfo> get_parameters();
+        inline virtual List<ParameterInfo> get_parameters();
 
         /// Invokes specified constructor with given parameters.
-        virtual Object invoke(list<Object>) = 0;
+        virtual Object invoke(List<Object>) = 0;
 
     protected: // CONSTRUCTORS
 
-        list<ParameterInfo> parameters_;
+        List<ParameterInfo> parameters_;
 
         /// Create from declaring Type
         ///
         /// This constructor is protected. It is used by derived classes only.
-        inline ConstructorInfoImpl(Type declaring_type, list<Attribute> custom_attributes);
+        inline ConstructorInfoImpl(Type declaring_type, List<Attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a constructor and provides access to constructor metadata.
@@ -77,10 +77,10 @@ namespace dot
 
         /// Invokes the constructor reflected by this ConstructorInfo instance.
         template <int ... I>
-        inline Object invoke_impl(list<Object> params, detail::IndexSequence<I...>);
+        inline Object invoke_impl(List<Object> params, detail::IndexSequence<I...>);
 
         /// Invokes the constructor reflected by this ConstructorInfo instance.
-        inline virtual Object invoke(list<Object> params);
+        inline virtual Object invoke(List<Object> params);
 
     private: // CONSTRUCTORS
 
@@ -88,6 +88,6 @@ namespace dot
         ///
         /// This constructor is private. Use make_constructor_info(...)
         /// function with matching signature instead.
-        inline MemberConstructorInfoImpl(Type declaring_type, CtorType p, list<Attribute> custom_attributes);
+        inline MemberConstructorInfoImpl(Type declaring_type, CtorType p, List<Attribute> custom_attributes);
     };
 }

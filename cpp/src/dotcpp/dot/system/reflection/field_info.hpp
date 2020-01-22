@@ -59,7 +59,7 @@ namespace dot
         /// and base class for the pointer to field.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        FieldInfoBaseImpl(String name, Type declaring_type, Type field_type, list<Attribute> custom_attributes)
+        FieldInfoBaseImpl(String name, Type declaring_type, Type field_type, List<Attribute> custom_attributes)
             : MemberInfoImpl(name, declaring_type, custom_attributes)
             , field_type_(field_type)
         {}
@@ -72,7 +72,7 @@ namespace dot
         typedef FieldType Class::* FieldPtrType;
 
         template <class FieldType_, class Class_>
-        friend FieldInfo make_field_info(String, Type, Type, FieldType_ Class_::*, list<Attribute>);
+        friend FieldInfo make_field_info(String, Type, Type, FieldType_ Class_::*, List<Attribute>);
 
     public: // FIELDS
 
@@ -86,7 +86,7 @@ namespace dot
         ///
         /// This constructor is private. Use make_field_info(...)
         /// function with matching signature instead.
-        FieldInfoImpl(String name, Type declaring_type, Type field_type, FieldPtrType field, list<Attribute> custom_attributes)
+        FieldInfoImpl(String name, Type declaring_type, Type field_type, FieldPtrType field, List<Attribute> custom_attributes)
             : FieldInfoBaseImpl(name, declaring_type, field_type, custom_attributes)
             , field_(field)
         {}
@@ -109,7 +109,7 @@ namespace dot
     /// Create from field name, declaring Type, field Type,
     /// and pointer to field defined as a field (member variable).
     template <class FieldType, class Class>
-    FieldInfo make_field_info(String name, Type declaring_type, Type field_type, FieldType Class::* field, list<Attribute> custom_attributes)
+    FieldInfo make_field_info(String name, Type declaring_type, Type field_type, FieldType Class::* field, List<Attribute> custom_attributes)
     {
         return new FieldInfoImpl<FieldType, Class>(name, declaring_type, field_type, field, custom_attributes);
     }

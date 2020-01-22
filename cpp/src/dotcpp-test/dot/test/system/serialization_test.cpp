@@ -87,7 +87,7 @@ namespace dot
         int int_field;
         double double_field;
         sample_data_2 data_field;
-        list<double> double_list_field;
+        List<double> double_list_field;
 
         double foo(int dbl_arg, int int_arg)
         {
@@ -130,9 +130,9 @@ namespace dot
 
         std::stringstream ss;
 
-        if (t->name() == "list`1")
+        if (t->name() == "List`1")
         {
-            list<double> vec = (list<double>)obj;
+            List<double> vec = (List<double>)obj;
             for (Object item : vec)
             {
                 ss << *(obj_to_string(item));
@@ -171,12 +171,12 @@ namespace dot
 
         sample_data dt = (sample_data)Activator::create_instance(obj->get_type());
 
-        list<dot::Object> params_foo = make_list<Object>(2);
+        List<dot::Object> params_foo = make_list<Object>(2);
         params_foo[0] = 15;
         params_foo[1] = 42;
         double ret = obj->get_type()->get_methods()[0]->invoke(obj, params_foo);
 
-        list<dot::Object> params_bar = make_list<Object>(1);
+        List<dot::Object> params_bar = make_list<Object>(1);
         params_bar[0] = 15;
         obj->get_type()->get_methods()[1]->invoke(obj, params_bar);
 

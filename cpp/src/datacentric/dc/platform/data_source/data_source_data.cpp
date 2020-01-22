@@ -58,7 +58,7 @@ namespace dc
         return create_data_set(data_set_id, nullptr, data_set_flags::default_option, save_to);
     }
 
-    temporal_id data_source_data_impl::create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets, temporal_id save_to)
+    temporal_id data_source_data_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, temporal_id save_to)
     {
         // Create with default flags in parentDataSet
         return create_data_set(data_set_id, parent_data_sets, data_set_flags::default_option, save_to);
@@ -68,7 +68,7 @@ namespace dc
         // Create with specified flags in parentDataSet
         return create_data_set(data_set_id, nullptr, flags, save_to);
     }
-    temporal_id data_source_data_impl::create_data_set(dot::String data_set_id, dot::list<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to)
+    temporal_id data_source_data_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to)
     {
         // Create dataset record
         auto result = make_data_set_data();

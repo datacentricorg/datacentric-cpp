@@ -41,7 +41,7 @@ namespace dot
 
         String name_;
         Type declaring_type_;
-        list<Attribute> custom_attributes_;
+        List<Attribute> custom_attributes_;
 
     public: // METHODS
 
@@ -52,9 +52,9 @@ namespace dot
         Type declaring_type() const { return declaring_type_; }
 
         /// Gets a collection that contains this member's custom attributes.
-        list<Attribute> get_custom_attributes(bool) { return custom_attributes_; }
+        List<Attribute> get_custom_attributes(bool) { return custom_attributes_; }
 
-        list<Attribute> get_custom_attributes(dot::Type attr_type, bool);
+        List<Attribute> get_custom_attributes(dot::Type attr_type, bool);
 
         /// A String representing the name of the current Type.
         virtual String to_string() override { return "MemberInfo"; }
@@ -64,7 +64,7 @@ namespace dot
         /// Create from property name and declaring Type.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        MemberInfoImpl(const String& name, Type declaring_type, list<Attribute> custom_attributes)
+        MemberInfoImpl(const String& name, Type declaring_type, List<Attribute> custom_attributes)
             : name_(name)
             , declaring_type_(declaring_type)
             , custom_attributes_(custom_attributes)

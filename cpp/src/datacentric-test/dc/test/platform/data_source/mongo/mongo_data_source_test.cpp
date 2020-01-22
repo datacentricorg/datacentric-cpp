@@ -185,7 +185,7 @@ namespace dc
     {
         // Create datasets
         temporal_id data_set_a = context->create_data_set("A", context->data_set);
-        dot::list<temporal_id> parents = dot::make_list<temporal_id>();
+        dot::List<temporal_id> parents = dot::make_list<temporal_id>();
         parents->add(data_set_a);
 
         temporal_id data_set_b = context->create_data_set("B", parents, context->data_set);
@@ -365,7 +365,7 @@ namespace dc
         save_minimal_record(context, "A", "A", 2, 2);
         save_minimal_record(context, "A", "B", 3, 2);
 
-        dot::list<dot::String> in_list = dot::make_list<dot::String>();
+        dot::List<dot::String> in_list = dot::make_list<dot::String>();
         in_list->add("B");
 
         // Query for record_id=B

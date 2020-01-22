@@ -30,9 +30,9 @@ limitations under the License.
 
 namespace dot
 {
-    dictionary<String, String> create_dictionary()
+    Dictionary<String, String> create_dictionary()
     {
-        dictionary<String, String> dict = make_dictionary<String, String>();
+        Dictionary<String, String> dict = make_dictionary<String, String>();
 
         dict->add("a", "b");
         dict->add(std::pair<String, String>("c", "d"));
@@ -43,19 +43,19 @@ namespace dot
 
     TEST_CASE("properties")
     {
-        dictionary<String, String> dict = create_dictionary();
+        Dictionary<String, String> dict = create_dictionary();
 
         REQUIRE(dict->count() == 3);
 
         // Keys
-        list<String> keys = dict->keys();
+        List<String> keys = dict->keys();
         REQUIRE(keys->count() == 3);
         REQUIRE(keys->contains("a"));
         REQUIRE(keys->contains("c"));
         REQUIRE(keys->contains(""));
 
         // Values
-        list<String> values = dict->values();
+        List<String> values = dict->values();
         REQUIRE(values->count() == 3);
         REQUIRE(values->contains("b"));
         REQUIRE(values->contains("d"));
@@ -64,7 +64,7 @@ namespace dot
 
     TEST_CASE("methods")
     {
-        dictionary<String, String> dict = create_dictionary();
+        Dictionary<String, String> dict = create_dictionary();
 
         // Get
         REQUIRE(dict["a"] == "b");
@@ -100,7 +100,7 @@ namespace dot
 
     TEST_CASE("interfaces")
     {
-        dictionary<String, String> dict = make_dictionary<String, String>();
+        Dictionary<String, String> dict = make_dictionary<String, String>();
         dict->add("a", "b");
         dict->add("c", "d");
         dict->add("e", "f");
@@ -117,7 +117,7 @@ namespace dot
         Object obj2 = Object("str2");
         Object obj3 = Object("str2");
 
-        dictionary<Object, String> dict = make_dictionary<Object, String>();
+        Dictionary<Object, String> dict = make_dictionary<Object, String>();
         dict->add(obj0, "val0");
         CHECK_NOTHROW(dict->add(obj1, "val1"));
 

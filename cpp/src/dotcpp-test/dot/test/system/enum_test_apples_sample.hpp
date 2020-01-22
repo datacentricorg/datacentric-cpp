@@ -55,9 +55,9 @@ namespace dot
     template <>
     struct ToStringImpl<apples_sample>
     {
-        static dot::dictionary<dot::String, int> get_enum_map(int size)
+        static dot::Dictionary<dot::String, int> get_enum_map(int size)
         {
-            static dot::dictionary<dot::String, int> func = [size]()
+            static dot::Dictionary<dot::String, int> func = [size]()
             {
                 auto result = dot::make_dictionary<dot::String, int>();
                 for (int i = 0; i < size; i++)
@@ -86,7 +86,7 @@ namespace dot
         /// Convert value to String; for empty or null values, return String::empty.
         static bool try_parse(String value, apples_sample& result)
         {
-            dot::dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
+            dot::Dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
             int int_result;
             if (dict->try_get_value(value, int_result))
             {

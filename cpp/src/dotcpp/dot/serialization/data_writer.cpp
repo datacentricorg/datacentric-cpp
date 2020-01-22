@@ -142,7 +142,7 @@ namespace dot
             dot::Type created_dict_type = nullptr;
             if (current_array_ != nullptr) created_dict_type = current_array_item_type_;
             else if (current_dict_ != nullptr) created_dict_type = current_element_info_->field_type();
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
 
             created_dict = dot::Activator::create_instance(created_dict_type);
         }
@@ -150,7 +150,7 @@ namespace dot
         // Add to array or dictionary, depending on what we are inside of
         if (current_array_ != nullptr) current_array_->add_object(created_dict);
         else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, created_dict);
-        else throw dot::Exception("Value can only be added to a dictionary or array.");
+        else throw dot::Exception("Value can only be added to a Dictionary or array.");
 
         current_dict_ = created_dict;
         auto current_dict_info_list = created_dict->get_type()->get_fields();
@@ -186,21 +186,21 @@ namespace dot
 
         // Create the array
         dot::Object created_array_obj = dot::Activator::create_instance(current_element_info_->field_type());
-        if (created_array_obj.is<dot::list_base>()) // TODO Also support native arrays
+        if (created_array_obj.is<dot::ListBase>()) // TODO Also support native arrays
         {
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(created_array_obj);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, created_array_obj);
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
 
-            current_array_ = (dot::list_base) created_array_obj;
+            current_array_ = (dot::ListBase) created_array_obj;
 
             // Get array item Type from array Type using reflection
             dot::Type list_type = current_element_info_->field_type();      // TODO fix
 //            if (!list_type->is_generic_type) throw dot::Exception(dot::String::format(
-//                "Type {0} cannot be serialized because it implements only list_base but not list_base<T>.", list_type));
-//            list<Type> generic_parameter_types = list_type->generic_type_arguments;
-            dot::list<dot::Type> generic_parameter_types = list_type->get_generic_arguments();
+//                "Type {0} cannot be serialized because it implements only ListBase but not ListBase<T>.", list_type));
+//            List<Type> generic_parameter_types = list_type->generic_type_arguments;
+            dot::List<dot::Type> generic_parameter_types = list_type->get_generic_arguments();
             if (generic_parameter_types->count() != 1) throw dot::Exception(
                 dot::String::format("Generic parameter Type list {0} has more than ", generic_parameter_types) +
                 "one element creating an ambiguity for deserialization code.");
@@ -315,13 +315,13 @@ namespace dot
         else if (current_dict_ != nullptr) element_type = current_element_info_->field_type();
         else throw dot::Exception(
             dot::String::format("Cannot write_value(...)for element {0} ", current_element_name_) +
-            "is called outside dictionary or array.");
+            "is called outside Dictionary or array.");
 
         // Check for DeserializeFieldAttribute
         // Points to custom field deserializer
         if (current_dict_ != nullptr && current_element_info_ != nullptr)
         {
-            list<Attribute> attrs = current_element_info_->get_custom_attributes(dot::typeof<DeserializeFieldAttribute>(), true);
+            List<Attribute> attrs = current_element_info_->get_custom_attributes(dot::typeof<DeserializeFieldAttribute>(), true);
             if (attrs->size())
             {
                 DeserializeFieldAttribute(attrs[0])->deserialize(value, current_element_info_, current_dict_);
@@ -369,7 +369,7 @@ namespace dot
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(converted_value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, converted_value);
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
         }
         else if (element_type->equals(dot::typeof<dot::LocalDate>()) || element_type->equals(dot::typeof<dot::Nullable<dot::LocalDate>>()))
         {
@@ -393,7 +393,7 @@ namespace dot
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(date_value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, date_value);
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
         }
         else if (element_type->equals(dot::typeof<dot::LocalTime>()) || element_type->equals(dot::typeof<dot::Nullable<dot::LocalTime>>()))
         {
@@ -417,7 +417,7 @@ namespace dot
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(time_value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, time_value);
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
         }
         else if (element_type->equals(dot::typeof<dot::LocalMinute>()) || element_type->equals(dot::typeof<dot::Nullable<dot::LocalMinute>>()))
         {
@@ -441,7 +441,7 @@ namespace dot
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(minute_value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, minute_value);
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
         }
         else if (element_type->equals(dot::typeof<dot::LocalDateTime>()) || element_type->equals(dot::typeof<dot::Nullable<dot::LocalDateTime>>()))
         {
@@ -474,7 +474,7 @@ namespace dot
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(date_time_value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, date_time_value);
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
         }
         else if (element_type->equals(dot::typeof<dot::ByteArray>()))
         {
@@ -486,7 +486,7 @@ namespace dot
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, value);
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
         }
         else if (element_type->is_enum())
         {
@@ -502,7 +502,7 @@ namespace dot
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(enum_value);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, enum_value);
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
         }
         // Check for custom deserializer for element Type
         else if (element_type->get_custom_attributes(dot::typeof<DeserializeClassAttribute>(), true)->size())
@@ -513,7 +513,7 @@ namespace dot
 
             if (current_array_ != nullptr) current_array_->add_object(obj);
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, obj);
-            else throw dot::Exception("Value can only be added to a dictionary or array.");
+            else throw dot::Exception("Value can only be added to a Dictionary or array.");
         }
         else
         {

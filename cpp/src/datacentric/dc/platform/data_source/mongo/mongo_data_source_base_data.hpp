@@ -40,7 +40,7 @@ namespace dc
     protected: // FIELDS
 
         /// Prohibited characters in database name.
-        static dot::list<char> prohibited_db_name_symbols_;
+        static dot::List<char> prohibited_db_name_symbols_;
 
         /// Maximum length of the database on Mongo server including delimiters.
         static int max_db_name_length_;

@@ -32,7 +32,7 @@ limitations under the License.
 namespace dot
 {
     class StringImpl; class String;
-    template <class T> class list_impl; template <class T> using list = Ptr<list_impl<T>>;
+    template <class T> class ListImpl; template <class T> using List = Ptr<ListImpl<T>>;
     template <class T> class Nullable;
     enum class StringSplitOptions;
 
@@ -97,7 +97,7 @@ namespace dot
 
         /// Reports the zero-based index of the first occurrence in this instance of any
         /// character in a specified array of Unicode characters.
-        int index_of_any(list<char> any_of);
+        int index_of_any(List<char> any_of);
 
         /// Returns a new String in which all the characters in the current instance, beginning
         /// at a specified position and continuing through the last position, have been deleted.
@@ -117,15 +117,15 @@ namespace dot
 
         /// Returns a String array that contains the substrings of the current String
         /// that are delimited by any of the specified 8-bit characters.
-        list<String> split(char separator) const;
+        List<String> split(char separator) const;
 
         /// Splits a String into substrings that are based on the characters in an array.
-        list<String> split(String separator) const;
+        List<String> split(String separator) const;
 
         /// Returns a String array that contains the substrings in
         /// this String that are delimited by any of the specified strings.
         /// A parameter specifies whether to return empty array elements.
-        list<String> split(const list<String>& separator, const StringSplitOptions& options) const; // TODO - implement
+        List<String> split(const List<String>& separator, const StringSplitOptions& options) const; // TODO - implement
 
         /// Returns a new String in which all leading and trailing occurrences
         /// of a set of specified characters from the current String are removed.
