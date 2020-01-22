@@ -17,24 +17,24 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/record_base.hpp>
+#include <dc/types/record/record.hpp>
 
 namespace dc
 {
-    class delete_marker_impl; using delete_marker = dot::ptr<delete_marker_impl>;
+    class deleted_record_impl; using deleted_record = dot::ptr<deleted_record_impl>;
 
-    inline delete_marker make_delete_marker(key_base key);
-    inline delete_marker make_delete_marker();
+    inline deleted_record make_deleted_record(key key);
+    inline deleted_record make_deleted_record();
 
     /// When returned by the data source, this record has the same
     /// effect as if no record was found. It is used to indicate
     /// a deleted record when audit log must be preserved.
-    class DC_CLASS delete_marker_impl : public record_base_impl
+    class DC_CLASS deleted_record_impl : public record_impl
     {
-        typedef delete_marker_impl self;
+        typedef deleted_record_impl self;
 
-        friend delete_marker make_delete_marker(key_base key);
-        friend delete_marker make_delete_marker();
+        friend deleted_record make_deleted_record(key key);
+        friend deleted_record make_deleted_record();
 
     public: // PROPERTIES
 
@@ -50,20 +50,20 @@ namespace dc
 
     private: // CONSTRUCTORS
 
-        delete_marker_impl(key_base key);
+        deleted_record_impl(key key);
 
-        delete_marker_impl();
+        deleted_record_impl();
 
     public:
 
-        DOT_TYPE_BEGIN("dc", "delete_marker")
-            DOT_TYPE_BASE(record_base)
-            ->with_constructor(static_cast<delete_marker (*)(key_base)>(&make_delete_marker), { "key" })
-            ->with_constructor(static_cast<delete_marker(*) ()>(&make_delete_marker), {})
-            ->with_field("_key", &delete_marker_impl::key_)
+        DOT_TYPE_BEGIN("dc", "deleted_record")
+            DOT_TYPE_BASE(record)
+            ->with_constructor(static_cast<deleted_record (*)(key)>(&make_deleted_record), { "key" })
+            ->with_constructor(static_cast<deleted_record(*) ()>(&make_deleted_record), {})
+            ->with_field("_key", &deleted_record_impl::key_)
         DOT_TYPE_END()
     };
 
-    inline delete_marker make_delete_marker(key_base key) { return new delete_marker_impl(key); }
-    inline delete_marker make_delete_marker() { return new delete_marker_impl(); }
+    inline deleted_record make_deleted_record(key key) { return new deleted_record_impl(key); }
+    inline deleted_record make_deleted_record() { return new deleted_record_impl(); }
 }

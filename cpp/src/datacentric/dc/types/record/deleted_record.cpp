@@ -16,20 +16,20 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/types/record/delete_marker.hpp>
+#include <dc/types/record/deleted_record.hpp>
 #include <dc/platform/context/context_base.hpp>
 
 namespace dc
 {
-    delete_marker_impl::delete_marker_impl(key_base key)
+    deleted_record_impl::deleted_record_impl(key key)
         : key_(key->to_string())
     {}
 
-    delete_marker_impl::delete_marker_impl()
+    deleted_record_impl::deleted_record_impl()
         : key_()
     {}
 
-    dot::string delete_marker_impl::get_key()
+    dot::string deleted_record_impl::get_key()
     {
         return key_;
     }
