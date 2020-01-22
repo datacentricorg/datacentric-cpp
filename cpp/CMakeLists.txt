@@ -18,6 +18,7 @@ set(GLOBAL_DEPENDENCIES_PATH "${PROJECT_SOURCE_DIR}/third_party")
 set(DOTCPP_PATH "${PROJECT_SOURCE_DIR}/src/dotcpp")
 set(DOTCPP_MONGO_PATH "${PROJECT_SOURCE_DIR}/src/dotcpp-mongo")
 set(DOTCPP_TEST_PATH "${PROJECT_SOURCE_DIR}/src/dotcpp-test")
+set(DOTCPP_MONGO_TEST_PATH "${PROJECT_SOURCE_DIR}/src/dotcpp-mongo-test")
 set(DATACENTRIC_PATH "${PROJECT_SOURCE_DIR}/src/datacentric")
 set(DATACENTRIC_CLI_PATH "${PROJECT_SOURCE_DIR}/src/datacentric-cli")
 set(DATACENTRIC_TEST_PATH "${PROJECT_SOURCE_DIR}/src/datacentric-test")
@@ -27,6 +28,7 @@ include_directories(${GLOBAL_DEPENDENCIES_PATH})
 include_directories(${DOTCPP_PATH})
 include_directories(${DOTCPP_MONGO_PATH})
 include_directories(${DOTCPP_TEST_PATH})
+include_directories(${DOTCPP_MONGO_TEST_PATH})
 include_directories(${DATACENTRIC_PATH})
 include_directories(${DATACENTRIC_CLI_PATH})
 include_directories(${DATACENTRIC_TEST_PATH})
@@ -64,11 +66,14 @@ add_subdirectory(${GLOBAL_DEPENDENCIES_PATH}/mongo)
 # DotCpp Api project
 add_subdirectory(${DOTCPP_PATH}/dot)
 
-# DotCpp Api project
+# DotCpp Mongo project
 add_subdirectory(${DOTCPP_MONGO_PATH}/dot/mongo)
 
 # DotCpp Tests project
 add_subdirectory(${DOTCPP_TEST_PATH}/dot/test)
+
+# DotCpp Mongo Tests project
+add_subdirectory(${DOTCPP_MONGO_TEST_PATH}/dot/mongo/test)
 
 # Datacentric Main project
 add_subdirectory(${DATACENTRIC_PATH}/dc)
