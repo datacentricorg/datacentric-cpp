@@ -108,6 +108,9 @@ namespace dot
             return dot::object(new dot::struct_wrapper_impl<object_id>(*this));
         }
 
+        /// Min method for nullable object_id.
+        static dot::nullable<object_id> min(dot::nullable<object_id> lhs, dot::nullable<object_id> rhs);
+
     private:
 
         static object deserialize(object value, dot::type type);
