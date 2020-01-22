@@ -49,10 +49,10 @@ namespace dc
 
     public: // STATIC
 
-        /// By convention, Cache is the name of the Operational Data Store (ODS).
+        /// By convention, cache is the name of the Operational Data Store (ODS).
         static data_source_key cache;
 
-        /// By convention, Master is the name of the Master Data Store (MDS).
+        /// By convention, master is the name of the Master Data Store (MDS).
         static data_source_key master;
 
     public: // CONSTRUCTORS

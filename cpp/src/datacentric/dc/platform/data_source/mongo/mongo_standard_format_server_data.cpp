@@ -27,8 +27,8 @@ namespace dc
             dot::string::format("The list of hosts provided for MongoDB server {0} is null or empty.", db_server_id));
 
         // TODO uncoment when implemented
-        //String hostNames = dot::string::Join(",", Hosts);
-        //String result = dot::string::Concat("mongodb://", hostNames, "/");
+        //dot::string host_names = dot::string::join(",", hosts);
+        //dot::string result = dot::string::concat("mongodb://", host_names, "/");
         //return result;
         throw dot::exception("Not implemented.");
     }

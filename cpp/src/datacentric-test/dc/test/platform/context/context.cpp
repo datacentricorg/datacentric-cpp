@@ -35,7 +35,7 @@ namespace dc
         //if (!source_file_path->ends_with(".cs")) throw dot::exception(dot::string::format("Source file path '{0}' does not end with '.cs'", source_file_path));
         dot::string test_class_path = source_file_path->substring(0, source_file_path->size() - 3);
 
-        // Create and initialize data source with TEST instance type.
+        // Create and initialize data source with test instance type.
         //
         // This does not create the database until the data source
         // is actually used to access data.
@@ -45,7 +45,7 @@ namespace dc
         data_source->db_server = (make_mongo_default_server_data())->to_key();
         data_source->db_name = new db_name_key_impl();
 
-        data_source->db_name->db_instance_type = instance_type::TEST;
+        data_source->db_name->db_instance_type = instance_type::test;
         data_source->db_name->instance_name = mapped_class_name;
         data_source->db_name->env_name = method_name;
 

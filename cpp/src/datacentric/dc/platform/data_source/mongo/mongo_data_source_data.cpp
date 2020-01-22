@@ -25,25 +25,24 @@ limitations under the License.
 #include <dc/types/record/delete_marker.hpp>
 
 #include <mongocxx/collection.hpp>
-
 #include <bsoncxx/json.hpp>
 
 namespace dc
 {
-    record_base mongo_data_source_data_impl::load_or_null(dot::object_id id, dot::type dataType)
+    record_base mongo_data_source_data_impl::load_or_null(dot::object_id id, dot::type data_type)
     {
-        auto revisionTimeConstraint = get_revision_time_constraint();
-        if (revisionTimeConstraint != nullptr)
+        auto revision_time_constraint = get_revision_time_constraint();
+        if (revision_time_constraint != nullptr)
         {
-            // If RevisionTimeConstraint is not null, return null for any
+            // If revision_time_constraint is not null, return null for any
             // id that is not strictly before the constraint dot::object_id
-            if (id >= revisionTimeConstraint.value()) return nullptr;
+            if (id >= revision_time_constraint.value()) return nullptr;
         }
 
         bsoncxx::builder::basic::document filter{};
         filter.append(bsoncxx::builder::basic::kvp("_id", id.oid()));
 
-        bsoncxx::stdx::optional<bsoncxx::document::value> res = get_collection(dataType).find_one(filter.view());
+        bsoncxx::stdx::optional<bsoncxx::document::value> res = get_collection(data_type).find_one(filter.view());
         if (res != bsoncxx::stdx::nullopt)
         {
             bson_record_serializer serializer = make_bson_record_serializer();
@@ -55,11 +54,11 @@ namespace dc
         return nullptr;
     }
 
-    record_base mongo_data_source_data_impl::reload_or_null(key_base key, dot::object_id loadFrom)
+    record_base mongo_data_source_data_impl::reload_or_null(key_base key, dot::object_id load_from)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
-        dot::hash_set<dot::object_id> lookup_list = get_data_set_lookup_list(loadFrom);
+        dot::hash_set<dot::object_id> lookup_list = get_data_set_lookup_list(load_from);
 
         // dot::string key in semicolon delimited format used in the lookup
         dot::string key_value = key->to_string();
@@ -107,7 +106,7 @@ namespace dc
         return nullptr;
     }
 
-    void mongo_data_source_data_impl::save(record_base record, dot::object_id saveTo)
+    void mongo_data_source_data_impl::save(record_base record, dot::object_id save_to)
     {
         check_not_read_only();
 
@@ -117,19 +116,19 @@ namespace dc
         // order for this instance of the data source class always, and across
         // all processes and machine if they are not created within the same
         // second.
-        dot::object_id objectId = create_ordered_object_id();
+        dot::object_id object_id = create_ordered_object_id();
 
         // dot::object_id of the record must be strictly later
         // than dot::object_id of the dataset where it is stored
-        if (objectId <= saveTo)
+        if (object_id <= save_to)
             throw dot::exception(dot::string::format(
                 "Attempting to save a record with dot::object_id={0} that is later "
-                "than dot::object_id={1} of the dataset where it is being saved.", objectId.to_string(), saveTo.to_string()));
+                "than dot::object_id={1} of the dataset where it is being saved.", object_id.to_string(), save_to.to_string()));
 
         // Assign id and data_set, and only then initialize, because
         // initialization code may use record.id and record.data_set
-        record->id = objectId;
-        record->data_set = saveTo;
+        record->id = object_id;
+        record->data_set = save_to;
         record->init(context);
 
         // Serialize record.
@@ -148,28 +147,28 @@ namespace dc
         collection.insert_one(doc.view());
     }
 
-    query mongo_data_source_data_impl::get_query(dot::object_id dataSet, dot::type type)
+    query mongo_data_source_data_impl::get_query(dot::object_id data_set, dot::type type)
     {
-        return make_query(this, dataSet, type);
+        return make_query(this, data_set, type);
     }
 
     object_cursor_wrapper mongo_data_source_data_impl::load_by_query(query query)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
-        dot::hash_set<dot::object_id> lookupList = get_data_set_lookup_list(query->data_set_);
+        dot::hash_set<dot::object_id> lookup_list = get_data_set_lookup_list(query->data_set_);
 
         // filter by dataset
-        bsoncxx::builder::basic::array filterDatasetList{};
-        for (dot::object_id id : lookupList)
-            filterDatasetList.append(id.oid());
+        bsoncxx::builder::basic::array filter_dataset_list{};
+        for (dot::object_id id : lookup_list)
+            filter_dataset_list.append(id.oid());
 
-        bsoncxx::builder::basic::document filterDataset{};
-        filterDataset.append(bsoncxx::builder::basic::kvp("$in", filterDatasetList.view()));
+        bsoncxx::builder::basic::document filter_dataset{};
+        filter_dataset.append(bsoncxx::builder::basic::kvp("$in", filter_dataset_list.view()));
 
         bsoncxx::builder::basic::document filter{};
 
-        filter.append(bsoncxx::builder::basic::kvp("_dataset", filterDataset.view()));
+        filter.append(bsoncxx::builder::basic::kvp("_dataset", filter_dataset.view()));
         filter.append(bsoncxx::builder::basic::concatenate(query->where_.view()));
 
         bsoncxx::builder::basic::document sort{};
@@ -190,19 +189,19 @@ namespace dc
         pipeline.group(gr.view());
 
         // filter by type
-        bsoncxx::builder::basic::document typeFilter;
+        bsoncxx::builder::basic::document type_filter;
 
-        bsoncxx::builder::basic::array typeList;
+        bsoncxx::builder::basic::array type_list;
 
         // append given type and delete_marker
-        typeList.append(*(dot::string) query->type_->name);
+        type_list.append(*(dot::string) query->type_->name);
 
         // append derived types
-        dot::list<dot::type> derivedTypes = dot::type_impl::get_derived_types(query->type_);
-        if (derivedTypes != nullptr)
+        dot::list<dot::type> derived_types = dot::type_impl::get_derived_types(query->type_);
+        if (derived_types != nullptr)
         {
-            for (dot::type derType : derivedTypes)
-                typeList.append(*(dot::string) derType->name);
+            for (dot::type der_type : derived_types)
+                type_list.append(*(dot::string) der_type->name);
         }
 
         pipeline.replace_root(bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("newRoot", "$doc")));
@@ -215,9 +214,9 @@ namespace dc
 
         pipeline.sort(custom_sort.view());
 
-        typeFilter.append(bsoncxx::builder::basic::kvp("_t",
-            bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("$in", typeList.view()))));
-        pipeline.match(typeFilter.view());
+        type_filter.append(bsoncxx::builder::basic::kvp("_t",
+            bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("$in", type_list.view()))));
+        pipeline.match(type_filter.view());
 
         if (query->select_.is_empty())
         {
@@ -235,12 +234,12 @@ namespace dc
         }
         else
         {
-            bsoncxx::builder::basic::document selectList{};
+            bsoncxx::builder::basic::document select_list{};
             for (dot::field_info prop : query->select_)
-                selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->name, 1));
-            selectList.append(bsoncxx::builder::basic::kvp("_key", 1));
+                select_list.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->name, 1));
+            select_list.append(bsoncxx::builder::basic::kvp("_key", 1));
 
-            pipeline.project(selectList.view());
+            pipeline.project(select_list.view());
 
             context_base context = this->context;
             return make_object_cursor_wrapper(std::move(get_collection(query->type_).aggregate(pipeline)),
@@ -255,7 +254,7 @@ namespace dc
         }
     }
 
-    void mongo_data_source_data_impl::delete_record(key_base key, dot::object_id deleteIn)
+    void mongo_data_source_data_impl::delete_record(key_base key, dot::object_id delete_in)
     {
         // Create delete marker with the specified key
         auto record = make_delete_marker();
@@ -268,12 +267,12 @@ namespace dc
         // order for this instance of the data source class always, and across
         // all processes and machine if they are not created within the same
         // second.
-        auto objectId = create_ordered_object_id();
-        record->id = objectId;
+        auto object_id = create_ordered_object_id();
+        record->id = object_id;
 
         // Assign dataset and then initialize, as the results of
         // initialization may depend on record.data_set
-        record->data_set = deleteIn;
+        record->data_set = delete_in;
 
         // Serialize record.
         bson_record_serializer serializer = make_bson_record_serializer();
@@ -289,6 +288,5 @@ namespace dc
         doc.append(bsoncxx::builder::concatenate(writer->view()));
 
         collection.insert_one(doc.view());
-
     }
 }

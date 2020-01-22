@@ -41,43 +41,43 @@ namespace dc
             /// and has the most restrictions. For example, it
             /// does not allow a database to be deleted (dropped)
             /// through the API call.
-            PROD,
+            prod,
 
             /// Shared user acceptance testing instance type.
             ///
             /// This instance type is used has some of the restrictions
-            /// of the PROD instance type, including the restriction
+            /// of the prod instance type, including the restriction
             /// on deleting (dropping) the database through an API
             /// call.
-            UAT,
+            uat,
 
             /// Shared development instance type.
             ///
             /// This instance type is shared but is free from most
             /// restrictions.
-            DEV,
+            dev,
 
             /// Personal instance type of a specific user.
             ///
             /// This instance type is not shared between users and is
             /// free from most restrictions.
-            USER,
+            user,
 
             /// Instance type is used for unit testing.
             ///
             /// Databases for the test instance type are routinely
             /// cleared (deleted). They should not be used for any
             /// purpose other than unit tests.
-            TEST,
+            test,
         };
 
         DOT_ENUM_BEGIN("dc", "instance_type")
             DOT_ENUM_VALUE(empty)
-            DOT_ENUM_VALUE(PROD)
-            DOT_ENUM_VALUE(UAT)
-            DOT_ENUM_VALUE(DEV)
-            DOT_ENUM_VALUE(USER)
-            DOT_ENUM_VALUE(TEST)
+            DOT_ENUM_VALUE(prod)
+            DOT_ENUM_VALUE(uat)
+            DOT_ENUM_VALUE(dev)
+            DOT_ENUM_VALUE(user)
+            DOT_ENUM_VALUE(test)
         DOT_ENUM_END()
     };
 }

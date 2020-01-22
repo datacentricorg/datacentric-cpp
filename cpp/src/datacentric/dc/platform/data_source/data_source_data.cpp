@@ -31,8 +31,8 @@ namespace dc
         if (is_read_only())
             throw dot::exception(dot::string::format(
                 "Attempting write operation for readonly data source {0}. "
-                "A data source is readonly if either (a) its ReadOnly flag is set, or (b) "
-                "one of RevisedBefore or RevisedBeforeId is set.", data_source_id));
+                "A data source is readonly if either (a) its read_only flag is set, or (b) "
+                "one of revised_before or revised_before_id is set.", data_source_id));
     }
 
     dot::object_id data_source_data_impl::get_data_set_or_empty(dot::string data_set_id, dot::object_id load_from)
@@ -61,14 +61,14 @@ namespace dc
         data_set_dict_[data_set_data->get_key()] = data_set_data->id;
 
         // Update lookup list dictionary
-        dot::hash_set<dot::object_id> lookupList = build_data_set_lookup_list(data_set_data);
-        data_set_parent_dict_->add(data_set_data->id, lookupList);
+        dot::hash_set<dot::object_id> lookup_list = build_data_set_lookup_list(data_set_data);
+        data_set_parent_dict_->add(data_set_data->id, lookup_list);
     }
 
     dot::hash_set<dot::object_id> data_source_data_impl::get_data_set_lookup_list(dot::object_id load_from)
     {
         // Root dataset has no parents, return list containing
-        // root dataset identifier only (dot::object_id.Empty) and exit
+        // root dataset identifier only (dot::object_id.empty) and exit
         if (load_from == dot::object_id::empty)
         {
             dot::hash_set<dot::object_id> res = dot::make_hash_set<dot::object_id>();
@@ -103,7 +103,7 @@ namespace dc
 
     dot::nullable<dot::object_id> data_source_data_impl::get_revision_time_constraint()
     {
-        // Set revisionTimeConstraint_ based on either RevisedBefore or RevisedBeforeId element
+        // Set revision_time_constraint_ based on either revised_before or revised_before_id element
         if (revised_before == nullptr && revised_before_id == nullptr)
         {
             // Clear the revision time constraint.
@@ -114,9 +114,9 @@ namespace dc
         }
         else if (revised_before != nullptr && revised_before_id == nullptr)
         {
-            // We already know that RevisedBefore is not null,
+            // We already know that revised_before is not null,
             // but we need to check separately that it is not empty
-            //RevisedBefore.CheckHasValue(); // TODO uncomment
+            //revised_before.check_has_value(); // TODO uncomment
 
             // Convert to the least value of dot::object_id with the specified timestamp
             dot::local_date_time date = ((dot::nullable<dot::local_date_time>) revised_before).value();
@@ -124,9 +124,9 @@ namespace dc
         }
         else if (revised_before == nullptr && revised_before_id != nullptr)
         {
-            // We already know that RevisedBeforeId is not null,
+            // We already know that revised_before_id is not null,
             // but we need to check separately that it is not empty
-            //RevisedBeforeId.Value.CheckHasValue(); // TODO uncomment
+            //revised_before_id.value.check_has_value(); // TODO uncomment
 
             // Set the revision time constraint
             return revised_before_id;
@@ -134,7 +134,7 @@ namespace dc
         else
         {
             throw dot::exception(
-                "Elements RevisedBefore and RevisedBeforeId are alternates; "
+                "Elements revised_before and revised_before_id are alternates; "
                 "they cannot be specified at the same time.");
         }
     }
@@ -146,7 +146,7 @@ namespace dc
         data_set_key->data_set_id = data_set_id;
         data_set_data data_set_data_obj = (data_set_data) reload_or_null(data_set_key, load_from);
 
-        // If not found, return dot::object_id.Empty
+        // If not found, return dot::object_id.empty
         if (data_set_data_obj == nullptr) return dot::object_id::empty;
 
         // If found, cache result in dot::object_id dictionary
@@ -176,9 +176,9 @@ namespace dc
         // Return if the dataset is null or has no parents
         if (data_set_data == nullptr) return;
 
-        // Error message if dataset has no id or Key
-        //data_set_data->id->CheckHasValue();
-        //data_set_data->getKey()->CheckHasValue();
+        // Error message if dataset has no id or key
+        //data_set_data->id->check_has_value();
+        //data_set_data->get_key()->check_has_value();
         //! TODO uncomment
 
         // Add self to the result
@@ -194,11 +194,11 @@ namespace dc
                     throw dot::exception(
                         dot::string::format("Dataset {0} with dot::object_id={1} includes itself in the list of parents.", (dot::string)data_set_data->get_key(), dot::object_id(data_set_data->id).to_string()));
 
-                // The Add method returns true if the argument is not yet present in the list
+                // The add method returns true if the argument is not yet present in the list
                 if (!result->contains(data_set_id))
                 {
                     result->add(data_set_id);
-                    // Add recursively if not already present in the hashset
+                    // add recursively if not already present in the hashset
                     dot::hash_set<dot::object_id> cached_parent_set = get_data_set_lookup_list(data_set_id);
                     for (dot::object_id cached_parent_id : cached_parent_set)
                     {
@@ -222,10 +222,10 @@ namespace dc
         return result;
     }
 
-    dot::object_id data_source_data_impl::create_data_set(dot::string dataSetID, dot::object_id saveTo)
+    dot::object_id data_source_data_impl::create_data_set(dot::string data_set_id, dot::object_id save_to)
     {
-        // Delegate to the overload taking IEnumerable as second parameter
-        return create_data_set(dataSetID, nullptr, saveTo);
+        // Delegate to the overload taking enumerable_base as second parameter
+        return create_data_set(data_set_id, nullptr, save_to);
     }
 
     dot::object_id data_source_data_impl::create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, dot::object_id save_to)

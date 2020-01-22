@@ -76,7 +76,7 @@ namespace dc
 
     public:
 
-        DOT_TYPE_BEGIN("dc", "PerformanceTest")
+        DOT_TYPE_BEGIN("dc", "performance_test")
         DOT_TYPE_END()
     };
 
@@ -94,7 +94,7 @@ namespace dc
 
         dot::string record_id;
 
-        DOT_TYPE_BEGIN("dc", "PerformanceTestKey")
+        DOT_TYPE_BEGIN("dc", "performance_test_key")
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_BASE(key<performance_test_key_impl, performance_test_data_impl>)
             DOT_TYPE_CTOR(make_performance_test_key)
@@ -116,7 +116,7 @@ namespace dc
         dot::list<double> double_list;
         dot::nullable<int> version;
 
-        DOT_TYPE_BEGIN("dc", "PerformanceTestData")
+        DOT_TYPE_BEGIN("dc", "performance_test_data")
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_PROP(double_list)
             DOT_TYPE_PROP(version)

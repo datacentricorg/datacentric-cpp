@@ -22,7 +22,6 @@ limitations under the License.
 #include <dot/noda_time/local_time_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
 
-
 namespace dc
 {
     struct and_list
@@ -42,7 +41,6 @@ namespace dc
 
             return builder.extract_document();
         }
-
     };
 
     struct or_list
@@ -62,7 +60,6 @@ namespace dc
 
             return builder.extract_document();
         }
-
     };
 
     inline void append(bsoncxx::builder::core& builder, const dot::string & rhs)
@@ -287,7 +284,6 @@ namespace dc
             return operator_wrapper<std::initializer_list<T>>(get_name(), "$in", rhs);
         }
 
-
     private:
 
         std::string get_name() const
@@ -297,7 +293,6 @@ namespace dc
             std::for_each(props_.begin() + 1, props_.end(), [&ss](const dot::string& prop) { ss << "." << *prop; });
             return ss.str();
         }
-
     };
 
     template <class Class, class Prop>
@@ -366,7 +361,6 @@ namespace dc
         {
             return operator_wrapper<std::initializer_list<T>>(*dot::string(prop_->name), "$in", rhs);
         }
-
     };
 
     template <class Class>
@@ -413,9 +407,7 @@ namespace dc
         {
             return operator_wrapper<bsoncxx::oid>("_id", "$lt", rhs.id_);
         }
-
     };
-
 
     template <class Prop, class Class>
     prop_wrapper<Class, Prop> make_prop(Prop Class::*prop_)
@@ -428,7 +420,6 @@ namespace dc
             dot::ptr<dot::field_info_impl<Prop, Class>> casted_prop = prop.as<dot::ptr<dot::field_info_impl<Prop, Class>>>();
             if (!casted_prop.is_empty() && casted_prop->field_ == prop_)
                 return prop_wrapper<Class, Prop>{ prop };
-
         }
 
         throw dot::exception("Unregistered property");

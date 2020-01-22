@@ -50,14 +50,14 @@ namespace dc
         ///
         /// \begin{itemize}
         /// \item
-        /// For PROD, UAT, and DEV instance types, instance name
+        /// For prod, uat, and dev instance types, instance name
         /// identifies the endpoint.
         ///
         /// \item
-        /// For USER instance type, instance name is user alias.
+        /// For user instance type, instance name is user alias.
         ///
         /// \item
-        /// For TEST instance type, instance name is the name of
+        /// For test instance type, instance name is the name of
         /// the unit test class (test fixture).
         /// \end{itemize}
         dot::string instance_name;
@@ -66,11 +66,11 @@ namespace dc
         ///
         /// \begin{itemize}
         /// \item
-        /// For PROD, UAT, DEV, and USER instance types, it is the
+        /// For prod, uat, dev, and user instance types, it is the
         /// name of the user environment selected in the client.
         ///
         /// \item
-        /// For TEST instance type, it is the test method name.
+        /// For test instance type, it is the test method name.
         /// \end{itemize}
         dot::string env_name;
 
@@ -79,7 +79,5 @@ namespace dc
             DOT_TYPE_PROP(instance_name)
             DOT_TYPE_PROP(env_name)
         DOT_TYPE_END()
-
-
     };
 }

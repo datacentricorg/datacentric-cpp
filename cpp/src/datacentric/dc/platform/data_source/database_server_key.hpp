@@ -44,7 +44,7 @@ namespace dc
 
     public: // STATIC
 
-        /// By convention, Default is the Mongo server running on the default port of localhost.
+        /// By convention, default_key is the Mongo server running on the default port of localhost.
         static db_server_key default_key;
 
     public: // CONSTRUCTORS

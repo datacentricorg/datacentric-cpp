@@ -36,7 +36,7 @@ namespace dc
 
     protected: // CONSTRUCTORS
 
-        /// Assign the value of DbServerID that
+        /// Assign the value of db_server_id that
         /// the default Mongo server uses by convention.
         mongo_default_server_data_impl();
 

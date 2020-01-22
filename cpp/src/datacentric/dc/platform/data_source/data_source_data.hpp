@@ -75,7 +75,7 @@ namespace dc
             return (t_record) load_or_null(id, dot::typeof<t_record>());
         }
 
-        /// Load record by its dot::object_id and Type.
+        /// Load record by its dot::object_id and type.
         ///
         /// Return null if not found.
         virtual record_base load_or_null(dot::object_id id, dot::type data_type) = 0;
@@ -85,7 +85,7 @@ namespace dc
         /// the record cached inside the key instead (if present), use
         /// the caching variant of this method:
         ///
-        /// load_or_null(key, loadFrom)
+        /// load_or_null(key, load_from)
         ///
         /// Load record by string key from the specified dataset or
         /// its parent. The lookup occurs first in the reverse
@@ -107,7 +107,7 @@ namespace dc
         virtual record_base reload_or_null(key_base key, dot::object_id load_from) = 0;
 
         /// Save record to the specified dataset. After the method exits,
-        /// record.data_set will be set to the value of the dataSet parameter.
+        /// record.data_set will be set to the value of the data_set parameter.
         ///
         /// This method guarantees that dot::object_ids will be in strictly increasing
         /// order for this instance of the data source class always, and across
@@ -133,7 +133,7 @@ namespace dc
             return get_query(data_set, dot::typeof<TRecord>());
         }
 
-        /// Write a delete marker for the specified dataSet and dataKey
+        /// Write a delete marker for the specified data_set and data_key
         /// instead of actually deleting the record. This ensures that
         /// a record in another dataset does not become visible during
         /// lookup in a sequence of datasets.
@@ -158,22 +158,22 @@ namespace dc
         /// Returns true if the data source is readonly,
         /// which may be for the following reasons:
         ///
-        /// * ReadOnly flag is true; or
-        /// * One of RevisedBefore or RevisedBeforeId is set
+        /// * read_only flag is true; or
+        /// * One of revised_before or revised_before_id is set
         bool is_read_only();
 
         /// Error message if the data source is readonly,
         /// which may be for the following reasons:
         ///
-        /// * ReadOnly flag is true; or
-        /// * One of RevisedBefore or RevisedBeforeId is set
+        /// * read_only flag is true; or
+        /// * One of revised_before or revised_before_id is set
         void check_not_read_only();
 
         /// Return dot::object_id for the latest dataset record with
-        /// matching dataSetID string from in-memory cache. Try
+        /// matching data_set_id string from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
-        /// Return dot::object_id.Empty if not found.
+        /// Return dot::object_id.empty if not found.
         ///
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
@@ -181,7 +181,7 @@ namespace dc
         /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
         ///
-        /// Error message if no matching dataSetID string is found
+        /// Error message if no matching data_set_id string is found
         /// or a delete marker is found instead.
         dot::object_id get_data_set_or_empty(dot::string data_set_id, dot::object_id load_from);
 
@@ -214,11 +214,11 @@ namespace dc
         /// references and duplicates removed.
         ///
         /// The list will not include datasets that are not strictly earlier
-        /// than RevisionTimeConstraint, or their parents (even if the parents
+        /// than revision_time_constraint, or their parents (even if the parents
         /// are earlier than the constraint).
         ///
         /// The list will not include datasets that are not strictly earlier
-        /// than RevisionTimeConstraint, or their parents (even if the parents
+        /// than revision_time_constraint, or their parents (even if the parents
         /// are earlier than the constraint)
         dot::hash_set<dot::object_id> get_data_set_lookup_list(dot::object_id load_from);
 
@@ -230,7 +230,7 @@ namespace dc
         dot::object_id get_common();
 
         /// Return dot::object_id for the latest dataset record with
-        /// matching dataSetID string from in-memory cache. Try
+        /// matching data_set_id string from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
         /// Error message if not found.
@@ -242,12 +242,12 @@ namespace dc
         /// force reloading the dataset from storage.
         dot::object_id get_data_set(dot::string data_set_id, dot::object_id load_from);
 
-        /// Create new version of the dataset with the specified dataSetID.
+        /// Create new version of the dataset with the specified data_set_id.
         ///
         /// This method updates in-memory cache to the saved dataset.
         dot::object_id create_data_set(dot::string data_set_id, dot::object_id save_to);
 
-        /// Create new version of the dataset with the specified dataSetID
+        /// Create new version of the dataset with the specified data_set_id
         /// and parent dataset dot::object_ids passed as an array, and return
         /// the new dot::object_id assigned to the saved dataset.
         ///
@@ -270,25 +270,25 @@ namespace dc
     protected: // PROTECTED
 
         /// The data source will return records for which _id is strictly
-        /// less than RevisionTimeConstraint.
+        /// less than revision_time_constraint.
         ///
-        /// This field is set based on either RevisedBefore and RevisedBeforeId
+        /// This field is set based on either revised_before and revised_before_id
         /// elements that are alternates; only one of them can be specified.
         dot::nullable<dot::object_id> get_revision_time_constraint();
 
     private: // PRIVATE
 
         /// Load dot::object_id for the latest dataset record with
-        /// matching dataSetID string from storage even if
+        /// matching data_set_id string from storage even if
         /// present in in-memory cache. Update the cache with
         /// the loaded value.
         ///
-        /// Return dot::object_id.Empty if not found.
+        /// Return dot::object_id.empty if not found.
         ///
         /// This method will always load the latest data from
-        /// storage. Consider using the corresponding Get...
+        /// storage. Consider using the corresponding get...
         /// method when there is no need to load the latest
-        /// value from storage. The Get... method is faster
+        /// value from storage. The get... method is faster
         /// because it will return the value from in-memory
         /// cache when present.
         dot::object_id load_data_set_or_empty(dot::string data_set_id, dot::object_id load_from);
@@ -319,7 +319,7 @@ namespace dc
 
     private: // FIELDS
 
-        /// Dictionary of dataset dot::object_ids stored under string dataSetID.
+        /// Dictionary of dataset dot::object_ids stored under string data_set_id.
         dot::dictionary<dot::string, dot::object_id> data_set_dict_ = dot::make_dictionary<dot::string, dot::object_id>();
 
         /// Dictionary of the expanded list of parent dot::object_ids of dataset, including
@@ -332,21 +332,21 @@ namespace dc
         /// This class enforces strict naming conventions
         /// for database naming. While format of the resulting database
         /// name is specific to data store type, it always consists
-        /// of three tokens: InstanceType, InstanceName, and EnvName.
-        /// The meaning of InstanceName and EnvName tokens depends on
-        /// the value of InstanceType enumeration.
+        /// of three tokens: instance_type, instance_name, and env_name.
+        /// The meaning of instance_name and env_name tokens depends on
+        /// the value of instance_type enumeration.
         db_name_key db_name;
 
         /// Identifies the database server used by this data source.
         db_server_key db_server;
 
         /// Use this flag to mark dataset as readonly, but use either
-        /// IsReadOnly() or CheckNotReadonly() method to determine the
+        /// is_read_only() or check_not_readonly() method to determine the
         /// readonly status because the dataset may be readonly for
         /// two reasons:
         ///
-        /// * ReadOnly flag is true; or
-        /// * One of RevisedBefore or RevisedBeforeId is set
+        /// * read_only flag is true; or
+        /// * One of revised_before or revised_before_id is set
         bool read_only;
 
         /// The data source will return records revised strictly before
@@ -357,21 +357,21 @@ namespace dc
         /// The value of this element must fall precisely on the second,
         /// error message otherwise.
         ///
-        /// RevisedBefore and RevisedBeforeId elements are alternates;
+        /// revised_before and revised_before_id elements are alternates;
         /// they cannot be specified at the same time.
         ///
-        /// If either RevisedBefore or RevisedBeforeId is specified, the
-        /// data source is readonly and its IsReadOnly() method returns true.
+        /// If either revised_before or revised_before_id is specified, the
+        /// data source is readonly and its is_read_only() method returns true.
         dot::nullable<dot::local_date_time> revised_before;
 
         /// The data source will return records for which _id is strictly
         /// less than the specified dot::object_id.
         ///
-        /// RevisedBefore and RevisedBeforeId elements are alternates;
+        /// revised_before and revised_before_id elements are alternates;
         /// they cannot be specified at the same time.
         ///
-        /// If either RevisedBefore or RevisedBeforeId is specified, the
-        /// data source is readonly and its IsReadOnly() method returns true.
+        /// If either revised_before or revised_before_id is specified, the
+        /// data source is readonly and its is_read_only() method returns true.
         dot::nullable<dot::object_id> revised_before_id;
 
         /// Unique data source identifier.
