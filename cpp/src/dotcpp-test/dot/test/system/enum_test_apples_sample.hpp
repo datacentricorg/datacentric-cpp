@@ -29,7 +29,7 @@ limitations under the License.
 namespace dot
 {
     /// Enum sample.
-    enum class apples_sample
+    enum class ApplesSample
     {
         /// Empty value.
         empty,
@@ -42,18 +42,18 @@ namespace dot
     };
 
     template <>
-    struct type_traits<apples_sample>
+    struct type_traits<ApplesSample>
     {
         static Type typeof()
         {
-            static Type result = make_type_builder<char>("dot", "apples_sample")->is_enum()->build();
+            static Type result = make_type_builder<char>("dot", "ApplesSample")->is_enum()->build();
             return result;
         }
     };
 
     /// Helper class to implement to_string(value) via template specialization
     template <>
-    struct ToStringImpl<apples_sample>
+    struct ToStringImpl<ApplesSample>
     {
         static dot::Dictionary<dot::String, int> get_enum_map(int size)
         {
@@ -62,7 +62,7 @@ namespace dot
                 auto result = dot::make_dictionary<dot::String, int>();
                 for (int i = 0; i < size; i++)
                 {
-                    apples_sample enum_value = (apples_sample)i;
+                    ApplesSample enum_value = (ApplesSample)i;
                     String string_value = to_string(enum_value);
                     result[string_value] = i;
                 }
@@ -72,30 +72,30 @@ namespace dot
         }
 
         /// Convert value to String; for empty or null values, return String::empty.
-        static String to_string(const apples_sample& value)
+        static String to_string(const ApplesSample& value)
         {
             switch (value)
             {
-            case apples_sample::empty: return "empty";
-            case apples_sample::red: return "red";
-            case apples_sample::gala: return "gala";
+            case ApplesSample::empty: return "empty";
+            case ApplesSample::red: return "red";
+            case ApplesSample::gala: return "gala";
             default: throw Exception("Unknown enum value in to_string(...).");
             }
         }
 
         /// Convert value to String; for empty or null values, return String::empty.
-        static bool try_parse(String value, apples_sample& result)
+        static bool try_parse(String value, ApplesSample& result)
         {
             dot::Dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
             int int_result;
             if (dict->try_get_value(value, int_result))
             {
-                result = (apples_sample)int_result;
+                result = (ApplesSample)int_result;
                 return true;
             }
             else
             {
-                result = (apples_sample)0;
+                result = (ApplesSample)0;
                 return false;
             }
         }

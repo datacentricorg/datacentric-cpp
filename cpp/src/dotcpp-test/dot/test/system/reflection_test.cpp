@@ -35,9 +35,9 @@ namespace dot
 {
     static std::stringstream received;
 
-    class reflection_base_sample_impl : public virtual ObjectImpl
+    class ReflectionBaseSampleImpl : public virtual ObjectImpl
     {
-        typedef reflection_base_sample_impl self;
+        typedef ReflectionBaseSampleImpl self;
 
     public: // FIELDS
 
@@ -54,7 +54,7 @@ namespace dot
 
         int sample_method(int param)
         {
-            received << "invoked reflection_base_sample.sample_method";
+            received << "invoked ReflectionBaseSample.sample_method";
             return 42 + param;
         }
 
@@ -65,11 +65,11 @@ namespace dot
             {
                 received << "creating Type object (this should run only once)." << std::endl;
 
-                return make_type_builder<reflection_base_sample_impl>("dot", "reflection_base_sample")
-                    ->with_field("int_field", &reflection_base_sample_impl::int_field)
-                    ->with_field("private_int_field", &reflection_base_sample_impl::private_int_field)
-                    ->with_field("count", &reflection_base_sample_impl::count)
-                    ->with_method("sample_method", &reflection_base_sample_impl::sample_method, { "param" })
+                return make_type_builder<ReflectionBaseSampleImpl>("dot", "ReflectionBaseSample")
+                    ->with_field("int_field", &ReflectionBaseSampleImpl::int_field)
+                    ->with_field("private_int_field", &ReflectionBaseSampleImpl::private_int_field)
+                    ->with_field("count", &ReflectionBaseSampleImpl::count)
+                    ->with_method("sample_method", &ReflectionBaseSampleImpl::sample_method, { "param" })
                     ->build();
             }();
 
@@ -77,22 +77,22 @@ namespace dot
         }
     };
 
-    using reflection_base_sample = Ptr<reflection_base_sample_impl>;
-    reflection_base_sample make_reflection_base_sample() { return new reflection_base_sample_impl; }
+    using ReflectionBaseSample = Ptr<ReflectionBaseSampleImpl>;
+    ReflectionBaseSample make_reflection_base_sample() { return new ReflectionBaseSampleImpl; }
 
-    class reflection_derived_sample_impl : public reflection_base_sample_impl
+    class ReflectionDerivedSampleImpl : public ReflectionBaseSampleImpl
     {
     public: // FIELDS
 
         int int_field_in_derived_class;
     };
 
-    using reflection_derived_sample = Ptr<reflection_derived_sample_impl>;
-    reflection_derived_sample make_reflection_derived_sample() { return new reflection_derived_sample_impl; }
+    using ReflectionDerivedSample = Ptr<ReflectionDerivedSampleImpl>;
+    ReflectionDerivedSample make_reflection_derived_sample() { return new ReflectionDerivedSampleImpl; }
 
     TEST_CASE("property_info")
     {
-        reflection_base_sample obj = make_reflection_base_sample();
+        ReflectionBaseSample obj = make_reflection_base_sample();
         obj->int_field = 15;
         obj->count = 15;
 
@@ -116,7 +116,7 @@ namespace dot
         REQUIRE(obj->count == 2384);
         REQUIRE(int(props[2]->get_value(obj)) == 2384);
 
-        reflection_derived_sample obj2 = make_reflection_derived_sample();
+        ReflectionDerivedSample obj2 = make_reflection_derived_sample();
 
         props[2]->set_value(obj2, -15);
         REQUIRE(obj2->count == -15);

@@ -29,81 +29,81 @@ limitations under the License.
 
 namespace dot
 {
-    class base_impl : public virtual ObjectImpl
+    class BaseImpl : public virtual ObjectImpl
     {
     public:
 
         virtual std::string foo()
         {
-            return "base";
+            return "Base";
         }
     };
 
-    using base = Ptr<base_impl>;
-    base make_base() { return new base_impl; }
+    using Base = Ptr<BaseImpl>;
+    Base make_base() { return new BaseImpl; }
 
-    class derived_impl : public base_impl
+    class DerivedImpl : public BaseImpl
     {
     public:
 
         virtual std::string foo()
         {
-            return "derived";
+            return "Derived";
         }
 
     };
 
-    using derived = Ptr<derived_impl>;
-    derived make_derived() { return new derived_impl; }
+    using Derived = Ptr<DerivedImpl>;
+    Derived make_derived() { return new DerivedImpl; }
 
     TEST_CASE("smoke")
     {
-        base b = make_base();
-        REQUIRE(b->foo() == "base");
+        Base b = make_base();
+        REQUIRE(b->foo() == "Base");
 
         // Check assignment operator
         b = make_derived();
-        REQUIRE(b->foo() == "derived");
+        REQUIRE(b->foo() == "Derived");
 
-        // Check ctor from derived
-        base d = make_derived();
-        REQUIRE(d->foo() == "derived");
+        // Check ctor from Derived
+        Base d = make_derived();
+        REQUIRE(d->foo() == "Derived");
     }
 
     TEST_CASE("cast")
     {
-        base b = make_base();
+        Base b = make_base();
 
-        REQUIRE(b.is<base>() == true);
-        REQUIRE(b.is<derived>() == false);
+        REQUIRE(b.is<Base>() == true);
+        REQUIRE(b.is<Derived>() == false);
 
-        REQUIRE(b.as<base>() != nullptr);
-        REQUIRE(b.as<derived>() == nullptr);
+        REQUIRE(b.as<Base>() != nullptr);
+        REQUIRE(b.as<Derived>() == nullptr);
 
 
-        REQUIRE((base)b != nullptr);
-        CHECK_THROWS_AS(derived(b), std::runtime_error);
+        REQUIRE((Base)b != nullptr);
+        CHECK_THROWS_AS(Derived(b), std::runtime_error);
 
-        base bd = make_derived();
+        Base bd = make_derived();
 
-        REQUIRE(bd.is<base>() == true);
-        REQUIRE(bd.is<derived>() == true);
+        REQUIRE(bd.is<Base>() == true);
+        REQUIRE(bd.is<Derived>() == true);
 
-        REQUIRE(bd.as<base>() != nullptr);
-        REQUIRE(bd.as<derived>() != nullptr);
+        REQUIRE(bd.as<Base>() != nullptr);
+        REQUIRE(bd.as<Derived>() != nullptr);
 
-        REQUIRE((base)bd != nullptr);
-        REQUIRE((derived)bd != nullptr);
+        REQUIRE((Base)bd != nullptr);
+        REQUIRE((Derived)bd != nullptr);
 
-        derived d = make_derived();
+        Derived d = make_derived();
 
-        REQUIRE(d.is<base>() == true);
-        REQUIRE(d.is<derived>() == true);
+        REQUIRE(d.is<Base>() == true);
+        REQUIRE(d.is<Derived>() == true);
 
-        REQUIRE(d.as<base>() != nullptr);
-        REQUIRE(d.as<derived>() != nullptr);
+        REQUIRE(d.as<Base>() != nullptr);
+        REQUIRE(d.as<Derived>() != nullptr);
 
-        REQUIRE((base)d != nullptr);
-        REQUIRE((derived)d != nullptr);
+        REQUIRE((Base)d != nullptr);
+        REQUIRE((Derived)d != nullptr);
     }
 }

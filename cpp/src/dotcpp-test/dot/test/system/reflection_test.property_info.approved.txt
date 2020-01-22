@@ -1,2 +1,2 @@
-creating type object (this should run only once).
-invoked reflection_base_sample.sample_method
+creating Type object (this should run only once).
+invoked ReflectionBaseSample.sample_method

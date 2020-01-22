@@ -30,12 +30,12 @@ limitations under the License.
 
 namespace dot
 {
-    class test_attribute_impl; using test_attribute = Ptr<test_attribute_impl>;
+    class TestAttributeImpl; using TestAttribute = Ptr<TestAttributeImpl>;
 
     /// Test attribute class.
-    class test_attribute_impl : public AttributeImpl
+    class TestAttributeImpl : public AttributeImpl
     {
-        friend test_attribute make_test_attribute(String);
+        friend TestAttribute make_test_attribute(String);
 
     private: // FIELDS
 
@@ -44,7 +44,7 @@ namespace dot
     protected:
 
         /// Create with message.
-        test_attribute_impl(String message)
+        TestAttributeImpl(String message)
             : message_(message)
         {}
 
@@ -61,8 +61,8 @@ namespace dot
         {
             static Type result = []()->Type
             {
-                return make_type_builder<test_attribute_impl>("dot", "test_attribute")
-                    ->with_method("get_message", &test_attribute_impl::get_message, {})
+                return make_type_builder<TestAttributeImpl>("dot", "TestAttribute")
+                    ->with_method("get_message", &TestAttributeImpl::get_message, {})
                     ->build();
             }();
 
@@ -70,17 +70,17 @@ namespace dot
         }
     };
 
-    inline test_attribute make_test_attribute(String message) { return new test_attribute_impl(message); }
+    inline TestAttribute make_test_attribute(String message) { return new TestAttributeImpl(message); }
 
-    class test_class_impl; using test_class = Ptr<test_class_impl>;
-    test_class make_test_class();
+    class TestClassImpl; using TestClass = Ptr<TestClassImpl>;
+    TestClass make_test_class();
 
-    inline test_class make_test_class();
+    inline TestClass make_test_class();
 
     /// Test class with attributes.
-    class test_class_impl : public ObjectImpl
+    class TestClassImpl : public ObjectImpl
     {
-        friend test_class make_test_class();
+        friend TestClass make_test_class();
 
     public: // FIELDS
 
@@ -101,7 +101,7 @@ namespace dot
     public: // CONSTRUCTORS
 
         /// Constrictor.
-        test_class_impl() = default;
+        TestClassImpl() = default;
 
     public: // REFLECTION
 
@@ -111,11 +111,11 @@ namespace dot
         {
             static Type result = []()->Type
             {
-                return make_type_builder<test_class_impl>("dot", "test_class", { make_test_attribute("class attribute") })
-                    ->with_field("int_field", &test_class_impl::int_field, { make_test_attribute("class field attribute") })
-                    ->with_method("get_int_field", &test_class_impl::get_int_field, {}, { make_test_attribute("class get_int_field method attribute") })
-                    ->with_method("calculate_sum", &test_class_impl::calculate_sum, { "a", { "b", make_test_attribute("method parameter b attribute") } })
-                    ->with_method("static_func", &test_class_impl::static_func, {}, { make_test_attribute("class static_func method attribute") })
+                return make_type_builder<TestClassImpl>("dot", "TestClass", { make_test_attribute("class attribute") })
+                    ->with_field("int_field", &TestClassImpl::int_field, { make_test_attribute("class field attribute") })
+                    ->with_method("get_int_field", &TestClassImpl::get_int_field, {}, { make_test_attribute("class get_int_field method attribute") })
+                    ->with_method("calculate_sum", &TestClassImpl::calculate_sum, { "a", { "b", make_test_attribute("method parameter b attribute") } })
+                    ->with_method("static_func", &TestClassImpl::static_func, {}, { make_test_attribute("class static_func method attribute") })
                     ->with_constructor(&make_test_class, {}, { make_test_attribute("class constructor attribute") })
                     ->build();
             }();
@@ -124,7 +124,7 @@ namespace dot
         }
     };
 
-    inline test_class make_test_class() { return new test_class_impl; }
+    inline TestClass make_test_class() { return new TestClassImpl; }
 
 
     TEST_CASE("attributes reflection")
@@ -140,8 +140,8 @@ namespace dot
         REQUIRE(class_attributes->count() == 1);
 
         attr = class_attributes[0];
-        REQUIRE(attr.is<test_attribute>());
-        test_attribute class_attribute = (test_attribute) attr;
+        REQUIRE(attr.is<TestAttribute>());
+        TestAttribute class_attribute = (TestAttribute) attr;
         REQUIRE(class_attribute->get_message() == "class attribute");
         REQUIRE(attr->get_type()->get_method("get_message")->invoke(attr, make_list<Object>())->equals("class attribute"));
 
@@ -150,8 +150,8 @@ namespace dot
         REQUIRE(field_attributes->count() == 1);
 
         attr = field_attributes[0];
-        REQUIRE(attr.is<test_attribute>());
-        test_attribute field_attribute = (test_attribute) attr;
+        REQUIRE(attr.is<TestAttribute>());
+        TestAttribute field_attribute = (TestAttribute) attr;
         REQUIRE(field_attribute->get_message() == "class field attribute");
 
         // Get class method attributes
@@ -159,8 +159,8 @@ namespace dot
         REQUIRE(method_attributes->count() == 1);
 
         attr = method_attributes[0];
-        REQUIRE(attr.is<test_attribute>());
-        test_attribute method_attribute = (test_attribute) attr;
+        REQUIRE(attr.is<TestAttribute>());
+        TestAttribute method_attribute = (TestAttribute) attr;
         REQUIRE(method_attribute->get_message() == "class get_int_field method attribute");
 
         // Get class method attributes
@@ -178,8 +178,8 @@ namespace dot
         REQUIRE(method_parameter_attributes->count() == 1);
 
         attr = method_parameter_attributes[0];
-        REQUIRE(attr.is<test_attribute>());
-        test_attribute method_parameter_attribute = (test_attribute) attr;
+        REQUIRE(attr.is<TestAttribute>());
+        TestAttribute method_parameter_attribute = (TestAttribute) attr;
         REQUIRE(method_parameter_attribute->get_message() == "method parameter b attribute");
 
         // Get class static method attributes
@@ -187,8 +187,8 @@ namespace dot
         REQUIRE(static_method_attributes->count() == 1);
 
         attr = static_method_attributes[0];
-        REQUIRE(attr.is<test_attribute>());
-        test_attribute static_method_attribute = (test_attribute) attr;
+        REQUIRE(attr.is<TestAttribute>());
+        TestAttribute static_method_attribute = (TestAttribute) attr;
         REQUIRE(static_method_attribute->get_message() == "class static_func method attribute");
 
         // Get class constructor attributes
@@ -199,8 +199,8 @@ namespace dot
         REQUIRE(constructor_attributes->count() == 1);
 
         attr = constructor_attributes[0];
-        REQUIRE(attr.is<test_attribute>());
-        test_attribute constructor_attribute = (test_attribute)attr;
+        REQUIRE(attr.is<TestAttribute>());
+        TestAttribute constructor_attribute = (TestAttribute)attr;
         REQUIRE(constructor_attribute->get_message() == "class constructor attribute");
     }
 }

@@ -41,16 +41,16 @@ namespace dot
 {
     static std::stringstream received;
 
-    class sample_data_impl; using sample_data = Ptr<sample_data_impl>;
-    class sample_data_2_impl; using sample_data_2 = Ptr<sample_data_2_impl>;
+    class SampleDataImpl; using SampleData = Ptr<SampleDataImpl>;
+    class SampleData2Impl; using SampleData2 = Ptr<SampleData2Impl>;
 
-    class sample_data_2_impl : public virtual ObjectImpl
+    class SampleData2Impl : public virtual ObjectImpl
     {
-        typedef sample_data_2_impl self;
+        typedef SampleData2Impl self;
 
     public: // PROPERTIES
 
-        sample_data data_field;
+        SampleData data_field;
 
     public: // STATIC
 
@@ -58,7 +58,7 @@ namespace dot
         {
             static Type result = []()-> Type
             {
-                Type t = make_type_builder<self>("dot", "sample_data_2")
+                Type t = make_type_builder<self>("dot", "SampleData2")
                     ->with_field("data_field", &self::data_field)
                     ->build();
 
@@ -74,19 +74,19 @@ namespace dot
         }
     };
 
-    class sample_data_impl; using sample_data = Ptr<sample_data_impl>;
-    sample_data make_sample_data();
+    class SampleDataImpl; using SampleData = Ptr<SampleDataImpl>;
+    SampleData make_sample_data();
 
-    class sample_data_impl : public virtual ObjectImpl
+    class SampleDataImpl : public virtual ObjectImpl
     {
-        typedef sample_data_impl self;  // This typedef will be used inside property macro and inside registration macro.
+        typedef SampleDataImpl self;  // This typedef will be used inside property macro and inside registration macro.
 
     public:
 
         String string_field;
         int int_field;
         double double_field;
-        sample_data_2 data_field;
+        SampleData2 data_field;
         List<double> double_list_field;
 
         double foo(int dbl_arg, int int_arg)
@@ -107,7 +107,7 @@ namespace dot
 
     public: // REFLECTION
 
-        DOT_TYPE_BEGIN("dot", "sample_data")
+        DOT_TYPE_BEGIN("dot", "SampleData")
             DOT_TYPE_CTOR(make_sample_data)
             DOT_TYPE_PROP(string_field)
             DOT_TYPE_PROP(int_field)
@@ -120,7 +120,7 @@ namespace dot
         DOT_TYPE_END()
     };
 
-    sample_data make_sample_data() { return new sample_data_impl; }
+    SampleData make_sample_data() { return new SampleDataImpl; }
 
     String obj_to_string(Object obj)
     {
@@ -155,9 +155,9 @@ namespace dot
 
     TEST_CASE("simple_serialization")
     {
-        sample_data obj = make_sample_data();
+        SampleData obj = make_sample_data();
         obj->string_field = "str";
-        obj->data_field = new sample_data_2_impl();
+        obj->data_field = new SampleData2Impl();
         obj->data_field->data_field = make_sample_data();
         obj->data_field->data_field->string_field = "internal str";
         obj->double_list_field = make_list<double>();
@@ -169,7 +169,7 @@ namespace dot
 
         Type t = obj->get_type();
 
-        sample_data dt = (sample_data)Activator::create_instance(obj->get_type());
+        SampleData dt = (SampleData)Activator::create_instance(obj->get_type());
 
         List<dot::Object> params_foo = make_list<Object>(2);
         params_foo[0] = 15;
