@@ -27,7 +27,6 @@ limitations under the License.
 #include <dot/mongo/serialization/bson_writer.hpp>
 #include <dot/system/object.hpp>
 #include <dot/system/type.hpp>
-#include <dot/system/byte_array.hpp>
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_date_time.hpp>
@@ -155,6 +154,11 @@ namespace dot
                 bsoncxx::types::b_date value = elem.get_date();
                 writer->write_value_element(element_name, dot::local_date_time_util::from_std_chrono(value.value));
             }
+            else if (bson_type == bsoncxx::type::k_binary)
+            {
+                bsoncxx::types::b_binary value = elem.get_binary();
+                writer->write_value_element(element_name, to_byte_array(value));
+            }
             else if (bson_type == bsoncxx::type::k_document)
             {
                 // Read BSON stream for the embedded data element
@@ -229,6 +233,11 @@ namespace dot
                 dot::object_id value = elem.get_oid().value;
                 writer->write_value_array_item(value);
             }
+            else if (bson_type == bsoncxx::type::k_binary)
+            {
+                bsoncxx::types::b_binary value = elem.get_binary();
+                writer->write_value_array_item(to_byte_array(value));
+            }
             else if (bson_type == bsoncxx::type::k_document)
             {
                 // Read BSON stream for the embedded data element
@@ -242,12 +251,6 @@ namespace dot
             else if (bson_type == bsoncxx::type::k_array)
             {
                 throw dot::exception("Deserializaion of an array inside another array is not supported.");
-            }
-            else if (bson_type == bsoncxx::type::k_binary)
-            {
-                auto value = elem.get_binary();
-                //dot::byte_array arr;
-                //writer->write_value_array_item(value);
             }
             else
                 throw dot::exception(
@@ -316,6 +319,7 @@ namespace dot
                 || item_type->equals(dot::typeof<dot::local_date_time>())
                 || item_type->equals(dot::typeof<dot::local_time>())
                 || item_type->equals(dot::typeof<dot::local_minute>())
+                || item_type->equals(dot::typeof<dot::byte_array>())
                 || item_type->is_enum()
                 || item_type->equals(dot::typeof<dot::object_id>())
                 )
@@ -340,6 +344,11 @@ namespace dot
 
         // Write matching end element tag
         writer->write_end_array_element(element_name);
+    }
+
+    byte_array bson_record_serializer_impl::to_byte_array(const bsoncxx::types::b_binary& bin_array)
+    {
+        return make_byte_array((const char*) bin_array.bytes, bin_array.size);
     }
 
     void bson_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::object value)
@@ -386,6 +395,7 @@ namespace dot
                 || element_type->equals(dot::typeof<dot::local_date_time>())
                 || element_type->equals(dot::typeof<dot::local_time>())
                 || element_type->equals(dot::typeof<dot::local_minute>())
+                || element_type->equals(dot::typeof<dot::byte_array>())
                 || element_type->is_enum()
                 || element_type->equals(dot::typeof<dot::object_id>())
                 )

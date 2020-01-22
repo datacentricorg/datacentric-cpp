@@ -87,12 +87,7 @@ namespace dot
         if (value.is<dot::byte_array>())
         {
             byte_array arr = value.as<byte_array>();
-
-            builder.append(bsoncxx::v_noabi::types::b_binary {
-                bsoncxx::v_noabi::binary_sub_type::k_binary,
-                (uint32_t) arr->count(),
-                (uint8_t*) arr->get_data()
-            });
+            builder.append(bson_writer_impl::to_bson_binary(arr));
         }
         else
             throw dot::exception("Unknown query token");

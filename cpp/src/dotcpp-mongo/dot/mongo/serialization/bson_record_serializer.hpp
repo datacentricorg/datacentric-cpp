@@ -26,6 +26,7 @@ limitations under the License.
 #include <dot/mongo/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/serialization/tree_writer_base.hpp>
+#include <dot/system/byte_array.hpp>
 #include <dot/system/collections/generic/list.hpp>
 #include <dot/mongo/serialization/bson_writer.hpp>
 
@@ -61,6 +62,9 @@ namespace dot
         void standard_serialize(tree_writer_base writer, dot::object value);
 
         void standard_serialize(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer);
+
+        /// Converts bson b_binary to byte_array.
+        static byte_array to_byte_array(const bsoncxx::types::b_binary& bin_array);
 
     private:
         bson_record_serializer_impl() = default;

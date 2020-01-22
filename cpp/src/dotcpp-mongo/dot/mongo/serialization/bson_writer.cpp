@@ -324,6 +324,9 @@ namespace dot
         if (value_type->equals(dot::typeof<dot::object_id>()))
             bson_writer_.append(((dot::struct_wrapper<dot::object_id>)value)->oid());
         else
+        if (value_type->equals(dot::typeof<dot::byte_array>()))
+            bson_writer_.append(to_bson_binary((byte_array) value));
+        else
         if (value_type->is_enum())
             bson_writer_.append(*value->to_string());
         else
@@ -338,6 +341,16 @@ namespace dot
     bsoncxx::document::view bson_writer_impl::view()
     {
         return bson_writer_.view_array()[0].get_document().view();
+    }
+
+    bsoncxx::types::b_binary bson_writer_impl::to_bson_binary(byte_array obj)
+    {
+        return bsoncxx::types::b_binary
+        {
+            bsoncxx::v_noabi::binary_sub_type::k_binary,
+            (uint32_t)obj->get_length(),
+            (uint8_t*)obj->get_data()
+        };
     }
 
     list<type> bson_writer_impl::get_parents_list(type from_type)

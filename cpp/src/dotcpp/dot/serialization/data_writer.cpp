@@ -29,6 +29,7 @@ limitations under the License.
 #include <dot/noda_time/local_date_util.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
 #include <dot/system/enum.hpp>
+#include <dot/system/byte_array.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_time.hpp>
 #include <dot/noda_time/local_minute.hpp>
@@ -475,6 +476,18 @@ namespace dot
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, date_time_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
+        else if (element_type->equals(dot::typeof<dot::byte_array>()))
+        {
+            // Check type match
+            if (!value_type->equals(dot::typeof<dot::byte_array>()))
+                throw dot::exception(dot::string::format(
+                    "Attempting to deserialize value of type {0} into byte_array.", value_type->name()));
+
+            // Add to array or dictionary, depending on what we are inside of
+            if (current_array_ != nullptr) current_array_->add_object(value);
+            else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, value);
+            else throw dot::exception("Value can only be added to a dictionary or array.");
+        }
         else if (element_type->is_enum())
         {
             // Check type match
@@ -485,7 +498,6 @@ namespace dot
 
             // Deserialize enum as string
             dot::object enum_value = element_type->get_method("parse")->invoke(nullptr, dot::make_list<dot::object>({ value }));
-
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(enum_value);

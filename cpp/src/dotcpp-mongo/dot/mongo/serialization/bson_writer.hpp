@@ -26,6 +26,7 @@ limitations under the License.
 #include <dot/mongo/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/serialization/tree_writer_base.hpp>
+#include <dot/system/byte_array.hpp>
 #include <dot/system/collections/generic/list.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/builder/basic/array.hpp>
@@ -109,6 +110,11 @@ namespace dot
         dot::string to_string() override;
 
         bsoncxx::document::view view();
+
+    public:
+
+        /// Converts byte_array to bson b_binary.
+        static bsoncxx::types::b_binary to_bson_binary(byte_array obj);
 
     private:
 
