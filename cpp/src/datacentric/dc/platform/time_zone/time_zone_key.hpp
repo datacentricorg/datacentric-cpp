@@ -23,18 +23,17 @@ limitations under the License.
 
 namespace dc
 {
-    class TimeZoneKeyImpl; using TimeZoneKey = dot::Ptr<TimeZoneKeyImpl>;
-    class TimeZoneImpl; using TimeZone = dot::Ptr<TimeZoneImpl>;
+    class ZoneKeyImpl; using ZoneKey = dot::Ptr<ZoneKeyImpl>;
+    class ZoneImpl; using Zone = dot::Ptr<ZoneImpl>;
 
-    inline TimeZoneKey make_time_zone_key();
+    inline ZoneKey make_zone_key();
 
-    /// This interface provides timezone for the conversion between
-    /// datetime (by convention, always in UTC) and date, time,
-    /// and minute (by convention, always in a specific timezone).
+    /// This class provides timezone conversion between UTC
+    /// and local datetime for the specified timezone.
     ///
-    /// Only the following timezones can be defined:
+    /// Only the following timezone names are permitted:
     ///
-    /// * UTC timezone; and
+    /// * UTC; and
     /// * IANA city timezones such as America/New_York
     ///
     /// Other 3-letter regional timezones such as EST or EDT are
@@ -42,23 +41,23 @@ namespace dc
     /// between winter and summer time automatically for those
     /// regions where winter time is defined.
     ///
-    /// Because time_zone_id is used to look up timezone conventions,
-    /// it must match either the String UTC or the code in IANA
+    /// Because zone_name is used to look up timezone conventions,
+    /// it must match either the string UTC or the code in IANA
     /// timezone database precisely. The IANA city timezone code
     /// has two slash-delimited tokens, the first referencing the
     /// country and the other the city, for example America/New_York.
-    class DC_CLASS TimeZoneKeyImpl : public TypedKeyImpl<TimeZoneKeyImpl,TimeZoneImpl>
+    class DC_CLASS ZoneKeyImpl : public TypedKeyImpl<ZoneKeyImpl,ZoneImpl>
     {
-        typedef TimeZoneKeyImpl self;
-        friend TimeZoneKey make_time_zone_key();
+        typedef ZoneKeyImpl self;
+        friend ZoneKey make_zone_key();
 
     public: // FIELDS
 
-        /// Unique timezone identifier.
+        /// Unique timezone name.
         ///
-        /// Only the following timezones can be defined:
+        /// Only the following timezone names are permitted:
         ///
-        /// * UTC timezone; and
+        /// * UTC; and
         /// * IANA city timezones such as America/New_York
         ///
         /// Other 3-letter regional timezones such as EST or EDT are
@@ -66,18 +65,19 @@ namespace dc
         /// between winter and summer time automatically for those
         /// regions where winter time is defined.
         ///
-        /// Because time_zone_id is used to look up timezone conventions,
-        /// it must match either the String UTC or the code in IANA
+        /// Because zone_name is used to look up timezone conventions,
+        /// it must match either the string UTC or the code in IANA
         /// timezone database precisely. The IANA city timezone code
         /// has two slash-delimited tokens, the first referencing the
         /// country and the other the city, for example America/New_York.
-        dot::String time_zone_id;
+        dot::String zone_name;
 
-    public:
-        virtual dot::Type type();
+    public: // REFLECTION
+
+        virtual dot::Type get_type();
         static dot::Type typeof();
     };
 
     /// Create an empty instance.
-    inline TimeZoneKey make_time_zone_key() { return new TimeZoneKeyImpl; }
+    inline ZoneKey make_zone_key() { return new ZoneKeyImpl; }
 }

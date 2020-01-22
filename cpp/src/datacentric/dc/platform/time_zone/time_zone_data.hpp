@@ -18,23 +18,23 @@ limitations under the License.
 
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
+#include <dc/platform/context/context_base.hpp>
 #include <dc/types/record/typed_record.hpp>
 #include <dc/platform/time_zone/time_zone_key.hpp>
 
 namespace dc
 {
-    class TimeZoneImpl; using TimeZone = dot::Ptr<TimeZoneImpl>;
-    class TimeZoneKeyImpl; using TimeZoneKey = dot::Ptr<TimeZoneKeyImpl>;
+    class ZoneImpl; using Zone = dot::Ptr<ZoneImpl>;
+    class ZoneKeyImpl; using ZoneKey = dot::Ptr<ZoneKeyImpl>;
 
-    inline TimeZone make_time_zone_data();
+    inline Zone make_zone();
 
-    /// This interface provides timezone for the conversion between
-    /// datetime (by convention, always in UTC) and date, time,
-    /// and minute (by convention, always in a specific timezone).
+    /// This class provides timezone conversion between UTC
+    /// and local datetime for the specified timezone.
     ///
-    /// Only the following timezones can be defined:
+    /// Only the following timezone names are permitted:
     ///
-    /// * UTC timezone; and
+    /// * UTC; and
     /// * IANA city timezones such as America/New_York
     ///
     /// Other 3-letter regional timezones such as EST or EDT are
@@ -42,23 +42,24 @@ namespace dc
     /// between winter and summer time automatically for those
     /// regions where winter time is defined.
     ///
-    /// Because time_zone_id is used to look up timezone conventions,
-    /// it must match either the String UTC or the code in IANA
+    /// Because zone_name is used to look up timezone conventions,
+    /// it must match either the string UTC or the code in IANA
     /// timezone database precisely. The IANA city timezone code
     /// has two slash-delimited tokens, the first referencing the
     /// country and the other the city, for example America/New_York.
-    class DC_CLASS TimeZoneImpl : public TypedRecordImpl<TimeZoneKeyImpl, TimeZoneImpl>
+    class DC_CLASS ZoneImpl : public TypedRecordImpl<ZoneKeyImpl, ZoneImpl>
     {
-        typedef TimeZoneImpl self;
-        friend TimeZone make_time_zone_data();
+        typedef ZoneImpl self;
+        typedef TypedRecordImpl<ZoneKeyImpl, ZoneImpl> base;
+        friend Zone make_zone();
 
     public: // FIELDS
 
-        /// Unique timezone identifier.
+        /// Unique timezone name.
         ///
-        /// Only the following timezones can be defined:
+        /// Only the following timezone names are permitted:
         ///
-        /// * UTC timezone; and
+        /// * UTC; and
         /// * IANA city timezones such as America/New_York
         ///
         /// Other 3-letter regional timezones such as EST or EDT are
@@ -66,18 +67,65 @@ namespace dc
         /// between winter and summer time automatically for those
         /// regions where winter time is defined.
         ///
-        /// Because time_zone_id is used to look up timezone conventions,
-        /// it must match either the String UTC or the code in IANA
+        /// Because zone_name is used to look up timezone conventions,
+        /// it must match either the string UTC or the code in IANA
         /// timezone database precisely. The IANA city timezone code
         /// has two slash-delimited tokens, the first referencing the
         /// country and the other the city, for example America/New_York.
-        dot::String time_zone_id;
+        dot::String zone_name;
 
-    public:
-        virtual dot::Type type();
+    public: // METHODS
+
+        /// Set Context property and perform validation of the record's data,
+        /// then initialize any fields or properties that depend on that data.
+        ///
+        /// This method must work when called multiple times for the same instance,
+        /// possibly with a different context parameter for each subsequent call.
+        ///
+        /// All overrides of this method must call base.Init(context) first, then
+        /// execute the rest of the code in the override.
+        virtual void init(ContextBase context) override;
+
+    public: // KEYS
+
+        /// UTC timezone.
+        static ZoneKey get_utc();
+
+        /// New York City (United States) timezone.
+        static ZoneKey get_nyc();
+
+        /// London (Great Britain) timezone.
+        static ZoneKey get_london();
+
+    public: // STATIC
+
+        /// This method will be invoked by context.Configure() for every
+        /// class that is accessible by the executing assembly and marked
+        /// with [Configurable] attribute.
+        ///
+        /// The method Configure(context) may be used to configure:
+        ///
+        /// * Reference data, and
+        /// * In case of test mocks, test data
+        ///
+        /// The order in which Configure(context) method is invoked when
+        /// multiple classes marked by [Configurable] attribute are present
+        /// is undefined. The implementation of Configure(context) should
+        /// not rely on any existing data, and should not invoke other
+        /// Configure(context) method of other classes.
+        ///
+        /// The attribute [Configurable] is not inherited. To invoke
+        /// Configure(context) method for multiple classes within the same
+        /// inheritance chain, specify [Configurable] attribute for each
+        /// class that provides Configure(context) method.
+        static void configure(ContextBase context);
+
+    public: // REFLECTION
+
+        virtual dot::Type get_type();
         static dot::Type typeof();
     };
 
     /// Create an empty instance.
-    inline TimeZone make_time_zone_data() { return new TimeZoneImpl; }
+    inline Zone make_zone() { return new ZoneImpl; }
 }

@@ -21,14 +21,75 @@ limitations under the License.
 
 namespace dc
 {
-    dot::Type TimeZoneImpl::type() { return typeof(); }
-    dot::Type TimeZoneImpl::typeof()
+    void ZoneImpl::init(ContextBase context)
+    {
+        // Initialize base before executing the rest of the code in this method
+        base::init(context);
+
+        // Cache NodaTime timezone value in a private field
+        //ZoneKey key = make_zone_key();
+        //key->zone_name = zone_name;
+        //date_time_zone_ = key->get_date_time_zone();
+    }
+
+    ZoneKey ZoneImpl::get_utc()
+    {
+        static ZoneKey key = []() {
+            ZoneKey res = make_zone_key();
+            res->zone_name = "UTC";
+            return res;
+        }();
+
+        return key;
+    }
+
+    ZoneKey ZoneImpl::get_nyc()
+    {
+        static ZoneKey key = []() {
+            ZoneKey res = make_zone_key();
+            res->zone_name = "America/New_York";
+            return res;
+        }();
+
+        return key;
+    }
+
+    ZoneKey ZoneImpl::get_london()
+    {
+        static ZoneKey key = []() {
+            ZoneKey res = make_zone_key();
+            res->zone_name = "Europe/London";
+            return res;
+        }();
+
+        return key;
+    }
+
+    void ZoneImpl::configure(ContextBase context)
+    {
+        Zone zone1 = make_zone();
+        zone1->zone_name = ZoneImpl::get_utc()->zone_name;
+
+        Zone zone2 = make_zone();
+        zone2->zone_name = ZoneImpl::get_nyc()->zone_name;
+
+        Zone zone3 = make_zone();
+        zone3->zone_name = ZoneImpl::get_london()->zone_name;
+
+        dot::List<Record> result = dot::make_list<Record>({ zone1, zone2, zone3 });
+
+        context->save_many(result);
+    }
+
+    dot::Type ZoneImpl::get_type() { return typeof(); }
+
+    dot::Type ZoneImpl::typeof()
     {
         static dot::Type type_ =
-            dot::make_type_builder<self>("dc", "TimeZone")
-            ->with_field("time_zone_id", &self::time_zone_id)
-            ->template with_base<TypedRecord<TimeZoneKeyImpl, TimeZoneImpl>>()
-            ->with_constructor(&make_time_zone_data, {  })
+            dot::make_type_builder<self>("dc", "Zone")
+            ->with_field("time_zone_id", &self::zone_name)
+            ->template with_base<TypedRecord<ZoneKeyImpl, ZoneImpl>>()
+            ->with_constructor(&make_zone, { })
             ->build();
         return type_;
     }
