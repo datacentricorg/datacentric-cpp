@@ -33,7 +33,21 @@ namespace dc
     class RootRecordImpl : public virtual TypedRecordImpl<TKey, TRecord>
     {
         typedef RootRecordImpl<TKey, TRecord> self;
-    public:
+        typedef TypedRecordImpl<TKey, TRecord> base;
+
+    public: // METHODS
+
+        /// Set Context property and perform validation of the record's data,
+        /// then initialize any fields or properties that depend on that data.
+        ///
+        /// This method must work when called multiple times for the same instance,
+        /// possibly with a different context parameter for each subsequent call.
+        ///
+        /// All overrides of this method must call base.Init(context) first, then
+        /// execute the rest of the code in the override.
+        void init(ContextBase context) override;
+
+    public: // REFLECTION
 
         DOT_TYPE_BEGIN("dc", "RootRecord")
             DOT_TYPE_BASE(TypedRecord<TKey, TRecord>)

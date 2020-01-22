@@ -519,3 +519,4 @@ namespace dc
 }
 
 #include <dc/types/record/typed_key_impl.hpp>
+#include <dc/types/record/root_record_impl.hpp>

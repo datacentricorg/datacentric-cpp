@@ -74,6 +74,7 @@
     <ClInclude Include="types\double\double_compare.hpp" />
     <ClInclude Include="types\record\data.hpp" />
     <ClInclude Include="types\record\deleted_record.hpp" />
+    <ClInclude Include="types\record\root_record_impl.hpp" />
     <ClInclude Include="types\record\typed_key.hpp" />
     <ClInclude Include="types\record\key.hpp" />
     <ClInclude Include="types\record\typed_key_impl.hpp" />
