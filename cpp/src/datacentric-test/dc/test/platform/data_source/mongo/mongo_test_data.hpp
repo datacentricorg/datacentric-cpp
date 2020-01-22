@@ -160,7 +160,7 @@ namespace dc
         dot::string record_id;
         dot::nullable<int> record_index;
 
-        DOT_TYPE_BEGIN("dc", "MongoTestKey")
+        DOT_TYPE_BEGIN("dc", "mongo_test_key")
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_PROP(record_index)
             DOT_TYPE_BASE(key<mongo_test_key_impl, mongo_test_data_impl>)
@@ -189,7 +189,7 @@ namespace dc
         mongo_test_enum enum_value = mongo_test_enum::empty;
         dot::nullable<int> version;
 
-        DOT_TYPE_BEGIN("dc", "MongoTestData")
+        DOT_TYPE_BEGIN("dc", "mongo_test_data")
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_PROP(record_index)
             DOT_TYPE_PROP(double_element)
@@ -218,7 +218,7 @@ namespace dc
         dot::nullable<double> double_element3;
         dot::string string_element3;
 
-        DOT_TYPE_BEGIN("dc", "ElementSampleData")
+        DOT_TYPE_BEGIN("dc", "element_sample_data")
             DOT_TYPE_PROP(double_element3)
             DOT_TYPE_PROP(string_element3)
             DOT_TYPE_BASE(data)
@@ -250,7 +250,7 @@ namespace dc
         mongo_test_key key_element;
         dot::list<mongo_test_key> key_element_list;
 
-        DOT_TYPE_BEGIN("dc", "MongoTestDerivedData")
+        DOT_TYPE_BEGIN("dc", "mongo_test_derived_data")
             DOT_TYPE_PROP(double_element2)
             DOT_TYPE_PROP(string_element2)
             DOT_TYPE_PROP(array_of_string)
@@ -284,7 +284,7 @@ namespace dc
         dot::nullable<double> other_double_element2;
         dot::string other_string_element2;
 
-        DOT_TYPE_BEGIN("dc", "MongoTestOtherDerivedData")
+        DOT_TYPE_BEGIN("dc", "mongo_test_other_derived_data")
             DOT_TYPE_PROP(other_double_element2)
             DOT_TYPE_PROP(other_string_element2)
             DOT_TYPE_BASE(mongo_test_data)
@@ -308,7 +308,7 @@ namespace dc
         dot::nullable<double> other_double_element3;
         dot::string other_string_element2;
 
-        DOT_TYPE_BEGIN("dc", "MongoTestDerivedFromDerivedData")
+        DOT_TYPE_BEGIN("dc", "mongo_test_derived_from_derived_data")
             DOT_TYPE_PROP(other_double_element3)
             DOT_TYPE_PROP(other_string_element2)
             DOT_TYPE_BASE(mongo_test_derived_data)
