@@ -38,14 +38,13 @@ namespace dc
     class DC_CLASS db_name_data_impl : public root_record_for_impl<db_name_key_impl, db_name_data_impl>
     {
         typedef db_name_data_impl self;
-        typedef instance_type instance_type_; // TODO Make class name and field name different
 
     public: // PROPERTIES
 
         /// Instance type enumeration.
         ///
         /// Some API functions are restricted based on the instance type.
-        instance_type_ instance_type;
+        instance_type db_instance_type;
 
         /// The meaning of instance name depends on the instance type.
         ///
@@ -76,7 +75,7 @@ namespace dc
         dot::string env_name;
 
         DOT_TYPE_BEGIN("dc", "db_name_data")
-            DOT_TYPE_PROP(instance_type)
+            DOT_TYPE_PROP(db_instance_type)
             DOT_TYPE_PROP(instance_name)
             DOT_TYPE_PROP(env_name)
         DOT_TYPE_END()

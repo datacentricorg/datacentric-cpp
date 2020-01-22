@@ -37,13 +37,13 @@ namespace dc
 
         // Configures serialization conventions for standard types
         if (db_name == nullptr) throw dot::exception("DB key is null or empty.");
-        if (db_name->instance_type == instance_type::empty) throw dot::exception("DB instance type is not specified.");
+        if (db_name->db_instance_type == instance_type::empty) throw dot::exception("DB instance type is not specified.");
         if (dot::string::is_null_or_empty(db_name->instance_name)) throw dot::exception("DB instance name is not specified.");
         if (dot::string::is_null_or_empty(db_name->env_name)) throw dot::exception("DB environment name is not specified.");
 
         // The name is the database key in the standard semicolon delimited format.
         dbName_ = db_name->to_string();
-        instance_type_ = db_name->instance_type;
+        instance_type_ = db_name->db_instance_type;
 
         // Perform additional validation for restricted characters and database name length.
         if (dbName_->index_of_any(prohibitedDbNameSymbols_) != -1)

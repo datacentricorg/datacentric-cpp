@@ -45,7 +45,7 @@ namespace dc
         data_source->db_server = (make_mongo_default_server_data())->to_key();
         data_source->db_name = new db_name_key_impl();
 
-        data_source->db_name->instance_type = instance_type::TEST;
+        data_source->db_name->db_instance_type = instance_type::TEST;
         data_source->db_name->instance_name = mappedClassName;
         data_source->db_name->env_name = methodName;
 
