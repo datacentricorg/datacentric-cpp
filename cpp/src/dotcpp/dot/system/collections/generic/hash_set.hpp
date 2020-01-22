@@ -30,11 +30,11 @@ limitations under the License.
 namespace dot
 {
     template <class T> class hash_set_impl;
-    template <class T> using hash_set = ptr<hash_set_impl<T>>;
+    template <class T> using hash_set = Ptr<hash_set_impl<T>>;
 
     /// Represents a set of values.
     template <class T>
-    class hash_set_impl : public virtual object_impl, public std::unordered_set<T>
+    class hash_set_impl : public virtual ObjectImpl, public std::unordered_set<T>
     {
         typedef hash_set_impl<T> self;
         typedef std::unordered_set<T> base;
@@ -71,20 +71,20 @@ namespace dot
             //return res.second;
         }
 
-        /// Determines whether a hash_set object contains the specified element.
+        /// Determines whether a hash_set Object contains the specified element.
         bool contains(const T& item)
         {
             auto iter = this->find(item);
             return iter != this->end();
         }
 
-        /// Removes the specified element from a hash_set object.
+        /// Removes the specified element from a hash_set Object.
         bool remove(const T& item)
         {
             return this->erase(item) != 0;
         }
 
-        /// Sets the capacity of a hash_set object to the actual number of elements
+        /// Sets the capacity of a hash_set Object to the actual number of elements
         /// it contains,rounded up to a nearby, implementation-specific value.
         void trim_excess()
         {
@@ -103,7 +103,7 @@ namespace dot
             return false;
         }
 
-        /// Removes all elements in the specified collection from the current hash_set object.
+        /// Removes all elements in the specified collection from the current hash_set Object.
         void except_with(list<T> other)
         {
             for (T const& item : other)
@@ -112,8 +112,8 @@ namespace dot
             }
         }
 
-        /// Modifies the current hash_set object to contain only elements
-        /// that are present in that object and in the specified collection.
+        /// Modifies the current hash_set Object to contain only elements
+        /// that are present in that Object and in the specified collection.
         void intersect_with(list<T> other)
         {
             list<T> left = make_list<T>();

@@ -33,9 +33,9 @@ namespace dot
     {
         int x = 1;
         double y = 2.5;
-        const string s = "{0}";
+        const String s = "{0}";
 
-        string_builder result = make_string_builder();
+        StringBuilder result = make_string_builder();
         result->append("abc");
         result->append(123);
         result->append_line();
@@ -44,8 +44,8 @@ namespace dot
 
         result->append_format(s, x);
         result->append_line();
-        result->append_line(string::format("{0:.3f}", y));
-        result->append_line(string::format("{0}, {1}", "123", "456"));
+        result->append_line(String::format("{0:.3f}", y));
+        result->append_line(String::format("{0}, {1}", "123", "456"));
 
         Approvals::verify(*result);
     }

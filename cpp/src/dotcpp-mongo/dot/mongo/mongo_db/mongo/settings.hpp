@@ -29,8 +29,8 @@ namespace dot
     enum class discriminator_convention
     {
         empty,
-        scalar,       /// Type represents by scalar string with actual type.
-        hierarchical, /// Type represents by string vector with actual type and base type up to root type.
+        scalar,       /// Type represents by scalar String with actual type.
+        hierarchical, /// Type represents by String vector with actual type and base type up to root type.
         default_convention = scalar
     };
 
@@ -75,7 +75,7 @@ namespace dot
             }
             else
             {
-                throw dot::exception("discriminator_convention is already set.");
+                throw dot::Exception("discriminator_convention is already set.");
             }
         }
     };

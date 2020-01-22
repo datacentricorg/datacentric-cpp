@@ -31,130 +31,130 @@ limitations under the License.
 
 namespace dot
 {
-    class string_impl; class string;
-    template <class T> class list_impl; template <class T> using list = ptr<list_impl<T>>;
-    template <class T> class nullable;
-    enum class string_split_options;
+    class StringImpl; class String;
+    template <class T> class list_impl; template <class T> using list = Ptr<list_impl<T>>;
+    template <class T> class Nullable;
+    enum class StringSplitOptions;
 
-    /// Immutable string type.
+    /// Immutable String type.
     ///
-    /// The string is encoded internally as UTF-8.
-    class DOT_CLASS string_impl : public virtual object_impl, public detail::ConstStringBase
+    /// The String is encoded internally as UTF-8.
+    class DOT_CLASS StringImpl : public virtual ObjectImpl, public detail::ConstStringBase
     {
-        typedef string_impl self;
+        typedef StringImpl self;
         typedef detail::ConstStringBase base;
-        friend string make_string(const std::string& rhs);
-        friend string make_string(const char* rhs);
+        friend String make_string(const std::string& rhs);
+        friend String make_string(const char* rhs);
 
     public: // CONSTRUCTORS
 
-        /// Creates an empty string.
-        string_impl() {}
+        /// Creates an empty String.
+        StringImpl() {}
 
-        /// Initializes from std::string or string literal.
+        /// Initializes from std::String or String literal.
         ///
         /// This constructor is private. Use make_string(str) function instead.
-        string_impl(const std::string& value) : base(value) {}
+        StringImpl(const std::string& value) : base(value) {}
 
         /// Create from const char*, null pointer is converted to to empty value.
-        string_impl(const char* value) : base(value) {}
+        StringImpl(const char* value) : base(value) {}
 
         /// Create from a single 8-bit character.
-        string_impl(char value) : base(std::to_string(value)) {}
+        StringImpl(char value) : base(std::to_string(value)) {}
 
     public: // METHODS
 
-        /// Determines whether this instance and a specified object,
-        /// which must also be a string object, have the same value.
-        bool equals(object obj) override;
+        /// Determines whether this instance and a specified Object,
+        /// which must also be a String Object, have the same value.
+        bool equals(Object obj) override;
 
-        /// Returns the hash code for this string.
+        /// Returns the hash code for this String.
         virtual size_t hash_code() override;
 
-        /// Returns this instance of string; no actual conversion is performed.
-        virtual string to_string() override;
+        /// Returns this instance of String; no actual conversion is performed.
+        virtual String to_string() override;
 
         /// Determines whether the end of this
-        /// string matches the specified string.
-        bool ends_with(const string& value);
+        /// String matches the specified String.
+        bool ends_with(const String& value);
 
         /// Determines whether the beginning of this
-        /// string matches the specified string.
-        bool starts_with(const string& value);
+        /// String matches the specified String.
+        bool starts_with(const String& value);
 
         /// Retrieves a substring which starts at a specified
-        /// character position and continues to the end of the string.
-        string substring(int start_index);
+        /// character position and continues to the end of the String.
+        String substring(int start_index);
 
         /// Retrieves a substring which starts at the specified
         /// character position and has the specified length.
-        string substring(int start_index, int length);
+        String substring(int start_index, int length);
 
-        /// Compares this instance with a specified string object and indicates
+        /// Compares this instance with a specified String Object and indicates
         /// whether this instance precedes, follows, or appears in the same position
-        /// in the sort order as the specified string.
-        int compare_to(const string& str_b) const;
+        /// in the sort order as the specified String.
+        int compare_to(const String& str_b) const;
 
         /// Reports the zero-based index of the first occurrence in this instance of any
         /// character in a specified array of Unicode characters.
         int index_of_any(list<char> any_of);
 
-        /// Returns a new string in which all the characters in the current instance, beginning
+        /// Returns a new String in which all the characters in the current instance, beginning
         /// at a specified position and continuing through the last position, have been deleted.
-        string remove(int start_index);
+        String remove(int start_index);
 
-        /// Returns a new string in which a specified number of characters in the current
+        /// Returns a new String in which a specified number of characters in the current
         /// instance beginning at a specified position have been deleted.
-        string remove(int start_index, int count);
+        String remove(int start_index, int count);
 
-        /// Returns a new string in which all occurrences of a specified string
-        /// in the current instance are replaced with another specified string.
-        string replace(const string& old_value, const string& new_value) const; // TODO - implement
+        /// Returns a new String in which all occurrences of a specified String
+        /// in the current instance are replaced with another specified String.
+        String replace(const String& old_value, const String& new_value) const; // TODO - implement
 
-        /// Returns a new string in which all occurrences of a specified character
+        /// Returns a new String in which all occurrences of a specified character
         /// in this instance are replaced with another specified character.
-        string replace(const char old_char, const char new_char) const;
+        String replace(const char old_char, const char new_char) const;
 
-        /// Returns a string array that contains the substrings of the current string
+        /// Returns a String array that contains the substrings of the current String
         /// that are delimited by any of the specified 8-bit characters.
-        list<string> split(char separator) const;
+        list<String> split(char separator) const;
 
-        /// Splits a string into substrings that are based on the characters in an array.
-        list<string> split(string separator) const;
+        /// Splits a String into substrings that are based on the characters in an array.
+        list<String> split(String separator) const;
 
-        /// Returns a string array that contains the substrings in
-        /// this string that are delimited by any of the specified strings.
+        /// Returns a String array that contains the substrings in
+        /// this String that are delimited by any of the specified strings.
         /// A parameter specifies whether to return empty array elements.
-        list<string> split(const list<string>& separator, const string_split_options& options) const; // TODO - implement
+        list<String> split(const list<String>& separator, const StringSplitOptions& options) const; // TODO - implement
 
-        /// Returns a new string in which all leading and trailing occurrences
-        /// of a set of specified characters from the current string are removed.
-        string trim() const;
+        /// Returns a new String in which all leading and trailing occurrences
+        /// of a set of specified characters from the current String are removed.
+        String trim() const;
 
         /// Removes all the leading occurrences of a set of characters
-        /// specified in an array from the current string.
-        string trim_start() const;
+        /// specified in an array from the current String.
+        String trim_start() const;
 
         /// Removes all the trailing occurrences of a set of characters
-        /// specified in an array from the current string.
-        string trim_end() const;
+        /// specified in an array from the current String.
+        String trim_end() const;
 
-        /// Indicates whether the argument occurs within this string.
-        bool contains(const string& s) const;
+        /// Indicates whether the argument occurs within this String.
+        bool contains(const String& s) const;
 
-        /// Returns a copy of this string converted to lowercase.
-        string to_lower() const;
+        /// Returns a copy of this String converted to lowercase.
+        String to_lower() const;
 
-        /// Returns a copy of this string converted to uppercase.
-        string to_upper() const;
+        /// Returns a copy of this String converted to uppercase.
+        String to_upper() const;
 
     public: // OPERATORS
 
-        /// Returns a string containing characters from lhs followed by the characters from rhs.
-        friend string operator+(const string& lhs, const string& rhs);
+        /// Returns a String containing characters from lhs followed by the characters from rhs.
+        friend String operator+(const String& lhs, const String& rhs);
 
-        /// Returns a string containing characters from lhs followed by the characters from rhs.
-        friend bool operator<(const string& lhs, const string& rhs);
+        /// Returns a String containing characters from lhs followed by the characters from rhs.
+        friend bool operator<(const String& lhs, const String& rhs);
 
     public: // REFLECTION
 
@@ -162,93 +162,93 @@ namespace dot
         static type typeof();
     };
 
-    /// Pointer to string_impl that has additional constructors compared to ptr(string)
-    class DOT_CLASS string : public ptr<string_impl>
+    /// Pointer to StringImpl that has additional constructors compared to Ptr(String)
+    class DOT_CLASS String : public Ptr<StringImpl>
     {
-        typedef ptr<string_impl> base;
+        typedef Ptr<StringImpl> base;
 
     public: // CONSTANTS
 
-        /// Empty string.
-        static string empty;
+        /// Empty String.
+        static String empty;
 
     public: // CONSTRUCTORS
 
-        /// Create null string.
-        string() : base() {}
+        /// Create null String.
+        String() : base() {}
 
         /// Take ownership of raw pointer to template argument type.
         /// This also permits construction from null pointer.
-        string(string_impl* p) : base(p) {}
+        String(StringImpl* p) : base(p) {}
 
-        /// Create from std::string.
-        string(const std::string& rhs) : base(new string_impl(rhs)) {}
+        /// Create from std::String.
+        String(const std::string& rhs) : base(new StringImpl(rhs)) {}
 
-        /// Create from string literal.
-        string(const char* rhs) : base(new string_impl(rhs)) {}
+        /// Create from String literal.
+        String(const char* rhs) : base(new StringImpl(rhs)) {}
 
         /// Copy constructor.
-        string(const string& rhs) : base(rhs) {}
+        String(const String& rhs) : base(rhs) {}
 
-        /// Supports cast (explicit constructor) from object.
+        /// Supports cast (explicit constructor) from Object.
         ///
-        /// Error if object does is not a boxed int.
-        /// Null object becomes empty nullable int.
-        explicit string(const ptr<object_impl>& rhs) : base(rhs) {}
+        /// Error if Object does is not a boxed int.
+        /// Null Object becomes empty Nullable int.
+        explicit String(const Ptr<ObjectImpl>& rhs) : base(rhs) {}
 
     public: // STATIC
 
-        /// Replaces format entries in the specified string with the string
+        /// Replaces format entries in the specified String with the String
         /// representation of objects in the argument array.
         template <typename ...Args>
-        static string format(const string& format_string, const Args& ...args);
+        static String format(const String& format_string, const Args& ...args);
 
-        /// Indicates whether the specified string is null or an string.empty string.
-        static bool is_null_or_empty(string value);
+        /// Indicates whether the specified String is null or an String.empty String.
+        static bool is_null_or_empty(String value);
 
     public: // OPERATORS
 
-        /// Case sensitive comparison to std::string.
-        bool operator==(const std::string& rhs) const { string_impl& impl = base::operator*(); return impl == rhs; }
+        /// Case sensitive comparison to std::String.
+        bool operator==(const std::string& rhs) const { StringImpl& impl = base::operator*(); return impl == rhs; }
 
-        /// Case sensitive comparison to std::string.
+        /// Case sensitive comparison to std::String.
         bool operator!=(const std::string& rhs) const { return !operator==(rhs); }
 
-        /// Case sensitive comparison to string literal.
-        bool operator==(const char* rhs) const { if (rhs == nullptr) return base::operator==(nullptr); string_impl& impl = base::operator*(); return impl == rhs; }
+        /// Case sensitive comparison to String literal.
+        bool operator==(const char* rhs) const { if (rhs == nullptr) return base::operator==(nullptr); StringImpl& impl = base::operator*(); return impl == rhs; }
 
-        /// Case sensitive comparison to string literal.
+        /// Case sensitive comparison to String literal.
         bool operator!=(const char* rhs) const { return !operator==(rhs); }
 
-        /// Case sensitive comparison to string literal.
-        bool operator==(const ptr<string_impl>& rhs) const { return *this == *rhs; }
+        /// Case sensitive comparison to String literal.
+        bool operator==(const Ptr<StringImpl>& rhs) const { return *this == *rhs; }
 
-        /// Case sensitive comparison to string literal.
-        bool operator!=(const ptr<string_impl>& rhs) const { return !operator==(rhs); }
+        /// Case sensitive comparison to String literal.
+        bool operator!=(const Ptr<StringImpl>& rhs) const { return !operator==(rhs); }
 
-        /// Case sensitive comparison to object.
-        bool operator==(const object& rhs) const;
+        /// Case sensitive comparison to Object.
+        bool operator==(const Object& rhs) const;
 
-        /// Case sensitive comparison to object.
-        bool operator!=(const object& rhs) const { return !operator==(rhs); }
+        /// Case sensitive comparison to Object.
+        bool operator!=(const Object& rhs) const { return !operator==(rhs); }
 
     private: // STATIC
 
-        /// Non-template implementation of string.format.
+        /// Non-template implementation of String.format.
         static std::string format_impl(fmt::string_view format_str, fmt::format_args args);
     };
 
-    /// Create from std::string or string literal using new
-    inline string make_string(const std::string& rhs) { return new string_impl(rhs); }
+    /// Create from std::String or String literal using new
+    inline String make_string(const std::string& rhs) { return new StringImpl(rhs); }
 
-    /// Create from std::string or string literal using new
-    inline string make_string(const char* rhs) { return new string_impl(rhs); }
+    /// Create from std::String or String literal using new
+    inline String make_string(const char* rhs) { return new StringImpl(rhs); }
 
-    /// Returns a string containing characters from lhs followed by the characters from rhs.
-    inline string operator+(const string& lhs, const string& rhs) { return make_string(*lhs + *rhs); }
+    /// Returns a String containing characters from lhs followed by the characters from rhs.
+    inline String operator+(const String& lhs, const String& rhs) { return make_string(*lhs + *rhs); }
 
-    /// Returns a string containing characters from lhs followed by the characters from rhs.
-    inline bool operator<(const string& lhs, const string& rhs) { return *lhs < *rhs; }
+    /// Returns a String containing characters from lhs followed by the characters from rhs.
+    inline bool operator<(const String& lhs, const String& rhs) { return *lhs < *rhs; }
 
     /// Helper class for fmt::format arguments conversion
     template <class T>
@@ -258,8 +258,8 @@ namespace dot
 
     /// Helper class for fmt::format arguments conversion
     template<>
-    struct format_forward<string> {
-        static inline std::string convert(const string& s)
+    struct format_forward<String> {
+        static inline std::string convert(const String& s)
         {
             if (s.is_empty())
                 return std::string("");
@@ -271,18 +271,18 @@ namespace dot
 
     /// Helper class for fmt::format arguments conversion
     template<class T>
-    struct format_forward<ptr<T>> {
-        static inline std::string convert(const ptr<T>& o) { return *o->to_string(); }
+    struct format_forward<Ptr<T>> {
+        static inline std::string convert(const Ptr<T>& o) { return *o->to_string(); }
     };
 
     /// Helper class for fmt::format arguments conversion
     template<class T>
-    struct format_forward<nullable<T>> {
-        static inline T convert(const nullable<T>& o) { return o.value_or_default(); }
+    struct format_forward<Nullable<T>> {
+        static inline T convert(const Nullable<T>& o) { return o.value_or_default(); }
     };
 
     template<typename ...Args>
-    string string::format(const string& format_string, const Args& ...args)
+    String String::format(const String& format_string, const Args& ...args)
     {
         return format_impl(*format_string, fmt::make_format_args(format_forward<Args>::convert(args)...));
     }
@@ -290,13 +290,13 @@ namespace dot
 
 namespace std
 {
-    /// Implements hash struct used by STL unordered_map for string.
+    /// Implements hash struct used by STL unordered_map for String.
     template <>
-    struct hash<dot::string> : public hash<dot::ptr<dot::string_impl>>
+    struct hash<dot::String> : public hash<dot::Ptr<dot::StringImpl>>
     {};
 
-    /// Implements equal_to struct used by STL unordered_map for string.
+    /// Implements equal_to struct used by STL unordered_map for String.
     template <>
-    struct equal_to<dot::string> : public equal_to<dot::ptr<dot::string_impl>>
+    struct equal_to<dot::String> : public equal_to<dot::Ptr<dot::StringImpl>>
     {};
 }

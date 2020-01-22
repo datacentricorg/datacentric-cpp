@@ -30,17 +30,17 @@ limitations under the License.
 
 namespace dot
 {
-    bool object_impl::equals(object obj)
+    bool ObjectImpl::equals(Object obj)
     {
         return this == &(*obj);
     }
 
-    size_t object_impl::hash_code()
+    size_t ObjectImpl::hash_code()
     {
         return size_t(this);
     }
 
-    string object_impl::to_string()
+    String ObjectImpl::to_string()
     {
         return get_type()->full_name();
     }

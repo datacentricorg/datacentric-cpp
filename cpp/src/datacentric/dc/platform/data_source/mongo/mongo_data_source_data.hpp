@@ -23,7 +23,7 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_data_source_data_impl; using mongo_data_source_data = dot::ptr<mongo_data_source_data_impl>;
+    class mongo_data_source_data_impl; using mongo_data_source_data = dot::Ptr<mongo_data_source_data_impl>;
 
     /// Data source implementation for MongoDB.
     class DC_CLASS mongo_data_source_data_impl : public mongo_data_source_base_data_impl
@@ -46,7 +46,7 @@ namespace dc
         ///
         /// load_or_null(key, load_from)
         ///
-        /// Load record by string key from the specified dataset or
+        /// Load record by String key from the specified dataset or
         /// its parent. The lookup occurs first in the reverse
         /// chronological order of datasets to one second resolution,
         /// and then in the reverse chronological order of records
@@ -114,7 +114,7 @@ namespace dc
         /// calling DataSource.ClearDataSetCache() method.
         ///
         /// Returns null if not found.
-        virtual dot::nullable<temporal_id> get_data_set_or_empty(dot::string data_set_id, temporal_id load_from) override;
+        virtual dot::Nullable<temporal_id> get_data_set_or_empty(dot::String data_set_id, temporal_id load_from) override;
 
         /// Save new version of the dataset.
         ///
@@ -157,7 +157,7 @@ namespace dc
         /// CutoffTime applies to both the records stored in the dataset itself,
         /// and the reports loaded through the Imports list.
         /// </summary>
-        dot::nullable<temporal_id> get_cutoff_time(temporal_id data_set_id);
+        dot::Nullable<temporal_id> get_cutoff_time(temporal_id data_set_id);
 
         /// <summary>
         /// Gets ImportsCutoffTime from the dataset detail record.
@@ -176,7 +176,7 @@ namespace dc
         /// (part of TemporalId), isolating the dataset from changes to the
         /// data in imported datasets that occur after that time.
         /// </summary>
-        dot::nullable<temporal_id> get_imports_cutoff_time(temporal_id data_set_id);
+        dot::Nullable<temporal_id> get_imports_cutoff_time(temporal_id data_set_id);
 
     private: // METHODS
 
@@ -233,20 +233,20 @@ namespace dc
         /// CutoffTime may be set in data source globally, or for a specific dataset
         /// in its details record. If CutoffTime is set for both, the earlier of the
         /// two values will be used.
-        dot::nullable<temporal_id> cutoff_time;
+        dot::Nullable<temporal_id> cutoff_time;
 
     private: // FIELDS
 
         /// Dictionary of collections indexed by type T.
-        dot::dictionary<dot::type, dot::object> collection_dict_ = dot::make_dictionary<dot::type, dot::object>();
+        dot::dictionary<dot::type, dot::Object> collection_dict_ = dot::make_dictionary<dot::type, dot::Object>();
 
-        /// Dictionary of dataset temporal_ids stored under string data_set_id.
-        dot::dictionary<dot::string, temporal_id> data_set_dict_ = dot::make_dictionary<dot::string, temporal_id>();
+        /// Dictionary of dataset temporal_ids stored under String data_set_id.
+        dot::dictionary<dot::String, temporal_id> data_set_dict_ = dot::make_dictionary<dot::String, temporal_id>();
 
         /// Dictionary of datasets and datasets that holds them
         dot::dictionary<temporal_id, temporal_id> data_set_owners_dict_ = dot::make_dictionary<temporal_id, temporal_id>();
 
-        /// Dictionary of dataset temporal_ids stored under string data_set_id.
+        /// Dictionary of dataset temporal_ids stored under String data_set_id.
         dot::dictionary<temporal_id, data_set_detail_data> data_set_detail_dict_ = dot::make_dictionary<temporal_id, data_set_detail_data>();
 
         /// Dictionary of the expanded list of parent temporal_ids of dataset, including

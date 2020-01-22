@@ -27,7 +27,7 @@ namespace dc
         db_server_uri = db_server_key_impl::default_key->db_server_uri;
     }
 
-    dot::string mongo_default_server_data_impl::get_mongo_server_uri()
+    dot::String mongo_default_server_data_impl::get_mongo_server_uri()
     {
         return "mongodb://localhost/";
     }

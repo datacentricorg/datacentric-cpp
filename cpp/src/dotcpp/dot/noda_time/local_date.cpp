@@ -50,7 +50,7 @@ namespace dot
         *this = other;
     }
 
-    LocalDate::LocalDate(object const& rhs) { *this = rhs.operator LocalDate(); }
+    LocalDate::LocalDate(Object const& rhs) { *this = rhs.operator LocalDate(); }
 
     LocalDate LocalDate::add(const LocalDate& date, const Period& period)
     {
@@ -80,7 +80,7 @@ namespace dot
         return *this == other;
     }
 
-    string LocalDate::to_string() const
+    String LocalDate::to_string() const
     {
         boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
         facet->format("%Y-%m-%d");

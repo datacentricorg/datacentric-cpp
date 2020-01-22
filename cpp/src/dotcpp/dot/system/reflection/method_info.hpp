@@ -30,8 +30,8 @@ limitations under the License.
 
 namespace dot
 {
-    class method_info_impl; using method_info = ptr<method_info_impl>;
-    class type_impl; using type = ptr<type_impl>;
+    class method_info_impl; using method_info = Ptr<method_info_impl>;
+    class type_impl; using type = Ptr<type_impl>;
 
     /// Obtains information about the attributes of a method and provides access to method metadata.
     class DOT_CLASS method_info_impl : public member_info_impl
@@ -42,14 +42,14 @@ namespace dot
 
     public: // METHODS
 
-        /// A string representing the name of the current type.
-        inline virtual string to_string() override;
+        /// A String representing the name of the current type.
+        inline virtual String to_string() override;
 
         /// Gets the parameters of this method.
         inline virtual list<parameter_info> get_parameters();
 
         /// Invokes specified method with given parameters.
-        virtual object invoke(object, list<object>) = 0;
+        virtual Object invoke(Object, list<Object>) = 0;
 
         /// Gets the return type of this method.
         type return_type();
@@ -64,7 +64,7 @@ namespace dot
         /// Create from method name, declaring type, return type.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        inline method_info_impl(const string& name, type declaring_type, type return_type, list<attribute> custom_attributes);
+        inline method_info_impl(const String& name, type declaring_type, type return_type, list<Attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a non-static method and provides access to method metadata.
@@ -81,19 +81,19 @@ namespace dot
 
     public: // METHODS
 
-        /// A string representing the name of the current type.
-        inline virtual string to_string() override;
+        /// A String representing the name of the current type.
+        inline virtual String to_string() override;
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        inline object invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::false_type);
+        inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type);
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        inline object invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::true_type);
+        inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type);
 
         /// Invokes the method reflected by this method_info instance.
-        inline virtual object invoke(object obj, list<object> params);
+        inline virtual Object invoke(Object obj, list<Object> params);
 
     private: // CONSTRUCTORS
 
@@ -101,7 +101,7 @@ namespace dot
         ///
         /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
-        inline member_method_info_impl(const string& name, type declaring_type, type return_type, method_type p, list<attribute> custom_attributes);
+        inline member_method_info_impl(const String& name, type declaring_type, type return_type, method_type p, list<Attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a static method and provides access to method metadata.
@@ -117,19 +117,19 @@ namespace dot
 
     public: // METHODS
 
-        /// A string representing the name of the current type.
-        virtual string to_string() override;
+        /// A String representing the name of the current type.
+        virtual String to_string() override;
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        inline object invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::false_type);
+        inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type);
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        inline object invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::true_type);
+        inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type);
 
         /// Invokes the method reflected by this method_info instance.
-        inline virtual object invoke(object obj, list<object> params);
+        inline virtual Object invoke(Object obj, list<Object> params);
 
     private: // CONSTRUCTORS
 
@@ -137,6 +137,6 @@ namespace dot
         ///
         /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
-        inline static_method_info_impl(const string& name, type declaring_type, type return_type, method_type p, list<attribute> custom_attributes);
+        inline static_method_info_impl(const String& name, type declaring_type, type return_type, method_type p, list<Attribute> custom_attributes);
     };
 }

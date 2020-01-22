@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;
-    class db_server_data_impl; using db_server_data = dot::ptr<db_server_data_impl>;
+    class db_server_key_impl; using db_server_key = dot::Ptr<db_server_key_impl>;
+    class db_server_data_impl; using db_server_data = dot::Ptr<db_server_data_impl>;
     template <typename t_key, typename t_record> class root_record_for_impl;
 
     inline db_server_data make_db_server_data();
@@ -41,7 +41,7 @@ namespace dc
         ///
         /// Server URI specified here must refer to the entire server, not
         /// an individual database.
-        dot::string db_server_uri;
+        dot::String db_server_uri;
 
         DOT_TYPE_BEGIN("dc", "db_server_data")
             DOT_TYPE_PROP(db_server_uri)

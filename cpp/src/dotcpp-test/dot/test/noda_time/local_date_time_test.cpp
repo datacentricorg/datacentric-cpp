@@ -72,7 +72,7 @@ namespace dot
         REQUIRE(dt2.next(boost::gregorian::Monday) == LocalDateTime(2005, 1, 17, 12, 10));
 
         LocalDateTime dt3(2005, 1, 2, 3, 4, 5, 6);
-        string dt3_str = dt3.to_string();
+        String dt3_str = dt3.to_string();
         REQUIRE(dt3_str == "2005-01-02 03:04:05.006");
     }
 

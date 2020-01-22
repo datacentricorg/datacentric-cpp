@@ -27,12 +27,12 @@ limitations under the License.
 
 namespace dot
 {
-    class parameter_info_impl; using parameter_info = ptr<parameter_info_impl>;
+    class parameter_info_impl; using parameter_info = Ptr<parameter_info_impl>;
 
     /// Discovers the attributes of a parameter and provides access to parameter metadata.
-    class parameter_info_impl : public virtual object_impl
+    class parameter_info_impl : public virtual ObjectImpl
     {
-        friend parameter_info make_parameter_info(string , type, int, list<attribute>);
+        friend parameter_info make_parameter_info(String , type, int, list<Attribute>);
 
         typedef parameter_info_impl self;
 
@@ -42,20 +42,20 @@ namespace dot
         type parameter_type() const { return parameter_type_; }
 
         /// Gets the name of this parameter.
-        string name() const { return name_; }
+        String name() const { return name_; }
 
         /// Gets the zero-based position of the parameter in the formal parameter list.
         int position() const { return position_; }
 
         /// Gets a collection that contains this parameter's custom attributes.
-        list<attribute> get_custom_attributes(bool) { return custom_attributes_; }
+        list<Attribute> get_custom_attributes(bool) { return custom_attributes_; }
 
     private: // FIELDS
 
         type parameter_type_;
-        string name_;
+        String name_;
         int position_;
-        list<attribute> custom_attributes_;
+        list<Attribute> custom_attributes_;
 
     private: // CONSTRUCTORS
 
@@ -63,7 +63,7 @@ namespace dot
         ///
         /// This constructor is private. Use make_parameter_info(...)
         /// function with matching signature instead.
-        parameter_info_impl(string name, type parameter_type, int position, list<attribute> custom_attributes)
+        parameter_info_impl(String name, type parameter_type, int position, list<Attribute> custom_attributes)
             : parameter_type_(parameter_type)
             , name_(name)
             , position_(position)
@@ -72,7 +72,7 @@ namespace dot
     };
 
     /// Create from parameter name, parameter type, and parameter position.
-    inline parameter_info make_parameter_info(string name, type parameter_type, int position, list<attribute> custom_attributes)
+    inline parameter_info make_parameter_info(String name, type parameter_type, int position, list<Attribute> custom_attributes)
     {
         return new parameter_info_impl(name, parameter_type, position, custom_attributes);
     }

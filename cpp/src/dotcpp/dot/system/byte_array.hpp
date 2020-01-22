@@ -28,17 +28,17 @@ limitations under the License.
 
 namespace dot
 {
-    class byte_array_impl; using byte_array = ptr<byte_array_impl>;
+    class ByteArrayImpl; using ByteArray = Ptr<ByteArrayImpl>;
 
     /// Represents array of bytes.
-    class DOT_CLASS byte_array_impl : public object_impl
+    class DOT_CLASS ByteArrayImpl : public ObjectImpl
     {
-        friend byte_array make_byte_array();
-        friend byte_array make_byte_array(int size);
-        friend byte_array make_byte_array(const char* value, int size);
-        friend byte_array make_byte_array(const std::vector<char>& obj);
-        friend byte_array make_byte_array(std::vector<char>&& obj);
-        friend byte_array make_byte_array(const std::initializer_list<uint8_t>& obj);
+        friend ByteArray make_byte_array();
+        friend ByteArray make_byte_array(int size);
+        friend ByteArray make_byte_array(const char* value, int size);
+        friend ByteArray make_byte_array(const std::vector<char>& obj);
+        friend ByteArray make_byte_array(std::vector<char>&& obj);
+        friend ByteArray make_byte_array(const std::initializer_list<uint8_t>& obj);
 
     private:
 
@@ -47,22 +47,22 @@ namespace dot
     private: // CONSTRUCTORS
 
         /// Create empty array.
-        byte_array_impl() = default;
+        ByteArrayImpl() = default;
 
         /// Create array with specific size.
-        byte_array_impl(int size);
+        ByteArrayImpl(int size);
 
         /// Construct from byte array using copy semantics.
-        byte_array_impl(const char* value, int size);
+        ByteArrayImpl(const char* value, int size);
 
         /// Construct from vector using deep copy semantics.
-        byte_array_impl(const std::vector<char>& obj);
+        ByteArrayImpl(const std::vector<char>& obj);
 
         /// Construct from vector using move semantics.
-        byte_array_impl(std::vector<char>&& obj);
+        ByteArrayImpl(std::vector<char>&& obj);
 
         /// Construct from initializer_list.
-        byte_array_impl(const std::initializer_list<uint8_t>& obj);
+        ByteArrayImpl(const std::initializer_list<uint8_t>& obj);
 
     public: // METHODS
 
@@ -76,16 +76,16 @@ namespace dot
         uint8_t get(int i);
 
         /// Compares byte arrays. Size of arrays should be equal.
-        int compare(byte_array other);
+        int compare(ByteArray other);
 
         /// Compares byte arrays. Size of arrays should be equal.
         int compare(char* other);
 
         /// Copy length bytes of src to this with offset.
-        void copy(int offset, byte_array src);
+        void copy(int offset, ByteArray src);
 
         /// Copy length bytes of src with src_offset to this with offset.
-        void copy(int offset, byte_array src, int src_offset, int length);
+        void copy(int offset, ByteArray src, int src_offset, int length);
 
         /// Copy length bytes of src to this.
         void copy(const char* src, int length);
@@ -106,7 +106,7 @@ namespace dot
         {
             const int value_size = sizeof(T);
             if (offset + value_size > get_length())
-                throw dot::exception("Not enough byte_array size to copy.");
+                throw dot::Exception("Not enough ByteArray size to copy.");
 
             copy_value(get_data() + offset, value);
         }
@@ -135,7 +135,7 @@ namespace dot
         {
             const int value_size = sizeof(T);
             if (offset + value_size > get_length())
-                throw dot::exception("Not enough byte_array size to convert.");
+                throw dot::Exception("Not enough ByteArray size to convert.");
 
             return to_primitive<T>(get_data() + offset);
         }
@@ -167,15 +167,15 @@ namespace dot
         type get_type() override;
     };
 
-    inline byte_array make_byte_array() { return new byte_array_impl(); }
+    inline ByteArray make_byte_array() { return new ByteArrayImpl(); }
 
-    inline byte_array make_byte_array(int size) { return new byte_array_impl(size); }
+    inline ByteArray make_byte_array(int size) { return new ByteArrayImpl(size); }
 
-    inline byte_array make_byte_array(const char* value, int size) { return new byte_array_impl(value, size); }
+    inline ByteArray make_byte_array(const char* value, int size) { return new ByteArrayImpl(value, size); }
 
-    inline byte_array make_byte_array(const std::vector<char>& obj) { return new byte_array_impl(obj); }
+    inline ByteArray make_byte_array(const std::vector<char>& obj) { return new ByteArrayImpl(obj); }
 
-    inline byte_array make_byte_array(std::vector<char>&& obj) { return new byte_array_impl(std::forward<std::vector<char>>(obj)); }
+    inline ByteArray make_byte_array(std::vector<char>&& obj) { return new ByteArrayImpl(std::forward<std::vector<char>>(obj)); }
 
-    inline byte_array make_byte_array(const std::initializer_list<uint8_t>& obj) { return new byte_array_impl(obj); }
+    inline ByteArray make_byte_array(const std::initializer_list<uint8_t>& obj) { return new ByteArrayImpl(obj); }
 }

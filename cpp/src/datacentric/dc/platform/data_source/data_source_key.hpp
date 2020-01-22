@@ -24,8 +24,8 @@ limitations under the License.
 
 namespace dc
 {
-    class data_source_key_impl; using data_source_key = dot::ptr<data_source_key_impl>;
-    class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
+    class data_source_key_impl; using data_source_key = dot::Ptr<data_source_key_impl>;
+    class data_source_data_impl; using data_source_data = dot::Ptr<data_source_data_impl>;
 
     /// Data source is a logical concept similar to database
     /// that can be implemented for a document DB, relational DB,
@@ -45,7 +45,7 @@ namespace dc
     public: // PROPERTIES
 
         /// Unique data source identifier.
-        dot::string data_source_id;
+        dot::String data_source_id;
 
     public: // STATIC
 
@@ -59,7 +59,7 @@ namespace dc
 
         data_source_key_impl() = default;
 
-        data_source_key_impl(dot::string value);
+        data_source_key_impl(dot::String value);
 
         DOT_TYPE_BEGIN("dc", "data_source_key")
             DOT_TYPE_PROP(data_source_id)

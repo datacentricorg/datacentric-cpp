@@ -33,7 +33,7 @@ namespace dot
     static std::stringstream received;
 
     /// Print double vector to received on one line in JSON format.
-    static void print_list(string name, list<double> v)
+    static void print_list(String name, list<double> v)
     {
         received << "\"" << *name << "\" : [ ";
         for (int i = 0; i < v->count(); ++i)
@@ -74,8 +74,8 @@ namespace dot
         std::sort(a->begin(), a->end());
         print_list("sorted", a);
 
-        // Access by object
-        object obj = b;
+        // Access by Object
+        Object obj = b;
         // TODO - uncomment next line when output matches C#
         // received << obj->to_string() << std::endl;
 
@@ -85,14 +85,14 @@ namespace dot
 
     TEST_CASE("iterators")
     {
-        list<string> string_list = make_list<string>();
+        list<String> string_list = make_list<String>();
         string_list->add("000");
         string_list->add("111");
         string_list->add("222");
         REQUIRE(string_list->count() == 3);
 
         int i = 0;
-        for (string str : string_list)
+        for (String str : string_list)
         {
             REQUIRE(string_list[i++] == str);
         }
@@ -100,14 +100,14 @@ namespace dot
 
     TEST_CASE("capacity")
     {
-        list<string> string_list = make_list<string>();
+        list<String> string_list = make_list<String>();
         string_list->set_capacity(100);
         REQUIRE(string_list->capacity() == 100);
     }
 
     TEST_CASE("find")
     {
-        dot::list<string> string_list = make_list<string>();
+        dot::list<String> string_list = make_list<String>();
         string_list->add("000");
         string_list->add("111");
         string_list->add("222");

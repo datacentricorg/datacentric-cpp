@@ -29,39 +29,39 @@ limitations under the License.
 
 namespace dot
 {
-    bool long_impl::equals(object obj)
+    bool LongImpl::equals(Object obj)
     {
         if (this == &(*obj)) return true;
 
-        if (obj.is<ptr<long_impl>>())
+        if (obj.is<Ptr<LongImpl>>())
         {
-            return value_ == obj.as<ptr<long_impl>>()->value_;
+            return value_ == obj.as<Ptr<LongImpl>>()->value_;
         }
 
         return false;
     }
 
-    size_t long_impl::hash_code()
+    size_t LongImpl::hash_code()
     {
         return std::hash<int64_t>()(value_);
     }
 
-    string long_impl::to_string()
+    String LongImpl::to_string()
     {
         return std::to_string(value_);
     }
 
-    type long_impl::typeof()
+    type LongImpl::typeof()
     {
         return dot::typeof<int64_t>();
     }
 
-    type long_impl::get_type()
+    type LongImpl::get_type()
     {
         return typeof();
     }
 
-    int64_t long_impl::parse(string s)
+    int64_t LongImpl::parse(String s)
     {
         return std::stoll(*s);
     }

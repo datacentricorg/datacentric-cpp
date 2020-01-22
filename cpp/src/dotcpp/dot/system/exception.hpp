@@ -27,31 +27,31 @@ limitations under the License.
 
 namespace dot
 {
-    class string;
-    class string_impl;
+    class String;
+    class StringImpl;
 
     /// Represents errors that occur during application execution.
-    class DOT_CLASS exception : public std::runtime_error
+    class DOT_CLASS Exception : public std::runtime_error
     {
         typedef std::runtime_error base;
 
     public: // CONSTRUCTORS
 
         /// Create with default message.
-        exception();
+        Exception();
 
         /// Create with a specified error message.
-        exception(const std::string& msg);
+        Exception(const std::string& msg);
 
         /// Create with a specified error message.
-        exception(const char* msg);
+        Exception(const char* msg);
 
         /// Create with a specified error message.
-        exception(string msg);
+        Exception(String msg);
 
     public: // METHODS
 
         /// Message that describes the current exception.
-        virtual string message() const;
+        virtual String message() const;
     };
 }

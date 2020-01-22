@@ -27,14 +27,14 @@ limitations under the License.
 
 namespace dot
 {
-    /// Specifies whether applicable string.split(...) method overloads
+    /// Specifies whether applicable String.split(...) method overloads
     /// include or omit empty substrings from the return value.
-    enum class DOT_CLASS string_split_options : int
+    enum class DOT_CLASS StringSplitOptions : int
     {
-        /// The return value includes array elements that contain an empty string.
+        /// The return value includes array elements that contain an empty String.
         none,
 
-        /// The return value does not include array elements that contain an empty string.
+        /// The return value does not include array elements that contain an empty String.
         remove_empty_entries
     };
 }

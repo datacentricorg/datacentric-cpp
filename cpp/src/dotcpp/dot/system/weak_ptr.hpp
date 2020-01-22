@@ -28,14 +28,14 @@ limitations under the License.
 
 namespace dot
 {
-    template<class T> class ptr;
+    template<class T> class Ptr;
 
     /// Weak smart pointer used for preventing reference loops.
     template <class T>
-    class weak_ptr
+    class WeakPtr
     {
-        template<class R> friend class weak_ptr;
-        template<class R> friend class ptr;
+        template<class R> friend class WeakPtr;
+        template<class R> friend class Ptr;
 
     public: // TYPEDEF
 
@@ -49,106 +49,106 @@ namespace dot
     public: // CONSTRUCTORS
 
         /// Create empty pointer.
-        weak_ptr();
+        WeakPtr();
 
         /// Take ownership of raw pointer to template argument type.
         /// This also permits construction from null pointer.
-        weak_ptr(T* p);
+        WeakPtr(T* p);
 
         /// Copy constructor for the pointer (does not copy T).
-        weak_ptr(const weak_ptr<T>& rhs);
+        WeakPtr(const WeakPtr<T>& rhs);
 
     public: // METHODS
 
-        /// Returns true if pointer holds object, and false otherwise.
+        /// Returns true if pointer holds Object, and false otherwise.
         bool is_empty() const;
 
-        ptr<T> lock() const;
+        Ptr<T> lock() const;
 
     public: // OPERATORS
 
         /// Returns true if the argument contains
         /// pointer to the same instance as self.
-        bool operator==(const weak_ptr<T>& rhs) const;
+        bool operator==(const WeakPtr<T>& rhs) const;
 
         /// Returns true if the argument does
         /// not contain pointer to the same instance as self.
-        bool operator!=(const weak_ptr<T>& rhs) const;
+        bool operator!=(const WeakPtr<T>& rhs) const;
 
-        /// Supports weak_ptr == nullptr.
+        /// Supports WeakPtr == nullptr.
         bool operator==(nullptr_t) const;
 
-        /// Supports weak_ptr != nullptr.
+        /// Supports WeakPtr != nullptr.
         bool operator!=(nullptr_t) const;
 
         /// Take ownership of raw pointer to template argument type.
         /// This also permits assignment of pointer to type derived from T.
-        weak_ptr<T>& operator=(T* rhs);
+        WeakPtr<T>& operator=(T* rhs);
 
         /// Assign pointer of the same type.
-        weak_ptr<T>& operator=(const weak_ptr<T>& rhs);
+        WeakPtr<T>& operator=(const WeakPtr<T>& rhs);
     };
 
     template<class T>
-    weak_ptr<T>::weak_ptr()
+    WeakPtr<T>::WeakPtr()
         : ptr_(nullptr)
     {}
 
     template<class T>
-    weak_ptr<T>::weak_ptr(T* p)
+    WeakPtr<T>::WeakPtr(T* p)
         : ptr_(p)
     {}
 
     template <class T>
-    weak_ptr<T>::weak_ptr(const weak_ptr<T>& rhs)
+    WeakPtr<T>::WeakPtr(const WeakPtr<T>& rhs)
         : ptr_(rhs.ptr_)
     {}
 
     template <class T>
-    bool weak_ptr<T>::is_empty() const
+    bool WeakPtr<T>::is_empty() const
     {
         return !ptr_;
     }
 
     template <class T>
-    ptr<T> weak_ptr<T>::lock() const
+    Ptr<T> WeakPtr<T>::lock() const
     {
-        return ptr<T>(ptr_);
+        return Ptr<T>(ptr_);
     }
 
     template <class T>
-    bool weak_ptr<T>::operator==(const weak_ptr<T>& rhs) const
+    bool WeakPtr<T>::operator==(const WeakPtr<T>& rhs) const
     {
         return ptr_ == rhs.ptr_;
     }
 
     template <class T>
-    bool weak_ptr<T>::operator!=(const weak_ptr<T>& rhs) const
+    bool WeakPtr<T>::operator!=(const WeakPtr<T>& rhs) const
     {
         return ptr_ != rhs.ptr_;
     }
 
     template <class T>
-    bool weak_ptr<T>::operator==(nullptr_t) const
+    bool WeakPtr<T>::operator==(nullptr_t) const
     {
         return ptr_ == nullptr;
     }
 
     template <class T>
-    bool weak_ptr<T>::operator!=(nullptr_t) const
+    bool WeakPtr<T>::operator!=(nullptr_t) const
     {
         return ptr_ != nullptr;
     }
 
     template <class T>
-    weak_ptr<T>& weak_ptr<T>::operator=(T* rhs)
+    WeakPtr<T>& WeakPtr<T>::operator=(T* rhs)
     {
         ptr_ = rhs;
         return *this;
     }
 
     template <class T>
-    weak_ptr<T>& weak_ptr<T>::operator=(const weak_ptr<T>& rhs)
+    WeakPtr<T>& WeakPtr<T>::operator=(const WeakPtr<T>& rhs)
     {
         ptr_ = rhs.ptr_;
         return *this;

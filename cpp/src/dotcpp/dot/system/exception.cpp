@@ -28,13 +28,13 @@ limitations under the License.
 
 namespace dot
 {
-    exception::exception() : base("exception of type 'dot.exception' was thrown.") {}
+    Exception::Exception() : base("Exception of type 'dot.Exception' was thrown.") {}
 
-    exception::exception(const std::string& msg) : base(msg.c_str()) {}
+    Exception::Exception(const std::string& msg) : base(msg.c_str()) {}
 
-    exception::exception(const char* msg) : base(msg ? msg : "") {}
+    Exception::Exception(const char* msg) : base(msg ? msg : "") {}
 
-    exception::exception(string msg) : base(*msg) {}
+    Exception::Exception(String msg) : base(*msg) {}
 
-    string exception::message() const { return string(what()); }
+    String Exception::message() const { return String(what()); }
 }

@@ -26,7 +26,7 @@ limitations under the License.
 namespace dot
 {
     /// All classes with reference semantics should derive from this type.
-    /// It works with ptr to provide an emulation of reference semantics in C++.
+    /// It works with Ptr to provide an emulation of reference semantics in C++.
     class ReferenceCounter
     {
     private: // FIELDS
@@ -37,7 +37,7 @@ namespace dot
     public: // DESTRUCTOR
 
         /// Virtual destructor to ensure that destructor
-        /// of the derived type is called by ptr.
+        /// of the derived type is called by Ptr.
         virtual ~ReferenceCounter() = default;
 
     public: // METHODS
@@ -64,12 +64,12 @@ namespace dot
 
     private: // CONSTRUCTORS
 
-        /// Prevent copying object instead of copying pointer.
+        /// Prevent copying Object instead of copying pointer.
         ReferenceCounter(const ReferenceCounter&) = delete;
 
     private: // OPERATORS
 
-        /// Prevent assignment of object instead of assignment of pointer.
+        /// Prevent assignment of Object instead of assignment of pointer.
         ReferenceCounter& operator=(const ReferenceCounter& rhs) = delete;
     };
 }

@@ -31,30 +31,30 @@ namespace dot
 {
     /// Represents the standard input, output, and
     /// error streams for console applications.
-    class DOT_CLASS console final
+    class DOT_CLASS Console final
     {
     private: // CONSTRUCTORS
 
-        console() = delete;
-        console(const console&) = delete;
-        console& operator=(const console&) = delete;
+        Console() = delete;
+        Console(const Console&) = delete;
+        Console& operator=(const Console&) = delete;
 
     public: // STATIC
 
         /// Writes the text representation of the argument array of objects
         /// to the standard output stream using the specified format information.
         template <typename First, typename ...Args>
-        static void write(const string& format, const First& f, const Args& ...args)
+        static void write(const String& format, const First& f, const Args& ...args)
         {
-            std::cout << *string::format(format, f, args...);
+            std::cout << *String::format(format, f, args...);
         }
 
-        /// Writes the text representation of the specified object
+        /// Writes the text representation of the specified Object
         /// to the standard output stream.
         template <typename T>
         static void write(const T& arg)
         {
-            std::cout << *string::format("{0}", arg);
+            std::cout << *String::format("{0}", arg);
         }
 
         /// Writes the text representation of the specified array of objects,

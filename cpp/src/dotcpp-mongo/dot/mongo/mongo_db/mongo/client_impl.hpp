@@ -32,8 +32,8 @@ namespace dot
     {
     public:
 
-        /// Constructs from string with uri to mongo database.
-        client_inner(string uri)
+        /// Constructs from String with uri to mongo database.
+        client_inner(String uri)
         {
             static mongocxx::instance instance{};
 
@@ -43,13 +43,13 @@ namespace dot
     protected:
 
         /// Returns database from client by specified name.
-        virtual database get_database(dot::string name) override
+        virtual database get_database(dot::String name) override
         {
             return new database_impl(std::make_unique<database_inner>(client_[*name]));
         }
 
         /// Drops database from client by specified name.
-        virtual void drop_database(dot::string name) override
+        virtual void drop_database(dot::String name) override
         {
             client_[*name].drop();
         }
@@ -60,17 +60,17 @@ namespace dot
 
     };
 
-    client_impl::client_impl(string uri)
+    client_impl::client_impl(String uri)
     {
         impl_ = std::make_unique<client_inner>(uri);
     }
 
-    database client_impl::get_database(dot::string name)
+    database client_impl::get_database(dot::String name)
     {
         return impl_->get_database(name);
     }
 
-    void client_impl::drop_database(dot::string name)
+    void client_impl::drop_database(dot::String name)
     {
         impl_->drop_database(name);
     }

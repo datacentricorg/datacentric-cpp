@@ -30,12 +30,12 @@ limitations under the License.
 
 namespace dot
 {
-    dictionary<string, string> create_dictionary()
+    dictionary<String, String> create_dictionary()
     {
-        dictionary<string, string> dict = make_dictionary<string, string>();
+        dictionary<String, String> dict = make_dictionary<String, String>();
 
         dict->add("a", "b");
-        dict->add(std::pair<string, string>("c", "d"));
+        dict->add(std::pair<String, String>("c", "d"));
         dict->add("", "");
 
         return dict;
@@ -43,19 +43,19 @@ namespace dot
 
     TEST_CASE("properties")
     {
-        dictionary<string, string> dict = create_dictionary();
+        dictionary<String, String> dict = create_dictionary();
 
         REQUIRE(dict->count() == 3);
 
         // Keys
-        list<string> keys = dict->keys();
+        list<String> keys = dict->keys();
         REQUIRE(keys->count() == 3);
         REQUIRE(keys->contains("a"));
         REQUIRE(keys->contains("c"));
         REQUIRE(keys->contains(""));
 
         // Values
-        list<string> values = dict->values();
+        list<String> values = dict->values();
         REQUIRE(values->count() == 3);
         REQUIRE(values->contains("b"));
         REQUIRE(values->contains("d"));
@@ -64,14 +64,14 @@ namespace dot
 
     TEST_CASE("methods")
     {
-        dictionary<string, string> dict = create_dictionary();
+        dictionary<String, String> dict = create_dictionary();
 
         // Get
         REQUIRE(dict["a"] == "b");
         REQUIRE(dict["c"] == "d");
         REQUIRE(dict[""] == "");
 
-        string s = "";
+        String s = "";
         dict->try_get_value("b", s);
         REQUIRE(s == "");
         dict->try_get_value("a", s);
@@ -100,7 +100,7 @@ namespace dot
 
     TEST_CASE("interfaces")
     {
-        dictionary<string, string> dict = make_dictionary<string, string>();
+        dictionary<String, String> dict = make_dictionary<String, String>();
         dict->add("a", "b");
         dict->add("c", "d");
         dict->add("e", "f");
@@ -112,12 +112,12 @@ namespace dot
 
     TEST_CASE("object key")
     {
-        object obj0 = make_object();
-        object obj1 = make_object();
-        object obj2 = object("str2");
-        object obj3 = object("str2");
+        Object obj0 = make_object();
+        Object obj1 = make_object();
+        Object obj2 = Object("str2");
+        Object obj3 = Object("str2");
 
-        dictionary<object, string> dict = make_dictionary<object, string>();
+        dictionary<Object, String> dict = make_dictionary<Object, String>();
         dict->add(obj0, "val0");
         CHECK_NOTHROW(dict->add(obj1, "val1"));
 

@@ -25,22 +25,22 @@ limitations under the License.
 
 namespace dot
 {
-    class iterator_inner_impl; using iterator_inner = ptr<iterator_inner_impl>;
+    class iterator_inner_impl; using iterator_inner = Ptr<iterator_inner_impl>;
 
     /// Class implements dot::iterator_wrapper methods.
     /// Holds mongocxx::iterator.
-    /// Constructs from mongo iterator and function dot::object(const bsoncxx::document::view&),
-    /// this function call bson deserializer to get object from bson document.
+    /// Constructs from mongo iterator and function dot::Object(const bsoncxx::document::view&),
+    /// this function call bson deserializer to get Object from bson document.
     class DOT_MONGO_CLASS iterator_inner_impl : public iterator_inner_base_impl
     {
     public:
 
-        virtual object operator*() override
+        virtual Object operator*() override
         {
             return f_(*iterator_);
         }
 
-        virtual object operator*() const override
+        virtual Object operator*() const override
         {
             return f_(*iterator_);
         }
@@ -60,25 +60,25 @@ namespace dot
             return iterator_ == rhs.as<iterator_inner>()->iterator_;
         }
 
-        iterator_inner_impl(mongocxx::cursor::iterator iterator, std::function<dot::object(const bsoncxx::document::view&)> f)
+        iterator_inner_impl(mongocxx::cursor::iterator iterator, std::function<dot::Object(const bsoncxx::document::view&)> f)
             : iterator_(iterator)
             , f_(f)
         {
         }
 
         mongocxx::cursor::iterator iterator_;
-        std::function<dot::object(const bsoncxx::document::view&)> f_;
+        std::function<dot::Object(const bsoncxx::document::view&)> f_;
     };
 
     /// Class implements dot::object_cursor_wrapper_base.
     /// Holds mongocxx::cursor.
-    /// Constructs from mongo cursor and function dot::object(const bsoncxx::document::view&),
-    /// this function call bson deserializer to get object from bson document.
+    /// Constructs from mongo cursor and function dot::Object(const bsoncxx::document::view&),
+    /// this function call bson deserializer to get Object from bson document.
     class DOT_MONGO_CLASS object_cursor_wrapper_impl : public dot::object_cursor_wrapper_base_impl
     {
     public:
 
-        /// A dot::iterator_wrapper<dot::object> that points to the beginning of any available
+        /// A dot::iterator_wrapper<dot::Object> that points to the beginning of any available
         /// results.  If begin() is called more than once, the dot::iterator_wrapper
         /// returned points to the next remaining result, not the result of
         /// the original call to begin().
@@ -86,27 +86,27 @@ namespace dot
         /// For a tailable cursor, when cursor.begin() == cursor.end(), no
         /// documents are available.  Each call to cursor.begin() checks again
         /// for newly-available documents.
-        iterator_wrappper<dot::object> begin()
+        iterator_wrappper<dot::Object> begin()
         {
-            return iterator_wrappper<dot::object>(new iterator_inner_impl(cursor_->begin(), f_));
+            return iterator_wrappper<dot::Object>(new iterator_inner_impl(cursor_->begin(), f_));
         }
 
-        /// A dot::iterator_wrapper<dot::object> indicating cursor exhaustion, meaning that
+        /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
-        iterator_wrappper<dot::object> end()
+        iterator_wrappper<dot::Object> end()
         {
-            return iterator_wrappper<dot::object>(new iterator_inner_impl(cursor_->end(), f_));
+            return iterator_wrappper<dot::Object>(new iterator_inner_impl(cursor_->end(), f_));
         }
 
-        object_cursor_wrapper_impl(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)
+        object_cursor_wrapper_impl(mongocxx::cursor && cursor, const std::function<dot::Object(const bsoncxx::document::view&)>& f)
             : cursor_(std::make_shared<mongocxx::cursor>(std::move(cursor)))
             , f_(f)
         {
         }
 
         std::shared_ptr<mongocxx::cursor> cursor_;
-        std::function<dot::object(const bsoncxx::document::view&)> f_;
+        std::function<dot::Object(const bsoncxx::document::view&)> f_;
     };
 
-    using object_cursor_wrapper = ptr<object_cursor_wrapper_impl>;
+    using object_cursor_wrapper = Ptr<object_cursor_wrapper_impl>;
 }

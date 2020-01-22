@@ -31,19 +31,19 @@ limitations under the License.
 namespace dot
 {
 
-    class SerializeClassAttributeImpl; using SerializeClassAttribute = ptr<SerializeClassAttributeImpl>;
+    class SerializeClassAttributeImpl; using SerializeClassAttribute = Ptr<SerializeClassAttributeImpl>;
 
     /// Attribute sets custom serializator for type
-    /// Constructs from method that accepts tree writer base and object
-    class DOT_CLASS SerializeClassAttributeImpl : public attribute_impl
+    /// Constructs from method that accepts tree writer base and Object
+    class DOT_CLASS SerializeClassAttributeImpl : public AttributeImpl
     {
 
     public:
-        typedef void(*serializer_func_type)(dot::tree_writer_base, dot::object);
+        typedef void(*serializer_func_type)(dot::tree_writer_base, dot::Object);
 
         friend SerializeClassAttribute make_serialize_class_attribute(serializer_func_type);
 
-        void serialize(tree_writer_base writer, dot::object obj);
+        void serialize(tree_writer_base writer, dot::Object obj);
 
     public: // REFLECTION
 
@@ -65,19 +65,19 @@ namespace dot
     }
 
 
-    class SerializeFieldAttributeImpl; using SerializeFieldAttribute = ptr<SerializeFieldAttributeImpl>;
+    class SerializeFieldAttributeImpl; using SerializeFieldAttribute = Ptr<SerializeFieldAttributeImpl>;
 
     /// Attribute sets custom serializator for field
-    /// Constructs from method that accepts tree writer base and object
-    class DOT_CLASS SerializeFieldAttributeImpl : public attribute_impl
+    /// Constructs from method that accepts tree writer base and Object
+    class DOT_CLASS SerializeFieldAttributeImpl : public AttributeImpl
     {
 
     public:
-        typedef void(*serializer_func_type)(dot::tree_writer_base, dot::object);
+        typedef void(*serializer_func_type)(dot::tree_writer_base, dot::Object);
 
         friend SerializeFieldAttribute make_serialize_field_attribute(serializer_func_type);
 
-        void serialize(tree_writer_base writer, dot::object obj);
+        void serialize(tree_writer_base writer, dot::Object obj);
 
     public: // REFLECTION
 

@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class record_impl; using record = dot::ptr<record_impl>;
-    class context_base_impl; using context_base = dot::ptr<context_base_impl>;
+    class record_impl; using record = dot::Ptr<record_impl>;
+    class context_base_impl; using context_base = dot::Ptr<context_base_impl>;
 
     /// Record objects must derive from this type.
     class DC_CLASS record_impl : public virtual data_impl
@@ -48,21 +48,21 @@ namespace dc
         temporal_id data_set;
 
         /// Use context to access resources.
-        dot::weak_ptr<context_base_impl> context;
+        dot::WeakPtr<context_base_impl> context;
 
     public: // PROPERTIES
 
-        /// dot::string key consists of semicolon delimited primary key elements:
+        /// dot::String key consists of semicolon delimited primary key elements:
         ///
         /// key_element1;key_element2
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except double.
-        virtual dot::string get_key() = 0;
+        virtual dot::String get_key() = 0;
 
     private: // METHODS
 
-        static void serialize_key(dot::tree_writer_base writer, dot::object obj);
+        static void serialize_key(dot::tree_writer_base writer, dot::Object obj);
 
     public: // METHODS
 
@@ -70,7 +70,7 @@ namespace dc
         /// of class data. Must first invoke base.init(context).
         virtual void init(context_base context);
 
-        dot::string to_string() { return get_key(); }
+        dot::String to_string() { return get_key(); }
 
     public: // REFLECTION
 

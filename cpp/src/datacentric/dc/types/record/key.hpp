@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class key_impl; using key = dot::ptr<key_impl>;
-    class data_impl; using data = dot::ptr<data_impl>;
+    class key_impl; using key = dot::Ptr<key_impl>;
+    class data_impl; using data = dot::Ptr<data_impl>;
 
     /// Base class of a foreign key.
     ///
@@ -45,7 +45,7 @@ namespace dc
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
-        dot::string get_value()
+        dot::String get_value()
         {
             return to_string();
         }
@@ -58,16 +58,16 @@ namespace dc
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
-        dot::string to_string();
+        dot::String to_string();
 
-        /// Populate key elements from semicolon delimited string.
+        /// Populate key elements from semicolon delimited String.
         /// Elements that are themselves keys may use more than
         /// one token.
         ///
         /// If key AKey has two elements, B and C, where
         ///
-        /// * B has type BKey which has two string elements, and
-        /// * C has type string,
+        /// * B has type BKey which has two String elements, and
+        /// * C has type String,
         ///
         /// the semicolon delimited key has the following format:
         ///
@@ -75,20 +75,20 @@ namespace dc
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
-        void populate_from(dot::string value);
+        void populate_from(dot::String value);
 
         temporal_id _id;
 
     private:
 
-        /// Populate key elements from string stream.
+        /// Populate key elements from String stream.
         void populate_from(std::stringstream & value);
 
         /// Custom deserializator for deserialize_attribute for key type.
-        static dot::object deserialize(dot::object value, dot::type type);
+        static dot::Object deserialize(dot::Object value, dot::type type);
 
         /// Custom serializator for serialize_attribute for key type.
-        static void serialize(dot::tree_writer_base writer, dot::object obj);
+        static void serialize(dot::tree_writer_base writer, dot::Object obj);
 
     public: // REFLECTION
 
@@ -100,7 +100,7 @@ namespace dc
             {
                 dot::type t = dot::make_type_builder<self>("dc", "key", { dot::make_deserialize_class_attribute(&key_impl::deserialize)
                     , dot::make_serialize_class_attribute(&key_impl::serialize) })
-                          ->with_method("assign_string", static_cast<void (key_impl::*)(dot::string)>(&key_impl::populate_from), {"value"})
+                          ->with_method("assign_string", static_cast<void (key_impl::*)(dot::String)>(&key_impl::populate_from), {"value"})
                           ->build();
                 return t;
             }();

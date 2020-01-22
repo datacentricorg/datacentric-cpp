@@ -27,7 +27,7 @@ limitations under the License.
 
 namespace dot
 {
-    object filter_token_serialization_attribute_impl::serialize(object obj)
+    Object filter_token_serialization_attribute_impl::serialize(Object obj)
     {
         return serializer_(obj);
     }

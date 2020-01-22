@@ -29,7 +29,7 @@ namespace dot
 {
     namespace detail
     {
-        /// This class is used as base class of string_impl.
+        /// This class is used as base class of StringImpl.
         ///
         /// The objective is to make it possible to pass this class to functions
         /// accepting  std::string. Because C# string is immutable, ConstStringBase

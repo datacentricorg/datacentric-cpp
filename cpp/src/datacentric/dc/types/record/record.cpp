@@ -29,11 +29,11 @@ namespace dc
         // base.init(context);
 
         this->context = context.to_weak();
-        if (context == nullptr) throw dot::exception(
-            dot::string::format("Null context is passed to the init(...) method for {0}.", get_type()->name()));
+        if (context == nullptr) throw dot::Exception(
+            dot::String::format("Null context is passed to the init(...) method for {0}.", get_type()->name()));
     }
 
-    void record_impl::serialize_key(dot::tree_writer_base writer, dot::object obj)
+    void record_impl::serialize_key(dot::tree_writer_base writer, dot::Object obj)
     {
         writer->write_value_element("_key", ((record)obj)->get_key());
     }
@@ -45,7 +45,7 @@ namespace dc
             dot::type t = dot::make_type_builder<record_impl>("dc", "record", { dot::make_bson_root_class_attribute() })
                 ->with_field("_id", &self::id)
                 ->with_field("_dataset", &self::data_set)
-                ->with_field("_key", static_cast<dot::string record_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization)
+                ->with_field("_key", static_cast<dot::String record_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization)
                     , dot::make_serialize_field_attribute(&record_impl::serialize_key) })
                 ->template with_base<data>()
                 ->build();

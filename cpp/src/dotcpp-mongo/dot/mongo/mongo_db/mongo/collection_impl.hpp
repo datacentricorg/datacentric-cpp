@@ -40,8 +40,8 @@ namespace dot
         {
         }
 
-        /// Serialize object and pass it to mongo collection.
-        virtual void insert_one(object obj) override
+        /// Serialize Object and pass it to mongo collection.
+        virtual void insert_one(Object obj) override
         {
             bson_record_serializer serializer = make_bson_record_serializer();
             bson_writer writer = make_bson_writer();
@@ -50,7 +50,7 @@ namespace dot
             collection_.insert_one(writer->view());
         }
 
-        /// Serialize object and pass it to mongo collection.
+        /// Serialize Object and pass it to mongo collection.
         virtual void insert_many(list_base objs) override
         {
             if (!objs->get_length())
@@ -82,20 +82,20 @@ namespace dot
         }
 
         /// Creates an index over the collection for the provided keys with the provided options.
-        virtual void create_index(list<std::tuple<string, int>> indexes, index_options options) override
+        virtual void create_index(list<std::tuple<String, int>> indexes, index_options options) override
         {
             namespace bsonb = bsoncxx::builder::basic;
             bsoncxx::builder::core index_builder(false);
             bsonb::document options_builder;
 
             // Write indexes to bson
-            for (std::tuple<string, int>& index : indexes)
+            for (std::tuple<String, int>& index : indexes)
             {
                 index_builder.key_view(*std::get<0>(index));
                 int order = std::get<1>(index);
                 if (order == 1 || order == -1)
                     index_builder.append(order);
-                else throw exception("Index sort order must be 1 or -1.");
+                else throw Exception("Index sort order must be 1 or -1.");
             }
 
             // Write options to bson
@@ -143,7 +143,7 @@ namespace dot
     {
     }
 
-    void collection_impl::insert_one(object obj)
+    void collection_impl::insert_one(Object obj)
     {
         impl_->insert_one(obj);
     }
@@ -163,7 +163,7 @@ namespace dot
         impl_->delete_many(filter);
     }
 
-    void collection_impl::create_index(list<std::tuple<string, int>> indexes, index_options options)
+    void collection_impl::create_index(list<std::tuple<String, int>> indexes, index_options options)
     {
         impl_->create_index(indexes, options);
     }

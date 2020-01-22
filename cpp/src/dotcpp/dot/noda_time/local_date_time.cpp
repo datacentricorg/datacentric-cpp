@@ -63,7 +63,7 @@ namespace dot
         boost::posix_time::ptime(date, time)
     {}
 
-    LocalDateTime::LocalDateTime(object const& rhs) { *this = rhs.operator LocalDateTime(); }
+    LocalDateTime::LocalDateTime(Object const& rhs) { *this = rhs.operator LocalDateTime(); }
 
     LocalDateTime LocalDateTime::add(const LocalDateTime& local_date_time, const Period& period)
     {
@@ -83,7 +83,7 @@ namespace dot
         return *this == other;
     }
 
-    string LocalDateTime::to_string() const
+    String LocalDateTime::to_string() const
     {
         boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
         facet->format("%Y-%m-%d %H:%M:%S.%f");

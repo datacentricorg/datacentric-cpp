@@ -28,7 +28,7 @@ limitations under the License.
 
 namespace dot
 {
-    class field_info_base_impl; using field_info = ptr<field_info_base_impl>;
+    class field_info_base_impl; using field_info = Ptr<field_info_base_impl>;
 
     /// Discovers the attributes of a field and provides access to field metadata.
     class DOT_CLASS field_info_base_impl : public member_info_impl
@@ -45,13 +45,13 @@ namespace dot
         type field_type() const { return field_type_; }
 
         /// A string representing the name of the current type.
-        virtual string to_string() override { return "field_info"; }
+        virtual String to_string() override { return "field_info"; }
 
-        /// Returns the field value of a specified object.
-        virtual object get_value(object obj) = 0;
+        /// Returns the field value of a specified Object.
+        virtual Object get_value(Object obj) = 0;
 
-        /// Sets the field value of a specified object.
-        virtual void set_value(object obj, object value) = 0;
+        /// Sets the field value of a specified Object.
+        virtual void set_value(Object obj, Object value) = 0;
 
     protected: // CONSTRUCTORS
 
@@ -59,7 +59,7 @@ namespace dot
         /// and base class for the pointer to field.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        field_info_base_impl(string name, type declaring_type, type field_type, list<attribute> custom_attributes)
+        field_info_base_impl(String name, type declaring_type, type field_type, list<Attribute> custom_attributes)
             : member_info_impl(name, declaring_type, custom_attributes)
             , field_type_(field_type)
         {}
@@ -72,7 +72,7 @@ namespace dot
         typedef field_type_t class_::* field_ptr_type;
 
         template <class field_type_, class class__>
-        friend field_info make_field_info(string, type, type, field_type_ class__::*, list<attribute>);
+        friend field_info make_field_info(String, type, type, field_type_ class__::*, list<Attribute>);
 
     public: // FIELDS
 
@@ -86,30 +86,30 @@ namespace dot
         ///
         /// This constructor is private. Use make_field_info(...)
         /// function with matching signature instead.
-        field_info_impl(string name, type declaring_type, type field_type, field_ptr_type field, list<attribute> custom_attributes)
+        field_info_impl(String name, type declaring_type, type field_type, field_ptr_type field, list<Attribute> custom_attributes)
             : field_info_base_impl(name, declaring_type, field_type, custom_attributes)
             , field_(field)
         {}
 
     private: // METHODS
 
-        /// Returns the field value of a specified object.
-        virtual object get_value(object obj) override
+        /// Returns the field value of a specified Object.
+        virtual Object get_value(Object obj) override
         {
-            return (*ptr<class_>(obj)).*field_;
+            return (*Ptr<class_>(obj)).*field_;
         }
 
-        /// Sets the field value of a specified object.
-        virtual void set_value(object obj, object value) override
+        /// Sets the field value of a specified Object.
+        virtual void set_value(Object obj, Object value) override
         {
-            (*ptr<class_>(obj)).*field_ = (field_type_t)value;
+            (*Ptr<class_>(obj)).*field_ = (field_type_t)value;
         }
     };
 
     /// Create from field name, declaring type, field type,
     /// and pointer to field defined as a field (member variable).
     template <class field_type_t, class class_>
-    field_info make_field_info(string name, type declaring_type, type field_type, field_type_t class_::* field, list<attribute> custom_attributes)
+    field_info make_field_info(String name, type declaring_type, type field_type, field_type_t class_::* field, list<Attribute> custom_attributes)
     {
         return new field_info_impl<field_type_t, class_>(name, declaring_type, field_type, field, custom_attributes);
     }

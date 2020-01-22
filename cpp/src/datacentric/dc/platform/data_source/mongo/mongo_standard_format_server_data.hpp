@@ -23,10 +23,10 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_standard_format_server_data_impl; using mongo_standard_format_server_data = dot::ptr<mongo_standard_format_server_data_impl>;
+    class mongo_standard_format_server_data_impl; using mongo_standard_format_server_data = dot::Ptr<mongo_standard_format_server_data_impl>;
 
     /// Assembles MongoDB URI using the standard (``mongodb'') connection
-    /// string format for a single server or a cluster.
+    /// String format for a single server or a cluster.
     class DC_CLASS mongo_standard_format_server_data_impl final : public mongo_server_data_impl
     {
         typedef mongo_standard_format_server_data_impl self;
@@ -36,11 +36,11 @@ namespace dc
         /// MongoDB server hostname or the list of MongoDB cluster
         /// hostnames with optional port in ``host'' or ``host::port''
         /// format.
-        dot::list<dot::string> hosts;
+        dot::list<dot::String> hosts;
 
     public: // METHODS
 
         /// Get Mongo server URI without database name.
-        dot::string get_mongo_server_uri() override;
+        dot::String get_mongo_server_uri() override;
     };
 }

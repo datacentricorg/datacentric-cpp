@@ -24,14 +24,14 @@ limitations under the License.
 
 namespace dc
 {
-    class data_impl; using data = dot::ptr<data_impl>;
-    class key_impl; using key = dot::ptr<key_impl>;
+    class data_impl; using data = dot::Ptr<data_impl>;
+    class key_impl; using key = dot::Ptr<key_impl>;
 
     /// Data objects must derive from this type.
-    class DC_CLASS data_impl : public virtual dot::object_impl
+    class DC_CLASS data_impl : public virtual dot::ObjectImpl
     {
         typedef data_impl self;
-        typedef dot::string t_type;
+        typedef dot::String t_type;
 
     public: // METHODS
 

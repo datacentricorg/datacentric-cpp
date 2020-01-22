@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class data_set_key_impl; using data_set_key = dot::ptr<data_set_key_impl>;
-    class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
+    class data_set_key_impl; using data_set_key = dot::Ptr<data_set_key_impl>;
+    class data_set_data_impl; using data_set_data = dot::Ptr<data_set_data_impl>;
 
     inline data_set_data make_data_set_data();
 
@@ -44,7 +44,7 @@ namespace dc
         temporal_id data_set;
 
         /// Unique dataset identifier.
-        dot::string data_set_id;
+        dot::String data_set_id;
 
         /// Set context and perform initialization or validation of object data.
         ///

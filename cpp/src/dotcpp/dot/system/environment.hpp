@@ -30,17 +30,17 @@ limitations under the License.
 namespace dot
 {
     /// Provides information about, and means to manipulate, the current environment and platform.
-    class DOT_CLASS environment final
+    class DOT_CLASS Environment final
     {
     private: // CONSTRUCTORS
 
-        environment() = delete;
-        environment(const environment&) = delete;
-        environment& operator=(const environment&) = delete;
+        Environment() = delete;
+        Environment(const Environment&) = delete;
+        Environment& operator=(const Environment&) = delete;
 
     public: // STATIC
 
-        /// Gets the newline string defined for this environment.
-        static string make_line;
+        /// Gets the newline String defined for this environment.
+        static String make_line;
     };
 }

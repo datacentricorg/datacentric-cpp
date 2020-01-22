@@ -36,25 +36,25 @@ namespace dc
     }
 
     unit_test_context make_unit_test_context(
-        dot::object class_instance,
-        dot::string method_name,
-        dot::string source_file_path)
+        dot::Object class_instance,
+        dot::String method_name,
+        dot::String source_file_path)
     {
         unit_test_context obj = new unit_test_context_impl;
 
-        //if (method_name == nullptr) throw dot::exception("Method name passed to unit_test_context is null.");
-        //if (source_file_path == nullptr) throw dot::exception("Source file path passed to unit_test_context is null.");
+        //if (method_name == nullptr) throw dot::Exception("Method name passed to unit_test_context is null.");
+        //if (source_file_path == nullptr) throw dot::Exception("Source file path passed to unit_test_context is null.");
 
         // Test class path is the path to source file followed by
         // subfolder whose name is source file name without extension
-        //if (!source_file_path->ends_with(".cs")) throw dot::exception(dot::string::format("Source file path '{0}' does not end with '.cs'", source_file_path));
-        //dot::string test_class_path = source_file_path->substring(0, source_file_path->size() - 3);
+        //if (!source_file_path->ends_with(".cs")) throw dot::Exception(dot::String::format("Source file path '{0}' does not end with '.cs'", source_file_path));
+        //dot::String test_class_path = source_file_path->substring(0, source_file_path->size() - 3);
 
         // Create and initialize data source with test instance type.
         //
         // This does not create the database until the data source
         // is actually used to access data.
-        dot::string mapped_class_name = class_instance->get_type()->name();
+        dot::String mapped_class_name = class_instance->get_type()->name();
 
         data_source_data data_source = new mongo_data_source_data_impl();
         obj->data_source = data_source;

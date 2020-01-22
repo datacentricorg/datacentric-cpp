@@ -31,7 +31,7 @@ namespace dot
 {
     TEST_CASE("smoke")
     {
-        dot::nullable<double> x;
+        dot::Nullable<double> x;
         REQUIRE(x.has_value() == false);
     }
 }

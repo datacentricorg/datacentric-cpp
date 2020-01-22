@@ -31,10 +31,10 @@ namespace dot
     TEST_CASE("format")
     {
         int x = 1;
-        string s = "{1}";
-        console::write_line("{0}, {1}", x, "str");
-        console::write_line(string("{0}"));
-        console::write_line(s);
-        console::write_line(2);
+        String s = "{1}";
+        Console::write_line("{0}, {1}", x, "str");
+        Console::write_line(String("{0}"));
+        Console::write_line(s);
+        Console::write_line(2);
     }
 }

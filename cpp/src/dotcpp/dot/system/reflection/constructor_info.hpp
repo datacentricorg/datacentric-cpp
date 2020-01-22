@@ -29,8 +29,8 @@ limitations under the License.
 
 namespace dot
 {
-    class constructor_info_impl; using constructor_info = ptr<constructor_info_impl>;
-    class type_impl; using type = ptr<type_impl>;
+    class constructor_info_impl; using constructor_info = Ptr<constructor_info_impl>;
+    class type_impl; using type = Ptr<type_impl>;
 
     /// Obtains information about the attributes of a constructor and provides access to constructor metadata.
     class constructor_info_impl : public member_info_impl
@@ -39,14 +39,14 @@ namespace dot
 
     public: // METHODS
 
-        /// A string representing the name of the current type.
-        inline virtual string to_string() override;
+        /// A String representing the name of the current type.
+        inline virtual String to_string() override;
 
         /// Gets the parameters of this constructor.
         inline virtual list<parameter_info> get_parameters();
 
         /// Invokes specified constructor with given parameters.
-        virtual object invoke(list<object>) = 0;
+        virtual Object invoke(list<Object>) = 0;
 
     protected: // CONSTRUCTORS
 
@@ -55,7 +55,7 @@ namespace dot
         /// Create from declaring type
         ///
         /// This constructor is protected. It is used by derived classes only.
-        inline constructor_info_impl(type declaring_type, list<attribute> custom_attributes);
+        inline constructor_info_impl(type declaring_type, list<Attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a constructor and provides access to constructor metadata.
@@ -72,15 +72,15 @@ namespace dot
 
     public: // METHODS
 
-        /// A string representing the name of the current type.
-        inline virtual string to_string() override;
+        /// A String representing the name of the current type.
+        inline virtual String to_string() override;
 
         /// Invokes the constructor reflected by this constructor_info instance.
         template <int ... I>
-        inline object invoke_impl(list<object> params, detail::IndexSequence<I...>);
+        inline Object invoke_impl(list<Object> params, detail::IndexSequence<I...>);
 
         /// Invokes the constructor reflected by this constructor_info instance.
-        inline virtual object invoke(list<object> params);
+        inline virtual Object invoke(list<Object> params);
 
     private: // CONSTRUCTORS
 
@@ -88,6 +88,6 @@ namespace dot
         ///
         /// This constructor is private. Use make_constructor_info(...)
         /// function with matching signature instead.
-        inline member_constructor_info_impl(type declaring_type, ctor_type p, list<attribute> custom_attributes);
+        inline member_constructor_info_impl(type declaring_type, ctor_type p, list<Attribute> custom_attributes);
     };
 }

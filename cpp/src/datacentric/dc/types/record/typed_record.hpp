@@ -21,10 +21,10 @@ limitations under the License.
 
 namespace dc
 {
-    class record_impl; using record = dot::ptr<record_impl>;
+    class record_impl; using record = dot::Ptr<record_impl>;
 
     template <typename TKey, typename TRecord> class typed_record_impl;
-    template <typename TKey, typename TRecord> using typed_record = dot::ptr<typed_record_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> using typed_record = dot::Ptr<typed_record_impl<TKey, TRecord>>;
 
     /// Base class of records stored in data source.
     template <typename TKey, typename TRecord>
@@ -40,9 +40,9 @@ namespace dc
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except Double.
-        dot::string get_key() override
+        dot::String get_key() override
         {
-            dot::list<dot::field_info> props =  dot::typeof<dot::ptr<TKey>>()->get_fields();
+            dot::list<dot::field_info> props =  dot::typeof<dot::Ptr<TKey>>()->get_fields();
             dot::type type_ = get_type();
 
             std::stringstream ss;
@@ -53,7 +53,7 @@ namespace dc
 
                 dot::field_info prop = type_->get_field(key_prop->name());
 
-                dot::object value = prop->get_value(this);
+                dot::Object value = prop->get_value(this);
 
                 if (i) ss << separator;
 
@@ -65,7 +65,7 @@ namespace dc
                 {
                     if (prop->field_type()->is_subclass_of(dot::typeof<key>()))
                     {
-                        dot::object empty_key = dot::activator::create_instance(prop->field_type());
+                        dot::Object empty_key = dot::activator::create_instance(prop->field_type());
                         ss << *empty_key->to_string();
                     }
                 }
@@ -84,13 +84,13 @@ namespace dc
         /// dataset for which the current dataset is a parent.
         ///
         /// The purpose of caching is to increase the speed of repeated loading, and
-        /// to bypass saving the object to the data store and reading it back when
+        /// to bypass saving the Object to the data store and reading it back when
         /// record A has property that is a key for record B, and both records are
         /// created in-memory without any need to save them to storage.
-        dot::ptr<TKey> to_key()
+        dot::Ptr<TKey> to_key()
         {
-            dot::type key_type = dot::typeof<dot::ptr<TKey>>();
-            dot::ptr<TKey> result = (dot::ptr<TKey>)dot::activator::create_instance(key_type);
+            dot::type key_type = dot::typeof<dot::Ptr<TKey>>();
+            dot::Ptr<TKey> result = (dot::Ptr<TKey>)dot::activator::create_instance(key_type);
 
             // The cached value will be used only for lookup in the dataset
             // passed to this method, but not for lookup in another dataset
@@ -102,15 +102,15 @@ namespace dc
 
         /// This conversion operator creates a new key from record and then caches itself
         ///
-        /// The purpose of this operator is to bypass saving the object to the data store
+        /// The purpose of this operator is to bypass saving the Object to the data store
         /// and reading it back when record A has property that is a key for record B,
         /// and both records are created in-memory without any need to save them to storage.
-        operator dot::ptr<TKey>() { return to_key(); }
+        operator dot::Ptr<TKey>() { return to_key(); }
 
         DOT_TYPE_BEGIN("dc", "typed_record")
             DOT_TYPE_BASE(record)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
+            DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TKey>)
+            DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TRecord>)
         DOT_TYPE_END()
     };
 }

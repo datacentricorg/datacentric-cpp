@@ -28,12 +28,12 @@ limitations under the License.
 
 namespace dot
 {
-    template <class T> class list_impl; template <class T> using list = ptr<list_impl<T>>;
-    class type_builder_impl; using type_builder = ptr<type_builder_impl>;
+    template <class T> class list_impl; template <class T> using list = Ptr<list_impl<T>>;
+    class type_builder_impl; using type_builder = Ptr<type_builder_impl>;
 
     /// Represents a strongly typed collection of objects that can be accessed by index.
     template <class T>
-    class list_impl : public virtual object_impl, public std::vector<T>, public list_base_impl
+    class list_impl : public virtual ObjectImpl, public std::vector<T>, public list_base_impl
     {
         template <class R> friend list<R> make_list();
         template <class R> friend list<R> make_list(const std::vector<R> & obj);
@@ -79,7 +79,7 @@ namespace dot
         /// Set total number of elements the internal data structure can hold without resizing.
         void set_capacity(int value) { this->reserve(value); }
 
-        /// Adds an object to the end of the list.
+        /// Adds an Object to the end of the list.
         void add(const T& item) { this->push_back(item); }
 
         /// Determines whether an element is in the list.
@@ -100,7 +100,7 @@ namespace dot
             this->insert(this->end(), collection->begin(), collection->end());
         }
 
-        /// Removes the first occurrence of a specific object from the list.
+        /// Removes the first occurrence of a specific Object from the list.
         bool remove(const T& item)
         {
             auto iter = std::find(this->begin(), this->end(), item);
@@ -114,14 +114,14 @@ namespace dot
 
     public: // VIRTUAL METHODS
 
-        /// Get object from collection by index.
-        virtual object get_item(int index) override
+        /// Get Object from collection by index.
+        virtual Object get_item(int index) override
         {
             return this->operator[](index);
         }
 
-        /// Set object from collection by index.
-        virtual void set_item(int index, object value) override
+        /// Set Object from collection by index.
+        virtual void set_item(int index, Object value) override
         {
             this->operator[](index) = (T)value;
         }
@@ -132,8 +132,8 @@ namespace dot
             return this->size();
         }
 
-        /// Add object to end of collection.
-        virtual void add_object(object item) override
+        /// Add Object to end of collection.
+        virtual void add_object(Object item) override
         {
             add((T)item);
         }

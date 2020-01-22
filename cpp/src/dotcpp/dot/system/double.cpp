@@ -29,39 +29,39 @@ limitations under the License.
 
 namespace dot
 {
-    bool double_impl::equals(object obj)
+    bool DoubleImpl::equals(Object obj)
     {
         if (this == &(*obj)) return true;
 
-        if (obj.is<ptr<double_impl>>())
+        if (obj.is<Ptr<DoubleImpl>>())
         {
-            return value_ == obj.as<ptr<double_impl>>()->value_;
+            return value_ == obj.as<Ptr<DoubleImpl>>()->value_;
         }
 
         return false;
     }
 
-    size_t double_impl::hash_code()
+    size_t DoubleImpl::hash_code()
     {
         return std::hash<double>()(value_);
     }
 
-    string double_impl::to_string()
+    String DoubleImpl::to_string()
     {
         return std::to_string(value_);
     }
 
-    type double_impl::typeof()
+    type DoubleImpl::typeof()
     {
         return dot::typeof<double>();
     }
 
-    type double_impl::get_type()
+    type DoubleImpl::get_type()
     {
         return typeof();
     }
 
-    double double_impl::parse(string s)
+    double DoubleImpl::parse(String s)
     {
         return std::stod(*s);
     }

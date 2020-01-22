@@ -33,19 +33,19 @@ limitations under the License.
 
 namespace dot
 {
-    object activator::create_instance(type t)
+    Object activator::create_instance(type t)
     {
         return create_instance(t, nullptr);
     }
 
-    object activator::create_instance(type t, list<object> params)
+    Object activator::create_instance(type t, list<Object> params)
     {
         list<constructor_info> ctors = t->get_constructors();
 
         // If no constructors
         if (ctors.is_empty() || ctors->count() == 0)
         {
-            throw exception(string::format("Type {0}::{1} does not have registered constructors", t->name_space(), t->name()));
+            throw Exception(String::format("Type {0}::{1} does not have registered constructors", t->name_space(), t->name()));
         }
 
         // Search for best matched constructor
@@ -68,7 +68,7 @@ namespace dot
             // Compare all parameters types
             for (int i = 0; i < params_count; ++i)
             {
-                if ((string)ctor_params[i]->parameter_type()->name() != params[i]->get_type()->name())
+                if ((String)ctor_params[i]->parameter_type()->name() != params[i]->get_type()->name())
                 {
                     matches = false;
                     break;
@@ -86,18 +86,18 @@ namespace dot
         // If not found
         if (best_ctor == nullptr)
         {
-            throw exception("No matching public constructor was found.");
+            throw Exception("No matching public constructor was found.");
         }
 
         return best_ctor->invoke(params);
     }
 
-    object activator::create_instance(string assembly_name, string type_name)
+    Object activator::create_instance(String assembly_name, String type_name)
     {
         return create_instance(type_impl::get_type_of(type_name), nullptr);
     }
 
-    object activator::create_instance(string assembly_name, string type_name, list<object> params)
+    Object activator::create_instance(String assembly_name, String type_name, list<Object> params)
     {
         return create_instance(type_impl::get_type_of(type_name), params);
     }

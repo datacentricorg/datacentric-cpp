@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class db_server_key_impl; using db_server_key = dot::ptr<db_server_key_impl>;
-    class db_server_data_impl; using db_server_data = dot::ptr<db_server_data_impl>;
+    class db_server_key_impl; using db_server_key = dot::Ptr<db_server_key_impl>;
+    class db_server_data_impl; using db_server_data = dot::Ptr<db_server_data_impl>;
 
     inline db_server_key make_db_server_key();
 
@@ -40,7 +40,7 @@ namespace dc
         ///
         /// Server URI specified here must refer to the entire server, not
         /// an individual database.
-        dot::string db_server_uri;
+        dot::String db_server_uri;
 
     public: // STATIC
 
@@ -52,8 +52,8 @@ namespace dc
         /// Default constructor.
         db_server_key_impl() = default;
 
-        /// Keys in which string id is the only element support implicit conversion from value.
-        db_server_key_impl(dot::string value);
+        /// Keys in which String id is the only element support implicit conversion from value.
+        db_server_key_impl(dot::String value);
 
         DOT_TYPE_BEGIN("dc", "db_server_key")
             DOT_TYPE_PROP(db_server_uri)

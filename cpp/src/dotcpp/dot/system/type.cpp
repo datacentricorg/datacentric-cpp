@@ -32,7 +32,7 @@ limitations under the License.
 
 namespace dot
 {
-    type_builder_impl::type_builder_impl(string name_space, string name, string cpp_name)
+    type_builder_impl::type_builder_impl(String name_space, String name, String cpp_name)
         : full_name_(name_space + "." + name)
     {
         type_ = new type_impl(name_space, name);
@@ -203,16 +203,16 @@ namespace dot
 
         if (!data->custom_attributes_.is_empty())
         {
-            this->custom_attributes_ = make_list<attribute>(data->custom_attributes_->count());
+            this->custom_attributes_ = make_list<Attribute>(data->custom_attributes_->count());
             int i = 0;
-            for (attribute arg : data->custom_attributes_)
+            for (Attribute arg : data->custom_attributes_)
             {
                 this->custom_attributes_[i++] = arg;
             }
         }
         else
         {
-            this->custom_attributes_ = make_list<attribute>(0);
+            this->custom_attributes_ = make_list<Attribute>(0);
         }
 
         this->base_ = data->base_;
@@ -220,29 +220,29 @@ namespace dot
         this->is_enum_ = data->is_enum_;
     }
 
-    type_impl::type_impl(string nspace, string name)
+    type_impl::type_impl(String nspace, String name)
         : name_space_(nspace)
         , name_(name)
     {}
 
-    list<attribute> type_impl::get_custom_attributes(bool inherit)
+    list<Attribute> type_impl::get_custom_attributes(bool inherit)
     {
         if (!inherit)
         {
             return custom_attributes_;
         }
 
-        list<attribute> ret;
+        list<Attribute> ret;
         if (base_.is_empty())
         {
-            ret = make_list<attribute>();
+            ret = make_list<Attribute>();
         }
         else
         {
             ret = base_->get_custom_attributes(true);
         }
 
-        for (attribute item : custom_attributes_)
+        for (Attribute item : custom_attributes_)
         {
             ret->add(item);
         }
@@ -250,11 +250,11 @@ namespace dot
         return ret;
     }
 
-    list<attribute> type_impl::get_custom_attributes(type attribute_type, bool inherit)
+    list<Attribute> type_impl::get_custom_attributes(type attribute_type, bool inherit)
     {
-        list<attribute> ret = make_list<attribute>();
+        list<Attribute> ret = make_list<Attribute>();
 
-        for (attribute item : get_custom_attributes(inherit))
+        for (Attribute item : get_custom_attributes(inherit))
         {
             if (item->get_type()->equals(attribute_type))
                 ret->add(item);
@@ -262,7 +262,7 @@ namespace dot
         return ret;
     }
 
-    method_info type_impl::get_method(string name)
+    method_info type_impl::get_method(String name)
     {
         if (methods_.is_empty()) return nullptr;
 
@@ -275,7 +275,7 @@ namespace dot
         return nullptr;
     }
 
-    type type_impl::get_interface(string name)
+    type type_impl::get_interface(String name)
     {
         if (interfaces_.is_empty()) return nullptr;
 
@@ -288,7 +288,7 @@ namespace dot
         return nullptr;
     }
 
-    field_info type_impl::get_field(string name)
+    field_info type_impl::get_field(String name)
     {
         if (fields_.is_empty()) return nullptr;
 
@@ -337,7 +337,7 @@ namespace dot
         return false;
     }
 
-    bool type_impl::equals(object obj)
+    bool type_impl::equals(Object obj)
     {
         if (obj.is<type>())
             return this->full_name() == ((type)obj)->full_name();
@@ -350,10 +350,10 @@ namespace dot
         return this->full_name()->hash_code();
     }
 
-    list<attribute> member_info_impl::get_custom_attributes(dot::type attr_type, bool)
+    list<Attribute> member_info_impl::get_custom_attributes(dot::type attr_type, bool)
     {
-        list<attribute> attrs = dot::make_list<attribute>();
-        for (attribute item : custom_attributes_)
+        list<Attribute> attrs = dot::make_list<Attribute>();
+        for (Attribute item : custom_attributes_)
         {
             if (item->get_type()->equals(attr_type))
             {

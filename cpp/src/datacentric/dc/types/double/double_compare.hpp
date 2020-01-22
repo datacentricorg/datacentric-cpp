@@ -28,30 +28,30 @@ namespace dc
 
         /// Function equal(double) using tolerance-based comparison.
         /// Treats values that differ by less than double.tolerance as equal.
-        static bool equal(double lhs, double rhs) { return lhs >= rhs - dot::double_impl::tolerance && lhs <= rhs + dot::double_impl::tolerance; }
+        static bool equal(double lhs, double rhs) { return lhs >= rhs - dot::DoubleImpl::tolerance && lhs <= rhs + dot::DoubleImpl::tolerance; }
 
         /// Return $lhs > rhs$ using tolerance-based comparison.
         /// Treats values that differ by less than double.tolerance as equal.
-        static bool more(double lhs, double rhs) { return lhs > rhs + dot::double_impl::tolerance; }
+        static bool more(double lhs, double rhs) { return lhs > rhs + dot::DoubleImpl::tolerance; }
 
         /// Return $lhs >= rhs$ using tolerance-based comparison.
         /// Treats values that differ by less than double.tolerance as equal.
-        static bool more_or_equal(double lhs, double rhs) { return lhs >= rhs - dot::double_impl::tolerance; }
+        static bool more_or_equal(double lhs, double rhs) { return lhs >= rhs - dot::DoubleImpl::tolerance; }
 
         /// Return $lhs \lt rhs$ using tolerance-based comparison.
         /// Treats values that differ by less than double.tolerance as equal.
-        static bool less(double lhs, double rhs) { return lhs < rhs - dot::double_impl::tolerance; }
+        static bool less(double lhs, double rhs) { return lhs < rhs - dot::DoubleImpl::tolerance; }
 
         /// Return $lhs \le rhs$ using tolerance-based comparison.
         /// Treats values that differ by less than double.tolerance as equal.
-        static bool less_or_equal(double lhs, double rhs) { return lhs <= rhs + dot::double_impl::tolerance; }
+        static bool less_or_equal(double lhs, double rhs) { return lhs <= rhs + dot::DoubleImpl::tolerance; }
 
         /// Returns $1$ for $x \gt y$, $-1$ for $x \lt y$, and $0$ for $x==y$.
         /// Treats values that differ by less than double.tolerance as equal.
         static int compare(double x, double y)
         {
-            if (x > y + dot::double_impl::tolerance) return 1;
-            else if (x < y - dot::double_impl::tolerance) return -1;
+            if (x > y + dot::DoubleImpl::tolerance) return 1;
+            else if (x < y - dot::DoubleImpl::tolerance) return -1;
             else return 0;
         }
     };

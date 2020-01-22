@@ -30,11 +30,11 @@ limitations under the License.
 
 namespace dot
 {
-    /// enum_base wrapper for use in data structures.
+    /// EnumBase wrapper for use in data structures.
     /// Provides the base class for enumerations.
-    class DOT_CLASS enum_base
+    class DOT_CLASS EnumBase
     {
-        typedef enum_base self;
+        typedef EnumBase self;
 
     public:
         typedef self element_type;
@@ -46,51 +46,51 @@ namespace dot
     public: // CONSTRUCTORS
 
         /// Default constructor.
-        enum_base() = default;
+        EnumBase() = default;
 
         /// Create from int.
-        enum_base(int value) : value_(value) {}
+        EnumBase(int value) : value_(value) {}
 
         /// Copy constructor.
-        enum_base(const enum_base& rhs) : value_(rhs.value_) {}
+        EnumBase(const EnumBase& rhs) : value_(rhs.value_) {}
 
-        /// Constructor from object.
-        enum_base(object rhs)
+        /// Constructor from Object.
+        EnumBase(Object rhs)
         {
-            value_ = dynamic_cast<enum_base&>(*rhs).value_;
+            value_ = dynamic_cast<EnumBase&>(*rhs).value_;
         }
 
     public: // METHODS
 
-        /// Converts the value of this instance to its equivalent string representation.
-        string to_string();
+        /// Converts the value of this instance to its equivalent String representation.
+        String to_string();
 
         /// Returns the hash code for the value of this instance.
         size_t hash_code();
 
-        /// Returns a value indicating whether this instance is equal to a specified object.
-        bool equals(object obj);
+        /// Returns a value indicating whether this instance is equal to a specified Object.
+        bool equals(Object obj);
 
     public: // STATIC
 
-        /// Converts the string representation of the name or numeric value of
-        /// one or more enumerated constants to an equivalent enumerated object.
-        static object parse(type enum_type, string value);
+        /// Converts the String representation of the name or numeric value of
+        /// one or more enumerated constants to an equivalent enumerated Object.
+        static Object parse(type enum_type, String value);
 
     protected: // PROTECTED
 
-        virtual dictionary<string, int> get_enum_map() = 0;
+        virtual dictionary<String, int> get_enum_map() = 0;
 
     public: // OPERATORS
 
         /// Convert to int.
         operator int() const { return value_; }
 
-        /// Assign int to enum_base.
-        enum_base& operator=(int rhs) { value_ = rhs; return *this; }
+        /// Assign int to EnumBase.
+        EnumBase& operator=(int rhs) { value_ = rhs; return *this; }
 
         /// Copy assign.
-        enum_base& operator=(const enum_base& rhs) { value_ = rhs.value_; return *this; }
+        EnumBase& operator=(const EnumBase& rhs) { value_ = rhs.value_; return *this; }
 
     public:
 

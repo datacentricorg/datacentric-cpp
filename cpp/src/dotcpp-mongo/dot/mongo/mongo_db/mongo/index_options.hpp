@@ -29,10 +29,10 @@ limitations under the License.
 
 namespace dot
 {
-    class index_options_impl; using index_options = ptr<index_options_impl>;
+    class index_options_impl; using index_options = Ptr<index_options_impl>;
 
     /// Options for creating an index.
-    class DOT_MONGO_CLASS index_options_impl : public object_impl
+    class DOT_MONGO_CLASS index_options_impl : public ObjectImpl
     {
         friend index_options make_index_options();
 
@@ -42,19 +42,19 @@ namespace dot
 
     public: // FIELDS
 
-        nullable<bool> unique;
-        nullable<int> text_index_version;
-        nullable<int> sphere_index_version;
-        nullable<bool> sparse;
-        string name;
-        nullable<double> min;
-        nullable<double> max;
-        string language_override;
-        string default_language;
-        nullable<double> bucket_size;
-        nullable<int> bits;
-        nullable<bool> background;
-        nullable<int> version;
+        Nullable<bool> unique;
+        Nullable<int> text_index_version;
+        Nullable<int> sphere_index_version;
+        Nullable<bool> sparse;
+        String name;
+        Nullable<double> min;
+        Nullable<double> max;
+        String language_override;
+        String default_language;
+        Nullable<double> bucket_size;
+        Nullable<int> bits;
+        Nullable<bool> background;
+        Nullable<int> version;
     };
 
     inline index_options make_index_options() { return new index_options_impl(); }

@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class data_set_detail_key_impl; using data_set_detail_key = dot::ptr<data_set_detail_key_impl>;
-    class data_set_detail_data_impl; using data_set_detail_data = dot::ptr<data_set_detail_data_impl>;
+    class data_set_detail_key_impl; using data_set_detail_key = dot::Ptr<data_set_detail_key_impl>;
+    class data_set_detail_data_impl; using data_set_detail_data = dot::Ptr<data_set_detail_data_impl>;
 
     inline data_set_detail_data make_data_set_detail_data();
 
@@ -53,7 +53,7 @@ namespace dc
         /// If specified, write operations to the referenced dataset
         /// will result in an error.
         /// </summary>
-        dot::nullable<bool> read_only;
+        dot::Nullable<bool> read_only;
 
         /// Records with TemporalId that is greater than or equal to CutoffTime
         /// will be ignored by load methods and queries, and the latest available
@@ -65,7 +65,7 @@ namespace dc
         /// CutoffTime may be set in data source globally, or for a specific dataset
         /// in its details record. If CutoffTime is set for both, the earlier of the
         /// two values will be used.
-        dot::nullable<temporal_id> cutoff_time;
+        dot::Nullable<temporal_id> cutoff_time;
 
         /// Imported records (records loaded through the Imports list)
         /// where TemporalId is greater than or equal to CutoffTime
@@ -82,7 +82,7 @@ namespace dc
         ///
         /// If ImportsCutoffTime is set for both data source and dataset,
         /// the earlier of the two values will be used.
-        dot::nullable<temporal_id> imports_cutoff_time;
+        dot::Nullable<temporal_id> imports_cutoff_time;
 
         DOT_TYPE_BEGIN("dc", "data_set_detail_data")
             DOT_TYPE_PROP(data_set_id)

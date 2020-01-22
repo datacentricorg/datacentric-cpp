@@ -27,19 +27,19 @@ limitations under the License.
 
 namespace dot
 {
-    class iterator_inner_base_impl; using iterator_inner_base = ptr<iterator_inner_base_impl>;
+    class iterator_inner_base_impl; using iterator_inner_base = Ptr<iterator_inner_base_impl>;
 
     /// Base class for iterator implementation classes.
     /// Derived iterator class is hidden to cpp.
-    class DOT_MONGO_CLASS iterator_inner_base_impl : public object_impl
+    class DOT_MONGO_CLASS iterator_inner_base_impl : public ObjectImpl
     {
     public:
 
         virtual ~iterator_inner_base_impl() = default;
 
-        virtual object operator*() = 0;
+        virtual Object operator*() = 0;
 
-        virtual object operator*() const = 0;
+        virtual Object operator*() const = 0;
 
         virtual void operator++() = 0;
 
@@ -99,13 +99,13 @@ namespace dot
     /// Represents a pointer to the result set of a query on a MongoDB server.
     ///
     /// @note By default, cursors timeout after 10 minutes of inactivity.
-    class DOT_MONGO_CLASS object_cursor_wrapper_base_impl : public dot::object_impl
+    class DOT_MONGO_CLASS object_cursor_wrapper_base_impl : public dot::ObjectImpl
     {
     public:
 
         virtual ~object_cursor_wrapper_base_impl() = default;
 
-        /// A dot::iterator_wrapper<dot::object> that points to the beginning of any available
+        /// A dot::iterator_wrapper<dot::Object> that points to the beginning of any available
         /// results.  If begin() is called more than once, the dot::iterator_wrapper
         /// returned points to the next remaining result, not the result of
         /// the original call to begin().
@@ -113,20 +113,20 @@ namespace dot
         /// For a tailable cursor, when cursor.begin() == cursor.end(), no
         /// documents are available.  Each call to cursor.begin() checks again
         /// for newly-available documents.
-        virtual iterator_wrappper<dot::object> begin() = 0;
+        virtual iterator_wrappper<dot::Object> begin() = 0;
 
-        /// A dot::iterator_wrapper<dot::object> indicating cursor exhaustion, meaning that
+        /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
-        virtual iterator_wrappper<dot::object> end() = 0;
+        virtual iterator_wrappper<dot::Object> end() = 0;
 
     };
 
-    using object_cursor_wrapper_base = ptr<object_cursor_wrapper_base_impl>;
+    using object_cursor_wrapper_base = Ptr<object_cursor_wrapper_base_impl>;
 
     template <class T>
     class cursor_wrapper_impl;
     template <class T>
-    using cursor_wrapper = ptr<cursor_wrapper_impl<T>>;
+    using cursor_wrapper = Ptr<cursor_wrapper_impl<T>>;
 
     template <class T>
     inline cursor_wrapper<T> make_cursor_wrapper(object_cursor_wrapper_base object_cursor);
@@ -136,14 +136,14 @@ namespace dot
     ///
     /// @note By default, cursors timeout after 10 minutes of inactivity.
     template <class T>
-    class cursor_wrapper_impl : public dot::object_impl
+    class cursor_wrapper_impl : public dot::ObjectImpl
     {
         template <class T_>
         friend cursor_wrapper<T_> make_cursor_wrapper(object_cursor_wrapper_base object_cursor);
 
     public:
 
-        /// A dot::iterator_wrapper<dot::object> that points to the beginning of any available
+        /// A dot::iterator_wrapper<dot::Object> that points to the beginning of any available
         /// results.  If begin() is called more than once, the dot::iterator_wrapper
         /// returned points to the next remaining result, not the result of
         /// the original call to begin().
@@ -156,7 +156,7 @@ namespace dot
             return iterator_wrappper<T>(object_cursor_->begin().iterator_);
         }
 
-        /// A dot::iterator_wrapper<dot::object> indicating cursor exhaustion, meaning that
+        /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
         inline iterator_wrappper<T> end()
         {

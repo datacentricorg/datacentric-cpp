@@ -32,15 +32,15 @@ limitations under the License.
 namespace dot
 {
     class query_impl;
-    using query = dot::ptr<query_impl>;
+    using query = dot::Ptr<query_impl>;
     class mongo_data_source_data_impl;
     template <class class_, class prop>
     struct prop_wrapper;
-    class data_source_data_impl; using data_source_data = dot::ptr<data_source_data_impl>;
+    class data_source_data_impl; using data_source_data = dot::Ptr<data_source_data_impl>;
 
     /// Holds expressions for where, select, and order_by/then_by
     /// parts of a query.
-    class DOT_MONGO_CLASS query_impl : public dot::object_impl
+    class DOT_MONGO_CLASS query_impl : public dot::ObjectImpl
     {
         friend query make_query(dot::collection collection, dot::type type);
         friend mongo_data_source_data_impl;
@@ -194,7 +194,7 @@ namespace dot
 
         /// Base class for query implementation classes.
         /// Derived query impl class is hidden to cpp.
-        class DOT_MONGO_CLASS query_inner_base_impl : public object_impl
+        class DOT_MONGO_CLASS query_inner_base_impl : public ObjectImpl
         {
         public:
 
@@ -217,7 +217,7 @@ namespace dot
             virtual void limit(int32_t limit_size) = 0;
         };
 
-        using query_inner_base = ptr<query_inner_base_impl>;
+        using query_inner_base = Ptr<query_inner_base_impl>;
 
         query_inner_base impl_;
 

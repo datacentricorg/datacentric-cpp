@@ -60,7 +60,7 @@ namespace dot
         {
             if (!sort_.empty())
             {
-                throw dot::exception("Attempt to sort_by while previous sort is not finished. Use then_by instead.");
+                throw dot::Exception("Attempt to sort_by while previous sort is not finished. Use then_by instead.");
             }
 
             sort_.push_back(std::make_pair(key_selector->name(), 1));
@@ -72,7 +72,7 @@ namespace dot
         {
             if (!sort_.empty())
             {
-                throw dot::exception("Attempt to sort_by_descending while previous sort is not finished. Use then_by_descending instead.");
+                throw dot::Exception("Attempt to sort_by_descending while previous sort is not finished. Use then_by_descending instead.");
             }
 
             sort_.push_back(std::make_pair(key_selector->name(), -1));
@@ -96,10 +96,10 @@ namespace dot
             flush_sort();
 
             return new object_cursor_wrapper_impl(dynamic_cast<collection_inner*>(collection_->impl_.get())->collection_.aggregate(pipeline_),
-                [](const bsoncxx::document::view& item)->dot::object
+                [](const bsoncxx::document::view& item)->dot::Object
                 {
                     bson_record_serializer serializer = make_bson_record_serializer();
-                    object record = serializer->deserialize(item);
+                    Object record = serializer->deserialize(item);
 
                     return record;
                 }
@@ -113,16 +113,16 @@ namespace dot
 
             bsoncxx::builder::basic::document selectList{};
             for (dot::field_info prop : props)
-                selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::string) prop->name(), 1));
+                selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::String) prop->name(), 1));
             selectList.append(bsoncxx::builder::basic::kvp("_key", 1));
 
             pipeline_.project(selectList.view());
 
             return new object_cursor_wrapper_impl(dynamic_cast<collection_inner*>(collection_->impl_.get())->collection_.aggregate(pipeline_),
-                [props, element_type](const bsoncxx::document::view& item)->dot::object
+                [props, element_type](const bsoncxx::document::view& item)->dot::Object
                 {
                     bson_record_serializer serializer = make_bson_record_serializer();
-                    dot::object record = serializer->deserialize_tuple(item, props, element_type);
+                    dot::Object record = serializer->deserialize_tuple(item, props, element_type);
                     return record;
                 }
             );
@@ -147,7 +147,7 @@ namespace dot
             {
                 bsoncxx::builder::basic::document sort_doc{};
 
-                for (std::pair<string, int> const& item : sort_)
+                for (std::pair<String, int> const& item : sort_)
                 {
                     sort_doc.append(bsoncxx::builder::basic::kvp(std::string(*(item.first)), item.second));
                 }
@@ -160,7 +160,7 @@ namespace dot
     public:
 
         dot::collection collection_;
-        std::deque<std::pair<string, int>> sort_;
+        std::deque<std::pair<String, int>> sort_;
         dot::type type_;
         dot::type element_type_;
         dot::list<dot::field_info> select_;
@@ -168,7 +168,7 @@ namespace dot
         mongocxx::pipeline pipeline_;
     };
 
-    using query_inner = ptr<query_inner_impl>;
+    using query_inner = Ptr<query_inner_impl>;
 
     query query_impl::where(filter_token_base value)
     {

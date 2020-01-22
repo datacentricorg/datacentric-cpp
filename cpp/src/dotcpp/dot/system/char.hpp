@@ -29,27 +29,27 @@ limitations under the License.
 
 namespace dot
 {
-    /// Wrapper around char to make it convertible to object (boxing).
-    class char_impl : public virtual object_impl
+    /// Wrapper around char to make it convertible to Object (boxing).
+    class CharImpl : public virtual ObjectImpl
     {
-        friend object;
+        friend Object;
         char value_;
 
     public: // CONSTRUCTORS
 
         /// Create from value (box).
-        char_impl(char value) : value_(value) {}
+        CharImpl(char value) : value_(value) {}
 
     public: // METHODS
 
-        /// Returns a value indicating whether this instance is equal to a specified object.
-        bool equals(object obj) override;
+        /// Returns a value indicating whether this instance is equal to a specified Object.
+        bool equals(Object obj) override;
 
         /// Returns the hash code for this instance.
         virtual size_t hash_code() override;
 
-        /// Converts the numeric value of this instance to its equivalent string representation.
-        virtual string to_string() override;
+        /// Converts the numeric value of this instance to its equivalent String representation.
+        virtual String to_string() override;
 
         /// Indicates whether a Unicode character is categorized as white space.
         static bool is_white_space(char c);

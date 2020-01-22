@@ -25,7 +25,7 @@ namespace dc
     {
         typed_record_impl<data_set_key_impl, data_set_data_impl>::init(context);
 
-        if (dot::string::is_null_or_empty(data_set_id)) throw dot::exception("data_set_id has not been set.");
+        if (dot::String::is_null_or_empty(data_set_id)) throw dot::Exception("data_set_id has not been set.");
 
         if (!dot::list<temporal_id>(parents).is_empty())
         for (temporal_id parent : parents)
@@ -34,13 +34,13 @@ namespace dc
             {
                 if (id == parent)
                 {
-                    throw dot::exception(dot::string::format(
+                    throw dot::Exception(dot::String::format(
                         "Dataset {0} has a parent with the same temporal_id={1} "
                         "as its own temporal_id. Each temporal_id must be unique.", data_set_id, parent.to_string()));
                 }
                 else
                 {
-                    throw dot::exception(dot::string::format(
+                    throw dot::Exception(dot::String::format(
                         "Dataset {0} has a parent whose temporal_id={1} is greater "
                         "than its own temporal_id={2}. The temporal_id of each parent must be strictly "
                         "less than the temporal_id of the dataset itself.", data_set_id, parent.to_string(), temporal_id(id).to_string()));

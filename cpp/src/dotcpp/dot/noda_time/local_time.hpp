@@ -29,11 +29,11 @@ limitations under the License.
 
 namespace dot
 {
-    class string;
+    class String;
     class Period;
     class LocalDate;
     class LocalDateTime;
-    class object;
+    class Object;
 
     /// LocalTime is an immutable struct representing a time of day,
     /// with no reference to a particular calendar, time zone or date.
@@ -64,8 +64,8 @@ namespace dot
         /// Create from Boost posix_time.
         LocalTime(const boost::posix_time::ptime& time);
 
-        /// Create from object.
-        LocalTime(object const& rhs);
+        /// Create from Object.
+        LocalTime(Object const& rhs);
 
         /// Copy constructor.
         LocalTime(const LocalTime& other);
@@ -94,8 +94,8 @@ namespace dot
         /// by checking whether the two values represent the exact same local time, down to the tick.
         bool equals(const LocalTime& other) const;
 
-        /// String that represents the current object.
-        string to_string() const;
+        /// String that represents the current Object.
+        String to_string() const;
 
         /// Subtracts the specified time from this time, returning the result as a Period. Fluent alternative to operator-().
         Period minus(const LocalTime& time) const;

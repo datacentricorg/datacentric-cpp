@@ -30,10 +30,10 @@ limitations under the License.
 
 namespace dot
 {
-    class database_impl; using database = ptr<database_impl>;
+    class database_impl; using database = Ptr<database_impl>;
 
     /// Class representing a MongoDB database.
-    class DOT_MONGO_CLASS database_impl : public object_impl
+    class DOT_MONGO_CLASS database_impl : public ObjectImpl
     {
     private:
 
@@ -52,13 +52,13 @@ namespace dot
         protected:
 
             /// Returns the collection with given name.
-            virtual collection get_collection(dot::string name) = 0;
+            virtual collection get_collection(dot::String name) = 0;
         };
 
     public:
 
         /// Returns the collection with given name.
-        collection get_collection(dot::string name);
+        collection get_collection(dot::String name);
 
     private:
 

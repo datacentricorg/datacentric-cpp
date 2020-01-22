@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class deleted_record_impl; using deleted_record = dot::ptr<deleted_record_impl>;
+    class deleted_record_impl; using deleted_record = dot::Ptr<deleted_record_impl>;
 
     inline deleted_record make_deleted_record(key key);
     inline deleted_record make_deleted_record();
@@ -38,15 +38,15 @@ namespace dc
 
     public: // PROPERTIES
 
-        /// dot::string key consists of semicolon delimited primary key elements:
+        /// dot::String key consists of semicolon delimited primary key elements:
         ///
         /// key_element1;key_element2
         ///
         /// To avoid serialization format uncertainty, key elements
         /// can have any atomic type except double.
-        virtual dot::string get_key();
+        virtual dot::String get_key();
 
-        dot::string key_;
+        dot::String key_;
 
     private: // CONSTRUCTORS
 

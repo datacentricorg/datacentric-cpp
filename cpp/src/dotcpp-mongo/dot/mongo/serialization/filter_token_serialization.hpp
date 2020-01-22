@@ -29,12 +29,12 @@ limitations under the License.
 namespace dot
 {
     /// Writes primitive value to bson builder.
-    void append_token(bsoncxx::builder::core& builder, object value)
+    void append_token(bsoncxx::builder::core& builder, Object value)
     {
         dot::type value_type = value->get_type();
 
         // Convert value to supported type
-        list<attribute> value_attributes = value_type->get_custom_attributes(dot::typeof<filter_token_serialization_attribute>(), true);
+        list<Attribute> value_attributes = value_type->get_custom_attributes(dot::typeof<filter_token_serialization_attribute>(), true);
         if (value_attributes->count())
         {
              value = ((filter_token_serialization_attribute) value_attributes[0])->serialize(value);
@@ -42,8 +42,8 @@ namespace dot
         }
 
         // Write value to bson
-        if (value_type->equals(dot::typeof<dot::string>()))
-            builder.append(*(dot::string)value);
+        if (value_type->equals(dot::typeof<dot::String>()))
+            builder.append(*(dot::String)value);
         else
         if (value_type->equals(dot::typeof<double>())) // ? TODO check dot::typeof<Double>() dot::typeof<NullableDouble>()
             builder.append((double)value);
@@ -86,13 +86,13 @@ namespace dot
             builder.close_array();
         }
         else
-        if (value.is<dot::byte_array>())
+        if (value.is<dot::ByteArray>())
         {
-            byte_array arr = value.as<byte_array>();
+            ByteArray arr = value.as<ByteArray>();
             builder.append(bson_writer_impl::to_bson_binary(arr));
         }
         else
-            throw dot::exception("Unknown query token");
+            throw dot::Exception("Unknown query token");
     }
 
     /// Returns bson document serialized from filter tokens (and_list, or_list, operator_wrapper).
@@ -143,7 +143,7 @@ namespace dot
 
             return builder.extract_document();
         }
-        else throw dot::exception("Unknown query token");
+        else throw dot::Exception("Unknown query token");
     }
 
 }

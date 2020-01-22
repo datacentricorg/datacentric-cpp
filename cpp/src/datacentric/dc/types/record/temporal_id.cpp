@@ -49,15 +49,15 @@ namespace dc
         bytes_->copy(other_offset_, id.bytes() + oid_other_offset_, oid_other_size_);
     }
 
-    temporal_id::temporal_id(dot::object obj)
+    temporal_id::temporal_id(dot::Object obj)
     {
         bytes_ = ((dot::struct_wrapper<temporal_id>) obj)->bytes_;
     }
 
-    temporal_id::temporal_id(dot::string str)
+    temporal_id::temporal_id(dot::String str)
     {
         if (str->length() != 2 * bytes_size_)
-            throw dot::exception("Passed srting shoud be 32 characters long.");
+            throw dot::Exception("Passed srting shoud be 32 characters long.");
 
         unsigned long long p1 = std::stoull(*str->substring(0, bytes_size_), nullptr, 16);
         unsigned long long p2 = std::stoull(*str->substring(bytes_size_, bytes_size_), nullptr, 16);
@@ -70,15 +70,15 @@ namespace dc
     temporal_id::temporal_id(const char* bytes, std::size_t len)
     {
         if (len != bytes_size_)
-            throw dot::exception("Passed byte array shoud be 16 bytes long.");
+            throw dot::Exception("Passed byte array shoud be 16 bytes long.");
 
         bytes_ = dot::make_byte_array(bytes, len);
     }
 
-    temporal_id::temporal_id(dot::byte_array bytes)
+    temporal_id::temporal_id(dot::ByteArray bytes)
     {
         if (bytes->get_length() != bytes_size_)
-            throw dot::exception("Passed byte array shoud be 16 bytes long.");
+            throw dot::Exception("Passed byte array shoud be 16 bytes long.");
 
         bytes_ = bytes;
     }
@@ -105,14 +105,14 @@ namespace dc
             std::chrono::system_clock::now().time_since_epoch()).count();
         bsoncxx::oid id = bsoncxx::oid();
 
-        dot::byte_array bytes = dot::make_byte_array(bytes_size_);
+        dot::ByteArray bytes = dot::make_byte_array(bytes_size_);
         bytes->copy_value(timestamp_offset_, time_now);
         bytes->copy(other_offset_, id.bytes() + oid_other_offset_, oid_other_size_);
 
         return temporal_id(bytes);
     }
 
-    dot::nullable<temporal_id> temporal_id::min(dot::nullable<temporal_id> lhs, dot::nullable<temporal_id> rhs)
+    dot::Nullable<temporal_id> temporal_id::min(dot::Nullable<temporal_id> lhs, dot::Nullable<temporal_id> rhs)
     {
         if (lhs != nullptr && rhs != nullptr)
         {
@@ -131,12 +131,12 @@ namespace dc
         }
     }
 
-    dot::byte_array temporal_id::to_byte_array()
+    dot::ByteArray temporal_id::to_byte_array()
     {
         return bytes_;
     }
 
-    dot::string temporal_id::to_string() const
+    dot::String temporal_id::to_string() const
     {
         unsigned long long p1, p2;
         p1 = bytes_->to_primitive<unsigned long long>();
@@ -179,40 +179,40 @@ namespace dc
         return bytes_->compare(rhs.bytes_) < 0;
     }
 
-    temporal_id::operator dot::object() const
+    temporal_id::operator dot::Object() const
     {
-        return dot::object(new dot::struct_wrapper_impl<temporal_id>(*this));
+        return dot::Object(new dot::struct_wrapper_impl<temporal_id>(*this));
     }
 
-    void temporal_id::serialize(dot::tree_writer_base writer, dot::object obj)
+    void temporal_id::serialize(dot::tree_writer_base writer, dot::Object obj)
     {
         writer->write_start_value();
         writer->write_value(((temporal_id) obj).to_byte_array());
         writer->write_end_value();
     }
 
-    dot::object temporal_id::deserialize(dot::object value, dot::type type)
+    dot::Object temporal_id::deserialize(dot::Object value, dot::type type)
     {
         dot::type value_type = value->get_type();
 
-        if (value_type->equals(dot::typeof<dot::byte_array>()))
+        if (value_type->equals(dot::typeof<dot::ByteArray>()))
         {
-            dot::byte_array arr = (dot::byte_array) value;
+            dot::ByteArray arr = (dot::ByteArray) value;
             return temporal_id(arr);
         }
         if (value_type->equals(dot::typeof<dot::object_id>()))
         {
             return temporal_id(((dot::object_id) value).oid());
         }
-        if (value_type->equals(dot::typeof<dot::string>()))
+        if (value_type->equals(dot::typeof<dot::String>()))
         {
-            return temporal_id((dot::string) value);
+            return temporal_id((dot::String) value);
         }
 
-        throw dot::exception("Couldn't construct temporal_id from " + value_type->name());
+        throw dot::Exception("Couldn't construct temporal_id from " + value_type->name());
     }
 
-    dot::object temporal_id::serialize_token(dot::object obj)
+    dot::Object temporal_id::serialize_token(dot::Object obj)
     {
         temporal_id tid = (temporal_id) obj;
         return tid.to_byte_array();

@@ -38,15 +38,15 @@ namespace dc
 
     private: // FIELDS
 
-        dot::object value_;
+        dot::Object value_;
 
     public: // CONSTRUCTORS
 
         /// Default constructor.
         variant();
 
-        /// Create from object of supported types, error message if argument type is unsupported.
-        variant(dot::object value);
+        /// Create from Object of supported types, error message if argument type is unsupported.
+        variant(dot::Object value);
 
     public: // PROPERTIES
 
@@ -59,7 +59,7 @@ namespace dc
             dot::type value_type = value_->get_type();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
-            if (value_type->equals(dot::typeof<dot::string>()))        return value_type::string_type;
+            if (value_type->equals(dot::typeof<dot::String>()))        return value_type::string_type;
             if (value_type->equals(dot::typeof<double>()))             return value_type::double_type;
             if (value_type->equals(dot::typeof<bool>()))               return value_type::bool_type;
             if (value_type->equals(dot::typeof<int>()))                return value_type::int_type;
@@ -71,22 +71,22 @@ namespace dc
             if (value_type->is_enum())                                   return value_type::enum_type;
 
             // Error message if any other type, should normally not get to here
-            throw dot::exception(get_wrong_type_error_message(value_));
+            throw dot::Exception(get_wrong_type_error_message(value_));
         }
 
         /// Value held by the variant, which may be null.
-        dot::object get_value()
+        dot::Object get_value()
         {
             return value_;
         }
 
     public: // METHODS
 
-        /// Check if the variant is equal to default constructed object.
+        /// Check if the variant is equal to default constructed Object.
         bool is_empty();
 
         /// Provides alternate serialization of certain value types.
-        dot::string to_string();
+        dot::String to_string();
 
         /// Hash code is zero for null objects.
         size_t hash_code();
@@ -107,12 +107,12 @@ namespace dc
 
     public: // STATIC
 
-        static variant parse(value_type value_type, dot::string value);
+        static variant parse(value_type value_type, dot::String value);
 
         template <class T>
-        static variant parse(dot::string value)
+        static variant parse(dot::String value)
         {
-            if (dot::string::is_null_or_empty(value))
+            if (dot::String::is_null_or_empty(value))
             {
                 // Empty value
                 return variant();
@@ -121,23 +121,23 @@ namespace dc
             dot::type value_type = dot::typeof<T>();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
-            if (value_type->equals(dot::typeof<dot::string>()))        return variant(value);
-            if (value_type->equals(dot::typeof<double>()))        return variant(dot::double_impl::parse(value));
-            if (value_type->equals(dot::typeof<bool>()))          return variant(dot::bool_impl::parse(value));
-            if (value_type->equals(dot::typeof<int>()))           return variant(dot::int_impl::parse(value));
-            if (value_type->equals(dot::typeof<int64_t>()))       return variant(dot::long_impl::parse(value));
+            if (value_type->equals(dot::typeof<dot::String>()))        return variant(value);
+            if (value_type->equals(dot::typeof<double>()))        return variant(dot::DoubleImpl::parse(value));
+            if (value_type->equals(dot::typeof<bool>()))          return variant(dot::BoolImpl::parse(value));
+            if (value_type->equals(dot::typeof<int>()))           return variant(dot::IntImpl::parse(value));
+            if (value_type->equals(dot::typeof<int64_t>()))       return variant(dot::LongImpl::parse(value));
             if (value_type->equals(dot::typeof<dot::LocalDate>()))     return variant(dot::LocalDateUtil::parse(value));
             if (value_type->equals(dot::typeof<dot::LocalTime>()))     return variant(dot::LocalTimeUtil::parse(value));
             if (value_type->equals(dot::typeof<dot::LocalMinute>()))   return variant(dot::LocalMinuteUtil::parse(value));
             if (value_type->equals(dot::typeof<dot::LocalDateTime>())) return variant(dot::LocalDateTimeUtil::parse(value));
-            if (value_type->is_enum())                               return variant(dot::enum_base::parse(value_type, value));
+            if (value_type->is_enum())                               return variant(dot::EnumBase::parse(value_type, value));
 
             // Error message if any other type
-            throw dot::exception(get_wrong_type_error_message(T()));
+            throw dot::Exception(get_wrong_type_error_message(T()));
         }
 
     private: // PRIVATE
 
-        static dot::string get_wrong_type_error_message(dot::object value);
+        static dot::String get_wrong_type_error_message(dot::Object value);
     };
 }

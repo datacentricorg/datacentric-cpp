@@ -24,8 +24,8 @@ limitations under the License.
 
 namespace dc
 {
-    class db_name_key_impl; using db_name_key = dot::ptr<db_name_key_impl>;
-    class db_name_data_impl; using db_name_data = dot::ptr<db_name_data_impl>;
+    class db_name_key_impl; using db_name_key = dot::Ptr<db_name_key_impl>;
+    class db_name_data_impl; using db_name_data = dot::Ptr<db_name_data_impl>;
 
     /// This class enforces strict naming conventions
     /// for database naming. While format of the resulting database
@@ -60,7 +60,7 @@ namespace dc
         /// For test instance type, instance name is the name of
         /// the unit test class (test fixture).
         /// \end{itemize}
-        dot::string instance_name;
+        dot::String instance_name;
 
         /// The meaning of environment name depends on the instance type.
         ///
@@ -72,7 +72,7 @@ namespace dc
         /// \item
         /// For test instance type, it is the test method name.
         /// \end{itemize}
-        dot::string env_name;
+        dot::String env_name;
 
         DOT_TYPE_BEGIN("dc", "db_name_data")
             DOT_TYPE_PROP(db_instance_type)

@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    class unit_test_context_base_impl; using unit_test_context_base = dot::ptr<unit_test_context_base_impl>;
+    class unit_test_context_base_impl; using unit_test_context_base = dot::Ptr<unit_test_context_base_impl>;
 
     /// Extends context_base with approval test functionality.
     class unit_test_context_base_impl : public context_base_impl
@@ -40,7 +40,7 @@ namespace dc
         bool keep_db = true;
     };
 
-    class unit_test_context_impl; using unit_test_context = dot::ptr<unit_test_context_impl>;
+    class unit_test_context_impl; using unit_test_context = dot::Ptr<unit_test_context_impl>;
 
     /// Context for use in test fixtures that do not require MongoDB.
     ///
@@ -51,7 +51,7 @@ namespace dc
     /// For tests that require MongoDB, use unit_test_data_context.
     class unit_test_context_impl : public unit_test_context_base_impl
     {
-        friend unit_test_context make_unit_test_context(dot::object, dot::string, dot::string);
+        friend unit_test_context make_unit_test_context(dot::Object, dot::String, dot::String);
 
     private:
 
@@ -79,7 +79,7 @@ namespace dc
 
     /// Create with class name, method name, and source file path.
     unit_test_context make_unit_test_context(
-        dot::object class_instance,
-        dot::string method_name,
-        dot::string source_file_path);
+        dot::Object class_instance,
+        dot::String method_name,
+        dot::String source_file_path);
 }

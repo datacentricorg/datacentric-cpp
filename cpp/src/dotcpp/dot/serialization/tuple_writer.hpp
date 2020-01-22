@@ -34,42 +34,42 @@ limitations under the License.
 
 namespace dot
 {
-    class TupleWriterImpl; using TupleWriter = dot::ptr<TupleWriterImpl>;
+    class TupleWriterImpl; using TupleWriter = dot::Ptr<TupleWriterImpl>;
 
     /// Implementation of tree_writer_base for data.
     class DOT_CLASS TupleWriterImpl : public TreeWriterBaseImpl
     {
-        friend TupleWriter make_tuple_writer(dot::object tuple, dot::list<dot::field_info> props);
+        friend TupleWriter make_tuple_writer(dot::Object tuple, dot::list<dot::field_info> props);
 
     public:
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        void write_start_document(dot::string root_element_name) override;
+        void write_start_document(dot::String root_element_name) override;
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to write_start_document(...).
-        void write_end_document(dot::string root_element_name) override;
+        void write_end_document(dot::String root_element_name) override;
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        void write_start_element(dot::string element_name) override;
+        void write_start_element(dot::String element_name) override;
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching write_start_element(...) call at the same indent level.
-        void write_end_element(dot::string element_name) override;
+        void write_end_element(dot::String element_name) override;
 
         /// Write dictionary start tag. A call to this method
         /// must follow write_start_element(...) or write_start_array_item().
-        void write_start_dict(dot::string type_name) override;
+        void write_start_dict(dot::String type_name) override;
 
         /// Write dictionary end tag. A call to this method
         /// must be followed by write_end_element(...) or write_end_array_item().
-        void write_end_dict(dot::string type_name) override;
+        void write_end_dict(dot::String type_name) override;
 
         /// Write start tag for an array. A call to this method
         /// must follow write_start_element(name).
@@ -96,26 +96,26 @@ namespace dot
         void write_end_value() override;
 
         /// Write atomic value. Value type
-        /// will be inferred from object.get_type().
-        void write_value(dot::object value) override;
+        /// will be inferred from Object.get_type().
+        void write_value(dot::Object value) override;
 
-        /// Convert to BSON string without checking that BSON document is complete.
+        /// Convert to BSON String without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.
-        dot::string to_string() override;
+        dot::String to_string() override;
 
     private:
 
-        TupleWriterImpl(dot::object tuple, dot::list<dot::field_info> props);
+        TupleWriterImpl(dot::Object tuple, dot::list<dot::field_info> props);
 
     private:
 
-        dot::object tuple_;
+        dot::Object tuple_;
         dot::list<dot::field_info> props_;
         int index_of_current_;
         DataWriter data_writer_;
-        object data_;
+        Object data_;
 
     };
 
-    inline TupleWriter make_tuple_writer(dot::object tuple, dot::list<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
+    inline TupleWriter make_tuple_writer(dot::Object tuple, dot::list<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
 }

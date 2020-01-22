@@ -31,13 +31,13 @@ namespace dot
 {
     TEST_CASE("smoke")
     {
-        string_builder received = make_string_builder();
+        StringBuilder received = make_string_builder();
 
         try
         {
-            throw exception("Runtime error");
+            throw Exception("Runtime error");
         }
-        catch(exception& e)
+        catch(Exception& e)
         {
             received->append_line(e.message());
         }

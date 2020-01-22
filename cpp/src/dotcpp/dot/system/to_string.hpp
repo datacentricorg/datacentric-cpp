@@ -34,17 +34,17 @@ namespace dot
     /// This helper class is necessary because C++ permits partial specialization
     /// of classes, but not functions. Partial specialization is necessary when
     /// defining to_string for a type that is itself a template, for example
-    /// nullable.
+    /// Nullable.
     template <class T>
-    struct to_string_impl
+    struct ToStringImpl
     {
-        /// Convert value to string; for empty or null values, return string::empty.
+        /// Convert value to String; for empty or null values, return String::empty.
         ///
         /// The purpose of making this a deleted method here is to generate the
         /// following error when to_string(...) is invoked for a user defined type,
-        /// while to_string_impl template is not specialized for this type.
+        /// while ToStringImpl template is not specialized for this type.
         ///
-        /// dot::string dot::to_string_impl<T>::to_string(const T &)'
+        /// dot::String dot::ToStringImpl<T>::to_string(const T &)'
         /// attempting to reference a deleted function
         ///
         /// with
@@ -52,32 +52,32 @@ namespace dot
         ///   T = {type name here}
         /// ] (compiling source file system {file name here}
         ///
-        /// To eliminate this error, add template specialization of to_string_impl
+        /// To eliminate this error, add template specialization of ToStringImpl
         /// for the specified type:
         ///
         /// template <>
-        /// class to_string_impl<{type name here}>
+        /// class ToStringImpl<{type name here}>
         /// {
         /// public:
-        ///     static string to_string(const {type name here}& value)
+        ///     static String to_string(const {type name here}& value)
         ///     {
         ///         ...
         ///     }
         /// };
-        static string to_string(const T& value) = delete;
+        static String to_string(const T& value) = delete;
     };
 
-    /// Convert value to string; for empty or null values, return string::empty.
+    /// Convert value to String; for empty or null values, return String::empty.
     ///
     /// This function must be defined for atomic and external classes where we
     /// cannot define member function to_string() via template specialization of
-    /// the helper type to_string_impl.
+    /// the helper type ToStringImpl.
     template <class T>
-    string to_string(const T& value)
+    String to_string(const T& value)
     {
         // If the compiler generates the following error at this location:
         //
-        // dot::string dot::to_string_impl<T>::to_string(const T &)'
+        // dot::String dot::ToStringImpl<T>::to_string(const T &)'
         // attempting to reference a deleted function
         //
         // with
@@ -86,21 +86,21 @@ namespace dot
         // ] (compiling source file system {file name here}
         //
         // the reason is most likely that to_string(...) was invoked for a
-        // user defined type, while to_string_impl template was not specialized
+        // user defined type, while ToStringImpl template was not specialized
         // for this type.
         //
-        // To eliminate this error, add template specialization of to_string_impl
+        // To eliminate this error, add template specialization of ToStringImpl
         // for the specified type:
         //
         // template <>
-        // class to_string_impl<{type name here}>
+        // class ToStringImpl<{type name here}>
         // {
         // public:
-        //     static string to_string(const {type name here}& value)
+        //     static String to_string(const {type name here}& value)
         //     {
         //         ...
         //     }
         // };
-        return to_string_impl<T>::to_string(value);
+        return ToStringImpl<T>::to_string(value);
     }
 }

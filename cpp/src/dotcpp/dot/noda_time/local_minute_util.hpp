@@ -32,10 +32,10 @@ namespace dot
     {
     public: // STATIC
 
-        /// Parse string using standard ISO 8601 time pattern hh:mm:ss.fff, throw if invalid format.
+        /// Parse String using standard ISO 8601 time pattern hh:mm:ss.fff, throw if invalid format.
         /// No variations from the standard format are accepted and no delimiters can be changed or omitted.
-        /// Specifically, ISO int-like string using hhmmssfff format without delimiters is not accepted.
-        static dot::LocalMinute parse(dot::string value);
+        /// Specifically, ISO int-like String using hhmmssfff format without delimiters is not accepted.
+        static dot::LocalMinute parse(dot::String value);
 
         /// Convert LocalMinute to ISO 8601 4 digit int hhmm format.
         static int to_iso_int(dot::LocalMinute value);

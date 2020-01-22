@@ -29,7 +29,7 @@ namespace dc
         : key_()
     {}
 
-    dot::string deleted_record_impl::get_key()
+    dot::String deleted_record_impl::get_key()
     {
         return key_;
     }

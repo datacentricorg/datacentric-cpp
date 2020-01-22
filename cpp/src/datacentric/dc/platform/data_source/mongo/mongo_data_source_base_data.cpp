@@ -32,10 +32,10 @@ namespace dc
         data_source_data_impl::init(context);
 
         // Configures serialization conventions for standard types
-        if (db_name == nullptr) throw dot::exception("DB key is null or empty.");
-        if (db_name->db_instance_type == instance_type::empty) throw dot::exception("DB instance type is not specified.");
-        if (dot::string::is_null_or_empty(db_name->instance_name)) throw dot::exception("DB instance name is not specified.");
-        if (dot::string::is_null_or_empty(db_name->env_name)) throw dot::exception("DB environment name is not specified.");
+        if (db_name == nullptr) throw dot::Exception("DB key is null or empty.");
+        if (db_name->db_instance_type == instance_type::empty) throw dot::Exception("DB instance type is not specified.");
+        if (dot::String::is_null_or_empty(db_name->instance_name)) throw dot::Exception("DB instance name is not specified.");
+        if (dot::String::is_null_or_empty(db_name->env_name)) throw dot::Exception("DB environment name is not specified.");
 
         // The name is the database key in the standard semicolon delimited format.
         db_name_ = db_name->to_string();
@@ -43,15 +43,15 @@ namespace dc
 
         // Perform additional validation for restricted characters and database name length.
         if (db_name_->index_of_any(prohibited_db_name_symbols_) != -1)
-            throw dot::exception(
-                dot::string::format("MongoDB database name {0} contains a space or another ", db_name_) +
+            throw dot::Exception(
+                dot::String::format("MongoDB database name {0} contains a space or another ", db_name_) +
                 "prohibited character from the following list: /\\.\"$*<>:|?");
         if (db_name_->length() > max_db_name_length_)
-            throw dot::exception(
-                dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", db_name_));
+            throw dot::Exception(
+                dot::String::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", db_name_));
 
         // Get client interface using the server
-        dot::string db_uri = db_server->db_server_uri;
+        dot::String db_uri = db_server->db_server_uri;
         client_ = dot::make_client(db_uri);
 
         // Get database interface using the client and database name
@@ -79,7 +79,7 @@ namespace dc
         // Report the number of retries
         if (retry_counter != 0)
         {
-            std::cerr << *dot::string::format("Generated temporal_id in increasing order after {0} retries.", retry_counter);
+            std::cerr << *dot::String::format("Generated temporal_id in increasing order after {0} retries.", retry_counter);
         }
 
         // Update previous temporal_id and return
@@ -91,7 +91,7 @@ namespace dc
     {
         if (read_only.has_value() && !read_only.value())
         {
-            throw dot::exception(dot::string::format("Attempting to drop (delete) database for the data source {0} where ReadOnly flag is set.", data_source_id));
+            throw dot::Exception(dot::String::format("Attempting to drop (delete) database for the data source {0} where ReadOnly flag is set.", data_source_id));
         }
 
         // Do not delete (drop) the database this class did not create
@@ -115,10 +115,10 @@ namespace dc
             }
             else
             {
-                throw dot::exception(
-                    dot::string::format("As an extra safety measure, database {0} cannot be ", db_name_) +
+                throw dot::Exception(
+                    dot::String::format("As an extra safety measure, database {0} cannot be ", db_name_) +
                     "dropped because this operation is not permitted for database " +
-                    dot::string::format("instance type {0}.", instance_type_.to_string()));
+                    dot::String::format("instance type {0}.", instance_type_.to_string()));
             }
         }
     }

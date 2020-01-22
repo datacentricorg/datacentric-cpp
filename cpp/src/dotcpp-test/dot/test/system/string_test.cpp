@@ -32,17 +32,17 @@ namespace dot
     TEST_CASE("smoke")
     {
         // Create from std::string
-        string s1 = std::string("abc");
+        String s1 = std::string("abc");
         REQUIRE(s1 == "abc");
         REQUIRE(s1 == std::string("abc"));
 
         // Create from string literal
-        string s2 = "abc";
+        String s2 = "abc";
         REQUIRE(s2 == "abc");
 
-        // Cast to object and back
-        object obj1 = s1;
-        // TODO string s11 = obj1.cast<string>();
+        // Cast to Object and back
+        Object obj1 = s1;
+        // TODO String s11 = obj1.cast<String>();
         // TODO  REQUIRE(s11 == "abc");
     }
 
@@ -50,76 +50,76 @@ namespace dot
     {
         int x = 1;
         double y = 2.5;
-        const string s = "{0}";
+        const String s = "{0}";
 
-        REQUIRE(string::format(s, x) == "1");
-        REQUIRE(string::format("{0:.3f}", y) == "2.500");
-        REQUIRE(string::format(s, s) == "{0}");
-        REQUIRE(string::format("{0}, {1}", s, s) == "{0}, {0}");
+        REQUIRE(String::format(s, x) == "1");
+        REQUIRE(String::format("{0:.3f}", y) == "2.500");
+        REQUIRE(String::format(s, s) == "{0}");
+        REQUIRE(String::format("{0}, {1}", s, s) == "{0}, {0}");
 
-        REQUIRE(string::format(string("{0}, {1}, {2}"), 1, "str1", string("str2")) == "1, str1, str2");
-        REQUIRE(string::format("123") == "123");
+        REQUIRE(String::format(String("{0}, {1}, {2}"), 1, "str1", String("str2")) == "1, str1, str2");
+        REQUIRE(String::format("123") == "123");
 
-        REQUIRE(string::format("{0}, {1}, {2}", 'a', 'b', 'c') == "a, b, c");
-        REQUIRE(string::format("{}, {}, {}", 'a', 'b', 'c') == "a, b, c");
-        REQUIRE(string::format("{2}, {1}, {0}", 'a', 'b', 'c') == "c, b, a");
-        REQUIRE(string::format("{0}{1}{0}", "abra", "cad") == "abracadabra");
+        REQUIRE(String::format("{0}, {1}, {2}", 'a', 'b', 'c') == "a, b, c");
+        REQUIRE(String::format("{}, {}, {}", 'a', 'b', 'c') == "a, b, c");
+        REQUIRE(String::format("{2}, {1}, {0}", 'a', 'b', 'c') == "c, b, a");
+        REQUIRE(String::format("{0}{1}{0}", "abra", "cad") == "abracadabra");
 
-        REQUIRE(string::format("{:<15}", "left aligned") == "left aligned   ");
-        REQUIRE(string::format("{:>15}", "right aligned") == "  right aligned");
-        REQUIRE(string::format("{:^16}", "centered") == "    centered    ");
-        REQUIRE(string::format("{:*^16}", "centered") == "****centered****");
-        REQUIRE(string::format("{:<{}}", "left aligned", 15) == "left aligned   ");
+        REQUIRE(String::format("{:<15}", "left aligned") == "left aligned   ");
+        REQUIRE(String::format("{:>15}", "right aligned") == "  right aligned");
+        REQUIRE(String::format("{:^16}", "centered") == "    centered    ");
+        REQUIRE(String::format("{:*^16}", "centered") == "****centered****");
+        REQUIRE(String::format("{:<{}}", "left aligned", 15) == "left aligned   ");
 
-        REQUIRE(string::format("{:.{}f}", 3.14, 1) == "3.1");
-        REQUIRE(string::format("{:+f}; {:+f}", 3.14, -3.14) == "+3.140000; -3.140000");
-        REQUIRE(string::format("{: f}; {: f}", 3.14, -3.14) == " 3.140000; -3.140000");
-        REQUIRE(string::format("{:-f}; {:-f}", 3.14, -3.14) == "3.140000; -3.140000");
+        REQUIRE(String::format("{:.{}f}", 3.14, 1) == "3.1");
+        REQUIRE(String::format("{:+f}; {:+f}", 3.14, -3.14) == "+3.140000; -3.140000");
+        REQUIRE(String::format("{: f}; {: f}", 3.14, -3.14) == " 3.140000; -3.140000");
+        REQUIRE(String::format("{:-f}; {:-f}", 3.14, -3.14) == "3.140000; -3.140000");
 
-        REQUIRE(string::format("int: {0:d};  hex: {0:x};  oct: {0:o}; bin: {0:b}", 42) == "int: 42;  hex: 2a;  oct: 52; bin: 101010");
-        REQUIRE(string::format("int: {0:d};  hex: {0:#x};  oct: {0:#o};  bin: {0:#b}", 42) == "int: 42;  hex: 0x2a;  oct: 052;  bin: 0b101010");
-        REQUIRE(string::format("{:#04x}", 0) == "0x00");
+        REQUIRE(String::format("int: {0:d};  hex: {0:x};  oct: {0:o}; bin: {0:b}", 42) == "int: 42;  hex: 2a;  oct: 52; bin: 101010");
+        REQUIRE(String::format("int: {0:d};  hex: {0:#x};  oct: {0:#o};  bin: {0:#b}", 42) == "int: 42;  hex: 0x2a;  oct: 052;  bin: 0b101010");
+        REQUIRE(String::format("{:#04x}", 0) == "0x00");
     }
 
     TEST_CASE("compare")
     {
         // Compare to literal strings
-        string str = "abcd";
+        String str = "abcd";
         REQUIRE(str == "abcd");
 
         // Check comparison case sensitivity
         REQUIRE_FALSE(str == "Abcd");
 
         // Compare two strings that have the same value but are not the same instances
-        string str2 = "abcd";
+        String str2 = "abcd";
         REQUIRE(str == str2);
 
         // Compare two strings that have the same value but are not
-        // the same instances after casting one or both to object
-        REQUIRE(str == object(str2));
-        // TODO - fix by implemnenting equals(...) REQUIRE((object)str == str2);
-        // TODO - fix by implemnenting equals(...) REQUIRE((object)str == (object)str2);
+        // the same instances after casting one or both to Object
+        REQUIRE(str == Object(str2));
+        // TODO - fix by implemnenting equals(...) REQUIRE((Object)str == str2);
+        // TODO - fix by implemnenting equals(...) REQUIRE((Object)str == (Object)str2);
     }
 
     TEST_CASE("methods")
     {
         // To lower/upper case
         {
-            string str = "ABCabc123_!@#$%^&*()=+-:;";
-            string lower_str = str->to_lower();
+            String str = "ABCabc123_!@#$%^&*()=+-:;";
+            String lower_str = str->to_lower();
             REQUIRE(lower_str == "abcabc123_!@#$%^&*()=+-:;");
-            string upper_str = str->to_upper();
+            String upper_str = str->to_upper();
             REQUIRE(upper_str == "ABCABC123_!@#$%^&*()=+-:;");
             REQUIRE(str == "ABCabc123_!@#$%^&*()=+-:;");
         }
 
         // Contains
         {
-            string str = "string";
-            string substr1 = "str";
-            string substr2 = "ing";
-            string substr3 = "rin";
-            string substr4 = "abc";
+            String str = "string";
+            String substr1 = "str";
+            String substr2 = "ing";
+            String substr3 = "rin";
+            String substr4 = "abc";
 
             REQUIRE(str->contains(substr1));
             REQUIRE(str->contains(substr2));
@@ -129,10 +129,10 @@ namespace dot
 
         // Split
         {
-            string str = ";ab;ef;";
-            list<string> seplited_str = make_list<string>({ "", "ab", "ef", "" });
+            String str = ";ab;ef;";
+            list<String> seplited_str = make_list<String>({ "", "ab", "ef", "" });
 
-            list<string> res_list = str->split(';');
+            list<String> res_list = str->split(';');
             REQUIRE(res_list->count() == seplited_str->count());
             REQUIRE(res_list[0] == seplited_str[0]);
             REQUIRE(res_list[1] == seplited_str[1]);
@@ -140,7 +140,7 @@ namespace dot
             REQUIRE(res_list[3] == seplited_str[3]);
 
             str = "42, 12, 19";
-            seplited_str = make_list<string>({ "42", "", "12", "", "19" });
+            seplited_str = make_list<String>({ "42", "", "12", "", "19" });
             res_list = str->split(" ,");
             REQUIRE(res_list->count() == seplited_str->count());
             REQUIRE(res_list[0] == seplited_str[0]);
@@ -149,7 +149,7 @@ namespace dot
             REQUIRE(res_list[3] == seplited_str[3]);
 
             str = "42..12..19";
-            seplited_str = make_list<string>({ "42", "", "12", "", "19" });
+            seplited_str = make_list<String>({ "42", "", "12", "", "19" });
             res_list = str->split(".");
             REQUIRE(res_list->count() == seplited_str->count());
             REQUIRE(res_list[0] == seplited_str[0]);
@@ -160,7 +160,7 @@ namespace dot
 
         // Trim
         {
-            string str = "";
+            String str = "";
             REQUIRE(str->trim() == "");
             REQUIRE(str->trim_start() == "");
             REQUIRE(str->trim_end() == "");

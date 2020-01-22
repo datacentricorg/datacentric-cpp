@@ -30,15 +30,15 @@ limitations under the License.
 
 namespace dot
 {
-    class collection_impl; using collection = ptr<collection_impl>;
-    class filter_token_base_impl; using filter_token_base = ptr<filter_token_base_impl>;
+    class collection_impl; using collection = Ptr<collection_impl>;
+    class filter_token_base_impl; using filter_token_base = Ptr<filter_token_base_impl>;
 
     /// Class representing server side document groupings within a MongoDB database.
     ///
     /// Collections do not require or enforce a schema and documents inside of a collection can have
     /// different fields. While not a requirement, typically documents in a collection have a similar
     /// shape or related purpose.
-    class DOT_MONGO_CLASS collection_impl : public object_impl
+    class DOT_MONGO_CLASS collection_impl : public ObjectImpl
     {
     private:
 
@@ -57,11 +57,11 @@ namespace dot
 
         protected:
 
-            /// Inserts a single object into the collection. If the object->_id is missing or empty
+            /// Inserts a single Object into the collection. If the Object->_id is missing or empty
             /// one will be generated for it.
-            virtual void insert_one(object obj) = 0;
+            virtual void insert_one(Object obj) = 0;
 
-            /// Inserts a many objects into the collection. If the object->_id is missing or empty
+            /// Inserts a many objects into the collection. If the Object->_id is missing or empty
             /// one will be generated for it.
             virtual void insert_many(dot::list_base objs) = 0;
 
@@ -72,16 +72,16 @@ namespace dot
             virtual void delete_many(filter_token_base filter) = 0;
 
             /// Creates an index over the collection for the provided keys with the provided options.
-            virtual void create_index(list<std::tuple<string, int>> indexes, index_options options) = 0;
+            virtual void create_index(list<std::tuple<String, int>> indexes, index_options options) = 0;
         };
 
     public:
 
-        /// Inserts a single object into the collection. If the object->_id is missing or empty
+        /// Inserts a single Object into the collection. If the Object->_id is missing or empty
         /// one will be generated for it.
-        void insert_one(object obj);
+        void insert_one(Object obj);
 
-        /// Inserts a many objects into the collection. If the object->_id is missing or empty
+        /// Inserts a many objects into the collection. If the Object->_id is missing or empty
         /// one will be generated for it.
         void insert_many(dot::list_base objs);
 
@@ -92,7 +92,7 @@ namespace dot
         void delete_many(filter_token_base filter);
 
         /// Creates an index over the collection for the provided keys with the provided options.
-        void create_index(list<std::tuple<string, int>> indexes, index_options options = nullptr);
+        void create_index(list<std::tuple<String, int>> indexes, index_options options = nullptr);
 
     private:
 

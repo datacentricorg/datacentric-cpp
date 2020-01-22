@@ -23,8 +23,8 @@ limitations under the License.
 
 namespace dc
 {
-    class time_zone_data_impl; using time_zone_data = dot::ptr<time_zone_data_impl>;
-    class time_zone_key_impl; using time_zone_key = dot::ptr<time_zone_key_impl>;
+    class time_zone_data_impl; using time_zone_data = dot::Ptr<time_zone_data_impl>;
+    class time_zone_key_impl; using time_zone_key = dot::Ptr<time_zone_key_impl>;
 
     inline time_zone_data make_time_zone_data();
 
@@ -43,7 +43,7 @@ namespace dc
     /// regions where winter time is defined.
     ///
     /// Because time_zone_id is used to look up timezone conventions,
-    /// it must match either the string UTC or the code in IANA
+    /// it must match either the String UTC or the code in IANA
     /// timezone database precisely. The IANA city timezone code
     /// has two slash-delimited tokens, the first referencing the
     /// country and the other the city, for example America/New_York.
@@ -67,11 +67,11 @@ namespace dc
         /// regions where winter time is defined.
         ///
         /// Because time_zone_id is used to look up timezone conventions,
-        /// it must match either the string UTC or the code in IANA
+        /// it must match either the String UTC or the code in IANA
         /// timezone database precisely. The IANA city timezone code
         /// has two slash-delimited tokens, the first referencing the
         /// country and the other the city, for example America/New_York.
-        dot::string time_zone_id;
+        dot::String time_zone_id;
 
     public:
         virtual dot::type type();

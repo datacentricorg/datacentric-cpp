@@ -27,7 +27,7 @@ namespace dc
         : value_(nullptr)
     {}
 
-    variant::variant(dot::object value)
+    variant::variant(dot::Object value)
     {
         if (value == nullptr)
         {
@@ -37,7 +37,7 @@ namespace dc
 
         dot::type value_type = value->get_type();
 
-        if (value_type->equals(dot::typeof<dot::string>())
+        if (value_type->equals(dot::typeof<dot::String>())
             || value_type->equals(dot::typeof<double>())
             || value_type->equals(dot::typeof<bool>())
             || value_type->equals(dot::typeof<int>())
@@ -59,7 +59,7 @@ namespace dc
         else
         {
             // Argument type is unsupported, error message
-            //throw dot::exception(get_wrong_type_error_message(value));
+            //throw dot::Exception(get_wrong_type_error_message(value));
             value_ = nullptr;
         }
     }
@@ -69,7 +69,7 @@ namespace dc
         return value_ == nullptr;
     }
 
-    dot::string variant::to_string()
+    dot::String variant::to_string()
     {
         if (value_ != nullptr)
         {
@@ -78,8 +78,8 @@ namespace dc
         }
         else
         {
-            // Returns empty string as per standard to_string() convention, rather than null like as_string() does
-            return dot::string::empty;
+            // Returns empty String as per standard to_string() convention, rather than null like as_string() does
+            return dot::String::empty;
         }
     }
 
@@ -98,10 +98,10 @@ namespace dc
         dot::type other_value_type = other.value_->get_type();
 
         // The purpose of this check is to ensure that variant holds only one of the supported types
-        if (value_type->equals(dot::typeof<dot::string>()))
+        if (value_type->equals(dot::typeof<dot::String>()))
         {
-            return other_value_type->equals(dot::typeof<dot::string>())
-                && (dot::string) value_ == (dot::string) other.value_;
+            return other_value_type->equals(dot::typeof<dot::String>())
+                && (dot::String) value_ == (dot::String) other.value_;
         }
         if (value_type->equals(dot::typeof<double>()))
         {
@@ -152,7 +152,7 @@ namespace dc
         }
 
         // Error message if any other type, should normally not get here
-        throw dot::exception(get_wrong_type_error_message(value_));
+        throw dot::Exception(get_wrong_type_error_message(value_));
     }
 
     bool variant::operator==(const variant& other)
@@ -165,9 +165,9 @@ namespace dc
         return !equals(other);
     }
 
-    variant variant::parse(value_type value_type, dot::string value)
+    variant variant::parse(value_type value_type, dot::String value)
     {
-        if (dot::string::is_null_or_empty(value))
+        if (dot::String::is_null_or_empty(value))
         {
             // Empty value
             return variant();
@@ -177,27 +177,27 @@ namespace dc
         switch (value_type)
         {
         case value_type::string_type:           return variant(value);
-        case value_type::double_type:           return variant(dot::double_impl::parse(value));
-        case value_type::bool_type:             return variant(dot::bool_impl::parse(value));
-        case value_type::int_type:              return variant(dot::int_impl::parse(value));
-        case value_type::long_type:             return variant(dot::long_impl::parse(value));
+        case value_type::double_type:           return variant(dot::DoubleImpl::parse(value));
+        case value_type::bool_type:             return variant(dot::BoolImpl::parse(value));
+        case value_type::int_type:              return variant(dot::IntImpl::parse(value));
+        case value_type::long_type:             return variant(dot::LongImpl::parse(value));
         case value_type::local_date_type:        return variant(dot::LocalDateUtil::parse(value));
         case value_type::local_time_type:        return variant(dot::LocalTimeUtil::parse(value));
         case value_type::local_minute_type:      return variant(dot::LocalMinuteUtil::parse(value));
         case value_type::local_date_time_type:    return variant(dot::LocalDateTimeUtil::parse(value));
         case value_type::enum_type:
-            throw dot::exception("variant cannot be created as enum without specifying enum typename.");
+            throw dot::Exception("variant cannot be created as enum without specifying enum typename.");
         default:
             // Error message if any other type
-            throw dot::exception("Unknown value type when parsing string into variant.");
+            throw dot::Exception("Unknown value type when parsing String into variant.");
         }
     }
 
-    dot::string variant::get_wrong_type_error_message(dot::object value)
+    dot::String variant::get_wrong_type_error_message(dot::Object value)
     {
-        return dot::string::format(
+        return dot::String::format(
             "variant cannot hold {0} type. Available types are "
-            "string, double, bool, int, long, LocalDate, LocalTime, LocalMinute, LocalDateTime, or enum.",
+            "String, double, bool, int, long, LocalDate, LocalTime, LocalMinute, LocalDateTime, or enum.",
             value->get_type());
     }
 }

@@ -31,14 +31,14 @@ limitations under the License.
 
 namespace dot
 {
-    template <class T> class nullable;
+    template <class T> class Nullable;
     class LocalMinute;
     class LocalTime;
     class LocalDate;
     class LocalDateTime;
-    template <class T> class enum_impl;
+    template <class T> class EnumImpl;
     template <class T> class struct_wrapper_impl;
-    template <class T> using struct_wrapper = ptr<struct_wrapper_impl<T>>;
+    template <class T> using struct_wrapper = Ptr<struct_wrapper_impl<T>>;
     template <class T> type typeof();
 
     namespace detail
@@ -48,203 +48,203 @@ namespace dot
         template<class W, class T> class InheritEquals;
     }
 
-    /// Adds support for boxing value types to ptr(object_impl).
-    class DOT_CLASS object : public ptr<object_impl>
+    /// Adds support for boxing value types to Ptr(ObjectImpl).
+    class DOT_CLASS Object : public Ptr<ObjectImpl>
     {
-        typedef ptr<object_impl> base;
+        typedef Ptr<ObjectImpl> base;
 
     public: // CONSTRUCTORS
 
-        /// Default constructor to create untyped object.
+        /// Default constructor to create untyped Object.
         ///
         /// This constructor is used, among other things,
         /// as argument to lock(...) to provide thread safety.
-        object() = default;
+        Object() = default;
 
-        /// Construct object from nullptr.
-        object(nullptr_t);
+        /// Construct Object from nullptr.
+        Object(nullptr_t);
 
-        /// Construct object from ptr(object_impl).
-        object(const ptr<object_impl>& p);
+        /// Construct Object from Ptr(ObjectImpl).
+        Object(const Ptr<ObjectImpl>& p);
 
-        /// Construct object from ptr(T).
+        /// Construct Object from Ptr(T).
         template <class T>
-        object(const ptr<T>& p) : base(p) {}
+        Object(const Ptr<T>& p) : base(p) {}
 
-        /// Construct object from object_impl pointer.
-        object(object_impl* value);
+        /// Construct Object from ObjectImpl pointer.
+        Object(ObjectImpl* value);
 
-        /// Construct object from string.
-        object(const string& value);
+        /// Construct Object from String.
+        Object(const String& value);
 
-        /// Construct object from const string.
-        object(const char* value);
+        /// Construct Object from const String.
+        Object(const char* value);
 
-        /// Construct object from bool by boxing.
-        object(bool value);
+        /// Construct Object from bool by boxing.
+        Object(bool value);
 
-        /// Construct object from double by boxing.
-        object(double value);
+        /// Construct Object from double by boxing.
+        Object(double value);
 
-        /// Construct object from int by boxing.
-        object(int value);
+        /// Construct Object from int by boxing.
+        Object(int value);
 
-        /// Construct object from int by boxing.
-        object(int64_t value);
+        /// Construct Object from int by boxing.
+        Object(int64_t value);
 
-        /// Construct object from char by boxing.
-        object(char value);
+        /// Construct Object from char by boxing.
+        Object(char value);
 
-        /// Construct object from nullable by boxing.
+        /// Construct Object from Nullable by boxing.
         template <class T>
-        object(const nullable<T>& value) { if (value.has_value()) *this = value.value(); }
+        Object(const Nullable<T>& value) { if (value.has_value()) *this = value.value(); }
 
-        /// Construct object from LocalMinute by boxing.
-        object(const LocalMinute & value);
+        /// Construct Object from LocalMinute by boxing.
+        Object(const LocalMinute & value);
 
-        /// Construct object from LocalTime by boxing.
-        object(const LocalTime& value);
+        /// Construct Object from LocalTime by boxing.
+        Object(const LocalTime& value);
 
-        /// Construct object from LocalDate by boxing.
-        object(const LocalDate& value);
+        /// Construct Object from LocalDate by boxing.
+        Object(const LocalDate& value);
 
-        /// Construct object from LocalDateTime by boxing.
-        object(const LocalDateTime& value);
+        /// Construct Object from LocalDateTime by boxing.
+        Object(const LocalDateTime& value);
 
-        /// Construct object from enum by wrapping it in enum_impl(T).
+        /// Construct Object from enum by wrapping it in EnumImpl(T).
         template <class T>
-        object(T value, typename std::enable_if<std::is_enum<T>::value>::type* enableif = 0) : base(new enum_impl<T>(value)) {}
+        Object(T value, typename std::enable_if<std::is_enum<T>::value>::type* enableif = 0) : base(new EnumImpl<T>(value)) {}
 
-        /// Construct object from struct wrapper, boxing the value if necessary.
+        /// Construct Object from struct wrapper, boxing the value if necessary.
         template <typename T>
-        object(struct_wrapper<T> value) : base(value) {}
+        Object(struct_wrapper<T> value) : base(value) {}
 
-        /// Construct object from tuple, boxing the value if necessary.
+        /// Construct Object from tuple, boxing the value if necessary.
         template <typename ... T>
-        object(const std::tuple<T...> & value) : object(new struct_wrapper_impl<std::tuple<T...>>(value)) {}
+        Object(const std::tuple<T...> & value) : Object(new struct_wrapper_impl<std::tuple<T...>>(value)) {}
 
     public: // METHODS
 
-        /// Convert object to enum. Error if object does is not a boxed T.
+        /// Convert Object to enum. Error if Object does is not a boxed T.
         ///
         /// This method does not have a counterpart in C#. It provides a more
-        /// convenient alternative to unboxing than using cast to enum_impl(T).
+        /// convenient alternative to unboxing than using cast to EnumImpl(T).
         template <class T>
-        T to_enum(typename std::enable_if<std::is_enum<T>::value>::type* enableif = 0) const { return ptr<enum_impl<T>>(*this)->value(); }
+        T to_enum(typename std::enable_if<std::is_enum<T>::value>::type* enableif = 0) const { return Ptr<EnumImpl<T>>(*this)->value(); }
 
     public: // OPERATORS
 
-        /// Forward to operator in type ptr(T).
+        /// Forward to operator in type Ptr(T).
         bool operator==(nullptr_t) const;
 
-        /// Forward to operator in type ptr(T).
+        /// Forward to operator in type Ptr(T).
         bool operator!=(nullptr_t) const;
 
-        /// Assign nullptr to object.
-        object& operator=(nullptr_t);
+        /// Assign nullptr to Object.
+        Object& operator=(nullptr_t);
 
-        /// Assign ptr(T) to object.
-        object& operator=(const ptr<object_impl>& p);
+        /// Assign Ptr(T) to Object.
+        Object& operator=(const Ptr<ObjectImpl>& p);
 
-        /// Assign string to object by boxing.
-        object& operator=(const string& value);
+        /// Assign String to Object by boxing.
+        Object& operator=(const String& value);
 
-        /// Assign const string to object by boxing.
-        object& operator=(const char* value);
+        /// Assign const String to Object by boxing.
+        Object& operator=(const char* value);
 
-        /// Assign bool to object by boxing.
-        object& operator=(bool value);
+        /// Assign bool to Object by boxing.
+        Object& operator=(bool value);
 
-        /// Assign double to object by boxing.
-        object& operator=(double value);
+        /// Assign double to Object by boxing.
+        Object& operator=(double value);
 
-        /// Assign int to object by boxing.
-        object& operator=(int value);
+        /// Assign int to Object by boxing.
+        Object& operator=(int value);
 
-        /// Assign long to object by boxing.
-        object& operator=(int64_t value);
+        /// Assign long to Object by boxing.
+        Object& operator=(int64_t value);
 
-        /// Assign char to object by boxing.
-        object& operator=(char value);
+        /// Assign char to Object by boxing.
+        Object& operator=(char value);
 
-        /// Assign struct_wrapper to object by boxing.
+        /// Assign struct_wrapper to Object by boxing.
         template <class T>
-        object& operator=(const struct_wrapper<T>& value) { base::operator=(value); return *this; }
+        Object& operator=(const struct_wrapper<T>& value) { base::operator=(value); return *this; }
 
-        /// Assign tuple to object by boxing.
+        /// Assign tuple to Object by boxing.
         template <typename ... T>
-        object& operator=(const std::tuple<T...> & value) { base::operator=(new struct_wrapper_impl<std::tuple<T...>>(value)); return *this; }
+        Object& operator=(const std::tuple<T...> & value) { base::operator=(new struct_wrapper_impl<std::tuple<T...>>(value)); return *this; }
 
-        /// Assign nullable to object by boxing.
+        /// Assign Nullable to Object by boxing.
         template <class T>
-        object& operator=(const nullable<T>& value) { if (value.has_value()) *this = value.value(); else *this = nullptr; return *this; }
+        Object& operator=(const Nullable<T>& value) { if (value.has_value()) *this = value.value(); else *this = nullptr; return *this; }
 
-        /// Assign LocalMinute to object by boxing.
-        object& operator=(const LocalMinute& value);
+        /// Assign LocalMinute to Object by boxing.
+        Object& operator=(const LocalMinute& value);
 
-        /// Assign LocalTime to object by boxing.
-        object& operator=(const LocalTime& value);
+        /// Assign LocalTime to Object by boxing.
+        Object& operator=(const LocalTime& value);
 
-        /// Assign LocalDate to object by boxing.
-        object& operator=(const LocalDate& value);
+        /// Assign LocalDate to Object by boxing.
+        Object& operator=(const LocalDate& value);
 
-        /// Assign LocalDateTime to object by boxing.
-        object& operator=(const LocalDateTime& value);
+        /// Assign LocalDateTime to Object by boxing.
+        Object& operator=(const LocalDateTime& value);
 
-        /// Convert object to bool by unboxing. Error if object does is not a boxed double.
+        /// Convert Object to bool by unboxing. Error if Object does is not a boxed double.
         operator bool() const;
 
-        /// Convert object to double by unboxing. Error if object does is not a boxed double.
+        /// Convert Object to double by unboxing. Error if Object does is not a boxed double.
         operator double() const;
 
-        /// Convert object to int by unboxing. Error if object does is not a boxed int.
+        /// Convert Object to int by unboxing. Error if Object does is not a boxed int.
         operator int() const;
 
-        /// Convert object to long by unboxing. Error if object does is not a boxed long.
+        /// Convert Object to long by unboxing. Error if Object does is not a boxed long.
         operator int64_t() const;
 
-        /// Convert object to char by unboxing. Error if object does is not a boxed long.
+        /// Convert Object to char by unboxing. Error if Object does is not a boxed long.
         operator char() const;
 
-        /// Convert object to LocalMinute by unboxing. Error if object does is not a boxed LocalMinute.
+        /// Convert Object to LocalMinute by unboxing. Error if Object does is not a boxed LocalMinute.
         operator LocalMinute() const;
 
-        /// Convert object to LocalTime by unboxing. Error if object does is not a boxed LocalTime.
+        /// Convert Object to LocalTime by unboxing. Error if Object does is not a boxed LocalTime.
         operator LocalTime() const;
 
-        /// Convert object to LocalDate by unboxing. Error if object does is not a boxed LocalDate.
+        /// Convert Object to LocalDate by unboxing. Error if Object does is not a boxed LocalDate.
         operator LocalDate() const;
 
-        /// Convert object to LocalDateTime by unboxing. Error if object does is not a boxed LocalDateTime.
+        /// Convert Object to LocalDateTime by unboxing. Error if Object does is not a boxed LocalDateTime.
         operator LocalDateTime() const;
 
-        /// Convert object to struct_wrapper by unboxing. Error if object does is not a boxed T.
+        /// Convert Object to struct_wrapper by unboxing. Error if Object does is not a boxed T.
         template <class T>
         operator struct_wrapper<T>() const { return this->as<struct_wrapper<T>>(); } // TODO - replace as by cast_to?
 
-        /// Convert object to tuple by unboxing. Error if object does is not a boxed T.
+        /// Convert Object to tuple by unboxing. Error if Object does is not a boxed T.
         template <class ... T>
         operator std::tuple<T...>() const { return *this->as<struct_wrapper<std::tuple<T...>>>(); } // TODO - replace as by cast_to?
 
         template <class T, class enabled = typename std::enable_if<std::is_enum<T>::value>::type* >
-        operator T() const { return ptr<enum_impl<T>>(*this)->value(); }
+        operator T() const { return Ptr<EnumImpl<T>>(*this)->value(); }
 
-        /// Convert object to string by unboxing. Error if object does is not a boxed string.
-        operator string() const;
+        /// Convert Object to String by unboxing. Error if Object does is not a boxed String.
+        operator String() const;
 
-        bool operator ==(object rhs) const { throw exception("Not implemented"); return false; }
+        bool operator ==(Object rhs) const { throw Exception("Not implemented"); return false; }
 
         template <class T>
-        operator ptr<T>() const { return this->as<ptr<T>>(); }
+        operator Ptr<T>() const { return this->as<Ptr<T>>(); }
 
     public: // STATIC
 
-        /// Determines whether the specified System.object instances are the same instance.
-        static bool reference_equals(object obj_a, object obj_b);
+        /// Determines whether the specified System.Object instances are the same instance.
+        static bool reference_equals(Object obj_a, Object obj_b);
     };
 
-    /// Initializes a new instance of object.
-    inline object make_object() { return object(new object_impl); }
+    /// Initializes a new instance of Object.
+    inline Object make_object() { return Object(new ObjectImpl); }
 }
 
 #include <dot/system/enum_impl.hpp>
@@ -252,10 +252,10 @@ namespace dot
 
 namespace dot
 {
-    /// Wraps struct into object.
+    /// Wraps struct into Object.
     template <class T>
     class struct_wrapper_impl
-        : public virtual object_impl
+        : public virtual ObjectImpl
         , public T
         , public detail::InheritToString<struct_wrapper_impl<T>, T>
         , public detail::InheritGetHashCode<struct_wrapper_impl<T>, T>
@@ -275,23 +275,23 @@ namespace dot
             return typeof();
         }
 
-        virtual string to_string() override { return detail::InheritToString<struct_wrapper_impl<T>, T>::to_string(); }
+        virtual String to_string() override { return detail::InheritToString<struct_wrapper_impl<T>, T>::to_string(); }
 
         virtual size_t hash_code() override { return detail::InheritGetHashCode<struct_wrapper_impl<T>, T>::hash_code(); }
 
-        bool equals(object obj) override { return detail::InheritEquals<struct_wrapper_impl<T>, T>::equals(obj); }
+        bool equals(Object obj) override { return detail::InheritEquals<struct_wrapper_impl<T>, T>::equals(obj); }
     };
 }
 
 namespace std
 {
-    /// Implements hash struct used by STL unordered_map for object.
+    /// Implements hash struct used by STL unordered_map for Object.
     template <>
-    struct hash<dot::object> : public hash<dot::ptr<dot::object_impl>>
+    struct hash<dot::Object> : public hash<dot::Ptr<dot::ObjectImpl>>
     {};
 
-    /// Implements equal_to struct used by STL unordered_map for object.
+    /// Implements equal_to struct used by STL unordered_map for Object.
     template <>
-    struct equal_to<dot::object> : public equal_to<dot::ptr<dot::object_impl>>
+    struct equal_to<dot::Object> : public equal_to<dot::Ptr<dot::ObjectImpl>>
     {};
 }

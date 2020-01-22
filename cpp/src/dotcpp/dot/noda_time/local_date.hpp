@@ -29,11 +29,11 @@ limitations under the License.
 
 namespace dot
 {
-    class string;
+    class String;
     class Period;
     class LocalTime;
     class LocalDateTime;
-    class object;
+    class Object;
 
     /// LocalDate is an immutable struct representing a date within the calendar,
     /// with no reference to a particular time zone or time of day.
@@ -59,8 +59,8 @@ namespace dot
         /// Copy constructor.
         LocalDate(const LocalDate& other);
 
-        /// Create from object.
-        LocalDate(object const& rhs);
+        /// Create from Object.
+        LocalDate(Object const& rhs);
 
     public:
         /// Adds the specified Period to the date. Friendly alternative to operator+().
@@ -78,8 +78,8 @@ namespace dot
         /// Compares two LocalDate values for equality. This requires that the dates be the same, within the same calendar.
         bool equals(const LocalDate& other) const;
 
-        /// String that represents the current object.
-        string to_string() const;
+        /// String that represents the current Object.
+        String to_string() const;
 
         /// Subtracts the specified date from this date, returning the result as a Period with units of years, months and days. Fluent alternative to operator-().
         Period minus(const LocalDate& date) const;

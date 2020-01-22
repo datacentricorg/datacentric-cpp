@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_server_data_impl; using mongo_server_data = dot::ptr<mongo_server_data_impl>;
+    class mongo_server_data_impl; using mongo_server_data = dot::Ptr<mongo_server_data_impl>;
 
     /// Database server definition for MongoDB. This class is responsible
     /// for assembling MongoDB URI from hostname, port, and other parameters.
@@ -37,6 +37,6 @@ namespace dc
     public: // METHODS
 
         /// Get Mongo server URI without database name.
-        virtual dot::string get_mongo_server_uri() = 0;
+        virtual dot::String get_mongo_server_uri() = 0;
     };
 }

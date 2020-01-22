@@ -73,19 +73,19 @@ namespace dc
         temporal_id(bsoncxx::oid id);
 
         /// Create from MongoDB driver object id type.
-        temporal_id(dot::object obj);
+        temporal_id(dot::Object obj);
 
-        /// Create from the hexidecimal string representation produced by to_string().
-        temporal_id(dot::string str);
+        /// Create from the hexidecimal String representation produced by to_string().
+        temporal_id(dot::String str);
 
         /// Create from byte array.
         temporal_id(const char* bytes, std::size_t len);
 
-        /// Create from byte_array.
-        temporal_id(dot::byte_array bytes);
+        /// Create from ByteArray.
+        temporal_id(dot::ByteArray bytes);
 
         /// Create from UTC datetime, with all other components of object id empty.
-        /// The created object is less or equal to any other object with time timestamp
+        /// The created Object is less or equal to any other Object with time timestamp
         /// that falls on the same second.
         ///
         /// Error message if the timestamp does not fall on the second // TODO - need to check
@@ -99,14 +99,14 @@ namespace dc
         /// Generates new temporal_id.
         static temporal_id generate_new_id();
 
-        /// Min method for nullable temporal_id.
-        static dot::nullable<temporal_id> min(dot::nullable<temporal_id> lhs, dot::nullable<temporal_id> rhs);
+        /// Min method for Nullable temporal_id.
+        static dot::Nullable<temporal_id> min(dot::Nullable<temporal_id> lhs, dot::Nullable<temporal_id> rhs);
 
-        /// Converts temporal_id to byte_array.
-        dot::byte_array to_byte_array();
+        /// Converts temporal_id to ByteArray.
+        dot::ByteArray to_byte_array();
 
-        /// Returns hexadecimal string representation
-        dot::string to_string() const;
+        /// Returns hexadecimal String representation
+        dot::String to_string() const;
 
     public: // OPERATORS
 
@@ -129,13 +129,13 @@ namespace dc
         bool operator<(const temporal_id& rhs) const;
 
         /// Boxing operator
-        operator dot::object() const;
+        operator dot::Object() const;
 
     private:
 
-        static void serialize(dot::tree_writer_base writer, dot::object obj);
-        static dot::object deserialize(dot::object value, dot::type type);
-        static dot::object serialize_token(dot::object obj);
+        static void serialize(dot::tree_writer_base writer, dot::Object obj);
+        static dot::Object deserialize(dot::Object value, dot::type type);
+        static dot::Object serialize_token(dot::Object obj);
 
     private:
 
@@ -153,7 +153,7 @@ namespace dc
         static const int other_offset_;
         static const int other_size_;
 
-        dot::byte_array bytes_;
+        dot::ByteArray bytes_;
     };
 }
 

@@ -25,7 +25,7 @@ limitations under the License.
 
 namespace dot
 {
-    inline string method_info_impl::to_string() { return "method_info"; }
+    inline String method_info_impl::to_string() { return "method_info"; }
 
     inline list<parameter_info> method_info_impl::get_parameters()
     {
@@ -37,73 +37,73 @@ namespace dot
         return return_type_;
     }
 
-    inline method_info_impl::method_info_impl(const string& name, type declaring_type, type return_type, list<attribute> custom_attributes)
+    inline method_info_impl::method_info_impl(const String& name, type declaring_type, type return_type, list<Attribute> custom_attributes)
         : member_info_impl(name, declaring_type, custom_attributes)
         , return_type_(return_type)
     {}
 
     template <class class_, class return_t, class ... args>
-    inline string member_method_info_impl<class_, return_t, args...>::to_string() { return "member_method_info"; }
+    inline String member_method_info_impl<class_, return_t, args...>::to_string() { return "member_method_info"; }
 
     template <class class_, class return_t, class ... args>
     template <int ... I>
-    inline object member_method_info_impl<class_, return_t, args...>::invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::false_type)
+    inline Object member_method_info_impl<class_, return_t, args...>::invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type)
     {
-        return ((*ptr<class_>(obj)).*ptr_)(params[I]...);
+        return ((*Ptr<class_>(obj)).*ptr_)(params[I]...);
     }
 
     template <class class_, class return_t, class ... args>
     template <int ... I>
-    inline object member_method_info_impl<class_, return_t, args...>::invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::true_type)
+    inline Object member_method_info_impl<class_, return_t, args...>::invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type)
     {
-        ((*ptr<class_>(obj)).*ptr_)(params[I]...);
-        return object();
+        ((*Ptr<class_>(obj)).*ptr_)(params[I]...);
+        return Object();
     }
 
     template <class class_, class return_t, class ... args>
-    inline object member_method_info_impl<class_, return_t, args...>::invoke(object obj, list<object> params)
+    inline Object member_method_info_impl<class_, return_t, args...>::invoke(Object obj, list<Object> params)
     {
         if (params->count() != parameters_->count())
-            throw exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
+            throw Exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
 
         return invoke_impl(obj, params, typename detail::MakeIndexSequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
     }
 
     template <class class_, class return_t, class ... args>
-    inline member_method_info_impl<class_, return_t, args...>::member_method_info_impl(const string& name, type declaring_type, type return_type, method_type p, list<attribute> custom_attributes)
+    inline member_method_info_impl<class_, return_t, args...>::member_method_info_impl(const String& name, type declaring_type, type return_type, method_type p, list<Attribute> custom_attributes)
             : method_info_impl(name, declaring_type, return_type, custom_attributes)
             , ptr_(p)
     {}
 
     template <class return_t, class ... args>
-    inline string static_method_info_impl<return_t, args...>::to_string() { return "static_method_info"; }
+    inline String static_method_info_impl<return_t, args...>::to_string() { return "static_method_info"; }
 
     template <class return_t, class ... args>
     template <int ... I>
-    inline object static_method_info_impl<return_t, args...>::invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::false_type)
+    inline Object static_method_info_impl<return_t, args...>::invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type)
     {
         return (*ptr_)(params[I]...);
     }
 
     template <class return_t, class ... args>
     template <int ... I>
-    inline object static_method_info_impl<return_t, args...>::invoke_impl(object obj, list<object> params, detail::IndexSequence<I...>, std::true_type)
+    inline Object static_method_info_impl<return_t, args...>::invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type)
     {
         (*ptr_)(params[I]...);
-        return object();
+        return Object();
     }
 
     template <class return_t, class ... args>
-    inline object static_method_info_impl<return_t, args...>::invoke(object obj, list<object> params)
+    inline Object static_method_info_impl<return_t, args...>::invoke(Object obj, list<Object> params)
     {
         if (params->count() != parameters_->count())
-            throw exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
+            throw Exception("Wrong number of parameters for method " + this->declaring_type()->name() + "." + this->name());
 
         return invoke_impl(obj, params, typename detail::MakeIndexSequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
     }
 
     template <class return_t, class ... args>
-    inline static_method_info_impl<return_t, args...>::static_method_info_impl(const string& name, type declaring_type, type return_type, method_type p, list<attribute> custom_attributes)
+    inline static_method_info_impl<return_t, args...>::static_method_info_impl(const String& name, type declaring_type, type return_type, method_type p, list<Attribute> custom_attributes)
             : method_info_impl(name, declaring_type, return_type, custom_attributes)
             , ptr_(p)
     {}

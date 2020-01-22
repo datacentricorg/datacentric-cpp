@@ -28,29 +28,29 @@ limitations under the License.
 
 namespace dot
 {
-    class object;
-    class string_impl; class string;
-    class type_impl; using type = ptr<type_impl>;
+    class Object;
+    class StringImpl; class String;
+    class type_impl; using type = Ptr<type_impl>;
 
     /// All classes with reference semantics should derive from this type.
-    /// It works with ptr to provide an emulation of reference semantics in C++.
-    class DOT_CLASS object_impl : public ReferenceCounter
+    /// It works with Ptr to provide an emulation of reference semantics in C++.
+    class DOT_CLASS ObjectImpl : public ReferenceCounter
     {
         template<typename T>
-        friend class ptr;
-        friend class object;
+        friend class Ptr;
+        friend class Object;
 
     public: // METHODS
 
-        /// Determines whether the specified object is equal to the current object.
+        /// Determines whether the specified Object is equal to the current Object.
         ///
-        /// Default implementation in object compares pointers. Derived classes
+        /// Default implementation in Object compares pointers. Derived classes
         /// can override this method to compare by value.
-        virtual bool equals(object obj);
+        virtual bool equals(Object obj);
 
         /// Serves as the default hash function.
         ///
-        /// Default implementation in object uses hash based on the pointer.
+        /// Default implementation in Object uses hash based on the pointer.
         /// Derived classes can override this method to provide value based hash.
         ///
         /// Methods equals() and hash_code() must always be overriden together
@@ -63,12 +63,12 @@ namespace dot
         /// Gets the type of the class.
         static type typeof();
 
-        /// string that represents the current object.
+        /// String that represents the current Object.
         ///
-        /// Default implementation in object returns full name
+        /// Default implementation in Object returns full name
         /// of the class by calling get_type().full_name. Derived types
         /// can override this method to provide custom conversion
-        /// to string.
-        virtual string to_string();
+        /// to String.
+        virtual String to_string();
     };
 }

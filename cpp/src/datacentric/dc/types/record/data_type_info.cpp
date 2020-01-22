@@ -22,17 +22,17 @@ limitations under the License.
 
 namespace dc
 {
-    dot::string data_type_info_impl::get_collection_name()
+    dot::String data_type_info_impl::get_collection_name()
     {
         if (data_kind_ != data_kind_enum::record && data_kind_ != data_kind_enum::key)
-            throw dot::exception(dot::string::format(
+            throw dot::Exception(dot::String::format(
                 "get_collection_name() method is called for {0} "
                 "that is not derived from typed_record.", type_->name()));
 
         return root_data_type_->name();
     }
 
-    data_type_info data_type_info_impl::get_or_create(dot::object value)
+    data_type_info data_type_info_impl::get_or_create(dot::Object value)
     {
         return get_or_create(value->get_type());
     }
@@ -91,7 +91,7 @@ namespace dc
                     root_data_type_ = current_type->get_generic_arguments()[1];
 
                     if (inheritance_chain->count() > 2)
-                        throw dot::exception(dot::string::format(
+                        throw dot::Exception(dot::String::format(
                             "Key type {0} must be derived directly from typed_key<TKey, TRecord> and sealed "
                             "because key classes cannot have an inheritance hierarchy, only data classes can.",
                             value->name()));
@@ -119,10 +119,10 @@ namespace dc
 
         // Error message if the type is not derived from one of the permitted base classes
         if (data_kind_ == data_kind_enum::empty)
-            throw dot::exception(dot::string::format(
+            throw dot::Exception(dot::String::format(
                 "Data type {0} is not derived from Data, TypedKey<TKey, TRecord>, or TypedRecord<TKey, TRecord>.", value->name()));
 
-        inheritance_chain_ = dot::make_list<dot::string>();
+        inheritance_chain_ = dot::make_list<dot::String>();
         for (dot::type t : inheritance_chain)
             inheritance_chain_->add(t->name());
     }

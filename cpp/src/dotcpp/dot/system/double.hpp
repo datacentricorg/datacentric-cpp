@@ -28,16 +28,16 @@ limitations under the License.
 
 namespace dot
 {
-    /// Wrapper around double to make it convertible to object (boxing).
-    class DOT_CLASS double_impl : public virtual object_impl
+    /// Wrapper around double to make it convertible to Object (boxing).
+    class DOT_CLASS DoubleImpl : public virtual ObjectImpl
     {
-        friend object;
+        friend Object;
         double value_;
 
     public: // CONSTRUCTORS
 
         /// Create from value (box).
-        double_impl(double value) : value_(value) {}
+        DoubleImpl(double value) : value_(value) {}
 
     public: //  CONSTANTS
 
@@ -49,19 +49,19 @@ namespace dot
 
     public: // STATIC
 
-        /// Converts the string representation of a number to its double-precision floating-point number equivalent.
-        static double parse(string s);
+        /// Converts the String representation of a number to its double-precision floating-point number equivalent.
+        static double parse(String s);
 
     public: // METHODS
 
-        /// Returns a value indicating whether this instance is equal to a specified object.
-        bool equals(object obj) override;
+        /// Returns a value indicating whether this instance is equal to a specified Object.
+        bool equals(Object obj) override;
 
         /// Returns the hash code for this instance.
         virtual size_t hash_code() override;
 
-        /// Converts the numeric value of this instance to its equivalent string representation.
-        virtual string to_string() override;
+        /// Converts the numeric value of this instance to its equivalent String representation.
+        virtual String to_string() override;
 
     public: // REFLECTION
 

@@ -30,15 +30,15 @@ limitations under the License.
 
 namespace dot
 {
-    class exception;
+    class Exception;
 
     /// Reference counted smart pointer based on std::shared_ptr
     /// with emulation of selected features of .NET references including
     /// type conversion using 'is' and 'as'.
     template <class T>
-    class ptr
+    class Ptr
     {
-        template<class R> friend class ptr;
+        template<class R> friend class Ptr;
 
     public: // TYPEDEF
 
@@ -52,32 +52,32 @@ namespace dot
     public: // CONSTRUCTORS
 
         /// Create empty pointer.
-        ptr();
+        Ptr();
 
         /// Take ownership of raw pointer to template argument type.
         /// This also permits construction from null pointer.
-        ptr(T* p);
+        Ptr(T* p);
 
-        /// Conversion from weak_ptr to ptr.
-        ptr(const weak_ptr<T>& rhs);
+        /// Conversion from WeakPtr to Ptr.
+        Ptr(const WeakPtr<T>& rhs);
 
         /// Implicit conversion from derived to base pointer (does not use dynamic cast).
         template <class R>
-        ptr(const ptr<R>& rhs, typename std::enable_if<std::is_base_of<T, R>::value>::type* p = 0);
+        Ptr(const Ptr<R>& rhs, typename std::enable_if<std::is_base_of<T, R>::value>::type* p = 0);
 
         /// Explicit conversion from base to derived or sibling pointer (uses dynamic cast).
         ///
         /// Error message if the cast fails because the two types are unrelated.
         template <class R>
-        explicit ptr(const ptr<R>& rhs, typename std::enable_if<!std::is_base_of<T, R>::value>::type* p = 0);
+        explicit Ptr(const Ptr<R>& rhs, typename std::enable_if<!std::is_base_of<T, R>::value>::type* p = 0);
 
         /// Copy constructor for the pointer (does not copy T).
-        ptr(const ptr<T>& rhs);
+        Ptr(const Ptr<T>& rhs);
 
     public: // DESTRUCTOR
 
         /// Decrements reference count if not empty.
-        ~ptr();
+        ~Ptr();
 
     public: // METHODS
 
@@ -85,14 +85,14 @@ namespace dot
         template <class R>
         R as() const;
 
-        /// Returns true if pointer holds object of type R, and false otherwise.
+        /// Returns true if pointer holds Object of type R, and false otherwise.
         template <class R>
         bool is() const;
 
-        /// Returns true if pointer holds object, and false otherwise.
+        /// Returns true if pointer holds Object, and false otherwise.
         bool is_empty() const;
 
-        weak_ptr<T> to_weak() const;
+        WeakPtr<T> to_weak() const;
 
     public: // OPERATORS
 
@@ -104,28 +104,28 @@ namespace dot
 
         /// Returns true if the argument contains
         /// pointer to the same instance as self.
-        bool operator==(const ptr<T>& rhs) const;
+        bool operator==(const Ptr<T>& rhs) const;
 
         /// Returns true if the argument does
         /// not contain pointer to the same instance as self.
-        bool operator!=(const ptr<T>& rhs) const;
+        bool operator!=(const Ptr<T>& rhs) const;
 
-        /// Supports ptr == nullptr.
+        /// Supports Ptr == nullptr.
         bool operator==(nullptr_t) const;
 
-        /// Supports ptr != nullptr.
+        /// Supports Ptr != nullptr.
         bool operator!=(nullptr_t) const;
 
         /// Take ownership of raw pointer to template argument type.
         /// This also permits assignment of pointer to type derived from T.
-        ptr<T>& operator=(T* rhs);
+        Ptr<T>& operator=(T* rhs);
 
         /// Assign pointer to template argument base type. // TODO - use SFINAE to detemine if dynamic cast is needed
         template <class R>
-        ptr<T>& operator=(const ptr<R>& rhs);
+        Ptr<T>& operator=(const Ptr<R>& rhs);
 
         /// Assign pointer of the same type.
-        ptr<T>& operator=(const ptr<T>& rhs);
+        Ptr<T>& operator=(const Ptr<T>& rhs);
 
         /// Const indexer operator for arrays.
         template <class I>
@@ -137,19 +137,19 @@ namespace dot
     };
 
     template <class T>
-    ptr<T>::ptr()
+    Ptr<T>::Ptr()
         : ptr_(nullptr)
     {}
 
     template <class T>
-    ptr<T>::ptr(T* p)
+    Ptr<T>::Ptr(T* p)
         : ptr_(p)
     {
         if (ptr_) ptr_->increment_reference_count();
     }
 
     template<class T>
-    ptr<T>::ptr(const weak_ptr<T>& rhs)
+    Ptr<T>::Ptr(const WeakPtr<T>& rhs)
         : ptr_(rhs.ptr_)
     {
         if (ptr_) ptr_->increment_reference_count();
@@ -157,7 +157,7 @@ namespace dot
 
     template <class T>
     template <class R>
-    ptr<T>::ptr(const ptr<R>& rhs, typename std::enable_if<std::is_base_of<T, R>::value>::type* p)
+    Ptr<T>::Ptr(const Ptr<R>& rhs, typename std::enable_if<std::is_base_of<T, R>::value>::type* p)
         : ptr_(rhs.ptr_)
     {
         if (ptr_) ptr_->increment_reference_count();
@@ -165,7 +165,7 @@ namespace dot
 
     template <class T>
     template <class R>
-    ptr<T>::ptr(const ptr<R>& rhs, typename std::enable_if<!std::is_base_of<T, R>::value>::type* p)
+    Ptr<T>::Ptr(const Ptr<R>& rhs, typename std::enable_if<!std::is_base_of<T, R>::value>::type* p)
         : ptr_(nullptr)
     {
         // If argument is null, ptr_ should also remain null
@@ -176,7 +176,7 @@ namespace dot
 
             // Check that dynamic cast succeeded
             if (!p)
-                throw dot::exception("Cast cannot be performed."); // TODO Use typeof(...) and get_type() to provide specific types in the error message
+                throw dot::Exception("Cast cannot be performed."); // TODO Use typeof(...) and get_type() to provide specific types in the error message
 
             // Current pointer now contains the result of dynamic_cast
             ptr_ = p;
@@ -187,21 +187,21 @@ namespace dot
     }
 
     template <class T>
-    ptr<T>::ptr(const ptr<T>& rhs)
+    Ptr<T>::Ptr(const Ptr<T>& rhs)
         : ptr_(rhs.ptr_)
     {
         if (ptr_) ptr_->increment_reference_count();
     }
 
     template <class T>
-    ptr<T>::~ptr()
+    Ptr<T>::~Ptr()
     {
         if (ptr_) ptr_->decrement_reference_count();
     }
 
     template <class T>
     template <class R>
-    R ptr<T>::as() const
+    R Ptr<T>::as() const
     {
         typename R::pointer_type p = dynamic_cast<typename R::pointer_type>(ptr_);
         return p;
@@ -209,65 +209,65 @@ namespace dot
 
     template <class T>
     template <class R>
-    bool ptr<T>::is() const
+    bool Ptr<T>::is() const
     {
         return dynamic_cast<typename R::pointer_type>(ptr_);
     }
 
     template <class T>
-    bool ptr<T>::is_empty() const
+    bool Ptr<T>::is_empty() const
     {
         return !ptr_;
     }
 
     template<class T>
-    weak_ptr<T> ptr<T>::to_weak() const
+    WeakPtr<T> Ptr<T>::to_weak() const
     {
-        return weak_ptr<T>(ptr_);
+        return WeakPtr<T>(ptr_);
     }
 
     template <class T>
-    T& ptr<T>::operator*() const
+    T& Ptr<T>::operator*() const
     {
         if (!ptr_)
-            throw dot::exception("Pointer is not initialized");
+            throw dot::Exception("Pointer is not initialized");
         return *ptr_;
     }
 
     template <class T>
-    T* ptr<T>::operator->() const
+    T* Ptr<T>::operator->() const
     {
         if (!ptr_)
-            throw dot::exception("Pointer is not initialized");
+            throw dot::Exception("Pointer is not initialized");
         return ptr_;
     }
 
     template <class T>
-    bool ptr<T>::operator==(const ptr<T>& rhs) const
+    bool Ptr<T>::operator==(const Ptr<T>& rhs) const
     {
         return ptr_ == rhs.ptr_; // TODO check when comparison is performed by value
     }
 
     template <class T>
-    bool ptr<T>::operator!=(const ptr<T>& rhs) const
+    bool Ptr<T>::operator!=(const Ptr<T>& rhs) const
     {
         return ptr_ != rhs.ptr_; // TODO check when comparison is performed by value
     }
 
     template <class T>
-    bool ptr<T>::operator==(nullptr_t) const
+    bool Ptr<T>::operator==(nullptr_t) const
     {
         return ptr_ == nullptr;
     }
 
     template <class T>
-    bool ptr<T>::operator!=(nullptr_t) const
+    bool Ptr<T>::operator!=(nullptr_t) const
     {
         return ptr_ != nullptr;
     }
 
     template <class T>
-    ptr<T>& ptr<T>::operator=(T* rhs)
+    Ptr<T>& Ptr<T>::operator=(T* rhs)
     {
         if (ptr_) ptr_->decrement_reference_count();
         if (rhs) rhs->increment_reference_count();
@@ -277,7 +277,7 @@ namespace dot
 
     template <class T>
     template <class R>
-    ptr<T>& ptr<T>::operator=(const ptr<R>& rhs)
+    Ptr<T>& Ptr<T>::operator=(const Ptr<R>& rhs)
     {
         if (ptr_) ptr_->decrement_reference_count();
         if (rhs.ptr_) rhs.ptr_->increment_reference_count();
@@ -286,7 +286,7 @@ namespace dot
     }
 
     template <class T>
-    ptr<T>& ptr<T>::operator=(const ptr<T>& rhs)
+    Ptr<T>& Ptr<T>::operator=(const Ptr<T>& rhs)
     {
         if (ptr_) ptr_->decrement_reference_count();
         if (rhs.ptr_) rhs.ptr_->increment_reference_count();
@@ -296,42 +296,42 @@ namespace dot
 
     template <class T>
     template <class I>
-    decltype(auto) ptr<T>::operator[](I const& i) const
+    decltype(auto) Ptr<T>::operator[](I const& i) const
     {
         return (*ptr_)[i];
     }
 
     template <class T>
     template <class I>
-    decltype(auto) ptr<T>::operator[](I const& i)
+    decltype(auto) Ptr<T>::operator[](I const& i)
     {
         return (*ptr_)[i];
     }
 
     /// Implements begin() used by STL and similar algorithms.
     template <class T>
-    auto begin(dot::ptr<T> & obj)
+    auto begin(dot::Ptr<T> & obj)
     {
         return obj->begin();
     }
 
     /// Implements end() used by STL and similar algorithms.
     template <class T>
-    auto end(dot::ptr<T> & obj)
+    auto end(dot::Ptr<T> & obj)
     {
         return obj->end();
     }
 
     /// Implements begin() used by STL and similar algorithms.
     template <class T>
-    auto begin(dot::ptr<T> const& obj)
+    auto begin(dot::Ptr<T> const& obj)
     {
         return obj->begin();
     }
 
     /// Implements end() used by STL and similar algorithms.
     template <class T>
-    auto end(dot::ptr<T> const& obj)
+    auto end(dot::Ptr<T> const& obj)
     {
         return obj->end();
     }
@@ -339,21 +339,21 @@ namespace dot
 
 namespace std
 {
-    /// Implements hash struct used by STL unordered_map for ptr.
+    /// Implements hash struct used by STL unordered_map for Ptr.
     template <typename T>
-    struct hash<dot::ptr<T>>
+    struct hash<dot::Ptr<T>>
     {
-        size_t operator()(const dot::ptr<T>& obj) const
+        size_t operator()(const dot::Ptr<T>& obj) const
         {
             return obj->hash_code();
         }
     };
 
-    /// Implements equal_to struct used by STL unordered_map for ptr.
+    /// Implements equal_to struct used by STL unordered_map for Ptr.
     template <typename T>
-    struct equal_to<dot::ptr<T>>
+    struct equal_to<dot::Ptr<T>>
     {
-        bool operator()(const dot::ptr<T>& lhs, const dot::ptr<T>& rhs) const
+        bool operator()(const dot::Ptr<T>& lhs, const dot::Ptr<T>& rhs) const
         {
             return lhs->equals(rhs);
         }

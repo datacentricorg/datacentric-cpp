@@ -55,16 +55,16 @@ namespace dot
         object_id(bsoncxx::oid id);
 
         /// Create from MongoDB driver object id type.
-        object_id(dot::object obj);
+        object_id(dot::Object obj);
 
         /// Create from the hexidecimal string representation produced by to_string().
-        object_id(dot::string str);
+        object_id(dot::String str);
 
         /// Create from byte array.
         object_id(const char* bytes, std::size_t len);
 
         /// Create from UTC datetime, with all other components of object id empty.
-        /// The created object is less or equal to any other object with time timestamp
+        /// The created Object is less or equal to any other Object with time timestamp
         /// that falls on the same second.
         ///
         /// Error message if the timestamp does not fall on the second // TODO - need to check
@@ -80,7 +80,7 @@ namespace dot
         static object_id generate_new_id();
 
         /// Returns hexadecimal string representation
-        dot::string to_string() const;
+        dot::String to_string() const;
 
     public: // OPERATORS
 
@@ -103,17 +103,17 @@ namespace dot
         bool operator<(const object_id& rhs) const;
 
         /// Boxing operator
-        operator dot::object() const
+        operator dot::Object() const
         {
-            return dot::object(new dot::struct_wrapper_impl<object_id>(*this));
+            return dot::Object(new dot::struct_wrapper_impl<object_id>(*this));
         }
 
-        /// Min method for nullable object_id.
-        static dot::nullable<object_id> min(dot::nullable<object_id> lhs, dot::nullable<object_id> rhs);
+        /// Min method for Nullable object_id.
+        static dot::Nullable<object_id> min(dot::Nullable<object_id> lhs, dot::Nullable<object_id> rhs);
 
     private:
 
-        static object deserialize(object value, dot::type type);
+        static Object deserialize(Object value, dot::type type);
 
     private:
         bsoncxx::oid id_;

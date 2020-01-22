@@ -32,48 +32,48 @@ limitations under the License.
 
 namespace dot
 {
-    string string::empty = make_string("");
+    String String::empty = make_string("");
 
-    dot::type string_impl::typeof()
+    dot::type StringImpl::typeof()
     {
         static dot::type result = []()->dot::type
         {
-            dot::type t = dot::make_type_builder<string_impl>("dot", "string")
+            dot::type t = dot::make_type_builder<StringImpl>("dot", "String")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    dot::type string_impl::get_type()
+    dot::type StringImpl::get_type()
     {
         return typeof();
     }
 
 
-    bool string_impl::equals(object obj)
+    bool StringImpl::equals(Object obj)
     {
         if (this == &(*obj)) return true;
 
-        if (obj.is<string>())
+        if (obj.is<String>())
         {
-            return *this == *obj.as<string>();
+            return *this == *obj.as<String>();
         }
 
         return false;
     }
 
-    size_t string_impl::hash_code()
+    size_t StringImpl::hash_code()
     {
         return std::hash<std::string>()(*this);
     }
 
-    string string_impl::to_string()
+    String StringImpl::to_string()
     {
         return this;
     }
 
-    bool string_impl::ends_with(const string& value)
+    bool StringImpl::ends_with(const String& value)
     {
         int p = length() - value->length();
         if (p >= 0 && substr(p, value->length()) == *value)
@@ -81,7 +81,7 @@ namespace dot
         return false;
     }
 
-    bool string_impl::starts_with(const string& value)
+    bool StringImpl::starts_with(const String& value)
     {
         int p = length() - value->length();
         if (p >= 0 && substr(0, value->length()) == *value)
@@ -89,22 +89,22 @@ namespace dot
         return false;
     }
 
-    string string_impl::substring(int start_index)
+    String StringImpl::substring(int start_index)
     {
         return make_string(this->substr(start_index));
     }
 
-    string string_impl::substring(int start_index, int length)
+    String StringImpl::substring(int start_index, int length)
     {
         return make_string(this->substr(start_index, length));
     }
 
-    int string_impl::compare_to(const string& str_b) const
+    int StringImpl::compare_to(const String& str_b) const
     {
         return this->compare(*str_b);
     }
 
-    int string_impl::index_of_any(list<char> any_of)
+    int StringImpl::index_of_any(list<char> any_of)
     {
         size_t pos = find_first_of(any_of->data(), 0, any_of->size());
         if (pos != std::string::npos)
@@ -112,26 +112,26 @@ namespace dot
         return -1;
     }
 
-    string string_impl::remove(int start_index)
+    String StringImpl::remove(int start_index)
     {
         return make_string(*this)->erase(start_index);
     }
 
-    string string_impl::remove(int start_index, int count)
+    String StringImpl::remove(int start_index, int count)
     {
         return make_string(*this)->erase(start_index, count);
     }
 
-    string string_impl::replace(const char old_char, const char new_char) const
+    String StringImpl::replace(const char old_char, const char new_char) const
     {
-        string make_str = *this;
+        String make_str = *this;
         std::replace(make_str->begin(), make_str->end(), old_char, new_char);
         return make_str;
     }
 
-    list<string> string_impl::split(char separator) const
+    list<String> StringImpl::split(char separator) const
     {
-        list<string> result = make_list<string>();
+        list<String> result = make_list<String>();
 
         std::size_t current, previous = 0;
         current = this->find(separator);
@@ -145,9 +145,9 @@ namespace dot
         return result;
     }
 
-    list<string> string_impl::split(string separator) const
+    list<String> StringImpl::split(String separator) const
     {
-        list<string> result = make_list<string>();
+        list<String> result = make_list<String>();
 
         std::size_t current, previous = 0;
         current = this->find_first_of(*separator);
@@ -161,73 +161,73 @@ namespace dot
         return result;
     }
 
-    string string_impl::trim() const
+    String StringImpl::trim() const
     {
-        string result = make_string(*this);
+        String result = make_string(*this);
 
         // Trim end
         result->erase(std::find_if(result->rbegin(), result->rend(), [](char ch) {
-            return !char_impl::is_white_space(ch);
+            return !CharImpl::is_white_space(ch);
         }).base(), result->end());
 
         // Trim start
         result->erase(result->begin(), std::find_if(result->begin(), result->end(), [](char ch) {
-            return !char_impl::is_white_space(ch);
+            return !CharImpl::is_white_space(ch);
         }));
 
         return result;
     }
 
-    string string_impl::trim_start() const
+    String StringImpl::trim_start() const
     {
-        string result = make_string(*this);
+        String result = make_string(*this);
         result->erase(result->begin(), std::find_if(result->begin(), result->end(), [](char ch) {
-            return !char_impl::is_white_space(ch);
+            return !CharImpl::is_white_space(ch);
         }));
         return result;
     }
 
-    string string_impl::trim_end() const
+    String StringImpl::trim_end() const
     {
-        string result = make_string(*this);
+        String result = make_string(*this);
         result->erase(std::find_if(result->rbegin(), result->rend(), [](char ch) {
-            return !char_impl::is_white_space(ch);
+            return !CharImpl::is_white_space(ch);
         }).base(), result->end());
         return result;
     }
 
-    bool string_impl::contains(const string& s) const
+    bool StringImpl::contains(const String& s) const
     {
         return this->find(*s) != std::string::npos;
     }
 
-    string string_impl::to_lower() const
+    String StringImpl::to_lower() const
     {
-        string result = make_string(*this);
+        String result = make_string(*this);
         std::transform(result->begin(), result->end(), result->begin(),
             [](unsigned char c) { return std::tolower(c); });
         return result;
     }
 
-    string string_impl::to_upper() const
+    String StringImpl::to_upper() const
     {
-        string result = make_string(*this);
+        String result = make_string(*this);
         std::transform(result->begin(), result->end(), result->begin(),
             [](unsigned char c) { return std::toupper(c); });
         return result;
     }
 
-    bool string::is_null_or_empty(string value)
+    bool String::is_null_or_empty(String value)
     {
         if (value == nullptr || value->empty())
             return true;
         return false;
     }
 
-    bool string::operator==(const object& rhs) const
+    bool String::operator==(const Object& rhs) const
     {
         // If rhs is null, return false. Otherwise, check if
-        // the other object is a string. If yes, compare by value.
+        // the other Object is a String. If yes, compare by value.
         // If no, return false.
         if (rhs == nullptr)
         {
@@ -235,13 +235,13 @@ namespace dot
         }
         else
         {
-            string rhs_str = rhs.as<string>();
+            String rhs_str = rhs.as<String>();
             if (rhs_str != nullptr) return operator==(rhs_str);
             else return false;
         }
     }
 
-    std::string string::format_impl(fmt::string_view format_str, fmt::format_args args)
+    std::string String::format_impl(fmt::string_view format_str, fmt::format_args args)
     {
         return fmt::vformat(format_str, args);
     }

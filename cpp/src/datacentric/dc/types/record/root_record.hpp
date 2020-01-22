@@ -22,9 +22,9 @@ limitations under the License.
 namespace dc
 {
     template <typename TKey, typename TRecord> class root_record_for_impl;
-    template <typename TKey, typename TRecord> using root_record_for = dot::ptr<root_record_for_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> using root_record_for = dot::Ptr<root_record_for_impl<TKey, TRecord>>;
     template <typename TKey, typename TRecord> class typed_record_impl;
-    template <typename TKey, typename TRecord> using typed_record = dot::ptr<typed_record_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> using typed_record = dot::Ptr<typed_record_impl<TKey, TRecord>>;
 
     /// Root record is recorded without a dataset.
     template <typename TKey, typename TRecord>

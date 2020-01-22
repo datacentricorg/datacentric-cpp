@@ -29,10 +29,10 @@ limitations under the License.
 
 namespace dot
 {
-    class bson_root_class_attribute_impl; using bson_root_class_attribute = ptr<bson_root_class_attribute_impl>;
+    class bson_root_class_attribute_impl; using bson_root_class_attribute = Ptr<bson_root_class_attribute_impl>;
 
     /// Attribute marks class as root class for writing hierarchical discriminator convention.
-    class DOT_MONGO_CLASS bson_root_class_attribute_impl : public attribute_impl
+    class DOT_MONGO_CLASS bson_root_class_attribute_impl : public AttributeImpl
     {
         friend bson_root_class_attribute make_bson_root_class_attribute();
 

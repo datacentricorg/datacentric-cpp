@@ -32,8 +32,8 @@ namespace dot
 {
     LocalMinute::LocalMinute(int hour, int minute)
     {
-        if (hour < 0 || hour > 23) throw exception(string::format("Hour {0} specified in LocalMinute constructor is not between 0 and 23.", hour));
-        if (minute < 0 || minute > 59) throw exception(string::format("Minute {0} specified in LocalMinute constructor is not between 0 and 59.", minute));
+        if (hour < 0 || hour > 23) throw Exception(String::format("Hour {0} specified in LocalMinute constructor is not between 0 and 23.", hour));
+        if (minute < 0 || minute > 59) throw Exception(String::format("Minute {0} specified in LocalMinute constructor is not between 0 and 59.", minute));
 
         hour_ = hour;
         minute_ = minute;
@@ -66,10 +66,10 @@ namespace dot
         return *this == other;
     }
 
-    string LocalMinute::to_string() const
+    String LocalMinute::to_string() const
     {
-        // LocalMinute is serialized to ISO 8601 string in hh:mm format
-        string result = string::format("{0:02}:{1:02}", hour(), minute());
+        // LocalMinute is serialized to ISO 8601 String in hh:mm format
+        String result = String::format("{0:02}:{1:02}", hour(), minute());
         return result;
     }
 

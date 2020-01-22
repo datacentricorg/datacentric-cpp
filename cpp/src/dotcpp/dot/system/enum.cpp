@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dot
 {
-    string enum_base::to_string()
+    String EnumBase::to_string()
     {
         auto values_map = get_enum_map();
 
@@ -39,34 +39,34 @@ namespace dot
                 return x.first;
         }
 
-        throw exception("Unknown enum value in to_string().");
+        throw Exception("Unknown enum value in to_string().");
     }
 
-    size_t enum_base::hash_code()
+    size_t EnumBase::hash_code()
     {
         return std::hash<int>()(value_);
     }
 
-    bool enum_base::equals(object obj)
+    bool EnumBase::equals(Object obj)
     {
         if (obj->get_type()->equals(get_type()))
         {
-            enum_base* en = dynamic_cast<enum_base*>(obj.operator->());
+            EnumBase* en = dynamic_cast<EnumBase*>(obj.operator->());
             return en->value_ == value_;
         }
         return false;
     }
 
-    object enum_base::parse(type enum_type, string value)
+    Object EnumBase::parse(type enum_type, String value)
     {
-        object enum_obj = activator::create_instance(enum_type);
-        enum_base* en = dynamic_cast<enum_base*>(enum_obj.operator->());
+        Object enum_obj = activator::create_instance(enum_type);
+        EnumBase* en = dynamic_cast<EnumBase*>(enum_obj.operator->());
         auto values_map = en->get_enum_map();
 
         int int_value = 0;
         if(!values_map->try_get_value(value, int_value))
         {
-            throw exception("value is outside the range of the underlying type of enum_type.");
+            throw Exception("value is outside the range of the underlying type of enum_type.");
         }
 
         en->value_ = int_value;

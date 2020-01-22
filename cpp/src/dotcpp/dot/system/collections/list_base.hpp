@@ -29,20 +29,20 @@ limitations under the License.
 
 namespace dot
 {
-    class list_base_impl; using list_base = ptr<list_base_impl>;
+    class list_base_impl; using list_base = Ptr<list_base_impl>;
 
-    class DOT_CLASS list_base_impl : virtual public object_impl
+    class DOT_CLASS list_base_impl : virtual public ObjectImpl
     {
     public:
 
-        /// Add object to end of collection.
-        virtual void add_object(object item) = 0;
+        /// Add Object to end of collection.
+        virtual void add_object(Object item) = 0;
 
-        /// Get object from collection by index.
-        virtual object get_item(int index) = 0;
+        /// Get Object from collection by index.
+        virtual Object get_item(int index) = 0;
 
-        /// Set object from collection by index.
-        virtual void set_item(int index, object value) = 0;
+        /// Set Object from collection by index.
+        virtual void set_item(int index, Object value) = 0;
 
         /// Get length of collection.
         virtual int get_length() = 0;

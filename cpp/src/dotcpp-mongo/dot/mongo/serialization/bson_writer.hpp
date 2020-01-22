@@ -34,7 +34,7 @@ limitations under the License.
 
 namespace dot
 {
-    class bson_writer_impl; using bson_writer = dot::ptr<bson_writer_impl>;
+    class bson_writer_impl; using bson_writer = dot::Ptr<bson_writer_impl>;
 
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
     class DOT_MONGO_CLASS bson_writer_impl : public TreeWriterBaseImpl
@@ -44,38 +44,38 @@ namespace dot
     private:
 
         bsoncxx::builder::core bson_writer_;
-        std::stack<std::pair<dot::string, TreeWriterState>> element_stack_; // TODO make dot::stack
+        std::stack<std::pair<dot::String, TreeWriterState>> element_stack_; // TODO make dot::stack
         TreeWriterState current_state_;
 
     public:
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        void write_start_document(dot::string root_element_name);
+        void write_start_document(dot::String root_element_name);
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to write_start_document(...).
-        void write_end_document(dot::string root_element_name);
+        void write_end_document(dot::String root_element_name);
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        void write_start_element(dot::string element_name);
+        void write_start_element(dot::String element_name);
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching write_start_element(...) call at the same indent level.
-        void write_end_element(dot::string element_name);
+        void write_end_element(dot::String element_name);
 
         /// Write dictionary start tag. A call to this method
         /// must follow write_start_element(...) or write_start_array_item().
-        void write_start_dict(dot::string type_name);
+        void write_start_dict(dot::String type_name);
 
         /// Write dictionary end tag. A call to this method
         /// must be followed by write_end_element(...) or write_end_array_item().
-        void write_end_dict(dot::string type_name);
+        void write_end_dict(dot::String type_name);
 
         /// Write start tag for an array. A call to this method
         /// must follow write_start_element(name).
@@ -102,19 +102,19 @@ namespace dot
         void write_end_value();
 
         /// Write atomic value. Value type
-        /// will be inferred from object.get_type().
-        void write_value(dot::object value);
+        /// will be inferred from Object.get_type().
+        void write_value(dot::Object value);
 
-        /// Convert to BSON string without checking that BSON document is complete.
+        /// Convert to BSON String without checking that BSON document is complete.
         /// This permits the use of this method to inspect the BSON content during creation.
-        dot::string to_string() override;
+        dot::String to_string() override;
 
         bsoncxx::document::view view();
 
     public:
 
-        /// Converts byte_array to bson b_binary.
-        static bsoncxx::types::b_binary to_bson_binary(byte_array obj);
+        /// Converts ByteArray to bson b_binary.
+        static bsoncxx::types::b_binary to_bson_binary(ByteArray obj);
 
     private:
 

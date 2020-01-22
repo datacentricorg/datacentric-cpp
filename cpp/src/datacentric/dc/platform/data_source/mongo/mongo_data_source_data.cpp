@@ -43,7 +43,7 @@ namespace dc
 
         if (cursor->begin() != cursor->end())
         {
-            dot::object obj = *(cursor->begin());
+            dot::Object obj = *(cursor->begin());
             if (!obj.is<deleted_record>())
             {
                 record rec = obj.as<record>();
@@ -53,7 +53,7 @@ namespace dc
                     // If cast result is null, the record was found but it is an instance
                     // of class that is not derived from TRecord, in this case the API
                     // requires error message, not returning null
-                    throw dot::exception(dot::string::format(
+                    throw dot::Exception(dot::String::format(
                         "Stored type {0} for TemporalId={1} and "
                         "Key={2} is not an instance of the requested type {3}.", rec->get_type()->name(),
                         id.to_string(), rec->get_key(), data_type->name()
@@ -61,7 +61,7 @@ namespace dc
                 }
 
                 // Now we use get_cutoff_time() for the full check
-                dot::nullable<temporal_id> cutoff_time = get_cutoff_time(rec->data_set);
+                dot::Nullable<temporal_id> cutoff_time = get_cutoff_time(rec->data_set);
                 if (cutoff_time != nullptr)
                 {
                     // Return null for any record that has TemporalId
@@ -79,8 +79,8 @@ namespace dc
 
     record mongo_data_source_data_impl::load_or_null(key key, temporal_id load_from)
     {
-        // dot::string key in semicolon delimited format used in the lookup
-        dot::string key_value = key->to_string();
+        // dot::String key in semicolon delimited format used in the lookup
+        dot::String key_value = key->to_string();
 
         dot::type record_type = dot::typeof<record>();
 
@@ -98,7 +98,7 @@ namespace dc
 
         if (cursor->begin() != cursor->end())
         {
-            dot::object obj = *(cursor->begin());
+            dot::Object obj = *(cursor->begin());
             if (!obj.is<deleted_record>())
             {
                 record rec = obj.as<record>();
@@ -129,7 +129,7 @@ namespace dc
             // TemporalId of the record must be strictly later
             // than TemporalId of the dataset where it is stored
             if (object_id <= save_to)
-                throw dot::exception(dot::string::format(
+                throw dot::Exception(dot::String::format(
                     "Attempting to save a record with temporal_id={0} that is later "
                     "than temporal_id={1} of the dataset where it is being saved.", object_id.to_string(), save_to.to_string()));
 
@@ -162,7 +162,7 @@ namespace dc
         // temporal_id of the record must be strictly later
         // than temporal_id of the dataset where it is stored
         if (object_id <= delete_in)
-            throw dot::exception(dot::string::format(
+            throw dot::Exception(dot::String::format(
                 "Attempting to save a record with temporal_id={0} that is later "
                 "than temporal_id={1} of the dataset where it is being saved.", object_id.to_string(), delete_in.to_string()));
 
@@ -195,7 +195,7 @@ namespace dc
         //
         // The property savedBy_ is set using either CutoffTime element.
         // Only one of these two elements can be set at a given time.
-        dot::nullable<temporal_id> cutoff_time = get_cutoff_time(load_from);
+        dot::Nullable<temporal_id> cutoff_time = get_cutoff_time(load_from);
         if (cutoff_time != nullptr)
         {
             result = result->where(new dot::operator_wrapper_impl("_id", "$lt", cutoff_time.value()));
@@ -204,7 +204,7 @@ namespace dc
         return result;
     }
 
-    dot::nullable<temporal_id> mongo_data_source_data_impl::get_data_set_or_empty(dot::string data_set_id, temporal_id load_from)
+    dot::Nullable<temporal_id> mongo_data_source_data_impl::get_data_set_or_empty(dot::String data_set_id, temporal_id load_from)
     {
         temporal_id result;
         if (data_set_dict_->try_get_value(data_set_id, result))
@@ -289,8 +289,8 @@ namespace dc
             // Otherwise load from storage (returns null if not found)
             data_set_data data_set_data = (dc::data_set_data)load_or_null(load_from, dot::typeof<dc::data_set_data>());
 
-            if (data_set_data == nullptr) throw dot::exception(dot::string::format("Dataset with TemporalId={0} is not found.", load_from.to_string()));
-            if (data_set_data->data_set != temporal_id::empty) throw dot::exception(dot::string::format("Dataset with TemporalId={0} is not stored in root dataset.", load_from.to_string()));
+            if (data_set_data == nullptr) throw dot::Exception(dot::String::format("Dataset with TemporalId={0} is not found.", load_from.to_string()));
+            if (data_set_data->data_set != temporal_id::empty) throw dot::Exception(dot::String::format("Dataset with TemporalId={0} is not stored in root dataset.", load_from.to_string()));
 
             // Build the lookup list
             result = build_data_set_lookup_list(data_set_data);
@@ -339,20 +339,20 @@ namespace dc
         }
     }
 
-    dot::nullable<temporal_id> mongo_data_source_data_impl::get_cutoff_time(temporal_id data_set_id)
+    dot::Nullable<temporal_id> mongo_data_source_data_impl::get_cutoff_time(temporal_id data_set_id)
     {
         // Get imports cutoff time for the dataset detail record.
         // If the record is not found, consider its CutoffTime null.
         data_set_detail_data data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
-        dot::nullable<temporal_id> data_set_cutoff_time = data_set_detail_data != nullptr ? data_set_detail_data->cutoff_time : nullptr;
+        dot::Nullable<temporal_id> data_set_cutoff_time = data_set_detail_data != nullptr ? data_set_detail_data->cutoff_time : nullptr;
 
         // If CutoffTime is set for both data source and dataset,
         // this method returns the earlier of the two values.
-        dot::nullable<temporal_id> result = temporal_id::min(cutoff_time, data_set_cutoff_time);
+        dot::Nullable<temporal_id> result = temporal_id::min(cutoff_time, data_set_cutoff_time);
         return result;
     }
 
-    dot::nullable<temporal_id> mongo_data_source_data_impl::get_imports_cutoff_time(temporal_id data_set_id)
+    dot::Nullable<temporal_id> mongo_data_source_data_impl::get_imports_cutoff_time(temporal_id data_set_id)
     {
         // Get dataset detail record
         data_set_detail_data data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
@@ -364,9 +364,9 @@ namespace dc
 
     dot::collection mongo_data_source_data_impl::get_or_create_collection(dot::type data_type)
     {
-        // Check if collection object has already been cached
+        // Check if collection Object has already been cached
         // for this type and return cached result if found
-        dot::object collection_obj;
+        dot::Object collection_obj;
         if (collection_dict_->try_get_value(data_type, collection_obj))
         {
             dot::collection cached_result = collection_obj.as<dot::collection>();
@@ -374,7 +374,7 @@ namespace dc
         }
 
         // Collection name is root class name of the record without prefix
-        dot::string collection_name = data_type_info_impl::get_or_create(data_type)->get_collection_name();
+        dot::String collection_name = data_type_info_impl::get_or_create(data_type)->get_collection_name();
 
         // Get interfaces to base and typed collections for the same name
         dot::collection typed_collection = db_->get_collection(collection_name);
@@ -384,13 +384,13 @@ namespace dc
         // Each data type has an index for optimized loading by key.
         // This index consists of Key in ascending order, followed by
         // DataSet and ID in descending order.
-        dot::list<std::tuple<dot::string, int>> load_index_keys = dot::make_list<std::tuple<dot::string, int>>();
+        dot::list<std::tuple<dot::String, int>> load_index_keys = dot::make_list<std::tuple<dot::String, int>>();
         load_index_keys->add({ "_key", 1 }); // .key
         load_index_keys->add({ "_dataset", -1 }); // .data_set
         load_index_keys->add({ "_id", -1 }); // .id
 
         // Use index definition convention to specify the index name
-        dot::string load_index_name = "Key-DataSet-Id";
+        dot::String load_index_name = "Key-DataSet-Id";
         dot::index_options load_index_options = dot::make_index_options();
         load_index_options->name = load_index_name;
         typed_collection->create_index(load_index_keys, load_index_options);
@@ -400,18 +400,18 @@ namespace dc
         // Additional indices are provided using IndexAttribute for the class.
         // Get a sorted dictionary of (definition, name) pairs
         // for the inheritance chain of the specified type.
-        dot::dictionary<dot::string, dot::string> index_dict = index_elements_attribute_impl::get_attributes_dict(data_type);
+        dot::dictionary<dot::String, dot::String> index_dict = index_elements_attribute_impl::get_attributes_dict(data_type);
 
         // Iterate over the dictionary to define the index
         for (auto index_info : index_dict)
         {
-            dot::string index_definition = index_info.first;
-            dot::string index_name = index_info.second;
+            dot::String index_definition = index_info.first;
+            dot::String index_name = index_info.second;
 
             // Parse index definition to get a list of (ElementName,SortOrder) tuples
-            dot::list<std::tuple<dot::string, int>> index_tokens = index_elements_attribute_impl::parse_definition(index_definition, data_type);
+            dot::list<std::tuple<dot::String, int>> index_tokens = index_elements_attribute_impl::parse_definition(index_definition, data_type);
 
-            if (index_name == nullptr) throw dot::exception("Index name cannot be null.");
+            if (index_name == nullptr) throw dot::Exception("Index name cannot be null.");
 
             // Add to indexes for the collection
             dot::index_options index_opt = dot::make_index_options();
@@ -439,11 +439,11 @@ namespace dc
 
         // Error message if dataset has no Id or Key set
         if (data_set_data->id.is_empty())
-            throw dot::exception("Required temporal_id value is not set.");
+            throw dot::Exception("Required temporal_id value is not set.");
         if (data_set_data->get_key().is_empty())
-            throw dot::exception("Required string value is not set.");
+            throw dot::Exception("Required String value is not set.");
 
-        dot::nullable<temporal_id> cutoff_time = get_cutoff_time(data_set_data->data_set);
+        dot::Nullable<temporal_id> cutoff_time = get_cutoff_time(data_set_data->data_set);
         if (cutoff_time != nullptr && data_set_data->id >= cutoff_time.value())
         {
             // Do not add if revision time constraint is set and is before this dataset.
@@ -462,7 +462,7 @@ namespace dc
             {
                 // Dataset cannot include itself as its import
                 if (data_set_data->id == data_set_id)
-                    throw dot::exception(dot::string::format(
+                    throw dot::Exception(dot::String::format(
                         "Dataset {0} with TemporalId={1} includes itself in the list of its imports."
                         , data_set_data->get_key(), data_set_data->id.to_string()));
 
@@ -483,21 +483,21 @@ namespace dc
     void mongo_data_source_data_impl::check_not_read_only(temporal_id data_set_id)
     {
         if (read_only.has_value() && read_only.value())
-            throw dot::exception(dot::string::format(
+            throw dot::Exception(dot::String::format(
                 "Attempting write operation for data source {0} where ReadOnly flag is set.", data_source_id));
 
         data_set_detail_data data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
         if (data_set_detail_data != nullptr && data_set_detail_data->read_only.has_value() && data_set_detail_data->read_only.value())
-            throw dot::exception(dot::string::format(
+            throw dot::Exception(dot::String::format(
                 "Attempting write operation for dataset {0} where ReadOnly flag is set.", data_set_id.to_string()));
 
         if (cutoff_time != nullptr)
-            throw dot::exception(dot::string::format(
+            throw dot::Exception(dot::String::format(
                 "Attempting write operation for data source {0} where "
                 "cutoff_time is set. Historical view of the data cannot be written to.", data_source_id));
 
         if (data_set_detail_data != nullptr && data_set_detail_data->cutoff_time != nullptr)
-            throw dot::exception(dot::string::format(
+            throw dot::Exception(dot::String::format(
                 "Attempting write operation for the dataset {0} where "
                 "CutoffTime is set. Historical view of the data cannot be written to.", data_set_id.to_string()));
     }

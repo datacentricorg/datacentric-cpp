@@ -35,7 +35,7 @@ namespace dot
 {
     static std::stringstream received;
 
-    class reflection_base_sample_impl : public virtual object_impl
+    class reflection_base_sample_impl : public virtual ObjectImpl
     {
         typedef reflection_base_sample_impl self;
 
@@ -60,7 +60,7 @@ namespace dot
 
         type get_type() override
         {
-            // Create type object with thread safety guarantee as per C++ Standard
+            // Create type Object with thread safety guarantee as per C++ Standard
             static type result = []()->type
             {
                 received << "creating type object (this should run only once)." << std::endl;
@@ -77,7 +77,7 @@ namespace dot
         }
     };
 
-    using reflection_base_sample = ptr<reflection_base_sample_impl>;
+    using reflection_base_sample = Ptr<reflection_base_sample_impl>;
     reflection_base_sample make_reflection_base_sample() { return new reflection_base_sample_impl; }
 
     class reflection_derived_sample_impl : public reflection_base_sample_impl
@@ -87,7 +87,7 @@ namespace dot
         int int_field_in_derived_class;
     };
 
-    using reflection_derived_sample = ptr<reflection_derived_sample_impl>;
+    using reflection_derived_sample = Ptr<reflection_derived_sample_impl>;
     reflection_derived_sample make_reflection_derived_sample() { return new reflection_derived_sample_impl; }
 
     TEST_CASE("property_info")
@@ -96,7 +96,7 @@ namespace dot
         obj->int_field = 15;
         obj->count = 15;
 
-        object x = obj->count;
+        Object x = obj->count;
 
         type result = obj->get_type();
         list<field_info> props = result->get_fields();
@@ -122,7 +122,7 @@ namespace dot
         REQUIRE(obj2->count == -15);
         REQUIRE(int(props[2]->get_value(obj2)) == -15);
 
-        list<object> params = make_list<object>(1);
+        list<Object> params = make_list<Object>(1);
         params[0] = 15;
         REQUIRE(int(result->get_methods()[0]->invoke(obj2, params)) == 42 + 15);
 

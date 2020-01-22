@@ -25,14 +25,14 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_query_impl; using mongo_query = dot::ptr<mongo_query_impl>;
-    class mongo_data_source_data_impl; using mongo_data_source_data = dot::ptr<mongo_data_source_data_impl>;
+    class mongo_query_impl; using mongo_query = dot::Ptr<mongo_query_impl>;
+    class mongo_data_source_data_impl; using mongo_data_source_data = dot::Ptr<mongo_data_source_data_impl>;
 
     /// Implements query for MongoDB.
     /// This implementation combines methods of mongo query with
     /// additional constraints and ordering to retrieve the correct version
     /// of the record across multiple datasets.
-    class DC_CLASS mongo_query_impl : public dot::object_impl
+    class DC_CLASS mongo_query_impl : public dot::ObjectImpl
     {
         typedef mongo_query_impl self;
 

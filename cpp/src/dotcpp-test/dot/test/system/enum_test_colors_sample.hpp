@@ -53,17 +53,17 @@ namespace dot
 
     /// Helper class to implement to_string(value) via template specialization
     template <>
-    struct to_string_impl<colors_sample>
+    struct ToStringImpl<colors_sample>
     {
-        static dot::dictionary<dot::string, int> get_enum_map(int size)
+        static dot::dictionary<dot::String, int> get_enum_map(int size)
         {
-            static dot::dictionary<dot::string, int> func = [size]()
+            static dot::dictionary<dot::String, int> func = [size]()
             {
-                auto result = dot::make_dictionary<dot::string, int>();
+                auto result = dot::make_dictionary<dot::String, int>();
                 for (int i = 0; i < size; i++)
                 {
                     colors_sample enum_value = (colors_sample)i;
-                    string string_value = to_string(enum_value);
+                    String string_value = to_string(enum_value);
                     result[string_value] = i;
                 }
                 return result;
@@ -71,22 +71,22 @@ namespace dot
             return func;
         }
 
-        /// Convert value to string; for empty or null values, return string::empty.
-        static string to_string(const colors_sample& value)
+        /// Convert value to String; for empty or null values, return String::empty.
+        static String to_string(const colors_sample& value)
         {
             switch (value)
             {
             case colors_sample::empty: return "empty";
             case colors_sample::blue: return "blue";
             case colors_sample::red: return "red";
-            default: throw exception("Unknown enum value in to_string(...).");
+            default: throw Exception("Unknown enum value in to_string(...).");
             }
         }
 
-        /// Convert value to string; for empty or null values, return string::empty.
-        static bool try_parse(string value, colors_sample& result)
+        /// Convert value to String; for empty or null values, return String::empty.
+        static bool try_parse(String value, colors_sample& result)
         {
-            dot::dictionary<dot::string, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
+            dot::dictionary<dot::String, int> dict = get_enum_map(3); // TODO - size hardcoded, improve
             int int_result;
             if (dict->try_get_value(value, int_result))
             {

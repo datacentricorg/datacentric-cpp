@@ -40,11 +40,11 @@ namespace dot
 {
     /// Base class for mongo query tokens.
     /// It used for wrapping c++ expressions into mongo query tokens.
-    class filter_token_base_impl : public object_impl
+    class filter_token_base_impl : public ObjectImpl
     {
     };
 
-    using filter_token_base = ptr<filter_token_base_impl>;
+    using filter_token_base = Ptr<filter_token_base_impl>;
 
     /// Saves mongo query operator. For example,
     /// (obj->prop > 10)
@@ -55,21 +55,21 @@ namespace dot
     public:
 
         /// Constructor from property, operator and value.
-        operator_wrapper_impl(string prop_name, string op, object rhs)
+        operator_wrapper_impl(String prop_name, String op, Object rhs)
             : prop_name_(prop_name), op_(op), rhs_(rhs)
         {}
 
         /// Holds property name.
-        string prop_name_;
+        String prop_name_;
 
         /// Holds operator name to be applied to property.
-        string op_;
+        String op_;
 
         /// Holds operator parameter.
-        object rhs_;
+        Object rhs_;
     };
 
-    using operator_wrapper = ptr<operator_wrapper_impl>;
+    using operator_wrapper = Ptr<operator_wrapper_impl>;
 
     /// Holds list of tokens, that will be applied to $and operator.
     /// For example,
@@ -109,8 +109,8 @@ namespace dot
         }
     };
 
-    using and_list = ptr<and_list_impl>;
-    using or_list = ptr<or_list_impl>;
+    using and_list = Ptr<and_list_impl>;
+    using or_list = Ptr<or_list_impl>;
 
     /// Returns tokens wrapped into and_list.
     inline and_list operator &&(filter_token_base lhs, filter_token_base rhs)
@@ -167,25 +167,25 @@ namespace dot
             typedef T type;
         };
 
-        /// Converts std::string into dot::string.
+        /// Converts std::string into dot::String.
         template <>
         struct in_traits<std::string>
         {
-            typedef dot::string type;
+            typedef dot::String type;
         };
 
-        /// Converts char* into dot::string.
+        /// Converts char* into dot::String.
         template <>
         struct in_traits<char*>
         {
-            typedef dot::string type;
+            typedef dot::String type;
         };
 
-        /// Converts specific const char* into dot::string.
+        /// Converts specific const char* into dot::String.
         template <>
         struct in_traits<const char*>
         {
-            typedef dot::string type;
+            typedef dot::String type;
         };
     }
 
@@ -197,7 +197,7 @@ namespace dot
     struct props_list
     {
         /// Holds property sequence.
-        std::deque<dot::string> props_;
+        std::deque<dot::String> props_;
 
         /// Wraps inner document properties access into props_list.
         template <class ClassR, class PropR>
@@ -299,11 +299,11 @@ namespace dot
     private:
 
         /// Returns property list joined with dot.
-        string get_name() const
+        String get_name() const
         {
             std::stringstream ss;
             ss << *props_.front();
-            std::for_each(props_.begin() + 1, props_.end(), [&ss](const dot::string& prop) { ss << "." << *prop; });
+            std::for_each(props_.begin() + 1, props_.end(), [&ss](const dot::String& prop) { ss << "." << *prop; });
             return ss.str();
         }
     };
@@ -450,17 +450,17 @@ namespace dot
     template <class Prop, class Class>
     prop_wrapper<Class, Prop> make_prop(Prop Class::*prop_)
     {
-        dot::type type = dot::typeof<dot::ptr<Class>>();
+        dot::type type = dot::typeof<dot::Ptr<Class>>();
         dot::list<dot::field_info> props = type->get_fields();
 
         for (dot::field_info const& prop : props)
         {
-            dot::ptr<dot::field_info_impl<Prop, Class>> casted_prop = prop.as<dot::ptr<dot::field_info_impl<Prop, Class>>>();
+            dot::Ptr<dot::field_info_impl<Prop, Class>> casted_prop = prop.as<dot::Ptr<dot::field_info_impl<Prop, Class>>>();
             if (!casted_prop.is_empty() && casted_prop->field_ == prop_)
                 return prop_wrapper<Class, Prop>{ prop };
         }
 
-        throw dot::exception("Unregistered property");
+        throw dot::Exception("Unregistered property");
     }
 
     /// Wraps given class property into prop_wrapper class.

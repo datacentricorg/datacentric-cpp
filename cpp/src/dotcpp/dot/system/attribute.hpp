@@ -28,15 +28,15 @@ limitations under the License.
 
 namespace dot
 {
-    class attribute_impl; using attribute = ptr<attribute_impl>;
+    class AttributeImpl; using Attribute = Ptr<AttributeImpl>;
 
     /// Base class for custom attributes in reflection.
-    class DOT_CLASS attribute_impl : public object_impl
+    class DOT_CLASS AttributeImpl : public ObjectImpl
     {
     protected: // CONSTRUCTORS
 
         /// Initializes a new instance of the Attribute class.
-        attribute_impl() = default;
+        AttributeImpl() = default;
 
     public: // REFLECTION
 

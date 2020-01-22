@@ -31,7 +31,7 @@ limitations under the License.
 
 namespace dot
 {
-    dot::LocalMinute LocalMinuteUtil::parse(dot::string value)
+    dot::LocalMinute LocalMinuteUtil::parse(dot::String value)
     {
         boost::posix_time::time_input_facet* facet = new boost::posix_time::time_input_facet();
         facet->format("%H:%M");
@@ -42,7 +42,7 @@ namespace dot
         stream >> ptime;
 
         // If default constructed time is passed, error message
-        if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::format(
+        if (ptime == boost::posix_time::not_a_date_time) throw dot::Exception(dot::String::format(
             "String representation of default constructed time {0} "
             "passed to LocalMinuteUtil.parse(time) method.", value));
 
@@ -64,7 +64,7 @@ namespace dot
         value -= hour * 100;
         int minute = value;
 
-        // Create new LocalMinute object, validates values on input
+        // Create new LocalMinute Object, validates values on input
         return dot::LocalMinute(hour, minute);
     }
 }

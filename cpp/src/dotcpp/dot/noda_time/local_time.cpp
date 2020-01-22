@@ -55,7 +55,7 @@ namespace dot
         : boost::posix_time::ptime(time)
     {}
 
-    LocalTime::LocalTime(object const& rhs) { *this = rhs.operator LocalTime(); }
+    LocalTime::LocalTime(Object const& rhs) { *this = rhs.operator LocalTime(); }
 
     LocalTime::LocalTime(const LocalTime& other)
     {
@@ -80,7 +80,7 @@ namespace dot
         return *this == other;
     }
 
-    string LocalTime::to_string() const
+    String LocalTime::to_string() const
     {
         boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
         facet->format("%H:%M:%S.%f");

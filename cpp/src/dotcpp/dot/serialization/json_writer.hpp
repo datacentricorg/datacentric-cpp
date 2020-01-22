@@ -34,7 +34,7 @@ limitations under the License.
 
 namespace dot
 {
-    class JsonWriterImpl; using JsonWriter = dot::ptr<JsonWriterImpl>;
+    class JsonWriterImpl; using JsonWriter = dot::Ptr<JsonWriterImpl>;
 
     /// Implementation of TreeWriterBaseImpl using RapidJSON lib.
     class DOT_CLASS JsonWriterImpl : public TreeWriterBaseImpl
@@ -45,7 +45,7 @@ namespace dot
 
         rapidjson::StringBuffer buffer_;
         rapidjson::Writer<rapidjson::StringBuffer> json_writer_;
-        std::stack<std::pair<dot::string, TreeWriterState>> element_stack_; // TODO make dot::stack
+        std::stack<std::pair<dot::String, TreeWriterState>> element_stack_; // TODO make dot::stack
         TreeWriterState current_state_;
 
     private:
@@ -55,31 +55,31 @@ namespace dot
 
         /// Write start document tags. This method
         /// should be called only once for the entire document.
-        void write_start_document(dot::string root_element_name) override;
+        void write_start_document(dot::String root_element_name) override;
 
         /// Write end document tag. This method
         /// should be called only once for the entire document.
         /// The root element name passed to this method must match the root element
         /// name passed to the preceding call to write_start_document(...).
-        void write_end_document(dot::string root_element_name) override;
+        void write_end_document(dot::String root_element_name) override;
 
         /// Write element start tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
-        void write_start_element(dot::string element_name) override;
+        void write_start_element(dot::String element_name) override;
 
         /// Write element end tag. Each element may contain
         /// a single dictionary, a single value, or multiple array items.
         /// The element name passed to this method must match the element name passed
         /// to the matching write_start_element(...) call at the same indent level.
-        void write_end_element(dot::string element_name) override;
+        void write_end_element(dot::String element_name) override;
 
         /// Write dictionary start tag. A call to this method
         /// must follow write_start_element(...) or write_start_array_item().
-        void write_start_dict(dot::string type_name) override;
+        void write_start_dict(dot::String type_name) override;
 
         /// Write dictionary end tag. A call to this method
         /// must be followed by write_end_element(...) or write_end_array_item().
-        void write_end_dict(dot::string type_name) override;
+        void write_end_dict(dot::String type_name) override;
 
         /// Write start tag for an array. A call to this method
         /// must follow write_start_element(name).
@@ -106,12 +106,12 @@ namespace dot
         void write_end_value() override;
 
         /// Write atomic value. Value type
-        /// will be inferred from object.get_type().
-        void write_value(dot::object value) override;
+        /// will be inferred from Object.get_type().
+        void write_value(dot::Object value) override;
 
-        /// Convert to JSON string without checking that JSON document is complete.
+        /// Convert to JSON String without checking that JSON document is complete.
         /// This permits the use of this method to inspect the JSON content during creation.
-        dot::string to_string() override;
+        dot::String to_string() override;
     };
 
     inline JsonWriter make_json_writer() { return new JsonWriterImpl; }

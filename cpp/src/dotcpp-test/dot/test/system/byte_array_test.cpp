@@ -30,7 +30,7 @@ namespace dot
 {
     TEST_CASE("construction")
     {
-        byte_array bytes;
+        ByteArray bytes;
 
         // Empty
         bytes = make_byte_array(3);
@@ -70,9 +70,9 @@ namespace dot
     {
         // Compare
         {
-            byte_array bytes1 = make_byte_array({ 10, 100, 50 });
-            byte_array bytes2 = make_byte_array({ 10, 70, 70 });
-            byte_array bytes3 = make_byte_array({ 10 });
+            ByteArray bytes1 = make_byte_array({ 10, 100, 50 });
+            ByteArray bytes2 = make_byte_array({ 10, 70, 70 });
+            ByteArray bytes3 = make_byte_array({ 10 });
             REQUIRE(bytes1->compare(bytes1) == 0);
             REQUIRE(bytes1->compare(bytes2) > 0);
             REQUIRE(bytes2->compare(bytes1) < 0);
@@ -81,8 +81,8 @@ namespace dot
 
         // Copy
         {
-            byte_array bytes = make_byte_array({ 1, 2, 3, 4, 5 });
-            byte_array bytes_src = make_byte_array({ 20, 30, 40 });
+            ByteArray bytes = make_byte_array({ 1, 2, 3, 4, 5 });
+            ByteArray bytes_src = make_byte_array({ 20, 30, 40 });
             bytes->copy(1, bytes_src);
 
             REQUIRE(bytes->get(0) == 1);
@@ -93,8 +93,8 @@ namespace dot
         }
 
         {
-            byte_array bytes = make_byte_array({ 1, 2, 3, 4, 5 });
-            byte_array bytes_src = make_byte_array({ 20, 30, 40 });
+            ByteArray bytes = make_byte_array({ 1, 2, 3, 4, 5 });
+            ByteArray bytes_src = make_byte_array({ 20, 30, 40 });
             bytes->copy(1, bytes_src, 1, 2);
 
             REQUIRE(bytes->get(0) == 1);
@@ -105,8 +105,8 @@ namespace dot
         }
 
         {
-            byte_array bytes = make_byte_array({ 1, 2, 3, 4, 5 });
-            byte_array bytes_src = make_byte_array({ 20, 30, 40 });
+            ByteArray bytes = make_byte_array({ 1, 2, 3, 4, 5 });
+            ByteArray bytes_src = make_byte_array({ 20, 30, 40 });
 
             CHECK_THROWS(bytes->copy(1, bytes_src, 1, 3));
             CHECK_THROWS(bytes->copy(3, bytes_src));
@@ -115,7 +115,7 @@ namespace dot
         // Copy value
         {
             int32_t value = 0xa1ff8020;
-            byte_array bytes = make_byte_array(4);
+            ByteArray bytes = make_byte_array(4);
             bytes->copy_value(value);
             REQUIRE(bytes->get(0) == 0xa1);
             REQUIRE(bytes->get(1) == 0xff);
@@ -131,7 +131,7 @@ namespace dot
 
         {
             uint32_t value = 0xa1ff8020;
-            byte_array bytes = make_byte_array(6);
+            ByteArray bytes = make_byte_array(6);
             bytes->copy_value(1, value);
             REQUIRE(bytes->get(1) == 0xa1);
             REQUIRE(bytes->get(2) == 0xff);

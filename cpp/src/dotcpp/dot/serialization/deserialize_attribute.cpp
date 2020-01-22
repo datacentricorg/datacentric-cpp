@@ -27,7 +27,7 @@ limitations under the License.
 
 namespace dot
 {
-    object DeserializeClassAttributeImpl::deserialize(object value, dot::type type)
+    Object DeserializeClassAttributeImpl::deserialize(Object value, dot::type type)
     {
         return deserializer_(value, type);
     }
@@ -48,7 +48,7 @@ namespace dot
         return typeof();
     }
 
-    void DeserializeFieldAttributeImpl::deserialize(object value, field_info field, object obj)
+    void DeserializeFieldAttributeImpl::deserialize(Object value, field_info field, Object obj)
     {
         deserializer_(value, field, obj);
     }

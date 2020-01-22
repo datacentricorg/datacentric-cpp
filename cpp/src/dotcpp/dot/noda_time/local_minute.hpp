@@ -27,7 +27,7 @@ limitations under the License.
 
 namespace dot
 {
-    class string;
+    class String;
     class LocalTime;
 
     class DOT_CLASS LocalMinute
@@ -75,8 +75,8 @@ namespace dot
         /// local minute.
         bool equals(const LocalMinute& other) const;
 
-        /// Convert LocalMinute to ISO 8601 string in hh:mm format.
-        string to_string() const;
+        /// Convert LocalMinute to ISO 8601 String in hh:mm format.
+        String to_string() const;
 
     public: // OPERATORS
 

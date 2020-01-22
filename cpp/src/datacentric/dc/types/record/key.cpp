@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    dot::string key_impl::to_string()
+    dot::String key_impl::to_string()
     {
         dot::list<dot::field_info> props = get_type()->get_fields();
 
@@ -31,7 +31,7 @@ namespace dc
         {
             dot::field_info prop = props[i];
 
-            dot::object value = prop->get_value(this);
+            dot::Object value = prop->get_value(this);
 
             if (i) ss << separator;
 
@@ -43,7 +43,7 @@ namespace dc
             {
                 if (prop->field_type()->is_subclass_of(dot::typeof<key>()))
                 {
-                    dot::object empty_key = dot::activator::create_instance(prop->field_type());
+                    dot::Object empty_key = dot::activator::create_instance(prop->field_type());
                     ss << *empty_key->to_string();
                 }
             }
@@ -74,13 +74,13 @@ namespace dc
                 if (token.empty())
                     continue;
 
-                if (prop->field_type()->equals(dot::typeof<int>()) || prop->field_type()->equals(dot::typeof<dot::nullable<int>>()))
+                if (prop->field_type()->equals(dot::typeof<int>()) || prop->field_type()->equals(dot::typeof<dot::Nullable<int>>()))
                 {
                     prop->set_value(this, std::stoi(token));
                 }
-                else if (prop->field_type()->equals(dot::typeof<dot::string>()))
+                else if (prop->field_type()->equals(dot::typeof<dot::String>()))
                 {
-                    prop->set_value(this, dot::string(token));
+                    prop->set_value(this, dot::String(token));
                 }
                 else if (prop->field_type()->equals(dot::typeof<temporal_id>()))
                 {
@@ -88,7 +88,7 @@ namespace dc
                 }
                 else
                 {
-                    throw dot::exception("Unknown type in key.assign_string(...)");
+                    throw dot::Exception("Unknown type in key.assign_string(...)");
                 }
 
             }
@@ -96,7 +96,7 @@ namespace dc
 
     }
 
-    dot::object key_impl::deserialize(dot::object value, dot::type type)
+    dot::Object key_impl::deserialize(dot::Object value, dot::type type)
     {
         dot::type value_type = value->get_type();
 
@@ -104,26 +104,26 @@ namespace dc
         {
             return value;
         }
-        if (value_type->equals(dot::typeof<dot::string>()))
+        if (value_type->equals(dot::typeof<dot::String>()))
         {
             key key = dot::activator::create_instance(type);
-            key->populate_from((dot::string)value);
+            key->populate_from((dot::String)value);
             return key;
         }
 
-        throw dot::exception(dot::string::format("Couldn't construct {0}  from {1}", type->name(), value_type->name()));
-        return dot::object();
+        throw dot::Exception(dot::String::format("Couldn't construct {0}  from {1}", type->name(), value_type->name()));
+        return dot::Object();
 
     }
 
-    void key_impl::serialize(dot::tree_writer_base writer, dot::object obj)
+    void key_impl::serialize(dot::tree_writer_base writer, dot::Object obj)
     {
         writer->write_start_value();
         writer->write_value(((key)obj)->get_value());
         writer->write_end_value();
     }
 
-    void key_impl::populate_from(dot::string value)
+    void key_impl::populate_from(dot::String value)
     {
         std::stringstream ss;
         ss.str(*value);

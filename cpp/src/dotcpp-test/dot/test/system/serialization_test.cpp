@@ -41,10 +41,10 @@ namespace dot
 {
     static std::stringstream received;
 
-    class sample_data_impl; using sample_data = ptr<sample_data_impl>;
-    class sample_data_2_impl; using sample_data_2 = ptr<sample_data_2_impl>;
+    class sample_data_impl; using sample_data = Ptr<sample_data_impl>;
+    class sample_data_2_impl; using sample_data_2 = Ptr<sample_data_2_impl>;
 
-    class sample_data_2_impl : public virtual object_impl
+    class sample_data_2_impl : public virtual ObjectImpl
     {
         typedef sample_data_2_impl self;
 
@@ -74,16 +74,16 @@ namespace dot
         }
     };
 
-    class sample_data_impl; using sample_data = ptr<sample_data_impl>;
+    class sample_data_impl; using sample_data = Ptr<sample_data_impl>;
     sample_data make_sample_data();
 
-    class sample_data_impl : public virtual object_impl
+    class sample_data_impl : public virtual ObjectImpl
     {
         typedef sample_data_impl self;  // This typedef will be used inside property macro and inside registration macro.
 
     public:
 
-        string string_field;
+        String string_field;
         int int_field;
         double double_field;
         sample_data_2 data_field;
@@ -122,7 +122,7 @@ namespace dot
 
     sample_data make_sample_data() { return new sample_data_impl; }
 
-    string obj_to_string(object obj)
+    String obj_to_string(Object obj)
     {
         if (obj.is_empty()) return "";
 
@@ -133,14 +133,14 @@ namespace dot
         if (t->name() == "list`1")
         {
             list<double> vec = (list<double>)obj;
-            for (object item : vec)
+            for (Object item : vec)
             {
                 ss << *(obj_to_string(item));
             }
         }
-        else if (t == typeof<string>())
+        else if (t == typeof<String>())
         {
-            ss << *(string)obj << "|";
+            ss << *(String)obj << "|";
         }
         else if (t->is_class())
         {
@@ -165,21 +165,21 @@ namespace dot
         obj->double_list_field->add(3.);
         obj->double_list_field->add(2.);
 
-        string s = obj_to_string(obj);
+        String s = obj_to_string(obj);
 
         type t = obj->get_type();
 
         sample_data dt = (sample_data)activator::create_instance(obj->get_type());
 
-        list<dot::object> params_foo = make_list<object>(2);
+        list<dot::Object> params_foo = make_list<Object>(2);
         params_foo[0] = 15;
         params_foo[1] = 42;
         double ret = obj->get_type()->get_methods()[0]->invoke(obj, params_foo);
 
-        list<dot::object> params_bar = make_list<object>(1);
+        list<dot::Object> params_bar = make_list<Object>(1);
         params_bar[0] = 15;
         obj->get_type()->get_methods()[1]->invoke(obj, params_bar);
 
-        object o2 = obj->get_type()->get_constructors()[0]->invoke({});
+        Object o2 = obj->get_type()->get_constructors()[0]->invoke({});
     }
 }

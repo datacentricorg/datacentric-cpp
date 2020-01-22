@@ -32,7 +32,7 @@ namespace dot
     class LocalTime;
     class LocalDate;
     class LocalDateTime;
-    class object;
+    class Object;
 
     /// Represents a period of time expressed in human chronological terms:
     /// hours, days, weeks, months and so on.

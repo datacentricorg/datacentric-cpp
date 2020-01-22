@@ -24,7 +24,7 @@ namespace dc
     /// Specifies instance type.
     ///
     /// Some API functions are restricted based on the instance type.
-    class instance_type : public dot::enum_base
+    class instance_type : public dot::EnumBase
     {
         typedef instance_type self;
 

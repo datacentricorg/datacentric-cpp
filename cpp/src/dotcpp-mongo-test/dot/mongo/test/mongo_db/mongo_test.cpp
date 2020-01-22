@@ -31,21 +31,21 @@ limitations under the License.
 
 namespace dot
 {
-    const string db_url = "mongodb://localhost/";
+    const String db_url = "mongodb://localhost/";
 
-    class test_class_impl; using test_class = ptr<test_class_impl>;
+    class test_class_impl; using test_class = Ptr<test_class_impl>;
     inline test_class make_test_class();
 
     /// Test class for saving to db.
-    class test_class_impl : public object_impl
+    class test_class_impl : public ObjectImpl
     {
         typedef test_class_impl self;
 
     public:
 
         int int_value;
-        nullable<int> nullable_int_value;
-        string string_value;
+        Nullable<int> nullable_int_value;
+        String string_value;
         list<int64_t> list_value;
         test_class object_value;
 
@@ -75,8 +75,8 @@ namespace dot
 
     TEST_CASE("create_collection")
     {
-        const string db_name = "test;mongo_test;create_collection";
-        const string db_collection_name = "db_collection";
+        const String db_name = "test;mongo_test;create_collection";
+        const String db_collection_name = "db_collection";
 
         // Connect to mongo and drop old db.
         client db_client = make_client(db_url);
@@ -119,8 +119,8 @@ namespace dot
 
     TEST_CASE("delete_item")
     {
-        const string db_name = "test;mongo_test;delete_item";
-        const string db_collection_name = "db_collection";
+        const String db_name = "test;mongo_test;delete_item";
+        const String db_collection_name = "db_collection";
 
         // Connect to mongo and drop old db.
         client db_client = make_client(db_url);
@@ -173,8 +173,8 @@ namespace dot
 
     TEST_CASE("query")
     {
-        const string db_name = "test;mongo_test;query";
-        const string db_collection_name = "db_collection";
+        const String db_name = "test;mongo_test;query";
+        const String db_collection_name = "db_collection";
 
         // Connect to mongo and drop old db.
         client db_client = make_client(db_url);
@@ -185,7 +185,7 @@ namespace dot
         collection db_collection = db->get_collection(db_collection_name);
 
         // Create index
-        list<std::tuple<string, int>> indexes = make_list<std::tuple<string, int>>();
+        list<std::tuple<String, int>> indexes = make_list<std::tuple<String, int>>();
         indexes->add({ "int_value", 1 });
         indexes->add({ "string_value", -1 });
         index_options idx_options = make_index_options();

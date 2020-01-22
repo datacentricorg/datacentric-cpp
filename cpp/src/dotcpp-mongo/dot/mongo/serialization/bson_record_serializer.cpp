@@ -41,10 +41,10 @@ limitations under the License.
 
 namespace dot
 {
-    dot::object bson_record_serializer_impl::deserialize(bsoncxx::document::view doc)
+    dot::Object bson_record_serializer_impl::deserialize(bsoncxx::document::view doc)
     {
         // Create instance to which BSON will be deserialized
-        dot::string type_name;
+        dot::String type_name;
         if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::scalar)
         {
             type_name = doc["_t"].get_utf8().value.to_string();
@@ -56,17 +56,17 @@ namespace dot
 
             // Exception on empty array
             if (type_array_length == 0)
-                throw exception("_t array has no elements.");
+                throw Exception("_t array has no elements.");
 
             // Get last item from array
             type_name = type_array_view.find(type_array_length - 1)->get_utf8().value.to_string();
         }
         else
         {
-            throw dot::exception("Unknown discriminator_convention.");
+            throw dot::Exception("Unknown discriminator_convention.");
         }
 
-        object result = dot::activator::create_instance("", type_name);
+        Object result = dot::activator::create_instance("", type_name);
         tree_writer_base writer = make_data_writer(result);
 
         writer->write_start_document(type_name);
@@ -75,11 +75,11 @@ namespace dot
         return result;
     }
 
-    dot::object bson_record_serializer_impl::deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tuple_type)
+    dot::Object bson_record_serializer_impl::deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tuple_type)
     {
         // Create instance to which BSON will be deserialized
-        dot::string type_name = tuple_type->name();
-        dot::object result = dot::activator::create_instance(tuple_type);
+        dot::String type_name = tuple_type->name();
+        dot::Object result = dot::activator::create_instance(tuple_type);
         tree_writer_base writer = make_tuple_writer(result, props);
 
         writer->write_start_document(type_name);
@@ -91,7 +91,7 @@ namespace dot
 
     void bson_record_serializer_impl::deserialize_document(const bsoncxx::document::view & doc, tree_writer_base writer)
     {
-        dot::string type_name;
+        dot::String type_name;
 
         auto type_iter = doc.find("_t");
 
@@ -110,7 +110,7 @@ namespace dot
             bsoncxx::type bson_type = elem.type();
 
             // Read element name and value
-            dot::string element_name = elem.key().to_string();
+            dot::String element_name = elem.key().to_string();
             if (element_name == "_t")
             {
                 continue;
@@ -125,7 +125,7 @@ namespace dot
             }
             else if (bson_type == bsoncxx::type::k_utf8)
             {
-                dot::string value = elem.get_utf8().value.to_string();
+                dot::String value = elem.get_utf8().value.to_string();
 
                     writer->write_value_element(element_name, value);
                 }
@@ -183,7 +183,7 @@ namespace dot
                 deserialize_array(sub_doc, writer);
                 writer->write_end_array_element(element_name);
             }
-            else throw dot::exception(
+            else throw dot::Exception(
                 "Deserialization of BSON type {0} is not supported.");
         }
 
@@ -205,7 +205,7 @@ namespace dot
             }
             else if (bson_type == bsoncxx::type::k_utf8)
             {
-                dot::string value = elem.get_utf8().value.to_string();
+                dot::String value = elem.get_utf8().value.to_string();
                 writer->write_value_array_item(value);
             }
             else if (bson_type == bsoncxx::type::k_double)
@@ -250,18 +250,18 @@ namespace dot
             }
             else if (bson_type == bsoncxx::type::k_array)
             {
-                throw dot::exception("Deserializaion of an array inside another array is not supported.");
+                throw dot::Exception("Deserializaion of an array inside another array is not supported.");
             }
             else
-                throw dot::exception(
+                throw dot::Exception(
                     "Deserialization of BSON type inside an array is not supported.");
         }
     }
 
-    void bson_record_serializer_impl::serialize(tree_writer_base writer, dot::object value)
+    void bson_record_serializer_impl::serialize(tree_writer_base writer, dot::Object value)
     {
         // Root name is written in JSON as _t element
-        dot::string root_name = value->get_type()->name();
+        dot::String root_name = value->get_type()->name();
 
         writer->write_start_document(root_name);
 
@@ -278,7 +278,7 @@ namespace dot
         writer->write_end_document(root_name);
     }
 
-    void bson_record_serializer_impl::standard_serialize(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer)
+    void bson_record_serializer_impl::standard_serialize(dot::list_base obj, dot::String element_name, dot::tree_writer_base writer)
     {
         // Write start element tag
         writer->write_start_array_element(element_name);
@@ -288,7 +288,7 @@ namespace dot
         // Iterate over sequence elements
         for (int i = 0; i < length; ++i)
         {
-            dot::object item = obj->get_item(i);
+            dot::Object item = obj->get_item(i);
 
             // Write array item start tag
             writer->write_start_array_item();
@@ -310,7 +310,7 @@ namespace dot
                 SerializeClassAttribute(item_type->get_custom_attributes(dot::typeof<SerializeClassAttribute>(), true)[0])->serialize(writer, item);
             }
             else
-            if (item_type->equals(dot::typeof<dot::string>())
+            if (item_type->equals(dot::typeof<dot::String>())
                 || item_type->equals(dot::typeof<double>())
                 || item_type->equals(dot::typeof<bool>())
                 || item_type->equals(dot::typeof<int>())
@@ -319,7 +319,7 @@ namespace dot
                 || item_type->equals(dot::typeof<dot::LocalDateTime>())
                 || item_type->equals(dot::typeof<dot::LocalTime>())
                 || item_type->equals(dot::typeof<dot::LocalMinute>())
-                || item_type->equals(dot::typeof<dot::byte_array>())
+                || item_type->equals(dot::typeof<dot::ByteArray>())
                 || item_type->is_enum()
                 || item_type->equals(dot::typeof<dot::object_id>())
                 )
@@ -330,7 +330,7 @@ namespace dot
             }
             else if (dot::typeof<dot::list_base>()->is_assignable_from(item_type))
             {
-                throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
+                throw dot::Exception(dot::String::format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", element_name));
             }
             else
@@ -346,12 +346,12 @@ namespace dot
         writer->write_end_array_element(element_name);
     }
 
-    byte_array bson_record_serializer_impl::to_byte_array(const bsoncxx::types::b_binary& bin_array)
+    ByteArray bson_record_serializer_impl::to_byte_array(const bsoncxx::types::b_binary& bin_array)
     {
         return make_byte_array((const char*) bin_array.bytes, bin_array.size);
     }
 
-    void bson_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::object value)
+    void bson_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::Object value)
     {
         // Write start tag
         writer->write_start_dict(value->get_type()->name());
@@ -368,9 +368,9 @@ namespace dot
             }
 
             // Get element name and value
-            dot::string inner_element_name = inner_element_info->name();
+            dot::String inner_element_name = inner_element_info->name();
 
-            dot::object inner_element_value = inner_element_info->get_value(value);
+            dot::Object inner_element_value = inner_element_info->get_value(value);
 
             if (inner_element_value.is_empty())
             {
@@ -386,7 +386,7 @@ namespace dot
                 writer->write_end_element(inner_element_name);
             }
             else
-            if (element_type->equals(dot::typeof<dot::string>())
+            if (element_type->equals(dot::typeof<dot::String>())
                 || element_type->equals(dot::typeof<double>())
                 || element_type->equals(dot::typeof<bool>())
                 || element_type->equals(dot::typeof<int>())
@@ -395,7 +395,7 @@ namespace dot
                 || element_type->equals(dot::typeof<dot::LocalDateTime>())
                 || element_type->equals(dot::typeof<dot::LocalTime>())
                 || element_type->equals(dot::typeof<dot::LocalMinute>())
-                || element_type->equals(dot::typeof<dot::byte_array>())
+                || element_type->equals(dot::typeof<dot::ByteArray>())
                 || element_type->is_enum()
                 || element_type->equals(dot::typeof<dot::object_id>())
                 )

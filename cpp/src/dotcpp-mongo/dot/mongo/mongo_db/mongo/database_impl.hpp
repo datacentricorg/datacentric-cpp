@@ -38,7 +38,7 @@ namespace dot
         }
 
         /// Returns collection from database by specified name.
-        virtual collection get_collection(dot::string name) override
+        virtual collection get_collection(dot::String name) override
         {
             return new collection_impl(std::make_unique<collection_inner>(database_[*name]));
         }
@@ -48,7 +48,7 @@ namespace dot
         mongocxx::database database_;
     };
 
-    collection database_impl::get_collection(dot::string name)
+    collection database_impl::get_collection(dot::String name)
     {
         return impl_->get_collection(name);
     }

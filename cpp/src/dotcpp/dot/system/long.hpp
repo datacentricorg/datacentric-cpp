@@ -28,16 +28,16 @@ limitations under the License.
 
 namespace dot
 {
-    /// Wrapper around int to make it convertible to object (boxing).
-    class DOT_CLASS long_impl : public virtual object_impl
+    /// Wrapper around int to make it convertible to Object (boxing).
+    class DOT_CLASS LongImpl : public virtual ObjectImpl
     {
-        friend object;
+        friend Object;
         int64_t value_;
 
     public: // CONSTRUCTORS
 
         /// Create from value (box).
-        long_impl(int64_t value) : value_(value) {}
+        LongImpl(int64_t value) : value_(value) {}
 
     public: //  CONSTANTS
 
@@ -46,19 +46,19 @@ namespace dot
 
     public: // STATIC
 
-        /// Converts the string representation of a number to its 64-bit signed integer equivalent.
-        static int64_t parse(string s);
+        /// Converts the String representation of a number to its 64-bit signed integer equivalent.
+        static int64_t parse(String s);
 
     public: // METHODS
 
-        /// Returns a value indicating whether this instance is equal to a specified object.
-        bool equals(object obj) override;
+        /// Returns a value indicating whether this instance is equal to a specified Object.
+        bool equals(Object obj) override;
 
         /// Returns the hash code for this instance.
         virtual size_t hash_code() override;
 
-        /// Converts the numeric value of this instance to its equivalent string representation.
-        virtual string to_string() override;
+        /// Converts the numeric value of this instance to its equivalent String representation.
+        virtual String to_string() override;
 
         static type typeof();
         type get_type() override;

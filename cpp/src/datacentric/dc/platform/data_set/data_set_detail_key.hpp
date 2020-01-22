@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class data_set_detail_key_impl; using data_set_detail_key = dot::ptr<data_set_detail_key_impl>;
-    class data_set_detail_data_impl; using data_set_detail_data = dot::ptr<data_set_detail_data_impl>;
+    class data_set_detail_key_impl; using data_set_detail_key = dot::Ptr<data_set_detail_key_impl>;
+    class data_set_detail_data_impl; using data_set_detail_data = dot::Ptr<data_set_detail_data_impl>;
 
     inline data_set_detail_key make_data_set_detail_key();
 

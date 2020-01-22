@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dot
 {
-    class base_impl : public virtual object_impl
+    class base_impl : public virtual ObjectImpl
     {
     public:
 
@@ -39,7 +39,7 @@ namespace dot
         }
     };
 
-    using base = ptr<base_impl>;
+    using base = Ptr<base_impl>;
     base make_base() { return new base_impl; }
 
     class derived_impl : public base_impl
@@ -53,7 +53,7 @@ namespace dot
 
     };
 
-    using derived = ptr<derived_impl>;
+    using derived = Ptr<derived_impl>;
     derived make_derived() { return new derived_impl; }
 
     TEST_CASE("smoke")

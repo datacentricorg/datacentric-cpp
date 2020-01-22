@@ -33,21 +33,21 @@ limitations under the License.
 
 namespace dot
 {
-    class JsonRecordSerializerImpl; using JsonRecordSerializer = dot::ptr<JsonRecordSerializerImpl>;
-    class data_impl; using data = dot::ptr<data_impl>;
+    class JsonRecordSerializerImpl; using JsonRecordSerializer = dot::Ptr<JsonRecordSerializerImpl>;
+    class data_impl; using data = dot::Ptr<data_impl>;
 
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
-    class DOT_CLASS JsonRecordSerializerImpl : public virtual dot::object_impl
+    class DOT_CLASS JsonRecordSerializerImpl : public virtual dot::ObjectImpl
     {
         friend JsonRecordSerializer make_json_record_serializer();
 
     public:
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
-        object deserialize(const rapidjson::Document& doc);
+        Object deserialize(const rapidjson::Document& doc);
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
-        dot::object deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type);
+        dot::Object deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type);
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         void deserialize_document(rapidjson::Document::ConstObject doc, tree_writer_base writer);
@@ -56,13 +56,13 @@ namespace dot
         void deserialize_array(rapidjson::Document::ConstArray arr, tree_writer_base writer);
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
-        void serialize(tree_writer_base writer, object value);
+        void serialize(tree_writer_base writer, Object value);
 
     private:
 
-        void standard_serialize(tree_writer_base writer, dot::object value);
+        void standard_serialize(tree_writer_base writer, dot::Object value);
 
-        void standard_serialize(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer);
+        void standard_serialize(dot::list_base obj, dot::String element_name, dot::tree_writer_base writer);
 
     private:
         JsonRecordSerializerImpl() = default;

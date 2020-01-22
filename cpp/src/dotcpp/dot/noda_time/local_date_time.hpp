@@ -31,9 +31,9 @@ limitations under the License.
 
 namespace dot
 {
-    class string;
+    class String;
     class Period;
-    class object;
+    class Object;
 
     /// A date and time in a particular calendar system.
     /// A LocalDateTime value does not represent an instant on the global time line,
@@ -68,8 +68,8 @@ namespace dot
         /// Create from Boost posix_time.
         LocalDateTime(const boost::posix_time::ptime& time);
 
-        /// Create from object.
-        LocalDateTime(object const& rhs);
+        /// Create from Object.
+        LocalDateTime(Object const& rhs);
 
 
         /// Copy constructor.
@@ -120,11 +120,11 @@ namespace dot
         /// Indicates whether this date/time is earlier, later or the same as another one.
         int compare_to(const LocalDateTime& other) const;
 
-        /// Indicates whether the current object is equal to another object of the same type.
+        /// Indicates whether the current Object is equal to another Object of the same type.
         bool equals(const LocalDateTime& other) const;
 
-        /// String that represents the current object.
-        string to_string() const;
+        /// String that represents the current Object.
+        String to_string() const;
 
         /// Subtracts the specified date/time from this date/time, returning the result as a Period. Fluent alternative to operator-().
         Period minus(const LocalDateTime& local_date_time) const;

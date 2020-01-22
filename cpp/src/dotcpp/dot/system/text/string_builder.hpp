@@ -30,50 +30,50 @@ limitations under the License.
 
 namespace dot
 {
-    class string_builder_impl; using string_builder = ptr<string_builder_impl>;
+    class StringBuilderImpl; using StringBuilder = Ptr<StringBuilderImpl>;
 
-    /// Builds a string incrementally.
-    class string_builder_impl final : public virtual object_impl, public std::string
+    /// Builds a String incrementally.
+    class StringBuilderImpl final : public virtual ObjectImpl, public std::string
     {
         typedef std::string base;
-        friend string_builder make_string_builder();
+        friend StringBuilder make_string_builder();
 
     private: // CONSTRUCTORS
 
-        /// Initializes an empty instance of the string_builder class.
+        /// Initializes an empty instance of the StringBuilder class.
         ///
         /// This constructor is private. Use make_string_builder(...)
         /// function with matching signature instead.
-        string_builder_impl() = default;
+        StringBuilderImpl() = default;
 
     public: // METHODS
 
-        /// A string representing the current type.
-        virtual string to_string() override
+        /// A String representing the current type.
+        virtual String to_string() override
         {
-            // Returns a copy of the string, not a reference to the same string
-            // Further changes to string_builder will not affect the previously
-            // returned string.
+            // Returns a copy of the String, not a reference to the same String
+            // Further changes to StringBuilder will not affect the previously
+            // returned String.
             return make_string(*this);
         }
 
-        /// Appends the string returned by processing a composite format string, which contains
+        /// Appends the String returned by processing a composite format String, which contains
         /// zero or more format items, to this instance. Each format item is replaced by the
-        /// string representation of a corresponding object argument.
+        /// String representation of a corresponding Object argument.
         template <typename First, typename ...Args>
-        void append_format(const string& format, const First& f, const Args& ...args)
+        void append_format(const String& format, const First& f, const Args& ...args)
         {
-            *this += *string::format(format, f, args...);
+            *this += *String::format(format, f, args...);
         }
 
-        /// Appends the string representation of a specified object to this instance.
+        /// Appends the String representation of a specified Object to this instance.
         template <typename T>
         void append(const T& arg)
         {
-            *this += *string::format("{0}", arg);
+            *this += *String::format("{0}", arg);
         }
 
-        /// Appends a copy of a specified string and the default
+        /// Appends a copy of a specified String and the default
         /// line terminator, to the end of this instance.
         template <typename ...Args>
         void append_line(const Args& ...args)
@@ -85,16 +85,16 @@ namespace dot
         /// Appends the default line terminator, to the end of this instance.
         void append_line()
         {
-            *this += *environment::make_line;
+            *this += *Environment::make_line;
         }
 
-        /// Removes all characters from the current string_builder instance.
+        /// Removes all characters from the current StringBuilder instance.
         void clear()
         {
             this->clear();
         }
     };
 
-    /// Initializes an empty instance of the string_builder class.
-    inline string_builder make_string_builder() { return new string_builder_impl(); }
+    /// Initializes an empty instance of the StringBuilder class.
+    inline StringBuilder make_string_builder() { return new StringBuilderImpl(); }
 }

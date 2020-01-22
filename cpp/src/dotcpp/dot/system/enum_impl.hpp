@@ -28,39 +28,39 @@ limitations under the License.
 
 namespace dot
 {
-    class object;
+    class Object;
 
     template <class T>
-    string to_string(const T& value);
+    String to_string(const T& value);
 
-    /// Wrapper around double to make it convertible to object (boxing).
+    /// Wrapper around double to make it convertible to Object (boxing).
     template <class T>
-    class enum_impl : public virtual object_impl
+    class EnumImpl : public virtual ObjectImpl
     {
-        friend object;
+        friend Object;
         T value_;
 
     public: // CONSTRUCTORS
 
         /// Create from value (box).
-        enum_impl(T value) : value_(value) {}
+        EnumImpl(T value) : value_(value) {}
 
-        /// Create from object (first step in two-step conversion during unboxing).
-        enum_impl(object rhs) : value_(ptr<enum_impl<T>>(rhs)->value_) { }
+        /// Create from Object (first step in two-step conversion during unboxing).
+        EnumImpl(Object rhs) : value_(Ptr<EnumImpl<T>>(rhs)->value_) { }
 
     public: // METHODS
 
         /// Returns enum value
         T value() { return value_; };
 
-        /// Returns a value indicating whether this instance is equal to a specified object.
-        bool equals(object obj) override
+        /// Returns a value indicating whether this instance is equal to a specified Object.
+        bool equals(Object obj) override
         {
             if (this == &(*obj)) return true;
 
-            if (obj.is<ptr<enum_impl<T>>>())
+            if (obj.is<Ptr<EnumImpl<T>>>())
             {
-                return value_ == obj.as<ptr<enum_impl<T>>>()->value_;
+                return value_ == obj.as<Ptr<EnumImpl<T>>>()->value_;
             }
 
             return false;
@@ -69,8 +69,8 @@ namespace dot
         /// Returns the hash code for this instance.
         virtual size_t hash_code() override { return std::hash<int>()((int)value_); }
 
-        /// Converts the numeric value of this instance to its equivalent string representation.
-        virtual string to_string() override { return dot::to_string(value_); }
+        /// Converts the numeric value of this instance to its equivalent String representation.
+        virtual String to_string() override { return dot::to_string(value_); }
 
     public: // OPERATORS
 

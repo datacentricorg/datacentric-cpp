@@ -30,18 +30,18 @@ limitations under the License.
 namespace dot
 {
     class filter_token_serialization_attribute_impl;
-    using filter_token_serialization_attribute = ptr<filter_token_serialization_attribute_impl>;
+    using filter_token_serialization_attribute = Ptr<filter_token_serialization_attribute_impl>;
 
     /// Attribute marks class as root class for writing hierarchical discriminator convention.
-    class DOT_MONGO_CLASS filter_token_serialization_attribute_impl : public attribute_impl
+    class DOT_MONGO_CLASS filter_token_serialization_attribute_impl : public AttributeImpl
     {
     public:
 
-        typedef object (*serializer_func_type)(object);
+        typedef Object (*serializer_func_type)(Object);
 
         friend filter_token_serialization_attribute make_filter_token_serialization_attribute(serializer_func_type);
 
-        object serialize(object obj);
+        Object serialize(Object obj);
 
     public: // REFLECTION
 

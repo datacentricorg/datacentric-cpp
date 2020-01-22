@@ -29,42 +29,42 @@ limitations under the License.
 
 namespace dot
 {
-    class member_info_impl; using member_info = ptr<member_info_impl>;
-    class type_impl; using type = ptr<type_impl>;
+    class member_info_impl; using member_info = Ptr<member_info_impl>;
+    class type_impl; using type = Ptr<type_impl>;
 
     /// Obtains information about the attributes of a member and provides access to member metadata.
-    class DOT_CLASS member_info_impl : public virtual object_impl
+    class DOT_CLASS member_info_impl : public virtual ObjectImpl
     {
         typedef member_info_impl self;
 
     private: // FIELDS
 
-        string name_;
+        String name_;
         type declaring_type_;
-        list<attribute> custom_attributes_;
+        list<Attribute> custom_attributes_;
 
     public: // METHODS
 
         /// Gets the name of the current member.
-        string name() const { return name_; }
+        String name() const { return name_; }
 
         /// Gets the class that declares this member.
         type declaring_type() const { return declaring_type_; }
 
         /// Gets a collection that contains this member's custom attributes.
-        list<attribute> get_custom_attributes(bool) { return custom_attributes_; }
+        list<Attribute> get_custom_attributes(bool) { return custom_attributes_; }
 
-        list<attribute> get_custom_attributes(dot::type attr_type, bool);
+        list<Attribute> get_custom_attributes(dot::type attr_type, bool);
 
-        /// A string representing the name of the current type.
-        virtual string to_string() override { return "member_info"; }
+        /// A String representing the name of the current type.
+        virtual String to_string() override { return "member_info"; }
 
     protected: // CONSTRUCTORS
 
         /// Create from property name and declaring type.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        member_info_impl(const string& name, type declaring_type, list<attribute> custom_attributes)
+        member_info_impl(const String& name, type declaring_type, list<Attribute> custom_attributes)
             : name_(name)
             , declaring_type_(declaring_type)
             , custom_attributes_(custom_attributes)

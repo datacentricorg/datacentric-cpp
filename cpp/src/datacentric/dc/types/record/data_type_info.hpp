@@ -24,14 +24,14 @@ limitations under the License.
 
 namespace dc
 {
-    class data_type_info_impl; using data_type_info = dot::ptr<data_type_info_impl>;
+    class data_type_info_impl; using data_type_info = dot::Ptr<data_type_info_impl>;
 
     /// Information about a data type obtained through reflection.
     ///
     /// This class can be used to obtain type information for classes
     /// derived from Data class, including through Key or Record classes.
     /// Using it with any other type will result in an error.
-    class DC_CLASS data_type_info_impl : public virtual dot::object_impl
+    class DC_CLASS data_type_info_impl : public virtual dot::ObjectImpl
     {
     public: // PROPERTIES
 
@@ -44,7 +44,7 @@ namespace dc
         ///
         /// Root data type is the type that inherits directly
         /// from Key(TKey, TRecord).
-        dot::list<dot::string> inheritance_chain() { return inheritance_chain_; }
+        dot::list<dot::String> inheritance_chain() { return inheritance_chain_; }
 
     public: // METHODS
 
@@ -54,22 +54,22 @@ namespace dc
         /// below TypedRecord in the inheritance chain, without namespace.
         ///
         /// Error message if called for a type that is not derived from TypedRecord.
-        dot::string get_collection_name();
+        dot::String get_collection_name();
 
     public: // STATIC
 
-        /// Get cached instance for the specified object, or create
+        /// Get cached instance for the specified Object, or create
         /// using  and add to thread static cache if does not exist.
         ///
-        /// This object contains information about the data type
+        /// This Object contains information about the data type
         /// including the list of its elements (public properties
         /// that have one of the supported data types).
-        static data_type_info get_or_create(dot::object value);
+        static data_type_info get_or_create(dot::Object value);
 
         /// Get cached instance for the specified type, or create
         /// using  and add to thread static cache if does not exist.
         ///
-        /// This object contains information about the data type
+        /// This Object contains information about the data type
         /// including the list of its elements (public properties
         /// that have one of the supported data types).
         ///
@@ -94,7 +94,7 @@ namespace dc
     private: // FIELDS
 
         data_kind_enum data_kind_ = data_kind_enum::empty;
-        dot::list<dot::string> inheritance_chain_;
+        dot::list<dot::String> inheritance_chain_;
 
         dot::type type_;
         dot::type root_type_;

@@ -28,7 +28,7 @@ limitations under the License.
 namespace dot
 {
 
-    void SerializeClassAttributeImpl::serialize(tree_writer_base writer, dot::object obj)
+    void SerializeClassAttributeImpl::serialize(tree_writer_base writer, dot::Object obj)
     {
         serializer_(writer, obj);
     }
@@ -49,7 +49,7 @@ namespace dot
         return typeof();
     }
 
-    void SerializeFieldAttributeImpl::serialize(tree_writer_base writer, dot::object obj)
+    void SerializeFieldAttributeImpl::serialize(tree_writer_base writer, dot::Object obj)
     {
         serializer_(writer, obj);
     }

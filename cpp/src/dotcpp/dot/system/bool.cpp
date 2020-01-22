@@ -29,46 +29,46 @@ limitations under the License.
 
 namespace dot
 {
-    const string bool_impl::false_string = "False";
+    const String BoolImpl::false_string = "False";
 
-    const string bool_impl::true_string = "True";
+    const String BoolImpl::true_string = "True";
 
-    bool bool_impl::equals(object obj)
+    bool BoolImpl::equals(Object obj)
     {
         if (this == &(*obj)) return true;
-        if (obj.is<ptr<bool_impl>>())
+        if (obj.is<Ptr<BoolImpl>>())
         {
-            return value_ == obj.as<ptr<bool_impl>>()->value_;
+            return value_ == obj.as<Ptr<BoolImpl>>()->value_;
         }
 
         return false;
     }
 
-    size_t bool_impl::hash_code()
+    size_t BoolImpl::hash_code()
     {
         return std::hash<bool>()(value_);
     }
 
-    string bool_impl::to_string()
+    String BoolImpl::to_string()
     {
-        return value_ ? bool_impl::true_string : bool_impl::false_string;
+        return value_ ? BoolImpl::true_string : BoolImpl::false_string;
     }
 
-    type bool_impl::typeof()
+    type BoolImpl::typeof()
     {
         return dot::typeof<bool>();
     }
 
-    type bool_impl::get_type()
+    type BoolImpl::get_type()
     {
         return typeof();
     }
 
-    bool bool_impl::parse(string s)
+    bool BoolImpl::parse(String s)
     {
-        if (s == bool_impl::false_string) return false;
-        if (s == bool_impl::true_string) return true;
+        if (s == BoolImpl::false_string) return false;
+        if (s == BoolImpl::true_string) return true;
 
-        throw exception("value is not equivalent to true_string or false_string.");
+        throw Exception("value is not equivalent to true_string or false_string.");
     }
 }

@@ -68,7 +68,7 @@ namespace dot
         REQUIRE(d3.at_midnight() == LocalDateTime(2005, 5, 10, 0, 0));
 
         LocalDate d4(2005, 1, 2);
-        string d4_str = d4.to_string();
+        String d4_str = d4.to_string();
         REQUIRE(d4_str == "2005-01-02");
     }
 

@@ -44,10 +44,10 @@ namespace dot
             obj->add(2.);
             obj->add(3.);
 
-            object boxed = obj;
+            Object boxed = obj;
             list<double> unboxed = (list<double>)boxed;
             int i = 0;
-            for (object item : unboxed)
+            for (Object item : unboxed)
             {
                 REQUIRE((double)item == ++i);
             }
@@ -56,7 +56,7 @@ namespace dot
         {
             // Boxing bool
             bool x = false;
-            object boxed = x;
+            Object boxed = x;
             REQUIRE((bool)boxed == false);
             boxed = true;
             REQUIRE((bool)boxed == true);
@@ -64,10 +64,10 @@ namespace dot
 
         {
             // Boxing nullable_bool
-            nullable<bool> x;
-            object boxed = x;
-            REQUIRE(((nullable<bool>)boxed).has_value() == false);
-            nullable<bool> y = true;
+            Nullable<bool> x;
+            Object boxed = x;
+            REQUIRE(((Nullable<bool>)boxed).has_value() == false);
+            Nullable<bool> y = true;
             boxed = y;
             REQUIRE((bool)boxed == true);
         }
@@ -75,7 +75,7 @@ namespace dot
         {
             // Boxing double
             double x = 1.0;
-            object boxed = x;
+            Object boxed = x;
             REQUIRE((double)boxed == 1.0);
             boxed = 2.0;
             REQUIRE((double)boxed == 2.0);
@@ -83,10 +83,10 @@ namespace dot
 
         {
             // Boxing nullable_double
-            nullable<double> x;
-            object boxed = x;
-            REQUIRE(((nullable<double>)boxed).has_value() == false);
-            nullable<double> y = 2.0;
+            Nullable<double> x;
+            Object boxed = x;
+            REQUIRE(((Nullable<double>)boxed).has_value() == false);
+            Nullable<double> y = 2.0;
             boxed = y;
             REQUIRE((double)boxed == 2.0);
         }
@@ -94,7 +94,7 @@ namespace dot
         {
             // Boxing int
             int x = 1;
-            object boxed = x;
+            Object boxed = x;
             REQUIRE((int)boxed == 1);
             boxed = 2;
             REQUIRE((int)boxed == 2);
@@ -102,10 +102,10 @@ namespace dot
 
         {
             // Boxing nullable_int
-            nullable<int> x;
-            object boxed = x;
-            REQUIRE(((nullable<int>)boxed).has_value() == false);
-            nullable<int> y = 2;
+            Nullable<int> x;
+            Object boxed = x;
+            REQUIRE(((Nullable<int>)boxed).has_value() == false);
+            Nullable<int> y = 2;
             boxed = y;
             REQUIRE((int)boxed == 2);
         }
@@ -113,7 +113,7 @@ namespace dot
         {
             // Boxing int64_t
             int64_t x = 1;
-            object boxed = x;
+            Object boxed = x;
             REQUIRE((int64_t)boxed == 1);
             boxed = (int64_t)2;
             REQUIRE((int64_t)boxed == 2);
@@ -121,10 +121,10 @@ namespace dot
 
         {
             // Boxing nullable_long
-            nullable<int64_t> x;
-            object boxed = x;
-            REQUIRE(((nullable<int64_t>)boxed).has_value() == false);
-            nullable<int64_t> y = (int64_t)2;
+            Nullable<int64_t> x;
+            Object boxed = x;
+            REQUIRE(((Nullable<int64_t>)boxed).has_value() == false);
+            Nullable<int64_t> y = (int64_t)2;
             boxed = y;
             REQUIRE((int64_t)boxed == 2);
         }
@@ -134,7 +134,7 @@ namespace dot
             LocalTime time(12, 0);
             LocalTime time2(12, 0);
 
-            object boxed = time;
+            Object boxed = time;
             CHECK_NOTHROW((LocalTime) boxed);
 
             REQUIRE((LocalTime) boxed == time);
@@ -146,7 +146,7 @@ namespace dot
             LocalDate date(2005, 1, 1);
             LocalDate date2(2005, 1, 1);
 
-            object boxed = date;
+            Object boxed = date;
             CHECK_NOTHROW((LocalDate) boxed);
 
             REQUIRE((LocalDate) boxed == date);
@@ -158,7 +158,7 @@ namespace dot
             LocalDateTime date(2005, 1, 1, 12, 0);
             LocalDateTime date2(2005, 1, 1, 12, 0);
 
-            object boxed = date;
+            Object boxed = date;
             CHECK_NOTHROW((LocalDateTime) boxed);
 
             REQUIRE((LocalDateTime) boxed == date);

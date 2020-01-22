@@ -30,19 +30,19 @@ limitations under the License.
 namespace dot
 {
 
-    class DeserializeClassAttributeImpl; using DeserializeClassAttribute = ptr<DeserializeClassAttributeImpl>;
+    class DeserializeClassAttributeImpl; using DeserializeClassAttribute = Ptr<DeserializeClassAttributeImpl>;
 
     /// Attribute sets custom deserializator for type
-    /// Constructs from method that accepts object value, required type and returns deserialized object
-    class DOT_CLASS DeserializeClassAttributeImpl : public attribute_impl
+    /// Constructs from method that accepts Object value, required type and returns deserialized Object
+    class DOT_CLASS DeserializeClassAttributeImpl : public AttributeImpl
     {
 
     public:
-        typedef object(*deserializer_func_type)(object, dot::type);
+        typedef Object(*deserializer_func_type)(Object, dot::type);
 
         friend DeserializeClassAttribute make_deserialize_class_attribute(deserializer_func_type);
 
-        object deserialize(object value, dot::type);
+        Object deserialize(Object value, dot::type);
 
     public: // REFLECTION
 
@@ -64,19 +64,19 @@ namespace dot
     }
 
 
-    class DeserializeFieldAttributeImpl; using DeserializeFieldAttribute = ptr<DeserializeFieldAttributeImpl>;
+    class DeserializeFieldAttributeImpl; using DeserializeFieldAttribute = Ptr<DeserializeFieldAttributeImpl>;
 
     /// Attribute sets custom deserializator for field
-    /// Constructs from method that accepts field value, field info, and data object
-    class DOT_CLASS DeserializeFieldAttributeImpl : public attribute_impl
+    /// Constructs from method that accepts field value, field info, and data Object
+    class DOT_CLASS DeserializeFieldAttributeImpl : public AttributeImpl
     {
 
     public:
-        typedef void(*deserializer_func_type)(object, field_info, object);
+        typedef void(*deserializer_func_type)(Object, field_info, Object);
 
         friend DeserializeFieldAttribute make_deserialize_field_attribute(deserializer_func_type);
 
-        void deserialize(object value, field_info field, object obj);
+        void deserialize(Object value, field_info field, Object obj);
 
     public: // REFLECTION
 
@@ -92,7 +92,7 @@ namespace dot
         deserializer_func_type deserializer_;
     };
 
-    inline void ignore_field_deserialization(object, field_info, object)
+    inline void ignore_field_deserialization(Object, field_info, Object)
     {
     }
 

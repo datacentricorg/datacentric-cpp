@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace dot
 {
-    dot::LocalDateTime LocalDateTimeUtil::parse(dot::string value)
+    dot::LocalDateTime LocalDateTimeUtil::parse(dot::String value)
     {
         boost::posix_time::time_input_facet* facet = new boost::posix_time::time_input_facet();
         facet->format("%Y-%m-%d %H:%M:%S%f");
@@ -40,7 +40,7 @@ namespace dot
         stream >> ptime;
 
         // If default constructed datetime is passed, error message
-        if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::format(
+        if (ptime == boost::posix_time::not_a_date_time) throw dot::Exception(dot::String::format(
             "String representation of default constructed datetime {0} "
             "passed to LocalDateTimeUtil.parse(value) method.", value));
 
@@ -64,9 +64,9 @@ namespace dot
 
         // Check that it will fit into int32 range
         if (iso_date_long < INT32_MIN || iso_date_long > INT32_MAX)
-            throw dot::exception(dot::string::format("Date portion of datetime {0} has invalid format.", value));
+            throw dot::Exception(dot::String::format("Date portion of datetime {0} has invalid format.", value));
         if (iso_time_long < INT32_MIN || iso_time_long > INT32_MAX)
-            throw dot::exception(dot::string::format("Time portion of datetime {0} has invalid format.", value));
+            throw dot::Exception(dot::String::format("Time portion of datetime {0} has invalid format.", value));
 
         // Convert to int32
         int iso_date = (int)iso_date_long;
@@ -88,7 +88,7 @@ namespace dot
         iso_time -= second * 1000;
         int millisecond = iso_time;
 
-        // Create LocalDateTime object
+        // Create LocalDateTime Object
         return dot::LocalDateTime(year, month, day, hour, minute, second, millisecond);
     }
 

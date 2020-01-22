@@ -47,11 +47,11 @@ namespace dc
     class test_duration_counter
     {
         std::chrono::steady_clock::time_point start_time;
-        dot::string message;
+        dot::String message;
 
     public:
 
-        test_duration_counter(dot::string msg)
+        test_duration_counter(dot::String msg)
             : start_time(std::chrono::steady_clock::now())
             , message(msg)
         {}
@@ -65,9 +65,9 @@ namespace dc
         }
     };
 
-    class performance_test_impl; using performance_test = dot::ptr<performance_test_impl>;
+    class performance_test_impl; using performance_test = dot::Ptr<performance_test_impl>;
 
-    class performance_test_impl : public dot::object_impl
+    class performance_test_impl : public dot::ObjectImpl
     {
         typedef performance_test_impl self;
 
@@ -77,8 +77,8 @@ namespace dc
         DOT_TYPE_END()
     };
 
-    class performance_test_key_impl; using performance_test_key = dot::ptr<performance_test_key_impl>;
-    class performance_test_data_impl; using performance_test_data = dot::ptr<performance_test_data_impl>;
+    class performance_test_key_impl; using performance_test_key = dot::Ptr<performance_test_key_impl>;
+    class performance_test_data_impl; using performance_test_data = dot::Ptr<performance_test_data_impl>;
 
     performance_test_key make_performance_test_key();
 
@@ -89,7 +89,7 @@ namespace dc
 
     public:
 
-        dot::string record_id;
+        dot::String record_id;
 
         DOT_TYPE_BEGIN("dc", "performance_test_key")
             DOT_TYPE_PROP(record_id)
@@ -109,9 +109,9 @@ namespace dc
 
     public:
 
-        dot::string record_id;
+        dot::String record_id;
         dot::list<double> double_list;
-        dot::nullable<int> version;
+        dot::Nullable<int> version;
 
         DOT_TYPE_BEGIN("dc", "performance_test_data")
             DOT_TYPE_PROP(record_id)
@@ -126,19 +126,19 @@ namespace dc
 
 
     // HELPER FUNCTIONS
-    dot::string get_record_key(int index)
+    dot::String get_record_key(int index)
     {
-        static const dot::string record_id_pattern = "key_{0}";
-        return dot::string::format(record_id_pattern, index);
+        static const dot::String record_id_pattern = "key_{0}";
+        return dot::String::format(record_id_pattern, index);
     }
 
-    dot::string get_data_set(int index)
+    dot::String get_data_set(int index)
     {
-        static const dot::string data_set_pattern = "data_set_{0}";
-        return dot::string::format(data_set_pattern, index);
+        static const dot::String data_set_pattern = "data_set_{0}";
+        return dot::String::format(data_set_pattern, index);
     }
 
-    temporal_id save_record(unit_test_context_base context, dot::string data_set_id, dot::string record_id, int record_version, int record_size)
+    temporal_id save_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_version, int record_size)
     {
         performance_test_data rec = make_performance_test_data();
         rec->record_id = record_id;
@@ -160,19 +160,19 @@ namespace dc
         temporal_id common_data_set = context->get_common();
         for (int i = 0; i < data_set_count; ++i)
         {
-            dot::string data_set_name = get_data_set(i);
+            dot::String data_set_name = get_data_set(i);
             context->create_data_set(data_set_name, dot::make_list<temporal_id>({ common_data_set }));
         }
 
         // Create records
         for (int i = 0; i < record_count; ++i)
         {
-            dot::string record_id = get_record_key(i);
+            dot::String record_id = get_record_key(i);
             save_record(context, data_set_key_impl::common->data_set_id, record_id, 0, record_size);
 
             for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {
-                dot::string data_set_name = get_data_set(data_set_index);
+                dot::String data_set_name = get_data_set(data_set_index);
 
                 for (int version = 1; version < record_versions; ++version)
                 {
@@ -212,7 +212,7 @@ namespace dc
 
             for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {
-                dot::string data_set_name = get_data_set(data_set_index);
+                dot::String data_set_name = get_data_set(data_set_index);
                 temporal_id data_set = context->get_data_set(data_set_name);
                 context->load_or_null(key, data_set);
             }
@@ -227,8 +227,8 @@ namespace dc
         fill_database(context);
         test_duration_counter td("Query loading");
 
-        dot::string record_id = get_record_key(2);
-        dot::string data_set_name = get_data_set(2);
+        dot::String record_id = get_record_key(2);
+        dot::String data_set_name = get_data_set(2);
         temporal_id data_set = context->get_data_set(data_set_name);
 
         dot::cursor_wrapper<performance_test_data> query = context->data_source->get_query<performance_test_data>(data_set)
@@ -238,7 +238,7 @@ namespace dc
 
         for (performance_test_data data : query)
         {
-            dot::console::write_line(data->to_string());
+            dot::Console::write_line(data->to_string());
         }
     }
 }

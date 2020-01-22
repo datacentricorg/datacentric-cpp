@@ -91,7 +91,7 @@ namespace dc
     {
         if (props.is_empty() || props->size() != element_type->get_generic_arguments()->size())
         {
-            throw dot::exception("Wrong number of field_info passed to select method.");
+            throw dot::Exception("Wrong number of field_info passed to select method.");
         }
         dot::type record_type = dot::typeof<record>();
 
@@ -120,7 +120,7 @@ namespace dc
         // Apply filter by types.
         if (derived_types != nullptr)
         {
-            dot::list<dot::string> derived_type_names = dot::make_list<dot::string>();
+            dot::list<dot::String> derived_type_names = dot::make_list<dot::String>();
             for (dot::type der_type : derived_types)
                 derived_type_names->add(der_type->name());
 

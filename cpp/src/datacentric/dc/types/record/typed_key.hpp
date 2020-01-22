@@ -24,9 +24,9 @@ limitations under the License.
 namespace dc
 {
     template <typename TKey, typename TRecord> class typed_key_impl;
-    template <typename TKey, typename TRecord> using typed_key = dot::ptr<typed_key_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> using typed_key = dot::Ptr<typed_key_impl<TKey, TRecord>>;
 
-    class context_base_impl; using context_base = dot::ptr<context_base_impl>;
+    class context_base_impl; using context_base = dot::Ptr<context_base_impl>;
 
     /// Base class of a foreign key.
     ///
@@ -49,8 +49,8 @@ namespace dc
 
         DOT_TYPE_BEGIN("dc", "typed_key")
             DOT_TYPE_BASE(key)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
+            DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TKey>)
+            DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TRecord>)
         DOT_TYPE_END()
     };
 }

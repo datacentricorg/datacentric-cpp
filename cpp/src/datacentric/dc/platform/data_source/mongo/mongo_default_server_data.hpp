@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_default_server_data_impl; using mongo_default_server_data = dot::ptr<mongo_default_server_data_impl>;
+    class mongo_default_server_data_impl; using mongo_default_server_data = dot::Ptr<mongo_default_server_data_impl>;
 
     /// Returns MongoDB URI for the server running
     /// on the default port 27017 of localhost:
@@ -43,7 +43,7 @@ namespace dc
     public: // METHODS
 
         /// Get Mongo server URI without database name.
-        dot::string get_mongo_server_uri() override;
+        dot::String get_mongo_server_uri() override;
     };
 
     inline mongo_default_server_data make_mongo_default_server_data() { return new mongo_default_server_data_impl; }

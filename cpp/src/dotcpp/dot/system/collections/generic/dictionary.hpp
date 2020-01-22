@@ -30,12 +30,12 @@ limitations under the License.
 namespace dot
 {
     template <class key_t, class value_t> class dictionary_impl;
-    template <class key_t, class value_t> using dictionary = ptr<dictionary_impl<key_t, value_t>>;
+    template <class key_t, class value_t> using dictionary = Ptr<dictionary_impl<key_t, value_t>>;
 
     /// Represents a collection of keys and values.
     template <class key_t, class value_t>
     class dictionary_impl
-        : public virtual object_impl
+        : public virtual ObjectImpl
         , public std::unordered_map<key_t, value_t>
     {
         typedef dictionary_impl<key_t, value_t> self;
@@ -85,7 +85,7 @@ namespace dot
         {
             auto res = this->insert(key_value_pair);
             if (!res.second)
-                throw exception("An element with the same key already exists in the dictionary");
+                throw Exception("An element with the same key already exists in the dictionary");
         }
 
         /// Determines whether the dictionary contains the specified key.

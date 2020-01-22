@@ -21,8 +21,8 @@ limitations under the License.
 
 namespace dc
 {
-    class data_set_key_impl; using data_set_key = dot::ptr<data_set_key_impl>;
-    class data_set_data_impl; using data_set_data = dot::ptr<data_set_data_impl>;
+    class data_set_key_impl; using data_set_key = dot::Ptr<data_set_key_impl>;
+    class data_set_data_impl; using data_set_data = dot::Ptr<data_set_data_impl>;
 
     inline data_set_key make_data_set_key();
 
@@ -37,7 +37,7 @@ namespace dc
     public: // PROPERTIES
 
         /// Unique dataset identifier.
-        dot::string data_set_id;
+        dot::String data_set_id;
 
         DOT_TYPE_BEGIN("dc", "data_set_key")
             DOT_TYPE_PROP(data_set_id)

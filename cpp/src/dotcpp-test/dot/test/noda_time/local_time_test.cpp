@@ -66,7 +66,7 @@ namespace dot
         REQUIRE(t3.on(d3) == dt3);
 
         LocalTime t4(1, 2, 3, 4);
-        string t4_str = t4.to_string();
+        String t4_str = t4.to_string();
         REQUIRE(t4_str == "01:02:03.004");
     }
 

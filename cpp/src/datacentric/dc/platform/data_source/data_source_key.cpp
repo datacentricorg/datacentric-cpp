@@ -25,7 +25,7 @@ namespace dc
 
     data_source_key data_source_key_impl::master = new data_source_key_impl("master");
 
-    data_source_key_impl::data_source_key_impl(dot::string value)
+    data_source_key_impl::data_source_key_impl(dot::String value)
     {
         data_source_id = value;
     }

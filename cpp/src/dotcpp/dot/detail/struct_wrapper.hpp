@@ -25,24 +25,24 @@ limitations under the License.
 
 namespace dot
 {
-    class object_impl;
-    class string;
-    class object;
-    class object_impl;
+    class ObjectImpl;
+    class String;
+    class Object;
+    class ObjectImpl;
 
     namespace detail
     {
         /// Empty structure.
-        class DummyNoToString : public virtual object_impl
+        class DummyNoToString : public virtual ObjectImpl
         {};
 
         /// objects inherit this structure in case their inner struct class has method to_string
-        /// so object also have these method.
+        /// so Object also have these method.
         template <class W, class T>
-        class ObjToString : public virtual object_impl
+        class ObjToString : public virtual ObjectImpl
         {
         public:
-            virtual string to_string() override { return static_cast<T*>(static_cast<W*>(this))->to_string(); }
+            virtual String to_string() override { return static_cast<T*>(static_cast<W*>(this))->to_string(); }
         };
 
         /// Detects existance of to_string method.
@@ -67,13 +67,13 @@ namespace dot
         {};
 
         /// Empty structure.
-        class DummyNoGetHashCode : public virtual object_impl
+        class DummyNoGetHashCode : public virtual ObjectImpl
         {};
 
         /// objects inherit this structure in case their inner struct class has method hash_code
-        /// so object also have these method.
+        /// so Object also have these method.
         template <class W, class T>
-        class ObjGetHashCode : public virtual object_impl
+        class ObjGetHashCode : public virtual ObjectImpl
         {
         public:
             virtual size_t hash_code() override { return static_cast<T*>(static_cast<W*>(this))->hash_code(); }
@@ -101,16 +101,16 @@ namespace dot
         {};
 
         /// Empty structure.
-        class DummyNoEquals : public virtual object_impl
+        class DummyNoEquals : public virtual ObjectImpl
         {};
 
         /// objects inherit this structure in case their inner struct class has method equals
-        /// so object also have these method.
+        /// so Object also have these method.
         template <class W, class T>
-        class ObjEquals : public virtual object_impl
+        class ObjEquals : public virtual ObjectImpl
         {
         public:
-            bool equals(object obj) override { return static_cast<T*>(static_cast<W*>(this))->equals(obj); }
+            bool equals(Object obj) override { return static_cast<T*>(static_cast<W*>(this))->equals(obj); }
         };
 
         /// Detects existance of equals method.
@@ -119,7 +119,7 @@ namespace dot
         {
         private:
             static DummyNoEquals detect(...);
-            template<class U> static decltype(std::declval<U>().equals(std::declval<object>())) detect(const U&);
+            template<class U> static decltype(std::declval<U>().equals(std::declval<Object>())) detect(const U&);
         public:
             static constexpr bool value = !std::is_same<DummyNoEquals, decltype(detect(std::declval<T>()))>::value;
             typedef std::integral_constant<bool, value> type;

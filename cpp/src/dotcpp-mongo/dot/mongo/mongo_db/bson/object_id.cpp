@@ -40,12 +40,12 @@ namespace dot
 
     object_id::object_id(bsoncxx::oid id) : id_(id) {}
 
-    object_id::object_id(dot::object obj)
+    object_id::object_id(dot::Object obj)
     {
         id_ = ((struct_wrapper<object_id>)obj)->id_;
     }
 
-    object_id::object_id(dot::string str)
+    object_id::object_id(dot::String str)
         : id_(*str)
     {}
 
@@ -75,7 +75,7 @@ namespace dot
         return bsoncxx::oid();
     }
 
-    dot::string object_id::to_string() const
+    dot::String object_id::to_string() const
     {
         return id_.to_string();
     }
@@ -110,7 +110,7 @@ namespace dot
         return id_ < rhs.id_;
     }
 
-    dot::nullable<object_id> object_id::min(dot::nullable<object_id> lhs, dot::nullable<object_id> rhs)
+    dot::Nullable<object_id> object_id::min(dot::Nullable<object_id> lhs, dot::Nullable<object_id> rhs)
     {
         if (lhs != nullptr && rhs != nullptr)
         {
@@ -129,7 +129,7 @@ namespace dot
         }
     }
 
-    object object_id::deserialize(object value, dot::type type)
+    Object object_id::deserialize(Object value, dot::type type)
     {
         dot::type value_type = value->get_type();
 
@@ -137,12 +137,12 @@ namespace dot
         {
             return value;
         }
-        if (value_type->equals(dot::typeof<string>()))
+        if (value_type->equals(dot::typeof<String>()))
         {
-            return object_id((string)value);
+            return object_id((String)value);
         }
 
-        throw dot::exception("Couldn't construct object_id from " + value_type->name());
-        return object();
+        throw dot::Exception("Couldn't construct object_id from " + value_type->name());
+        return Object();
     }
 }

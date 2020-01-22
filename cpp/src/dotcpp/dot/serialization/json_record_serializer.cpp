@@ -41,11 +41,11 @@ limitations under the License.
 
 namespace dot
 {
-    object JsonRecordSerializerImpl::deserialize(const rapidjson::Document& doc)
+    Object JsonRecordSerializerImpl::deserialize(const rapidjson::Document& doc)
     {
         // Create instance to which JSON will be deserialized
-        dot::string type_name = doc["_t"].GetString();
-        object result = dot::activator::create_instance("", type_name);
+        dot::String type_name = doc["_t"].GetString();
+        Object result = dot::activator::create_instance("", type_name);
         tree_writer_base writer = make_data_writer(result);
 
         writer->write_start_document(type_name);
@@ -54,11 +54,11 @@ namespace dot
         return result;
     }
 
-    dot::object JsonRecordSerializerImpl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type)
+    dot::Object JsonRecordSerializerImpl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type)
     {
         // Create instance to which JSON will be deserialized
-        dot::string type_name = tuple_type->name();
-        dot::object result = dot::activator::create_instance(tuple_type);
+        dot::String type_name = tuple_type->name();
+        dot::Object result = dot::activator::create_instance(tuple_type);
         tree_writer_base writer = make_tuple_writer(result, props);
 
         writer->write_start_document(type_name);
@@ -72,7 +72,7 @@ namespace dot
     {
         // Each document is a dictionary at root level
         auto type_iter = doc.FindMember("_t");
-        dot::string type_name;
+        dot::String type_name;
         if (type_iter != doc.MemberEnd())
         {
             type_name = type_iter->value.GetString();
@@ -86,14 +86,14 @@ namespace dot
             rapidjson::Type json_type = elem.value.GetType();
 
             // Read element name and value
-            dot::string element_name = elem.name.GetString();
+            dot::String element_name = elem.name.GetString();
             if (json_type == rapidjson::Type::kNullType)
             {
                 //reader.read_null();
             }
             else if (json_type == rapidjson::Type::kStringType)
             {
-                dot::string value = elem.value.GetString();
+                dot::String value = elem.value.GetString();
 
                 if (element_name == "_t")
                 {
@@ -152,7 +152,7 @@ namespace dot
                 deserialize_array(sub_doc, writer);
                 writer->write_end_array_element(element_name);
             }
-            else throw dot::exception(
+            else throw dot::Exception(
                 "Deserialization of JSON type {0} is not supported.");
         }
 
@@ -174,7 +174,7 @@ namespace dot
             }
             else if (json_type == rapidjson::Type::kStringType)
             {
-                dot::string value = elem.GetString();
+                dot::String value = elem.GetString();
                 writer->write_value_array_item(value);
             }
             else if (json_type == rapidjson::Type::kNumberType)
@@ -212,18 +212,18 @@ namespace dot
             }
             else if (json_type == rapidjson::Type::kArrayType)
             {
-                throw dot::exception("Deserializaion of an array inside another array is not supported.");
+                throw dot::Exception("Deserializaion of an array inside another array is not supported.");
             }
             else
-                throw dot::exception(
+                throw dot::Exception(
                     "Deserialization of JSON type inside an array is not supported.");
         }
     }
 
-    void JsonRecordSerializerImpl::serialize(tree_writer_base writer, object value)
+    void JsonRecordSerializerImpl::serialize(tree_writer_base writer, Object value)
     {
         // Root name is written in JSON as _t element
-        dot::string root_name = value->get_type()->full_name();
+        dot::String root_name = value->get_type()->full_name();
 
         writer->write_start_document(root_name);
         // Check for custom serializator
@@ -238,7 +238,7 @@ namespace dot
         writer->write_end_document(root_name);
     }
 
-    void JsonRecordSerializerImpl::standard_serialize(dot::list_base obj, dot::string element_name, dot::tree_writer_base writer)
+    void JsonRecordSerializerImpl::standard_serialize(dot::list_base obj, dot::String element_name, dot::tree_writer_base writer)
     {
         // Write start element tag
         writer->write_start_array_element(element_name);
@@ -248,7 +248,7 @@ namespace dot
         // Iterate over sequence elements
         for (int i = 0; i < length; ++i)
         {
-            dot::object item = obj->get_item(i);
+            dot::Object item = obj->get_item(i);
 
             // Write array item start tag
             writer->write_start_array_item();
@@ -265,7 +265,7 @@ namespace dot
             // Serialize based on type of the item
             dot::type item_type = item->get_type();
 
-            if (item_type->equals(dot::typeof<dot::string>())
+            if (item_type->equals(dot::typeof<dot::String>())
                 || item_type->equals(dot::typeof<double>())
                 || item_type->equals(dot::typeof<bool>())
                 || item_type->equals(dot::typeof<int>())
@@ -283,7 +283,7 @@ namespace dot
             }
             else if (dot::typeof<dot::list_base>()->is_assignable_from(item_type))
             {
-                throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
+                throw dot::Exception(dot::String::format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", element_name));
             }
             else
@@ -299,7 +299,7 @@ namespace dot
         writer->write_end_array_element(element_name);
     }
 
-    void JsonRecordSerializerImpl::standard_serialize(tree_writer_base writer, dot::object value)
+    void JsonRecordSerializerImpl::standard_serialize(tree_writer_base writer, dot::Object value)
     {
         // Write start tag
         writer->write_start_dict(value->get_type()->name());
@@ -309,9 +309,9 @@ namespace dot
         for (dot::field_info inner_element_info : inner_element_info_list)
         {
             // Get element name and value
-            dot::string inner_element_name = inner_element_info->name();
+            dot::String inner_element_name = inner_element_info->name();
 
-            dot::object inner_element_value = inner_element_info->get_value(value);
+            dot::Object inner_element_value = inner_element_info->get_value(value);
 
             if (inner_element_value.is_empty())
             {
@@ -320,7 +320,7 @@ namespace dot
 
             dot::type element_type = inner_element_value->get_type();
 
-            if (element_type->equals(dot::typeof<dot::string>())
+            if (element_type->equals(dot::typeof<dot::String>())
                 || element_type->equals(dot::typeof<double>())
                 || element_type->equals(dot::typeof<bool>())
                 || element_type->equals(dot::typeof<int>())

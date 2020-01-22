@@ -31,8 +31,8 @@ namespace dot
 {
     TEST_CASE("clear object")
     {
-        object a = make_object();
-        object b = make_object();
+        Object a = make_object();
+        Object b = make_object();
 
         REQUIRE(a->equals(a) == true);
         REQUIRE(a->equals(b) == false);
@@ -41,9 +41,9 @@ namespace dot
 
     TEST_CASE("equals")
     {
-        object a = make_string("str");
-        object b = make_string("str");
-        object c = make_string("str1");
+        Object a = make_string("str");
+        Object b = make_string("str");
+        Object c = make_string("str1");
 
         REQUIRE(a->equals(a));
         REQUIRE(a->equals(b));
