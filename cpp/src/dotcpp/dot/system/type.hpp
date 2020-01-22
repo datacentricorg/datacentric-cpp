@@ -354,6 +354,13 @@ namespace dot
         /// This constructor is private. Use type_builder->build() method instead.
         type_impl(string nspace, string name);
     };
+}
+
+#include <dot/system/reflection/method_info_impl.hpp>
+#include <dot/system/reflection/constructor_info_impl.hpp>
+
+namespace dot
+{
 
     /// Initializes a new instance of the type_t class for untyped instance of object.
     inline type object_impl::get_type()

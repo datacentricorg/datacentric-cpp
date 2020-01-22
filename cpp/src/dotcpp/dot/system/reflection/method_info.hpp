@@ -43,13 +43,10 @@ namespace dot
     public: // METHODS
 
         /// A string representing the name of the current type.
-        virtual string to_string() override { return "MethodInfo"; }
+        inline virtual string to_string() override;
 
         /// Gets the parameters of this method.
-        virtual list<parameter_info> GetParameters()
-        {
-            return parameters;
-        }
+        inline virtual list<parameter_info> GetParameters();
 
         /// Invokes specified method with given parameters.
         virtual object invoke(object, list<object>) = 0;
@@ -66,11 +63,7 @@ namespace dot
         /// Create from method name, declaring type, return type.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        method_info_impl(const string& name, type declaring_type, type return_type)
-            : member_info_impl(name, declaring_type)
-        {
-            this->return_type = return_type;
-        }
+        inline method_info_impl(const string& name, type declaring_type, type return_type);
     };
 
     /// Obtains information about the attributes of a non-static method and provides access to method metadata.
@@ -88,31 +81,18 @@ namespace dot
     public: // METHODS
 
         /// A string representing the name of the current type.
-        virtual string to_string() override { return "MemberMethodInfo"; }
+        inline virtual string to_string() override;
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::false_type)
-        {
-            return ((*ptr<class_>(obj)).*ptr_)(params[I]...);
-        }
+        inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::false_type);
 
         /// Invokes the method reflected by this method_info instance.
         template <int ... I>
-        object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type)
-        {
-            ((*ptr<class_>(obj)).*ptr_)(params[I]...);
-            return object();
-        }
+        inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type);
 
         /// Invokes the method reflected by this MethodInfo instance.
-        virtual object invoke(object obj, list<object> params)
-        {
-            if (params->count() != parameters->count())
-                throw exception("Wrong number of parameters for method " + this->declaring_type->name + "." + this->name);
-
-            return invoke_impl(obj, params, typename detail::make_index_sequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
-        }
+        inline virtual object invoke(object obj, list<object> params);
 
     private: // CONSTRUCTORS
 
@@ -120,10 +100,7 @@ namespace dot
         ///
         /// This constructor is private. Use make_MethodInfo(...)
         /// function with matching signature instead.
-        member_method_info_impl(const string& name, type declaring_type, type return_type, method_type p)
-            : method_info_impl(name, declaring_type, return_type)
-            , ptr_(p)
-        {}
+        inline member_method_info_impl(const string& name, type declaring_type, type return_type, method_type p);
     };
 
     /// Obtains information about the attributes of a static method and provides access to method metadata.
@@ -140,31 +117,18 @@ namespace dot
     public: // METHODS
 
         /// A string representing the name of the current type.
-        virtual string to_string() override { return "StaticMethodInfo"; }
+        virtual string to_string() override;
 
         /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
-        object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::false_type)
-        {
-            return (*ptr_)(params[I]...);
-        }
+        inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::false_type);
 
         /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
-        object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type)
-        {
-            (*ptr_)(params[I]...);
-            return object();
-        }
+        inline object invoke_impl(object obj, list<object> params, detail::index_sequence<I...>, std::true_type);
 
         /// Invokes the method reflected by this MethodInfo instance.
-        virtual object invoke(object obj, list<object> params)
-        {
-            if (params->count() != parameters->count())
-                throw exception("Wrong number of parameters for method " + this->declaring_type->name + "." + this->name);
-
-            return invoke_impl(obj, params, typename detail::make_index_sequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
-        }
+        inline virtual object invoke(object obj, list<object> params);
 
     private: // CONSTRUCTORS
 
@@ -172,9 +136,6 @@ namespace dot
         ///
         /// This constructor is private. Use make_MethodInfo(...)
         /// function with matching signature instead.
-        static_method_info_impl(const string& name, type declaring_type, type return_type, method_type p)
-            : method_info_impl(name, declaring_type, return_type)
-            , ptr_(p)
-        {}
+        inline static_method_info_impl(const string& name, type declaring_type, type return_type, method_type p);
     };
 }

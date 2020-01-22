@@ -40,13 +40,10 @@ namespace dot
     public: // METHODS
 
         /// A string representing the name of the current type.
-        virtual string to_string() override { return "ConstructorInfo"; }
+        inline virtual string to_string() override;
 
         /// Gets the parameters of this constructor.
-        virtual list<parameter_info> get_parameters()
-        {
-            return parameters;
-        }
+        inline virtual list<parameter_info> get_parameters();
 
         /// Invokes specified constructor with given parameters.
         virtual object invoke(list<object>) = 0;
@@ -58,9 +55,7 @@ namespace dot
         /// Create from declaring type
         ///
         /// This constructor is protected. It is used by derived classes only.
-        constructor_info_impl(type declaring_type)
-            : member_info_impl(".ctor", declaring_type)
-        {}
+        inline constructor_info_impl(type declaring_type);
     };
 
     /// Obtains information about the attributes of a constructor and provides access to constructor metadata.
@@ -78,23 +73,14 @@ namespace dot
     public: // METHODS
 
         /// A string representing the name of the current type.
-        virtual string to_string() override { return "MemberConstructorInfo"; }
+        inline virtual string to_string() override;
 
         /// Invokes the constructor reflected by this ConstructorInfo instance.
         template <int ... I>
-        object invoke_impl(list<object> params, detail::index_sequence<I...>)
-        {
-            return (*ptr_)(params[I]...);
-        }
+        inline object invoke_impl(list<object> params, detail::index_sequence<I...>);
 
         /// Invokes the constructor reflected by this ConstructorInfo instance.
-        virtual object invoke(list<object> params)
-        {
-            if ((params.is_empty() && parameters->count() != 0) || (!params.is_empty() && (params->count() != parameters->count())))
-                throw exception("Wrong number of parameters for constructor " + this->declaring_type->name + "." + this->name);
-
-            return invoke_impl(params, typename detail::make_index_sequence<sizeof...(args)>::index_type());
-        }
+        inline virtual object invoke(list<object> params);
 
     private: // CONSTRUCTORS
 
@@ -102,9 +88,6 @@ namespace dot
         ///
         /// This constructor is private. Use make_ConstructorInfo(...)
         /// function with matching signature instead.
-        member_constructor_info_impl(type declaring_type, ctor_type p)
-            : constructor_info_impl(declaring_type)
-            , ptr_(p)
-        {}
+        inline member_constructor_info_impl(type declaring_type, ctor_type p);
     };
 }
