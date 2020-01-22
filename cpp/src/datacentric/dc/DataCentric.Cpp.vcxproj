@@ -76,8 +76,8 @@
     <ClInclude Include="platform\data_source\mongo\mongo_query_cursor_impl.hpp" />
     <ClInclude Include="platform\logging\log_entry_type.hpp" />
     <ClInclude Include="platform\logging\log_verbosity.hpp" />
+    <ClInclude Include="types\record\data_kind_enum.hpp" />
     <ClInclude Include="types\record\data_type_info.hpp" />
-    <ClInclude Include="platform\settings\class_map_settings.hpp" />
     <ClInclude Include="platform\time_zone\time_zone_data.hpp" />
     <ClInclude Include="platform\time_zone\time_zone_key.hpp" />
     <ClInclude Include="precompiled.hpp" />

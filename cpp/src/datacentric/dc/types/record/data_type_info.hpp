@@ -20,58 +20,60 @@ limitations under the License.
 #include <dot/system/type.hpp>
 #include <dot/system/string.hpp>
 #include <dot/system/collections/generic/dictionary.hpp>
+#include <dc/types/record/data_kind_enum.hpp>
 
 namespace dc
 {
     class data_type_info_impl; using data_type_info = dot::ptr<data_type_info_impl>;
 
-    /// Provides the result of applying class map settings to a class.
+    /// Information about a data type obtained through reflection.
+    ///
+    /// This class can be used to obtain type information for classes
+    /// derived from Data class, including through Key or Record classes.
+    /// Using it with any other type will result in an error.
     class DC_CLASS data_type_info_impl : public virtual dot::object_impl
     {
     public: // PROPERTIES
 
-        /// Type for which class info is provided.
-        dot::type type;
+        /// Kind of the data type (record, key, or element).
+        data_kind_enum data_kind() { return data_kind_; }
 
-        /// Namespace before mapping.
-        dot::string raw_namespace;
-
-        /// Namespace after mapping.
-        dot::string mapped_namespace;
-
-        /// Class name without namespace before mapping.
-        dot::string raw_class_name;
-
-        /// Class name without namespace after mapping.
-        dot::string mapped_class_name;
-
-        /// Fully qualified class name before mapping.
-        dot::string raw_full_name;
-
-        /// Fully qualified class name after mapping.
-        dot::string mapped_full_name;
+        /// Inheritance chain from derived to base, ending
+        /// with and inclusive of the RootType. This property
+        /// is used to generate the value of _t BSON attribute.
+        ///
+        /// Root data type is the type that inherits directly
+        /// from Key(TKey, TRecord).
+        dot::list<dot::string> inheritance_chain() { return inheritance_chain_; }
 
     public: // METHODS
 
-        /// Returns fully qualified class name.
-        virtual dot::string to_string() override;
+        /// Name of the database table or collection where the record is stored.
+        ///
+        /// By convention, this method returns the name of the class one level
+        /// below TypedRecord in the inheritance chain, without namespace.
+        ///
+        /// Error message if called for a type that is not derived from TypedRecord.
+        dot::string get_collection_name();
 
     public: // STATIC
 
         /// Get cached instance for the specified object, or create
-        /// using settings from settings.default.class_map
-        /// and add to thread static cache if does not exist.
+        /// using  and add to thread static cache if does not exist.
         ///
-        /// This object contains information about the
-        /// class including its name, namespace, etc.
+        /// This object contains information about the data type
+        /// including the list of its elements (public properties
+        /// that have one of the supported data types).
         static data_type_info get_or_create(dot::object value);
 
         /// Get cached instance for the specified type, or create
-        /// using settings from settings.default.class_map
-        /// and add to thread static cache if does not exist.
+        /// using  and add to thread static cache if does not exist.
         ///
-        /// This object contains information about the
-        /// class including its name, namespace, etc.
+        /// This object contains information about the data type
+        /// including the list of its elements (public properties
+        /// that have one of the supported data types).
+        ///
+        /// This overload accepts the value of Type as parameter.
         static data_type_info get_or_create(dot::type value);
 
     private: // CONSTRUCTORS
@@ -88,5 +90,15 @@ namespace dc
     private: // PRIVATE
 
         static dot::dictionary<dot::type, data_type_info>& get_type_dict();
+
+    private: // FIELDS
+
+        data_kind_enum data_kind_ = data_kind_enum::empty;
+        dot::list<dot::string> inheritance_chain_;
+
+        dot::type type_;
+        dot::type root_type_;
+        dot::type root_key_type_;
+        dot::type root_data_type_;
     };
 }

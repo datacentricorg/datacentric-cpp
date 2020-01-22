@@ -52,7 +52,7 @@ namespace dc
         // including index definitions of its base classes, eliminating
         // duplicate definitions.
         dot::type class_type = record_type;
-        while (class_type != dot::typeof<record>() && class_type != dot::typeof<key>())
+        while (!class_type->equals(dot::typeof<record>()) && !class_type->equals(dot::typeof<key>()))
         {
             if (class_type == nullptr)
                 throw dot::exception(dot::string::format(

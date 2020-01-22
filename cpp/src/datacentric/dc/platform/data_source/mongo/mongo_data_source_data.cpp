@@ -374,21 +374,7 @@ namespace dc
         }
 
         // Collection name is root class name of the record without prefix
-        //dot::string collectionName = data_type_info_impl::get_or_create(data_type)->get_collection_name();
-
-        //-----------
-        dot::type curr = data_type;
-        // Searching for base record or key
-        while (!curr->get_base_type()->equals(dot::typeof<record>())
-            && !curr->get_base_type()->equals(dot::typeof<key>()))
-        {
-            curr = curr->get_base_type();
-            if (curr.is_empty())
-                throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", data_type->name()));
-        }
-        // First generic argument in record or key class is base data class
-        dot::string collection_name = data_type_info_impl::get_or_create(curr->get_generic_arguments()[0])->mapped_class_name;
-        //-----------
+        dot::string collection_name = data_type_info_impl::get_or_create(data_type)->get_collection_name();
 
         // Get interfaces to base and typed collections for the same name
         dot::collection typed_collection = db_->get_collection(collection_name);

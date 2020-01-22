@@ -17,13 +17,19 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/types/record/data_type_info.hpp>
-#include <dc/platform/settings/class_map_settings.hpp>
+#include <dc/types/record/key.hpp>
+#include <dc/types/record/record.hpp>
 
 namespace dc
 {
-    dot::string data_type_info_impl::to_string()
+    dot::string data_type_info_impl::get_collection_name()
     {
-        return mapped_full_name;
+        if (data_kind_ != data_kind_enum::record && data_kind_ != data_kind_enum::key)
+            throw dot::exception(dot::string::format(
+                "get_collection_name() method is called for {0} "
+                "that is not derived from typed_record.", type_->name()));
+
+        return root_data_type_->name();
     }
 
     data_type_info data_type_info_impl::get_or_create(dot::object value)
@@ -34,9 +40,9 @@ namespace dc
     data_type_info data_type_info_impl::get_or_create(dot::type value)
     {
         dot::dictionary<dot::type, data_type_info> dict_ = data_type_info_impl::get_type_dict();
-        data_type_info result;
 
         // Check if a cached instance exists in dictionary
+        data_type_info result;
         if (dict_->try_get_value(value, result))
         {
             // Return if found
@@ -53,64 +59,72 @@ namespace dc
 
     data_type_info_impl::data_type_info_impl(dot::type value)
     {
-        // Set type, raw full name, class name, and namespace
-        this->type = value;
-        raw_full_name = value->full_name();
-        raw_class_name = value->name();
-        raw_namespace = value->name_space();
+        type_ = value;
 
-        // Remove ignored class name prefix
-        mapped_class_name = raw_class_name;
-        for (dot::string ignored_type_name_prefix : class_map_settings::ignored_class_name_prefixes())
+        // Populate the inheritance chain from parent to base,
+        // stop when one of the base classes is reached or
+        // there is no base class
+        dot::list<dot::type> inheritance_chain = dot::make_list<dot::type>();
+        dot::type current_type = value;
+
+        while (current_type->get_base_type() != nullptr)
         {
-            if (mapped_class_name->starts_with(ignored_type_name_prefix))
-            {
-                mapped_class_name = mapped_class_name->remove(0, ignored_type_name_prefix->length());
+            // Add type to the inheritance chain
+            inheritance_chain->add(current_type);
 
-                // Break to prevent more than one prefix removed
-                break;
+            dot::type base_type = current_type->get_base_type();
+            if (base_type->equals(dot::typeof<data>()))
+            {
+                if (root_type_ == nullptr)
+                {
+                    data_kind_ = data_kind_enum::element;
+                    root_type_ = current_type;
+                }
             }
+            else if (base_type->equals(dot::typeof<key>()))
+            {
+                if (root_type_ == nullptr)
+                {
+                    data_kind_ = data_kind_enum::key;
+                    root_type_ = current_type->get_generic_arguments()[0];
+                    root_key_type_ = current_type->get_generic_arguments()[0];
+                    root_data_type_ = current_type->get_generic_arguments()[1];
+
+                    if (inheritance_chain->count() > 2)
+                        throw dot::exception(dot::string::format(
+                            "Key type {0} must be derived directly from typed_key<TKey, TRecord> and sealed "
+                            "because key classes cannot have an inheritance hierarchy, only data classes can.",
+                            value->name()));
+                }
+            }
+            else if (base_type->equals(dot::typeof<record>()))
+            {
+                if (root_type_ == nullptr)
+                {
+                    data_kind_ = data_kind_enum::record;
+                    root_type_ = current_type->get_generic_arguments()[1];
+                    root_key_type_ = current_type->get_generic_arguments()[0];
+                    root_data_type_ = current_type->get_generic_arguments()[1];
+                }
+            }
+
+            current_type = current_type->get_base_type();
         }
 
-        // Remove ignored class name suffix
-        for (dot::string ignored_type_name_suffix : class_map_settings::ignored_class_name_suffixes())
+        // Add the root class to the inheritance chain
+        if (current_type != nullptr)
         {
-            if (mapped_class_name->ends_with(ignored_type_name_suffix))
-            {
-                mapped_class_name = mapped_class_name->substring(0, mapped_class_name->length() - ignored_type_name_suffix->length());
-
-                // Break to prevent more than one prefix removed
-                break;
-            }
+            inheritance_chain->add(current_type);
         }
 
-        // Remove ignored namespace prefix
-        mapped_namespace = raw_namespace;
-        for (dot::string ignored_module_name_prefix : class_map_settings::ignored_namespace_prefixes())
-        {
-            if (mapped_namespace->starts_with(ignored_module_name_prefix))
-            {
-                mapped_namespace = mapped_namespace->remove(0, ignored_module_name_prefix->length());
+        // Error message if the type is not derived from one of the permitted base classes
+        if (data_kind_ == data_kind_enum::empty)
+            throw dot::exception(dot::string::format(
+                "Data type {0} is not derived from Data, TypedKey<TKey, TRecord>, or TypedRecord<TKey, TRecord>.", value->name()));
 
-                // Break to prevent more than one prefix removed
-                break;
-            }
-        }
-
-        // Remove ignored namespace suffix
-        for (dot::string ignored_module_name_suffix : class_map_settings::ignored_namespace_suffixes())
-        {
-            if (mapped_namespace->ends_with(ignored_module_name_suffix))
-            {
-                mapped_namespace = mapped_namespace->substring(0, mapped_namespace->length() - ignored_module_name_suffix->length());
-
-                // Break to prevent more than one prefix removed
-                break;
-            }
-        }
-
-        // Create mapped full name by combining mapped namespace and mapped class name
-        mapped_full_name = mapped_namespace + dot::string(".") + mapped_class_name;
+        inheritance_chain_ = dot::make_list<dot::string>();
+        for (dot::type t : inheritance_chain)
+            inheritance_chain_->add(t->name());
     }
 
     dot::dictionary<dot::type, data_type_info>& data_type_info_impl::get_type_dict()
