@@ -50,7 +50,7 @@
     <ClCompile Include="types\record\DeleteMarker.cpp" />
     <ClCompile Include="types\record\key_base.cpp" />
     <ClCompile Include="types\record\record_base.cpp" />
-    <ClCompile Include="types\variant\Variant.cpp" />
+    <ClCompile Include="types\variant\variant.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -100,8 +100,8 @@
     <ClInclude Include="types\record\root_key.hpp" />
     <ClInclude Include="types\record\root_record.hpp" />
     <ClInclude Include="types\record\ValueType.hpp" />
-    <ClInclude Include="types\variant\Variant.hpp" />
-    <ClInclude Include="types\variant\VariantType.hpp" />
+    <ClInclude Include="types\variant\variant.hpp" />
+    <ClInclude Include="types\variant\variant_type.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B3B7D5B9-3965-40E0-814A-74F2BFE874E9}</ProjectGuid>
