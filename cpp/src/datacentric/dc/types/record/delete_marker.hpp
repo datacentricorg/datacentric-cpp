@@ -46,25 +46,21 @@ namespace dc
         /// can have any atomic type except double.
         virtual dot::string get_key();
 
-        key_base key_;
+        dot::string key_;
 
     private: // CONSTRUCTORS
 
-        delete_marker_impl(key_base key)
-            : key_(key)
-        {
-        }
+        delete_marker_impl(key_base key);
 
-        delete_marker_impl()
-            : key_()
-        {
-        }
+        delete_marker_impl();
+
     public:
 
         DOT_TYPE_BEGIN("dc", "delete_marker")
             DOT_TYPE_BASE(record_base)
             ->with_constructor(static_cast<delete_marker (*)(key_base)>(&make_delete_marker), { "key" })
             ->with_constructor(static_cast<delete_marker(*) ()>(&make_delete_marker), {})
+            ->with_field("_key", &delete_marker_impl::key_)
         DOT_TYPE_END()
     };
 

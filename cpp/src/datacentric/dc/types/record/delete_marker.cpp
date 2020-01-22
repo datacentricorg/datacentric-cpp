@@ -21,6 +21,16 @@ limitations under the License.
 
 namespace dc
 {
-    dot::string delete_marker_impl::get_key() { return key_->to_string(); }
+    delete_marker_impl::delete_marker_impl(key_base key)
+        : key_(key->to_string())
+    {}
 
+    delete_marker_impl::delete_marker_impl()
+        : key_()
+    {}
+
+    dot::string delete_marker_impl::get_key()
+    {
+        return key_;
+    }
 }

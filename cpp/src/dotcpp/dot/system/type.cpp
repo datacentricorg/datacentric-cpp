@@ -78,13 +78,22 @@ namespace dot
             list<method_info> make_methods = make_list<method_info>();
             for (method_info meth_info_data : base_methods)
             {
-
                 make_methods->add(meth_info_data);
             }
 
             for (method_info meth_info_data : data->methods_)
             {
-                make_methods->add(meth_info_data);
+                auto iter = std::find_if(make_methods->begin(), make_methods->end(), [&meth_info_data](method_info mi)
+                {
+                    if (mi->name() == meth_info_data->name())
+                        return true;
+                    return false;
+                });
+
+                if (iter != make_methods->end())
+                    *iter = meth_info_data;
+                else
+                    make_methods->add(meth_info_data);
             }
 
             data->methods_ = make_methods;
@@ -129,13 +138,22 @@ namespace dot
             list<field_info> make_fields = make_list<field_info>();
             for (field_info field_info_data : base_fields)
             {
-
                 make_fields->add(field_info_data);
             }
 
             for (field_info field_info_data : data->fields_)
             {
-                make_fields->add(field_info_data);
+                auto iter = std::find_if(make_fields->begin(), make_fields->end(), [&field_info_data](field_info fi)
+                {
+                    if (fi->name() == field_info_data->name())
+                        return true;
+                    return false;
+                });
+
+                if (iter != make_fields->end())
+                    *iter = field_info_data;
+                else
+                    make_fields->add(field_info_data);
             }
 
             data->fields_ = make_fields;
