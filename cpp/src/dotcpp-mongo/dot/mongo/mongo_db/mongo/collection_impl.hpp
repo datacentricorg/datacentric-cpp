@@ -1,3 +1,4 @@
+#include "collection.hpp"
 /*
 Copyright (C) 2015-present The DotCpp Authors.
 
@@ -80,6 +81,58 @@ namespace dot
             collection_.delete_many(serialize_tokens(filter));
         }
 
+        /// Creates an index over the collection for the provided keys with the provided options.
+        virtual void create_index(list<std::tuple<string, int>> indexes, index_options options) override
+        {
+            namespace bsonb = bsoncxx::builder::basic;
+            bsoncxx::builder::core index_builder(false);
+            bsonb::document options_builder;
+
+            // Write indexes to bson
+            for (std::tuple<string, int>& index : indexes)
+            {
+                index_builder.key_view(*std::get<0>(index));
+                int order = std::get<1>(index);
+                if (order == 1 || order == -1)
+                    index_builder.append(order);
+                else throw exception("Index sort order must be 1 or -1.");
+            }
+
+            // Write options to bson
+            if (options != nullptr)
+            {
+                if (options->unique != nullptr)
+                    options_builder.append(bsonb::kvp("unique", options->unique.value()));
+                if (options->text_index_version != nullptr)
+                    options_builder.append(bsonb::kvp("textIndexVersion", options->text_index_version.value()));
+                if (options->sphere_index_version != nullptr)
+                    options_builder.append(bsonb::kvp("sphereIndexVersion", options->sphere_index_version.value()));
+                if (options->sparse != nullptr)
+                    options_builder.append(bsonb::kvp("sparse", options->sparse.value()));
+                if (options->name != nullptr)
+                    options_builder.append(bsonb::kvp("name", *options->name));
+                if (options->min != nullptr)
+                    options_builder.append(bsonb::kvp("min", options->min.value()));
+                if (options->max != nullptr)
+                    options_builder.append(bsonb::kvp("max", options->max.value()));
+                if (options->language_override != nullptr)
+                    options_builder.append(bsonb::kvp("languageOverride", *options->language_override));
+                if (options->default_language != nullptr)
+                    options_builder.append(bsonb::kvp("defaultLanguage", *options->default_language));
+                if (options->bucket_size != nullptr)
+                    options_builder.append(bsonb::kvp("bucketSize", options->bucket_size.value()));
+                if (options->bits != nullptr)
+                    options_builder.append(bsonb::kvp("bits", options->bits.value()));
+                if (options->background != nullptr)
+                    options_builder.append(bsonb::kvp("background", options->background.value()));
+                if (options->version != nullptr)
+                    options_builder.append(bsonb::kvp("version", options->version.value()));
+            }
+
+            // Create index
+            collection_.create_index(index_builder.view_document(), options_builder.view());
+        }
+
     private:
 
         mongocxx::collection collection_;
@@ -110,4 +163,8 @@ namespace dot
         impl_->delete_many(filter);
     }
 
+    void collection_impl::create_index(list<std::tuple<string, int>> indexes, index_options options)
+    {
+        impl_->create_index(indexes, options);
+    }
 }

@@ -26,6 +26,7 @@ limitations under the License.
 #include <dot/mongo/declare.hpp>
 #include <dot/system/object_impl.hpp>
 #include <dot/system/ptr.hpp>
+#include <dot/mongo/mongo_db/mongo/index_options.hpp>
 
 namespace dot
 {
@@ -69,6 +70,9 @@ namespace dot
 
             /// Deletes all matching documents from the collection.
             virtual void delete_many(filter_token_base filter) = 0;
+
+            /// Creates an index over the collection for the provided keys with the provided options.
+            virtual void create_index(list<std::tuple<string, int>> indexes, index_options options) = 0;
         };
 
     public:
@@ -86,6 +90,9 @@ namespace dot
 
         /// Deletes all matching documents from the collection.
         void delete_many(filter_token_base filter);
+
+        /// Creates an index over the collection for the provided keys with the provided options.
+        void create_index(list<std::tuple<string, int>> indexes, index_options options = nullptr);
 
     private:
 

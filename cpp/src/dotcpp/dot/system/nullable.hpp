@@ -185,6 +185,9 @@ namespace dot
 
         /// Assign native bool.
         nullable& operator=(bool rhs) { value_ = rhs ? 1 : 0; return *this; }
+
+        bool operator==(nullptr_t) const { return !this->has_value(); }
+        bool operator!=(nullptr_t) const { return this->has_value(); }
     };
 
     /// Wrapper for int where default constructor creates uninitialized
@@ -251,6 +254,9 @@ namespace dot
         /// If sentinel value for uninitialized state is passed to this operator,
         /// no error occurs and the object reverts to uninitialized (empty) state.
         nullable& operator=(int rhs) { value_ = rhs; return *this; }
+
+        bool operator==(nullptr_t) const { return !this->has_value(); }
+        bool operator!=(nullptr_t) const { return this->has_value(); }
     };
 
     /// Wrapper for int64_t where default constructor creates uninitialized
@@ -317,6 +323,9 @@ namespace dot
         /// If sentinel value for uninitialized state is passed to this operator,
         /// no error occurs and the object reverts to uninitialized (empty) state.
         nullable& operator=(int64_t rhs) { value_ = rhs; return *this; }
+
+        bool operator==(nullptr_t) const { return !this->has_value(); }
+        bool operator!=(nullptr_t) const { return this->has_value(); }
     };
 
     /// nullable double is initialized to null (empty) by default ctor.
@@ -383,8 +392,10 @@ namespace dot
         /// no error occurs and the object reverts to null (empty) state.
         nullable& operator=(double rhs) { value_ = rhs; return *this; }
 
+        bool operator==(nullptr_t) const { return !this->has_value(); }
+        bool operator!=(nullptr_t) const { return this->has_value(); }
+
         bool operator ==(double rhs) const { return value_ == rhs; }
         bool operator ==(nullable<double> rhs) const { return value_ == rhs.value_or_default(); }
-
     };
 }

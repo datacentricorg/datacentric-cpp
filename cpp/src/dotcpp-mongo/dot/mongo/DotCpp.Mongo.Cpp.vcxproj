@@ -32,6 +32,7 @@
     <ClInclude Include="mongo_db\mongo\client_impl.hpp" />
     <ClInclude Include="mongo_db\mongo\collection_impl.hpp" />
     <ClInclude Include="mongo_db\mongo\database_impl.hpp" />
+    <ClInclude Include="mongo_db\mongo\index_options.hpp" />
     <ClInclude Include="mongo_db\mongo\settings.hpp" />
     <ClInclude Include="mongo_db\query\query_impl.hpp" />
     <ClInclude Include="serialization\bson_root_class_attribute.hpp" />
