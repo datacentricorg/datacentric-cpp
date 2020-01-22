@@ -108,6 +108,7 @@
     <ClInclude Include="system\text\string_builder.hpp" />
     <ClInclude Include="system\to_string.hpp" />
     <ClInclude Include="system\type.hpp" />
+    <ClInclude Include="system\weak_ptr.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7FA068EC-B443-4DB9-93AF-56CBC7110408}</ProjectGuid>
