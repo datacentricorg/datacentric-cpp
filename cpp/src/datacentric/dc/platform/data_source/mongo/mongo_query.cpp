@@ -71,21 +71,6 @@ namespace dc
         // Perform group by key to get only one document per each key.
         query->group_by(record_type->get_field("_key"));
 
-        dot::list<dot::type> derived_types = dot::type_impl::get_derived_types(query->type_);
-
-        // Apply filter by types.
-        if (derived_types != nullptr)
-        {
-            dot::list<dot::string> derived_type_names = dot::make_list<dot::string>();
-            for (dot::type der_type : derived_types)
-                derived_type_names->add(der_type->name());
-
-            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name()))
-                || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derived_type_names)));
-        }
-        else
-            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name())));
-
         // Apply custom sort.
         for (std::pair<dot::field_info, int> sort_token : sort_)
         {
@@ -101,7 +86,7 @@ namespace dc
             ->then_by_descending(record_type->get_field("_dataset"))
             ->then_by_descending(record_type->get_field("_id"));
 
-        return new mongo_query_cursor_impl(query->get_cursor(), this->data_source_->context);
+        return new mongo_query_cursor_impl(query->get_cursor(), query->type_, this->data_source_->context);
     }
 
     dot::object_cursor_wrapper_base mongo_query_impl::select(dot::list<dot::field_info> props, dot::type element_type)

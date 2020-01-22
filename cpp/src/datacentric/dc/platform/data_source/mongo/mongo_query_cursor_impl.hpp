@@ -35,17 +35,18 @@ namespace dc
 
         virtual dot::object operator*() override
         {
-            return to_record(iterator_->operator*());
+            return current_record_;
         }
 
         virtual dot::object operator*() const override
         {
-            return to_record(iterator_->operator*());
+            return current_record_;
         }
 
         virtual void operator++() override
         {
             iterator_->operator++();
+            current_record_ = skip_records();
         }
 
         virtual bool operator!=(dot::iterator_inner_base rhs) override
@@ -59,12 +60,61 @@ namespace dc
         }
 
         /// Constructs from iterator_inner_base and context_base.
-        mongo_query_iterator_impl(dot::iterator_inner_base iterator, context_base context)
+        mongo_query_iterator_impl(dot::iterator_inner_base iterator, dot::object_cursor_wrapper_base cursor, dot::type query_type, context_base context)
             : iterator_(iterator)
+            , cursor_(cursor)
+            , query_type_(query_type)
             , context_(context)
-        {}
+        {
+            current_record_ = skip_records();
+        }
 
     private:
+
+        /// Skips old and deleted documents and returns next relevant record.
+        record_base skip_records()
+        {
+            // Iterate over documents returned by the cursor
+            for(; *iterator_ != cursor_->end().iterator_; iterator_->operator++())
+            {
+                record_base obj = iterator_->operator*().as<record_base>();
+                dot::string obj_key = obj->get_key();
+
+                if (!current_key_.is_empty() && current_key_ == obj_key)
+                {
+                    // The key was encountered before. Because the data is sorted by
+                    // key and then by dataset and ID, this indicates that the object
+                    // is not the latest and can be skipped
+                    // Continue to next record without returning
+                    // the next item in the iterator result
+                    continue;
+                }
+                else
+                {
+                    // The key was not encountered before, assign new value
+                    current_key_ = obj_key;
+
+                    // Skip if the result is a delete marker
+                    if(obj.is<delete_marker>()) continue;
+
+                    // Check if object could cast to query_type_.
+                    // Skip, do not throw, if the cast fails.
+                    //
+                    // This behavior is different from loading by object_id or string key
+                    // using load_or_null method. In case of load_or_null, the API requires
+                    // an error when wrong type is requested. Here, we want to proceed
+                    // as though the record does not exist because the query is expected
+                    // to skip over records of type not derived from query_type_.
+                    dot::type obj_type = obj->get_type();
+                    if (!obj_type->equals(query_type_) && !obj_type->is_subclass_of(query_type_)) continue;
+
+                    // Otherwise return the result
+                    return to_record(obj);
+                }
+            }
+
+            return nullptr;
+        }
 
         /// Initializes record with context.
         record_base to_record(dot::object obj) const
@@ -77,7 +127,12 @@ namespace dc
     private: // FIELDS
 
         dot::iterator_inner_base iterator_;
+        dot::object_cursor_wrapper_base cursor_;
+        dot::type query_type_;
         context_base context_;
+
+        dot::string current_key_;
+        record_base current_record_;
     };
 
     /// Class implements dot::object_cursor_wrapper_base.
@@ -88,8 +143,9 @@ namespace dc
     public:
 
         /// Constructs from object_cursor_wrapper_base and context_base.
-        mongo_query_cursor_impl(dot::object_cursor_wrapper_base cursor, context_base context)
+        mongo_query_cursor_impl(dot::object_cursor_wrapper_base cursor, dot::type query_type, context_base context)
             : cursor_(cursor)
+            , query_type_(query_type)
             , context_(context)
         {}
 
@@ -103,19 +159,20 @@ namespace dc
         /// for newly-available documents.
         dot::iterator_wrappper<dot::object> begin()
         {
-            return dot::iterator_wrappper<dot::object>(new mongo_query_iterator_impl(cursor_->begin().iterator_, context_));
+            return dot::iterator_wrappper<dot::object>(new mongo_query_iterator_impl(cursor_->begin().iterator_, cursor_, query_type_, context_));
         }
 
         /// A dot::iterator_wrapper<dot::object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
         dot::iterator_wrappper<dot::object> end()
         {
-            return dot::iterator_wrappper<dot::object>(new mongo_query_iterator_impl(cursor_->end().iterator_, context_));
+            return dot::iterator_wrappper<dot::object>(new mongo_query_iterator_impl(cursor_->end().iterator_, cursor_, query_type_, context_));
         }
 
     private: // FIELDS
 
         dot::object_cursor_wrapper_base cursor_;
+        dot::type query_type_;
         context_base context_;
     };
 }
