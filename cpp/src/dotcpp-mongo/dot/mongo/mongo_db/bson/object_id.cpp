@@ -59,8 +59,13 @@ namespace dot
         char bytes[12] = { 0 };
 
         boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
-        boost::posix_time::time_duration d = (boost::posix_time::ptime)value - epoch;
+        boost::posix_time::time_duration d = (boost::posix_time::ptime) value - epoch;
         int64_t seconds = d.total_seconds();
+
+        bytes[0] = (seconds >> 24) & 0xff;
+        bytes[1] = (seconds >> 16) & 0xff;
+        bytes[2] = (seconds >> 8) & 0xff;
+        bytes[3] = (seconds) & 0xff;
         std::memcpy(bytes, &seconds, sizeof(seconds));
         id_ = bsoncxx::oid(bytes, 12);
     }
