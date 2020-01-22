@@ -33,32 +33,23 @@ limitations under the License.
 
 namespace dot
 {
-    /// In C\# local datetime is a struct, and as all structs has default constructor
-    /// that initializes all backing variables to 0. This means that default
-    /// constructed value corresponds to 0001-01-01 00:00:00. Because Boost date_time
-    /// library does not accept the date 0001-01-01, we will instead use the Unix epoch
-    /// 1970-01-01 as default constructed value.
     local_date_time::local_date_time()
         : boost::posix_time::ptime(local_date{ 1970, 1, 1 }, { 0, 0, 0 })
     {
     }
 
-    /// Initializes a new instance of the local_date_time struct using the ISO calendar system.
     local_date_time::local_date_time(int year, int month, int day, int hour, int minute)
         : boost::posix_time::ptime(local_date {year, month, day}, {hour, minute, 0})
     {}
 
-    /// Initializes a new instance of the local_date_time struct using the ISO calendar system.
     local_date_time::local_date_time(int year, int month, int day, int hour, int minute, int second)
         : boost::posix_time::ptime(local_date {year, month, day}, {hour, minute, second})
     {}
 
-    /// Initializes a new instance of the local_date_time struct using the ISO calendar system.
     local_date_time::local_date_time(int year, int month, int day, int hour, int minute, int second, int millisecond)
         : boost::posix_time::ptime(local_date {year, month, day}, {hour, minute, second, millisecond * 1000})
     {}
 
-    /// Create from Boost posix_time.
     local_date_time::local_date_time(const boost::posix_time::ptime& time)
         : boost::posix_time::ptime(time)
     {}
@@ -74,7 +65,7 @@ namespace dot
 
     local_date_time::local_date_time(object const& rhs) { *this = rhs.operator local_date_time(); }
 
-    local_date_time local_date_time::Add(const local_date_time& local_date_time, const period& period)
+    local_date_time local_date_time::add(const local_date_time& local_date_time, const period& period)
     {
         return local_date_time + period;
     }
@@ -102,77 +93,77 @@ namespace dot
         return stream.str().substr(0, 23);
     }
 
-    period local_date_time::Minus(const local_date_time& local_date_time) const
+    period local_date_time::minus(const local_date_time& local_date_time) const
     {
         return *this - local_date_time;
     }
 
-    local_date_time local_date_time::Minus(const period& period) const
+    local_date_time local_date_time::minus(const period& period) const
     {
         return *this - period;
     }
 
-    local_date_time local_date_time::Next(int targetDayOfWeek) const
+    local_date_time local_date_time::next(int target_day_of_week) const
     {
-        return {local_date(date()).next(targetDayOfWeek), time_of_day()};
+        return {local_date(date()).next(target_day_of_week), time_of_day()};
     }
 
-    local_date_time local_date_time::Plus(const period& period) const
+    local_date_time local_date_time::plus(const period& period) const
     {
         return *this + period;
     }
 
-    local_date_time local_date_time::PlusDays(int days) const
+    local_date_time local_date_time::plus_days(int days) const
     {
         return *this + boost::gregorian::days(days);
     }
 
-    local_date_time local_date_time::PlusHours(int64_t hours) const
+    local_date_time local_date_time::plus_hours(int64_t hours) const
     {
         return *this + boost::posix_time::hours(hours);
     }
 
-    local_date_time local_date_time::PlusMilliseconds(int64_t milliseconds) const
+    local_date_time local_date_time::plus_milliseconds(int64_t milliseconds) const
     {
         return *this + boost::posix_time::milliseconds(milliseconds);
     }
 
-    local_date_time local_date_time::PlusMinutes(int64_t minutes) const
+    local_date_time local_date_time::plus_minutes(int64_t minutes) const
     {
         return *this + boost::posix_time::minutes(minutes);
     }
 
-    local_date_time local_date_time::PlusMonths(int months) const
+    local_date_time local_date_time::plus_months(int months) const
     {
         return *this + boost::gregorian::months(months);
     }
 
-    local_date_time local_date_time::PlusSeconds(int64_t seconds) const
+    local_date_time local_date_time::plus_seconds(int64_t seconds) const
     {
         return *this + boost::posix_time::seconds(seconds);
     }
 
-    local_date_time local_date_time::PlusWeeks(int weeks) const
+    local_date_time local_date_time::plus_weeks(int weeks) const
     {
         return *this + boost::gregorian::weeks(weeks);
     }
 
-    local_date_time local_date_time::PlusYears(int years) const
+    local_date_time local_date_time::plus_years(int years) const
     {
         return *this + boost::gregorian::years(years);
     }
 
-    local_date_time local_date_time::Previous(int targetDayOfWeek) const
+    local_date_time local_date_time::previous(int target_day_of_week) const
     {
-        return {local_date(date()).previous(targetDayOfWeek), time_of_day()};
+        return {local_date(date()).previous(target_day_of_week), time_of_day()};
     }
 
-    period local_date_time::Subtract(const local_date_time& lhs, const local_date_time& rhs)
+    period local_date_time::subtract(const local_date_time& lhs, const local_date_time& rhs)
     {
         return lhs - rhs;
     }
 
-    local_date_time local_date_time::Subtract(const local_date_time& local_date_time, const period& period)
+    local_date_time local_date_time::subtract(const local_date_time& local_date_time, const period& period)
     {
         return local_date_time - period;
     }

@@ -51,19 +51,19 @@ namespace dot
     TEST_CASE("Methods")
     {
         local_time t1(12, 10, 20, 30);
-        REQUIRE(t1.PlusHours(1) == local_time(13, 10, 20, 30));
-        REQUIRE(t1.PlusMinutes(1) == local_time(12, 11, 20, 30));
-        REQUIRE(t1.PlusSeconds(1) == local_time(12, 10, 21, 30));
-        REQUIRE(t1.PlusMilliseconds(1) == local_time(12, 10, 20, 31));
+        REQUIRE(t1.plus_hours(1) == local_time(13, 10, 20, 30));
+        REQUIRE(t1.plus_minutes(1) == local_time(12, 11, 20, 30));
+        REQUIRE(t1.plus_seconds(1) == local_time(12, 10, 21, 30));
+        REQUIRE(t1.plus_milliseconds(1) == local_time(12, 10, 20, 31));
 
         local_time t2(23, 59);
-        REQUIRE(t2.PlusHours(2) == local_time(1, 59));
-        REQUIRE(t2.PlusMinutes(2) == local_time(0, 1));
+        REQUIRE(t2.plus_hours(2) == local_time(1, 59));
+        REQUIRE(t2.plus_minutes(2) == local_time(0, 1));
 
         local_date_time dt3(2005, 5, 10, 12, 10);
         local_date d3(2005, 5, 10);
         local_time t3(12, 10);
-        REQUIRE(t3.On(d3) == dt3);
+        REQUIRE(t3.on(d3) == dt3);
 
         local_time t4(1, 2, 3, 4);
         string t4_str = t4.to_string();

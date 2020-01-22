@@ -42,7 +42,7 @@ namespace dot
         // If default constructed datetime is passed, error message
         if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::format(
             "String representation of default constructed datetime {0} "
-            "passed to local_date_time.Parse(datetime) method.", value));
+            "passed to local_date_time_util.parse(value) method.", value));
 
         return ptime;
     }
@@ -50,43 +50,43 @@ namespace dot
     int64_t local_date_time_util::to_iso_long(dot::local_date_time value)
     {
         // local_date_time is serialized as readable ISO int64 in yyyymmddhhmmsssss format
-        int isoDate = value.year() * 10'000 + value.month() * 100 + value.day();
-        int isoTime = value.hour() * 100'00'000 + value.minute() * 100'000 + value.second() * 1000 + value.millisecond();
-        int64_t result = ((int64_t)isoDate) * 100'00'00'000 + (int64_t)isoTime;
+        int iso_date = value.year() * 10'000 + value.month() * 100 + value.day();
+        int iso_time = value.hour() * 100'00'000 + value.minute() * 100'000 + value.second() * 1000 + value.millisecond();
+        int64_t result = ((int64_t)iso_date) * 100'00'00'000 + (int64_t)iso_time;
         return result;
     }
 
     dot::local_date_time local_date_time_util::parse_iso_long(int64_t value)
     {
         // Split into date and time using int64 arithmetic
-        int64_t isoDateLong = value / 100'00'00'000;
-        int64_t isoTimeLong = value - 100'00'00'000 * isoDateLong;
+        int64_t iso_date_long = value / 100'00'00'000;
+        int64_t iso_time_long = value - 100'00'00'000 * iso_date_long;
 
-        // Check that it will fit into Int32 range
-        if (isoDateLong < INT32_MIN || isoDateLong > INT32_MAX)
+        // Check that it will fit into int32 range
+        if (iso_date_long < INT32_MIN || iso_date_long > INT32_MAX)
             throw dot::exception(dot::string::format("Date portion of datetime {0} has invalid format.", value));
-        if (isoTimeLong < INT32_MIN || isoTimeLong > INT32_MAX)
+        if (iso_time_long < INT32_MIN || iso_time_long > INT32_MAX)
             throw dot::exception(dot::string::format("Time portion of datetime {0} has invalid format.", value));
 
-        // Convert to Int32
-        int isoDate = (int)isoDateLong;
-        int isoTime = (int)isoTimeLong;
+        // Convert to int32
+        int iso_date = (int)iso_date_long;
+        int iso_time = (int)iso_time_long;
 
         // Extract year, month, day
-        int year = isoDate / 100'00;
-        isoDate -= year * 100'00;
-        int month = isoDate / 100;
-        isoDate -= month * 100;
-        int day = isoDate;
+        int year = iso_date / 100'00;
+        iso_date -= year * 100'00;
+        int month = iso_date / 100;
+        iso_date -= month * 100;
+        int day = iso_date;
 
         // Extract year, month, day
-        int hour = isoTime / 100'00'000;
-        isoTime -= hour * 100'00'000;
-        int minute = isoTime / 100'000;
-        isoTime -= minute * 100'000;
-        int second = isoTime / 1000;
-        isoTime -= second * 1000;
-        int millisecond = isoTime;
+        int hour = iso_time / 100'00'000;
+        iso_time -= hour * 100'00'000;
+        int minute = iso_time / 100'000;
+        iso_time -= minute * 100'000;
+        int second = iso_time / 1000;
+        iso_time -= second * 1000;
+        int millisecond = iso_time;
 
         // Create local_date_time object
         return dot::local_date_time(year, month, day, hour, minute, second, millisecond);

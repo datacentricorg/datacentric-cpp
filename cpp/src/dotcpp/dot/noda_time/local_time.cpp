@@ -31,35 +31,26 @@ limitations under the License.
 
 namespace dot
 {
-    /// Because in C\# local_date_time is a struct, it has default constructor
-    /// that initializes all backing variables to 0. This means that default
-    /// constructed value corresponds to 0001-01-01 00:00:00. We will
-    /// replicate this behavior here.
     local_time::local_time()
         : boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1), boost::posix_time::time_duration{ 0, 0, 0 })
     {}
 
-    /// Creates a local time at the given hour and minute, with second, millisecond-of-second and tick-of-millisecond values of zero.
     local_time::local_time(int hour, int minute)
         : boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1), boost::posix_time::time_duration {hour, minute, 0})
     {}
 
-    /// Creates a local time at the given hour, minute and second, with millisecond-of-second and tick-of-millisecond values of zero.
     local_time::local_time(int hour, int minute, int second)
         : boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1), boost::posix_time::time_duration {hour, minute, second})
     {}
 
-    /// Creates a local time at the given hour, minute, second and millisecond, with a tick-of-millisecond value of zero.
     local_time::local_time(int hour, int minute, int second, int millisecond)
         : boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1), boost::posix_time::time_duration {hour, minute, second, millisecond * 1000})
     {}
 
-    /// Create from Boost time_duration.
     local_time::local_time(const boost::posix_time::time_duration& time)
         : boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1), time)
     {}
 
-    /// Create from Boost posix_time.
     local_time::local_time(const boost::posix_time::ptime& time)
         : boost::posix_time::ptime(time)
     {}
@@ -71,7 +62,7 @@ namespace dot
         *this = other;
     }
 
-    local_time local_time::Add(const local_time& time, const period& period)
+    local_time local_time::add(const local_time& time, const period& period)
     {
         return time + period;
     }
@@ -99,52 +90,52 @@ namespace dot
         return stream.str().substr(0, 12);
     }
 
-    period local_time::Minus(const local_time& time) const
+    period local_time::minus(const local_time& time) const
     {
         return *this - time;
     }
 
-    local_time local_time::Minus(const period& period) const
+    local_time local_time::minus(const period& period) const
     {
         return *this - period;
     }
 
-    local_date_time local_time::On(const local_date& date)
+    local_date_time local_time::on(const local_date& date)
     {
         return {date, *this};
     }
 
-    local_time local_time::Plus(const period& period) const
+    local_time local_time::plus(const period& period) const
     {
         return *this + period;
     }
 
-    local_time local_time::PlusHours(int64_t hours) const
+    local_time local_time::plus_hours(int64_t hours) const
     {
         return *this + boost::posix_time::hours(hours);
     }
 
-    local_time local_time::PlusMilliseconds(int64_t milliseconds) const
+    local_time local_time::plus_milliseconds(int64_t milliseconds) const
     {
         return *this + boost::posix_time::milliseconds(milliseconds);
     }
 
-    local_time local_time::PlusMinutes(int64_t minutes) const
+    local_time local_time::plus_minutes(int64_t minutes) const
     {
         return *this + boost::posix_time::minutes(minutes);
     }
 
-    local_time local_time::PlusSeconds(int64_t seconds) const
+    local_time local_time::plus_seconds(int64_t seconds) const
     {
         return *this + boost::posix_time::seconds(seconds);
     }
 
-    period local_time::Subtract(const local_time& lhs, const local_time& rhs)
+    period local_time::subtract(const local_time& lhs, const local_time& rhs)
     {
         return lhs - rhs;
     }
 
-    local_time local_time::Subtract(const local_time& time, const period& period)
+    local_time local_time::subtract(const local_time& time, const period& period)
     {
         return time - period;
     }

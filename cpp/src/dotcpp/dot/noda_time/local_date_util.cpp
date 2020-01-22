@@ -42,7 +42,7 @@ namespace dot
         // If default constructed date is passed, error message
         if (ptime == boost::posix_time::not_a_date_time) throw dot::exception(dot::string::format(
             "String representation of default constructed date {0} "
-            "passed to local_date.Parse(date) method.", value));
+            "passed to local_date_util.parse(value) method.", value));
 
         return ptime.date();
     }

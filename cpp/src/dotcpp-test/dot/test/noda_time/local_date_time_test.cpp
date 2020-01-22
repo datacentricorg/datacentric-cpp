@@ -58,18 +58,18 @@ namespace dot
     TEST_CASE("Methods")
     {
         local_date_time dt1(2005, 1, 10, 12, 10, 20, 30);
-        REQUIRE(dt1.PlusDays(10) == local_date_time(2005, 1, 20, 12, 10, 20, 30));
-        REQUIRE(dt1.PlusWeeks(1) == local_date_time(2005, 1, 17, 12, 10, 20, 30));
-        REQUIRE(dt1.PlusMonths(1) == local_date_time(2005, 2, 10, 12, 10, 20, 30));
-        REQUIRE(dt1.PlusYears(1) == local_date_time(2006, 1, 10, 12, 10, 20, 30));
-        REQUIRE(dt1.PlusHours(1) == local_date_time(2005, 1, 10, 13, 10, 20, 30));
-        REQUIRE(dt1.PlusMinutes(1) == local_date_time(2005, 1, 10, 12, 11, 20, 30));
-        REQUIRE(dt1.PlusSeconds(1) == local_date_time(2005, 1, 10, 12, 10, 21, 30));
-        REQUIRE(dt1.PlusMilliseconds(1) == local_date_time(2005, 1, 10, 12, 10, 20, 31));
+        REQUIRE(dt1.plus_days(10) == local_date_time(2005, 1, 20, 12, 10, 20, 30));
+        REQUIRE(dt1.plus_weeks(1) == local_date_time(2005, 1, 17, 12, 10, 20, 30));
+        REQUIRE(dt1.plus_months(1) == local_date_time(2005, 2, 10, 12, 10, 20, 30));
+        REQUIRE(dt1.plus_years(1) == local_date_time(2006, 1, 10, 12, 10, 20, 30));
+        REQUIRE(dt1.plus_hours(1) == local_date_time(2005, 1, 10, 13, 10, 20, 30));
+        REQUIRE(dt1.plus_minutes(1) == local_date_time(2005, 1, 10, 12, 11, 20, 30));
+        REQUIRE(dt1.plus_seconds(1) == local_date_time(2005, 1, 10, 12, 10, 21, 30));
+        REQUIRE(dt1.plus_milliseconds(1) == local_date_time(2005, 1, 10, 12, 10, 20, 31));
 
         local_date_time dt2(2005, 1, 10, 12, 10);
-        REQUIRE(dt2.Previous(boost::gregorian::Monday) == local_date_time(2005, 1, 3, 12, 10));
-        REQUIRE(dt2.Next(boost::gregorian::Monday) == local_date_time(2005, 1, 17, 12, 10));
+        REQUIRE(dt2.previous(boost::gregorian::Monday) == local_date_time(2005, 1, 3, 12, 10));
+        REQUIRE(dt2.next(boost::gregorian::Monday) == local_date_time(2005, 1, 17, 12, 10));
 
         local_date_time dt3(2005, 1, 2, 3, 4, 5, 6);
         string dt3_str = dt3.to_string();

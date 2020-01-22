@@ -87,7 +87,7 @@ namespace dot
         /// Subtracts the specified period from this date. Fluent alternative to operator-().
         local_date minus(const period& period) const;
 
-        /// Returns the next local_date falling on the specified IsoDayOfWeek.
+        /// Returns the next local_date falling on the specified iso_day_of_week.
         /// This is a strict "next" - if this date on already falls on the target day of the week,
         /// the returned value will be a week later.
         local_date next(int target_day_of_week) const;
@@ -107,7 +107,7 @@ namespace dot
         /// Returns a new local_date representing the current value with the given number of years added.
         local_date plus_years(int years) const;
 
-        /// Returns the previous local_date falling on the specified IsoDayOfWeek.
+        /// Returns the previous local_date falling on the specified iso_day_of_week.
         /// This is a strict "previous" - if this date on already falls on the
         /// target day of the week, the returned value will be a week earlier.
         local_date previous(int target_day_of_week) const;
@@ -146,7 +146,7 @@ namespace dot
         /// Subtracts one date from another, returning the result as a period with units of years, months and days.
         period operator-(const local_date& other) const;
 
-        /// Subtracts the specified period from the date. This is a convenience operator over the Minus(period) method.
+        /// Subtracts the specified period from the date. This is a convenience operator over the minus(period) method.
         local_date operator-(const period& period) const;
     };
 }

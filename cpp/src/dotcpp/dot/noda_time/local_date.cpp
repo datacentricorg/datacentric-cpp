@@ -32,22 +32,15 @@ limitations under the License.
 
 namespace dot
 {
-    /// In C\# local date is a struct, and as all structs it has default constructor
-    /// that initializes all backing variables to 0. This means that default
-    /// constructed value corresponds to 0001-01-01. As Boost date_time library
-    /// does not accept the date 0001-01-01, we will instead use the Unix epoch
-    /// 1970-01-01 as default constructed value.
     local_date::local_date()
         : boost::gregorian::date(1970, 1, 1)
     {
     }
 
-    /// Constructs an instance for the given year, month and day in the ISO calendar.
     local_date::local_date(int year, int month, int day)
         : boost::gregorian::date(year, month, day)
     {}
 
-    /// Create from Boost gregorian date.
     local_date::local_date(boost::gregorian::date date)
         : boost::gregorian::date(date)
     {}
