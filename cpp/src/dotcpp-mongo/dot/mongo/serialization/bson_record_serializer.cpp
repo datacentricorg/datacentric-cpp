@@ -36,6 +36,7 @@ limitations under the License.
 #include <dot/system/reflection/activator.hpp>
 #include <dot/noda_time/local_date_time_util.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
+#include <dot/mongo/mongo_db/mongo/settings.hpp>
 #include <dot/serialization/serialize_attribute.hpp>
 
 namespace dot
@@ -43,7 +44,21 @@ namespace dot
     dot::object bson_record_serializer_impl::deserialize(bsoncxx::document::view doc)
     {
         // Create instance to which BSON will be deserialized
-        dot::string type_name = doc["_t"].get_utf8().value.to_string();
+        dot::string type_name;
+        if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::scalar)
+        {
+            type_name = doc["_t"].get_utf8().value.to_string();
+        }
+        else if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::hierarchical)
+        {
+            bsoncxx::array::view type_array_view = doc["_t"].get_array();
+            type_name = (++type_array_view.begin())->get_utf8().value.to_string();
+        }
+        else
+        {
+            throw dot::exception("Unknown discriminator_convention.");
+        }
+
         object result = dot::activator::create_instance("", type_name);
         tree_writer_base writer = make_data_writer(result);
 
@@ -69,12 +84,13 @@ namespace dot
 
     void bson_record_serializer_impl::deserialize_document(const bsoncxx::document::view & doc, tree_writer_base writer)
     {
+        dot::string type_name;
+
         auto type_iter = doc.find("_t");
 
-        dot::string type_name;
-        if (type_iter != doc.end())
+        if (type_iter != doc.end() && type_iter->type() == bsoncxx::type::k_utf8)
         {
-            type_name = type_iter->get_utf8().value.to_string();
+            type_name = doc["_t"].get_utf8().value.to_string();
         }
 
         // Each document is a dictionary at root level
@@ -88,6 +104,10 @@ namespace dot
 
             // Read element name and value
             dot::string element_name = elem.key().to_string();
+            if (element_name == "_t")
+            {
+                continue;
+            }
             if (bson_type == bsoncxx::type::k_null)
             {
             }
@@ -100,19 +120,8 @@ namespace dot
             {
                 dot::string value = elem.get_utf8().value.to_string();
 
-                if (element_name == "_id")
-                {
-                    // TODO Handle key
-                }
-                else if (element_name == "_t")
-                {
-                    // TODO Handle type
-                }
-                else
-                {
                     writer->write_value_element(element_name, value);
                 }
-            }
             else if (bson_type == bsoncxx::type::k_double)
             {
                 double value = elem.get_double();
@@ -235,7 +244,7 @@ namespace dot
     void bson_record_serializer_impl::serialize(tree_writer_base writer, dot::object value)
     {
         // Root name is written in JSON as _t element
-        dot::string root_name = value->get_type()->full_name();
+        dot::string root_name = value->get_type()->name();
 
         writer->write_start_document(root_name);
 

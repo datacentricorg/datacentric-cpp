@@ -31,6 +31,7 @@ namespace dc
     class DC_CLASS data_impl : public virtual dot::object_impl
     {
         typedef data_impl self;
+        typedef dot::string t_type;
 
     public: // METHODS
 
@@ -52,7 +53,7 @@ namespace dc
             static dot::type result = []()-> dot::type
             {
                 dot::type t = dot::make_type_builder<data_impl>("dc", "data", {dot::make_serialize_class_attribute(&data_impl::serialize_data)})
-                    ->with_field("_t", static_cast<dot::string data_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization) })
+                    ->with_field("_t", static_cast<t_type data_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization) })
                     ->with_method("serialize_to", &data_impl::serialize_to, {"writer"})
                     ->build();
                 return t;

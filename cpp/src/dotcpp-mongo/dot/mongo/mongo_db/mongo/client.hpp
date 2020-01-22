@@ -27,6 +27,7 @@ limitations under the License.
 #include <dot/system/object_impl.hpp>
 #include <dot/system/ptr.hpp>
 #include <dot/mongo/mongo_db/mongo/database.hpp>
+#include <dot/mongo/mongo_db/mongo/settings.hpp>
 
 namespace dot
 {

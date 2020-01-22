@@ -30,6 +30,7 @@ limitations under the License.
 #include <dc/test/platform/data_source/mongo/mongo_test_data.hpp>
 #include <bsoncxx/json.hpp>
 
+#include <dot/mongo/mongo_db/mongo/settings.hpp>
 
 namespace dc
 {
@@ -291,6 +292,9 @@ namespace dc
 
     TEST_CASE("smoke")
     {
+        dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::hierarchical);
+        auto g = dot::mongo_client_settings::get_discriminator_convention();
+
         mongo_data_source_test test = new mongo_data_source_test_impl;
 
         unit_test_context_base context = make_unit_test_context(test, "smoke", ".");

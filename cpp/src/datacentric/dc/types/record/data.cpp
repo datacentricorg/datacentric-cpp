@@ -23,6 +23,7 @@ limitations under the License.
 #include <dc/platform/reflection/class_info.hpp>
 #include <dc/platform/context/context_base.hpp>
 #include <dc/types/record/record_base.hpp>
+#include <dot/mongo/mongo_db/mongo/settings.hpp>
 
 namespace dc
 {

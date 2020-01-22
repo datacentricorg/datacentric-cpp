@@ -38,6 +38,8 @@ limitations under the License.
 #include <dot/noda_time/local_date_time_util.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
 
+#include <dot/mongo/mongo_db/mongo/settings.hpp>
+
 #include <bsoncxx/json.hpp>
 
 namespace dot
@@ -55,6 +57,26 @@ namespace dot
         else
             throw dot::exception(
                 "A call to write_start_document(...) must be the first call to the tree writer.");
+
+        bson_writer_.open_document();
+        bson_writer_.key_owned("_t");
+
+        if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::scalar)
+        {
+            bson_writer_.append(*root_element_name);
+        }
+        else if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::hierarchical)
+        {
+            bson_writer_.open_array();
+            bson_writer_.append(*dot::type_impl::get_type_of(root_element_name)->get_base_type()->name());
+            bson_writer_.append(*root_element_name);
+            bson_writer_.close_array();
+        }
+        else
+        {
+            throw dot::exception("Unknown discriminator_convention.");
+        }
+
     }
 
     void bson_writer_impl::write_end_document(dot::string root_element_name)
@@ -139,6 +161,9 @@ namespace dot
         else
             throw dot::exception(
                 "A call to write_start_dict() must follow write_start_element(...) or write_start_array_item().");
+
+        if (prev_state == tree_writer_state::document_started)
+            return;
 
         // Write {
         bson_writer_.open_document();
