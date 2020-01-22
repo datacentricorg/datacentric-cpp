@@ -50,16 +50,16 @@ namespace dot
         // Keys
         list<string> keys = dict->keys();
         REQUIRE(keys->count() == 3);
-        //REQUIRE(keys->contains("a"));  // TODO uncomment when implemented
-        //REQUIRE(keys->contains("c"));
-        //REQUIRE(keys->contains(""));
+        REQUIRE(keys->contains("a"));
+        REQUIRE(keys->contains("c"));
+        REQUIRE(keys->contains(""));
 
         // Values
         list<string> values = dict->values();
         REQUIRE(values->count() == 3);
-        //REQUIRE(values->contains("b"));  // TODO uncomment when implemented
-        //REQUIRE(values->contains("d"));
-        //REQUIRE(values->contains(""));
+        REQUIRE(values->contains("b"));
+        REQUIRE(values->contains("d"));
+        REQUIRE(values->contains(""));
     }
 
     TEST_CASE("methods")

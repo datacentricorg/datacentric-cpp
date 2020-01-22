@@ -19,6 +19,7 @@
     <ClCompile Include="noda_time\period_test.cpp" />
     <ClCompile Include="system\attribute_test.cpp" />
     <ClCompile Include="system\boxing_test.cpp" />
+    <ClCompile Include="system\byte_array_test.cpp" />
     <ClCompile Include="system\collections\generic\dictionary_test.cpp" />
     <ClCompile Include="system\collections\generic\list_test.cpp" />
     <ClCompile Include="system\console_test.cpp" />

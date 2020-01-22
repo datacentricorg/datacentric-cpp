@@ -62,8 +62,8 @@ namespace dc
         if (str->length() != 2 * bytes_size_)
             throw dot::exception("Passed srting shoud be 32 characters long.");
 
-        unsigned long long p1 = std::stoull(*str->substring(0, bytes_size_), nullptr, bytes_size_);
-        unsigned long long p2 = std::stoull(*str->substring(bytes_size_, bytes_size_), nullptr, bytes_size_);
+        unsigned long long p1 = std::stoull(*str->substring(0, bytes_size_), nullptr, 16);
+        unsigned long long p2 = std::stoull(*str->substring(bytes_size_, bytes_size_), nullptr, 16);
 
         bytes_ = dot::make_byte_array(bytes_size_);
         bytes_->copy_value(p1);
@@ -110,7 +110,7 @@ namespace dc
 
         dot::byte_array bytes = dot::make_byte_array(bytes_size_);
         bytes->copy_value(time_now);
-        bytes->copy(other_offset_, id.bytes() + oid_other_offset_, other_size_);
+        bytes->copy(other_offset_, id.bytes() + oid_other_offset_, oid_other_size_);
 
         return temporal_id(bytes);
     }
@@ -179,14 +179,14 @@ namespace dc
     {
         dot::type value_type = value->get_type();
 
-        if (value_type->equals(dot::typeof<dot::object_id>()))
-        {
-            return temporal_id(((dot::object_id) value).oid());
-        }
         if (value_type->equals(dot::typeof<dot::byte_array>()))
         {
             dot::byte_array arr = (dot::byte_array) value;
             return temporal_id(arr);
+        }
+        if (value_type->equals(dot::typeof<dot::object_id>()))
+        {
+            return temporal_id(((dot::object_id) value).oid());
         }
         if (value_type->equals(dot::typeof<dot::string>()))
         {

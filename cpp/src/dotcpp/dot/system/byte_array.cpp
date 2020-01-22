@@ -45,6 +45,10 @@ namespace dot
         : array_(std::move(obj))
     {}
 
+    byte_array_impl::byte_array_impl(const std::initializer_list<uint8_t>& obj)
+        : array_(obj.begin(), obj.end())
+    {}
+
     int byte_array_impl::get_length()
     {
         return array_.size();
@@ -53,6 +57,11 @@ namespace dot
     char* byte_array_impl::get_data()
     {
         return array_.data();
+    }
+
+    uint8_t byte_array_impl::get(int i)
+    {
+        return array_[i];
     }
 
     int byte_array_impl::compare(byte_array other)
@@ -68,22 +77,10 @@ namespace dot
         return memcmp(get_data(), other, get_length());
     }
 
-    void byte_array_impl::copy(byte_array src, int length)
+    void byte_array_impl::copy(int offset, byte_array src)
     {
-        // Call copy(int offset, byte_array src, int src_offset, int length)
-        copy(0, src, 0, length);
-    }
-
-    void byte_array_impl::copy(byte_array src, int src_offset, int length)
-    {
-        // Call copy(int offset, byte_array src, int src_offset, int length)
-        copy(0, src, src_offset, length);
-    }
-
-    void byte_array_impl::copy(int offset, byte_array src, int length)
-    {
-        // Call copy(int offset, byte_array src, int src_offset, int length)
-        copy(offset, src, 0, length);
+        // Call copy(int offset, const char* src, int length)
+        copy(offset, src->get_data(), src->get_length());
     }
 
     void byte_array_impl::copy(int offset, byte_array src, int src_offset, int length)

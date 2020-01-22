@@ -38,6 +38,7 @@ namespace dot
         friend byte_array make_byte_array(const char* value, int size);
         friend byte_array make_byte_array(const std::vector<char>& obj);
         friend byte_array make_byte_array(std::vector<char>&& obj);
+        friend byte_array make_byte_array(const std::initializer_list<uint8_t>& obj);
 
     private:
 
@@ -60,6 +61,9 @@ namespace dot
         /// Construct from vector using move semantics.
         byte_array_impl(std::vector<char>&& obj);
 
+        /// Construct from initializer_list.
+        byte_array_impl(const std::initializer_list<uint8_t>& obj);
+
     public: // METHODS
 
         /// The number of items contained in the list.
@@ -68,20 +72,17 @@ namespace dot
         /// Gets raw byte array.
         char* get_data();
 
+        /// Gets element at the specified index.
+        uint8_t get(int i);
+
         /// Compares byte arrays. Size of arrays should be equal.
         int compare(byte_array other);
 
         /// Compares byte arrays. Size of arrays should be equal.
         int compare(char* other);
 
-        /// Copy length bytes of src to this.
-        void copy(byte_array src, int length);
-
-        /// Copy length bytes of src with src_offset to this.
-        void copy(byte_array src, int src_offset, int length);
-
         /// Copy length bytes of src to this with offset.
-        void copy(int offset, byte_array src, int length);
+        void copy(int offset, byte_array src);
 
         /// Copy length bytes of src with src_offset to this with offset.
         void copy(int offset, byte_array src, int src_offset, int length);
@@ -149,7 +150,7 @@ namespace dot
             for (int i = 0; i < value_size; ++i)
             {
                 res <<= 8;
-                res |= src[i];
+                res |= (uint8_t) src[i];
             }
 
             return res;
@@ -175,4 +176,6 @@ namespace dot
     inline byte_array make_byte_array(const std::vector<char>& obj) { return new byte_array_impl(obj); }
 
     inline byte_array make_byte_array(std::vector<char>&& obj) { return new byte_array_impl(std::forward<std::vector<char>>(obj)); }
+
+    inline byte_array make_byte_array(const std::initializer_list<uint8_t>& obj) { return new byte_array_impl(obj); }
 }
