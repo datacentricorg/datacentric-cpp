@@ -23,14 +23,14 @@ limitations under the License.
 
 #pragma once
 
-#define DOT_TYPE_BEGIN(nspace, name, ...)                                       \
+#define DOT_TYPE_BEGIN(nspace, name)                                            \
         public:                                                                 \
         virtual dot::type get_type() { return typeof(); }                       \
         static dot::type typeof()                                               \
         {                                                                       \
             static dot::type result = []()-> dot::type                          \
             {                                                                   \
-                dot::type t = dot::make_type_builder<self>(nspace, name, __VA_ARGS__)
+                dot::type t = dot::make_type_builder<self>(nspace, name)
 
 #define DOT_TYPE_END()                                                          \
                     ->build();                                                  \
