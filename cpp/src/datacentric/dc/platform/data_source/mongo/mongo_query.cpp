@@ -105,6 +105,11 @@ namespace dc
 
     dot::object_cursor_wrapper_base mongo_query_impl::select(dot::list<dot::field_info> props, dot::type element_type)
     {
+        if (props.is_empty() || props->size() != element_type->get_generic_arguments()->size())
+        {
+            throw dot::exception("Wrong number of field_info passed to select method.");
+        }
+
         dot::hash_set<dot::object_id> lookup_set = data_source_->get_data_set_lookup_list(data_set_);
         dot::list<dot::object_id> lookup_list = dot::make_list<dot::object_id>(std::vector<dot::object_id>(lookup_set->begin(), lookup_set->end()));
         dot::type record_type = dot::typeof<record_base>();
