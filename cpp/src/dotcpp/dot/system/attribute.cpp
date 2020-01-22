@@ -32,7 +32,7 @@ namespace dot
     {
         static type result = []()->type
         {
-            type t = make_type_builder<string_impl>("dot", "attribute")
+            type t = make_type_builder<attribute_impl>("dot", "attribute")
                 ->build();
             return t;
         }();
