@@ -47,7 +47,7 @@ namespace dc
         dot::object_id data_set;
 
         /// Use context to access resources.
-        context_base context;
+        dot::weak_ptr<context_base_impl> context;
 
     public: // PROPERTIES
 

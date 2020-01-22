@@ -37,7 +37,7 @@ namespace dc
         /// If keep_db property is set to true,
         /// the test database will not be dropped so that its
         /// data can be examined after the test.
-        bool keep_db;
+        bool keep_db = true;
     };
 
     class unit_test_context_impl; using unit_test_context = dot::ptr<unit_test_context_impl>;
@@ -51,17 +51,18 @@ namespace dc
     /// For tests that require MongoDB, use unit_test_data_context.
     class unit_test_context_impl : public unit_test_context_base_impl
     {
-    public:
+        friend unit_test_context make_unit_test_context(dot::object, dot::string, dot::string);
+
+    private:
 
         /// Create with class name, method name, and source file path.
         ///
         /// When ``this'' is passed as the the only argument to the
         /// constructor, the latter two arguments are provided by
         /// the compiler.
-        unit_test_context_impl(dot::object class_instance,
-            dot::string method_name,
-            dot::string source_file_path);
+        unit_test_context_impl();
 
+    public:
         /// Releases resources and calls base.dispose().
         ///
         /// This method will NOT be called by the garbage
@@ -75,4 +76,10 @@ namespace dc
         /// of its own dispose() method.
         ~unit_test_context_impl();
     };
+
+    /// Create with class name, method name, and source file path.
+    unit_test_context make_unit_test_context(
+        dot::object class_instance,
+        dot::string method_name,
+        dot::string source_file_path);
 }

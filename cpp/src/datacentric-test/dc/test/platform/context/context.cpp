@@ -22,40 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    unit_test_context_impl::unit_test_context_impl(dot::object class_instance,
-        dot::string method_name,
-        dot::string source_file_path)
-    {
-        //if (method_name == nullptr) throw dot::exception("Method name passed to unit_test_context is null.");
-        //if (source_file_path == nullptr) throw dot::exception("Source file path passed to unit_test_context is null.");
-
-        // Test class path is the path to source file followed by
-        // subfolder whose name is source file name without extension
-        //if (!source_file_path->ends_with(".cs")) throw dot::exception(dot::string::format("Source file path '{0}' does not end with '.cs'", source_file_path));
-        dot::string test_class_path = source_file_path->substring(0, source_file_path->size() - 3);
-
-        // Create and initialize data source with test instance type.
-        //
-        // This does not create the database until the data source
-        // is actually used to access data.
-        dot::string mapped_class_name = class_instance->get_type()->name;
-
-        data_source = new mongo_data_source_data_impl();
-        data_source->db_server = (make_mongo_default_server_data())->to_key();
-        data_source->db_name = new db_name_key_impl();
-
-        data_source->db_name->db_instance_type = instance_type::test;
-        data_source->db_name->instance_name = mapped_class_name;
-        data_source->db_name->env_name = method_name;
-
-        data_source->init(this);
-
-        // Delete (drop) the database to clear the existing data
-        data_source->delete_db();
-
-        // Create common dataset and assign it to data_set property of this context
-        data_set = data_source->create_common();
-    }
+    unit_test_context_impl::unit_test_context_impl()
+    {}
 
     unit_test_context_impl::~unit_test_context_impl()
     {
@@ -65,5 +33,46 @@ namespace dc
             // unless keep_db is true
             data_source->delete_db();
         }
+    }
+
+    unit_test_context make_unit_test_context(
+        dot::object class_instance,
+        dot::string method_name,
+        dot::string source_file_path)
+    {
+        unit_test_context obj = new unit_test_context_impl;
+
+        //if (method_name == nullptr) throw dot::exception("Method name passed to unit_test_context is null.");
+        //if (source_file_path == nullptr) throw dot::exception("Source file path passed to unit_test_context is null.");
+
+        // Test class path is the path to source file followed by
+        // subfolder whose name is source file name without extension
+        //if (!source_file_path->ends_with(".cs")) throw dot::exception(dot::string::format("Source file path '{0}' does not end with '.cs'", source_file_path));
+        //dot::string test_class_path = source_file_path->substring(0, source_file_path->size() - 3);
+
+        // Create and initialize data source with test instance type.
+        //
+        // This does not create the database until the data source
+        // is actually used to access data.
+        dot::string mapped_class_name = class_instance->get_type()->name;
+
+        data_source_data data_source = new mongo_data_source_data_impl();
+        obj->data_source = data_source;
+
+        data_source->db_server = (make_mongo_default_server_data())->to_key();
+        data_source->db_name = new db_name_key_impl();
+
+        data_source->db_name->db_instance_type = instance_type::test;
+        data_source->db_name->instance_name = mapped_class_name;
+        data_source->db_name->env_name = method_name;
+
+        data_source->init(obj);
+
+        // Delete (drop) the database to clear the existing data
+        data_source->delete_db();
+
+        // Create common dataset and assign it to data_set property of this context
+        obj->data_set = data_source->create_common();
+        return obj;
     }
 }

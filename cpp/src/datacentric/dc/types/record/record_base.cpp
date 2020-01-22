@@ -28,7 +28,7 @@ namespace dc
         //
         // base.init(context);
 
-        this->context = context;
+        this->context = context.to_weak();
         if (context == nullptr) throw dot::exception(
             dot::string::format("Null context is passed to the init(...) method for {0}.", get_type()->name));
     }

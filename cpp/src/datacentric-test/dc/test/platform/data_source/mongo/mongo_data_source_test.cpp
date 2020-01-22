@@ -293,7 +293,7 @@ namespace dc
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
 
-        unit_test_context_base context = new unit_test_context_impl(test, "smoke", ".");
+        unit_test_context_base context = make_unit_test_context(test, "smoke", ".");
         save_basic_data(context);
 
         // Get dataset identifiers
@@ -326,7 +326,7 @@ namespace dc
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
 
-        unit_test_context_base context = new unit_test_context_impl(test, "query", ".");
+        unit_test_context_base context = make_unit_test_context(test, "query", ".");
 
         // Create datasets
         dot::object_id data_set_a = context->create_data_set("A", context->data_set);
@@ -394,7 +394,7 @@ namespace dc
     TEST_CASE("delete")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "delete", ".");
+        unit_test_context_base context = make_unit_test_context(test, "delete", ".");
 
         save_basic_data(context);
 
@@ -468,7 +468,7 @@ namespace dc
     TEST_CASE("type_change")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "type_change", ".");
+        unit_test_context_base context = make_unit_test_context(test, "type_change", ".");
 
         // Create datasets
         dot::object_id data_set_a = context->create_data_set("A", context->data_set);
@@ -537,7 +537,7 @@ namespace dc
     TEST_CASE("element_types_query")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "element_types_query", ".");
+        unit_test_context_base context = make_unit_test_context(test, "element_types_query", ".");
 
         // Saves data in A and B datasets, A is parent of B
         save_complete_data(context);
@@ -578,7 +578,7 @@ namespace dc
     TEST_CASE("polymorphic_query")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "polymorphic_query", ".");
+        unit_test_context_base context = make_unit_test_context(test, "polymorphic_query", ".");
 
         // Saves data in A and B datasets, A is parent of B
         save_complete_data(context);
@@ -658,7 +658,7 @@ namespace dc
     TEST_CASE("sort")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "sort", ".");
+        unit_test_context_base context = make_unit_test_context(test, "sort", ".");
 
         // Saves data in A and B datasets, A is parent of B
         save_complete_data(context);
@@ -689,7 +689,7 @@ namespace dc
     TEST_CASE("revision_time")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "revision_time", ".");
+        unit_test_context_base context = make_unit_test_context(test, "revision_time", ".");
 
         // Create datasets
         dot::object_id data_set_a = context->create_data_set("A", context->data_set);

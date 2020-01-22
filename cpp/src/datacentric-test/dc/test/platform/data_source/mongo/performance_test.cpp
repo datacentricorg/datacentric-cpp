@@ -189,7 +189,7 @@ namespace dc
     TEST_CASE("performance")
     {
         performance_test test = new performance_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "performance", ".");
+        unit_test_context_base context = make_unit_test_context(test, "performance", ".");
 
         //fill_database(context);
     }
@@ -197,7 +197,7 @@ namespace dc
     TEST_CASE("load_by_key")
     {
         performance_test test = new performance_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "performance", ".");
+        unit_test_context_base context = make_unit_test_context(test, "performance", ".");
         test_duration_counter td("Keys loading");
 
         for (int i = 0; i < record_count; ++i)
@@ -218,7 +218,7 @@ namespace dc
     TEST_CASE("query")
     {
         performance_test test = new performance_test_impl;
-        unit_test_context_base context = new unit_test_context_impl(test, "performance", ".");
+        unit_test_context_base context = make_unit_test_context(test, "performance", ".");
         test_duration_counter td("Query loading");
 
         dot::string record_id = get_record_key(2);
