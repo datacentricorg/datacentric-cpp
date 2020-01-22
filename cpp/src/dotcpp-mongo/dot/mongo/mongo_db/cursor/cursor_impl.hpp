@@ -25,11 +25,13 @@ limitations under the License.
 
 namespace dot
 {
+    class iterator_inner_impl; using iterator_inner = ptr<iterator_inner_impl>;
+
     /// Class implements dot::iterator_wrapper methods.
     /// Holds mongocxx::iterator.
     /// Constructs from mongo iterator and function dot::object(const bsoncxx::document::view&),
     /// this function call bson deserializer to get object from bson document.
-    class DOT_MONGO_CLASS iterator_inner : public iterator_inner_base
+    class DOT_MONGO_CLASS iterator_inner_impl : public iterator_inner_base_impl
     {
     public:
 
@@ -48,17 +50,17 @@ namespace dot
             iterator_++;
         }
 
-        virtual bool operator!=(std::shared_ptr<iterator_inner_base> const& rhs) override
+        virtual bool operator!=(iterator_inner_base rhs) override
         {
-            return iterator_ != std::dynamic_pointer_cast<iterator_inner>(rhs)->iterator_;
+            return iterator_ != rhs.as<iterator_inner>()->iterator_;
         }
 
-        virtual bool operator==(std::shared_ptr<iterator_inner_base> const& rhs) override
+        virtual bool operator==(iterator_inner_base rhs) override
         {
-            return iterator_ == std::dynamic_pointer_cast<iterator_inner>(rhs)->iterator_;
+            return iterator_ == rhs.as<iterator_inner>()->iterator_;
         }
 
-        iterator_inner(mongocxx::cursor::iterator iterator, std::function<dot::object(const bsoncxx::document::view&)> f)
+        iterator_inner_impl(mongocxx::cursor::iterator iterator, std::function<dot::object(const bsoncxx::document::view&)> f)
             : iterator_(iterator)
             , f_(f)
         {
@@ -86,14 +88,14 @@ namespace dot
         /// for newly-available documents.
         iterator_wrappper<dot::object> begin()
         {
-            return iterator_wrappper<dot::object>(std::make_shared<iterator_inner>(cursor_->begin(), f_));
+            return iterator_wrappper<dot::object>(new iterator_inner_impl(cursor_->begin(), f_));
         }
 
         /// A dot::iterator_wrapper<dot::object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
         iterator_wrappper<dot::object> end()
         {
-            return iterator_wrappper<dot::object>(std::make_shared<iterator_inner>(cursor_->end(), f_));
+            return iterator_wrappper<dot::object>(new iterator_inner_impl(cursor_->end(), f_));
         }
 
         object_cursor_wrapper_impl(mongocxx::cursor && cursor, const std::function<dot::object(const bsoncxx::document::view&)>& f)

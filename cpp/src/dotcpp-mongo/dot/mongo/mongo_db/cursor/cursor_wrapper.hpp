@@ -27,14 +27,15 @@ limitations under the License.
 
 namespace dot
 {
+    class iterator_inner_base_impl; using iterator_inner_base = ptr<iterator_inner_base_impl>;
 
     /// Base class for iterator implementation classes.
     /// Derived iterator class is hidden to cpp.
-    class DOT_MONGO_CLASS iterator_inner_base
+    class DOT_MONGO_CLASS iterator_inner_base_impl : public object_impl
     {
     public:
 
-        virtual ~iterator_inner_base() = default;
+        virtual ~iterator_inner_base_impl() = default;
 
         virtual object operator*() = 0;
 
@@ -42,9 +43,9 @@ namespace dot
 
         virtual void operator++() = 0;
 
-        virtual bool operator!=(std::shared_ptr<iterator_inner_base> const& rhs) = 0;
+        virtual bool operator!=(iterator_inner_base rhs) = 0;
 
-        virtual bool operator==(std::shared_ptr<iterator_inner_base> const& rhs) = 0;
+        virtual bool operator==(iterator_inner_base rhs) = 0;
     };
 
     /// Class representing an input iterator of documents in a MongoDB cursor
@@ -60,7 +61,7 @@ namespace dot
 
         typedef T value_type;
 
-        iterator_wrappper(std::shared_ptr<iterator_inner_base> iterator)
+        iterator_wrappper(iterator_inner_base iterator)
             :iterator_(iterator)
         {}
 
@@ -90,7 +91,7 @@ namespace dot
             return *iterator_ == (rhs.iterator_);
         }
 
-        std::shared_ptr<iterator_inner_base> iterator_;
+        iterator_inner_base iterator_;
     };
 
 
@@ -101,6 +102,8 @@ namespace dot
     class DOT_MONGO_CLASS object_cursor_wrapper_base_impl : public dot::object_impl
     {
     public:
+
+        virtual ~object_cursor_wrapper_base_impl() = default;
 
         /// A dot::iterator_wrapper<dot::object> that points to the beginning of any available
         /// results.  If begin() is called more than once, the dot::iterator_wrapper
