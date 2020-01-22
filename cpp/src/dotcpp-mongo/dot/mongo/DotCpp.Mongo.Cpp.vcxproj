@@ -17,15 +17,32 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="serialization\bson_record_serializer.cpp" />
+    <ClCompile Include="serialization\bson_writer.cpp" />
+    <ClCompile Include="serialization\data_writer.cpp" />
+    <ClCompile Include="serialization\json_record_serializer.cpp" />
+    <ClCompile Include="serialization\json_writer.cpp" />
+    <ClCompile Include="serialization\tree_writer_base.cpp" />
+    <ClCompile Include="serialization\tuple_writer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="declare.hpp" />
     <ClInclude Include="implement.hpp" />
     <ClInclude Include="import.hpp" />
     <ClInclude Include="mongo_db\bson\object_id.hpp" />
+    <ClInclude Include="mongo_db\cursor\cursor_wrapper.hpp" />
+    <ClInclude Include="mongo_db\query\query_builder.hpp" />
     <ClInclude Include="mongo_db\mongo\client.hpp" />
     <ClInclude Include="mongo_db\mongo\collection.hpp" />
     <ClInclude Include="mongo_db\mongo\database.hpp" />
+    <ClInclude Include="mongo_db\query\query.hpp" />
+    <ClInclude Include="serialization\bson_record_serializer.hpp" />
+    <ClInclude Include="serialization\bson_writer.hpp" />
+    <ClInclude Include="serialization\data_writer.hpp" />
+    <ClInclude Include="serialization\json_record_serializer.hpp" />
+    <ClInclude Include="serialization\json_writer.hpp" />
+    <ClInclude Include="serialization\tree_writer_base.hpp" />
+    <ClInclude Include="serialization\tuple_writer.hpp" />
     <ClInclude Include="precompiled.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

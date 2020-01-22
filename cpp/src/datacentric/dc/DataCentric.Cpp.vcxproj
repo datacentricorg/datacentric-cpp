@@ -28,9 +28,9 @@
     <ClCompile Include="platform\data_source\mongo\mongo_data_source_base_data.cpp" />
     <ClCompile Include="platform\data_source\mongo\mongo_data_source_data.cpp" />
     <ClCompile Include="platform\data_source\mongo\mongo_default_server_data.cpp" />
+    <ClCompile Include="platform\data_source\mongo\mongo_query.cpp" />
     <ClCompile Include="platform\data_source\mongo\mongo_server_data.cpp" />
     <ClCompile Include="platform\data_source\mongo\mongo_standard_format_server_data.cpp" />
-    <ClCompile Include="platform\query\query.cpp" />
     <ClCompile Include="platform\reflection\class_info.cpp" />
     <ClCompile Include="platform\time_zone\time_zone_data.cpp" />
     <ClCompile Include="platform\time_zone\time_zone_key.cpp" />
@@ -38,13 +38,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="serialization\bson_record_serializer.cpp" />
-    <ClCompile Include="serialization\bson_writer.cpp" />
-    <ClCompile Include="serialization\data_writer.cpp" />
-    <ClCompile Include="serialization\tree_writer_base.cpp" />
-    <ClCompile Include="serialization\json_record_serializer.cpp" />
-    <ClCompile Include="serialization\json_writer.cpp" />
-    <ClCompile Include="serialization\tuple_writer.cpp" />
     <ClCompile Include="types\record\cached_record.cpp" />
     <ClCompile Include="types\record\data.cpp" />
     <ClCompile Include="types\record\delete_marker.cpp" />
@@ -58,7 +51,6 @@
     <ClInclude Include="implement.hpp" />
     <ClInclude Include="import.hpp" />
     <ClInclude Include="platform\context\context_base.hpp" />
-    <ClInclude Include="platform\cursor\cursor_wrapper.hpp" />
     <ClInclude Include="platform\data_set\data_set_data.hpp" />
     <ClInclude Include="platform\data_set\data_set_key.hpp" />
     <ClInclude Include="platform\data_source\database_data.hpp" />
@@ -71,24 +63,16 @@
     <ClInclude Include="platform\data_source\mongo\mongo_data_source_base_data.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_data_source_data.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_default_server_data.hpp" />
+    <ClInclude Include="platform\data_source\mongo\mongo_query.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_server_data.hpp" />
     <ClInclude Include="platform\data_source\mongo\mongo_standard_format_server_data.hpp" />
-    <ClInclude Include="platform\data_source\mongo\query_builder.hpp" />
     <ClInclude Include="platform\logging\log_entry_type.hpp" />
     <ClInclude Include="platform\logging\log_verbosity.hpp" />
-    <ClInclude Include="platform\query\query.hpp" />
     <ClInclude Include="platform\reflection\class_info.hpp" />
     <ClInclude Include="platform\settings\class_map_settings.hpp" />
     <ClInclude Include="platform\time_zone\time_zone_data.hpp" />
     <ClInclude Include="platform\time_zone\time_zone_key.hpp" />
     <ClInclude Include="precompiled.hpp" />
-    <ClInclude Include="serialization\bson_record_serializer.hpp" />
-    <ClInclude Include="serialization\bson_writer.hpp" />
-    <ClInclude Include="serialization\data_writer.hpp" />
-    <ClInclude Include="serialization\tree_writer_base.hpp" />
-    <ClInclude Include="serialization\json_record_serializer.hpp" />
-    <ClInclude Include="serialization\json_writer.hpp" />
-    <ClInclude Include="serialization\tuple_writer.hpp" />
     <ClInclude Include="types\double\double_compare.hpp" />
     <ClInclude Include="types\record\cached_record.hpp" />
     <ClInclude Include="types\record\data.hpp" />
