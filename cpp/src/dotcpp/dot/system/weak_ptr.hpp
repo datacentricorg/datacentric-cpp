@@ -63,13 +63,9 @@ namespace dot
         /// Returns true if pointer holds object, and false otherwise.
         bool is_empty() const;
 
+        ptr<T> lock() const;
+
     public: // OPERATORS
-
-        /// Pointer dereference.
-        T& operator*() const;
-
-        /// Pointer dereference.
-        T* operator->() const;
 
         /// Returns true if the argument contains
         /// pointer to the same instance as self.
@@ -91,14 +87,6 @@ namespace dot
 
         /// Assign pointer of the same type.
         weak_ptr<T>& operator=(const weak_ptr<T>& rhs);
-
-        /// Const indexer operator for arrays.
-        template <class I>
-        decltype(auto) operator[](I const& i) const;
-
-        /// Non-const indexer operator for arrays.
-        template <class I>
-        decltype(auto) operator[](I const& i);
     };
 
     template<class T>
@@ -123,19 +111,9 @@ namespace dot
     }
 
     template <class T>
-    T& weak_ptr<T>::operator*() const
+    ptr<T> weak_ptr<T>::lock() const
     {
-        if (!ptr_)
-            throw dot::exception("Pointer is not initialized");
-        return *ptr_;
-    }
-
-    template <class T>
-    T* weak_ptr<T>::operator->() const
-    {
-        if (!ptr_)
-            throw dot::exception("Pointer is not initialized");
-        return ptr_;
+        return ptr<T>(ptr_);
     }
 
     template <class T>
@@ -174,19 +152,5 @@ namespace dot
     {
         ptr_ = rhs.ptr_;
         return *this;
-    }
-
-    template <class T>
-    template <class I>
-    decltype(auto) weak_ptr<T>::operator[](I const& i) const
-    {
-        return (*ptr_)[i];
-    }
-
-    template <class T>
-    template <class I>
-    decltype(auto) weak_ptr<T>::operator[](I const& i)
-    {
-        return (*ptr_)[i];
     }
 }
