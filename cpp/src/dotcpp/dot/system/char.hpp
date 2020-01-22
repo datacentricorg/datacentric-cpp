@@ -51,6 +51,11 @@ namespace dot
         /// Converts the numeric value of this instance to its equivalent string representation.
         virtual string to_string() override;
 
+        /// Indicates whether a Unicode character is categorized as white space.
+        static bool is_white_space(char c);
+
+    public: // REFLECTION
+
         static type typeof();
         type get_type() override;
     };

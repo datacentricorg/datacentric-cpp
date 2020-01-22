@@ -157,5 +157,23 @@ namespace dot
             REQUIRE(res_list[2] == seplited_str[2]);
             REQUIRE(res_list[3] == seplited_str[3]);
         }
+
+        // Trim
+        {
+            string str = "";
+            REQUIRE(str->trim() == "");
+            REQUIRE(str->trim_start() == "");
+            REQUIRE(str->trim_end() == "");
+
+            str = " \n\r\t\v\f ";
+            REQUIRE(str->trim() == "");
+            REQUIRE(str->trim_start() == "");
+            REQUIRE(str->trim_end() == "");
+
+            str = " \n ab cd \n ";
+            REQUIRE(str->trim() == "ab cd");
+            REQUIRE(str->trim_start() == "ab cd \n ");
+            REQUIRE(str->trim_end() == " \n ab cd");
+        }
     }
 }

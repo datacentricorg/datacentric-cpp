@@ -51,6 +51,11 @@ namespace dot
         return std::to_string(value_);
     }
 
+    bool char_impl::is_white_space(char c)
+    {
+        return std::isspace(c);
+    }
+
     type char_impl::typeof()
     {
         return dot::typeof<char>();

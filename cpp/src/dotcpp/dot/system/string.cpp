@@ -89,6 +89,11 @@ namespace dot
         return false;
     }
 
+    string string_impl::substring(int start_index)
+    {
+        return make_string(this->substr(start_index));
+    }
+
     string string_impl::substring(int start_index, int length)
     {
         return make_string(this->substr(start_index, length));
@@ -153,6 +158,41 @@ namespace dot
         }
         result->add(this->substr(previous, current - previous));
 
+        return result;
+    }
+
+    string string_impl::trim() const
+    {
+        string result = make_string(*this);
+
+        // Trim end
+        result->erase(std::find_if(result->rbegin(), result->rend(), [](char ch) {
+            return !char_impl::is_white_space(ch);
+        }).base(), result->end());
+
+        // Trim start
+        result->erase(result->begin(), std::find_if(result->begin(), result->end(), [](char ch) {
+            return !char_impl::is_white_space(ch);
+        }));
+
+        return result;
+    }
+
+    string string_impl::trim_start() const
+    {
+        string result = make_string(*this);
+        result->erase(result->begin(), std::find_if(result->begin(), result->end(), [](char ch) {
+            return !char_impl::is_white_space(ch);
+        }));
+        return result;
+    }
+
+    string string_impl::trim_end() const
+    {
+        string result = make_string(*this);
+        result->erase(std::find_if(result->rbegin(), result->rend(), [](char ch) {
+            return !char_impl::is_white_space(ch);
+        }).base(), result->end());
         return result;
     }
 

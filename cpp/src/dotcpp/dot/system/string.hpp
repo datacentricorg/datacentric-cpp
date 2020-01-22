@@ -82,6 +82,10 @@ namespace dot
         /// string matches the specified string.
         bool starts_with(const string& value);
 
+        /// Retrieves a substring which starts at a specified
+        /// character position and continues to the end of the string.
+        string substring(int start_index);
+
         /// Retrieves a substring which starts at the specified
         /// character position and has the specified length.
         string substring(int start_index, int length);
@@ -122,6 +126,18 @@ namespace dot
         /// this string that are delimited by any of the specified strings.
         /// A parameter specifies whether to return empty array elements.
         list<string> split(const list<string>& separator, const string_split_options& options) const; // TODO - implement
+
+        /// Returns a new string in which all leading and trailing occurrences
+        /// of a set of specified characters from the current string are removed.
+        string trim() const;
+
+        /// Removes all the leading occurrences of a set of characters
+        /// specified in an array from the current string.
+        string trim_start() const;
+
+        /// Removes all the trailing occurrences of a set of characters
+        /// specified in an array from the current string.
+        string trim_end() const;
 
         /// Indicates whether the argument occurs within this string.
         bool contains(const string& s) const;
