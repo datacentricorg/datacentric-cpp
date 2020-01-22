@@ -46,6 +46,9 @@ namespace dot
         {
             friend class database_impl;
 
+        public:
+            virtual ~database_inner_base() = default;
+
         protected:
 
             /// Returns the collection with given name.

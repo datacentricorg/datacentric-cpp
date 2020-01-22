@@ -34,6 +34,8 @@ namespace dot
     {
     public:
 
+        virtual ~iterator_inner_base() = default;
+
         virtual object operator*() = 0;
 
         virtual object operator*() const = 0;

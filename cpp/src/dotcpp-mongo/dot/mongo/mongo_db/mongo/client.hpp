@@ -55,6 +55,9 @@ namespace dot
         {
             friend class client_impl;
 
+        public:
+            virtual ~client_inner_base() = default;
+
         protected:
 
             /// Returns Client side representation of a server side database.

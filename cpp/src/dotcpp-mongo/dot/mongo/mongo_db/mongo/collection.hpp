@@ -51,6 +51,9 @@ namespace dot
         {
             friend class collection_impl;
 
+        public:
+            virtual ~collection_inner_base() = default;
+
         protected:
 
             /// Inserts a single object into the collection. If the object->_id is missing or empty
