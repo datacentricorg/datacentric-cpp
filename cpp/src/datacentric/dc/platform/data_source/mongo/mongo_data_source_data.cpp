@@ -36,7 +36,7 @@ namespace dc
         if (revisionTimeConstraint != nullptr)
         {
             // If RevisionTimeConstraint is not null, return null for any
-            // ID that is not strictly before the constraint dot::object_id
+            // id that is not strictly before the constraint dot::object_id
             if (id >= revisionTimeConstraint.value()) return nullptr;
         }
 
@@ -126,9 +126,9 @@ namespace dc
                 "Attempting to save a record with dot::object_id={0} that is later "
                 "than dot::object_id={1} of the dataset where it is being saved.", objectId.to_string(), saveTo.to_string()));
 
-        // Assign ID and data_set, and only then initialize, because
-        // initialization code may use record.ID and record.data_set
-        record->ID = objectId;
+        // Assign id and data_set, and only then initialize, because
+        // initialization code may use record.id and record.data_set
+        record->id = objectId;
         record->data_set = saveTo;
         record->init(Context);
 
@@ -259,7 +259,7 @@ namespace dc
     {
         // Create delete marker with the specified key
         auto record = make_delete_marker();
-        record->get_key() = key->getValue();
+        record->get_key() = key->get_value();
 
         // Get collection
         auto collection = get_collection(key->get_type());
@@ -269,7 +269,7 @@ namespace dc
         // all processes and machine if they are not created within the same
         // second.
         auto objectId = create_ordered_object_id();
-        record->ID = objectId;
+        record->id = objectId;
 
         // Assign dataset and then initialize, as the results of
         // initialization may depend on record.data_set
@@ -285,7 +285,7 @@ namespace dc
 
         bsoncxx::builder::basic::document doc{}; //!! Temporary fix
         doc.append(bsoncxx::builder::basic::kvp("_t", *record->get_type()->name));
-        doc.append(bsoncxx::builder::basic::kvp("_key", *key->getValue()));
+        doc.append(bsoncxx::builder::basic::kvp("_key", *key->get_value()));
         doc.append(bsoncxx::builder::concatenate(writer->view()));
 
         collection.insert_one(doc.view());

@@ -148,7 +148,7 @@ namespace dc
             else
             if (inner_element_value.is<data>())
             {
-                if (inner_element_value->get_type()->name->ends_with("Key"))
+                if (inner_element_value->get_type()->name->ends_with("key"))
                 {
                     // Embedded as string key
                     writer->write_value_element(inner_element_name, inner_element_value->to_string());

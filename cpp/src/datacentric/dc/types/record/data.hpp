@@ -36,7 +36,7 @@ namespace dc
         /// Creates dictionary at current writer level.
         void serialize_to(tree_writer_base writer);
 
-        DOT_TYPE_BEGIN("dc", "Data")
+        DOT_TYPE_BEGIN("dc", "data")
         DOT_TYPE_END()
 
     protected:

@@ -31,7 +31,7 @@ namespace dc
 
     public:
 
-        dot::string getValue()
+        dot::string get_value()
         {
             return to_string();
         }
@@ -40,16 +40,16 @@ namespace dc
 
         dot::string to_string();
 
-        void AssignString(dot::string value);
+        void assign_string(dot::string value);
 
         dot::object_id _id;
 
     private:
 
-        void AssignString(std::stringstream & value);
+        void assign_string(std::stringstream & value);
 
-        DOT_TYPE_BEGIN("dc", "KeyBase")
-            //DOT_TYPE_BASE(Data)
+        DOT_TYPE_BEGIN("dc", "key_base")
+            //DOT_TYPE_BASE(data)
         DOT_TYPE_END()
 
     };

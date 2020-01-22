@@ -55,7 +55,7 @@ namespace dc
                 dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", dbName_));
 
         // Get client interface using the server
-        dot::string dbUri = db_server->Load(Context).as<mongo_server_data>()->get_mongo_server_uri();
+        dot::string dbUri = db_server->load(Context).as<mongo_server_data>()->get_mongo_server_uri();
         client_ = mongocxx::client{ mongocxx::uri(*dbUri) };
 
         // Get database interface using the client and database name
@@ -129,7 +129,7 @@ namespace dc
     mongocxx::collection mongo_data_source_base_data_impl::get_collection(dot::type dataType)
     {
         dot::type curr = dataType;
-        while (curr->name != "Record" && curr->name != "Key")
+        while (curr->name != "record" && curr->name != "key")
         {
             curr = curr->get_base_type();
             if (curr.is_empty())

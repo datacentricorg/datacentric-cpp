@@ -361,7 +361,7 @@ namespace dc
 
                 // Populate from semicolon delimited string
                 dot::string string_value = value->to_string();
-                key->AssignString(string_value);
+                key->assign_string(string_value);
 
                 // Add to array or dictionary, depending on what we are inside of
                 tuple_->get_type()->get_method("SetItem")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, key }));

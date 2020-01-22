@@ -42,7 +42,7 @@ namespace dc
             }
             else
             {
-                if (prop->field_type->name->ends_with("Key")) // TODO check using parents list
+                if (prop->field_type->name->ends_with("key")) // TODO check using parents list
                 {
                     dot::object empty_key = dot::activator::create_instance(prop->field_type);
                     ss << *empty_key->to_string();
@@ -54,18 +54,18 @@ namespace dc
         return ss.str();
     }
 
-    void key_base_impl::AssignString(std::stringstream & value)
+    void key_base_impl::assign_string(std::stringstream & value)
     {
         dot::list<dot::field_info> props = get_type()->get_fields();
 
         for (dot::field_info prop : props)
         {
-            if (prop->field_type->name->ends_with("Key")) // TODO check using parents list
+            if (prop->field_type->name->ends_with("key")) // TODO check using parents list
             {
-                key_base subKey = (key_base)dot::activator::create_instance(prop->field_type);
-                subKey->AssignString(value);
+                key_base sub_key = (key_base)dot::activator::create_instance(prop->field_type);
+                sub_key->assign_string(value);
 
-                prop->set_value(this, subKey);
+                prop->set_value(this, sub_key);
             }
             else
             {
@@ -97,11 +97,11 @@ namespace dc
 
     }
 
-    void key_base_impl::AssignString(dot::string value)
+    void key_base_impl::assign_string(dot::string value)
     {
         std::stringstream ss;
         ss.str(*value);
 
-        AssignString(ss);
+        assign_string(ss);
     }
 }

@@ -29,7 +29,7 @@ namespace dc
         //
         // base.init(context);
 
-        Context = context;
+        this->Context = context;
         if (context == nullptr) throw dot::exception(
             dot::string::format("Null context is passed to the init(...) method for {0}.", get_type()->name));
     }

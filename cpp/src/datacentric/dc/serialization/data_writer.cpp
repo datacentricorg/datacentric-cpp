@@ -485,7 +485,7 @@ namespace dc
 
                 // Populate from semicolon delimited string
                 dot::string string_value = value->to_string();
-                key->AssignString(string_value);
+                key->assign_string(string_value);
 
                 // Add to array or dictionary, depending on what we are inside of
                 if (current_array_ != nullptr) current_array_->add_object(key);

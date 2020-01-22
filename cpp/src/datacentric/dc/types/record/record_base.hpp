@@ -36,7 +36,7 @@ namespace dc
         /// For the record's history to be captured correctly, all
         /// update operations must assign a new dot::object_id with the
         /// timestamp that matches update time.
-        dot::object_id ID;
+        dot::object_id id;
 
         /// dot::object_id of the dataset where the record is stored.
         ///
@@ -53,10 +53,10 @@ namespace dc
 
         /// dot::string key consists of semicolon delimited primary key elements:
         ///
-        /// KeyElement1;KeyElement2
+        /// key_element1;key_element2
         ///
         /// To avoid serialization format uncertainty, key elements
-        /// can have any atomic type except Double.
+        /// can have any atomic type except double.
         virtual dot::string get_key() = 0;
 
     public: // METHODS
@@ -67,12 +67,11 @@ namespace dc
 
         dot::string to_string() { return get_key(); }
 
-        DOT_TYPE_BEGIN("dc", "RecordBase")
-            ->with_field("_id", &self::ID)
+        DOT_TYPE_BEGIN("dc", "record_base")
+            ->with_field("_id", &self::id)
             ->with_field("_dataset", &self::data_set)
-          //  ->WithProperty("_key", &self::Key)
+          //  ->WithProperty("_key", &self::key)
             DOT_TYPE_BASE(data)
         DOT_TYPE_END()
-
     };
 }

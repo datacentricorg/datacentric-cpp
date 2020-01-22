@@ -187,7 +187,7 @@ namespace dc
 
         /// Save new version of the dataset.
         ///
-        /// This method sets ID field of the argument to be the
+        /// This method sets id field of the argument to be the
         /// new dot::object_id assigned to the record when it is saved.
         /// The timestamp of the new dot::object_id is the current time.
         ///
@@ -260,7 +260,7 @@ namespace dc
         /// datasets that do not have any parents. The common dataset
         /// is always saved in root dataset.
         ///
-        /// This method sets ID field of the argument to be the
+        /// This method sets id field of the argument to be the
         /// new dot::object_id assigned to the record when it is saved.
         /// The timestamp of the new dot::object_id is the current time.
         ///

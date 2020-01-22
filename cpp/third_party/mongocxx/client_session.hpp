@@ -66,7 +66,7 @@ class MONGOCXX_API client_session {
     const options::client_session& options() const noexcept;
 
     ///
-    /// Get the server-side "logical session ID" associated with this session, as a BSON document.
+    /// Get the server-side "logical session id" associated with this session, as a BSON document.
     /// This view is invalid after the session is destroyed.
     ///
     bsoncxx::document::view id() const noexcept;

@@ -34,13 +34,13 @@ namespace dc
     /// This reference is used in two cases:
     ///
     /// First, to avoid getting the record from storage multiple times.
-    /// The first value loaded from storage will be cached in Record
+    /// The first value loaded from storage will be cached in record
     /// and returned on all subsequent calls for the same dataset
     /// without storage lookup.
     ///
     /// Second, to avoid accessing storage when two objects are
     /// created in memory, one having a property that is a key
-    /// to the other. Use SetCachedRecord(record) method to assign
+    /// to the other. Use set_cached_record(record) method to assign
     /// an in-memory object to a key which will also set values
     /// of the elements of the key to the corresponding values
     /// of the record.
@@ -71,7 +71,7 @@ namespace dc
             if (!record.is_empty() && !record.is<delete_marker>())
             {
                 // Cache only if not a delete marker,
-                // otherwise Record will remain null
+                // otherwise record will remain null
                 // after the constructor exits
                 this->record = record;
             }
@@ -79,8 +79,8 @@ namespace dc
 
     };
 
-    inline cached_record make_cached_record(dot::object_id dataSet, record_base record = nullptr)
+    inline cached_record make_cached_record(dot::object_id data_set, record_base record = nullptr)
     {
-        return new cached_record_impl(dataSet, record);
+        return new cached_record_impl(data_set, record);
     }
 }

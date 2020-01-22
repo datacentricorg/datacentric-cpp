@@ -232,7 +232,7 @@ namespace dc
         /// datasets that do not have any parents. The common dataset
         /// is always saved in root dataset.
         ///
-        /// This method sets ID field of the argument to be the
+        /// This method sets id field of the argument to be the
         /// new dot::object_id assigned to the record when it is saved.
         /// The timestamp of the new dot::object_id is the current time.
         ///
@@ -285,7 +285,7 @@ namespace dc
         /// specify the saveTo parameter explicitly and instead
         /// uses context.data_set for its value.
         ///
-        /// This method sets ID field of the argument to be the
+        /// This method sets id field of the argument to be the
         /// new dot::object_id assigned to the record when it is saved.
         /// The timestamp of the new dot::object_id is the current time.
         ///
@@ -297,7 +297,7 @@ namespace dc
         /// This overload of the save_data_set method specifies
         /// the saveTo parameter explicitly.
         ///
-        /// This method sets ID field of the argument to be the
+        /// This method sets id field of the argument to be the
         /// new dot::object_id assigned to the record when it is saved.
         /// The timestamp of the new dot::object_id is the current time.
         ///

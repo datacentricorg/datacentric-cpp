@@ -59,7 +59,7 @@ namespace dc
 
         dot::object_id data_set = context->get_data_set(data_set_id, context->data_set);
         context->save(rec, data_set);
-        return rec->ID;
+        return rec->id;
     }
 
     /// Save base record
@@ -78,10 +78,10 @@ namespace dc
         dot::object_id data_set = context->get_data_set(data_set_id, context->get_common());
         context->save(rec, data_set);
 
-        mongo_test_data rec2 = context->load_or_null<mongo_test_data>(rec->ID);
+        mongo_test_data rec2 = context->load_or_null<mongo_test_data>(rec->id);
         REQUIRE(rec->enum_value == rec2->enum_value);
 
-        return rec->ID;
+        return rec->id;
     }
 
     /// Save derived record
@@ -144,7 +144,7 @@ namespace dc
 
         dot::object_id data_set = context->get_data_set(data_set_id, context->get_common());
         context->save(rec, data_set);
-        return rec->ID;
+        return rec->id;
     }
 
     /// Save other derived record.
@@ -163,7 +163,7 @@ namespace dc
 
         dot::object_id data_set = context->get_data_set(data_set_id, context->data_set);
         context->save(rec, data_set);
-        return rec->ID;
+        return rec->id;
     }
 
     /// Save record that is derived from derived.
@@ -182,7 +182,7 @@ namespace dc
 
         dot::object_id data_set = context->get_data_set(data_set_id, context->data_set);
         context->save(rec, data_set);
-        return rec->ID;
+        return rec->id;
     }
 
     /// Two datasets and two objects, one base and one derived.

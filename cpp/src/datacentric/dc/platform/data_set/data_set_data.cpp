@@ -30,9 +30,9 @@ namespace dc
         if (!dot::list<dot::object_id>(parents).is_empty())
         for (dot::object_id parent : parents)
         {
-            if (ID <= parent)
+            if (id <= parent)
             {
-                if (ID == parent)
+                if (id == parent)
                 {
                     throw dot::exception(dot::string::format(
                         "Dataset {0} has a parent with the same dot::object_id={1} "
@@ -43,7 +43,7 @@ namespace dc
                     throw dot::exception(dot::string::format(
                         "Dataset {0} has a parent whose dot::object_id={1} is greater "
                         "than its own dot::object_id={2}. The dot::object_id of each parent must be strictly "
-                        "less than the dot::object_id of the dataset itself.", data_set_id, parent.to_string(), dot::object_id(ID).to_string()));
+                        "less than the dot::object_id of the dataset itself.", data_set_id, parent.to_string(), dot::object_id(id).to_string()));
                 }
             }
         }

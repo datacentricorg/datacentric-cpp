@@ -57,7 +57,7 @@ namespace dc
                 }
                 else
                 {
-                    if (prop->field_type->name->ends_with("Key")) // TODO check using parents list
+                    if (prop->field_type->name->ends_with("key")) // TODO check using parents list
                     {
                         dot::object empty_key = dot::activator::create_instance(prop->field_type);
                         ss << *empty_key->to_string();
@@ -89,7 +89,7 @@ namespace dc
             // The cached value will be used only for lookup in the dataset
             // passed to this method, but not for lookup in another dataset
             // for which the current dataset is a parent
-            result->SetCachedRecord(this, data_set);
+            result->set_cached_record(this, data_set);
 
             return result;
         }
@@ -101,7 +101,7 @@ namespace dc
         /// and both records are created in-memory without any need to save them to storage.
         operator dot::ptr<TKey>() { return to_key(); }
 
-        DOT_TYPE_BEGIN("dc", "Record")
+        DOT_TYPE_BEGIN("dc", "record")
             DOT_TYPE_BASE(record_base)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)

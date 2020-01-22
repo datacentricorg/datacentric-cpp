@@ -52,7 +52,7 @@ namespace dc
         /// Default constructor.
         db_server_key_impl() = default;
 
-        /// Keys in which string ID is the only element support implicit conversion from value.
+        /// Keys in which string id is the only element support implicit conversion from value.
         db_server_key_impl(dot::string value);
 
         DOT_TYPE_BEGIN("dc", "db_server_key")

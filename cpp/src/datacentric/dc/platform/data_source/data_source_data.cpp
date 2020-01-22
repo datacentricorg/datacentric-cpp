@@ -53,16 +53,16 @@ namespace dc
 
     void data_source_data_impl::save_data_set(data_set_data data_set_data, dot::object_id save_to)
     {
-        // Save dataset to storage. This updates its ID
+        // Save dataset to storage. This updates its id
         // to the new dot::object_id created during save
         save(data_set_data, save_to);
 
-        // Update dataset dictionary with the new ID
-        data_set_dict_[data_set_data->get_key()] = data_set_data->ID;
+        // Update dataset dictionary with the new id
+        data_set_dict_[data_set_data->get_key()] = data_set_data->id;
 
         // Update lookup list dictionary
         dot::hash_set<dot::object_id> lookupList = build_data_set_lookup_list(data_set_data);
-        data_set_parent_dict_->add(data_set_data->ID, lookupList);
+        data_set_parent_dict_->add(data_set_data->id, lookupList);
     }
 
     dot::hash_set<dot::object_id> data_source_data_impl::get_data_set_lookup_list(dot::object_id load_from)
@@ -150,17 +150,17 @@ namespace dc
         if (data_set_data_obj == nullptr) return dot::object_id::empty;
 
         // If found, cache result in dot::object_id dictionary
-        data_set_dict_[data_set_id] = data_set_data_obj->ID;
+        data_set_dict_[data_set_id] = data_set_data_obj->id;
 
         // Build and cache dataset lookup list if not found
         dot::hash_set<dot::object_id> parent_set;
-        if (!data_set_parent_dict_->try_get_value(data_set_data_obj->ID, parent_set))
+        if (!data_set_parent_dict_->try_get_value(data_set_data_obj->id, parent_set))
         {
             parent_set = build_data_set_lookup_list(data_set_data_obj);
-            data_set_parent_dict_->add(data_set_data_obj->ID, parent_set);
+            data_set_parent_dict_->add(data_set_data_obj->id, parent_set);
         }
 
-        return data_set_data_obj->ID;
+        return data_set_data_obj->id;
     }
 
     dot::hash_set<dot::object_id> data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data)
@@ -176,13 +176,13 @@ namespace dc
         // Return if the dataset is null or has no parents
         if (data_set_data == nullptr) return;
 
-        // Error message if dataset has no ID or Key
-        //data_set_data->ID->CheckHasValue();
+        // Error message if dataset has no id or Key
+        //data_set_data->id->CheckHasValue();
         //data_set_data->getKey()->CheckHasValue();
         //! TODO uncomment
 
         // Add self to the result
-        result->add(data_set_data->ID);
+        result->add(data_set_data->id);
 
         // Add parents to the result
         if (!((dot::list<dot::object_id>)data_set_data->parents).is_empty())
@@ -190,9 +190,9 @@ namespace dc
             for(dot::object_id data_set_id : data_set_data->parents)
             {
                 // Dataset cannot include itself as parent
-                if (data_set_data->ID == data_set_id)
+                if (data_set_data->id == data_set_id)
                     throw dot::exception(
-                        dot::string::format("Dataset {0} with dot::object_id={1} includes itself in the list of parents.", (dot::string)data_set_data->get_key(), dot::object_id(data_set_data->ID).to_string()));
+                        dot::string::format("Dataset {0} with dot::object_id={1} includes itself in the list of parents.", (dot::string)data_set_data->get_key(), dot::object_id(data_set_data->id).to_string()));
 
                 // The Add method returns true if the argument is not yet present in the list
                 if (!result->contains(data_set_id))
@@ -249,7 +249,7 @@ namespace dc
 
         // Return dot::object_id that was assigned to the
         // record inside the save_data_set method
-        return result->ID;
+        return result->id;
     }
 
     dot::object_id data_source_data_impl::create_common()
@@ -259,6 +259,6 @@ namespace dc
 
         // Save in root dataset
         save_data_set(result, dot::object_id::empty);
-        return result->ID;
+        return result->id;
     }
 }

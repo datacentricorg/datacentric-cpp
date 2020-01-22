@@ -154,7 +154,7 @@ namespace dc
 
         dot::object_id data_set = context->get_data_set(data_set_id);
         context->save(rec, data_set);
-        return rec->ID;
+        return rec->id;
     }
 
     void save_records(unit_test_context_base context, int record_count, int record_size)
