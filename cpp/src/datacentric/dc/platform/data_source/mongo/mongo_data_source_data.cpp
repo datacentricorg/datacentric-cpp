@@ -93,8 +93,6 @@ namespace dc
 
         mongocxx::cursor res = get_collection(key->get_type()).aggregate(query);
 
-        std::string s = bsoncxx::to_json(query.view());
-
         if (res.begin() != res.end())
         {
             bson_record_serializer serializer = make_bson_record_serializer();
@@ -220,8 +218,6 @@ namespace dc
         typeFilter.append(bsoncxx::builder::basic::kvp("_t",
             bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("$in", typeList.view()))));
         pipeline.match(typeFilter.view());
-
-        std::string s = bsoncxx::to_json(pipeline.view());
 
         if (query->select_.is_empty())
         {
