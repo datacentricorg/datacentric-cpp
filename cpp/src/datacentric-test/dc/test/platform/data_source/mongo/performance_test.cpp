@@ -19,6 +19,7 @@ limitations under the License.
 #include <approvals/Catch.hpp>
 
 #include <dc/platform/data_source/data_source_data.hpp>
+#include <dc/platform/data_source/mongo/mongo_query.hpp>
 
 #include <dc/platform/data_set/data_set_key.hpp>
 #include <dc/platform/data_set/data_set_data.hpp>
@@ -27,16 +28,17 @@ limitations under the License.
 
 #include <dc/types/record/typed_record.hpp>
 
+#include <dot/system/console.hpp>
 #include <chrono>
 
 namespace dc
 {
     // CONSTANTS
-    const int data_set_count = 10;
-    const int record_versions = 10;
+    const int data_set_count = 3; // 10;
+    const int record_versions = 3; // 10;
 
-    const int record_count = 1024 * 3 / (data_set_count * record_versions);
-    const int record_size = 128 * 200;
+    const int record_count = 10; // 1024 * 3 / (data_set_count * record_versions);
+    const int record_size = 10; // 128 * 200;
 
 
     // TEST CLASSES
@@ -155,7 +157,7 @@ namespace dc
     void save_records(unit_test_context_base context, int record_count, int record_size)
     {
         // Create datasets
-        temporal_id common_data_set = context->data_set;
+        temporal_id common_data_set = context->get_common();
         for (int i = 0; i < data_set_count; ++i)
         {
             dot::string data_set_name = get_data_set(i);
@@ -198,6 +200,8 @@ namespace dc
     {
         performance_test test = new performance_test_impl;
         unit_test_context_base context = make_unit_test_context(test, "performance", ".");
+
+        fill_database(context);
         test_duration_counter td("Keys loading");
 
         for (int i = 0; i < record_count; ++i)
@@ -209,7 +213,7 @@ namespace dc
             for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {
                 dot::string data_set_name = get_data_set(data_set_index);
-                temporal_id data_set = context->get_data_set_or_empty(data_set_name);
+                temporal_id data_set = context->get_data_set(data_set_name);
                 context->load_or_null(key, data_set);
             }
         }
@@ -219,20 +223,22 @@ namespace dc
     {
         performance_test test = new performance_test_impl;
         unit_test_context_base context = make_unit_test_context(test, "performance", ".");
+
+        fill_database(context);
         test_duration_counter td("Query loading");
 
         dot::string record_id = get_record_key(2);
         dot::string data_set_name = get_data_set(2);
-        temporal_id data_set = context->get_data_set_or_empty(data_set_name);
+        temporal_id data_set = context->get_data_set(data_set_name);
 
         dot::cursor_wrapper<performance_test_data> query = context->data_source->get_query<performance_test_data>(data_set)
-      // TODO - fix compilation      ->where(make_prop(&performance_test_data_impl::key) == record_id)
-            //->where(make_prop(&performance_test_data_impl::version) == record_versions - 1)
+            ->where(make_prop(&performance_test_data_impl::record_id) == record_id)
+            ->where(make_prop(&performance_test_data_impl::version) == record_versions - 1)
             ->get_cursor<performance_test_data>();
 
         for (performance_test_data data : query)
         {
-            std::cout << *data->to_string() << std::endl;
+            dot::console::write_line(data->to_string());
         }
     }
 }

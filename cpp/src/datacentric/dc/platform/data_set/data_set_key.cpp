@@ -23,7 +23,7 @@ namespace dc
 {
     data_set_key data_set_key_impl::common = []() {
         data_set_key res = make_data_set_key();
-        res->data_set_id = "common";
+        res->data_set_id = "Common";
         return res;
     }();
 }

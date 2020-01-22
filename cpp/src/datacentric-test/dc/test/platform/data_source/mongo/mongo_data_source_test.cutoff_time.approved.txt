@@ -17,10 +17,8 @@ load records by temporal_id with revised_before_id constraint
     found by temporal_id=A2 = false
     found by temporal_id=C0 = false
 load records by string key with revised_before_id constraint
-    version found for key=A;0: 2
+    version found for key=A;0: 1
 query records with revised_before_id constraint
-    key=A;0 data_set=A version=2
-    key=B;0 data_set=B version=2
-    key=C;0 data_set=A version=0
-    key=D;0 data_set=B version=0
+    key=A;0 data_set=A version=1
+    key=B;0 data_set=B version=1
 

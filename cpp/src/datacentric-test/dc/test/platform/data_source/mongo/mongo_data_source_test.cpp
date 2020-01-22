@@ -18,7 +18,6 @@ limitations under the License.
 #include <approvals/ApprovalTests.hpp>
 #include <approvals/Catch.hpp>
 
-
 #include <dc/platform/data_source/data_source_data.hpp>
 #include <dc/platform/data_source/mongo/mongo_default_server_data.hpp>
 
@@ -26,9 +25,7 @@ limitations under the License.
 #include <dc/platform/data_set/data_set_data.hpp>
 
 #include <dc/test/platform/context/context.hpp>
-
 #include <dc/test/platform/data_source/mongo/mongo_test_data.hpp>
-#include <bsoncxx/json.hpp>
 
 #include <dot/mongo/mongo_db/mongo/settings.hpp>
 
@@ -690,10 +687,10 @@ namespace dc
         Approvals::verify(to_verify);
     }
 
-    TEST_CASE("revision_time")
+    TEST_CASE("cutoff_time")
     {
         mongo_data_source_test test = new mongo_data_source_test_impl;
-        unit_test_context_base context = make_unit_test_context(test, "revision_time", ".");
+        unit_test_context_base context = make_unit_test_context(test, "cutoff_time", ".");
 
         // Create datasets
         temporal_id data_set_a = context->create_data_set("A", context->data_set);
