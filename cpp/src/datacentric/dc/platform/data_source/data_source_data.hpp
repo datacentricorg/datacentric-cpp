@@ -25,7 +25,7 @@ limitations under the License.
 #include <dc/types/record/record.hpp>
 #include <dc/platform/data_source/database_key.hpp>
 #include <dc/platform/data_source/database_server_key.hpp>
-#include <dc/platform/query/Query.hpp>
+#include <dc/platform/query/query.hpp>
 
 namespace dc
 {

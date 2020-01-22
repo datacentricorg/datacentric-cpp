@@ -20,7 +20,7 @@ limitations under the License.
 #include <dc/serialization/bson_writer.hpp>
 #include <dc/serialization/bson_record_serializer.hpp>
 #include <dc/platform/context/context_base.hpp>
-#include <dc/platform/query/Query.hpp>
+#include <dc/platform/query/query.hpp>
 #include <dc/platform/cursor/cursor_wrapper.hpp>
 #include <dc/types/record/DeleteMarker.hpp>
 

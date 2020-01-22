@@ -30,7 +30,7 @@
     <ClCompile Include="platform\data_source\mongo\mongo_default_server_data.cpp" />
     <ClCompile Include="platform\data_source\mongo\mongo_server_data.cpp" />
     <ClCompile Include="platform\data_source\mongo\mongo_standard_format_server_data.cpp" />
-    <ClCompile Include="platform\query\Query.cpp" />
+    <ClCompile Include="platform\query\query.cpp" />
     <ClCompile Include="platform\reflection\ClassInfo.cpp" />
     <ClCompile Include="platform\time_zone\time_zone_data.cpp" />
     <ClCompile Include="platform\time_zone\time_zone_key.cpp" />
@@ -76,7 +76,7 @@
     <ClInclude Include="platform\data_source\mongo\query_builder.hpp" />
     <ClInclude Include="platform\logging\log_entry_type.hpp" />
     <ClInclude Include="platform\logging\log_verbosity.hpp" />
-    <ClInclude Include="platform\query\Query.hpp" />
+    <ClInclude Include="platform\query\query.hpp" />
     <ClInclude Include="platform\reflection\ClassInfo.hpp" />
     <ClInclude Include="platform\settings\class_map_settings.hpp" />
     <ClInclude Include="platform\time_zone\time_zone_data.hpp" />
