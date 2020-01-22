@@ -27,7 +27,7 @@ limitations under the License.
 
 #include <dot/system/object.hpp>
 #include <dot/mongo/mongo_db/mongo/client.hpp>
-#include <dot/mongo/serialization/tree_writer_base.hpp>
+#include <dot/mongo/mongo_db/query/query.hpp>
 
 namespace dot
 {
@@ -43,16 +43,8 @@ namespace dot
 
     public:
 
-        int int_value;
-        string string_value;
-
-    public:
-
-        void serialize_to(tree_writer_base writer)
-        {
-            writer->write_start_dict();
-            writer->write_end_dict();
-        }
+        int int_value = 777;
+        string string_value = "str_value";
 
     public: // REFLECTION
 
@@ -65,7 +57,6 @@ namespace dot
                 return make_type_builder<test_class_impl>("dot", "test_class")
                     ->with_field("int_value", &test_class_impl::int_value)
                     ->with_field("string_value", &test_class_impl::string_value)
-                    ->with_method("serialize_to", &test_class_impl::serialize_to, { "writer" })
                     ->with_constructor(&make_test_class, {})
                     ->build();
             }();
@@ -79,7 +70,7 @@ namespace dot
     TEST_CASE("create_collection")
     {
         const string db_name = "test;mongo_test;create_collection";
-        const string db_collection = "db_collection";
+        const string db_collection_name = "db_collection";
 
         // Connect to mongo and drop old db.
         client db_client = make_client(db_url);
@@ -87,9 +78,20 @@ namespace dot
 
         // Create db and collection.
         database db = db_client->get_database(db_name);
-        collection col = db->get_collection(db_collection);
+        collection db_collection = db->get_collection(db_collection_name);
 
+        // Create document and write to db
         test_class obj = make_test_class();
-        col->insert_one(obj);
+        obj->int_value = 66;
+        obj->string_value = "str66";
+        db_collection->insert_one(obj);
+
+        // Create query and load document
+        query db_query = make_query(db_collection, typeof<test_class>());
+        for (test_class loaded_obj : db_query->get_cursor<test_class>())
+        {
+            REQUIRE(loaded_obj->int_value == obj->int_value);
+            REQUIRE(loaded_obj->string_value == obj->string_value);
+        }
     }
 }
