@@ -66,20 +66,8 @@ namespace dot
                 if (props_[i]->name == element_name)
                 {
                     index_of_current_ = i;
-                    if (props_[i]->field_type->name->ends_with("data")) //! TODO change ends_with
-                    {
-                        object result = dot::activator::create_instance(props_[i]->field_type);
-                        data_writer_ = make_data_writer(result);
-                        data_writer_->write_start_document(props_[i]->field_type->name);
 
-                        tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, result }));
-
-                        //data_writer_->write_start_element(element_name);
-                        //deserialize_document(doc, writer);
-                        //writer->write_end_document(type_name);
-                    }
-
-                    if (! props_[i]->field_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
+                    if (dot::typeof<dot::list_base>()->is_assignable_from(props_[i]->field_type))
                     {
                         data_writer_ = make_data_writer(nullptr);
                         data_writer_->current_element_info_ = props_[i];
@@ -87,6 +75,19 @@ namespace dot
                         data_writer_->current_state_ = tree_writer_state::element_started;
 
                         data_writer_->current_array_ = dot::make_list<dot::list<dot::object>>();
+
+                        //data_writer_->write_start_element(element_name);
+                        //deserialize_document(doc, writer);
+                        //writer->write_end_document(type_name);
+                    }
+
+                    if (props_[i]->field_type->is_class)
+                    {
+                        object result = dot::activator::create_instance(props_[i]->field_type);
+                        data_writer_ = make_data_writer(result);
+                        data_writer_->write_start_document(props_[i]->field_type->name);
+
+                        tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, result }));
 
                         //data_writer_->write_start_element(element_name);
                         //deserialize_document(doc, writer);

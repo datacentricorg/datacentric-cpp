@@ -41,7 +41,7 @@ namespace dc
             }
             else
             {
-                if (prop->field_type->name->ends_with("key")) // TODO check using parents list
+                if (prop->field_type->is_subclass_of(dot::typeof<key_base>()))
                 {
                     dot::object empty_key = dot::activator::create_instance(prop->field_type);
                     ss << *empty_key->to_string();
@@ -59,7 +59,7 @@ namespace dc
 
         for (dot::field_info prop : props)
         {
-            if (prop->field_type->name->ends_with("key")) // TODO check using parents list
+            if (prop->field_type->is_subclass_of(dot::typeof<key_base>()))
             {
                 key_base sub_key = (key_base)dot::activator::create_instance(prop->field_type);
                 sub_key->assign_string(value);

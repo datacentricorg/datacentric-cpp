@@ -17,6 +17,7 @@ limitations under the License.
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
 #include <dc/types/record/data.hpp>
+#include <dot/system/collections/generic/list.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dc/types/record/key_base.hpp>
 #include <dc/platform/reflection/class_info.hpp>
@@ -69,7 +70,7 @@ namespace dc
                 writer->write_value(item);
                 writer->write_end_value();
             }
-            else if (!item_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
+            else if (dot::typeof<dot::list_base>()->is_assignable_from(item_type))
             {
                 throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", element_name));
@@ -77,7 +78,7 @@ namespace dc
             else
             if (item.is<data>())
             {
-                if (item_type->name->ends_with("key"))
+                if (item_type->is_subclass_of(dot::typeof<key_base>()))
                 {
                     // Embedded as string key
                     writer->write_start_value();
@@ -153,14 +154,14 @@ namespace dc
                 writer->write_value_element(inner_element_name, inner_element_value);
             }
             else
-            if (!element_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
+            if (dot::typeof<dot::list_base>()->is_assignable_from(element_type))
             {
                 dc::serialize_to((dot::list_base)inner_element_value, inner_element_name, writer);
             }
             else
             if (inner_element_value.is<data>())
             {
-                if (inner_element_value->get_type()->name->ends_with("key")) // TODO chanche to is_base_of or attribute
+                if (inner_element_value->get_type()->is_subclass_of(dot::typeof<key_base>()))
                 {
                     // Embedded as string key
                     writer->write_value_element(inner_element_name, inner_element_value->to_string());

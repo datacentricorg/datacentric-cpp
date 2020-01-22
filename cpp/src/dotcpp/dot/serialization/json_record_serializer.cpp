@@ -275,7 +275,7 @@ namespace dot
                 writer->write_value(item);
                 writer->write_end_value();
             }
-            else if (!item_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
+            else if (dot::typeof<dot::list_base>()->is_assignable_from(item_type))
             {
                 throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
                     "which is collection containing another collection.", element_name));
@@ -331,7 +331,7 @@ namespace dot
                 writer->write_value_element(inner_element_name, inner_element_value);
             }
             else
-                if (!element_type->get_interface("list_base").is_empty()) // TODO - refactor after removing the interface
+                if (dot::typeof<dot::list_base>()->is_assignable_from(element_type))
                 {
                     standard_serialize((dot::list_base)inner_element_value, inner_element_name, writer);
                 }

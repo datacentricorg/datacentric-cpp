@@ -285,6 +285,41 @@ namespace dot
 
     }
 
+    bool type_impl::is_subclass_of(type c)
+    {
+        // Search for c type within base types
+        type base = get_base_type();
+
+        while (base != nullptr)
+        {
+            if (base->equals(c))
+                return true;
+            base = base->get_base_type();
+        }
+
+        return false;
+    }
+
+    bool type_impl::is_assignable_from(type c)
+    {
+        if (c == nullptr)
+            return false;
+
+        if (c->equals(this) || c->is_subclass_of(this))
+            return true;
+
+        if (c->get_interfaces() != nullptr)
+        {
+            for (type intf : c->get_interfaces())
+            {
+                if (intf->equals(this))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     bool type_impl::equals(object obj)
     {
         if (obj.is<type>())

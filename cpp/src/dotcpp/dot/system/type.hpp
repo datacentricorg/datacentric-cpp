@@ -366,6 +366,12 @@ namespace dot
         /// Get derived types list for the type.
         static list<type> get_derived_types(type t) { return get_derived_types_map()[t->full_name()]; }
 
+        /// Determines whether the current Type derives from the specified Type.
+        bool is_subclass_of(type c);
+
+        /// Determines whether an instance of a specified type can be assigned to a variable of the current type.
+        bool is_assignable_from(type c);
+
         bool equals(object obj) override;
 
         virtual size_t hash_code() override;
