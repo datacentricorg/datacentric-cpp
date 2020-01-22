@@ -45,7 +45,7 @@ namespace dot
         // If no constructors
         if (ctors.is_empty() || ctors->count() == 0)
         {
-            throw exception(string::format("Type {0}::{1} does not have registered constructors", t->name_space, t->name));
+            throw exception(string::format("Type {0}::{1} does not have registered constructors", t->name_space(), t->name()));
         }
 
         // Search for best matched constructor
@@ -68,7 +68,7 @@ namespace dot
             // Compare all parameters types
             for (int i = 0; i < params_count; ++i)
             {
-                if ((string)ctor_params[i]->parameter_type->name != params[i]->get_type()->name)
+                if ((string)ctor_params[i]->parameter_type->name() != params[i]->get_type()->name())
                 {
                     matches = false;
                     break;

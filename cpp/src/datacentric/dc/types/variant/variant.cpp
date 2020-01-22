@@ -52,7 +52,7 @@ namespace dc
         {
             value_ = value;
         }
-        else if (value_type->is_enum)
+        else if (value_type->is_enum())
         {
             value_ = value;
         }
@@ -144,10 +144,10 @@ namespace dc
             return other_value_type->equals(dot::typeof<dot::local_date_time>())
                 && (dot::local_date_time) value_ == (dot::local_date_time) other.value_;
         }
-        if (value_type->is_enum)
+        if (value_type->is_enum())
         {
             // Use equals(other) to avoid unintended reference comparison
-            return other_value_type->is_enum
+            return other_value_type->is_enum()
                 && value_->equals(other.value_);
         }
 

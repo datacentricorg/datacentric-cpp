@@ -60,7 +60,7 @@ namespace dot
     inline object member_method_info_impl<class_, return_t, args...>::invoke(object obj, list<object> params)
     {
         if (params->count() != parameters->count())
-            throw exception("Wrong number of parameters for method " + this->declaring_type->name + "." + this->name);
+            throw exception("Wrong number of parameters for method " + this->declaring_type->name() + "." + this->name);
 
         return invoke_impl(obj, params, typename detail::make_index_sequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
     }
@@ -93,7 +93,7 @@ namespace dot
     inline object static_method_info_impl<return_t, args...>::invoke(object obj, list<object> params)
     {
         if (params->count() != parameters->count())
-            throw exception("Wrong number of parameters for method " + this->declaring_type->name + "." + this->name);
+            throw exception("Wrong number of parameters for method " + this->declaring_type->name() + "." + this->name);
 
         return invoke_impl(obj, params, typename detail::make_index_sequence<sizeof...(args)>::index_type(), typename std::is_same<return_t, void>::type());
     }

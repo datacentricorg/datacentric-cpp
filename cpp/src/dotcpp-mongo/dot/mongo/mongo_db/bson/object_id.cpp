@@ -123,7 +123,7 @@ namespace dot
             return object_id((string)value);
         }
 
-        throw dot::exception("Couldn't construct object_id from " + value_type->name);
+        throw dot::exception("Couldn't construct object_id from " + value_type->name());
         return object();
     }
 }

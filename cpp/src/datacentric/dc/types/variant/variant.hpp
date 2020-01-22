@@ -68,7 +68,7 @@ namespace dc
             if (value_type->equals(dot::typeof<dot::local_time>()))     return value_type::local_time_type;
             if (value_type->equals(dot::typeof<dot::local_minute>()))   return value_type::local_minute_type;
             if (value_type->equals(dot::typeof<dot::local_date_time>())) return value_type::local_date_time_type;
-            if (value_type->is_enum)                                    return value_type::enum_type;
+            if (value_type->is_enum())                                   return value_type::enum_type;
 
             // Error message if any other type, should normally not get to here
             throw dot::exception(get_wrong_type_error_message(value_));

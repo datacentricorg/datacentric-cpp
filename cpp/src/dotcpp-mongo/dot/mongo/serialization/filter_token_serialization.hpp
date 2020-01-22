@@ -60,7 +60,7 @@ namespace dot
         if (value_type->equals(dot::typeof<dot::object_id>()))
             builder.append(((dot::struct_wrapper<dot::object_id>)value)->oid());
         else
-        if (value_type->is_enum)
+        if (value_type->is_enum())
             builder.append(*value->to_string());
         else
         if (value.is<dot::list_base>())

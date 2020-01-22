@@ -264,7 +264,7 @@ namespace dc
             REQUIRE(record->get_key() == key->to_string());
             received
                 << *dot::string::format("record {0} in dataset {1} found and has type={2}.",
-                    key->to_string(), data_set_id, record->get_type()->name)
+                    key->to_string(), data_set_id, record->get_type()->name())
                 << std::endl;
         }
     }
@@ -283,7 +283,7 @@ namespace dc
             received
                 << *dot::string::format(
                     "record {0} returned by query in dataset {1} and has type={2}.",
-                    record->get_key(), data_set_id, record->get_type()->name)
+                    record->get_key(), data_set_id, record->get_type()->name())
                 << std::endl;
         }
     }
@@ -567,7 +567,7 @@ namespace dc
 
         for (mongo_test_data obj : test_query)
         {
-            received << *dot::string::format("key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
+            received << *dot::string::format("key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
 
         std::string to_verify = received.str();
@@ -593,35 +593,35 @@ namespace dc
             key->record_id = "A";
             key->record_index = dot::nullable<int>(0);
             record_base obj = key->load_or_null(context, data_set_d);
-            received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
+            received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "B";
             key->record_index = dot::nullable<int>(0);
             record_base obj = key->load_or_null(context, data_set_d);
-            received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
+            received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "C";
             key->record_index = dot::nullable<int>(0);
             record_base obj = key->load_or_null(context, data_set_d);
-            received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
+            received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "D";
             key->record_index = dot::nullable<int>(0);
             record_base obj = key->load_or_null(context, data_set_d);
-            received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
+            received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             received << "query by mongo_test_data, unconstrained" << std::endl;
             mongo_query query = context->data_source->get_query<mongo_test_data>(data_set_d);
             for (record_base obj : query->get_cursor<record_base>())
             {
-                received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
+                received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
         }
         {
@@ -629,7 +629,7 @@ namespace dc
             mongo_query query = context->data_source->get_query<mongo_test_derived_data>(data_set_d);
             for (record_base obj : query->get_cursor<record_base>())
             {
-                received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
+                received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
         }
         {
@@ -638,7 +638,7 @@ namespace dc
             mongo_query query = context->data_source->get_query<mongo_test_other_derived_data>(data_set_d);
             for (record_base obj : query->get_cursor<record_base>())
             {
-                received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
+                received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
         }
         {
@@ -646,7 +646,7 @@ namespace dc
             mongo_query query = context->data_source->get_query<mongo_test_derived_from_derived_data>(data_set_d);
             for (record_base obj : query->get_cursor<record_base>())
             {
-                received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
+                received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
         }
 
@@ -677,7 +677,7 @@ namespace dc
             received
                 << *dot::string::format(
                     "    record_index={0} double_element={1} key={2} type={3}",
-                    obj->record_index, obj->double_element, obj->get_key(), obj->get_type()->name)
+                    obj->record_index, obj->double_element, obj->get_key(), obj->get_type()->name())
                 << std::endl;
         }
 

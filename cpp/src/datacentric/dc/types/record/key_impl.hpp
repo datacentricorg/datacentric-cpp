@@ -84,7 +84,7 @@ namespace dc
                 if (result != nullptr && get_value() != result->get_key())
                     throw dot::exception(dot::string::format(
                             "Delete marker with type={0} stored "
-                            "for key={1} has a non-matching key={2}.", result->get_type()->name, get_value(), result->get_key()));
+                            "for key={1} has a non-matching key={2}.", result->get_type()->name(), get_value(), result->get_key()));
 
                 // Record not found or is a delete marker,
                 // cache an empty record and return null
@@ -97,7 +97,7 @@ namespace dc
                 if (get_value() != result->get_key())
                     throw dot::exception(dot::string::format(
                             "Record with type={0} stored "
-                            "for key={1} has a non-matching key={2}.", result->get_type()->name, get_value(), result->get_key()));
+                            "for key={1} has a non-matching key={2}.", result->get_type()->name(), get_value(), result->get_key()));
 
                 // Cache the record; the ctor of cached_record
                 // will cache null if the record is a delete marker
@@ -166,7 +166,7 @@ namespace dc
         // Check that TRecord has the same or greater number of elements
         // as TKey (all elements of TKey must also be present in TRecord)
         if (record_element_info_array->count() < key_element_info_array->count()) throw dot::exception(dot::string::format(
-                    "Record type {0} has fewer elements than key type {1}.", dot::typeof<dot::ptr<TRecord>>()->name, dot::typeof<dot::ptr<TKey>>()->name));
+                    "Record type {0} has fewer elements than key type {1}.", dot::typeof<dot::ptr<TRecord>>()->name(), dot::typeof<dot::ptr<TKey>>()->name()));
 
         // Iterate over the key properties
         for (dot::field_info key_element_info : key_element_info_array)
@@ -180,7 +180,7 @@ namespace dc
             // Check that names match
             if (record_element_info_iterator == record_element_info_array->end()) throw dot::exception(dot::string::format(
                         "Element {0} of key type {1} "
-                        "is not found in the root data type {2}.", key_element_info->name, dot::typeof<dot::ptr<TKey>>()->name, get_type()->name
+                        "is not found in the root data type {2}.", key_element_info->name, dot::typeof<dot::ptr<TKey>>()->name(), get_type()->name()
             ));
 
             dot::field_info record_element_info = *record_element_info_iterator;
@@ -193,11 +193,11 @@ namespace dc
                         "while property {3} of record type {4} "
                         "has type {5}."
                         , key_element_info->name
-                        , dot::typeof<dot::ptr<TKey>>()->name
-                        , key_element_info->field_type->name
+                        , dot::typeof<dot::ptr<TKey>>()->name()
+                        , key_element_info->field_type->name()
                         , record_element_info->name
-                        , dot::typeof<dot::ptr<TRecord>>()->name
-                        , record_element_info->field_type->name
+                        , dot::typeof<dot::ptr<TRecord>>()->name()
+                        , record_element_info->field_type->name()
             ));
 
             // Read from the record and assign to the key

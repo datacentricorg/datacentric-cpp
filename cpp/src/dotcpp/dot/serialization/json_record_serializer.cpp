@@ -57,7 +57,7 @@ namespace dot
     dot::object json_record_serializer_impl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type)
     {
         // Create instance to which JSON will be deserialized
-        dot::string type_name = tuple_type->name;
+        dot::string type_name = tuple_type->name();
         dot::object result = dot::activator::create_instance(tuple_type);
         tree_writer_base writer = make_tuple_writer(result, props);
 
@@ -274,7 +274,7 @@ namespace dot
                 || item_type->equals(dot::typeof<dot::local_date_time>())
                 || item_type->equals(dot::typeof<dot::local_time>())
                 || item_type->equals(dot::typeof<dot::local_minute>())
-                || item_type->is_enum
+                || item_type->is_enum()
                 )
             {
                 writer->write_start_value();
@@ -302,7 +302,7 @@ namespace dot
     void json_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::object value)
     {
         // Write start tag
-        writer->write_start_dict(value->get_type()->name);
+        writer->write_start_dict(value->get_type()->name());
 
         // Iterate over the list of elements
         dot::list<dot::field_info> inner_element_info_list = value->get_type()->get_fields();
@@ -329,7 +329,7 @@ namespace dot
                 || element_type->equals(dot::typeof<dot::local_date_time>())
                 || element_type->equals(dot::typeof<dot::local_time>())
                 || element_type->equals(dot::typeof<dot::local_minute>())
-                || element_type->is_enum
+                || element_type->is_enum()
                 )
             {
                 writer->write_value_element(inner_element_name, inner_element_value);
@@ -349,6 +349,6 @@ namespace dot
         }
 
         // Write end tag
-        writer->write_end_dict(value->get_type()->name);
+        writer->write_end_dict(value->get_type()->name());
     }
 }

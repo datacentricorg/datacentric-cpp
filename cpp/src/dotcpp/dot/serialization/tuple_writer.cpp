@@ -81,11 +81,11 @@ namespace dot
                         //writer->write_end_document(type_name);
                     }
 
-                    if (props_[i]->field_type->is_class && props_[i]->field_type->get_fields()->size())
+                    if (props_[i]->field_type->is_class() && props_[i]->field_type->get_fields()->size())
                     {
                         object result = dot::activator::create_instance(props_[i]->field_type);
                         data_writer_ = make_data_writer(result);
-                        data_writer_->write_start_document(props_[i]->field_type->name);
+                        data_writer_->write_start_document(props_[i]->field_type->name());
 
                         tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, result }));
 
@@ -259,7 +259,7 @@ namespace dot
                 date_value = dot::local_date_util::parse_iso_int((int)value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
                     "into local_date; type should be int32.");
 
             tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, date_value }));
@@ -280,7 +280,7 @@ namespace dot
                 time_value = dot::local_time_util::parse_iso_int((int)value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
                     "into local_time; type should be int32.");
 
             tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, time_value }));
@@ -301,7 +301,7 @@ namespace dot
                 minute_value = dot::local_minute_util::parse_iso_int((int)value);
             }
             else throw dot::exception(
-                dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
                 "into local_minute; type should be int32.");
 
             tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, minute_value }));
@@ -331,18 +331,18 @@ namespace dot
                 date_time_value = dot::local_date_time_util::parse((dot::string)value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
                     "into local_date_time; type should be local_date_time.");
 
             tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, date_time_value }));
         }
-        else if (element_type->is_enum)
+        else if (element_type->is_enum())
         {
             // Check type match
             if (!value_type->equals(dot::typeof<dot::string>()))
                 throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
-                    dot::string::format("into enum {0}; type should be string.", element_type->name));
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
+                    dot::string::format("into enum {0}; type should be string.", element_type->name()));
 
             // Deserialize enum as string
             dot::string enum_string = (dot::string) value;

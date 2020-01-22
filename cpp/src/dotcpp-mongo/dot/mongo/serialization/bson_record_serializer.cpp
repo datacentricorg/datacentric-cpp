@@ -56,7 +56,7 @@ namespace dot
     dot::object bson_record_serializer_impl::deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tuple_type)
     {
         // Create instance to which BSON will be deserialized
-        dot::string type_name = tuple_type->name;
+        dot::string type_name = tuple_type->name();
         dot::object result = dot::activator::create_instance(tuple_type);
         tree_writer_base writer = make_tuple_writer(result, props);
 
@@ -288,7 +288,7 @@ namespace dot
                 || item_type->equals(dot::typeof<dot::local_date_time>())
                 || item_type->equals(dot::typeof<dot::local_time>())
                 || item_type->equals(dot::typeof<dot::local_minute>())
-                || item_type->is_enum
+                || item_type->is_enum()
                 || item_type->equals(dot::typeof<dot::object_id>())
                 )
             {
@@ -317,7 +317,7 @@ namespace dot
     void bson_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::object value)
     {
         // Write start tag
-        writer->write_start_dict(value->get_type()->name);
+        writer->write_start_dict(value->get_type()->name());
 
         // Iterate over the list of elements
         dot::list<dot::field_info> inner_element_info_list = value->get_type()->get_fields();
@@ -344,7 +344,7 @@ namespace dot
                 || element_type->equals(dot::typeof<dot::local_date_time>())
                 || element_type->equals(dot::typeof<dot::local_time>())
                 || element_type->equals(dot::typeof<dot::local_minute>())
-                || element_type->is_enum
+                || element_type->is_enum()
                 || element_type->equals(dot::typeof<dot::object_id>())
                 )
             {
@@ -365,7 +365,7 @@ namespace dot
         }
 
         // Write end tag
-        writer->write_end_dict(value->get_type()->name);
+        writer->write_end_dict(value->get_type()->name());
     }
 
 }

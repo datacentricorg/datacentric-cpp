@@ -132,7 +132,7 @@ namespace dc
         {
             curr = curr->get_base_type();
             if (curr.is_empty())
-                throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", dataType->name));
+                throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", dataType->name()));
         }
         // First generic argument in record or key class is base data class
         return db_->get_collection(class_info_impl::get_or_create(curr->get_generic_arguments()[0])->mapped_class_name);

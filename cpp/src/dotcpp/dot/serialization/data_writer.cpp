@@ -53,7 +53,7 @@ namespace dot
             throw dot::exception("A call to write_start_document(...) must be the first call to the tree writer.");
         }
 
-        dot::string root_name = current_dict_->get_type()->name;
+        dot::string root_name = current_dict_->get_type()->name();
         // Check that the name matches
         if (root_element_name != root_name) throw dot::exception(
             dot::string::format("Attempting to deserialize data for type {0} into type {1}.", root_element_name, root_name));
@@ -386,7 +386,7 @@ namespace dot
                 date_value = dot::local_date_util::parse_iso_int((int) value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
                     "into local_date; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
@@ -410,7 +410,7 @@ namespace dot
                 time_value = dot::local_time_util::parse_iso_int((int) value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
                     "into local_time; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
@@ -434,7 +434,7 @@ namespace dot
                 minute_value = dot::local_minute_util::parse_iso_int((int) value);
             }
             else throw dot::exception(
-                dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
                 "into local_minute; type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
@@ -467,7 +467,7 @@ namespace dot
                 date_time_value = dot::local_date_time_util::parse((dot::string) value);
             }
             else throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
                     "into local_date_time; type should be local_date_time.");
 
             // Add to array or dictionary, depending on what we are inside of
@@ -475,13 +475,13 @@ namespace dot
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, date_time_value);
             else throw dot::exception("Value can only be added to a dictionary or array.");
         }
-        else if (element_type->is_enum)
+        else if (element_type->is_enum())
         {
             // Check type match
             if (!value_type->equals(dot::typeof<dot::string>()))
                 throw dot::exception(
-                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
-                    dot::string::format("into enum {0}; type should be string.", element_type->name));
+                    dot::string::format("Attempting to deserialize value of type {0} ", value_type->name()) +
+                    dot::string::format("into enum {0}; type should be string.", element_type->name()));
 
             // Deserialize enum as string
             dot::object enum_value = element_type->get_method("parse")->invoke(nullptr, dot::make_list<dot::object>({ value }));
@@ -514,7 +514,7 @@ namespace dot
     {
         if (current_array_ != nullptr) return current_array_->to_string();
         else if (current_dict_ != nullptr) return current_dict_->to_string();
-        else return get_type()->name;
+        else return get_type()->name();
     }
 
     void data_writer_impl::push_state()

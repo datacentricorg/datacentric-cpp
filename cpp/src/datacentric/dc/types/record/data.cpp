@@ -62,7 +62,7 @@ namespace dc
                 || item_type->equals(dot::typeof<dot::local_date_time>())
                 || item_type->equals(dot::typeof<dot::local_time>())
                 || item_type->equals(dot::typeof<dot::local_minute>())
-                || item_type->is_enum
+                || item_type->is_enum()
                 || item_type->equals(dot::typeof<dot::object_id>())
                 )
             {
@@ -93,7 +93,7 @@ namespace dc
             else
             {
                 throw dot::exception(dot::string::format(
-                    "Element type {0} is not supported for tree serialization.", item_type->name));
+                    "Element type {0} is not supported for tree serialization.", item_type->name()));
             }
 
 
@@ -146,7 +146,7 @@ namespace dc
                 || element_type->equals(dot::typeof<dot::local_date_time>())
                 || element_type->equals(dot::typeof<dot::local_time>())
                 || element_type->equals(dot::typeof<dot::local_minute>())
-                || element_type->is_enum
+                || element_type->is_enum()
                 || element_type->equals(dot::typeof<dot::object_id>())
                 )
             {

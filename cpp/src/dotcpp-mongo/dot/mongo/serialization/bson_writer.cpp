@@ -292,7 +292,7 @@ namespace dot
         if (value_type->equals(dot::typeof<dot::object_id>()))
             bson_writer_.append(((dot::struct_wrapper<dot::object_id>)value)->oid());
         else
-        if (value_type->is_enum)
+        if (value_type->is_enum())
             bson_writer_.append(*value->to_string());
         else
             throw dot::exception(dot::string::format("Element type {0} is not supported for BSON serialization.", value_type));

@@ -198,14 +198,14 @@ namespace dot
         }
 
         this->base_ = data->base_;
-        this->is_class = data->is_class_;
-        this->is_enum = data->is_enum_;
+        this->is_class_ = data->is_class_;
+        this->is_enum_ = data->is_enum_;
     }
 
     type_impl::type_impl(string nspace, string name)
     {
-        this->name_space = nspace;
-        this->name = name;
+        this->name_space_ = nspace;
+        this->name_ = name;
     }
 
     list<attribute> type_impl::get_custom_attributes(bool inherit)
@@ -264,7 +264,7 @@ namespace dot
 
         for (auto interface : interfaces_)
         {
-            if (interface->name == name)
+            if (interface->name() == name)
                 return interface;
         }
 

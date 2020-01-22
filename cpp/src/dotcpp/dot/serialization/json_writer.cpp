@@ -297,7 +297,7 @@ namespace dot
         //if (value_type->equals(dot::typeof<dot::object_id>()))
         //    json_writer_.String(*value->to_string());
         else
-        if (value_type->is_enum)
+        if (value_type->is_enum())
             json_writer_.String(*value->to_string());
         else
             throw dot::exception(dot::string::format("Element type {0} is not supported for JSON serialization.", value_type));

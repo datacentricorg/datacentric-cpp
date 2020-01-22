@@ -294,6 +294,10 @@ namespace dot
 
     private: // FIELDS
 
+        string name_;
+        string name_space_;
+        bool is_class_;
+        bool is_enum_;
         list<method_info> methods_;
         list<constructor_info> ctors_;
         list<type> interfaces_;
@@ -305,22 +309,22 @@ namespace dot
     public: // PROPERTIES
 
         /// Gets the name of the current type, excluding namespace.
-        string name; // TODO - replace by method
+        string name() const { return name_; }
 
         /// Gets the fully qualified name of the type, including its namespace but not its assembly.
-        string name_space; // TODO - replace by method
+        string name_space() const { return name_space_; }
 
         /// Gets the fully qualified name of the type, including its namespace but not its assembly.
-        string full_name() const { return string::format("{0}.{1}", this->name_space, this->name); } // TODO - replace by string::join
+        string full_name() const { return string::format("{0}.{1}", this->name_space(), this->name()); }
 
         /// Gets the base type if current type.
         type get_base_type() { return base_; }
 
         /// Gets a value indicating whether the system.type is a class or a delegate; that is, not a value type or interface.
-        bool is_class; // TODO - replace by method
+        bool is_class() const { return is_class_; }
 
         /// Gets a value indicating whether the current system.type represents an enumeration.
-        bool is_enum; // TODO - replace by method
+        bool is_enum() const { return is_enum_; }
 
         /// Gets a collection that contains this member's custom attributes.
         list<attribute> get_custom_attributes(bool inherit);
@@ -561,7 +565,7 @@ namespace dot
     {
         static type typeof()
         {
-            static type type_ = make_type_builder<nullable<T>>("dot", "nullable<" + dot::typeof<T>()->name + ">")
+            static type type_ = make_type_builder<nullable<T>>("dot", "nullable<" + dot::typeof<T>()->name() + ">")
                 ->template with_generic_argument<T>()
                 ->build();
             return type_;

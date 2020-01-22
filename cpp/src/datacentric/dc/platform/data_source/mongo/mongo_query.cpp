@@ -77,13 +77,13 @@ namespace dc
         {
             dot::list<dot::string> derivedTypeNames = dot::make_list<dot::string>();
             for (dot::type derType : derivedTypes)
-                derivedTypeNames->add(derType->name);
+                derivedTypeNames->add(derType->name());
 
-            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name))
+            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name()))
                 || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derivedTypeNames)));
         }
         else
-            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name)));
+            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name())));
 
         // Apply custom sort.
         for (std::pair<dot::field_info, int> sort_token : sort_)
@@ -141,13 +141,13 @@ namespace dc
         {
             dot::list<dot::string> derivedTypeNames = dot::make_list<dot::string>();
             for (dot::type derType : derivedTypes)
-                derivedTypeNames->add(derType->name);
+                derivedTypeNames->add(derType->name());
 
-            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name))
+            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name()))
                 || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derivedTypeNames)));
         }
         else
-            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name)));
+            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name())));
 
         // Apply custom sort.
         for (std::pair<dot::field_info, int> sort_token : sort_)

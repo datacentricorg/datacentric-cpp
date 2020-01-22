@@ -56,8 +56,8 @@ namespace dc
         // Set type, raw full name, class name, and namespace
         this->type = value;
         raw_full_name = value->full_name();
-        raw_class_name = value->name;
-        raw_namespace = value->name_space;
+        raw_class_name = value->name();
+        raw_namespace = value->name_space();
 
         // Remove ignored class name prefix
         mapped_class_name = raw_class_name;

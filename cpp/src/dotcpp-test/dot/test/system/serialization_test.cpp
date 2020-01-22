@@ -130,7 +130,7 @@ namespace dot
 
         std::stringstream ss;
 
-        if (t->name == "list`1")
+        if (t->name() == "list`1")
         {
             list<double> vec = (list<double>)obj;
             for (object item : vec)
@@ -142,7 +142,7 @@ namespace dot
         {
             ss << *(string)obj << "|";
         }
-        else if (t->is_class)
+        else if (t->is_class())
         {
         }
         else

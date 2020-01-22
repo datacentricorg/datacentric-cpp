@@ -111,7 +111,7 @@ namespace dc
             return key;
         }
 
-        throw dot::exception(dot::string::format("Couldn't construct {0}  from {1}", type->name, value_type->name));
+        throw dot::exception(dot::string::format("Couldn't construct {0}  from {1}", type->name(), value_type->name()));
         return dot::object();
 
     }
