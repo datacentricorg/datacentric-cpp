@@ -41,9 +41,9 @@ namespace dc
 
         virtual query where(bsoncxx::document::view_or_value value);
 
-        virtual query sort_by(dot::field_info keySelector);
+        virtual query sort_by(dot::field_info key_selector);
 
-        virtual query sort_by_descending(dot::field_info keySelector);
+        virtual query sort_by_descending(dot::field_info key_selector);
 
         virtual object_cursor_wrapper get_cursor();
 
