@@ -232,7 +232,7 @@ namespace dc
         dot::string rootName = value->get_type()->full_name();
 
         writer->WriteStartDocument(rootName);
-        value->SerializeTo(writer);
+        value->serialize_to(writer);
         writer->WriteEndDocument(rootName);
     }
 

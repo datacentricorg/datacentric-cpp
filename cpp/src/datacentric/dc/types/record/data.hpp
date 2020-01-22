@@ -34,7 +34,7 @@ namespace dc
     public: // METHODS
 
         /// Creates dictionary at current writer level.
-        void SerializeTo(tree_writer_base writer);
+        void serialize_to(tree_writer_base writer);
 
         DOT_TYPE_BEGIN("dc", "Data")
         DOT_TYPE_END()

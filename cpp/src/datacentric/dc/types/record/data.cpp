@@ -25,10 +25,10 @@ limitations under the License.
 namespace dc
 {
 
-    void SerializeTo(dot::list_base obj, dot::string elementName, tree_writer_base writer)
+    void serialize_to(dot::list_base obj, dot::string element_name, tree_writer_base writer)
     {
         // Write start element tag
-        writer->WriteStartArrayElement(elementName);
+        writer->WriteStartArrayElement(element_name);
 
         int length = obj->get_length();
 
@@ -50,34 +50,34 @@ namespace dc
             }
 
             // Serialize based on type of the item
-            dot::type itemType = item->get_type();
+            dot::type item_type = item->get_type();
 
-            if (itemType->equals(dot::typeof<dot::string>())
-                || itemType->equals(dot::typeof<double>())
-                || itemType->equals(dot::typeof<bool>())
-                || itemType->equals(dot::typeof<int>())
-                || itemType->equals(dot::typeof<int64_t>())
-                || itemType->equals(dot::typeof<dot::local_date>())
-                || itemType->equals(dot::typeof<dot::local_date_time>())
-                || itemType->equals(dot::typeof<dot::local_time>())
-                || itemType->equals(dot::typeof<dot::local_minute>())
-                || itemType->is_enum
-                || itemType->equals(dot::typeof<dot::object_id>())
+            if (item_type->equals(dot::typeof<dot::string>())
+                || item_type->equals(dot::typeof<double>())
+                || item_type->equals(dot::typeof<bool>())
+                || item_type->equals(dot::typeof<int>())
+                || item_type->equals(dot::typeof<int64_t>())
+                || item_type->equals(dot::typeof<dot::local_date>())
+                || item_type->equals(dot::typeof<dot::local_date_time>())
+                || item_type->equals(dot::typeof<dot::local_time>())
+                || item_type->equals(dot::typeof<dot::local_minute>())
+                || item_type->is_enum
+                || item_type->equals(dot::typeof<dot::object_id>())
                 )
             {
                 writer->WriteStartValue();
                 writer->WriteValue(item);
                 writer->WriteEndValue();
             }
-            else if (!itemType->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
+            else if (!item_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
             {
                 throw dot::exception(dot::string::format("Serialization is not supported for element {0} "
-                    "which is collection containing another collection.", elementName));
+                    "which is collection containing another collection.", element_name));
             }
             else
             if (item.is<data>())
             {
-                if (itemType->name->ends_with("Key"))
+                if (item_type->name->ends_with("Key"))
                 {
                     // Embedded as string key
                     writer->WriteStartValue();
@@ -86,13 +86,13 @@ namespace dc
                 }
                 else
                 {
-                    ((data)item)->SerializeTo(writer);
+                    ((data)item)->serialize_to(writer);
                 }
             }
             else
             {
                 throw dot::exception(dot::string::format(
-                    "Element type {0} is not supported for tree serialization.", itemType->name));
+                    "Element type {0} is not supported for tree serialization.", item_type->name));
             }
 
 
@@ -101,69 +101,69 @@ namespace dc
         }
 
         // Write matching end element tag
-        writer->WriteEndArrayElement(elementName);
+        writer->WriteEndArrayElement(element_name);
     }
 
 
-    void data_impl::SerializeTo(tree_writer_base writer)
+    void data_impl::serialize_to(tree_writer_base writer)
     {
         // Write start tag
         writer->WriteStartDict();
 
         // Iterate over the list of elements
-        dot::list<dot::field_info> innerElementInfoList = get_type()->get_fields();
-        for (dot::field_info innerElementInfo : innerElementInfoList)
+        dot::list<dot::field_info> inner_element_info_list = get_type()->get_fields();
+        for (dot::field_info inner_element_info : inner_element_info_list)
         {
             // Get element name and value
-            dot::string innerElementName = innerElementInfo->name;
-            dot::object innerElementValue = innerElementInfo->get_value(this);
+            dot::string inner_element_name = inner_element_info->name;
+            dot::object inner_element_value = inner_element_info->get_value(this);
 
-            if (innerElementValue.is_empty())
+            if (inner_element_value.is_empty())
             {
                 continue;
             }
 
-            dot::type elementType = innerElementValue->get_type();
+            dot::type element_type = inner_element_value->get_type();
 
-            if (   elementType->equals(dot::typeof<dot::string>())
-                || elementType->equals(dot::typeof<double>())
-                || elementType->equals(dot::typeof<bool>())
-                || elementType->equals(dot::typeof<int>())
-                || elementType->equals(dot::typeof<int64_t>())
-                || elementType->equals(dot::typeof<dot::local_date>())
-                || elementType->equals(dot::typeof<dot::local_date_time>())
-                || elementType->equals(dot::typeof<dot::local_time>())
-                || elementType->equals(dot::typeof<dot::local_minute>())
-                || elementType->is_enum
-                || elementType->equals(dot::typeof<dot::object_id>())
+            if (   element_type->equals(dot::typeof<dot::string>())
+                || element_type->equals(dot::typeof<double>())
+                || element_type->equals(dot::typeof<bool>())
+                || element_type->equals(dot::typeof<int>())
+                || element_type->equals(dot::typeof<int64_t>())
+                || element_type->equals(dot::typeof<dot::local_date>())
+                || element_type->equals(dot::typeof<dot::local_date_time>())
+                || element_type->equals(dot::typeof<dot::local_time>())
+                || element_type->equals(dot::typeof<dot::local_minute>())
+                || element_type->is_enum
+                || element_type->equals(dot::typeof<dot::object_id>())
                 )
             {
-                writer->WriteValueElement(innerElementName, innerElementValue);
+                writer->WriteValueElement(inner_element_name, inner_element_value);
             }
             else
-            if (!elementType->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
+            if (!element_type->get_interface("ListBase").is_empty()) // TODO - refactor after removing the interface
             {
-                dc::SerializeTo((dot::list_base)innerElementValue, innerElementName, writer);
+                dc::serialize_to((dot::list_base)inner_element_value, inner_element_name, writer);
             }
             else
-            if (innerElementValue.is<data>())
+            if (inner_element_value.is<data>())
             {
-                if (innerElementValue->get_type()->name->ends_with("Key"))
+                if (inner_element_value->get_type()->name->ends_with("Key"))
                 {
                     // Embedded as string key
-                    writer->WriteValueElement(innerElementName, innerElementValue->to_string());
+                    writer->WriteValueElement(inner_element_name, inner_element_value->to_string());
                 }
                 else
                 {
                     // Embedded as data
-                    writer->WriteStartElement(innerElementName);
-                    ((data)innerElementValue)->SerializeTo(writer);
-                    writer->WriteEndElement(innerElementName);
+                    writer->WriteStartElement(inner_element_name);
+                    ((data)inner_element_value)->serialize_to(writer);
+                    writer->WriteEndElement(inner_element_name);
                 }
             }
             else
             {
-                throw dot::exception(dot::string::format("Element type {0} is not supported for tree serialization.", innerElementInfo->field_type));
+                throw dot::exception(dot::string::format("Element type {0} is not supported for tree serialization.", inner_element_info->field_type));
             }
         }
 
