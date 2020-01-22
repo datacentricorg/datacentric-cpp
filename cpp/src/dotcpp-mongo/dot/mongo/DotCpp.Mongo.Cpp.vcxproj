@@ -25,7 +25,13 @@
     <ClInclude Include="implement.hpp" />
     <ClInclude Include="import.hpp" />
     <ClInclude Include="mongo_db\bson\object_id.hpp" />
+    <ClInclude Include="mongo_db\cursor\cursor_impl.hpp" />
     <ClInclude Include="mongo_db\cursor\cursor_wrapper.hpp" />
+    <ClInclude Include="mongo_db\mongo\client_impl.hpp" />
+    <ClInclude Include="mongo_db\mongo\collection_impl.hpp" />
+    <ClInclude Include="mongo_db\mongo\database_impl.hpp" />
+    <ClInclude Include="mongo_db\query\query_impl.hpp" />
+    <ClInclude Include="serialization\filter_token_serialization.hpp" />
     <ClInclude Include="mongo_db\query\query_builder.hpp" />
     <ClInclude Include="mongo_db\mongo\client.hpp" />
     <ClInclude Include="mongo_db\mongo\collection.hpp" />
