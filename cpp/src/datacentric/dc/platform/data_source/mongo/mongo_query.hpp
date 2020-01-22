@@ -44,7 +44,7 @@ namespace dc
     public: // METHODS
 
         /// Filters a sequence of values based on a predicate.
-        mongo_query where(dot::token_base value);
+        mongo_query where(dot::filter_token_base value);
 
         /// Sorts the elements of a sequence in ascending order according to the selected key.
         mongo_query sort_by(dot::field_info key_selector);
@@ -105,7 +105,7 @@ namespace dc
         data_source_data data_source_;
         dot::object_id data_set_;
 
-        std::vector<dot::token_base> where_;
+        std::vector<dot::filter_token_base> where_;
         std::vector<std::pair<dot::field_info, int>> sort_;
     };
 

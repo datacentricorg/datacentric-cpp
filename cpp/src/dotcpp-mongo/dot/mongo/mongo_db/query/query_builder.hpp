@@ -40,17 +40,17 @@ namespace dot
 {
     /// Base class for mongo query tokens.
     /// It used for wrapping c++ expressions into mongo query tokens.
-    class token_base_impl : public object_impl
+    class filter_token_base_impl : public object_impl
     {
     };
 
-    using token_base = ptr<token_base_impl>;
+    using filter_token_base = ptr<filter_token_base_impl>;
 
     /// Saves mongo query operator. For example,
     /// (obj->prop > 10)
     /// expression will be translated to
     /// { "prop" : { "$gt": "10" } }
-    class operator_wrapper_impl : public token_base_impl
+    class operator_wrapper_impl : public filter_token_base_impl
     {
     public:
 
@@ -76,16 +76,16 @@ namespace dot
     /// (token1 && token2 && token3)
     /// expression will be translated to
     /// "$and": [ token1, token2, token3 ]
-    class and_list_impl : public token_base_impl
+    class and_list_impl : public filter_token_base_impl
     {
     public:
 
         /// Holds list of tokens.
-        list<token_base> values_list_;
+        list<filter_token_base> values_list_;
 
         /// Default constructor.
         and_list_impl()
-            : values_list_(make_list<token_base>())
+            : values_list_(make_list<filter_token_base>())
         {
         }
     };
@@ -95,16 +95,16 @@ namespace dot
     /// (token1 || token2 || token3)
     /// expression will be translated to
     /// "$or": [ token1, token2, token3 ]
-    class or_list_impl : public token_base_impl
+    class or_list_impl : public filter_token_base_impl
     {
     public:
 
         /// Holds list of tokens.
-        list<token_base> values_list_;
+        list<filter_token_base> values_list_;
 
         /// Default constructor.
         or_list_impl()
-            : values_list_(make_list<token_base>())
+            : values_list_(make_list<filter_token_base>())
         {
         }
     };
@@ -113,7 +113,7 @@ namespace dot
     using or_list = ptr<or_list_impl>;
 
     /// Returns tokens wrapped into and_list.
-    inline and_list operator &&(token_base lhs, token_base rhs)
+    inline and_list operator &&(filter_token_base lhs, filter_token_base rhs)
     {
         and_list list = new and_list_impl();
         list->values_list_->add(lhs);
@@ -122,21 +122,21 @@ namespace dot
     }
 
     /// Returns tokens wrapped into and_list.
-    inline and_list operator &&(token_base lhs, and_list rhs)
+    inline and_list operator &&(filter_token_base lhs, and_list rhs)
     {
         rhs->values_list_->add(lhs);
         return rhs;
     }
 
     /// Returns tokens wrapped into and_list.
-    inline and_list operator &&(and_list lhs, token_base rhs)
+    inline and_list operator &&(and_list lhs, filter_token_base rhs)
     {
         lhs->values_list_->add(rhs);
         return lhs;
     }
 
     /// Returns tokens wrapped into or_list.
-    inline or_list operator ||(token_base lhs, token_base rhs)
+    inline or_list operator ||(filter_token_base lhs, filter_token_base rhs)
     {
         or_list list = new or_list_impl();
         list->values_list_->add(lhs);
@@ -145,14 +145,14 @@ namespace dot
     }
 
     /// Returns tokens wrapped into or_list.
-    inline or_list operator ||(token_base lhs, or_list rhs)
+    inline or_list operator ||(filter_token_base lhs, or_list rhs)
     {
         rhs->values_list_->add(lhs);
         return std::move(rhs);
     }
 
     /// Returns tokens wrapped into or_list.
-    inline or_list operator ||(or_list lhs, token_base rhs)
+    inline or_list operator ||(or_list lhs, filter_token_base rhs)
     {
         lhs->values_list_->add(rhs);
         return lhs;

@@ -22,7 +22,7 @@ limitations under the License.
 namespace dc
 {
 
-    mongo_query mongo_query_impl::where(dot::token_base value)
+    mongo_query mongo_query_impl::where(dot::filter_token_base value)
     {
         // Save filter.
         where_.push_back(value);
@@ -54,7 +54,7 @@ namespace dc
             ->where(new dot::operator_wrapper_impl("_dataset", "$in", lookup_list));
 
         // Apply custom filters to query.
-        for (dot::token_base token : where_)
+        for (dot::filter_token_base token : where_)
         {
             query->where(token);
         }
@@ -79,11 +79,11 @@ namespace dc
             for (dot::type derType : derivedTypes)
                 derivedTypeNames->add(derType->name);
 
-            query->where(dot::token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name))
-                || dot::token_base(new dot::operator_wrapper_impl("_t", "$in", derivedTypeNames)));
+            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name))
+                || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derivedTypeNames)));
         }
         else
-            query->where(dot::token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name)));
+            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name)));
 
         // Apply custom sort.
         for (std::pair<dot::field_info, int> sort_token : sort_)
@@ -113,7 +113,7 @@ namespace dc
         dot::query query = dot::make_query(collection_, type_)
             ->where(new dot::operator_wrapper_impl("_dataset", "$in", lookup_list));
 
-        for (dot::token_base token : where_)
+        for (dot::filter_token_base token : where_)
         {
             query->where(token);
         }
@@ -138,11 +138,11 @@ namespace dc
             for (dot::type derType : derivedTypes)
                 derivedTypeNames->add(derType->name);
 
-            query->where(dot::token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name))
-                || dot::token_base(new dot::operator_wrapper_impl("_t", "$in", derivedTypeNames)));
+            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name))
+                || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derivedTypeNames)));
         }
         else
-            query->where(dot::token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name)));
+            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name)));
 
         // Apply custom sort.
         for (std::pair<dot::field_info, int> sort_token : sort_)

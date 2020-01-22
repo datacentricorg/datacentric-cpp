@@ -241,7 +241,7 @@ namespace dot
     {
     public:
 
-        virtual void where(token_base value) override
+        virtual void where(filter_token_base value) override
         {
             flush_sort();
             pipeline_.match(serialize_tokens(value));
@@ -403,7 +403,7 @@ namespace dot
                 throw dot::exception("Unknown query token");
         }
 
-        bsoncxx::document::view_or_value serialize_tokens(token_base value)
+        bsoncxx::document::view_or_value serialize_tokens(filter_token_base value)
         {
             if (value.is<operator_wrapper>())
             {
@@ -424,7 +424,7 @@ namespace dot
                 bsoncxx::builder::core builder(false);
                 builder.key_view("$and");
                 builder.open_array();
-                for (token_base const& item : list->values_list_)
+                for (filter_token_base const& item : list->values_list_)
                 {
                     builder.append(serialize_tokens(item));
                 }
@@ -440,7 +440,7 @@ namespace dot
                 bsoncxx::builder::core builder(false);
                 builder.key_view("$or");
                 builder.open_array();
-                for (token_base const& item : list->values_list_)
+                for (filter_token_base const& item : list->values_list_)
                 {
                     builder.append(serialize_tokens(item));
                 }
@@ -465,7 +465,7 @@ namespace dot
 
     using query_inner = ptr<query_inner_impl>;
 
-    query query_impl::where(token_base value)
+    query query_impl::where(filter_token_base value)
     {
         impl_->where(value);
         return this;

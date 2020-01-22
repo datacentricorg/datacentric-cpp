@@ -53,7 +53,7 @@ namespace dot
         /// @code
         ///   query->where(make_prop(&class_name::field_name) == "A" || make_prop(&class_name::field_name).in({ "B", "C" }) )
         /// @endcode
-        virtual query where(token_base value);
+        virtual query where(filter_token_base value);
 
         /// Makes group by some field.
         /// Example:
@@ -198,7 +198,7 @@ namespace dot
         {
         public:
 
-            virtual void where(token_base value) = 0;
+            virtual void where(filter_token_base value) = 0;
 
             virtual void group_by(dot::field_info key_selectors) = 0;
 
