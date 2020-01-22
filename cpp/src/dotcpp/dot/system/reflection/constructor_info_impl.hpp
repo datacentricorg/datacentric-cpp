@@ -25,40 +25,40 @@ limitations under the License.
 
 namespace dot
 {
-    inline String constructor_info_impl::to_string() { return "constructor_info"; }
+    inline String ConstructorInfoImpl::to_string() { return "ConstructorInfo"; }
 
     /// Gets the parameters of this constructor.
-    inline list<parameter_info> constructor_info_impl::get_parameters()
+    inline list<ParameterInfo> ConstructorInfoImpl::get_parameters()
     {
         return parameters_;
     }
 
-    inline constructor_info_impl::constructor_info_impl(type declaring_type, list<Attribute> custom_attributes)
-            : member_info_impl(".ctor", declaring_type, custom_attributes)
+    inline ConstructorInfoImpl::ConstructorInfoImpl(Type declaring_type, list<Attribute> custom_attributes)
+            : MemberInfoImpl(".ctor", declaring_type, custom_attributes)
     {}
 
-    template <class class_, class ... args>
-    inline String member_constructor_info_impl<class_, args...>::to_string() { return "member_constructor_info"; }
+    template <class Class, class ... Args>
+    inline String MemberConstructorInfoImpl<Class, Args...>::to_string() { return "member_constructor_info"; }
 
-    template <class class_, class ... args>
+    template <class Class, class ... Args>
     template <int ... I>
-    inline Object member_constructor_info_impl<class_, args...>::invoke_impl(list<Object> params, detail::IndexSequence<I...>)
+    inline Object MemberConstructorInfoImpl<Class, Args...>::invoke_impl(list<Object> params, detail::IndexSequence<I...>)
     {
         return (*ptr_)(params[I]...);
     }
 
-    template <class class_, class ... args>
-    inline Object member_constructor_info_impl<class_, args...>::invoke(list<Object> params)
+    template <class Class, class ... Args>
+    inline Object MemberConstructorInfoImpl<Class, Args...>::invoke(list<Object> params)
     {
         if ((params.is_empty() && parameters_->count() != 0) || (!params.is_empty() && (params->count() != parameters_->count())))
             throw Exception("Wrong number of parameters for constructor " + this->declaring_type()->name() + "." + this->name());
 
-        return invoke_impl(params, typename detail::MakeIndexSequence<sizeof...(args)>::index_type());
+        return invoke_impl(params, typename detail::MakeIndexSequence<sizeof...(Args)>::index_type());
     }
 
-    template <class class_, class ... args>
-    inline member_constructor_info_impl<class_, args...>::member_constructor_info_impl(type declaring_type, ctor_type p, list<Attribute> custom_attributes)
-            : constructor_info_impl(declaring_type, custom_attributes)
+    template <class Class, class ... Args>
+    inline MemberConstructorInfoImpl<Class, Args...>::MemberConstructorInfoImpl(Type declaring_type, CtorType p, list<Attribute> custom_attributes)
+            : ConstructorInfoImpl(declaring_type, custom_attributes)
             , ptr_(p)
     {}
 }

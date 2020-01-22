@@ -23,13 +23,13 @@ namespace dc
 {
     dot::String key_impl::to_string()
     {
-        dot::list<dot::field_info> props = get_type()->get_fields();
+        dot::list<dot::FieldInfo> props = get_type()->get_fields();
 
         std::stringstream ss;
 
         for (int i = 0; i < props->count(); ++i)
         {
-            dot::field_info prop = props[i];
+            dot::FieldInfo prop = props[i];
 
             dot::Object value = prop->get_value(this);
 
@@ -43,7 +43,7 @@ namespace dc
             {
                 if (prop->field_type()->is_subclass_of(dot::typeof<key>()))
                 {
-                    dot::Object empty_key = dot::activator::create_instance(prop->field_type());
+                    dot::Object empty_key = dot::Activator::create_instance(prop->field_type());
                     ss << *empty_key->to_string();
                 }
             }
@@ -55,13 +55,13 @@ namespace dc
 
     void key_impl::populate_from(std::stringstream & value)
     {
-        dot::list<dot::field_info> props = get_type()->get_fields();
+        dot::list<dot::FieldInfo> props = get_type()->get_fields();
 
-        for (dot::field_info prop : props)
+        for (dot::FieldInfo prop : props)
         {
             if (prop->field_type()->is_subclass_of(dot::typeof<key>()))
             {
-                key sub_key = (key)dot::activator::create_instance(prop->field_type());
+                key sub_key = (key)dot::Activator::create_instance(prop->field_type());
                 sub_key->populate_from(value);
 
                 prop->set_value(this, sub_key);
@@ -96,9 +96,9 @@ namespace dc
 
     }
 
-    dot::Object key_impl::deserialize(dot::Object value, dot::type type)
+    dot::Object key_impl::deserialize(dot::Object value, dot::Type type)
     {
-        dot::type value_type = value->get_type();
+        dot::Type value_type = value->get_type();
 
         if (value.is<key>())
         {
@@ -106,7 +106,7 @@ namespace dc
         }
         if (value_type->equals(dot::typeof<dot::String>()))
         {
-            key key = dot::activator::create_instance(type);
+            key key = dot::Activator::create_instance(type);
             key->populate_from((dot::String)value);
             return key;
         }

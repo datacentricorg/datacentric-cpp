@@ -27,9 +27,9 @@ namespace dc
         // make String representation of the key return the
         // proper value for the record.
         //
-        // Get field_info arrays for TKey and TRecord
-        dot::list<dot::field_info> key_element_info_array = dot::typeof<dot::Ptr<TKey>>()->get_fields();
-        dot::list<dot::field_info> record_element_info_array = dot::typeof<dot::Ptr<TRecord>>()->get_fields();
+        // Get FieldInfo arrays for TKey and TRecord
+        dot::list<dot::FieldInfo> key_element_info_array = dot::typeof<dot::Ptr<TKey>>()->get_fields();
+        dot::list<dot::FieldInfo> record_element_info_array = dot::typeof<dot::Ptr<TRecord>>()->get_fields();
 
         // Check that TRecord has the same or greater number of elements
         // as TKey (all elements of TKey must also be present in TRecord)
@@ -37,10 +37,10 @@ namespace dc
                     "Record type {0} has fewer elements than key type {1}.", dot::typeof<dot::Ptr<TRecord>>()->name(), dot::typeof<dot::Ptr<TKey>>()->name()));
 
         // Iterate over the key properties
-        for (dot::field_info key_element_info : key_element_info_array)
+        for (dot::FieldInfo key_element_info : key_element_info_array)
         {
             auto record_element_info_iterator = std::find_if(record_element_info_array->begin(), record_element_info_array->end()
-                    , [&key_element_info](dot::field_info record_prop) -> bool
+                    , [&key_element_info](dot::FieldInfo record_prop) -> bool
                                                           {
                                                               return key_element_info->name() == record_prop->name();
                                                           } );
@@ -51,7 +51,7 @@ namespace dc
                         "is not found in the root data type {2}.", key_element_info->name(), dot::typeof<dot::Ptr<TKey>>()->name(), get_type()->name()
             ));
 
-            dot::field_info record_element_info = *record_element_info_iterator;
+            dot::FieldInfo record_element_info = *record_element_info_iterator;
 
             // Check that types match
             if (key_element_info->field_type() != record_element_info->field_type())

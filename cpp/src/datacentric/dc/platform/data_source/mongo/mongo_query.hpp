@@ -37,7 +37,7 @@ namespace dc
         typedef mongo_query_impl self;
 
         friend mongo_query make_mongo_query(dot::collection collection,
-            dot::type type,
+            dot::Type type,
             data_source_data data_source,
             temporal_id data_set);
 
@@ -47,27 +47,27 @@ namespace dc
         mongo_query where(dot::filter_token_base value);
 
         /// Sorts the elements of a sequence in ascending order according to the selected key.
-        mongo_query sort_by(dot::field_info key_selector);
+        mongo_query sort_by(dot::FieldInfo key_selector);
 
         /// Sorts the elements of a sequence in descending order according to the selected key.
-        mongo_query sort_by_descending(dot::field_info key_selector);
+        mongo_query sort_by_descending(dot::FieldInfo key_selector);
 
         /// Converts query to cursor so iteration can be performed.
         dot::object_cursor_wrapper_base get_cursor();
 
         /// Makes projection and converts query to cursor so iteration can be performed.
-        dot::object_cursor_wrapper_base select(dot::list<dot::field_info> props, dot::type element_type);
+        dot::object_cursor_wrapper_base select(dot::list<dot::FieldInfo> props, dot::Type element_type);
 
         /// Sorts the elements of a sequence in ascending order according to the selected key.
-        template <class class_, class prop>
-        mongo_query sort_by(dot::prop_wrapper<class_, prop> key_selector)
+        template <class Class, class prop>
+        mongo_query sort_by(dot::prop_wrapper<Class, prop> key_selector)
         {
             return sort_by(key_selector.prop_);
         }
 
         /// Sorts the elements of a sequence in descending order according to the selected key.
-        template <class class_, class prop>
-        mongo_query sort_by_descending(dot::prop_wrapper<class_, prop> key_selector)
+        template <class Class, class prop>
+        mongo_query sort_by_descending(dot::prop_wrapper<Class, prop> key_selector)
         {
             return sort_by_descending(key_selector.prop_);
         }
@@ -81,7 +81,7 @@ namespace dc
 
         /// Makes projection and converts query to typed cursor so iteration can be performed.
         template <class element>
-        dot::cursor_wrapper<element> select(dot::list<dot::field_info> props)
+        dot::cursor_wrapper<element> select(dot::list<dot::FieldInfo> props)
         {
             return dot::make_cursor_wrapper<element>(select(props, dot::typeof<element>()));
         }
@@ -90,7 +90,7 @@ namespace dc
 
         /// Private query constructor from collection, type, data source and dataset.
         mongo_query_impl(dot::collection collection,
-            dot::type type,
+            dot::Type type,
             data_source_data data_source,
             temporal_id data_set)
             : collection_(collection)
@@ -101,17 +101,17 @@ namespace dc
         }
 
         dot::collection collection_;
-        dot::type type_;
+        dot::Type type_;
         mongo_data_source_data data_source_;
         temporal_id data_set_;
 
         std::vector<dot::filter_token_base> where_;
-        std::vector<std::pair<dot::field_info, int>> sort_;
+        std::vector<std::pair<dot::FieldInfo, int>> sort_;
     };
 
     /// Creates query from collection, type, data source and dataset.
     inline mongo_query make_mongo_query(dot::collection collection,
-                                        dot::type type,
+                                        dot::Type type,
                                         data_source_data data_source,
                                         temporal_id data_set)
     {

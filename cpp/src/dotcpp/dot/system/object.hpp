@@ -39,7 +39,7 @@ namespace dot
     template <class T> class EnumImpl;
     template <class T> class struct_wrapper_impl;
     template <class T> using struct_wrapper = Ptr<struct_wrapper_impl<T>>;
-    template <class T> type typeof();
+    template <class T> Type typeof();
 
     namespace detail
     {
@@ -134,10 +134,10 @@ namespace dot
 
     public: // OPERATORS
 
-        /// Forward to operator in type Ptr(T).
+        /// Forward to operator in Type Ptr(T).
         bool operator==(nullptr_t) const;
 
-        /// Forward to operator in type Ptr(T).
+        /// Forward to operator in Type Ptr(T).
         bool operator!=(nullptr_t) const;
 
         /// Assign nullptr to Object.
@@ -265,12 +265,12 @@ namespace dot
         struct_wrapper_impl(const T& value) : T(value) {}
 
     public:
-        static type typeof()
+        static Type typeof()
         {
             return ::dot::typeof<T>();
         }
 
-        type get_type() override
+        Type get_type() override
         {
             return typeof();
         }

@@ -85,18 +85,18 @@ namespace dot
         received->append_line("boxing");
         //received->indent++;
 
-        // Check type of boxed enum
+        // Check Type of boxed enum
         dot::Object boxed = apples_sample::red;
-        // received->append_line(dot::String::format("type(boxed)={0}", boxed->get_type()));
+        // received->append_line(dot::String::format("Type(boxed)={0}", boxed->get_type()));
 
-        // Unbox to the correct type
+        // Unbox to the correct Type
         apples_sample unboxed = boxed.to_enum<apples_sample>();
         received->append_line(dot::String::format("boxed={0} unboxed={1}", boxed->to_string(), to_string(unboxed)));
 
-        // Establish that unboxing DOES enforce enum type, unlike in C#.
+        // Establish that unboxing DOES enforce enum Type, unlike in C#.
         //
         // For added safety, this behavior has been intentionally made different
-        // from C# where unboxing DOES NOT enforce enum type. Similar code in
+        // from C# where unboxing DOES NOT enforce enum Type. Similar code in
         // C# would have converted the enum based on its integer value.
         CHECK_THROWS((EnumImpl<colors_sample>)boxed);
 

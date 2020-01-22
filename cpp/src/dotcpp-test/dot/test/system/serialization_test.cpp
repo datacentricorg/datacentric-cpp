@@ -54,11 +54,11 @@ namespace dot
 
     public: // STATIC
 
-        static type typeof()
+        static Type typeof()
         {
-            static type result = []()-> type
+            static Type result = []()-> Type
             {
-                type t = make_type_builder<self>("dot", "sample_data_2")
+                Type t = make_type_builder<self>("dot", "sample_data_2")
                     ->with_field("data_field", &self::data_field)
                     ->build();
 
@@ -68,7 +68,7 @@ namespace dot
             return result;
         }
 
-        type get_type() override
+        Type get_type() override
         {
             return typeof();
         }
@@ -126,7 +126,7 @@ namespace dot
     {
         if (obj.is_empty()) return "";
 
-        type t = obj->get_type();
+        Type t = obj->get_type();
 
         std::stringstream ss;
 
@@ -167,9 +167,9 @@ namespace dot
 
         String s = obj_to_string(obj);
 
-        type t = obj->get_type();
+        Type t = obj->get_type();
 
-        sample_data dt = (sample_data)activator::create_instance(obj->get_type());
+        sample_data dt = (sample_data)Activator::create_instance(obj->get_type());
 
         list<dot::Object> params_foo = make_list<Object>(2);
         params_foo[0] = 15;

@@ -37,9 +37,9 @@ namespace dc
         return get_or_create(value->get_type());
     }
 
-    data_type_info data_type_info_impl::get_or_create(dot::type value)
+    data_type_info data_type_info_impl::get_or_create(dot::Type value)
     {
-        dot::dictionary<dot::type, data_type_info> dict_ = data_type_info_impl::get_type_dict();
+        dot::dictionary<dot::Type, data_type_info> dict_ = data_type_info_impl::get_type_dict();
 
         // Check if a cached instance exists in dictionary
         data_type_info result;
@@ -57,22 +57,22 @@ namespace dc
         }
     }
 
-    data_type_info_impl::data_type_info_impl(dot::type value)
+    data_type_info_impl::data_type_info_impl(dot::Type value)
     {
         type_ = value;
 
         // Populate the inheritance chain from parent to base,
         // stop when one of the base classes is reached or
         // there is no base class
-        dot::list<dot::type> inheritance_chain = dot::make_list<dot::type>();
-        dot::type current_type = value;
+        dot::list<dot::Type> inheritance_chain = dot::make_list<dot::Type>();
+        dot::Type current_type = value;
 
         while (current_type->get_base_type() != nullptr)
         {
             // Add type to the inheritance chain
             inheritance_chain->add(current_type);
 
-            dot::type base_type = current_type->get_base_type();
+            dot::Type base_type = current_type->get_base_type();
             if (base_type->equals(dot::typeof<data>()))
             {
                 if (root_type_ == nullptr)
@@ -92,7 +92,7 @@ namespace dc
 
                     if (inheritance_chain->count() > 2)
                         throw dot::Exception(dot::String::format(
-                            "Key type {0} must be derived directly from typed_key<TKey, TRecord> and sealed "
+                            "Key Type {0} must be derived directly from typed_key<TKey, TRecord> and sealed "
                             "because key classes cannot have an inheritance hierarchy, only data classes can.",
                             value->name()));
                 }
@@ -120,16 +120,16 @@ namespace dc
         // Error message if the type is not derived from one of the permitted base classes
         if (data_kind_ == data_kind_enum::empty)
             throw dot::Exception(dot::String::format(
-                "Data type {0} is not derived from Data, TypedKey<TKey, TRecord>, or TypedRecord<TKey, TRecord>.", value->name()));
+                "Data Type {0} is not derived from Data, TypedKey<TKey, TRecord>, or TypedRecord<TKey, TRecord>.", value->name()));
 
         inheritance_chain_ = dot::make_list<dot::String>();
-        for (dot::type t : inheritance_chain)
+        for (dot::Type t : inheritance_chain)
             inheritance_chain_->add(t->name());
     }
 
-    dot::dictionary<dot::type, data_type_info>& data_type_info_impl::get_type_dict()
+    dot::dictionary<dot::Type, data_type_info>& data_type_info_impl::get_type_dict()
     {
-        static dot::dictionary<dot::type, data_type_info> dict_ = dot::make_dictionary<dot::type, data_type_info>();
+        static dot::dictionary<dot::Type, data_type_info> dict_ = dot::make_dictionary<dot::Type, data_type_info>();
         return dict_;
     }
 }

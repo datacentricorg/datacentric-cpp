@@ -56,7 +56,7 @@ namespace dc
             if (value_ == nullptr)
                 return value_type::empty_type;
 
-            dot::type value_type = value_->get_type();
+            dot::Type value_type = value_->get_type();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
             if (value_type->equals(dot::typeof<dot::String>()))        return value_type::string_type;
@@ -118,7 +118,7 @@ namespace dc
                 return variant();
             }
 
-            dot::type value_type = dot::typeof<T>();
+            dot::Type value_type = dot::typeof<T>();
 
             // The purpose of this check is to ensure that variant holds only one of the supported types
             if (value_type->equals(dot::typeof<dot::String>()))        return variant(value);

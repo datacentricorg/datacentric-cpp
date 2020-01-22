@@ -46,7 +46,7 @@ namespace dot
         dot::Object deserialize(bsoncxx::document::view doc);
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
-        dot::Object deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::field_info> props, dot::type tuple_type);
+        dot::Object deserialize_tuple(bsoncxx::document::view doc, dot::list<dot::FieldInfo> props, dot::Type tuple_type);
 
         /// Null value is handled via [bson_ignore_if_null] attribute and is not expected here.
         void deserialize_document(const bsoncxx::document::view & doc, tree_writer_base writer);

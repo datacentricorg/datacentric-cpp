@@ -27,18 +27,18 @@ limitations under the License.
 
 namespace dot
 {
-    type bson_root_class_attribute_impl::typeof()
+    Type bson_root_class_attribute_impl::typeof()
     {
-        static type result = []()->type
+        static Type result = []()->Type
         {
-            type t = make_type_builder<bson_root_class_attribute_impl>("dot", "bson_root_class_attribute")
+            Type t = make_type_builder<bson_root_class_attribute_impl>("dot", "bson_root_class_attribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    type bson_root_class_attribute_impl::get_type()
+    Type bson_root_class_attribute_impl::get_type()
     {
         return typeof();
     }

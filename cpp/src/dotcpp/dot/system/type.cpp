@@ -32,31 +32,31 @@ limitations under the License.
 
 namespace dot
 {
-    type_builder_impl::type_builder_impl(String name_space, String name, String cpp_name)
+    TypeBuilderImpl::TypeBuilderImpl(String name_space, String name, String cpp_name)
         : full_name_(name_space + "." + name)
     {
-        type_ = new type_impl(name_space, name);
-        type_impl::get_type_map()[full_name_] = type_;
-        type_impl::get_type_map()[name] = type_;
-        type_impl::get_type_map()[cpp_name] = type_;
+        type_ = new TypeImpl(name_space, name);
+        TypeImpl::get_type_map()[full_name_] = type_;
+        TypeImpl::get_type_map()[name] = type_;
+        TypeImpl::get_type_map()[cpp_name] = type_;
     }
 
-    type type_builder_impl::build()
+    Type TypeBuilderImpl::build()
     {
         type_->fill(this);
 
         // Fill derived types map
-        type base_type = base_;
+        Type base_type = base_;
         while (base_type != nullptr)
         {
-            auto iter = type_impl::get_derived_types_map().find(base_type->full_name());
-            if (iter == type_impl::get_derived_types_map().end())
+            auto iter = TypeImpl::get_derived_types_map().find(base_type->full_name());
+            if (iter == TypeImpl::get_derived_types_map().end())
             {
-                iter = type_impl::get_derived_types_map().insert({base_type->full_name(), make_list<type>()}).first;
+                iter = TypeImpl::get_derived_types_map().insert({base_type->full_name(), make_list<Type>()}).first;
             }
             else if (iter->second == nullptr)
             {
-                iter->second = make_list<type>();
+                iter->second = make_list<Type>();
             }
             iter->second->add(type_);
             base_type = base_type->get_base_type();
@@ -65,25 +65,25 @@ namespace dot
         return type_;
     }
 
-    void type_impl::fill(const type_builder& data)
+    void TypeImpl::fill(const TypeBuilder& data)
     {
         if (!data->base_.is_empty() && !data->base_->get_methods().is_empty() && data->base_->get_methods()->count())
         {
             if (data->methods_.is_empty())
             {
-                data->methods_ = make_list<method_info>();
+                data->methods_ = make_list<MethodInfo>();
             }
 
-            list<method_info> base_methods = data->base_->get_methods();
-            list<method_info> make_methods = make_list<method_info>();
-            for (method_info meth_info_data : base_methods)
+            list<MethodInfo> base_methods = data->base_->get_methods();
+            list<MethodInfo> make_methods = make_list<MethodInfo>();
+            for (MethodInfo meth_info_data : base_methods)
             {
                 make_methods->add(meth_info_data);
             }
 
-            for (method_info meth_info_data : data->methods_)
+            for (MethodInfo meth_info_data : data->methods_)
             {
-                auto iter = std::find_if(make_methods->begin(), make_methods->end(), [&meth_info_data](method_info mi)
+                auto iter = std::find_if(make_methods->begin(), make_methods->end(), [&meth_info_data](MethodInfo mi)
                 {
                     if (mi->name() == meth_info_data->name())
                         return true;
@@ -101,49 +101,49 @@ namespace dot
 
         if (!data->methods_.is_empty())
         {
-            this->methods_ = make_list<method_info>(data->methods_->count());
+            this->methods_ = make_list<MethodInfo>(data->methods_->count());
             int i = 0;
-            for (method_info meth_info_data : data->methods_)
+            for (MethodInfo meth_info_data : data->methods_)
             {
                 this->methods_[i++] = meth_info_data;
             }
         }
         else
         {
-            this->methods_ = make_list<method_info>(0);
+            this->methods_ = make_list<MethodInfo>(0);
         }
 
         if (!data->ctors_.is_empty())
         {
-            this->ctors_ = make_list<constructor_info>(data->ctors_->count());
+            this->ctors_ = make_list<ConstructorInfo>(data->ctors_->count());
             int i = 0;
-            for (constructor_info ctor_info_data : data->ctors_)
+            for (ConstructorInfo ctor_info_data : data->ctors_)
             {
                 this->ctors_[i++] = ctor_info_data;
             }
         }
         else
         {
-            this->ctors_ = make_list<constructor_info>(0);
+            this->ctors_ = make_list<ConstructorInfo>(0);
         }
 
         if (!data->base_.is_empty() && !data->base_->get_fields().is_empty() && data->base_->get_fields()->count())
         {
             if (data->fields_.is_empty())
             {
-                data->fields_ = make_list<field_info>();
+                data->fields_ = make_list<FieldInfo>();
             }
 
-            list<field_info> base_fields = data->base_->get_fields();
-            list<field_info> make_fields = make_list<field_info>();
-            for (field_info field_info_data : base_fields)
+            list<FieldInfo> base_fields = data->base_->get_fields();
+            list<FieldInfo> make_fields = make_list<FieldInfo>();
+            for (FieldInfo field_info_data : base_fields)
             {
                 make_fields->add(field_info_data);
             }
 
-            for (field_info field_info_data : data->fields_)
+            for (FieldInfo field_info_data : data->fields_)
             {
-                auto iter = std::find_if(make_fields->begin(), make_fields->end(), [&field_info_data](field_info fi)
+                auto iter = std::find_if(make_fields->begin(), make_fields->end(), [&field_info_data](FieldInfo fi)
                 {
                     if (fi->name() == field_info_data->name())
                         return true;
@@ -161,44 +161,44 @@ namespace dot
 
         if (!data->fields_.is_empty())
         {
-            this->fields_ = make_list<field_info>(data->fields_->count());
+            this->fields_ = make_list<FieldInfo>(data->fields_->count());
             int i = 0;
-            for (field_info ctor_info_data : data->fields_)
+            for (FieldInfo ctor_info_data : data->fields_)
             {
                 this->fields_[i++] = ctor_info_data;
             }
         }
         else
         {
-            this->fields_ = make_list<field_info>(0);
+            this->fields_ = make_list<FieldInfo>(0);
         }
 
         if (!data->interfaces_.is_empty())
         {
-            this->interfaces_ = make_list<type>(data->interfaces_->count());
+            this->interfaces_ = make_list<Type>(data->interfaces_->count());
             int i = 0;
-            for (type interface : data->interfaces_)
+            for (Type interface : data->interfaces_)
             {
                 this->interfaces_[i++] = interface;
             }
         }
         else
         {
-            this->interfaces_ = make_list<type>(0);
+            this->interfaces_ = make_list<Type>(0);
         }
 
         if (!data->generic_args_.is_empty())
         {
-            this->generic_args_ = make_list<type>(data->generic_args_->count());
+            this->generic_args_ = make_list<Type>(data->generic_args_->count());
             int i = 0;
-            for (type arg : data->generic_args_)
+            for (Type arg : data->generic_args_)
             {
                 this->generic_args_[i++] = arg;
             }
         }
         else
         {
-            this->generic_args_ = make_list<type>(0);
+            this->generic_args_ = make_list<Type>(0);
         }
 
         if (!data->custom_attributes_.is_empty())
@@ -220,12 +220,12 @@ namespace dot
         this->is_enum_ = data->is_enum_;
     }
 
-    type_impl::type_impl(String nspace, String name)
+    TypeImpl::TypeImpl(String nspace, String name)
         : name_space_(nspace)
         , name_(name)
     {}
 
-    list<Attribute> type_impl::get_custom_attributes(bool inherit)
+    list<Attribute> TypeImpl::get_custom_attributes(bool inherit)
     {
         if (!inherit)
         {
@@ -250,7 +250,7 @@ namespace dot
         return ret;
     }
 
-    list<Attribute> type_impl::get_custom_attributes(type attribute_type, bool inherit)
+    list<Attribute> TypeImpl::get_custom_attributes(Type attribute_type, bool inherit)
     {
         list<Attribute> ret = make_list<Attribute>();
 
@@ -262,7 +262,7 @@ namespace dot
         return ret;
     }
 
-    method_info type_impl::get_method(String name)
+    MethodInfo TypeImpl::get_method(String name)
     {
         if (methods_.is_empty()) return nullptr;
 
@@ -275,7 +275,7 @@ namespace dot
         return nullptr;
     }
 
-    type type_impl::get_interface(String name)
+    Type TypeImpl::get_interface(String name)
     {
         if (interfaces_.is_empty()) return nullptr;
 
@@ -288,7 +288,7 @@ namespace dot
         return nullptr;
     }
 
-    field_info type_impl::get_field(String name)
+    FieldInfo TypeImpl::get_field(String name)
     {
         if (fields_.is_empty()) return nullptr;
 
@@ -302,10 +302,10 @@ namespace dot
 
     }
 
-    bool type_impl::is_subclass_of(type c)
+    bool TypeImpl::is_subclass_of(Type c)
     {
         // Search for c type within base types
-        type base = get_base_type();
+        Type base = get_base_type();
 
         while (base != nullptr)
         {
@@ -317,7 +317,7 @@ namespace dot
         return false;
     }
 
-    bool type_impl::is_assignable_from(type c)
+    bool TypeImpl::is_assignable_from(Type c)
     {
         if (c == nullptr)
             return false;
@@ -327,7 +327,7 @@ namespace dot
 
         if (c->get_interfaces() != nullptr)
         {
-            for (type intf : c->get_interfaces())
+            for (Type intf : c->get_interfaces())
             {
                 if (intf->equals(this))
                     return true;
@@ -337,20 +337,20 @@ namespace dot
         return false;
     }
 
-    bool type_impl::equals(Object obj)
+    bool TypeImpl::equals(Object obj)
     {
-        if (obj.is<type>())
-            return this->full_name() == ((type)obj)->full_name();
+        if (obj.is<Type>())
+            return this->full_name() == ((Type)obj)->full_name();
 
         return false;
     }
 
-    size_t type_impl::hash_code()
+    size_t TypeImpl::hash_code()
     {
         return this->full_name()->hash_code();
     }
 
-    list<Attribute> member_info_impl::get_custom_attributes(dot::type attr_type, bool)
+    list<Attribute> MemberInfoImpl::get_custom_attributes(dot::Type attr_type, bool)
     {
         list<Attribute> attrs = dot::make_list<Attribute>();
         for (Attribute item : custom_attributes_)

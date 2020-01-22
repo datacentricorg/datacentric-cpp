@@ -51,12 +51,12 @@ namespace dot
         return std::to_string(value_);
     }
 
-    type LongImpl::typeof()
+    Type LongImpl::typeof()
     {
         return dot::typeof<int64_t>();
     }
 
-    type LongImpl::get_type()
+    Type LongImpl::get_type()
     {
         return typeof();
     }

@@ -38,11 +38,11 @@ namespace dc
         writer->write_value_element("_key", ((record)obj)->get_key());
     }
 
-    dot::type record_impl::typeof()
+    dot::Type record_impl::typeof()
     {
-        static dot::type result = []()-> dot::type
+        static dot::Type result = []()-> dot::Type
         {
-            dot::type t = dot::make_type_builder<record_impl>("dc", "record", { dot::make_bson_root_class_attribute() })
+            dot::Type t = dot::make_type_builder<record_impl>("dc", "record", { dot::make_bson_root_class_attribute() })
                 ->with_field("_id", &self::id)
                 ->with_field("_dataset", &self::data_set)
                 ->with_field("_key", static_cast<dot::String record_impl::*>(nullptr), { dot::make_deserialize_field_attribute(&dot::ignore_field_deserialization)
@@ -54,7 +54,7 @@ namespace dc
         return result;
     }
 
-    dot::type record_impl::get_type()
+    dot::Type record_impl::get_type()
     {
         return typeof();
     }

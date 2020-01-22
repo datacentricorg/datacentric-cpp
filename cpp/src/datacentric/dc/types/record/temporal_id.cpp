@@ -191,9 +191,9 @@ namespace dc
         writer->write_end_value();
     }
 
-    dot::Object temporal_id::deserialize(dot::Object value, dot::type type)
+    dot::Object temporal_id::deserialize(dot::Object value, dot::Type type)
     {
-        dot::type value_type = value->get_type();
+        dot::Type value_type = value->get_type();
 
         if (value_type->equals(dot::typeof<dot::ByteArray>()))
         {

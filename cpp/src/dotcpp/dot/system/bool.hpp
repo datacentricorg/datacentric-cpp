@@ -66,7 +66,7 @@ namespace dot
         /// Converts the value of this instance to its equivalent String representation (either "True" or "False").
         virtual String to_string() override;
 
-        static type typeof();
-        type get_type() override;
+        static Type typeof();
+        Type get_type() override;
     };
 }

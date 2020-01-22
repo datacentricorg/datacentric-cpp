@@ -48,10 +48,10 @@ namespace dot
             dot::String current_element_name;
             TreeWriterState current_state;
             Object current_dict;
-            dot::dictionary<dot::String, dot::field_info> current_dict_elements;
-            dot::field_info current_element_info;
+            dot::dictionary<dot::String, dot::FieldInfo> current_dict_elements;
+            dot::FieldInfo current_element_info;
             dot::list_base current_array;
-            dot::type current_array_item_type;
+            dot::Type current_array_item_type;
         };
 
     private: // FIELDS
@@ -61,10 +61,10 @@ namespace dot
         dot::String current_element_name_;
         TreeWriterState current_state_;
         Object current_dict_;
-        dot::dictionary<dot::String, dot::field_info> current_dict_elements_;
-        dot::field_info current_element_info_;
+        dot::dictionary<dot::String, dot::FieldInfo> current_dict_elements_;
+        dot::FieldInfo current_element_info_;
         dot::list_base current_array_;
-        dot::type current_array_item_type_;
+        dot::Type current_array_item_type_;
 
     private: // CONSTRUCTORS
 
@@ -124,7 +124,7 @@ namespace dot
         /// must be followed by write_end_element(...) or write_end_array_item().
         void write_end_value() override;
 
-        /// Write atomic value. Value type
+        /// Write atomic value. Value Type
         /// will be inferred from Object.get_type().
         void write_value(dot::Object value) override;
 

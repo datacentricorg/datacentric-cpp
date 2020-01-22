@@ -39,7 +39,7 @@ namespace dot
     /// Implementation of tree_writer_base for data.
     class DOT_CLASS TupleWriterImpl : public TreeWriterBaseImpl
     {
-        friend TupleWriter make_tuple_writer(dot::Object tuple, dot::list<dot::field_info> props);
+        friend TupleWriter make_tuple_writer(dot::Object tuple, dot::list<dot::FieldInfo> props);
 
     public:
 
@@ -95,7 +95,7 @@ namespace dot
         /// must be followed by write_end_element(...) or write_end_array_item().
         void write_end_value() override;
 
-        /// Write atomic value. Value type
+        /// Write atomic value. Value Type
         /// will be inferred from Object.get_type().
         void write_value(dot::Object value) override;
 
@@ -105,17 +105,17 @@ namespace dot
 
     private:
 
-        TupleWriterImpl(dot::Object tuple, dot::list<dot::field_info> props);
+        TupleWriterImpl(dot::Object tuple, dot::list<dot::FieldInfo> props);
 
     private:
 
         dot::Object tuple_;
-        dot::list<dot::field_info> props_;
+        dot::list<dot::FieldInfo> props_;
         int index_of_current_;
         DataWriter data_writer_;
         Object data_;
 
     };
 
-    inline TupleWriter make_tuple_writer(dot::Object tuple, dot::list<dot::field_info> props) { return new TupleWriterImpl(tuple, props); }
+    inline TupleWriter make_tuple_writer(dot::Object tuple, dot::list<dot::FieldInfo> props) { return new TupleWriterImpl(tuple, props); }
 }

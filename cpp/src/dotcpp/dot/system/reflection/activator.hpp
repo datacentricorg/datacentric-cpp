@@ -30,26 +30,26 @@ namespace dot
 {
     /// contains methods to create types of objects locally or remotely, or obtain
     /// references to existing remote objects. This class cannot be inherited.
-    class DOT_CLASS activator final
+    class DOT_CLASS Activator final
     {
     private: // CONSTRUCTORS
 
-        activator() = delete;
-        activator(const activator&) = delete;
-        activator operator=(const activator&) = delete;
+        Activator() = delete;
+        Activator(const Activator&) = delete;
+        Activator operator=(const Activator&) = delete;
 
     public: // METHODS
 
-        /// Creates an instance of the specified type using that type's default constructor.
-        static Object create_instance(type t);
+        /// Creates an instance of the specified Type using that Type's default constructor.
+        static Object create_instance(Type t);
 
-        /// Creates an instance of the specified type using the constructor that best matches the specified parameters.
-        static Object create_instance(type t, list<Object> params);
+        /// Creates an instance of the specified Type using the constructor that best matches the specified parameters.
+        static Object create_instance(Type t, list<Object> params);
 
-        /// Creates an instance of the type whose name is specified, using the named assembly and default constructor.
+        /// Creates an instance of the Type whose name is specified, using the named assembly and default constructor.
         static Object create_instance(String assembly_name, String type_name);
 
-        /// Creates an instance of the type whose name is specified, using the named assembly and default constructor.
+        /// Creates an instance of the Type whose name is specified, using the named assembly and default constructor.
         static Object create_instance(String assembly_name, String type_name, list<Object> params);
     };
 }

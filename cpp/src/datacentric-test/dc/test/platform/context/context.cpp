@@ -50,7 +50,7 @@ namespace dc
         //if (!source_file_path->ends_with(".cs")) throw dot::Exception(dot::String::format("Source file path '{0}' does not end with '.cs'", source_file_path));
         //dot::String test_class_path = source_file_path->substring(0, source_file_path->size() - 3);
 
-        // Create and initialize data source with test instance type.
+        // Create and initialize data source with test instance Type.
         //
         // This does not create the database until the data source
         // is actually used to access data.

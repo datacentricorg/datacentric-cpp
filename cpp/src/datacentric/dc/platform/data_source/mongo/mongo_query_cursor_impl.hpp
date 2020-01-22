@@ -61,7 +61,7 @@ namespace dc
         }
 
         /// Constructs from iterator_inner_base and context_base.
-        mongo_query_iterator_impl(dot::iterator_inner_base iterator, dot::object_cursor_wrapper_base cursor, dot::type query_type, context_base context)
+        mongo_query_iterator_impl(dot::iterator_inner_base iterator, dot::object_cursor_wrapper_base cursor, dot::Type query_type, context_base context)
             : iterator_(iterator)
             , cursor_(cursor)
             , query_type_(query_type)
@@ -106,7 +106,7 @@ namespace dc
                     // an error when wrong type is requested. Here, we want to proceed
                     // as though the record does not exist because the query is expected
                     // to skip over records of type not derived from query_type_.
-                    dot::type obj_type = obj->get_type();
+                    dot::Type obj_type = obj->get_type();
                     if (!obj_type->equals(query_type_) && !obj_type->is_subclass_of(query_type_)) continue;
 
                     // Otherwise return the result
@@ -129,7 +129,7 @@ namespace dc
 
         dot::iterator_inner_base iterator_;
         dot::object_cursor_wrapper_base cursor_;
-        dot::type query_type_;
+        dot::Type query_type_;
         context_base context_;
 
         dot::String current_key_;
@@ -144,7 +144,7 @@ namespace dc
     public:
 
         /// Constructs from object_cursor_wrapper_base and context_base.
-        mongo_query_cursor_impl(dot::object_cursor_wrapper_base cursor, dot::type query_type, context_base context)
+        mongo_query_cursor_impl(dot::object_cursor_wrapper_base cursor, dot::Type query_type, context_base context)
             : cursor_(cursor)
             , query_type_(query_type)
             , context_(context)
@@ -173,7 +173,7 @@ namespace dc
     private: // FIELDS
 
         dot::object_cursor_wrapper_base cursor_;
-        dot::type query_type_;
+        dot::Type query_type_;
         context_base context_;
     };
 }

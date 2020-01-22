@@ -29,7 +29,7 @@ namespace dot
 {
     /// Specifies flags that control binding and the way in which the
     /// search for members and types is conducted by reflection.
-    enum class binding_flags : int
+    enum class BindingFlags : int
     {
         /// Specifies that no binding flags are defined.
         default_flag = 0,

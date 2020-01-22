@@ -54,12 +54,12 @@ namespace dot
         return value_ ? BoolImpl::true_string : BoolImpl::false_string;
     }
 
-    type BoolImpl::typeof()
+    Type BoolImpl::typeof()
     {
         return dot::typeof<bool>();
     }
 
-    type BoolImpl::get_type()
+    Type BoolImpl::get_type()
     {
         return typeof();
     }

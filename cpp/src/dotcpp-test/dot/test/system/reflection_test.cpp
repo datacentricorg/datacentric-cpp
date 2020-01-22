@@ -58,12 +58,12 @@ namespace dot
             return 42 + param;
         }
 
-        type get_type() override
+        Type get_type() override
         {
-            // Create type Object with thread safety guarantee as per C++ Standard
-            static type result = []()->type
+            // Create Type Object with thread safety guarantee as per C++ Standard
+            static Type result = []()->Type
             {
-                received << "creating type object (this should run only once)." << std::endl;
+                received << "creating Type object (this should run only once)." << std::endl;
 
                 return make_type_builder<reflection_base_sample_impl>("dot", "reflection_base_sample")
                     ->with_field("int_field", &reflection_base_sample_impl::int_field)
@@ -98,9 +98,9 @@ namespace dot
 
         Object x = obj->count;
 
-        type result = obj->get_type();
-        list<field_info> props = result->get_fields();
-        field_info int_prop = props[0];
+        Type result = obj->get_type();
+        list<FieldInfo> props = result->get_fields();
+        FieldInfo int_prop = props[0];
         REQUIRE(int_prop->name() == "int_field");
         REQUIRE(int(int_prop->get_value(obj)) == 15);
 
@@ -108,7 +108,7 @@ namespace dot
         REQUIRE(obj->int_field == 19);
         REQUIRE(int(int_prop->get_value(obj)) == 19);
 
-        field_info private_int_prop = props[1];
+        FieldInfo private_int_prop = props[1];
         REQUIRE(private_int_prop->name() == "private_int_field");
         REQUIRE(int(private_int_prop->get_value(obj)) == 42);
 

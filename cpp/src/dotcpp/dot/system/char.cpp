@@ -56,12 +56,12 @@ namespace dot
         return std::isspace(c);
     }
 
-    type CharImpl::typeof()
+    Type CharImpl::typeof()
     {
         return dot::typeof<char>();
     }
 
-    type CharImpl::get_type()
+    Type CharImpl::get_type()
     {
         return typeof();
     }

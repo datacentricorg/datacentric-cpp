@@ -28,18 +28,18 @@ limitations under the License.
 
 namespace dot
 {
-    type AttributeImpl::typeof()
+    Type AttributeImpl::typeof()
     {
-        static type result = []()->type
+        static Type result = []()->Type
         {
-            type t = make_type_builder<AttributeImpl>("dot", "Attribute")
+            Type t = make_type_builder<AttributeImpl>("dot", "Attribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    type AttributeImpl::get_type()
+    Type AttributeImpl::get_type()
     {
         return typeof();
     }

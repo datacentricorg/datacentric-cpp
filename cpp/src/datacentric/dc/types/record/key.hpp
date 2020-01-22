@@ -85,20 +85,20 @@ namespace dc
         void populate_from(std::stringstream & value);
 
         /// Custom deserializator for deserialize_attribute for key type.
-        static dot::Object deserialize(dot::Object value, dot::type type);
+        static dot::Object deserialize(dot::Object value, dot::Type type);
 
         /// Custom serializator for serialize_attribute for key type.
         static void serialize(dot::tree_writer_base writer, dot::Object obj);
 
     public: // REFLECTION
 
-        virtual dot::type get_type() { return typeof(); }
+        virtual dot::Type get_type() { return typeof(); }
 
-        static dot::type typeof()
+        static dot::Type typeof()
         {
-            static dot::type result = []()-> dot::type
+            static dot::Type result = []()-> dot::Type
             {
-                dot::type t = dot::make_type_builder<self>("dc", "key", { dot::make_deserialize_class_attribute(&key_impl::deserialize)
+                dot::Type t = dot::make_type_builder<self>("dc", "key", { dot::make_deserialize_class_attribute(&key_impl::deserialize)
                     , dot::make_serialize_class_attribute(&key_impl::serialize) })
                           ->with_method("assign_string", static_cast<void (key_impl::*)(dot::String)>(&key_impl::populate_from), {"value"})
                           ->build();

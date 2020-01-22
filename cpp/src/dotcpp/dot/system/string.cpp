@@ -34,18 +34,18 @@ namespace dot
 {
     String String::empty = make_string("");
 
-    dot::type StringImpl::typeof()
+    dot::Type StringImpl::typeof()
     {
-        static dot::type result = []()->dot::type
+        static dot::Type result = []()->dot::Type
         {
-            dot::type t = dot::make_type_builder<StringImpl>("dot", "String")
+            dot::Type t = dot::make_type_builder<StringImpl>("dot", "String")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    dot::type StringImpl::get_type()
+    dot::Type StringImpl::get_type()
     {
         return typeof();
     }

@@ -101,7 +101,7 @@ namespace dot
         /// must be followed by write_end_element(...) or write_end_array_item().
         void write_end_value();
 
-        /// Write atomic value. Value type
+        /// Write atomic value. Value Type
         /// will be inferred from Object.get_type().
         void write_value(dot::Object value);
 
@@ -119,7 +119,7 @@ namespace dot
     private:
 
         /// Get parent types list of from_type.
-        static list<type> get_parents_list(type from_type);
+        static list<Type> get_parents_list(Type from_type);
 
     private:
 

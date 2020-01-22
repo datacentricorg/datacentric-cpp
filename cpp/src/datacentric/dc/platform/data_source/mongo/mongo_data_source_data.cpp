@@ -27,7 +27,7 @@ limitations under the License.
 
 namespace dc
 {
-    record mongo_data_source_data_impl::load_or_null(temporal_id id, dot::type data_type)
+    record mongo_data_source_data_impl::load_or_null(temporal_id id, dot::Type data_type)
     {
         if (cutoff_time != nullptr)
         {
@@ -54,8 +54,8 @@ namespace dc
                     // of class that is not derived from TRecord, in this case the API
                     // requires error message, not returning null
                     throw dot::Exception(dot::String::format(
-                        "Stored type {0} for TemporalId={1} and "
-                        "Key={2} is not an instance of the requested type {3}.", rec->get_type()->name(),
+                        "Stored Type {0} for TemporalId={1} and "
+                        "Key={2} is not an instance of the requested Type {3}.", rec->get_type()->name(),
                         id.to_string(), rec->get_key(), data_type->name()
                     ));
                 }
@@ -82,7 +82,7 @@ namespace dc
         // dot::String key in semicolon delimited format used in the lookup
         dot::String key_value = key->to_string();
 
-        dot::type record_type = dot::typeof<record>();
+        dot::Type record_type = dot::typeof<record>();
 
         dot::query base_query = dot::make_query(get_or_create_collection(key->get_type()), key->get_type())
             ->where(new dot::operator_wrapper_impl("_key", "$eq", key_value))
@@ -143,7 +143,7 @@ namespace dc
         collection->insert_many(records);
     }
 
-    mongo_query mongo_data_source_data_impl::get_query(temporal_id data_set, dot::type type)
+    mongo_query mongo_data_source_data_impl::get_query(temporal_id data_set, dot::Type type)
     {
         return make_mongo_query(get_or_create_collection(type), type, this, data_set);
     }
@@ -362,7 +362,7 @@ namespace dc
         else return nullptr;
     }
 
-    dot::collection mongo_data_source_data_impl::get_or_create_collection(dot::type data_type)
+    dot::collection mongo_data_source_data_impl::get_or_create_collection(dot::Type data_type)
     {
         // Check if collection Object has already been cached
         // for this type and return cached result if found

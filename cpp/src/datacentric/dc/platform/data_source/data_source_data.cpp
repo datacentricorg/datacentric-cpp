@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    record data_source_data_impl::load(temporal_id id, dot::type data_type)
+    record data_source_data_impl::load(temporal_id id, dot::Type data_type)
     {
         record result = load_or_null(id, data_type);
         if (result.is_empty())

@@ -129,9 +129,9 @@ namespace dot
         }
     }
 
-    Object object_id::deserialize(Object value, dot::type type)
+    Object object_id::deserialize(Object value, dot::Type type)
     {
-        dot::type value_type = value->get_type();
+        dot::Type value_type = value->get_type();
 
         if (value_type->equals(dot::typeof<object_id>()))
         {

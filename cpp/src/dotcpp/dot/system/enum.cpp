@@ -57,16 +57,16 @@ namespace dot
         return false;
     }
 
-    Object EnumBase::parse(type enum_type, String value)
+    Object EnumBase::parse(Type enum_type, String value)
     {
-        Object enum_obj = activator::create_instance(enum_type);
+        Object enum_obj = Activator::create_instance(enum_type);
         EnumBase* en = dynamic_cast<EnumBase*>(enum_obj.operator->());
         auto values_map = en->get_enum_map();
 
         int int_value = 0;
         if(!values_map->try_get_value(value, int_value))
         {
-            throw Exception("value is outside the range of the underlying type of enum_type.");
+            throw Exception("value is outside the range of the underlying Type of enum_type.");
         }
 
         en->value_ = int_value;

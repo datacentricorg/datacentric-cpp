@@ -27,12 +27,12 @@ namespace dc
         data_source = value;
     }
 
-    record context_base_impl::load(temporal_id id, dot::type data_type)
+    record context_base_impl::load(temporal_id id, dot::Type data_type)
     {
         return data_source->load(id, data_type);
     }
 
-    record context_base_impl::load_or_null(temporal_id id, dot::type data_type)
+    record context_base_impl::load_or_null(temporal_id id, dot::Type data_type)
     {
         return data_source->load_or_null(id, data_type);
     }
@@ -47,7 +47,7 @@ namespace dc
         return data_source->load_or_null(key, load_from);
     }
 
-    mongo_query context_base_impl::get_query(temporal_id load_from, dot::type data_type)
+    mongo_query context_base_impl::get_query(temporal_id load_from, dot::Type data_type)
     {
         return data_source->get_query(load_from, data_type);
     }

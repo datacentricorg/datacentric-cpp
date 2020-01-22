@@ -28,14 +28,14 @@ limitations under the License.
 
 namespace dot
 {
-    type list_base_impl::typeof()
+    Type list_base_impl::typeof()
     {
-        static type type_ = make_type_builder<list_base_impl>("dit", "list_base")
+        static Type type_ = make_type_builder<list_base_impl>("dit", "list_base")
             ->build();
         return type_;
     }
 
-    type list_base_impl::get_type()
+    Type list_base_impl::get_type()
     {
         return typeof();
     }

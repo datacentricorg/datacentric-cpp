@@ -147,7 +147,7 @@ namespace dc
             return (dot::Ptr<TRecord>)load_or_null((dc::key)key, load_from);
         }
 
-        /// Get query for the specified type.
+        /// Get query for the specified Type.
         ///
         /// After applying query parameters, the lookup occurs first in
         /// descending order of dataset TemporalIds, and then in the descending
@@ -160,15 +160,15 @@ namespace dc
         /// than any other TemporalId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         ///
-        /// Generic parameter TRecord is not necessarily the root data type;
-        /// it may also be a type derived from the root data type.
+        /// Generic parameter TRecord is not necessarily the root data Type;
+        /// it may also be a Type derived from the root data Type.
         template <class TRecord>
         mongo_query get_query()
         {
             return get_query(this->data_set, dot::typeof<TRecord>());
         }
 
-        /// Get query for the specified type.
+        /// Get query for the specified Type.
         ///
         /// After applying query parameters, the lookup occurs first in
         /// descending order of dataset TemporalIds, and then in the descending
@@ -181,8 +181,8 @@ namespace dc
         /// than any other TemporalId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         ///
-        /// Generic parameter TRecord is not necessarily the root data type;
-        /// it may also be a type derived from the root data type.
+        /// Generic parameter TRecord is not necessarily the root data Type;
+        /// it may also be a Type derived from the root data Type.
         template <class TRecord>
         mongo_query get_query(temporal_id load_from)
         {
@@ -503,18 +503,18 @@ namespace dc
 
     public: // NON TEMPLATE METHODS
 
-        /// Load record by its temporal_id and type.
+        /// Load record by its temporal_id and Type.
         ///
         /// Return null if not found.
-        record load_or_null(temporal_id id, dot::type data_type);
+        record load_or_null(temporal_id id, dot::Type data_type);
 
-        record load(temporal_id id, dot::type data_type);
+        record load(temporal_id id, dot::Type data_type);
 
         record load(key key, temporal_id load_from);
 
         record load_or_null(key key, temporal_id load_from);
 
-        mongo_query get_query(temporal_id load_from, dot::type data_type);
+        mongo_query get_query(temporal_id load_from, dot::Type data_type);
     };
 }
 

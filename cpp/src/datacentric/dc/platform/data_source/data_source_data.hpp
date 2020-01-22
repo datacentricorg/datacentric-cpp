@@ -86,12 +86,12 @@ namespace dc
             return (t_record)load(id, ::dot::typeof<t_record>());
         }
 
-        record load(temporal_id id, dot::type data_type);
+        record load(temporal_id id, dot::Type data_type);
 
-        /// Load record by its temporal_id and type.
+        /// Load record by its temporal_id and Type.
         ///
         /// Return null if not found.
-        virtual record load_or_null(temporal_id id, dot::type data_type) = 0;
+        virtual record load_or_null(temporal_id id, dot::Type data_type) = 0;
 
         /// Load record by String key from the specified dataset or
         /// its list of imports. The lookup occurs first in descending
@@ -176,7 +176,7 @@ namespace dc
             this->save_many(dot::make_list<record>({ obj }), data_set);
         }
 
-        /// Get query for the specified type.
+        /// Get query for the specified Type.
         ///
         /// After applying query parameters, the lookup occurs first in the
         /// reverse chronological order of datasets to one second resolution,
@@ -186,7 +186,7 @@ namespace dc
         /// The root dataset has empty temporal_id value that is less
         /// than any other temporal_id value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
-        virtual mongo_query get_query(temporal_id data_set, dot::type type) = 0;
+        virtual mongo_query get_query(temporal_id data_set, dot::Type type) = 0;
 
         template <class TRecord>
         mongo_query get_query(temporal_id data_set)
@@ -323,7 +323,7 @@ namespace dc
 
         /// This class enforces strict naming conventions
         /// for database naming. While format of the resulting database
-        /// name is specific to data store type, it always consists
+        /// name is specific to data store Type, it always consists
         /// of three tokens: instance_type, instance_name, and env_name.
         /// The meaning of instance_name and env_name tokens depends on
         /// the value of instance_type enumeration.

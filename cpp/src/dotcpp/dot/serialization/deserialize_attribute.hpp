@@ -38,16 +38,16 @@ namespace dot
     {
 
     public:
-        typedef Object(*deserializer_func_type)(Object, dot::type);
+        typedef Object(*deserializer_func_type)(Object, dot::Type);
 
         friend DeserializeClassAttribute make_deserialize_class_attribute(deserializer_func_type);
 
-        Object deserialize(Object value, dot::type);
+        Object deserialize(Object value, dot::Type);
 
     public: // REFLECTION
 
-        static type typeof();
-        type get_type() override;
+        static Type typeof();
+        Type get_type() override;
 
     private:
 
@@ -72,16 +72,16 @@ namespace dot
     {
 
     public:
-        typedef void(*deserializer_func_type)(Object, field_info, Object);
+        typedef void(*deserializer_func_type)(Object, FieldInfo, Object);
 
         friend DeserializeFieldAttribute make_deserialize_field_attribute(deserializer_func_type);
 
-        void deserialize(Object value, field_info field, Object obj);
+        void deserialize(Object value, FieldInfo field, Object obj);
 
     public: // REFLECTION
 
-        static type typeof();
-        type get_type() override;
+        static Type typeof();
+        Type get_type() override;
 
     private:
 
@@ -92,7 +92,7 @@ namespace dot
         deserializer_func_type deserializer_;
     };
 
-    inline void ignore_field_deserialization(Object, field_info, Object)
+    inline void ignore_field_deserialization(Object, FieldInfo, Object)
     {
     }
 

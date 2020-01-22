@@ -313,7 +313,7 @@ namespace dot
     struct prop_wrapper
     {
         /// Holds property name.
-        dot::field_info prop_;
+        dot::FieldInfo prop_;
 
         /// Wraps inner document properties access into props_list.
         template <class ClassR, class PropR>
@@ -450,12 +450,12 @@ namespace dot
     template <class Prop, class Class>
     prop_wrapper<Class, Prop> make_prop(Prop Class::*prop_)
     {
-        dot::type type = dot::typeof<dot::Ptr<Class>>();
-        dot::list<dot::field_info> props = type->get_fields();
+        dot::Type type = dot::typeof<dot::Ptr<Class>>();
+        dot::list<dot::FieldInfo> props = type->get_fields();
 
-        for (dot::field_info const& prop : props)
+        for (dot::FieldInfo const& prop : props)
         {
-            dot::Ptr<dot::field_info_impl<Prop, Class>> casted_prop = prop.as<dot::Ptr<dot::field_info_impl<Prop, Class>>>();
+            dot::Ptr<dot::FieldInfoImpl<Prop, Class>> casted_prop = prop.as<dot::Ptr<dot::FieldInfoImpl<Prop, Class>>>();
             if (!casted_prop.is_empty() && casted_prop->field_ == prop_)
                 return prop_wrapper<Class, Prop>{ prop };
         }

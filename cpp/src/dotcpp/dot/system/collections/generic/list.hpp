@@ -29,7 +29,7 @@ limitations under the License.
 namespace dot
 {
     template <class T> class list_impl; template <class T> using list = Ptr<list_impl<T>>;
-    class type_builder_impl; using type_builder = Ptr<type_builder_impl>;
+    class TypeBuilderImpl; using TypeBuilder = Ptr<TypeBuilderImpl>;
 
     /// Represents a strongly typed collection of objects that can be accessed by index.
     template <class T>
@@ -148,8 +148,8 @@ namespace dot
 
     public: // REFLECTION
 
-        virtual type get_type() { return typeof(); }
-        static type typeof();
+        virtual Type get_type() { return typeof(); }
+        static Type typeof();
     };
 
     /// Create empty list with default initial capacity.

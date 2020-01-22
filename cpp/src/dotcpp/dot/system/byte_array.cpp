@@ -114,18 +114,18 @@ namespace dot
         return array_[i];
     }
 
-    type ByteArrayImpl::typeof()
+    Type ByteArrayImpl::typeof()
     {
-        static type result = []()->type
+        static Type result = []()->Type
         {
-            type t = make_type_builder<ByteArrayImpl>("dot", "ByteArray")
+            Type t = make_type_builder<ByteArrayImpl>("dot", "ByteArray")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    type ByteArrayImpl::get_type()
+    Type ByteArrayImpl::get_type()
     {
         return typeof();
     }

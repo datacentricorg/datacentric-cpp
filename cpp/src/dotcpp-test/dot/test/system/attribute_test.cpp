@@ -55,11 +55,11 @@ namespace dot
 
     public: // REFLECTION
 
-        type get_type() override { return typeof(); }
+        Type get_type() override { return typeof(); }
 
-        static type typeof()
+        static Type typeof()
         {
-            static type result = []()->type
+            static Type result = []()->Type
             {
                 return make_type_builder<test_attribute_impl>("dot", "test_attribute")
                     ->with_method("get_message", &test_attribute_impl::get_message, {})
@@ -105,11 +105,11 @@ namespace dot
 
     public: // REFLECTION
 
-        type get_type() override { return typeof(); }
+        Type get_type() override { return typeof(); }
 
-        static type typeof()
+        static Type typeof()
         {
-            static type result = []()->type
+            static Type result = []()->Type
             {
                 return make_type_builder<test_class_impl>("dot", "test_class", { make_test_attribute("class attribute") })
                     ->with_field("int_field", &test_class_impl::int_field, { make_test_attribute("class field attribute") })
@@ -133,7 +133,7 @@ namespace dot
 
         // Create Object
         Object obj = make_test_class();
-        type obj_type = obj->get_type();
+        Type obj_type = obj->get_type();
 
         // Get class attributes
         list<Attribute> class_attributes = obj_type->get_custom_attributes(false);
@@ -168,7 +168,7 @@ namespace dot
         REQUIRE(method2_attributes->count() == 0);
 
         // Get class method parameters attributes
-        list<parameter_info> method_parameters = obj_type->get_method("calculate_sum")->get_parameters();
+        list<ParameterInfo> method_parameters = obj_type->get_method("calculate_sum")->get_parameters();
         REQUIRE(method_parameters->count() == 2);
 
         list<Attribute> method_parameter_attributes = method_parameters[0]->get_custom_attributes(false);

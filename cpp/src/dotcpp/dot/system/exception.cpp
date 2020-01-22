@@ -28,7 +28,7 @@ limitations under the License.
 
 namespace dot
 {
-    Exception::Exception() : base("Exception of type 'dot.Exception' was thrown.") {}
+    Exception::Exception() : base("Exception of Type 'dot.Exception' was thrown.") {}
 
     Exception::Exception(const std::string& msg) : base(msg.c_str()) {}
 

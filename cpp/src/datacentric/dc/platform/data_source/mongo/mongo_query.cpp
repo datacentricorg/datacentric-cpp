@@ -30,14 +30,14 @@ namespace dc
         return this;
     }
 
-    mongo_query mongo_query_impl::sort_by(dot::field_info key_selector)
+    mongo_query mongo_query_impl::sort_by(dot::FieldInfo key_selector)
     {
         // Save sort key.
         sort_.push_back(std::make_pair(key_selector, 1));
         return this;
     }
 
-    mongo_query mongo_query_impl::sort_by_descending(dot::field_info key_selector)
+    mongo_query mongo_query_impl::sort_by_descending(dot::FieldInfo key_selector)
     {
         // Save sort key.
         sort_.push_back(std::make_pair(key_selector, -1));
@@ -46,7 +46,7 @@ namespace dc
 
     dot::object_cursor_wrapper_base mongo_query_impl::get_cursor()
     {
-        dot::type record_type = dot::typeof<record>();
+        dot::Type record_type = dot::typeof<record>();
 
         // Apply dataset filters to query.
         dot::query query = dot::make_query(collection_, type_);
@@ -70,7 +70,7 @@ namespace dc
         query->group_by(record_type->get_field("_key"));
 
         // Apply custom sort.
-        for (std::pair<dot::field_info, int> sort_token : sort_)
+        for (std::pair<dot::FieldInfo, int> sort_token : sort_)
         {
             if (sort_token.second == 1)
                 query->then_by(sort_token.first);
@@ -87,13 +87,13 @@ namespace dc
         return new mongo_query_cursor_impl(query->get_cursor(), query->type_, this->data_source_->context);
     }
 
-    dot::object_cursor_wrapper_base mongo_query_impl::select(dot::list<dot::field_info> props, dot::type element_type)
+    dot::object_cursor_wrapper_base mongo_query_impl::select(dot::list<dot::FieldInfo> props, dot::Type element_type)
     {
         if (props.is_empty() || props->size() != element_type->get_generic_arguments()->size())
         {
-            throw dot::Exception("Wrong number of field_info passed to select method.");
+            throw dot::Exception("Wrong number of FieldInfo passed to select method.");
         }
-        dot::type record_type = dot::typeof<record>();
+        dot::Type record_type = dot::typeof<record>();
 
         // Apply dataset filters to query.
         dot::query query = dot::make_query(collection_, type_);
@@ -115,13 +115,13 @@ namespace dc
         // Perform group by key to get only one document per each key.
         query->group_by(record_type->get_field("_key"));
 
-        dot::list<dot::type> derived_types = dot::type_impl::get_derived_types(query->type_);
+        dot::list<dot::Type> derived_types = dot::TypeImpl::get_derived_types(query->type_);
 
         // Apply filter by types.
         if (derived_types != nullptr)
         {
             dot::list<dot::String> derived_type_names = dot::make_list<dot::String>();
-            for (dot::type der_type : derived_types)
+            for (dot::Type der_type : derived_types)
                 derived_type_names->add(der_type->name());
 
             query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name()))
@@ -131,7 +131,7 @@ namespace dc
             query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name())));
 
         // Apply custom sort.
-        for (std::pair<dot::field_info, int> sort_token : sort_)
+        for (std::pair<dot::FieldInfo, int> sort_token : sort_)
         {
             if (sort_token.second == 1)
                 query->then_by(sort_token.first);

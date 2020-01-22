@@ -123,7 +123,7 @@ namespace dc
 
         /// Get IndexedElements attributes for the class and its
         /// parents as SortedDictionary(IndexDefinition, IndexName).
-        static dot::dictionary<dot::String, dot::String> get_attributes_dict(dot::type record_type);
+        static dot::dictionary<dot::String, dot::String> get_attributes_dict(dot::Type record_type);
 
         /// Parse IndexElements definition String to get an ordered
         /// list of (ElementName,SortOrder) tuples, where ElementName
@@ -132,12 +132,12 @@ namespace dc
         ///
         /// The parser will also validate that each element
         /// name exists in type TRecord.
-        static dot::list<std::tuple<dot::String, int>> parse_definition(dot::String definition, dot::type record_type);
+        static dot::list<std::tuple<dot::String, int>> parse_definition(dot::String definition, dot::Type record_type);
 
     public: // REFLECTION
 
-        static dot::type typeof();
-        dot::type get_type() override;
+        static dot::Type typeof();
+        dot::Type get_type() override;
     };
 
     inline index_elements_attribute make_index_elements_attribute(dot::String definition)

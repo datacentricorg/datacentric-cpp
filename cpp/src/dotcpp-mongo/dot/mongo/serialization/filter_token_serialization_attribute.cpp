@@ -32,18 +32,18 @@ namespace dot
         return serializer_(obj);
     }
 
-    type filter_token_serialization_attribute_impl::typeof()
+    Type filter_token_serialization_attribute_impl::typeof()
     {
-        static type result = []()->type
+        static Type result = []()->Type
         {
-            type t = make_type_builder<filter_token_serialization_attribute_impl>("dot", "filter_token_serialization_attribute")
+            Type t = make_type_builder<filter_token_serialization_attribute_impl>("dot", "filter_token_serialization_attribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    type filter_token_serialization_attribute_impl::get_type()
+    Type filter_token_serialization_attribute_impl::get_type()
     {
         return typeof();
     }

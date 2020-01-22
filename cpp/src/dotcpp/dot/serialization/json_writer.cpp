@@ -265,7 +265,7 @@ namespace dot
         }
 
         // Serialize based on value type
-        dot::type value_type = value->get_type();
+        dot::Type value_type = value->get_type();
 
         if (value_type->equals(dot::typeof<dot::String>()))
             json_writer_.String(*(dot::String)value);
@@ -300,7 +300,7 @@ namespace dot
         if (value_type->is_enum())
             json_writer_.String(*value->to_string());
         else
-            throw dot::Exception(dot::String::format("Element type {0} is not supported for JSON serialization.", value_type));
+            throw dot::Exception(dot::String::format("Element Type {0} is not supported for JSON serialization.", value_type));
     }
 
     dot::String JsonWriterImpl::to_string()

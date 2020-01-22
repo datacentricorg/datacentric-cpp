@@ -45,7 +45,7 @@ namespace dot
     {
         // Create instance to which JSON will be deserialized
         dot::String type_name = doc["_t"].GetString();
-        Object result = dot::activator::create_instance("", type_name);
+        Object result = dot::Activator::create_instance("", type_name);
         tree_writer_base writer = make_data_writer(result);
 
         writer->write_start_document(type_name);
@@ -54,11 +54,11 @@ namespace dot
         return result;
     }
 
-    dot::Object JsonRecordSerializerImpl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::field_info> props, dot::type tuple_type)
+    dot::Object JsonRecordSerializerImpl::deserialize_tuple(rapidjson::Document::ConstObject doc, dot::list<dot::FieldInfo> props, dot::Type tuple_type)
     {
         // Create instance to which JSON will be deserialized
         dot::String type_name = tuple_type->name();
-        dot::Object result = dot::activator::create_instance(tuple_type);
+        dot::Object result = dot::Activator::create_instance(tuple_type);
         tree_writer_base writer = make_tuple_writer(result, props);
 
         writer->write_start_document(type_name);
@@ -263,7 +263,7 @@ namespace dot
             }
 
             // Serialize based on type of the item
-            dot::type item_type = item->get_type();
+            dot::Type item_type = item->get_type();
 
             if (item_type->equals(dot::typeof<dot::String>())
                 || item_type->equals(dot::typeof<double>())
@@ -305,8 +305,8 @@ namespace dot
         writer->write_start_dict(value->get_type()->name());
 
         // Iterate over the list of elements
-        dot::list<dot::field_info> inner_element_info_list = value->get_type()->get_fields();
-        for (dot::field_info inner_element_info : inner_element_info_list)
+        dot::list<dot::FieldInfo> inner_element_info_list = value->get_type()->get_fields();
+        for (dot::FieldInfo inner_element_info : inner_element_info_list)
         {
             // Get element name and value
             dot::String inner_element_name = inner_element_info->name();
@@ -318,7 +318,7 @@ namespace dot
                 continue;
             }
 
-            dot::type element_type = inner_element_value->get_type();
+            dot::Type element_type = inner_element_value->get_type();
 
             if (element_type->equals(dot::typeof<dot::String>())
                 || element_type->equals(dot::typeof<double>())

@@ -27,7 +27,7 @@ namespace dc
     class data_impl; using data = dot::Ptr<data_impl>;
     class key_impl; using key = dot::Ptr<key_impl>;
 
-    /// Data objects must derive from this type.
+    /// Data objects must derive from this Type.
     class DC_CLASS data_impl : public virtual dot::ObjectImpl
     {
         typedef data_impl self;
@@ -37,8 +37,8 @@ namespace dc
 
     public:
 
-        virtual dot::type get_type();
-        static dot::type typeof();
+        virtual dot::Type get_type();
+        static dot::Type typeof();
 
     protected:
 

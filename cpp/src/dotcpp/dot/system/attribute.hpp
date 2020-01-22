@@ -40,7 +40,7 @@ namespace dot
 
     public: // REFLECTION
 
-        static type typeof();
-        type get_type() override;
+        static Type typeof();
+        Type get_type() override;
     };
 }

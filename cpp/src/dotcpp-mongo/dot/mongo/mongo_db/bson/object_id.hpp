@@ -39,7 +39,7 @@ namespace dot
     class DOT_MONGO_CLASS object_id
     {
         template <class T>
-        friend inline type typeof();
+        friend inline Type typeof();
 
     public: // STATIC
 
@@ -113,7 +113,7 @@ namespace dot
 
     private:
 
-        static Object deserialize(Object value, dot::type type);
+        static Object deserialize(Object value, dot::Type type);
 
     private:
         bsoncxx::oid id_;
@@ -123,9 +123,9 @@ namespace dot
 namespace dot
 {
     template <>
-    inline type typeof<dot::object_id>()
+    inline Type typeof<dot::object_id>()
     {
-        static dot::type type_ = dot::make_type_builder<dot::object_id>("dot", "object_id", { make_deserialize_class_attribute( &object_id::deserialize) })
+        static dot::Type type_ = dot::make_type_builder<dot::object_id>("dot", "object_id", { make_deserialize_class_attribute( &object_id::deserialize) })
             ->build();
         return type_;
     }

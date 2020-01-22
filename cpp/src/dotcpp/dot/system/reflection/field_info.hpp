@@ -28,24 +28,24 @@ limitations under the License.
 
 namespace dot
 {
-    class field_info_base_impl; using field_info = Ptr<field_info_base_impl>;
+    class FieldInfoBaseImpl; using FieldInfo = Ptr<FieldInfoBaseImpl>;
 
     /// Discovers the attributes of a field and provides access to field metadata.
-    class DOT_CLASS field_info_base_impl : public member_info_impl
+    class DOT_CLASS FieldInfoBaseImpl : public MemberInfoImpl
     {
-        typedef field_info_base_impl self;
+        typedef FieldInfoBaseImpl self;
 
     private: // FIELDS
 
-        type field_type_;
+        Type field_type_;
 
     public: // METHODS
 
-        /// Gets the type of this field.
-        type field_type() const { return field_type_; }
+        /// Gets the Type of this field.
+        Type field_type() const { return field_type_; }
 
-        /// A string representing the name of the current type.
-        virtual String to_string() override { return "field_info"; }
+        /// A string representing the name of the current Type.
+        virtual String to_string() override { return "FieldInfo"; }
 
         /// Returns the field value of a specified Object.
         virtual Object get_value(Object obj) = 0;
@@ -55,39 +55,39 @@ namespace dot
 
     protected: // CONSTRUCTORS
 
-        /// Create from field name, declaring type, field type,
+        /// Create from field name, declaring Type, field Type,
         /// and base class for the pointer to field.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        field_info_base_impl(String name, type declaring_type, type field_type, list<Attribute> custom_attributes)
-            : member_info_impl(name, declaring_type, custom_attributes)
+        FieldInfoBaseImpl(String name, Type declaring_type, Type field_type, list<Attribute> custom_attributes)
+            : MemberInfoImpl(name, declaring_type, custom_attributes)
             , field_type_(field_type)
         {}
     };
 
-    /// Implementation of field_info for field defined as a field (member variable).
-    template <class field_type_t, class class_>
-    class field_info_impl : public field_info_base_impl
+    /// Implementation of FieldInfo for field defined as a field (member variable).
+    template <class FieldType, class Class>
+    class FieldInfoImpl : public FieldInfoBaseImpl
     {
-        typedef field_type_t class_::* field_ptr_type;
+        typedef FieldType Class::* FieldPtrType;
 
-        template <class field_type_, class class__>
-        friend field_info make_field_info(String, type, type, field_type_ class__::*, list<Attribute>);
+        template <class FieldType_, class Class_>
+        friend FieldInfo make_field_info(String, Type, Type, FieldType_ Class_::*, list<Attribute>);
 
     public: // FIELDS
 
         /// Pointer to field defined as a field.
-        field_ptr_type field_;
+        FieldPtrType field_;
 
     private: // CONSTRUCTORS
 
-        /// Create from field name, declaring type, field type,
+        /// Create from field name, declaring Type, field Type,
         /// and pointer to field defined as a field (member variable).
         ///
         /// This constructor is private. Use make_field_info(...)
         /// function with matching signature instead.
-        field_info_impl(String name, type declaring_type, type field_type, field_ptr_type field, list<Attribute> custom_attributes)
-            : field_info_base_impl(name, declaring_type, field_type, custom_attributes)
+        FieldInfoImpl(String name, Type declaring_type, Type field_type, FieldPtrType field, list<Attribute> custom_attributes)
+            : FieldInfoBaseImpl(name, declaring_type, field_type, custom_attributes)
             , field_(field)
         {}
 
@@ -96,23 +96,23 @@ namespace dot
         /// Returns the field value of a specified Object.
         virtual Object get_value(Object obj) override
         {
-            return (*Ptr<class_>(obj)).*field_;
+            return (*Ptr<Class>(obj)).*field_;
         }
 
         /// Sets the field value of a specified Object.
         virtual void set_value(Object obj, Object value) override
         {
-            (*Ptr<class_>(obj)).*field_ = (field_type_t)value;
+            (*Ptr<Class>(obj)).*field_ = (FieldType)value;
         }
     };
 
-    /// Create from field name, declaring type, field type,
+    /// Create from field name, declaring Type, field Type,
     /// and pointer to field defined as a field (member variable).
-    template <class field_type_t, class class_>
-    field_info make_field_info(String name, type declaring_type, type field_type, field_type_t class_::* field, list<Attribute> custom_attributes)
+    template <class FieldType, class Class>
+    FieldInfo make_field_info(String name, Type declaring_type, Type field_type, FieldType Class::* field, list<Attribute> custom_attributes)
     {
-        return new field_info_impl<field_type_t, class_>(name, declaring_type, field_type, field, custom_attributes);
+        return new FieldInfoImpl<FieldType, Class>(name, declaring_type, field_type, field, custom_attributes);
     }
 
-    class type_builder_impl;
+    class TypeBuilderImpl;
 }

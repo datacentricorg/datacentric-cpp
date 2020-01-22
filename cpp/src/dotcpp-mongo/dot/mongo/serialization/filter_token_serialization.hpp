@@ -31,7 +31,7 @@ namespace dot
     /// Writes primitive value to bson builder.
     void append_token(bsoncxx::builder::core& builder, Object value)
     {
-        dot::type value_type = value->get_type();
+        dot::Type value_type = value->get_type();
 
         // Convert value to supported type
         list<Attribute> value_attributes = value_type->get_custom_attributes(dot::typeof<filter_token_serialization_attribute>(), true);

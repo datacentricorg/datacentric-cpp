@@ -51,11 +51,11 @@ namespace dot
 
     public: // REFLECTION
 
-        type get_type() override { return typeof(); }
+        Type get_type() override { return typeof(); }
 
-        static type typeof()
+        static Type typeof()
         {
-            static type result = []()->type
+            static Type result = []()->Type
             {
                 return make_type_builder<test_class_impl>("dot", "test_class")
                     ->with_field("int_value", &test_class_impl::int_value)

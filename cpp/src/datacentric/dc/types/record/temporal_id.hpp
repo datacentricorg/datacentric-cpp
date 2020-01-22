@@ -57,7 +57,7 @@ namespace dc
     class DC_CLASS temporal_id
     {
         template <class T>
-        friend inline dot::type dot::typeof();
+        friend inline dot::Type dot::typeof();
 
     public: // STATIC
 
@@ -134,7 +134,7 @@ namespace dc
     private:
 
         static void serialize(dot::tree_writer_base writer, dot::Object obj);
-        static dot::Object deserialize(dot::Object value, dot::type type);
+        static dot::Object deserialize(dot::Object value, dot::Type type);
         static dot::Object serialize_token(dot::Object obj);
 
     private:
@@ -160,9 +160,9 @@ namespace dc
 namespace dot
 {
     template <>
-    inline type typeof<dc::temporal_id>()
+    inline Type typeof<dc::temporal_id>()
     {
-        static dot::type type_ = dot::make_type_builder<dc::temporal_id>("dc", "temporal_id", {
+        static dot::Type type_ = dot::make_type_builder<dc::temporal_id>("dc", "temporal_id", {
                 make_serialize_class_attribute(&dc::temporal_id::serialize),
                 make_deserialize_class_attribute(&dc::temporal_id::deserialize),
                 make_filter_token_serialization_attribute(&dc::temporal_id::serialize_token) })

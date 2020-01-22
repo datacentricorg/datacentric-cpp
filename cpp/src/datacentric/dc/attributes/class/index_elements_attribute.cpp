@@ -41,7 +41,7 @@ namespace dc
         return name_;
     }
 
-    dot::dictionary<dot::String, dot::String> index_elements_attribute_impl::get_attributes_dict(dot::type record_type)
+    dot::dictionary<dot::String, dot::String> index_elements_attribute_impl::get_attributes_dict(dot::Type record_type)
     {
         // The dictionary uses definition as key and name as value;
         // the name is the same as definition unless specified in
@@ -51,7 +51,7 @@ namespace dc
         // Create a list of index definition strings for the class,
         // including index definitions of its base classes, eliminating
         // duplicate definitions.
-        dot::type class_type = record_type;
+        dot::Type class_type = record_type;
         while (!class_type->equals(dot::typeof<record>()) && !class_type->equals(dot::typeof<key>()))
         {
             if (class_type == nullptr)
@@ -100,7 +100,7 @@ namespace dc
         return index_dict;
     }
 
-    dot::list<std::tuple<dot::String, int>> index_elements_attribute_impl::parse_definition(dot::String definition, dot::type record_type)
+    dot::list<std::tuple<dot::String, int>> index_elements_attribute_impl::parse_definition(dot::String definition, dot::Type record_type)
     {
         dot::list<std::tuple<dot::String, int>> result = dot::make_list<std::tuple<dot::String, int>>();
 
@@ -148,7 +148,7 @@ namespace dc
                     element_name, definition));
 
             // Check that element is present in TRecord as public property with both getter and setter
-            dot::field_info property_info = record_type->get_field(element_name);
+            dot::FieldInfo property_info = record_type->get_field(element_name);
             if (property_info == nullptr)
                 throw dot::Exception(dot::String::format(
                     "Property {0} not found in {1} or its parents, "
@@ -166,18 +166,18 @@ namespace dc
         return result;
     }
 
-    dot::type index_elements_attribute_impl::typeof()
+    dot::Type index_elements_attribute_impl::typeof()
     {
-        static dot::type result = []()->dot::type
+        static dot::Type result = []()->dot::Type
         {
-            dot::type t = dot::make_type_builder<index_elements_attribute_impl>("dc", "index_elements_attribute")
+            dot::Type t = dot::make_type_builder<index_elements_attribute_impl>("dc", "index_elements_attribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    dot::type index_elements_attribute_impl::get_type()
+    dot::Type index_elements_attribute_impl::get_type()
     {
         return typeof();
     }

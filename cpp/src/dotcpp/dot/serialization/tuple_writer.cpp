@@ -83,7 +83,7 @@ namespace dot
 
                     if (props_[i]->field_type()->is_class() && props_[i]->field_type()->get_fields()->size())
                     {
-                        Object result = dot::activator::create_instance(props_[i]->field_type());
+                        Object result = dot::Activator::create_instance(props_[i]->field_type());
                         data_writer_ = make_data_writer(result);
                         data_writer_->write_start_document(props_[i]->field_type()->name());
 
@@ -196,7 +196,7 @@ namespace dot
             return;
 
         // Check that we are either inside dictionary or array
-        dot::type element_type = tuple_->get_type()->get_generic_arguments()[index_of_current_]; // TODO - cache array instead of getting every time?
+        dot::Type element_type = tuple_->get_type()->get_generic_arguments()[index_of_current_]; // TODO - cache array instead of getting every time?
 
         if (value.is_empty())  // TODO is_empty method should be implemented according to c# extension
         {
@@ -205,8 +205,8 @@ namespace dot
             return;
         }
 
-        // Write based on element type
-        dot::type value_type = value->get_type();
+        // Write based on element Type
+        dot::Type value_type = value->get_type();
         if (element_type->equals(dot::typeof<dot::String>()) ||
             element_type->equals(dot::typeof<double>()) || element_type->equals(dot::typeof<dot::Nullable<double>>()) ||
             element_type->equals(dot::typeof<bool>()) || element_type->equals(dot::typeof<dot::Nullable<bool>>()) ||
@@ -215,11 +215,11 @@ namespace dot
             //element_type->equals(dot::typeof<dot::object_id>())
             )
         {
-            // Check type match
+            // Check Type match
             //if (!element_type->equals(value_type)) // TODO change to !element_type->is_assignable_from(value_type)
             //    throw dot::Exception(
-            //        dot::String::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-            //        dot::String::format("into element of type {0}.", element_type->name()));
+            //        dot::String::format("Attempting to deserialize value of Type {0} ", value_type->name()) +
+            //        dot::String::format("into element of Type {0}.", element_type->name()));
 
             dot::Object converted_value = value;
             if (element_type->equals(dot::typeof<double>()))
@@ -247,7 +247,7 @@ namespace dot
         {
             dot::LocalDate date_value;
 
-            // Check type match
+            // Check Type match
             if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize LocalDate as ISO int in yyyymmdd format
@@ -268,7 +268,7 @@ namespace dot
         {
             dot::LocalTime time_value;
 
-            // Check type match
+            // Check Type match
             if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize LocalTime as ISO int in hhmmssfff format
@@ -289,7 +289,7 @@ namespace dot
         {
             dot::LocalMinute minute_value;
 
-            // Check type match
+            // Check Type match
             if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize LocalMinute as ISO int in hhmmssfff format
@@ -310,7 +310,7 @@ namespace dot
         {
         dot::LocalDateTime date_time_value;
 
-            // Check type match
+            // Check Type match
             if (value_type->equals(dot::typeof<dot::LocalDateTime>()))
             {
                 date_time_value = (dot::LocalDateTime)value;
@@ -338,7 +338,7 @@ namespace dot
         }
         else if (element_type->is_enum())
         {
-            // Check type match
+            // Check Type match
             if (!value_type->equals(dot::typeof<dot::String>()))
                 throw dot::Exception(
                     dot::String::format("Attempting to deserialize value of type {0} ", value_type->name()) +
@@ -360,7 +360,7 @@ namespace dot
         }
         else
         {
-            // Argument type is unsupported, error message
+            // Argument Type is unsupported, error message
             throw dot::Exception(dot::String::format("Element type {0} is not supported for serialization.", value->get_type()));
         }
     }
@@ -370,7 +370,7 @@ namespace dot
         return tuple_->to_string();
     }
 
-    TupleWriterImpl::TupleWriterImpl(dot::Object tuple, dot::list<dot::field_info> props)
+    TupleWriterImpl::TupleWriterImpl(dot::Object tuple, dot::list<dot::FieldInfo> props)
         : tuple_(tuple)
         , props_(props)
     {

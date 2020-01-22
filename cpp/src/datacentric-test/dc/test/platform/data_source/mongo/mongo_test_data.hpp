@@ -129,13 +129,13 @@ namespace dot
     template <>
     struct type_traits<dc::mongo_test_enum>
     {
-        static type typeof()
+        static Type typeof()
         {
             //! TODO resolve recursive typeof<enum>
-            if (type_impl::get_type_map().find("dc.mongo_test_enum") != type_impl::get_type_map().end())
-                return type_impl::get_type_map()["dc.mongo_test_enum"];
+            if (TypeImpl::get_type_map().find("dc.mongo_test_enum") != TypeImpl::get_type_map().end())
+                return TypeImpl::get_type_map()["dc.mongo_test_enum"];
 
-            static type result = make_type_builder<dc::mongo_test_enum>("dc", "mongo_test_enum")
+            static Type result = make_type_builder<dc::mongo_test_enum>("dc", "mongo_test_enum")
                 ->is_enum()
                 ->with_method("parse", &ToStringImpl<dc::mongo_test_enum>::parse, { "value" })
                 ->build();
@@ -193,13 +193,13 @@ namespace dc
 
     public: // REFLECTION
 
-        dot::type get_type() override { return typeof(); }
+        dot::Type get_type() override { return typeof(); }
 
-        static dot::type typeof()
+        static dot::Type typeof()
         {
-            static dot::type result = []()->dot::type
+            static dot::Type result = []()->dot::Type
             {
-                dot::type t = dot::make_type_builder<mongo_test_data_impl>("dc", "mongo_test_data", {
+                dot::Type t = dot::make_type_builder<mongo_test_data_impl>("dc", "mongo_test_data", {
                         make_index_elements_attribute("double_element, local_date_element, enum_value"),
                         make_index_elements_attribute("local_date_element"),
                         make_index_elements_attribute("record_id, -version", "custom_index_name"),
@@ -270,13 +270,13 @@ namespace dc
 
     public: // REFLECTION
 
-        dot::type get_type() override { return typeof(); }
+        dot::Type get_type() override { return typeof(); }
 
-        static dot::type typeof()
+        static dot::Type typeof()
         {
-            static dot::type result = []()->dot::type
+            static dot::Type result = []()->dot::Type
             {
-                dot::type t = dot::make_type_builder<mongo_test_derived_data_impl>("dc", "mongo_test_derived_data", {
+                dot::Type t = dot::make_type_builder<mongo_test_derived_data_impl>("dc", "mongo_test_derived_data", {
                         make_index_elements_attribute("double_element2, -double_element")})
                     ->with_field("double_element2", &mongo_test_derived_data_impl::double_element2)
                     ->with_field("string_element2", &mongo_test_derived_data_impl::string_element2)
@@ -317,13 +317,13 @@ namespace dc
 
     public: // REFLECTION
 
-        dot::type get_type() override { return typeof(); }
+        dot::Type get_type() override { return typeof(); }
 
-        static dot::type typeof()
+        static dot::Type typeof()
         {
-            static dot::type result = []()->dot::type
+            static dot::Type result = []()->dot::Type
             {
-                dot::type t = dot::make_type_builder<mongo_test_other_derived_data_impl>("dc", "mongo_test_other_derived_data", {
+                dot::Type t = dot::make_type_builder<mongo_test_other_derived_data_impl>("dc", "mongo_test_other_derived_data", {
                         make_index_elements_attribute("other_double_element2, other_string_element2, -record_index") })
                     ->with_field("other_double_element2", &mongo_test_other_derived_data_impl::other_double_element2)
                     ->with_field("other_string_element2", &mongo_test_other_derived_data_impl::other_string_element2)

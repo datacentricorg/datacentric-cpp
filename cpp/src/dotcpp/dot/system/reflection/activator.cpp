@@ -33,14 +33,14 @@ limitations under the License.
 
 namespace dot
 {
-    Object activator::create_instance(type t)
+    Object Activator::create_instance(Type t)
     {
         return create_instance(t, nullptr);
     }
 
-    Object activator::create_instance(type t, list<Object> params)
+    Object Activator::create_instance(Type t, list<Object> params)
     {
-        list<constructor_info> ctors = t->get_constructors();
+        list<ConstructorInfo> ctors = t->get_constructors();
 
         // If no constructors
         if (ctors.is_empty() || ctors->count() == 0)
@@ -49,7 +49,7 @@ namespace dot
         }
 
         // Search for best matched constructor
-        constructor_info best_ctor = nullptr;
+        ConstructorInfo best_ctor = nullptr;
         int params_count = 0;
         if (!params.is_empty())
         {
@@ -92,13 +92,13 @@ namespace dot
         return best_ctor->invoke(params);
     }
 
-    Object activator::create_instance(String assembly_name, String type_name)
+    Object Activator::create_instance(String assembly_name, String type_name)
     {
-        return create_instance(type_impl::get_type_of(type_name), nullptr);
+        return create_instance(TypeImpl::get_type_of(type_name), nullptr);
     }
 
-    Object activator::create_instance(String assembly_name, String type_name, list<Object> params)
+    Object Activator::create_instance(String assembly_name, String type_name, list<Object> params)
     {
-        return create_instance(type_impl::get_type_of(type_name), params);
+        return create_instance(TypeImpl::get_type_of(type_name), params);
     }
 }

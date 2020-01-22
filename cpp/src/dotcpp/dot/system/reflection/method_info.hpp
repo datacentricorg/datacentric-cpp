@@ -30,113 +30,113 @@ limitations under the License.
 
 namespace dot
 {
-    class method_info_impl; using method_info = Ptr<method_info_impl>;
-    class type_impl; using type = Ptr<type_impl>;
+    class MethodInfoImpl; using MethodInfo = Ptr<MethodInfoImpl>;
+    class TypeImpl; using Type = Ptr<TypeImpl>;
 
     /// Obtains information about the attributes of a method and provides access to method metadata.
-    class DOT_CLASS method_info_impl : public member_info_impl
+    class DOT_CLASS MethodInfoImpl : public MemberInfoImpl
     {
-        friend class type_builder_impl;
+        friend class TypeBuilderImpl;
 
-        typedef method_info_impl self;
+        typedef MethodInfoImpl self;
 
     public: // METHODS
 
-        /// A String representing the name of the current type.
+        /// A String representing the name of the current Type.
         inline virtual String to_string() override;
 
         /// Gets the parameters of this method.
-        inline virtual list<parameter_info> get_parameters();
+        inline virtual list<ParameterInfo> get_parameters();
 
         /// Invokes specified method with given parameters.
         virtual Object invoke(Object, list<Object>) = 0;
 
-        /// Gets the return type of this method.
-        type return_type();
+        /// Gets the return Type of this method.
+        Type return_type();
 
     protected: // FIELDS
 
-        type return_type_;
-        list<parameter_info> parameters_;
+        Type return_type_;
+        list<ParameterInfo> parameters_;
 
     protected: // CONSTRUCTORS
 
-        /// Create from method name, declaring type, return type.
+        /// Create from method name, declaring Type, return Type.
         ///
         /// This constructor is protected. It is used by derived classes only.
-        inline method_info_impl(const String& name, type declaring_type, type return_type, list<Attribute> custom_attributes);
+        inline MethodInfoImpl(const String& name, Type declaring_type, Type return_type, list<Attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a non-static method and provides access to method metadata.
-    template <class class_, class return_t, class ... args>
-    class member_method_info_impl : public method_info_impl
+    template <class Class, class ReturnType, class ... Args>
+    class MemberMethodInfoImpl : public MethodInfoImpl
     {
-        friend class type_builder_impl;
-        typedef return_t (class_::*method_type)(args...);
+        friend class TypeBuilderImpl;
+        typedef ReturnType (Class::*MethodType)(Args...);
 
     private: // FIELDS
 
-        /// C++ function pointer type for the method.
-        method_type ptr_;
+        /// C++ function pointer Type for the method.
+        MethodType ptr_;
 
     public: // METHODS
 
-        /// A String representing the name of the current type.
+        /// A String representing the name of the current Type.
         inline virtual String to_string() override;
 
-        /// Invokes the method reflected by this method_info instance.
+        /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
         inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type);
 
-        /// Invokes the method reflected by this method_info instance.
+        /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
         inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type);
 
-        /// Invokes the method reflected by this method_info instance.
+        /// Invokes the method reflected by this MethodInfo instance.
         inline virtual Object invoke(Object obj, list<Object> params);
 
     private: // CONSTRUCTORS
 
-        /// Create from method name, declaring type, return type, and pointer to method.
+        /// Create from method name, declaring Type, return Type, and pointer to method.
         ///
         /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
-        inline member_method_info_impl(const String& name, type declaring_type, type return_type, method_type p, list<Attribute> custom_attributes);
+        inline MemberMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, list<Attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a static method and provides access to method metadata.
-    template <class return_t, class ... args>
-    class static_method_info_impl : public method_info_impl
+    template <class ReturnType, class ... Args>
+    class StaticMethodInfoImpl : public MethodInfoImpl
     {
-        friend class type_builder_impl;
-        typedef return_t (*method_type)(args...);
+        friend class TypeBuilderImpl;
+        typedef ReturnType (*MethodType)(Args...);
 
     private: // FIELDS
 
-        method_type ptr_;
+        MethodType ptr_;
 
     public: // METHODS
 
-        /// A String representing the name of the current type.
+        /// A String representing the name of the current Type.
         virtual String to_string() override;
 
-        /// Invokes the method reflected by this method_info instance.
+        /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
         inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::false_type);
 
-        /// Invokes the method reflected by this method_info instance.
+        /// Invokes the method reflected by this MethodInfo instance.
         template <int ... I>
         inline Object invoke_impl(Object obj, list<Object> params, detail::IndexSequence<I...>, std::true_type);
 
-        /// Invokes the method reflected by this method_info instance.
+        /// Invokes the method reflected by this MethodInfo instance.
         inline virtual Object invoke(Object obj, list<Object> params);
 
     private: // CONSTRUCTORS
 
-        /// Create from method name, declaring type, return type, and pointer to method.
+        /// Create from method name, declaring Type, return Type, and pointer to method.
         ///
         /// This constructor is private. Use make_method_info(...)
         /// function with matching signature instead.
-        inline static_method_info_impl(const String& name, type declaring_type, type return_type, method_type p, list<Attribute> custom_attributes);
+        inline StaticMethodInfoImpl(const String& name, Type declaring_type, Type return_type, MethodType p, list<Attribute> custom_attributes);
     };
 }

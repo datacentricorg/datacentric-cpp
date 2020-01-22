@@ -74,7 +74,7 @@ namespace dc
         /// that have one of the supported data types).
         ///
         /// This overload accepts the value of Type as parameter.
-        static data_type_info get_or_create(dot::type value);
+        static data_type_info get_or_create(dot::Type value);
 
     private: // CONSTRUCTORS
 
@@ -85,20 +85,20 @@ namespace dc
         /// on get_or_create(...) method only which uses thread static
         /// cached value if any, and creates the instance only if
         /// it is not yet cached for the thread.
-        data_type_info_impl(dot::type value);
+        data_type_info_impl(dot::Type value);
 
     private: // PRIVATE
 
-        static dot::dictionary<dot::type, data_type_info>& get_type_dict();
+        static dot::dictionary<dot::Type, data_type_info>& get_type_dict();
 
     private: // FIELDS
 
         data_kind_enum data_kind_ = data_kind_enum::empty;
         dot::list<dot::String> inheritance_chain_;
 
-        dot::type type_;
-        dot::type root_type_;
-        dot::type root_key_type_;
-        dot::type root_data_type_;
+        dot::Type type_;
+        dot::Type root_type_;
+        dot::Type root_key_type_;
+        dot::Type root_data_type_;
     };
 }

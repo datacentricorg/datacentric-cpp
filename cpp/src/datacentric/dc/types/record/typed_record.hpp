@@ -42,16 +42,16 @@ namespace dc
         /// can have any atomic type except Double.
         dot::String get_key() override
         {
-            dot::list<dot::field_info> props =  dot::typeof<dot::Ptr<TKey>>()->get_fields();
-            dot::type type_ = get_type();
+            dot::list<dot::FieldInfo> props =  dot::typeof<dot::Ptr<TKey>>()->get_fields();
+            dot::Type type_ = get_type();
 
             std::stringstream ss;
 
             for (int i = 0; i < props->count(); ++i)
             {
-                dot::field_info key_prop = props[i];
+                dot::FieldInfo key_prop = props[i];
 
-                dot::field_info prop = type_->get_field(key_prop->name());
+                dot::FieldInfo prop = type_->get_field(key_prop->name());
 
                 dot::Object value = prop->get_value(this);
 
@@ -65,7 +65,7 @@ namespace dc
                 {
                     if (prop->field_type()->is_subclass_of(dot::typeof<key>()))
                     {
-                        dot::Object empty_key = dot::activator::create_instance(prop->field_type());
+                        dot::Object empty_key = dot::Activator::create_instance(prop->field_type());
                         ss << *empty_key->to_string();
                     }
                 }
@@ -89,8 +89,8 @@ namespace dc
         /// created in-memory without any need to save them to storage.
         dot::Ptr<TKey> to_key()
         {
-            dot::type key_type = dot::typeof<dot::Ptr<TKey>>();
-            dot::Ptr<TKey> result = (dot::Ptr<TKey>)dot::activator::create_instance(key_type);
+            dot::Type key_type = dot::typeof<dot::Ptr<TKey>>();
+            dot::Ptr<TKey> result = (dot::Ptr<TKey>)dot::Activator::create_instance(key_type);
 
             // The cached value will be used only for lookup in the dataset
             // passed to this method, but not for lookup in another dataset

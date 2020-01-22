@@ -33,18 +33,18 @@ namespace dot
         serializer_(writer, obj);
     }
 
-    type SerializeClassAttributeImpl::typeof()
+    Type SerializeClassAttributeImpl::typeof()
     {
-        static type result = []()->type
+        static Type result = []()->Type
         {
-            type t = make_type_builder<SerializeClassAttributeImpl>("dot", "SerializeClassAttribute")
+            Type t = make_type_builder<SerializeClassAttributeImpl>("dot", "SerializeClassAttribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    type SerializeClassAttributeImpl::get_type()
+    Type SerializeClassAttributeImpl::get_type()
     {
         return typeof();
     }
@@ -54,18 +54,18 @@ namespace dot
         serializer_(writer, obj);
     }
 
-    type SerializeFieldAttributeImpl::typeof()
+    Type SerializeFieldAttributeImpl::typeof()
     {
-        static type result = []()->type
+        static Type result = []()->Type
         {
-            type t = make_type_builder<SerializeFieldAttributeImpl>("dot", "SerializeFieldAttribute")
+            Type t = make_type_builder<SerializeFieldAttributeImpl>("dot", "SerializeFieldAttribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    type SerializeFieldAttributeImpl::get_type()
+    Type SerializeFieldAttributeImpl::get_type()
     {
         return typeof();
     }

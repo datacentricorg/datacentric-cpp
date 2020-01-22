@@ -75,7 +75,7 @@ namespace dot
 
         /// Converts the String representation of the name or numeric value of
         /// one or more enumerated constants to an equivalent enumerated Object.
-        static Object parse(type enum_type, String value);
+        static Object parse(Type enum_type, String value);
 
     protected: // PROTECTED
 

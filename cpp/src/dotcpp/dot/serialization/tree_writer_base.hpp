@@ -149,7 +149,7 @@ namespace dot
         /// must be followed by write_end_element(name).
         virtual void write_end_value() = 0;
 
-        /// Write atomic value. Value type
+        /// Write atomic value. Value Type
         /// will be inferred from Object.get_type().
         virtual void write_value(dot::Object value) = 0;
 
@@ -160,18 +160,18 @@ namespace dot
         void write_end_array_element(dot::String element_name);
 
         /// Write an element with no inner nodes.
-        /// Element type is inferred by calling obj.get_type().
+        /// Element Type is inferred by calling obj.get_type().
         void write_value_element(dot::String element_name, dot::Object value);
 
         /// Write an array item with no inner nodes.
-        /// Element type is inferred by calling obj.get_type().
+        /// Element Type is inferred by calling obj.get_type().
         void write_value_array_item(dot::Object value);
 
         /// Write a single array item.
         void write_array_item(dot::Object value);
 
         /// Write an array of elements with no inner nodes.
-        /// Element type is inferred by calling obj.get_type().
+        /// Element Type is inferred by calling obj.get_type().
         template <class container>
         void write_value_array(dot::String element_name, container values)
         {

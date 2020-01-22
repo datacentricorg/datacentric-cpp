@@ -34,7 +34,7 @@ limitations under the License.
 
 namespace dot
 {
-    /// Represents a value type that can be assigned null.
+    /// Represents a value Type that can be assigned null.
     template <class T>
     class Nullable : public std::optional<T>
     {
@@ -50,7 +50,7 @@ namespace dot
         T value() const { return base::value(); }
 
         /// Gets a value indicating whether the current Nullable
-        /// Object has a valid value of its underlying type.
+        /// Object has a valid value of its underlying Type.
         bool has_value() const { return base::has_value(); }
 
     public: // CONSTRUCTORS
@@ -77,7 +77,7 @@ namespace dot
     public: // METHODS
 
         /// Retrieves the value of the current Nullable Object,
-        /// or the default value of the underlying type.
+        /// or the default value of the underlying Type.
         T value_or_default() const { return value_or_default(T()); }
 
         /// Retrieves the value of the current Nullable<T> Object,
@@ -123,7 +123,7 @@ namespace dot
     /// used before being assigned to.
     ///
     /// This class uses sentinel to represent uninitialized (empty) state,
-    /// ensuring no size overhead compared to the native bool type.
+    /// ensuring no size overhead compared to the native bool Type.
     template <>
     class Nullable<bool>
     {
@@ -171,7 +171,7 @@ namespace dot
     public: // METHODS
 
         /// Retrieves the value of the current Nullable Object,
-        /// or the default value of the underlying type.
+        /// or the default value of the underlying Type.
         bool value_or_default() const { return value_or_default(bool()); }
 
         /// Retrieves the value of the current Nullable<T> Object,
@@ -195,7 +195,7 @@ namespace dot
     /// used before being assigned to.
     ///
     /// This class uses sentinel to represent uninitialized (empty) state,
-    /// ensuring no size overhead compared to the native int type.
+    /// ensuring no size overhead compared to the native int Type.
     template <>
     class Nullable<int>
     {
@@ -237,7 +237,7 @@ namespace dot
     public: // METHODS
 
         /// Retrieves the value of the current Nullable Object,
-        /// or the default value of the underlying type.
+        /// or the default value of the underlying Type.
         int value_or_default() const { return value_or_default(int()); }
 
         /// Retrieves the value of the current Nullable<T> Object,
@@ -264,7 +264,7 @@ namespace dot
     /// used before being assigned to.
     ///
     /// This class uses sentinel to represent uninitialized (empty) state,
-    /// ensuring no size overhead compared to the native long type.
+    /// ensuring no size overhead compared to the native long Type.
     template <>
     class Nullable<int64_t>
     {
@@ -306,7 +306,7 @@ namespace dot
     public: // METHODS
 
         /// Retrieves the value of the current Nullable Object,
-        /// or the default value of the underlying type.
+        /// or the default value of the underlying Type.
         int64_t value_or_default() const { return value_or_default(int64_t()); }
 
         /// Retrieves the value of the current Nullable<T> Object,
@@ -332,7 +332,7 @@ namespace dot
     /// Conversion to double when in null state results in an error.
     ///
     /// This class uses a sentinel to represent null (empty) state,
-    /// ensuring no size overhead compared to the native double type.
+    /// ensuring no size overhead compared to the native double Type.
     template <>
     class Nullable<double>
     {
@@ -374,7 +374,7 @@ namespace dot
     public: // METHODS
 
         /// Retrieves the value of the current Nullable Object,
-        /// or the default value of the underlying type.
+        /// or the default value of the underlying Type.
         double value_or_default() const { return value_or_default(double()); }
 
         /// Retrieves the value of the current Nullable<T> Object,

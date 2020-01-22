@@ -29,65 +29,65 @@ limitations under the License.
 
 namespace dot
 {
-    class constructor_info_impl; using constructor_info = Ptr<constructor_info_impl>;
-    class type_impl; using type = Ptr<type_impl>;
+    class ConstructorInfoImpl; using ConstructorInfo = Ptr<ConstructorInfoImpl>;
+    class TypeImpl; using Type = Ptr<TypeImpl>;
 
     /// Obtains information about the attributes of a constructor and provides access to constructor metadata.
-    class constructor_info_impl : public member_info_impl
+    class ConstructorInfoImpl : public MemberInfoImpl
     {
-        friend class type_builder_impl;
+        friend class TypeBuilderImpl;
 
     public: // METHODS
 
-        /// A String representing the name of the current type.
+        /// A String representing the name of the current Type.
         inline virtual String to_string() override;
 
         /// Gets the parameters of this constructor.
-        inline virtual list<parameter_info> get_parameters();
+        inline virtual list<ParameterInfo> get_parameters();
 
         /// Invokes specified constructor with given parameters.
         virtual Object invoke(list<Object>) = 0;
 
     protected: // CONSTRUCTORS
 
-        list<parameter_info> parameters_;
+        list<ParameterInfo> parameters_;
 
-        /// Create from declaring type
+        /// Create from declaring Type
         ///
         /// This constructor is protected. It is used by derived classes only.
-        inline constructor_info_impl(type declaring_type, list<Attribute> custom_attributes);
+        inline ConstructorInfoImpl(Type declaring_type, list<Attribute> custom_attributes);
     };
 
     /// Obtains information about the attributes of a constructor and provides access to constructor metadata.
-    template <class class_, class ... args>
-    class member_constructor_info_impl : public constructor_info_impl
+    template <class Class, class ... Args>
+    class MemberConstructorInfoImpl : public ConstructorInfoImpl
     {
 
-        friend class type_builder_impl;
-        typedef class_(*ctor_type)(args...);
+        friend class TypeBuilderImpl;
+        typedef Class(*CtorType)(Args...);
 
     private: // FIELDS
 
-        ctor_type ptr_;
+        CtorType ptr_;
 
     public: // METHODS
 
-        /// A String representing the name of the current type.
+        /// A String representing the name of the current Type.
         inline virtual String to_string() override;
 
-        /// Invokes the constructor reflected by this constructor_info instance.
+        /// Invokes the constructor reflected by this ConstructorInfo instance.
         template <int ... I>
         inline Object invoke_impl(list<Object> params, detail::IndexSequence<I...>);
 
-        /// Invokes the constructor reflected by this constructor_info instance.
+        /// Invokes the constructor reflected by this ConstructorInfo instance.
         inline virtual Object invoke(list<Object> params);
 
     private: // CONSTRUCTORS
 
-        /// Create from declaring type, and pointer to constructor.
+        /// Create from declaring Type, and pointer to constructor.
         ///
         /// This constructor is private. Use make_constructor_info(...)
         /// function with matching signature instead.
-        inline member_constructor_info_impl(type declaring_type, ctor_type p, list<Attribute> custom_attributes);
+        inline MemberConstructorInfoImpl(Type declaring_type, CtorType p, list<Attribute> custom_attributes);
     };
 }

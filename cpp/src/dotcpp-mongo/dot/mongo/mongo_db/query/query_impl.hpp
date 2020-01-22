@@ -40,7 +40,7 @@ namespace dot
         }
 
         /// Groups docs by key.
-        virtual void group_by(dot::field_info key_selectors) override
+        virtual void group_by(dot::FieldInfo key_selectors) override
         {
             flush_sort();
 
@@ -56,7 +56,7 @@ namespace dot
 
         /// First sort.
         /// For subsequent sorting use then_by/then_by_descending after sort_by.
-        virtual void sort_by(dot::field_info key_selector) override
+        virtual void sort_by(dot::FieldInfo key_selector) override
         {
             if (!sort_.empty())
             {
@@ -68,7 +68,7 @@ namespace dot
 
         /// First sort.
         /// For subsequent sorting use then_by/then_by_descending after sort_by_descending.
-        virtual void sort_by_descending(dot::field_info key_selector) override
+        virtual void sort_by_descending(dot::FieldInfo key_selector) override
         {
             if (!sort_.empty())
             {
@@ -79,13 +79,13 @@ namespace dot
         }
 
         /// Use in subsequent sorting after sort_by/sort_by_descending.
-        virtual void then_by(dot::field_info key_selector) override
+        virtual void then_by(dot::FieldInfo key_selector) override
         {
             sort_.push_back(std::make_pair(key_selector->name(), 1));
         }
 
         /// Use in subsequent sorting after sort_by/sort_by_descending.
-        virtual void then_by_descending(dot::field_info key_selector) override
+        virtual void then_by_descending(dot::FieldInfo key_selector) override
         {
             sort_.push_back(std::make_pair(key_selector->name(), -1));
         }
@@ -107,12 +107,12 @@ namespace dot
         }
 
         /// Returns cursor constructed from pipeline and tuple deserializator.
-        virtual object_cursor_wrapper_base select(dot::list<dot::field_info> props, dot::type element_type) override
+        virtual object_cursor_wrapper_base select(dot::list<dot::FieldInfo> props, dot::Type element_type) override
         {
             flush_sort();
 
             bsoncxx::builder::basic::document selectList{};
-            for (dot::field_info prop : props)
+            for (dot::FieldInfo prop : props)
                 selectList.append(bsoncxx::builder::basic::kvp((std::string&)*(dot::String) prop->name(), 1));
             selectList.append(bsoncxx::builder::basic::kvp("_key", 1));
 
@@ -161,9 +161,9 @@ namespace dot
 
         dot::collection collection_;
         std::deque<std::pair<String, int>> sort_;
-        dot::type type_;
-        dot::type element_type_;
-        dot::list<dot::field_info> select_;
+        dot::Type type_;
+        dot::Type element_type_;
+        dot::list<dot::FieldInfo> select_;
 
         mongocxx::pipeline pipeline_;
     };
@@ -181,37 +181,37 @@ namespace dot
         return impl_->get_cursor();
     }
 
-    query query_impl::group_by(dot::field_info key_selector)
+    query query_impl::group_by(dot::FieldInfo key_selector)
     {
         impl_->group_by(key_selector);
         return this;
     }
 
-    query query_impl::sort_by(dot::field_info key_selector)
+    query query_impl::sort_by(dot::FieldInfo key_selector)
     {
         impl_->sort_by(key_selector);
         return this;
     }
 
-    query query_impl::sort_by_descending(dot::field_info key_selector)
+    query query_impl::sort_by_descending(dot::FieldInfo key_selector)
     {
         impl_->sort_by_descending(key_selector);
         return this;
     }
 
-    query query_impl::then_by(dot::field_info key_selector)
+    query query_impl::then_by(dot::FieldInfo key_selector)
     {
         impl_->then_by(key_selector);
         return this;
     }
 
-    query query_impl::then_by_descending(dot::field_info key_selector)
+    query query_impl::then_by_descending(dot::FieldInfo key_selector)
     {
         impl_->then_by_descending(key_selector);
         return this;
     }
 
-    object_cursor_wrapper_base query_impl::select(dot::list<dot::field_info> props, dot::type element_type)
+    object_cursor_wrapper_base query_impl::select(dot::list<dot::FieldInfo> props, dot::Type element_type)
     {
         return impl_->select(props, element_type);
     }
@@ -222,7 +222,7 @@ namespace dot
         return this;
     }
 
-    query_impl::query_impl(dot::collection collection, dot::type type)
+    query_impl::query_impl(dot::collection collection, dot::Type type)
     {
         query_inner impl = new query_inner_impl;
 

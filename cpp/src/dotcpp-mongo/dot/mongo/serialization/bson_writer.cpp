@@ -68,9 +68,9 @@ namespace dot
         }
         else if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::hierarchical)
         {
-            // Get type parrents
-            type root_element_type = dot::type_impl::get_type_of(root_element_name);
-            list<type> root_element_base_types = get_parents_list(root_element_type);
+            // Get Type parrents
+            Type root_element_type = dot::TypeImpl::get_type_of(root_element_name);
+            list<Type> root_element_base_types = get_parents_list(root_element_type);
 
             // And wirte them to array
             bson_writer_.open_array();
@@ -291,8 +291,8 @@ namespace dot
             return;
         }
 
-        // Serialize based on value type
-        dot::type value_type = value->get_type();
+        // Serialize based on value Type
+        dot::Type value_type = value->get_type();
 
         if (value_type->equals(dot::typeof<dot::String>()))
             bson_writer_.append(*(dot::String)value);
@@ -330,7 +330,7 @@ namespace dot
         if (value_type->is_enum())
             bson_writer_.append(*value->to_string());
         else
-            throw dot::Exception(dot::String::format("Element type {0} is not supported for BSON serialization.", value_type));
+            throw dot::Exception(dot::String::format("Element Type {0} is not supported for BSON serialization.", value_type));
     }
 
     dot::String bson_writer_impl::to_string()
@@ -353,12 +353,12 @@ namespace dot
         };
     }
 
-    list<type> bson_writer_impl::get_parents_list(type from_type)
+    list<Type> bson_writer_impl::get_parents_list(Type from_type)
     {
-        list<type> parents_list = make_list<type>();
+        list<Type> parents_list = make_list<Type>();
 
         // Appending base types to list
-        type base = from_type->get_base_type();
+        Type base = from_type->get_base_type();
         while (base != nullptr)
         {
             parents_list->add(base);

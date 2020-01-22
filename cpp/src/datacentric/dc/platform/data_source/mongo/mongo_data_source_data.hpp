@@ -32,12 +32,12 @@ namespace dc
 
     public: // METHODS
 
-        /// Load record by its temporal_id and type.
+        /// Load record by its temporal_id and Type.
         ///
         /// Return null if there is no record for the specified temporal_id;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        virtual record load_or_null(temporal_id id, dot::type data_type) override;
+        virtual record load_or_null(temporal_id id, dot::Type data_type) override;
 
         /// This method does not use cached value inside the key
         /// and always retrieves a new record from storage. To get
@@ -79,7 +79,7 @@ namespace dc
         /// strictly increasing order.
         virtual void save_many(dot::list<record> records, temporal_id save_to) override;
 
-        /// Get query for the specified type.
+        /// Get query for the specified Type.
         ///
         /// After applying query parameters, the lookup occurs first in the
         /// reverse chronological order of datasets to one second resolution,
@@ -89,7 +89,7 @@ namespace dc
         /// The root dataset has empty temporal_id value that is less
         /// than any other temporal_id value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
-        virtual mongo_query get_query(temporal_id data_set, dot::type type) override;
+        virtual mongo_query get_query(temporal_id data_set, dot::Type type) override;
 
         /// Write a delete marker for the specified data_set and data_key
         /// instead of actually deleting the record. This ensures that
@@ -180,8 +180,8 @@ namespace dc
 
     private: // METHODS
 
-        /// Get collection with name based on the type.
-        dot::collection get_or_create_collection(dot::type data_type);
+        /// Get collection with name based on the Type.
+        dot::collection get_or_create_collection(dot::Type data_type);
 
         /// Builds hashset of import datasets for specified dataset data,
         /// including imports of imports to unlimited depth with cyclic
@@ -237,8 +237,8 @@ namespace dc
 
     private: // FIELDS
 
-        /// Dictionary of collections indexed by type T.
-        dot::dictionary<dot::type, dot::Object> collection_dict_ = dot::make_dictionary<dot::type, dot::Object>();
+        /// Dictionary of collections indexed by Type T.
+        dot::dictionary<dot::Type, dot::Object> collection_dict_ = dot::make_dictionary<dot::Type, dot::Object>();
 
         /// Dictionary of dataset temporal_ids stored under String data_set_id.
         dot::dictionary<dot::String, temporal_id> data_set_dict_ = dot::make_dictionary<dot::String, temporal_id>();

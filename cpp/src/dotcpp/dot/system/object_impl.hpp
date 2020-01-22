@@ -30,7 +30,7 @@ namespace dot
 {
     class Object;
     class StringImpl; class String;
-    class type_impl; using type = Ptr<type_impl>;
+    class TypeImpl; using Type = Ptr<TypeImpl>;
 
     /// All classes with reference semantics should derive from this type.
     /// It works with Ptr to provide an emulation of reference semantics in C++.
@@ -57,11 +57,11 @@ namespace dot
         /// to avoid the situation when objects are equal but hash is not.
         virtual size_t hash_code();
 
-        /// Gets the type of the current instance.
-        virtual type get_type();
+        /// Gets the Type of the current instance.
+        virtual Type get_type();
 
-        /// Gets the type of the class.
-        static type typeof();
+        /// Gets the Type of the class.
+        static Type typeof();
 
         /// String that represents the current Object.
         ///

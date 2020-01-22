@@ -158,8 +158,8 @@ namespace dot
 
     public: // REFLECTION
 
-        virtual type get_type();
-        static type typeof();
+        virtual Type get_type();
+        static Type typeof();
     };
 
     /// Pointer to StringImpl that has additional constructors compared to Ptr(String)

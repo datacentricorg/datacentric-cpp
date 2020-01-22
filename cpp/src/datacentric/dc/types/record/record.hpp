@@ -74,7 +74,7 @@ namespace dc
 
     public: // REFLECTION
 
-        static dot::type typeof();
-        dot::type get_type() override;
+        static dot::Type typeof();
+        dot::Type get_type() override;
     };
 }

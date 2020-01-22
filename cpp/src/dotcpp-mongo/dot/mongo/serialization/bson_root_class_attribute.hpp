@@ -42,8 +42,8 @@ namespace dot
 
     public: // REFLECTION
 
-        static type typeof();
-        type get_type() override;
+        static Type typeof();
+        Type get_type() override;
     };
 
     inline bson_root_class_attribute make_bson_root_class_attribute() { return new bson_root_class_attribute_impl(); }

@@ -57,12 +57,12 @@ namespace dot
         dot::String root_name = current_dict_->get_type()->name();
         // Check that the name matches
         if (root_element_name != root_name) throw dot::Exception(
-            dot::String::format("Attempting to deserialize data for type {0} into type {1}.", root_element_name, root_name));
+            dot::String::format("Attempting to deserialize data for Type {0} into Type {1}.", root_element_name, root_name));
 
         root_element_name_ = root_element_name;
         current_element_name_ = root_element_name;
         auto current_dict_info_list = current_dict_->get_type()->get_fields();
-        current_dict_elements_ = dot::make_dictionary<dot::String, dot::field_info>();
+        current_dict_elements_ = dot::make_dictionary<dot::String, dot::FieldInfo>();
         for(auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name(), element_info);
         current_array_ = nullptr;
         current_array_item_type_ = nullptr;
@@ -134,17 +134,17 @@ namespace dot
 
         if (type_name != nullptr && !type_name->empty())
         {
-            created_dict = dot::activator::create_instance("", type_name);
+            created_dict = dot::Activator::create_instance("", type_name);
         }
         else
         {
             // Set dictionary info
-            dot::type created_dict_type = nullptr;
+            dot::Type created_dict_type = nullptr;
             if (current_array_ != nullptr) created_dict_type = current_array_item_type_;
             else if (current_dict_ != nullptr) created_dict_type = current_element_info_->field_type();
             else throw dot::Exception("Value can only be added to a dictionary or array.");
 
-            created_dict = dot::activator::create_instance(created_dict_type);
+            created_dict = dot::Activator::create_instance(created_dict_type);
         }
 
         // Add to array or dictionary, depending on what we are inside of
@@ -154,7 +154,7 @@ namespace dot
 
         current_dict_ = created_dict;
         auto current_dict_info_list = created_dict->get_type()->get_fields();
-        current_dict_elements_ = dot::make_dictionary<dot::String, dot::field_info>();
+        current_dict_elements_ = dot::make_dictionary<dot::String, dot::FieldInfo>();
         for (auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name(), element_info);
         current_array_ = nullptr;
         current_array_item_type_ = nullptr;
@@ -185,7 +185,7 @@ namespace dot
                 "A call to write_start_array() must follow write_start_element(...).");
 
         // Create the array
-        dot::Object created_array_obj = dot::activator::create_instance(current_element_info_->field_type());
+        dot::Object created_array_obj = dot::Activator::create_instance(current_element_info_->field_type());
         if (created_array_obj.is<dot::list_base>()) // TODO Also support native arrays
         {
             // Add to array or dictionary, depending on what we are inside of
@@ -195,14 +195,14 @@ namespace dot
 
             current_array_ = (dot::list_base) created_array_obj;
 
-            // Get array item type from array type using reflection
-            dot::type list_type = current_element_info_->field_type();      // TODO fix
+            // Get array item Type from array Type using reflection
+            dot::Type list_type = current_element_info_->field_type();      // TODO fix
 //            if (!list_type->is_generic_type) throw dot::Exception(dot::String::format(
 //                "Type {0} cannot be serialized because it implements only list_base but not list_base<T>.", list_type));
-//            list<type> generic_parameter_types = list_type->generic_type_arguments;
-            dot::list<dot::type> generic_parameter_types = list_type->get_generic_arguments();
+//            list<Type> generic_parameter_types = list_type->generic_type_arguments;
+            dot::list<dot::Type> generic_parameter_types = list_type->get_generic_arguments();
             if (generic_parameter_types->count() != 1) throw dot::Exception(
-                dot::String::format("Generic parameter type list {0} has more than ", generic_parameter_types) +
+                dot::String::format("Generic parameter Type list {0} has more than ", generic_parameter_types) +
                 "one element creating an ambiguity for deserialization code.");
             current_array_item_type_ = generic_parameter_types[0];
 
@@ -214,7 +214,7 @@ namespace dot
         {
             dot::String class_name = current_element_info_->field_type()->full_name();
             throw dot::Exception(dot::String::format(
-                "Element {0} of type {1} does not implement collection_base.", current_element_info_->name(), class_name));
+                "Element {0} of Type {1} does not implement collection_base.", current_element_info_->name(), class_name));
         }
     }
 
@@ -254,7 +254,7 @@ namespace dot
         //else if (current_array_item_type_ == dot::typeof<LocalDateTime>()) added_item = dot::LocalDateTime();
         //else if (current_array_item_type_ == dot::typeof<Nullable<LocalDateTime>>()) added_item = nullptr;
         //else if (current_array_item_type_->is_class) added_item = nullptr;
-        //else throw dot::Exception(dot::String::format("Value type {0} is not supported for serialization.", current_array_item_type_->name()));
+        //else throw dot::Exception(dot::String::format("Value Type {0} is not supported for serialization.", current_array_item_type_->name()));
 
         //current_array_->add_object(added_item);
         //current_array_item_ = added_item;
@@ -310,7 +310,7 @@ namespace dot
         }
 
         // Check that we are either inside dictionary or array
-        dot::type element_type = nullptr;
+        dot::Type element_type = nullptr;
         if (current_array_ != nullptr) element_type = current_array_item_type_;
         else if (current_dict_ != nullptr) element_type = current_element_info_->field_type();
         else throw dot::Exception(
@@ -337,7 +337,7 @@ namespace dot
             return;
         }
 
-        dot::type value_type = value->get_type();
+        dot::Type value_type = value->get_type();
         if (element_type->equals(dot::typeof<dot::String>()) ||
             element_type->equals(dot::typeof<double>()) || element_type->equals(dot::typeof<dot::Nullable<double>>()) ||
             element_type->equals(dot::typeof<bool>()) || element_type->equals(dot::typeof<dot::Nullable<bool>>()) ||
@@ -345,11 +345,11 @@ namespace dot
             element_type->equals(dot::typeof<int64_t>()) || element_type->equals(dot::typeof<dot::Nullable<int64_t>>())
             )
         {
-            // Check type match
+            // Check Type match
             //if (!element_type->equals(value_type)) // TODO change to !element_type->is_assignable_from(value_type)
             //    throw dot::Exception(
-            //        dot::String::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-            //        dot::String::format("into element of type {0}.", element_type->name()));
+            //        dot::String::format("Attempting to deserialize value of Type {0} ", value_type->name()) +
+            //        dot::String::format("into element of Type {0}.", element_type->name()));
 
             dot::Object converted_value = value;
             if (element_type->equals(dot::typeof<double>()))
@@ -375,7 +375,7 @@ namespace dot
         {
             dot::LocalDate date_value;
 
-            // Check type match
+            // Check Type match
             if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize LocalDate as ISO int in yyyymmdd format
@@ -387,8 +387,8 @@ namespace dot
                 date_value = dot::LocalDateUtil::parse_iso_int((int) value);
             }
             else throw dot::Exception(
-                    dot::String::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-                    "into LocalDate; type should be int32.");
+                    dot::String::format("Attempting to deserialize value of Type {0} ", value_type->name()) +
+                    "into LocalDate; Type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(date_value);
@@ -399,7 +399,7 @@ namespace dot
         {
             dot::LocalTime time_value;
 
-            // Check type match
+            // Check Type match
             if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize LocalTime as ISO int in hhmmssfff format
@@ -411,8 +411,8 @@ namespace dot
                 time_value = dot::LocalTimeUtil::parse_iso_int((int) value);
             }
             else throw dot::Exception(
-                    dot::String::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-                    "into LocalTime; type should be int32.");
+                    dot::String::format("Attempting to deserialize value of Type {0} ", value_type->name()) +
+                    "into LocalTime; Type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(time_value);
@@ -423,7 +423,7 @@ namespace dot
         {
             dot::LocalMinute minute_value;
 
-            // Check type match
+            // Check Type match
             if (value_type->equals(dot::typeof<int>()))
             {
                 // Deserialize LocalMinute as ISO int in hhmmssfff format
@@ -435,8 +435,8 @@ namespace dot
                 minute_value = dot::LocalMinuteUtil::parse_iso_int((int) value);
             }
             else throw dot::Exception(
-                dot::String::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-                "into LocalMinute; type should be int32.");
+                dot::String::format("Attempting to deserialize value of Type {0} ", value_type->name()) +
+                "into LocalMinute; Type should be int32.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(minute_value);
@@ -447,7 +447,7 @@ namespace dot
         {
         dot::LocalDateTime date_time_value;
 
-            // Check type match
+            // Check Type match
             if (value_type->equals(dot::typeof<dot::LocalDateTime>()))
             {
                 date_time_value = (dot::LocalDateTime) value;
@@ -468,8 +468,8 @@ namespace dot
                 date_time_value = dot::LocalDateTimeUtil::parse((dot::String) value);
             }
             else throw dot::Exception(
-                    dot::String::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-                    "into LocalDateTime; type should be LocalDateTime.");
+                    dot::String::format("Attempting to deserialize value of Type {0} ", value_type->name()) +
+                    "into LocalDateTime; Type should be LocalDateTime.");
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(date_time_value);
@@ -478,10 +478,10 @@ namespace dot
         }
         else if (element_type->equals(dot::typeof<dot::ByteArray>()))
         {
-            // Check type match
+            // Check Type match
             if (!value_type->equals(dot::typeof<dot::ByteArray>()))
                 throw dot::Exception(dot::String::format(
-                    "Attempting to deserialize value of type {0} into ByteArray.", value_type->name()));
+                    "Attempting to deserialize value of Type {0} into ByteArray.", value_type->name()));
 
             // Add to array or dictionary, depending on what we are inside of
             if (current_array_ != nullptr) current_array_->add_object(value);
@@ -490,11 +490,11 @@ namespace dot
         }
         else if (element_type->is_enum())
         {
-            // Check type match
+            // Check Type match
             if (!value_type->equals(dot::typeof<dot::String>()))
                 throw dot::Exception(
-                    dot::String::format("Attempting to deserialize value of type {0} ", value_type->name()) +
-                    dot::String::format("into enum {0}; type should be String.", element_type->name()));
+                    dot::String::format("Attempting to deserialize value of Type {0} ", value_type->name()) +
+                    dot::String::format("into enum {0}; Type should be String.", element_type->name()));
 
             // Deserialize enum as String
             dot::Object enum_value = element_type->get_method("parse")->invoke(nullptr, dot::make_list<dot::Object>({ value }));
@@ -504,7 +504,7 @@ namespace dot
             else if (current_dict_ != nullptr) current_element_info_->set_value(current_dict_, enum_value);
             else throw dot::Exception("Value can only be added to a dictionary or array.");
         }
-        // Check for custom deserializer for element type
+        // Check for custom deserializer for element Type
         else if (element_type->get_custom_attributes(dot::typeof<DeserializeClassAttribute>(), true)->size())
         {
             DeserializeClassAttribute attr = (DeserializeClassAttribute)element_type->get_custom_attributes(dot::typeof<DeserializeClassAttribute>(), true)[0];
@@ -517,8 +517,8 @@ namespace dot
         }
         else
         {
-            // Argument type is unsupported, error message
-            throw dot::Exception(dot::String::format("Element type {0} is not supported for serialization.", value->get_type()));
+            // Argument Type is unsupported, error message
+            throw dot::Exception(dot::String::format("Element Type {0} is not supported for serialization.", value->get_type()));
         }
     }
 
