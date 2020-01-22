@@ -16,12 +16,12 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/types/record/key_base.hpp>
+#include <dc/types/record/key.hpp>
 #include <dot/system/reflection/activator.hpp>
 
 namespace dc
 {
-    dot::string key_base_impl::to_string()
+    dot::string key_impl::to_string()
     {
         dot::list<dot::field_info> props = get_type()->get_fields();
 
@@ -41,7 +41,7 @@ namespace dc
             }
             else
             {
-                if (prop->field_type()->is_subclass_of(dot::typeof<key_base>()))
+                if (prop->field_type()->is_subclass_of(dot::typeof<key>()))
                 {
                     dot::object empty_key = dot::activator::create_instance(prop->field_type());
                     ss << *empty_key->to_string();
@@ -53,16 +53,16 @@ namespace dc
         return ss.str();
     }
 
-    void key_base_impl::assign_string(std::stringstream & value)
+    void key_impl::populate_from(std::stringstream & value)
     {
         dot::list<dot::field_info> props = get_type()->get_fields();
 
         for (dot::field_info prop : props)
         {
-            if (prop->field_type()->is_subclass_of(dot::typeof<key_base>()))
+            if (prop->field_type()->is_subclass_of(dot::typeof<key>()))
             {
-                key_base sub_key = (key_base)dot::activator::create_instance(prop->field_type());
-                sub_key->assign_string(value);
+                key sub_key = (key)dot::activator::create_instance(prop->field_type());
+                sub_key->populate_from(value);
 
                 prop->set_value(this, sub_key);
             }
@@ -88,7 +88,7 @@ namespace dc
                 }
                 else
                 {
-                    throw dot::exception("Unknown type in key_base.assign_string(...)");
+                    throw dot::exception("Unknown type in key.assign_string(...)");
                 }
 
             }
@@ -96,18 +96,18 @@ namespace dc
 
     }
 
-    dot::object key_base_impl::deserialize(dot::object value, dot::type type)
+    dot::object key_impl::deserialize(dot::object value, dot::type type)
     {
         dot::type value_type = value->get_type();
 
-        if (value.is<key_base>())
+        if (value.is<key>())
         {
             return value;
         }
         if (value_type->equals(dot::typeof<dot::string>()))
         {
-            key_base key = dot::activator::create_instance(type);
-            key->assign_string((dot::string)value);
+            key key = dot::activator::create_instance(type);
+            key->populate_from((dot::string)value);
             return key;
         }
 
@@ -116,18 +116,18 @@ namespace dc
 
     }
 
-    void key_base_impl::serialize(dot::tree_writer_base writer, dot::object obj)
+    void key_impl::serialize(dot::tree_writer_base writer, dot::object obj)
     {
         writer->write_start_value();
-        writer->write_value(((key_base)obj)->get_value());
+        writer->write_value(((key)obj)->get_value());
         writer->write_end_value();
     }
 
-    void key_base_impl::assign_string(dot::string value)
+    void key_impl::populate_from(dot::string value)
     {
         std::stringstream ss;
         ss.str(*value);
 
-        assign_string(ss);
+        populate_from(ss);
     }
 }

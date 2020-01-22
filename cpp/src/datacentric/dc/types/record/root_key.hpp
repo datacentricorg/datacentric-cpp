@@ -17,18 +17,18 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/key.hpp>
+#include <dc/types/record/typed_key.hpp>
 
 namespace dc
 {
     template <typename TKey, typename TRecord> class root_key_impl;
     template <typename TKey, typename TRecord> using root_key = dot::ptr<root_key_impl<TKey, TRecord>>;
-    template <typename TKey, typename TRecord> class key_impl;
-    template <typename TKey, typename TRecord> using key = dot::ptr<key_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class typed_key_impl;
+    template <typename TKey, typename TRecord> using typed_key = dot::ptr<typed_key_impl<TKey, TRecord>>;
 
     /// Root record is recorded without a dataset.
     template <typename TKey, typename TRecord>
-    class root_key_impl : public virtual key_impl<TKey, TRecord>
+    class root_key_impl : public virtual typed_key_impl<TKey, TRecord>
     {
     };
 }

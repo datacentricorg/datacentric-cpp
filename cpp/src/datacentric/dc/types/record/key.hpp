@@ -17,181 +17,94 @@ limitations under the License.
 #pragma once
 
 #include <dc/declare.hpp>
-#include <dc/types/record/record.hpp>
-#include <dot/system/object.hpp>
-#include <dc/types/record/key_base.hpp>
-#include <dc/types/record/cached_record.hpp>
+#include <dc/types/record/data.hpp>
+#include <dot/serialization/deserialize_attribute.hpp>
 
 namespace dc
 {
-    template <typename TKey, typename TRecord> class key_impl;
-    template <typename TKey, typename TRecord> using key = dot::ptr<key_impl<TKey, TRecord>>;
+    class key_impl; using key = dot::ptr<key_impl>;
+    class data_impl; using data = dot::ptr<data_impl>;
 
-    class cached_record_impl; using cached_record = dot::ptr<cached_record_impl>;
-    class context_base_impl; using context_base = dot::ptr<context_base_impl>;
-
-    /// Keys must derive from this type
-    template <typename TKey, typename TRecord>
-    class key_impl : public virtual key_base_impl
+    /// Base class of a foreign key.
+    ///
+    /// The curiously recurring template pattern (CRTP) key class
+    /// Key(TKey,TRecord) is derived from this class.
+    ///
+    /// Any elements of defined in the type specific key record
+    /// become key tokens. Property Value and method ToString() of
+    /// the key consists of key tokens with semicolon delimiter.
+    class DC_CLASS key_impl : public data_impl
     {
-        typedef key_impl<TKey, TRecord> self;
+        typedef key_impl self;
 
-    private: // PROPERTIES
+    public:
 
-        /// Cached record is used in two situations.
+        /// String key consists of semicolon delimited primary key elements:
         ///
-        /// First, to avoid getting the record from storage multiple times.
-        /// The first value loaded from storage will be cached in record
-        /// and returned on all subsequent calls without storage lookup.
+        /// KeyElement1;KeyElement2
         ///
-        /// Second, to avoid accessing storage when two objects are
-        /// created in memory, one having a property that is a key
-        /// to the other. Use assign_record(record) method to assign
-        /// an in-memory object to a key which will also set values
-        /// of the elements of the key to the corresponding values
-        /// of the record.
-        cached_record cached_record_;
+        /// To avoid serialization format uncertainty, key elements
+        /// can have any atomic type except Double.
+        dot::string get_value()
+        {
+            return to_string();
+        }
 
     public: // METHODS
 
-        /// Load record from context.data_source. The lookup occurs in
-        /// context.data_set and its parents, expanded to arbitrary
-        /// depth with repetitions and cyclic references removed.
+        /// String key consists of semicolon delimited primary key elements:
         ///
-        /// If record property is set, its value is returned without
-        /// performing lookup in the data store; otherwise the record
-        /// is loaded from storage and cached in record and the
-        /// cached value is returned from subsequent calls.
+        /// KeyElement1;KeyElement2
         ///
-        /// Once the record has been cached, the same version will be
-        /// returned in subsequent calls with the same key instance.
-        /// Create a new key or call clear_record() method to force
-        /// reloading new version of the record from storage.
-        ///
-        /// Error message if the record is not found or is a delete marker.
-        dot::ptr<TRecord> load(context_base context);
+        /// To avoid serialization format uncertainty, key elements
+        /// can have any atomic type except Double.
+        dot::string to_string();
 
-        /// Load record from context.data_source, overriding the dataset
-        /// specified in the context with the value specified as the
-        /// second parameter. The lookup occurs in the specified dataset
-        /// and its parents, expanded to arbitrary depth with repetitions
-        /// and cyclic references removed.
+        /// Populate key elements from semicolon delimited string.
+        /// Elements that are themselves keys may use more than
+        /// one token.
         ///
-        /// ATTENTION - this method ignores context.data_set
-        /// because the second parameter data_set overrides it.
+        /// If key AKey has two elements, B and C, where
         ///
-        /// If record property is set, its value is returned without
-        /// performing lookup in the data store; otherwise the record
-        /// is loaded from storage and cached in record and the
-        /// cached value is returned from subsequent calls.
+        /// * B has type BKey which has two string elements, and
+        /// * C has type string,
         ///
-        /// Once the record has been cached, the same version will be
-        /// returned in subsequent calls with the same key instance.
-        /// Create a new key or call clear_record() method to force
-        /// reloading new version of the record from storage.
+        /// the semicolon delimited key has the following format:
         ///
-        /// Error message if the record is not found or is a delete marker.
-        dot::ptr<TRecord> load(context_base context, dot::object_id data_set);
+        /// BToken1;BToken2;CToken
+        ///
+        /// To avoid serialization format uncertainty, key elements
+        /// can have any atomic type except Double.
+        void populate_from(dot::string value);
 
-        /// Load record from context.data_source. The lookup occurs in
-        /// context.data_set and its parents, expanded to arbitrary
-        /// depth with repetitions and cyclic references removed.
-        ///
-        /// If record property is set, its value is returned without
-        /// performing lookup in the data store; otherwise the record
-        /// is loaded from storage and cached in record and the
-        /// cached value is returned from subsequent calls.
-        ///
-        /// Once the record has been cached, the same version will be
-        /// returned in subsequent calls with the same key instance.
-        /// Create a new key or call clear_record() method to force
-        /// reloading new version of the record from storage.
-        ///
-        /// Return null if the record is not found or is a delete marker.
-        dot::ptr<TRecord> load_or_null(context_base context);
+        dot::object_id _id;
 
-        /// Load record from context.data_source, overriding the dataset
-        /// specified in the context with the value specified as the
-        /// second parameter. The lookup occurs in the specified dataset
-        /// and its parents, expanded to arbitrary depth with repetitions
-        /// and cyclic references removed.
-        ///
-        /// ATTENTION - this method ignores context.data_set
-        /// because the second parameter data_set overrides it.
-        ///
-        /// If record property is set, its value is returned without
-        /// performing lookup in the data store; otherwise the record
-        /// is loaded from storage and cached in record and the
-        /// cached value is returned from subsequent calls.
-        ///
-        /// Once the record has been cached, the same version will be
-        /// returned in subsequent calls with the same key instance.
-        /// Create a new key or call clear_record() method to force
-        /// reloading new version of the record from storage.
-        ///
-        /// Return null if the record is not found or is a delete marker.
-        dot::ptr<TRecord> load_or_null(context_base context, dot::object_id load_from);
+    private:
 
-        /// Write a delete marker for the dataset of the context and the specified
-        /// key instead of actually deleting the record. This ensures that
-        /// a record in another dataset does not become visible during
-        /// lookup in a sequence of datasets.
-        ///
-        /// To avoid an additional roundtrip to the data store, the delete
-        /// marker is written even when the record does not exist.
-        void delete_record(context_base context);
+        /// Populate key elements from string stream.
+        void populate_from(std::stringstream & value);
 
-        /// Write a delete marker in delete_in dataset for the specified key
-        /// instead of actually deleting the record. This ensures that
-        /// a record in another dataset does not become visible during
-        /// lookup in a sequence of datasets.
-        ///
-        /// To avoid an additional roundtrip to the data store, the delete
-        /// marker is written even when the record does not exist.
-        void delete_record(context_base context, dot::object_id delete_in);
+        /// Custom deserializator for deserialize_attribute for key type.
+        static dot::object deserialize(dot::object value, dot::type type);
 
-        /// Return true if the key holds a cached record,
-        /// irrespective of whether or not that cached
-        /// record is null.
-        bool has_cached_record();
+        /// Custom serializator for serialize_attribute for key type.
+        static void serialize(dot::tree_writer_base writer, dot::object obj);
 
-        /// Use set_cached_record(record, data_set) method to cache a
-        /// reference to the record inside the key.
-        ///
-        /// This reference is used in two cases:
-        ///
-        /// First, to avoid getting the record from storage multiple times.
-        /// The first value loaded from storage will be cached in record
-        /// and returned on all subsequent calls for the same dataset
-        /// without storage lookup.
-        ///
-        /// Second, to avoid accessing storage when two objects are
-        /// created in memory, one having a property that is a key
-        /// to the other. Use set_cached_record(record) method to assign
-        /// an in-memory object to a key which will also set values
-        /// of the elements of the key to the corresponding values
-        /// of the record.
-        ///
-        /// The parameter data_set is separate from record because
-        /// the record may be saved in a dataset that is different
-        /// from the dataset for which it is looked up, e.g. it could
-        /// be a parent dataset. The cached reference is stored with
-        /// the dataset where the object has been looked up, not the
-        /// one where it is stored.
-        void set_cached_record(record<TKey, TRecord> record, dot::object_id data_set);
+    public: // REFLECTION
 
-        /// Clear the previously cached record so that a
-        /// new value can be loaded from storage or set using
-        /// set_cached_record(record).
-        void clear_cached_record();
+        virtual dot::type get_type() { return typeof(); }
 
-        /// Assign key elements from record to key.
-        void assign_key_elements(record<TKey, TRecord> record);
-
-        DOT_TYPE_BEGIN("dc", "key")
-            DOT_TYPE_BASE(key_base)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TKey>)
-            DOT_TYPE_GENERIC_ARGUMENT(dot::ptr<TRecord>)
-        DOT_TYPE_END()
+        static dot::type typeof()
+        {
+            static dot::type result = []()-> dot::type
+            {
+                dot::type t = dot::make_type_builder<self>("dc", "key", { dot::make_deserialize_class_attribute(&key_impl::deserialize)
+                    , dot::make_serialize_class_attribute(&key_impl::serialize) })
+                          ->with_method("assign_string", static_cast<void (key_impl::*)(dot::string)>(&key_impl::populate_from), {"value"})
+                          ->build();
+                return t;
+            }();
+            return result;
+        }
     };
 }
