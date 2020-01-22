@@ -47,7 +47,7 @@ namespace dc
 
         const bool useScalarDiscriminatorConvention_ = false;
 
-    private: // FIELDS
+    protected: // FIELDS
 
         /// Type of instance controls the ability to do certain
         /// actions such as deleting (dropping) the database.
@@ -105,23 +105,24 @@ namespace dc
 
         mongo_data_source_base_data_impl()
         {
-            if (useScalarDiscriminatorConvention_)
-            {
-                // Set discriminator convention to scalar. For this convention,
-                // BSON element _t is a single string value equal to GetType().Name,
-                // rather than the list of names for the entire inheritance chain.
-                dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::scalar);
-            }
-            else
-            {
-                // Set discriminator convention to hierarchical. For this convention,
-                // BSON element _t is either an array of GetType().Name values for ell
-                // types in the inheritance chain, or a single string value for a chain
-                // of length 1.
-                //
-                // Choosing root type to be Record ensures that _t is always an array.
-                dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::hierarchical);
-            }
+            // TODO uncomment
+            //if (useScalarDiscriminatorConvention_)
+            //{
+            //    // Set discriminator convention to scalar. For this convention,
+            //    // BSON element _t is a single string value equal to GetType().Name,
+            //    // rather than the list of names for the entire inheritance chain.
+            //    dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::scalar);
+            //}
+            //else
+            //{
+            //    // Set discriminator convention to hierarchical. For this convention,
+            //    // BSON element _t is either an array of GetType().Name values for ell
+            //    // types in the inheritance chain, or a single string value for a chain
+            //    // of length 1.
+            //    //
+            //    // Choosing root type to be Record ensures that _t is always an array.
+            //    dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::hierarchical);
+            //}
         }
     };
 }

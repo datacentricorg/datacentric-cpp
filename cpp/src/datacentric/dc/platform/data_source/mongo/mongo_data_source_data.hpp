@@ -114,7 +114,7 @@ namespace dc
         /// calling DataSource.ClearDataSetCache() method.
         ///
         /// Returns null if not found.
-        virtual temporal_id get_data_set_or_empty(dot::string data_set_id, temporal_id load_from) override;
+        virtual dot::nullable<temporal_id> get_data_set_or_empty(dot::string data_set_id, temporal_id load_from) override;
 
         /// Save new version of the dataset.
         ///

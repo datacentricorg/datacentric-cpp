@@ -19,9 +19,10 @@ limitations under the License.
 #include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
 #include <dc/platform/context/context_base.hpp>
 #include <dc/types/record/deleted_record.hpp>
+#include <dc/platform/reflection/class_info.hpp>
 
 #include <dot/mongo/mongo_db/mongo/collection.hpp>
-#include <dot/mongo/mongo_db/query/query.hpp>
+#include <dc/platform/data_source/mongo/mongo_query.hpp>
 
 namespace dc
 {
@@ -46,7 +47,7 @@ namespace dc
             {
                 record rec = obj.as<record>();
 
-                if (data_type->is_assignable_from(rec->get_type()))
+                if (!data_type->is_assignable_from(rec->get_type()))
                 {
                     // If cast result is null, the record was found but it is an instance
                     // of class that is not derived from TRecord, in this case the API
@@ -59,7 +60,7 @@ namespace dc
                 }
 
                 // Now we use get_cutoff_time() for the full check
-                dot::nullable<dot::object> cutoff_time = get_cutoff_time(rec->data_set);
+                dot::nullable<temporal_id> cutoff_time = get_cutoff_time(rec->data_set);
                 if (cutoff_time != nullptr)
                 {
                     // Return null for any record that has TemporalId
@@ -202,7 +203,7 @@ namespace dc
         return result;
     }
 
-    temporal_id mongo_data_source_data_impl::get_data_set_or_empty(dot::string data_set_id, temporal_id load_from)
+    dot::nullable<temporal_id> mongo_data_source_data_impl::get_data_set_or_empty(dot::string data_set_id, temporal_id load_from)
     {
         temporal_id result;
         if (data_set_dict_->try_get_value(data_set_id, result))
@@ -346,26 +347,110 @@ namespace dc
 
         // If CutoffTime is set for both data source and dataset,
         // this method returns the earlier of the two values.
-        temporal_id result = temporal_id::min(cutoff_time, data_set_cutoff_time.value_or_default());
+        dot::nullable<temporal_id> result = temporal_id::min(cutoff_time, data_set_cutoff_time);
         return result;
     }
 
     dot::nullable<temporal_id> mongo_data_source_data_impl::get_imports_cutoff_time(temporal_id data_set_id)
     {
-        return dot::nullable<temporal_id>();
+        // Get dataset detail record
+        data_set_detail_data data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
+
+        // Return null if the record is not found
+        if (data_set_detail_data != nullptr) return data_set_detail_data->imports_cutoff_time;
+        else return nullptr;
     }
+
     dot::collection mongo_data_source_data_impl::get_collection(dot::type data_type)
     {
-        return dot::collection();
+        dot::type curr = data_type;
+        // Searching for base record or key
+        while (!curr->get_base_type()->equals(dot::typeof<record>())
+            && !curr->get_base_type()->equals(dot::typeof<key>()))
+        {
+            curr = curr->get_base_type();
+            if (curr.is_empty())
+                throw dot::exception(dot::string::format("Couldn't detect collection name for type {0}", data_type->name()));
+        }
+        // First generic argument in record or key class is base data class
+        return db_->get_collection(class_info_impl::get_or_create(curr->get_generic_arguments()[0])->mapped_class_name);
     }
+
     dot::hash_set<temporal_id> mongo_data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data)
     {
-        return dot::hash_set<temporal_id>();
+        // Delegate to the second overload
+        dot::hash_set<temporal_id> result = dot::make_hash_set<temporal_id>();
+        build_data_set_lookup_list(data_set_data, result);
+        return result;
     }
+
     void mongo_data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data, dot::hash_set<temporal_id> result)
     {
+        // Return if the dataset is null or has no imports
+        if (data_set_data == nullptr) return;
+
+        // Error message if dataset has no Id or Key set
+        if (data_set_data->id.is_empty())
+            throw dot::exception("Required temporal_id value is not set.");
+        if (data_set_data->get_key().is_empty())
+            throw dot::exception("Required string value is not set.");
+
+        dot::nullable<temporal_id> cutoff_time = get_cutoff_time(data_set_data->data_set);
+        if (cutoff_time != nullptr && data_set_data->id >= cutoff_time.value())
+        {
+            // Do not add if revision time constraint is set and is before this dataset.
+            // In this case the import datasets should not be added either, even if they
+            // do not fail the revision time constraint
+            return;
+        }
+
+        // Add self to the result
+        result->add(data_set_data->id);
+
+        // Add imports to the result
+        if (data_set_data->parents != nullptr)
+        {
+            for (temporal_id data_set_id : data_set_data->parents)
+            {
+                // Dataset cannot include itself as its import
+                if (data_set_data->id == data_set_id)
+                    throw dot::exception(dot::string::format(
+                        "Dataset {0} with TemporalId={1} includes itself in the list of its imports."
+                        , data_set_data->get_key(), data_set_data->id.to_string()));
+
+                if (!result->contains(data_set_id))
+                {
+                    result->add(data_set_id);
+                    // Add recursively if not already present in the hashset
+                    dot::hash_set<temporal_id> cached_import_list = get_data_set_lookup_list(data_set_id);
+                    for (temporal_id import_id : cached_import_list)
+                    {
+                        result->add(import_id);
+                    }
+                }
+            }
+        }
     }
-    void mongo_data_source_data_impl::check_not_read_only(temporal_id dataSetId)
+
+    void mongo_data_source_data_impl::check_not_read_only(temporal_id data_set_id)
     {
+        if (read_only.has_value() && read_only.value())
+            throw dot::exception(dot::string::format(
+                "Attempting write operation for data source {0} where ReadOnly flag is set.", data_source_id));
+
+        data_set_detail_data data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
+        if (data_set_detail_data != nullptr && data_set_detail_data->read_only.has_value() && data_set_detail_data->read_only.value())
+            throw dot::exception(dot::string::format(
+                "Attempting write operation for dataset {0} where ReadOnly flag is set.", data_set_id.to_string()));
+
+        if (cutoff_time != nullptr)
+            throw dot::exception(dot::string::format(
+                "Attempting write operation for data source {0} where "
+                "cutoff_time is set. Historical view of the data cannot be written to.", data_source_id));
+
+        if (data_set_detail_data != nullptr && data_set_detail_data->cutoff_time != nullptr)
+            throw dot::exception(dot::string::format(
+                "Attempting write operation for the dataset {0} where "
+                "CutoffTime is set. Historical view of the data cannot be written to.", data_set_id.to_string()));
     }
 }

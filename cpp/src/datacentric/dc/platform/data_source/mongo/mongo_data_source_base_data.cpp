@@ -52,7 +52,7 @@ namespace dc
                 dot::string::format("MongoDB database name {0} exceeds the maximum length of 64 characters.", db_name_));
 
         // Get client interface using the server
-        dot::string db_uri = db_server->db_server_id;
+        dot::string db_uri = db_server->db_server_uri;
         client_ = dot::make_client(db_uri);
 
         // Get database interface using the client and database name
@@ -90,7 +90,7 @@ namespace dc
 
     void mongo_data_source_base_data_impl::delete_db()
     {
-        if (!read_only)
+        if (read_only.has_value() && !read_only.value())
         {
             throw dot::exception(dot::string::format("Attempting to drop (delete) database for the data source {0} where ReadOnly flag is set.", data_source_id));
         }
