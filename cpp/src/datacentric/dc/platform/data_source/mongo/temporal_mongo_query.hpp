@@ -36,6 +36,8 @@ namespace dc
     {
         typedef TemporalMongoQueryImpl self;
 
+        friend class TemporalMongoQueryIteratorImpl;
+
         friend TemporalMongoQuery make_temporal_mongo_query(dot::Collection collection,
             dot::Type type,
             DataSource data_source,

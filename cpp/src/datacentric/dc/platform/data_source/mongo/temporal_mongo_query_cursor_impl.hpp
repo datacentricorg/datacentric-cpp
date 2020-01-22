@@ -21,6 +21,7 @@ limitations under the License.
 
 #include <dc/types/record/record.hpp>
 #include <dot/mongo/mongo_db/cursor/cursor_wrapper.hpp>
+#include <dc/platform/data_source/mongo/temporal_mongo_query.hpp>
 #include <dc/types/record/deleted_record.hpp>
 
 namespace dc
@@ -52,21 +53,67 @@ namespace dc
 
         virtual bool operator!=(dot::IteratorInnerBase rhs) override
         {
-            return *iterator_ != rhs.as<TemporalMongoQueryIterator>()->iterator_;
+            return !((*this) == rhs);
         }
 
         virtual bool operator==(dot::IteratorInnerBase rhs) override
         {
-            return *iterator_ == rhs.as<TemporalMongoQueryIterator>()->iterator_;
+            TemporalMongoQueryIterator temporal_iterator = rhs.as<TemporalMongoQueryIterator>();
+
+            // Two not end iterators are never equal.
+            // Return true if both are end.
+            return end_ && temporal_iterator->end_;
         }
 
-        /// Constructs from IteratorInnerBase and ContextBase.
-        TemporalMongoQueryIteratorImpl(dot::IteratorInnerBase iterator, dot::ObjectCursorWrapperBase cursor, dot::Type query_type, ContextBase context)
-            : iterator_(iterator)
-            , cursor_(cursor)
-            , query_type_(query_type)
-            , context_(context)
+        /// Constructs from TemporalMongoQuery and end flag.
+        TemporalMongoQueryIteratorImpl(TemporalMongoQuery temporal_query, bool end)
+            : temporal_query_(temporal_query)
+            , end_(end)
         {
+            // Return if it is end iterator.
+            if (end_) return;
+
+            dot::Type record_type = dot::typeof<Record>();
+
+            // Apply dataset filters to query.
+            dot::Query query = dot::make_query(temporal_query_->collection_, temporal_query_->type_);
+            query = temporal_query_->data_source_->apply_final_constraints(query, temporal_query_->data_set_);
+
+            // Apply custom filters to query.
+            for (dot::FilterTokenBase token : temporal_query_->where_)
+            {
+                query->where(token);
+            }
+
+            // Perform ordering by key, data_set, and _id.
+            // Because we are created the ordered queryable for
+            // the first time, begin from order_by, not then_by.
+            query
+                ->sort_by(record_type->get_field("_key"))
+                ->then_by_descending(record_type->get_field("_dataset"))
+                ->then_by_descending(record_type->get_field("_id"));
+
+            // Perform group by key to get only one document per each key.
+            query->group_by(record_type->get_field("_key"));
+
+            // Apply custom sort.
+            for (std::pair<dot::FieldInfo, int> sort_token : temporal_query_->sort_)
+            {
+                if (sort_token.second == 1)
+                    query->then_by(sort_token.first);
+                if (sort_token.second == -1)
+                    query->then_by_descending(sort_token.first);
+            }
+
+            // Apply sort by key, data_set, and _id.
+            query
+                ->then_by(record_type->get_field("_key"))
+                ->then_by_descending(record_type->get_field("_dataset"))
+                ->then_by_descending(record_type->get_field("_id"));
+
+            cursor_ = query->get_cursor();
+            iterator_ = cursor_->begin().iterator_;
+
             current_record_ = skip_records();
         }
 
@@ -107,13 +154,14 @@ namespace dc
                     // as though the record does not exist because the query is expected
                     // to skip over records of type not derived from query_type_.
                     dot::Type obj_type = obj->get_type();
-                    if (!obj_type->equals(query_type_) && !obj_type->is_subclass_of(query_type_)) continue;
+                    if (!obj_type->equals(temporal_query_->type_) && !obj_type->is_subclass_of(temporal_query_->type_)) continue;
 
                     // Otherwise return the result
                     return to_record(obj);
                 }
             }
 
+            end_ = true;
             return nullptr;
         }
 
@@ -121,16 +169,17 @@ namespace dc
         Record to_record(dot::Object obj) const
         {
             Record rec = obj.as<Record>();
-            rec->init(context_);
+            rec->init(temporal_query_->data_source_->context);
             return rec;
         }
 
     private: // FIELDS
 
+        TemporalMongoQuery temporal_query_;
+        bool end_;
+
         dot::IteratorInnerBase iterator_;
         dot::ObjectCursorWrapperBase cursor_;
-        dot::Type query_type_;
-        ContextBase context_;
 
         dot::String current_key_;
         Record current_record_;
@@ -144,10 +193,8 @@ namespace dc
     public:
 
         /// Constructs from ObjectCursorWrapperBase and ContextBase.
-        TemporalMongoQueryCursorImpl(dot::ObjectCursorWrapperBase cursor, dot::Type query_type, ContextBase context)
-            : cursor_(cursor)
-            , query_type_(query_type)
-            , context_(context)
+        TemporalMongoQueryCursorImpl(TemporalMongoQuery temporal_query)
+            : temporal_query_(temporal_query)
         {}
 
         /// A dot::iterator_wrapper<dot::Object> that points to the beginning of any available
@@ -160,20 +207,18 @@ namespace dc
         /// for newly-available documents.
         dot::IteratorWrappper<dot::Object> begin()
         {
-            return dot::IteratorWrappper<dot::Object>(new TemporalMongoQueryIteratorImpl(cursor_->begin().iterator_, cursor_, query_type_, context_));
+            return dot::IteratorWrappper<dot::Object>(new TemporalMongoQueryIteratorImpl(temporal_query_, false));
         }
 
         /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
         dot::IteratorWrappper<dot::Object> end()
         {
-            return dot::IteratorWrappper<dot::Object>(new TemporalMongoQueryIteratorImpl(cursor_->end().iterator_, cursor_, query_type_, context_));
+            return dot::IteratorWrappper<dot::Object>(new TemporalMongoQueryIteratorImpl(temporal_query_, true));
         }
 
     private: // FIELDS
 
-        dot::ObjectCursorWrapperBase cursor_;
-        dot::Type query_type_;
-        ContextBase context_;
+        TemporalMongoQuery temporal_query_;
     };
 }
