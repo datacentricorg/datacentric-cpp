@@ -18,12 +18,7 @@ limitations under the License.
 #include <approvals/ApprovalTests.hpp>
 #include <approvals/Catch.hpp>
 
-#include <dc/serialization/bson_writer.hpp>
-#include <dc/serialization/bson_record_serializer.hpp>
-
 #include <dc/platform/data_source/data_source_data.hpp>
-#include <dc/platform/data_source/mongo/query_builder.hpp>
-#include <dc/platform/data_source/mongo/mongo_default_server_data.hpp>
 
 #include <dc/platform/data_set/data_set_key.hpp>
 #include <dc/platform/data_set/data_set_data.hpp>
@@ -230,7 +225,7 @@ namespace dc
         dot::string data_set_name = get_data_set(2);
         dot::object_id data_set = context->get_data_set_or_empty(data_set_name);
 
-        dc::cursor_wrapper<performance_test_data> query = context->data_source->get_query<performance_test_data>(data_set)
+        dot::cursor_wrapper<performance_test_data> query = context->data_source->get_query<performance_test_data>(data_set)
       // TODO - fix compilation      ->where(make_prop(&performance_test_data_impl::key) == record_id)
             //->where(make_prop(&performance_test_data_impl::version) == record_versions - 1)
             ->get_cursor<performance_test_data>();

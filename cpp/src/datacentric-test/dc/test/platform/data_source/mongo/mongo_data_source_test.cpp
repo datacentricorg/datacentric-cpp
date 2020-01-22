@@ -18,11 +18,8 @@ limitations under the License.
 #include <approvals/ApprovalTests.hpp>
 #include <approvals/Catch.hpp>
 
-#include <dc/serialization/bson_writer.hpp>
-#include <dc/serialization/bson_record_serializer.hpp>
 
 #include <dc/platform/data_source/data_source_data.hpp>
-#include <dc/platform/data_source/mongo/query_builder.hpp>
 #include <dc/platform/data_source/mongo/mongo_default_server_data.hpp>
 
 #include <dc/platform/data_set/data_set_key.hpp>
@@ -32,6 +29,7 @@ limitations under the License.
 
 #include <dc/test/platform/data_source/mongo/mongo_test_data.hpp>
 #include <bsoncxx/json.hpp>
+
 
 namespace dc
 {
@@ -277,7 +275,7 @@ namespace dc
     {
         // Get dataset and query
         dot::object_id data_set = context->get_data_set(data_set_id, context->data_set);
-        query query = context->data_source->get_query<TRecord>(data_set);
+        mongo_query query = context->data_source->get_query<TRecord>(data_set);
 
         // Iterate over records
         for (TRecord record : query->get_cursor<TRecord>())
@@ -370,15 +368,17 @@ namespace dc
         in_list->add("B");
 
         // Query for record_id=B
-        dc::cursor_wrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_d)
+        dot::cursor_wrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_d)
             //->where(p = > p.record_id == "B")
             ->where(make_prop(&mongo_test_data_impl::record_id).in({ "B" }))
-            ->where(make_prop(&mongo_test_data_impl::record_id).in(std::vector<std::string>({ "B" })))
+            //->where(make_prop(&mongo_test_data_impl::record_id).in(std::vector<std::string>({ "B" })))
             ->where(make_prop(&mongo_test_data_impl::record_id).in(in_list))
             ->where(make_prop(&mongo_test_data_impl::record_id) == "B")
             ->sort_by(make_prop(&mongo_test_data_impl::record_id))
             ->sort_by(make_prop(&mongo_test_data_impl::record_index))
-            ->get_cursor<mongo_test_data>();
+            ->get_cursor<mongo_test_data>()
+            ;
+
 
         for (mongo_test_data obj : query)
         {
@@ -549,7 +549,7 @@ namespace dc
         key->record_id = "BB";
         key->record_index = dot::nullable<int>(2);
 
-        dc::cursor_wrapper<mongo_test_derived_data> test_query = context->data_source->get_query<mongo_test_derived_data>(data_set_b)
+        dot::cursor_wrapper<mongo_test_derived_data> test_query = context->data_source->get_query<mongo_test_derived_data>(data_set_b)
             ->where(make_prop(&mongo_test_derived_data_impl::data_element_list)[0]->*make_prop(&element_sample_data_impl::double_element3) == 1.0)
             ->where(make_prop(&mongo_test_derived_data_impl::data_element_list)[0]->*make_prop(&element_sample_data_impl::string_element3) == "A0")
             ->where(make_prop(&mongo_test_derived_data_impl::local_date_element) < dot::local_date(2003, 5, 2))
@@ -618,7 +618,7 @@ namespace dc
         }
         {
             received << "query by mongo_test_data, unconstrained" << std::endl;
-            query query = context->data_source->get_query<mongo_test_data>(data_set_d);
+            mongo_query query = context->data_source->get_query<mongo_test_data>(data_set_d);
             for (record_base obj : query->get_cursor<record_base>())
             {
                 received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
@@ -626,7 +626,7 @@ namespace dc
         }
         {
             received << "query by mongo_test_derived_data : mongo_test_data which also picks up mongo_test_derived_from_derived_data : mongo_test_derived_data, unconstrained" << std::endl;
-            query query = context->data_source->get_query<mongo_test_derived_data>(data_set_d);
+            mongo_query query = context->data_source->get_query<mongo_test_derived_data>(data_set_d);
             for (record_base obj : query->get_cursor<record_base>())
             {
                 received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
@@ -635,7 +635,7 @@ namespace dc
         {
             received << "query by mongo_test_other_derived_data : mongo_test_data, unconstrained" << std::endl;
             mongo_test_other_derived_data_impl::typeof();
-            query query = context->data_source->get_query<mongo_test_other_derived_data>(data_set_d);
+            mongo_query query = context->data_source->get_query<mongo_test_other_derived_data>(data_set_d);
             for (record_base obj : query->get_cursor<record_base>())
             {
                 received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
@@ -643,7 +643,7 @@ namespace dc
         }
         {
             received << "query by mongo_test_derived_from_derived_data : mongo_test_derived_data, where mongo_test_derived_data : mongo_test_data, unconstrained" << std::endl;
-            query query = context->data_source->get_query<mongo_test_derived_from_derived_data>(data_set_d);
+            mongo_query query = context->data_source->get_query<mongo_test_derived_from_derived_data>(data_set_d);
             for (record_base obj : query->get_cursor<record_base>())
             {
                 received << *dot::string::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name) << std::endl;
@@ -667,7 +667,7 @@ namespace dc
         dot::object_id data_set_d = context->get_data_set_or_empty("D", context->data_set);
 
         received << "query by mongo_test_data, sort by record_index descending, then by double_element ascending" << std::endl;
-        dc::cursor_wrapper<mongo_test_data> base_query = context->data_source->get_query<mongo_test_data>(data_set_d)
+        dot::cursor_wrapper<mongo_test_data> base_query = context->data_source->get_query<mongo_test_data>(data_set_d)
             ->sort_by_descending(make_prop(&mongo_test_data_impl::record_index))
             ->sort_by(make_prop(&mongo_test_data_impl::double_element))
             ->get_cursor<mongo_test_data>();
@@ -738,7 +738,7 @@ namespace dc
 
         // Query for all records
         {
-            cursor_wrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_b)
+            dot::cursor_wrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_b)
                 ->sort_by(make_prop(&mongo_test_data_impl::record_id))
                 ->sort_by(make_prop(&mongo_test_data_impl::record_index))
                 ->get_cursor<mongo_test_data>();
@@ -784,7 +784,7 @@ namespace dc
 
         // Query for revised before the cutoff time
         {
-            cursor_wrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_b)
+            dot::cursor_wrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_b)
                 ->sort_by(make_prop(&mongo_test_data_impl::record_id))
                 ->sort_by(make_prop(&mongo_test_data_impl::record_index))
                 ->get_cursor<mongo_test_data>();
