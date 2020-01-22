@@ -19,6 +19,7 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/system/ptr.hpp>
 #include <dc/platform/data_source/mongo/mongo_data_source_base_data.hpp>
+#include <dc/platform/data_set/data_set_detail_data.hpp>
 
 namespace dc
 {
@@ -36,7 +37,7 @@ namespace dc
         /// Return null if there is no record for the specified dot::object_id;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        virtual record_base load_or_null(dot::object_id id, dot::type data_type) override;
+        virtual record load_or_null(dot::object_id id, dot::type data_type) override;
 
         /// This method does not use cached value inside the key
         /// and always retrieves a new record from storage. To get
@@ -62,16 +63,21 @@ namespace dc
         /// Return null if there is no record for the specified dot::object_id;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        virtual record_base reload_or_null(key_base key, dot::object_id load_from) override;
+        virtual record load_or_null(key key, dot::object_id load_from) override;
 
-        /// Save record to the specified dataset. After the method exits,
-        /// record.data_set will be set to the value of the data_set parameter.
+        /// Save multiple records to the specified dataset. After the method exits,
+        /// for each record the property record.DataSet will be set to the value of
+        /// the saveTo parameter.
         ///
-        /// This method guarantees that dot::object_ids will be in strictly increasing
-        /// order for this instance of the data source class always, and across
-        /// all processes and machine if they are not created within the same
-        /// second.
-        virtual void save(record_base record, dot::object_id save_to) override;
+        /// All Save methods ignore the value of record.DataSet before the
+        /// Save method is called. When dataset is not specified explicitly,
+        /// the value of dataset from the context, not from the record, is used.
+        /// The reason for this behavior is that the record may be stored from
+        /// a different dataset than the one where it is used.
+        ///
+        /// This method guarantees that TemporalIds of the saved records will be in
+        /// strictly increasing order.
+        virtual void save_many(dot::list<record> records, dot::object_id save_to) override;
 
         /// Get query for the specified type.
         ///
@@ -92,6 +98,160 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        virtual void delete_record(key_base key, dot::object_id delete_in) override;
+        virtual void delete_record(key key, dot::object_id delete_in) override;
+
+        /// Apply the final constraints after all prior Where clauses but before OrderBy clause:
+        ///
+        /// * The constraint on dataset lookup list, restricted by CutoffTime (if not null)
+        /// * The constraint on ID being strictly less than CutoffTime (if not null)
+        dot::query apply_final_constraints(dot::query query, dot::object_id load_from);
+
+        /// Get TemporalId of the dataset with the specified name.
+        ///
+        /// All of the previously requested dataSetIds are cached by
+        /// the data source. To load the latest version of the dataset
+        /// written by a separate process, clear the cache first by
+        /// calling DataSource.ClearDataSetCache() method.
+        ///
+        /// Returns null if not found.
+        virtual dot::object_id get_data_set_or_empty(dot::string data_set_id, dot::object_id load_from) override;
+
+        /// Save new version of the dataset.
+        ///
+        /// This method sets Id element of the argument to be the
+        /// new TemporalId assigned to the record when it is saved.
+        /// The timestamp of the new TemporalId is the current time.
+        ///
+        /// This method updates in-memory cache to the saved dataset.
+        virtual void save_data_set(data_set_data data_set_data, dot::object_id save_to) override;
+
+        /// Returns enumeration of import datasets for specified dataset data,
+        /// including imports of imports to unlimited depth with cyclic
+        /// references and duplicates removed.
+        ///
+        /// The list will not include datasets that are after the value of
+        /// CutoffTime if specified, or their imports (including
+        /// even those imports that are earlier than the constraint).
+        dot::hash_set<dot::object_id> get_data_set_lookup_list(dot::object_id load_from);
+
+        /// Get detail of the specified dataset.
+        ///
+        /// Returns null if the details record does not exist.
+        ///
+        /// The detail is loaded for the dataset specified in the first argument
+        /// (detailFor) from the dataset specified in the second argument (loadFrom).
+        data_set_detail_data get_data_set_detail_or_empty(dot::object_id detail_for);
+
+        /// <summary>
+        /// CutoffTime should only be used via this method which also takes into
+        /// account the CutoffTime set in dataset detail record, and never directly.
+        ///
+        /// CutoffTime may be set in data source globally, or for a specific dataset
+        /// in its details record. If CutoffTime is set for both, this method will
+        /// return the earlier of the two values will be used.
+        ///
+        /// Records with TemporalId that is greater than or equal to CutoffTime
+        /// will be ignored by load methods and queries, and the latest available
+        /// record where TemporalId is less than CutoffTime will be returned instead.
+        ///
+        /// CutoffTime applies to both the records stored in the dataset itself,
+        /// and the reports loaded through the Imports list.
+        /// </summary>
+        dot::nullable<dot::object_id> get_cutoff_time(dot::object_id data_set_id);
+
+        /// <summary>
+        /// Gets ImportsCutoffTime from the dataset detail record.
+        /// Returns null if dataset detail record is not found.
+        ///
+        /// Imported records (records loaded through the Imports list)
+        /// where TemporalId is greater than or equal to CutoffTime
+        /// will be ignored by load methods and queries, and the latest
+        /// available record where TemporalId is less than CutoffTime will
+        /// be returned instead.
+        ///
+        /// This setting only affects records loaded through the Imports
+        /// list. It does not affect records stored in the dataset itself.
+        ///
+        /// Use this feature to freeze Imports as of a given CreatedTime
+        /// (part of TemporalId), isolating the dataset from changes to the
+        /// data in imported datasets that occur after that time.
+        /// </summary>
+        dot::nullable<dot::object_id> get_imports_cutoff_time(dot::object_id data_set_id);
+
+    private: // METHODS
+
+        /// Get collection with name based on the type.
+        dot::collection get_collection(dot::type data_type);
+
+        /// Builds hashset of import datasets for specified dataset data,
+        /// including imports of imports to unlimited depth with cyclic
+        /// references and duplicates removed. This method uses cached lookup
+        /// list for the import datasets but not for the argument dataset.
+        ///
+        /// The list will not include datasets that are after the value of
+        /// CutoffTime if specified, or their imports (including
+        /// even those imports that are earlier than the constraint).
+        ///
+        /// This overload of the method will return the result hashset.
+        ///
+        /// This private helper method should not be used directly.
+        /// It provides functionality for the public API of this class.
+        dot::hash_set<dot::object_id> build_data_set_lookup_list(data_set_data data_set_data);
+
+        /// Builds hashset of import datasets for specified dataset data,
+        /// including imports of imports to unlimited depth with cyclic
+        /// references and duplicates removed. This method uses cached lookup
+        /// list for the import datasets but not for the argument dataset.
+        ///
+        /// The list will not include datasets that are after the value of
+        /// CutoffTime if specified, or their imports (including
+        /// even those imports that are earlier than the constraint).
+        ///
+        /// This overload of the method will return the result hashset.
+        ///
+        /// This private helper method should not be used directly.
+        /// It provides functionality for the public API of this class.
+        void build_data_set_lookup_list(data_set_data data_set_data, dot::hash_set<dot::object_id> result);
+
+        /// Error message if one of the following is the case:
+        ///
+        /// * ReadOnly is set for the data source
+        /// * ReadOnly is set for the dataset
+        /// * CutoffTime is set for the data source
+        /// * CutoffTime is set for the dataset
+        void check_not_read_only(dot::object_id dataSetId);
+
+    public: // FIELDS
+
+        /// Records with TemporalId that is greater than or equal to CutoffTime
+        /// will be ignored by load methods and queries, and the latest available
+        /// record where TemporalId is less than CutoffTime will be returned instead.
+        ///
+        /// CutoffTime applies to both the records stored in the dataset itself,
+        /// and the reports loaded through the Imports list.
+        ///
+        /// CutoffTime may be set in data source globally, or for a specific dataset
+        /// in its details record. If CutoffTime is set for both, the earlier of the
+        /// two values will be used.
+        dot::nullable<dot::object_id> cutoff_time;
+
+    private: // FIELDS
+
+        /// Dictionary of collections indexed by type T.
+        dot::dictionary<dot::type, dot::object> collection_dict_ = dot::make_dictionary<dot::type, dot::object>();
+
+        /// Dictionary of dataset dot::object_ids stored under string data_set_id.
+        dot::dictionary<dot::string, dot::object_id> data_set_dict_ = dot::make_dictionary<dot::string, dot::object_id>();
+
+        /// Dictionary of datasets and datasets that holds them
+        dot::dictionary<dot::object_id, dot::object_id> data_set_owners_dict_ = dot::make_dictionary<dot::object_id, dot::object_id>();
+
+        /// Dictionary of dataset dot::object_ids stored under string data_set_id.
+        dot::dictionary<dot::object_id, data_set_detail_data> data_set_detail_dict_ = dot::make_dictionary<dot::object_id, data_set_detail_data>();
+
+        /// Dictionary of the expanded list of parent dot::object_ids of dataset, including
+        /// parents of parents to unlimited depth with cyclic references and duplicates
+        /// removed, under dot::object_id of the dataset.
+        dot::dictionary<dot::object_id, dot::hash_set<dot::object_id>> data_set_parent_dict_ = dot::make_dictionary<dot::object_id, dot::hash_set<dot::object_id>>();
     };
 }
