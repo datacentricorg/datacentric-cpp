@@ -25,17 +25,17 @@ limitations under the License.
 
 namespace dc
 {
-    record_base mongo_data_source_data_impl::load_or_null(dot::object_id id, dot::type dataType)
+    record_base mongo_data_source_data_impl::load_or_null(dot::object_id id, dot::type data_type)
     {
-        auto revisionTimeConstraint = get_revision_time_constraint();
-        if (revisionTimeConstraint != nullptr)
+        auto revision_time_constraint = get_revision_time_constraint();
+        if (revision_time_constraint != nullptr)
         {
-            // If RevisionTimeConstraint is not null, return null for any
+            // If revision_time_constraint is not null, return null for any
             // id that is not strictly before the constraint dot::object_id
-            if (id >= revisionTimeConstraint.value()) return nullptr;
+            if (id >= revision_time_constraint.value()) return nullptr;
         }
 
-        dot::query query = dot::make_query(get_collection(dataType), dataType);
+        dot::query query = dot::make_query(get_collection(data_type), data_type);
         dot::object_cursor_wrapper_base cursor = query->where(new dot::operator_wrapper_impl("_id", "$eq", id))
             ->limit(1)
             ->get_cursor()
@@ -51,12 +51,12 @@ namespace dc
         return nullptr;
     }
 
-    record_base mongo_data_source_data_impl::reload_or_null(key_base key, dot::object_id loadFrom)
+    record_base mongo_data_source_data_impl::reload_or_null(key_base key, dot::object_id load_from)
     {
         // Get lookup list by expanding the list of parents to arbitrary depth
         // with duplicates and cyclic references removed
 
-        dot::hash_set<dot::object_id> lookup_set = get_data_set_lookup_list(loadFrom);
+        dot::hash_set<dot::object_id> lookup_set = get_data_set_lookup_list(load_from);
         dot::list<dot::object_id> lookup_list = dot::make_list<dot::object_id>(std::vector<dot::object_id>(lookup_set->begin(), lookup_set->end()));
 
         // dot::string key in semicolon delimited format used in the lookup
@@ -85,7 +85,7 @@ namespace dc
 
     }
 
-    void mongo_data_source_data_impl::save(record_base record, dot::object_id saveTo)
+    void mongo_data_source_data_impl::save(record_base record, dot::object_id save_to)
     {
         check_not_read_only();
 
@@ -95,49 +95,49 @@ namespace dc
         // order for this instance of the data source class always, and across
         // all processes and machine if they are not created within the same
         // second.
-        dot::object_id objectId = create_ordered_object_id();
+        dot::object_id object_id = create_ordered_object_id();
 
         // dot::object_id of the record must be strictly later
         // than dot::object_id of the dataset where it is stored
-        if (objectId <= saveTo)
+        if (object_id <= save_to)
             throw dot::exception(dot::string::format(
                 "Attempting to save a record with dot::object_id={0} that is later "
-                "than dot::object_id={1} of the dataset where it is being saved.", objectId.to_string(), saveTo.to_string()));
+                "than dot::object_id={1} of the dataset where it is being saved.", object_id.to_string(), save_to.to_string()));
 
         // Assign id and data_set, and only then initialize, because
         // initialization code may use record.id and record.data_set
-        record->id = objectId;
-        record->data_set = saveTo;
+        record->id = object_id;
+        record->data_set = save_to;
         record->init(context);
 
         collection->insert_one(record);
     }
 
-    mongo_query mongo_data_source_data_impl::get_query(dot::object_id dataSet, dot::type type)
+    mongo_query mongo_data_source_data_impl::get_query(dot::object_id data_set, dot::type type)
     {
-        return make_mongo_query(get_collection(type), type, this, dataSet);
+        return make_mongo_query(get_collection(type), type, this, data_set);
     }
 
 
-    void mongo_data_source_data_impl::delete_record(key_base key, dot::object_id deleteIn)
+    void mongo_data_source_data_impl::delete_record(key_base key, dot::object_id delete_in)
     {
         dot::collection collection = get_collection(key->get_type());
 
         delete_marker record = make_delete_marker(key);
 
-        dot::object_id objectId = create_ordered_object_id();
+        dot::object_id object_id = create_ordered_object_id();
 
         // dot::object_id of the record must be strictly later
         // than dot::object_id of the dataset where it is stored
-        if (objectId <= deleteIn)
+        if (object_id <= delete_in)
             throw dot::exception(dot::string::format(
                 "Attempting to save a record with dot::object_id={0} that is later "
-                "than dot::object_id={1} of the dataset where it is being saved.", objectId.to_string(), deleteIn.to_string()));
+                "than dot::object_id={1} of the dataset where it is being saved.", object_id.to_string(), delete_in.to_string()));
 
         // Assign id and data_set, and only then initialize, because
         // initialization code may use record.id and record.data_set
-        record->id = objectId;
-        record->data_set = deleteIn;
+        record->id = object_id;
+        record->data_set = delete_in;
 
         collection->insert_one(record);
 

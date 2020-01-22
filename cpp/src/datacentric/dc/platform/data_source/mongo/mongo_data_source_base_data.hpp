@@ -25,7 +25,7 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_data_source_base_data_impl; using mongo_data_source_data = dot::ptr<mongo_data_source_base_data_impl>;
+    class mongo_data_source_base_data_impl; using mongo_data_source_base_data = dot::ptr<mongo_data_source_base_data_impl>;
     class context_base_impl; using context_base = dot::ptr<context_base_impl>;
     class key_base_impl; using key_base = dot::ptr<key_base_impl>;
     class data_impl; using data = dot::ptr<data_impl>;
@@ -40,10 +40,10 @@ namespace dc
     protected: // FIELDS
 
         /// Prohibited characters in database name.
-        static dot::list<char> prohibitedDbNameSymbols_;
+        static dot::list<char> prohibited_db_name_symbols_;
 
         /// Maximum length of the database on Mongo server including delimiters.
-        static int maxDbNameLength_;
+        static int max_db_name_length_;
 
     private: // FIELDS
 
@@ -52,7 +52,7 @@ namespace dc
         instance_type instance_type_;
 
         /// Full name of the database on Mongo server including delimiters.
-        dot::string dbName_;
+        dot::string db_name_;
 
         /// Interface to Mongo client in MongoDB C++ driver.
         dot::client client_;
@@ -60,7 +60,7 @@ namespace dc
         /// Interface to Mongo database in MongoDB C++ driver.
         dot::database db_;
 
-        /// Previous dot::object_id returned by CreateOrdereddot::object_id() method.
+        /// Previous dot::object_id returned by create_ordered_object_id() method.
         dot::object_id prev_object_id_ = dot::object_id::empty;
 
     public: // METHODS
@@ -96,9 +96,9 @@ namespace dc
     protected: // PROTECTED
 
         /// Get collection with name based on the type.
-        dot::collection get_collection(dot::type dataType);
+        dot::collection get_collection(dot::type data_type);
 
         /// Get collection with name based on the type.
-        dot::collection get_collection(dot::string typeName);
+        dot::collection get_collection(dot::string type_name);
     };
 }

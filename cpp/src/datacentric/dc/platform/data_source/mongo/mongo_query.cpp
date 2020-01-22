@@ -70,17 +70,17 @@ namespace dc
         // Perform group by key to get only one document per each key.
         query->group_by(record_type->get_field("_key"));
 
-        dot::list<dot::type> derivedTypes = dot::type_impl::get_derived_types(query->type_);
+        dot::list<dot::type> derived_types = dot::type_impl::get_derived_types(query->type_);
 
         // Apply filter by types.
-        if (derivedTypes != nullptr)
+        if (derived_types != nullptr)
         {
-            dot::list<dot::string> derivedTypeNames = dot::make_list<dot::string>();
-            for (dot::type derType : derivedTypes)
-                derivedTypeNames->add(derType->name());
+            dot::list<dot::string> derived_type_names = dot::make_list<dot::string>();
+            for (dot::type der_type : derived_types)
+                derived_type_names->add(der_type->name());
 
             query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name()))
-                || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derivedTypeNames)));
+                || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derived_type_names)));
         }
         else
             query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name())));
@@ -134,17 +134,17 @@ namespace dc
         // Perform group by key to get only one document per each key.
         query->group_by(record_type->get_field("_key"));
 
-        dot::list<dot::type> derivedTypes = dot::type_impl::get_derived_types(query->type_);
+        dot::list<dot::type> derived_types = dot::type_impl::get_derived_types(query->type_);
 
         // Apply filter by types.
-        if (derivedTypes != nullptr)
+        if (derived_types != nullptr)
         {
-            dot::list<dot::string> derivedTypeNames = dot::make_list<dot::string>();
-            for (dot::type derType : derivedTypes)
-                derivedTypeNames->add(derType->name());
+            dot::list<dot::string> derived_type_names = dot::make_list<dot::string>();
+            for (dot::type der_type : derived_types)
+                derived_type_names->add(der_type->name());
 
             query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name()))
-                || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derivedTypeNames)));
+                || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derived_type_names)));
         }
         else
             query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name())));
