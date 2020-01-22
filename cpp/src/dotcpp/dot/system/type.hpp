@@ -51,22 +51,23 @@ namespace dot
 
     template <class T> type typeof();
 
-    namespace detail {
+    namespace detail
+    {
         /// Struct for parameter_info.
-        struct type_mehod_argument
+        struct type_method_argument
         {
             string name;
             list<attribute> custom_attributes;
 
             /// Constructor from parameter name.
-            type_mehod_argument(const char* name)
+            type_method_argument(const char* name)
                 : name(name)
                 , custom_attributes(make_list<attribute>())
             {}
 
             /// Constructor from parameter name and custom attributes.
             template <class ...Args>
-            type_mehod_argument(string name, Args ...attr)
+            type_method_argument(string name, Args ...attr)
                 : name(name)
                 , custom_attributes(make_list<attribute>({attr...}))
             {}
@@ -77,7 +78,7 @@ namespace dot
     class DOT_CLASS type_builder_impl final : public virtual object_impl
     {
         template <class>
-        friend type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes);
+        friend type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes = {});
         friend class type_impl;
 
     private:
@@ -109,7 +110,7 @@ namespace dot
 
         /// Add public member method of the current type.
         template <class class_t, class return_t, class ... args>
-        type_builder with_method(string name, return_t(class_t::*mth) (args ...), std::initializer_list<detail::type_mehod_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
+        type_builder with_method(string name, return_t(class_t::*mth) (args ...), std::initializer_list<detail::type_method_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
         {
             const int args_count = sizeof...(args);
             if (args_count != arguments.size())
@@ -124,7 +125,7 @@ namespace dot
             std::vector<type> param_types = { dot::typeof<args>()... };
 
             int i = 0;
-            for (detail::type_mehod_argument mehtod_arg : arguments)
+            for (detail::type_method_argument mehtod_arg : arguments)
             {
                 parameters[i] = make_parameter_info(mehtod_arg.name, param_types[i], i, mehtod_arg.custom_attributes);
                 i++;
@@ -140,7 +141,7 @@ namespace dot
 
         /// Add public static method of the current type.
         template <class return_t, class ... args>
-        type_builder with_method(string name, return_t(*mth) (args ...), std::initializer_list<detail::type_mehod_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
+        type_builder with_method(string name, return_t(*mth) (args ...), std::initializer_list<detail::type_method_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
         {
             const int args_count = sizeof...(args);
             if (args_count != arguments.size())
@@ -155,7 +156,7 @@ namespace dot
             std::vector<type> param_types = { dot::typeof<args>()... };
 
             int i = 0;
-            for (detail::type_mehod_argument mehtod_arg : arguments)
+            for (detail::type_method_argument mehtod_arg : arguments)
             {
                 parameters[i] = make_parameter_info(mehtod_arg.name, param_types[i], i, mehtod_arg.custom_attributes);
                 i++;
@@ -171,7 +172,7 @@ namespace dot
 
         /// Add public constructor of the current type.
         template <class class_t, class ... args>
-        type_builder with_constructor(class_t(*ctor)(args...), std::initializer_list<detail::type_mehod_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
+        type_builder with_constructor(class_t(*ctor)(args...), std::initializer_list<detail::type_method_argument> const& arguments, std::initializer_list<attribute> custom_attributes = {})
         {
             const int args_count = sizeof...(args);
             if (args_count != arguments.size())
@@ -186,7 +187,7 @@ namespace dot
             std::vector<type> param_types = { dot::typeof<args>()... };
 
             int i = 0;
-            for (detail::type_mehod_argument mehtod_arg : arguments)
+            for (detail::type_method_argument mehtod_arg : arguments)
             {
                 parameters[i] = make_parameter_info(mehtod_arg.name, param_types[i], i, mehtod_arg.custom_attributes);
                 i++;
@@ -254,7 +255,7 @@ namespace dot
 
     /// Create an empty instance of type_builder.
     template <class T>
-    inline type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes = {})
+    inline type_builder make_type_builder(string nspace, string name, std::initializer_list<attribute> custom_attributes)
     {
         type_builder td = new type_builder_impl(nspace, name, typeid(T).name());
         td->is_class_ = std::is_base_of<object_impl, T>::value;

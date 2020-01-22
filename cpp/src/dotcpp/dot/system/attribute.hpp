@@ -30,6 +30,7 @@ namespace dot
 {
     class attribute_impl; using attribute = ptr<attribute_impl>;
 
+    /// Base class for custom attributes in reflection.
     class DOT_CLASS attribute_impl : public object_impl
     {
     protected: // CONSTRUCTORS

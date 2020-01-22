@@ -73,6 +73,7 @@ namespace dot
     inline test_attribute make_test_attribute(string message) { return new test_attribute_impl(message); }
 
     class test_class_impl; using test_class = ptr<test_class_impl>;
+    test_class make_test_class();
 
     /// Test class with attributes.
     class test_class_impl : public object_impl

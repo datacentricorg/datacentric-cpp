@@ -223,8 +223,8 @@ namespace dot
         template <class T>
         operator_wrapper in(T const& rhs)
         {
-            list<typename detail::in_traits<T::value_type>::type> l = make_list<typename detail::in_traits<T::value_type>::type>();
-            for (T::value_type item : rhs)
+            list<typename detail::in_traits<typename T::value_type>::type> l = make_list<typename detail::in_traits<typename T::value_type>::type>();
+            for (typename T::value_type item : rhs)
             {
                 l->add(item);
             }
@@ -245,7 +245,7 @@ namespace dot
             {
                 l->add(item);
             }
-            return new operator_wrapper_impl(prop_->name, "$in", l);
+            return new operator_wrapper_impl(get_name(), "$in", l);
         }
 
 
@@ -319,8 +319,8 @@ namespace dot
         template <class T>
         operator_wrapper in(T const& rhs)
         {
-            list<typename detail::in_traits<T::value_type>::type> l = make_list<typename detail::in_traits<T::value_type>::type>();
-            for (T::value_type item : rhs)
+            list<typename detail::in_traits<typename T::value_type>::type> l = make_list<typename detail::in_traits<typename T::value_type>::type>();
+            for (typename T::value_type item : rhs)
             {
                 l->add(item);
             }
