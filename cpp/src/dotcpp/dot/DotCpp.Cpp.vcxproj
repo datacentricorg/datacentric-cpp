@@ -33,6 +33,7 @@
     <ClCompile Include="serialization\tuple_writer.cpp" />
     <ClCompile Include="system\attribute.cpp" />
     <ClCompile Include="system\bool.cpp" />
+    <ClCompile Include="system\byte_array.cpp" />
     <ClCompile Include="system\char.cpp" />
     <ClCompile Include="system\collections\list_base.cpp" />
     <ClCompile Include="system\double.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="serialization\tuple_writer.hpp" />
     <ClInclude Include="system\attribute.hpp" />
     <ClInclude Include="system\bool.hpp" />
+    <ClInclude Include="system\byte_array.hpp" />
     <ClInclude Include="system\char.hpp" />
     <ClInclude Include="system\collections\list_base.hpp" />
     <ClInclude Include="system\collections\generic\dictionary.hpp" />
