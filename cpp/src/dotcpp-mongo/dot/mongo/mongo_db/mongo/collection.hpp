@@ -29,8 +29,8 @@ limitations under the License.
 
 namespace dot
 {
-
     class collection_impl; using collection = ptr<collection_impl>;
+    class filter_token_base_impl; using filter_token_base = ptr<filter_token_base_impl>;
 
     /// Class representing server side document groupings within a MongoDB database.
     ///
@@ -56,6 +56,12 @@ namespace dot
             /// Inserts a single object into the collection. If the object->_id is missing or empty
             /// one will be generated for it.
             virtual void insert_one(object obj) = 0;
+
+            /// Deletes a single matching document from the collection.
+            virtual void delete_one(filter_token_base filter) = 0;
+
+            /// Deletes all matching documents from the collection.
+            virtual void delete_many(filter_token_base filter) = 0;
         };
 
     public:
@@ -63,6 +69,12 @@ namespace dot
         /// Inserts a single object into the collection. If the object->_id is missing or empty
         /// one will be generated for it.
         void insert_one(object obj);
+
+        /// Deletes a single matching document from the collection.
+        void delete_one(filter_token_base filter);
+
+        /// Deletes all matching documents from the collection.
+        void delete_many(filter_token_base filter);
 
     private:
 

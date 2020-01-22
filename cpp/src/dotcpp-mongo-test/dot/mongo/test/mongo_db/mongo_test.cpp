@@ -94,4 +94,39 @@ namespace dot
             REQUIRE(loaded_obj->string_value == obj->string_value);
         }
     }
+
+    TEST_CASE("delete_item")
+    {
+        const string db_name = "test;mongo_test;delete_item";
+        const string db_collection_name = "db_collection";
+
+        // Connect to mongo and drop old db.
+        client db_client = make_client(db_url);
+        db_client->drop_database(db_name);
+
+        // Create db and collection.
+        database db = db_client->get_database(db_name);
+        collection db_collection = db->get_collection(db_collection_name);
+
+        // Create document and write to db
+        test_class obj = make_test_class();
+        obj->int_value = 66;
+        obj->string_value = "str66";
+        db_collection->insert_one(obj);
+        db_collection->insert_one(obj);
+        db_collection->insert_one(obj);
+
+        // Delete document
+        db_collection->delete_one(make_prop(&test_class_impl::int_value) == 66);
+
+        // Create query and count documents
+        int doc_count = 0;
+        query db_query = make_query(db_collection, typeof<test_class>());
+        for (test_class loaded_obj : db_query->get_cursor<test_class>())
+        {
+            ++doc_count;
+        }
+
+        REQUIRE(doc_count == 2);
+    }
 }
