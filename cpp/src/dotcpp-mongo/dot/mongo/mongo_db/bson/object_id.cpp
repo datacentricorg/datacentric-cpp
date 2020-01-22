@@ -30,31 +30,31 @@ limitations under the License.
 
 namespace dot
 {
-    object_id object_id::empty = object_id();
+    ObjectId ObjectId::empty = ObjectId();
 
-    object_id::object_id()
+    ObjectId::ObjectId()
     {
         static const char empty_buffer[12] = { 0 };
         id_ = bsoncxx::oid(empty_buffer, 12);
     }
 
-    object_id::object_id(bsoncxx::oid id) : id_(id) {}
+    ObjectId::ObjectId(bsoncxx::oid id) : id_(id) {}
 
-    object_id::object_id(dot::Object obj)
+    ObjectId::ObjectId(dot::Object obj)
     {
-        id_ = ((struct_wrapper<object_id>)obj)->id_;
+        id_ = ((struct_wrapper<ObjectId>)obj)->id_;
     }
 
-    object_id::object_id(dot::String str)
+    ObjectId::ObjectId(dot::String str)
         : id_(*str)
     {}
 
-    object_id::object_id(const char* bytes, std::size_t len)
+    ObjectId::ObjectId(const char* bytes, std::size_t len)
         : id_(bytes, len)
     {
     }
 
-    object_id::object_id(dot::LocalDateTime value)
+    ObjectId::ObjectId(dot::LocalDateTime value)
     {
         char bytes[12] = { 0 };
 
@@ -65,52 +65,52 @@ namespace dot
         id_ = bsoncxx::oid(bytes, 12);
     }
 
-    bool object_id::is_empty()
+    bool ObjectId::is_empty()
     {
         return *id_.bytes() == 0; // TODO check
     }
 
-    object_id object_id::generate_new_id()
+    ObjectId ObjectId::generate_new_id()
     {
         return bsoncxx::oid();
     }
 
-    dot::String object_id::to_string() const
+    dot::String ObjectId::to_string() const
     {
         return id_.to_string();
     }
 
-    bool object_id::operator==(const object_id& rhs) const
+    bool ObjectId::operator==(const ObjectId& rhs) const
     {
         return id_ == rhs.id_;
     }
 
-    bool object_id::operator!=(const object_id& rhs) const
+    bool ObjectId::operator!=(const ObjectId& rhs) const
     {
         return id_ != rhs.id_;
     }
 
-    bool object_id::operator>=(const object_id& rhs) const
+    bool ObjectId::operator>=(const ObjectId& rhs) const
     {
         return id_ >= rhs.id_;
     }
 
-    bool object_id::operator>(const object_id& rhs) const
+    bool ObjectId::operator>(const ObjectId& rhs) const
     {
         return id_ > rhs.id_;
     }
 
-    bool object_id::operator<=(const object_id& rhs) const
+    bool ObjectId::operator<=(const ObjectId& rhs) const
     {
         return id_ <= rhs.id_;
     }
 
-    bool object_id::operator<(const object_id& rhs) const
+    bool ObjectId::operator<(const ObjectId& rhs) const
     {
         return id_ < rhs.id_;
     }
 
-    dot::Nullable<object_id> object_id::min(dot::Nullable<object_id> lhs, dot::Nullable<object_id> rhs)
+    dot::Nullable<ObjectId> ObjectId::min(dot::Nullable<ObjectId> lhs, dot::Nullable<ObjectId> rhs)
     {
         if (lhs != nullptr && rhs != nullptr)
         {
@@ -129,20 +129,20 @@ namespace dot
         }
     }
 
-    Object object_id::deserialize(Object value, dot::Type type)
+    Object ObjectId::deserialize(Object value, dot::Type type)
     {
         dot::Type value_type = value->get_type();
 
-        if (value_type->equals(dot::typeof<object_id>()))
+        if (value_type->equals(dot::typeof<ObjectId>()))
         {
             return value;
         }
         if (value_type->equals(dot::typeof<String>()))
         {
-            return object_id((String)value);
+            return ObjectId((String)value);
         }
 
-        throw dot::Exception("Couldn't construct object_id from " + value_type->name());
+        throw dot::Exception("Couldn't construct ObjectId from " + value_type->name());
         return Object();
     }
 }

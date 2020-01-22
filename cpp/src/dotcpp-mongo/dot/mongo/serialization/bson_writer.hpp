@@ -34,12 +34,12 @@ limitations under the License.
 
 namespace dot
 {
-    class bson_writer_impl; using bson_writer = dot::Ptr<bson_writer_impl>;
+    class BsonWriterImpl; using BsonWriter = dot::Ptr<BsonWriterImpl>;
 
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
-    class DOT_MONGO_CLASS bson_writer_impl : public TreeWriterBaseImpl
+    class DOT_MONGO_CLASS BsonWriterImpl : public TreeWriterBaseImpl
     {
-        friend bson_writer make_bson_writer();
+        friend BsonWriter make_bson_writer();
 
     private:
 
@@ -123,10 +123,10 @@ namespace dot
 
     private:
 
-        bson_writer_impl()
+        BsonWriterImpl()
             : bson_writer_(true)
             , current_state_(TreeWriterState::empty) {}
     };
 
-    inline bson_writer make_bson_writer() { return new bson_writer_impl; }
+    inline BsonWriter make_bson_writer() { return new BsonWriterImpl; }
 }

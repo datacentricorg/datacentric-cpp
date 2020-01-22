@@ -36,8 +36,8 @@ namespace dc
             if (id >= cutoff_time.value()) return nullptr;
         }
 
-        dot::query query = dot::make_query(get_or_create_collection(data_type), data_type);
-        dot::object_cursor_wrapper_base cursor = query->where(new dot::operator_wrapper_impl("_id", "$eq", id))
+        dot::Query query = dot::make_query(get_or_create_collection(data_type), data_type);
+        dot::ObjectCursorWrapperBase cursor = query->where(new dot::OperatorWrapperImpl("_id", "$eq", id))
             ->limit(1)
             ->get_cursor();
 
@@ -84,13 +84,13 @@ namespace dc
 
         dot::Type record_type = dot::typeof<record>();
 
-        dot::query base_query = dot::make_query(get_or_create_collection(key->get_type()), key->get_type())
-            ->where(new dot::operator_wrapper_impl("_key", "$eq", key_value))
+        dot::Query base_query = dot::make_query(get_or_create_collection(key->get_type()), key->get_type())
+            ->where(new dot::OperatorWrapperImpl("_key", "$eq", key_value))
             ;
 
-        dot::query query_with_final_constraints = apply_final_constraints(base_query, load_from);
+        dot::Query query_with_final_constraints = apply_final_constraints(base_query, load_from);
 
-        dot::object_cursor_wrapper_base cursor = query_with_final_constraints
+        dot::ObjectCursorWrapperBase cursor = query_with_final_constraints
             ->sort_by_descending(record_type->get_field("_dataset"))
             ->then_by_descending(record_type->get_field("_id"))
             ->limit(1)
@@ -153,7 +153,7 @@ namespace dc
     {
         check_not_read_only(delete_in);
 
-        dot::collection collection = get_or_create_collection(key->get_type());
+        dot::Collection collection = get_or_create_collection(key->get_type());
 
         deleted_record record = make_deleted_record(key);
 
@@ -174,7 +174,7 @@ namespace dc
         collection->insert_one(record);
     }
 
-    dot::query mongo_data_source_data_impl::apply_final_constraints(dot::query query, temporal_id load_from)
+    dot::Query mongo_data_source_data_impl::apply_final_constraints(dot::Query query, temporal_id load_from)
     {
         // Get lookup list by expanding the list of imports to arbitrary
         // depth with duplicates and cyclic references removed.
@@ -188,7 +188,7 @@ namespace dc
 
         // Apply constraint that the value is _dataset is
         // one of the elements of dataSetLookupList_
-        dot::query result = query->where(new dot::operator_wrapper_impl("_dataset", "$in", lookup_list));
+        dot::Query result = query->where(new dot::OperatorWrapperImpl("_dataset", "$in", lookup_list));
 
         // Apply revision time constraint. By making this constraint the
         // last among the constraints, we optimize the use of the index.
@@ -198,7 +198,7 @@ namespace dc
         dot::Nullable<temporal_id> cutoff_time = get_cutoff_time(load_from);
         if (cutoff_time != nullptr)
         {
-            result = result->where(new dot::operator_wrapper_impl("_id", "$lt", cutoff_time.value()));
+            result = result->where(new dot::OperatorWrapperImpl("_id", "$lt", cutoff_time.value()));
         }
 
         return result;
@@ -362,14 +362,14 @@ namespace dc
         else return nullptr;
     }
 
-    dot::collection mongo_data_source_data_impl::get_or_create_collection(dot::Type data_type)
+    dot::Collection mongo_data_source_data_impl::get_or_create_collection(dot::Type data_type)
     {
         // Check if collection Object has already been cached
         // for this type and return cached result if found
         dot::Object collection_obj;
         if (collection_dict_->try_get_value(data_type, collection_obj))
         {
-            dot::collection cached_result = collection_obj.as<dot::collection>();
+            dot::Collection cached_result = collection_obj.as<dot::Collection>();
             return cached_result;
         }
 
@@ -377,7 +377,7 @@ namespace dc
         dot::String collection_name = data_type_info_impl::get_or_create(data_type)->get_collection_name();
 
         // Get interfaces to base and typed collections for the same name
-        dot::collection typed_collection = db_->get_collection(collection_name);
+        dot::Collection typed_collection = db_->get_collection(collection_name);
 
         //--- Load standard index types
 
@@ -391,7 +391,7 @@ namespace dc
 
         // Use index definition convention to specify the index name
         dot::String load_index_name = "Key-DataSet-Id";
-        dot::index_options load_index_options = dot::make_index_options();
+        dot::IndexOptions load_index_options = dot::make_index_options();
         load_index_options->name = load_index_name;
         typed_collection->create_index(load_index_keys, load_index_options);
 
@@ -414,7 +414,7 @@ namespace dc
             if (index_name == nullptr) throw dot::Exception("Index name cannot be null.");
 
             // Add to indexes for the collection
-            dot::index_options index_opt = dot::make_index_options();
+            dot::IndexOptions index_opt = dot::make_index_options();
             index_opt->name = index_name;
             typed_collection->create_index(index_tokens, index_opt);
         }

@@ -79,12 +79,12 @@ namespace dot
         const String db_collection_name = "db_collection";
 
         // Connect to mongo and drop old db.
-        client db_client = make_client(db_url);
+        Client db_client = make_client(db_url);
         db_client->drop_database(db_name);
 
         // Create db and collection.
-        database db = db_client->get_database(db_name);
-        collection db_collection = db->get_collection(db_collection_name);
+        Database db = db_client->get_database(db_name);
+        Collection db_collection = db->get_collection(db_collection_name);
 
         // Create document and write to db
         test_class obj = make_test_class();
@@ -98,7 +98,7 @@ namespace dot
 
         // Create query and load document
         int doc_count = 0;
-        query db_query = make_query(db_collection, typeof<test_class>());
+        Query db_query = make_query(db_collection, typeof<test_class>());
         for (test_class loaded_obj : db_query->get_cursor<test_class>())
         {
             // Check loaded class values
@@ -123,12 +123,12 @@ namespace dot
         const String db_collection_name = "db_collection";
 
         // Connect to mongo and drop old db.
-        client db_client = make_client(db_url);
+        Client db_client = make_client(db_url);
         db_client->drop_database(db_name);
 
         // Create db and collection.
-        database db = db_client->get_database(db_name);
-        collection db_collection = db->get_collection(db_collection_name);
+        Database db = db_client->get_database(db_name);
+        Collection db_collection = db->get_collection(db_collection_name);
 
         // Create document and write to db
         test_class obj = make_test_class();
@@ -145,7 +145,7 @@ namespace dot
         db_collection->delete_one(make_prop(&test_class_impl::int_value) == 66);
 
         int doc_count;
-        query db_query;
+        Query db_query;
 
         // Create query and count documents
         doc_count = 0;
@@ -177,18 +177,18 @@ namespace dot
         const String db_collection_name = "db_collection";
 
         // Connect to mongo and drop old db.
-        client db_client = make_client(db_url);
+        Client db_client = make_client(db_url);
         db_client->drop_database(db_name);
 
         // Create db and collection.
-        database db = db_client->get_database(db_name);
-        collection db_collection = db->get_collection(db_collection_name);
+        Database db = db_client->get_database(db_name);
+        Collection db_collection = db->get_collection(db_collection_name);
 
         // Create index
         List<std::tuple<String, int>> indexes = make_list<std::tuple<String, int>>();
         indexes->add({ "int_value", 1 });
         indexes->add({ "string_value", -1 });
-        index_options idx_options = make_index_options();
+        IndexOptions idx_options = make_index_options();
         idx_options->name = "test_index";
         db_collection->create_index(indexes, idx_options);
 
@@ -221,7 +221,7 @@ namespace dot
         db_collection->insert_one(obj);
 
         int doc_count;
-        query db_query;
+        Query db_query;
 
         // Create query and count documents where int_value >= 77
         doc_count = 0;

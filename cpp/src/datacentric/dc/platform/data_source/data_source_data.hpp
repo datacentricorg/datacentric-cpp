@@ -39,7 +39,6 @@ namespace dc
     class db_name_key_impl; using db_name_key = dot::Ptr<db_name_key_impl>;
     class db_server_key_impl; using db_server_key = dot::Ptr<db_server_key_impl>;
     class data_set_data_impl; using data_set_data = dot::Ptr<data_set_data_impl>;
-    class object_cursor_wrapper_impl; using object_cursor_wrapper = dot::Ptr<object_cursor_wrapper_impl>;
     class mongo_query_impl; using mongo_query = dot::Ptr<mongo_query_impl>;
 
     /// Data source is a logical concept similar to database

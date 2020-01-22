@@ -34,10 +34,10 @@ namespace dot
         dot::Type value_type = value->get_type();
 
         // Convert value to supported type
-        List<Attribute> value_attributes = value_type->get_custom_attributes(dot::typeof<filter_token_serialization_attribute>(), true);
+        List<Attribute> value_attributes = value_type->get_custom_attributes(dot::typeof<FilterTokenSerializationAttribute>(), true);
         if (value_attributes->count())
         {
-             value = ((filter_token_serialization_attribute) value_attributes[0])->serialize(value);
+             value = ((FilterTokenSerializationAttribute) value_attributes[0])->serialize(value);
              value_type = value->get_type();
         }
 
@@ -69,8 +69,8 @@ namespace dot
         if (value_type->equals(dot::typeof<dot::LocalDateTime>()))
             builder.append(bsoncxx::types::b_date{ dot::LocalDateTimeUtil::to_std_chrono((dot::LocalDateTime)value) });
         else
-        if (value_type->equals(dot::typeof<dot::object_id>()))
-            builder.append(((dot::struct_wrapper<dot::object_id>)value)->oid());
+        if (value_type->equals(dot::typeof<dot::ObjectId>()))
+            builder.append(((dot::struct_wrapper<dot::ObjectId>)value)->oid());
         else
         if (value_type->is_enum())
             builder.append(*value->to_string());
@@ -89,20 +89,20 @@ namespace dot
         if (value.is<dot::ByteArray>())
         {
             ByteArray arr = value.as<ByteArray>();
-            builder.append(bson_writer_impl::to_bson_binary(arr));
+            builder.append(BsonWriterImpl::to_bson_binary(arr));
         }
         else
             throw dot::Exception("Unknown query token");
     }
 
-    /// Returns bson document serialized from filter tokens (and_list, or_list, operator_wrapper).
-    bsoncxx::document::view_or_value serialize_tokens(filter_token_base value)
+    /// Returns bson document serialized from filter tokens (AndList, OrList, OperatorWrapper).
+    bsoncxx::document::view_or_value serialize_tokens(FilterTokenBase value)
     {
-        if (value.is<operator_wrapper>())
+        if (value.is<OperatorWrapper>())
         {
-            // operator_wrapper -> { field_name : { operation : value } }
+            // OperatorWrapper -> { field_name : { operation : value } }
             // e.g. { sub_doc_name.double_field : { $lt : 2.5 } }
-            operator_wrapper wrapper = value.as<operator_wrapper>();
+            OperatorWrapper wrapper = value.as<OperatorWrapper>();
             bsoncxx::builder::core builder(false);
             builder.key_view(*(wrapper->prop_name_));
             builder.open_document();
@@ -112,14 +112,14 @@ namespace dot
 
             return builder.extract_document();
         }
-        else if (value.is<and_list>())
+        else if (value.is<AndList>())
         {
-            // and_list -> { $and : [ token1, token2, ... ] }
-            and_list list = value.as<and_list>();
+            // AndList -> { $and : [ token1, token2, ... ] }
+            AndList list = value.as<AndList>();
             bsoncxx::builder::core builder(false);
             builder.key_view("$and");
             builder.open_array();
-            for (filter_token_base const& item : list->values_list_)
+            for (FilterTokenBase const& item : list->values_list_)
             {
                 builder.append(serialize_tokens(item));
             }
@@ -128,14 +128,14 @@ namespace dot
             return builder.extract_document();
 
         }
-        else if (value.is<or_list>())
+        else if (value.is<OrList>())
         {
-            // or_list -> { $or : [ token1, token2, ... ] }
-            or_list list = value.as<or_list>();
+            // OrList -> { $or : [ token1, token2, ... ] }
+            OrList list = value.as<OrList>();
             bsoncxx::builder::core builder(false);
             builder.key_view("$or");
             builder.open_array();
-            for (filter_token_base const& item : list->values_list_)
+            for (FilterTokenBase const& item : list->values_list_)
             {
                 builder.append(serialize_tokens(item));
             }

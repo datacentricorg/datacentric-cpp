@@ -23,7 +23,7 @@ limitations under the License.
 namespace dc
 {
 
-    mongo_query mongo_query_impl::where(dot::filter_token_base value)
+    mongo_query mongo_query_impl::where(dot::FilterTokenBase value)
     {
         // Save filter.
         where_.push_back(value);
@@ -44,16 +44,16 @@ namespace dc
         return this;
     }
 
-    dot::object_cursor_wrapper_base mongo_query_impl::get_cursor()
+    dot::ObjectCursorWrapperBase mongo_query_impl::get_cursor()
     {
         dot::Type record_type = dot::typeof<record>();
 
         // Apply dataset filters to query.
-        dot::query query = dot::make_query(collection_, type_);
+        dot::Query query = dot::make_query(collection_, type_);
         query = data_source_->apply_final_constraints(query, data_set_);
 
         // Apply custom filters to query.
-        for (dot::filter_token_base token : where_)
+        for (dot::FilterTokenBase token : where_)
         {
             query->where(token);
         }
@@ -87,7 +87,7 @@ namespace dc
         return new mongo_query_cursor_impl(query->get_cursor(), query->type_, this->data_source_->context);
     }
 
-    dot::object_cursor_wrapper_base mongo_query_impl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
+    dot::ObjectCursorWrapperBase mongo_query_impl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
     {
         if (props.is_empty() || props->size() != element_type->get_generic_arguments()->size())
         {
@@ -96,10 +96,10 @@ namespace dc
         dot::Type record_type = dot::typeof<record>();
 
         // Apply dataset filters to query.
-        dot::query query = dot::make_query(collection_, type_);
+        dot::Query query = dot::make_query(collection_, type_);
         query = data_source_->apply_final_constraints(query, data_set_);
 
-        for (dot::filter_token_base token : where_)
+        for (dot::FilterTokenBase token : where_)
         {
             query->where(token);
         }
@@ -124,11 +124,11 @@ namespace dc
             for (dot::Type der_type : derived_types)
                 derived_type_names->add(der_type->name());
 
-            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name()))
-                || dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$in", derived_type_names)));
+            query->where(dot::FilterTokenBase(new dot::OperatorWrapperImpl("_t", "$eq", query->type_->name()))
+                || dot::FilterTokenBase(new dot::OperatorWrapperImpl("_t", "$in", derived_type_names)));
         }
         else
-            query->where(dot::filter_token_base(new dot::operator_wrapper_impl("_t", "$eq", query->type_->name())));
+            query->where(dot::FilterTokenBase(new dot::OperatorWrapperImpl("_t", "$eq", query->type_->name())));
 
         // Apply custom sort.
         for (std::pair<dot::FieldInfo, int> sort_token : sort_)

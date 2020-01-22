@@ -294,7 +294,7 @@ namespace dot
         if (value_type->equals(dot::typeof<dot::LocalDateTime>()))
             json_writer_.Int64(dot::LocalDateTimeUtil::to_iso_long((dot::LocalDateTime)value));
         //else
-        //if (value_type->equals(dot::typeof<dot::object_id>()))
+        //if (value_type->equals(dot::typeof<dot::ObjectId>()))
         //    json_writer_.String(*value->to_string());
         else
         if (value_type->is_enum())

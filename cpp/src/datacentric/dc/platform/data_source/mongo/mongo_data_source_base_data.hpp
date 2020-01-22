@@ -57,10 +57,10 @@ namespace dc
         dot::String db_name_;
 
         /// Interface to Mongo client in MongoDB C++ driver.
-        dot::client client_;
+        dot::Client client_;
 
         /// Interface to Mongo database in MongoDB C++ driver.
-        dot::database db_;
+        dot::Database db_;
 
         /// Previous temporal_id returned by create_ordered_object_id() method.
         temporal_id prev_object_id_ = temporal_id::empty;
@@ -105,7 +105,7 @@ namespace dc
             //    // Set discriminator convention to scalar. For this convention,
             //    // BSON element _t is a single String value equal to GetType().Name,
             //    // rather than the list of names for the entire inheritance chain.
-            //    dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::scalar);
+            //    dot::MongoClientSettings::set_discriminator_convention(dot::DiscriminatorConvention::scalar);
             //}
             //else
             //{
@@ -115,7 +115,7 @@ namespace dc
             //    // of length 1.
             //    //
             //    // Choosing root type to be Record ensures that _t is always an array.
-            //    dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::hierarchical);
+            //    dot::MongoClientSettings::set_discriminator_convention(dot::DiscriminatorConvention::hierarchical);
             //}
         }
     };

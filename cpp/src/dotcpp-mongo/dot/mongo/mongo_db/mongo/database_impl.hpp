@@ -27,20 +27,20 @@ namespace dot
 {
     /// Class implements dot::database methods.
     /// Holds mongocxx::database object.
-    class database_inner : public database_impl::database_inner_base
+    class DatabaseInner : public DatabaseImpl::DatabaseInnerBase
     {
     public:
 
         /// Constructs from mongocxx::database.
-        database_inner(mongocxx::database const& database)
+        DatabaseInner(mongocxx::database const& database)
             : database_(database)
         {
         }
 
         /// Returns collection from database by specified name.
-        virtual collection get_collection(dot::String name) override
+        virtual Collection get_collection(dot::String name) override
         {
-            return new collection_impl(std::make_unique<collection_inner>(database_[*name]));
+            return new CollectionImpl(std::make_unique<CollectionInner>(database_[*name]));
         }
 
     private:
@@ -48,14 +48,13 @@ namespace dot
         mongocxx::database database_;
     };
 
-    collection database_impl::get_collection(dot::String name)
+    Collection DatabaseImpl::get_collection(dot::String name)
     {
         return impl_->get_collection(name);
     }
 
-    database_impl::database_impl(std::unique_ptr<database_inner_base> && impl)
+    DatabaseImpl::DatabaseImpl(std::unique_ptr<DatabaseInnerBase> && impl)
         : impl_(std::move(impl))
     {
     }
-
 }

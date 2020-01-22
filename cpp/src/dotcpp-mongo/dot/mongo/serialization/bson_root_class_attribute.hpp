@@ -29,16 +29,16 @@ limitations under the License.
 
 namespace dot
 {
-    class bson_root_class_attribute_impl; using bson_root_class_attribute = Ptr<bson_root_class_attribute_impl>;
+    class BsonRootClassAttributeImpl; using BsonRootClassAttribute = Ptr<BsonRootClassAttributeImpl>;
 
     /// Attribute marks class as root class for writing hierarchical discriminator convention.
-    class DOT_MONGO_CLASS bson_root_class_attribute_impl : public AttributeImpl
+    class DOT_MONGO_CLASS BsonRootClassAttributeImpl : public AttributeImpl
     {
-        friend bson_root_class_attribute make_bson_root_class_attribute();
+        friend BsonRootClassAttribute make_bson_root_class_attribute();
 
     private:
 
-        bson_root_class_attribute_impl() = default;
+        BsonRootClassAttributeImpl() = default;
 
     public: // REFLECTION
 
@@ -46,5 +46,5 @@ namespace dot
         Type get_type() override;
     };
 
-    inline bson_root_class_attribute make_bson_root_class_attribute() { return new bson_root_class_attribute_impl(); }
+    inline BsonRootClassAttribute make_bson_root_class_attribute() { return new BsonRootClassAttributeImpl(); }
 }

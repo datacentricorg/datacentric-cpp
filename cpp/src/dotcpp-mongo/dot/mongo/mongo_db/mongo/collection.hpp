@@ -30,30 +30,30 @@ limitations under the License.
 
 namespace dot
 {
-    class collection_impl; using collection = Ptr<collection_impl>;
-    class filter_token_base_impl; using filter_token_base = Ptr<filter_token_base_impl>;
+    class CollectionImpl; using Collection = Ptr<CollectionImpl>;
+    class FilterTokenBaseImpl; using FilterTokenBase = Ptr<FilterTokenBaseImpl>;
 
     /// Class representing server side document groupings within a MongoDB database.
     ///
     /// Collections do not require or enforce a schema and documents inside of a collection can have
     /// different fields. While not a requirement, typically documents in a collection have a similar
     /// shape or related purpose.
-    class DOT_MONGO_CLASS collection_impl : public ObjectImpl
+    class DOT_MONGO_CLASS CollectionImpl : public ObjectImpl
     {
     private:
 
-        friend class collection_inner;
-        friend class database_inner;
-        friend class query_inner_impl;
+        friend class CollectionInner;
+        friend class DatabaseInner;
+        friend class QueryInnerImpl;
 
         /// Base class for collection implementation classes.
         /// Derived collection impl class is hidden to cpp.
-        class DOT_MONGO_CLASS collection_inner_base
+        class DOT_MONGO_CLASS CollectionInnerBase
         {
-            friend class collection_impl;
+            friend class CollectionImpl;
 
         public:
-            virtual ~collection_inner_base() = default;
+            virtual ~CollectionInnerBase() = default;
 
         protected:
 
@@ -66,13 +66,13 @@ namespace dot
             virtual void insert_many(dot::ListBase objs) = 0;
 
             /// Deletes a single matching document from the collection.
-            virtual void delete_one(filter_token_base filter) = 0;
+            virtual void delete_one(FilterTokenBase filter) = 0;
 
             /// Deletes all matching documents from the collection.
-            virtual void delete_many(filter_token_base filter) = 0;
+            virtual void delete_many(FilterTokenBase filter) = 0;
 
             /// Creates an index over the collection for the provided keys with the provided options.
-            virtual void create_index(List<std::tuple<String, int>> indexes, index_options options) = 0;
+            virtual void create_index(List<std::tuple<String, int>> indexes, IndexOptions options) = 0;
         };
 
     public:
@@ -86,19 +86,18 @@ namespace dot
         void insert_many(dot::ListBase objs);
 
         /// Deletes a single matching document from the collection.
-        void delete_one(filter_token_base filter);
+        void delete_one(FilterTokenBase filter);
 
         /// Deletes all matching documents from the collection.
-        void delete_many(filter_token_base filter);
+        void delete_many(FilterTokenBase filter);
 
         /// Creates an index over the collection for the provided keys with the provided options.
-        void create_index(List<std::tuple<String, int>> indexes, index_options options = nullptr);
+        void create_index(List<std::tuple<String, int>> indexes, IndexOptions options = nullptr);
 
     private:
 
-        collection_impl(std::unique_ptr<collection_inner_base> && impl);
+        CollectionImpl(std::unique_ptr<CollectionInnerBase> && impl);
 
-        std::unique_ptr<collection_inner_base> impl_;
+        std::unique_ptr<CollectionInnerBase> impl_;
     };
-
 }

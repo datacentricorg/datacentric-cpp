@@ -26,16 +26,16 @@ limitations under the License.
 
 namespace dot
 {
-    /// Class implements dot::collection methods.
+    /// Class implements dot::Collection methods.
     /// Holds mongocxx::collection object.
-    class collection_inner : public collection_impl::collection_inner_base
+    class CollectionInner : public CollectionImpl::CollectionInnerBase
     {
-        friend class query_inner_impl;
+        friend class QueryInnerImpl;
 
     public:
 
         /// Constructs from mongocxx::collection
-        collection_inner(mongocxx::collection const& collection)
+        CollectionInner(mongocxx::collection const& collection)
             : collection_(collection)
         {
         }
@@ -43,8 +43,8 @@ namespace dot
         /// Serialize Object and pass it to mongo collection.
         virtual void insert_one(Object obj) override
         {
-            bson_record_serializer serializer = make_bson_record_serializer();
-            bson_writer writer = make_bson_writer();
+            BsonRecordSerializer serializer = make_bson_record_serializer();
+            BsonWriter writer = make_bson_writer();
             serializer->serialize(writer, obj);
 
             collection_.insert_one(writer->view());
@@ -60,8 +60,8 @@ namespace dot
 
             for (int i = 0; i < objs->get_length(); ++i)
             {
-                bson_record_serializer serializer = make_bson_record_serializer();
-                bson_writer writer = make_bson_writer();
+                BsonRecordSerializer serializer = make_bson_record_serializer();
+                BsonWriter writer = make_bson_writer();
                 serializer->serialize(writer, objs->get_item(i));
                 bulk.append(mongocxx::model::insert_one(writer->view()));
             }
@@ -70,19 +70,19 @@ namespace dot
         }
 
         /// Delete one document according to filter.
-        virtual void delete_one(filter_token_base filter) override
+        virtual void delete_one(FilterTokenBase filter) override
         {
             collection_.delete_one(serialize_tokens(filter));
         }
 
         /// Delete many document according to filter.
-        virtual void delete_many(filter_token_base filter) override
+        virtual void delete_many(FilterTokenBase filter) override
         {
             collection_.delete_many(serialize_tokens(filter));
         }
 
         /// Creates an index over the collection for the provided keys with the provided options.
-        virtual void create_index(List<std::tuple<String, int>> indexes, index_options options) override
+        virtual void create_index(List<std::tuple<String, int>> indexes, IndexOptions options) override
         {
             namespace bsonb = bsoncxx::builder::basic;
             bsoncxx::builder::core index_builder(false);
@@ -138,32 +138,32 @@ namespace dot
         mongocxx::collection collection_;
     };
 
-    collection_impl::collection_impl(std::unique_ptr<collection_inner_base> && impl)
+    CollectionImpl::CollectionImpl(std::unique_ptr<CollectionInnerBase> && impl)
         : impl_(std::move(impl))
     {
     }
 
-    void collection_impl::insert_one(Object obj)
+    void CollectionImpl::insert_one(Object obj)
     {
         impl_->insert_one(obj);
     }
 
-    void collection_impl::insert_many(dot::ListBase objs)
+    void CollectionImpl::insert_many(dot::ListBase objs)
     {
         impl_->insert_many(objs);
     }
 
-    void collection_impl::delete_one(filter_token_base filter)
+    void CollectionImpl::delete_one(FilterTokenBase filter)
     {
         impl_->delete_one(filter);
     }
 
-    void collection_impl::delete_many(filter_token_base filter)
+    void CollectionImpl::delete_many(FilterTokenBase filter)
     {
         impl_->delete_many(filter);
     }
 
-    void collection_impl::create_index(List<std::tuple<String, int>> indexes, index_options options)
+    void CollectionImpl::create_index(List<std::tuple<String, int>> indexes, IndexOptions options)
     {
         impl_->create_index(indexes, options);
     }

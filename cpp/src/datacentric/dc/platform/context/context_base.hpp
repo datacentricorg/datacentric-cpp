@@ -54,7 +54,7 @@ namespace dc
 
         /// Load record by its temporal_id.
         ///
-        /// Error message if there is no record for the specified object_id,
+        /// Error message if there is no record for the specified ObjectId,
         /// or if the record exists but is not derived from TRecord.
         template <class TRecord>
         TRecord load(temporal_id id)

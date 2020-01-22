@@ -36,7 +36,7 @@ namespace dot
     /// Repesents 12-byte MongoDB identifier that is unique within the server.
     ///
     /// This type is immutable.
-    class DOT_MONGO_CLASS object_id
+    class DOT_MONGO_CLASS ObjectId
     {
         template <class T>
         friend inline Type typeof();
@@ -44,31 +44,31 @@ namespace dot
     public: // STATIC
 
         /// Represents empty object id, all bytes are zero
-        static object_id empty;
+        static ObjectId empty;
 
     public: // CONSTRUCTORS
 
-        /// Create with value object_id::empty.
-        object_id();
+        /// Create with value ObjectId::empty.
+        ObjectId();
 
         /// Create from MongoDB driver object id type.
-        object_id(bsoncxx::oid id);
+        ObjectId(bsoncxx::oid id);
 
         /// Create from MongoDB driver object id type.
-        object_id(dot::Object obj);
+        ObjectId(dot::Object obj);
 
         /// Create from the hexidecimal string representation produced by to_string().
-        object_id(dot::String str);
+        ObjectId(dot::String str);
 
         /// Create from byte array.
-        object_id(const char* bytes, std::size_t len);
+        ObjectId(const char* bytes, std::size_t len);
 
         /// Create from UTC datetime, with all other components of object id empty.
         /// The created Object is less or equal to any other Object with time timestamp
         /// that falls on the same second.
         ///
         /// Error message if the timestamp does not fall on the second // TODO - need to check
-        explicit object_id(dot::LocalDateTime value);
+        explicit ObjectId(dot::LocalDateTime value);
 
     public: // METHODS
 
@@ -77,7 +77,7 @@ namespace dot
 
         bool is_empty();
 
-        static object_id generate_new_id();
+        static ObjectId generate_new_id();
 
         /// Returns hexadecimal string representation
         dot::String to_string() const;
@@ -85,31 +85,31 @@ namespace dot
     public: // OPERATORS
 
         /// Equality operator
-        bool operator==(const object_id& rhs) const;
+        bool operator==(const ObjectId& rhs) const;
 
         /// Inquality operator
-        bool operator!=(const object_id& rhs) const;
+        bool operator!=(const ObjectId& rhs) const;
 
         /// More of equal operator
-        bool operator>=(const object_id& rhs) const;
+        bool operator>=(const ObjectId& rhs) const;
 
         /// More operator
-        bool operator>(const object_id& rhs) const;
+        bool operator>(const ObjectId& rhs) const;
 
         /// Less or equal operator
-        bool operator<=(const object_id& rhs) const;
+        bool operator<=(const ObjectId& rhs) const;
 
         /// Less operator
-        bool operator<(const object_id& rhs) const;
+        bool operator<(const ObjectId& rhs) const;
 
         /// Boxing operator
         operator dot::Object() const
         {
-            return dot::Object(new dot::struct_wrapper_impl<object_id>(*this));
+            return dot::Object(new dot::struct_wrapper_impl<ObjectId>(*this));
         }
 
-        /// Min method for Nullable object_id.
-        static dot::Nullable<object_id> min(dot::Nullable<object_id> lhs, dot::Nullable<object_id> rhs);
+        /// Min method for Nullable ObjectId.
+        static dot::Nullable<ObjectId> min(dot::Nullable<ObjectId> lhs, dot::Nullable<ObjectId> rhs);
 
     private:
 
@@ -123,9 +123,9 @@ namespace dot
 namespace dot
 {
     template <>
-    inline Type typeof<dot::object_id>()
+    inline Type typeof<dot::ObjectId>()
     {
-        static dot::Type type_ = dot::make_type_builder<dot::object_id>("dot", "object_id", { make_deserialize_class_attribute( &object_id::deserialize) })
+        static dot::Type type_ = dot::make_type_builder<dot::ObjectId>("dot", "ObjectId", { make_deserialize_class_attribute( &ObjectId::deserialize) })
             ->build();
         return type_;
     }
@@ -133,21 +133,21 @@ namespace dot
 
 namespace std
 {
-    /// Implements hash struct used by STL unordered_map for object_id.
+    /// Implements hash struct used by STL unordered_map for ObjectId.
     template <>
-    struct hash<dot::object_id>
+    struct hash<dot::ObjectId>
     {
-        size_t operator()(const dot::object_id& id) const
+        size_t operator()(const dot::ObjectId& id) const
         {
             return hash<string>()(id.oid().to_string());
         }
     };
 
-    /// Implements equal_to struct used by STL unordered_map for object_id.
+    /// Implements equal_to struct used by STL unordered_map for ObjectId.
     template <>
-    struct equal_to<dot::object_id>
+    struct equal_to<dot::ObjectId>
     {
-        bool operator()(const dot::object_id& lhs, const dot::object_id& rhs) const
+        bool operator()(const dot::ObjectId& lhs, const dot::ObjectId& rhs) const
         {
             return lhs == rhs;
         }

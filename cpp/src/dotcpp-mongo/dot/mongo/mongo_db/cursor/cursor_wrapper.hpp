@@ -27,15 +27,15 @@ limitations under the License.
 
 namespace dot
 {
-    class iterator_inner_base_impl; using iterator_inner_base = Ptr<iterator_inner_base_impl>;
+    class IteratorInnerBaseImpl; using IteratorInnerBase = Ptr<IteratorInnerBaseImpl>;
 
     /// Base class for iterator implementation classes.
     /// Derived iterator class is hidden to cpp.
-    class DOT_MONGO_CLASS iterator_inner_base_impl : public ObjectImpl
+    class DOT_MONGO_CLASS IteratorInnerBaseImpl : public ObjectImpl
     {
     public:
 
-        virtual ~iterator_inner_base_impl() = default;
+        virtual ~IteratorInnerBaseImpl() = default;
 
         virtual Object operator*() = 0;
 
@@ -43,9 +43,9 @@ namespace dot
 
         virtual void operator++() = 0;
 
-        virtual bool operator!=(iterator_inner_base rhs) = 0;
+        virtual bool operator!=(IteratorInnerBase rhs) = 0;
 
-        virtual bool operator==(iterator_inner_base rhs) = 0;
+        virtual bool operator==(IteratorInnerBase rhs) = 0;
     };
 
     /// Class representing an input iterator of documents in a MongoDB cursor
@@ -55,13 +55,13 @@ namespace dot
     /// exhausted iterator so that it no longer compares equal to the
     /// end-iterator.
     template <class T>
-    class iterator_wrappper
+    class IteratorWrappper
     {
     public:
 
         typedef T value_type;
 
-        iterator_wrappper(iterator_inner_base iterator)
+        IteratorWrappper(IteratorInnerBase iterator)
             :iterator_(iterator)
         {}
 
@@ -75,23 +75,23 @@ namespace dot
             return iterator_->operator*();
         }
 
-        iterator_wrappper<T>& operator++()
+        IteratorWrappper<T>& operator++()
         {
             iterator_->operator++();
             return *this;
         }
 
-        bool operator!=(iterator_wrappper<T> const& rhs)
+        bool operator!=(IteratorWrappper<T> const& rhs)
         {
             return *iterator_ != (rhs.iterator_);
         }
 
-        bool operator==(iterator_wrappper<T> const& rhs)
+        bool operator==(IteratorWrappper<T> const& rhs)
         {
             return *iterator_ == (rhs.iterator_);
         }
 
-        iterator_inner_base iterator_;
+        IteratorInnerBase iterator_;
     };
 
 
@@ -99,11 +99,11 @@ namespace dot
     /// Represents a pointer to the result set of a query on a MongoDB server.
     ///
     /// @note By default, cursors timeout after 10 minutes of inactivity.
-    class DOT_MONGO_CLASS object_cursor_wrapper_base_impl : public dot::ObjectImpl
+    class DOT_MONGO_CLASS ObjectCursorWrapperBaseImpl : public dot::ObjectImpl
     {
     public:
 
-        virtual ~object_cursor_wrapper_base_impl() = default;
+        virtual ~ObjectCursorWrapperBaseImpl() = default;
 
         /// A dot::iterator_wrapper<dot::Object> that points to the beginning of any available
         /// results.  If begin() is called more than once, the dot::iterator_wrapper
@@ -113,33 +113,33 @@ namespace dot
         /// For a tailable cursor, when cursor.begin() == cursor.end(), no
         /// documents are available.  Each call to cursor.begin() checks again
         /// for newly-available documents.
-        virtual iterator_wrappper<dot::Object> begin() = 0;
+        virtual IteratorWrappper<dot::Object> begin() = 0;
 
         /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
-        virtual iterator_wrappper<dot::Object> end() = 0;
+        virtual IteratorWrappper<dot::Object> end() = 0;
 
     };
 
-    using object_cursor_wrapper_base = Ptr<object_cursor_wrapper_base_impl>;
+    using ObjectCursorWrapperBase = Ptr<ObjectCursorWrapperBaseImpl>;
 
     template <class T>
-    class cursor_wrapper_impl;
+    class CursorWrapperImpl;
     template <class T>
-    using cursor_wrapper = Ptr<cursor_wrapper_impl<T>>;
+    using CursorWrapper = Ptr<CursorWrapperImpl<T>>;
 
     template <class T>
-    inline cursor_wrapper<T> make_cursor_wrapper(object_cursor_wrapper_base object_cursor);
+    inline CursorWrapper<T> make_cursor_wrapper(ObjectCursorWrapperBase object_cursor);
 
     /// Wrapper class for mongocxx::cursor. Provides typed iterator.
     /// Represents a pointer to the result set of a query on a MongoDB server.
     ///
     /// @note By default, cursors timeout after 10 minutes of inactivity.
     template <class T>
-    class cursor_wrapper_impl : public dot::ObjectImpl
+    class CursorWrapperImpl : public dot::ObjectImpl
     {
         template <class T_>
-        friend cursor_wrapper<T_> make_cursor_wrapper(object_cursor_wrapper_base object_cursor);
+        friend CursorWrapper<T_> make_cursor_wrapper(ObjectCursorWrapperBase object_cursor);
 
     public:
 
@@ -151,30 +151,30 @@ namespace dot
         /// For a tailable cursor, when cursor.begin() == cursor.end(), no
         /// documents are available.  Each call to cursor.begin() checks again
         /// for newly-available documents.
-        inline iterator_wrappper<T> begin()
+        inline IteratorWrappper<T> begin()
         {
-            return iterator_wrappper<T>(object_cursor_->begin().iterator_);
+            return IteratorWrappper<T>(object_cursor_->begin().iterator_);
         }
 
         /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
-        inline iterator_wrappper<T> end()
+        inline IteratorWrappper<T> end()
         {
-            return iterator_wrappper<T>(object_cursor_->end().iterator_);
+            return IteratorWrappper<T>(object_cursor_->end().iterator_);
         }
 
     private:
 
-        /// Private ctor from object_cursor_wrapper_base.
-        cursor_wrapper_impl(object_cursor_wrapper_base object_cursor)
+        /// Private ctor from ObjectCursorWrapperBase.
+        CursorWrapperImpl(ObjectCursorWrapperBase object_cursor)
             : object_cursor_(object_cursor)
         {
         }
 
-        object_cursor_wrapper_base object_cursor_;
+        ObjectCursorWrapperBase object_cursor_;
     };
 
     /// Returns typed cursor.
     template <class T>
-    inline cursor_wrapper<T> make_cursor_wrapper(object_cursor_wrapper_base object_cursor) { return new cursor_wrapper_impl<T>(object_cursor); }
+    inline CursorWrapper<T> make_cursor_wrapper(ObjectCursorWrapperBase object_cursor) { return new CursorWrapperImpl<T>(object_cursor); }
 }

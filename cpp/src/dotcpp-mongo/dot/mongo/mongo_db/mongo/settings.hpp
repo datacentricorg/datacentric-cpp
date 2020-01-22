@@ -26,7 +26,7 @@ limitations under the License.
 namespace dot
 {
     /// Represents a discriminator convention for a type.
-    enum class discriminator_convention
+    enum class DiscriminatorConvention
     {
         empty,
         scalar,       /// Type represents by scalar String with actual type.
@@ -36,14 +36,14 @@ namespace dot
 
 
     /// Class contains settings for mongo client, e.g. discriminator convention for a type.
-    class DOT_MONGO_CLASS mongo_client_settings
+    class DOT_MONGO_CLASS MongoClientSettings
     {
     private:
 
         /// Returns reference to static discriminator convention value.
-        static discriminator_convention& discriminator_convention_ref()
+        static DiscriminatorConvention& discriminator_convention_ref()
         {
-            static dot::discriminator_convention convention_ = dot::discriminator_convention::empty;
+            static dot::DiscriminatorConvention convention_ = dot::DiscriminatorConvention::empty;
             return convention_;
         }
 
@@ -52,30 +52,29 @@ namespace dot
         /// Returns static discriminator convention value.
         /// If value is not set by set_discriminator_convention method
         /// it will be set by default.
-        static dot::discriminator_convention get_discriminator_convention()
+        static dot::DiscriminatorConvention get_discriminator_convention()
         {
-            dot::discriminator_convention& convention = discriminator_convention_ref();
-            if (convention == dot::discriminator_convention::empty)
+            dot::DiscriminatorConvention& convention = discriminator_convention_ref();
+            if (convention == dot::DiscriminatorConvention::empty)
             {
-                convention = dot::discriminator_convention::default_convention;
+                convention = dot::DiscriminatorConvention::default_convention;
             }
 
             return convention;
-
         }
 
         /// Sets static discriminator convention value.
         /// If value has already been set, Throws exception.
-        static void set_discriminator_convention(dot::discriminator_convention convention)
+        static void set_discriminator_convention(dot::DiscriminatorConvention convention)
         {
-            dot::discriminator_convention& convention_ref = discriminator_convention_ref();
-            if (convention_ref == dot::discriminator_convention::empty)
+            dot::DiscriminatorConvention& convention_ref = discriminator_convention_ref();
+            if (convention_ref == dot::DiscriminatorConvention::empty)
             {
                 convention_ref = convention;
             }
             else
             {
-                throw dot::Exception("discriminator_convention is already set.");
+                throw dot::Exception("DiscriminatorConvention is already set.");
             }
         }
     };

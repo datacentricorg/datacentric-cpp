@@ -31,20 +31,17 @@ limitations under the License.
 
 namespace dot
 {
-    class query_impl;
-    using query = dot::Ptr<query_impl>;
-    class mongo_data_source_data_impl;
-    template <class Class, class prop>
-    struct prop_wrapper;
-    class data_source_data_impl; using data_source_data = dot::Ptr<data_source_data_impl>;
+    class QueryImpl;
+    using Query = dot::Ptr<QueryImpl>;
+    template <class Class, class Prop>
+    struct PropWrapper;
 
     /// Holds expressions for where, select, and order_by/then_by
     /// parts of a query.
-    class DOT_MONGO_CLASS query_impl : public dot::ObjectImpl
+    class DOT_MONGO_CLASS QueryImpl : public dot::ObjectImpl
     {
-        friend query make_query(dot::collection collection, dot::Type type);
-        friend mongo_data_source_data_impl;
-        friend class query_inner_impl;
+        friend Query make_query(dot::Collection collection, dot::Type type);
+        friend class QueryInnerImpl;
 
     public:
 
@@ -53,14 +50,14 @@ namespace dot
         /// @code
         ///   query->where(make_prop(&class_name::field_name) == "A" || make_prop(&class_name::field_name).in({ "B", "C" }) )
         /// @endcode
-        virtual query where(filter_token_base value);
+        virtual Query where(FilterTokenBase value);
 
         /// Makes group by some field.
         /// Example:
         /// @code
         ///   query->group_by(class_type->get_field("field_name"))
         /// @endcode
-        virtual query group_by(dot::FieldInfo key_selector);
+        virtual Query group_by(dot::FieldInfo key_selector);
 
         /// Sorts records by specified field.
         /// For subsequent sorting use then_by/then_by_descending after sort_by.
@@ -68,7 +65,7 @@ namespace dot
         /// @code
         ///   query->sort_by(class_type->get_field("field_name"))
         /// @endcode
-        virtual query sort_by(dot::FieldInfo key_selector);
+        virtual Query sort_by(dot::FieldInfo key_selector);
 
         /// Sorts by descending records by specified field.
         /// For subsequent sorting use then_by/then_by_descending after sort_by_descending.
@@ -76,7 +73,7 @@ namespace dot
         /// @code
         ///   query->sort_by_descending(class_type->get_field("field_name"))
         /// @endcode
-        virtual query sort_by_descending(dot::FieldInfo key_selector);
+        virtual Query sort_by_descending(dot::FieldInfo key_selector);
 
         /// Sorts records by specified field.
         /// Use in subsequent sorting after sort_by/sort_by_descending.
@@ -84,7 +81,7 @@ namespace dot
         /// @code
         ///   query->then_by(class_type->get_field("field_name"))
         /// @endcode
-        virtual query then_by(dot::FieldInfo key_selector);
+        virtual Query then_by(dot::FieldInfo key_selector);
 
         /// Sorts by descending records by specified field.
         /// Use in subsequent sorting after sort_by/sort_by_descending.
@@ -92,23 +89,23 @@ namespace dot
         /// @code
         ///   query->then_by_descending(class_type->get_field("field_name"))
         /// @endcode
-        virtual query then_by_descending(dot::FieldInfo key_selector);
+        virtual Query then_by_descending(dot::FieldInfo key_selector);
 
         /// Returns non-typed cursor to the result set of a query on a MongoDB server.
-        virtual object_cursor_wrapper_base get_cursor();
+        virtual ObjectCursorWrapperBase get_cursor();
 
         /// Makes projection according to specified fields.
         /// Result of projection is represented by tuple.
         /// Returns non-typed cursor to the result set of a query on a MongoDB server.
-        virtual object_cursor_wrapper_base select(dot::List<dot::FieldInfo> props, dot::Type element_type);
+        virtual ObjectCursorWrapperBase select(dot::List<dot::FieldInfo> props, dot::Type element_type);
 
         /// Makes group by some field.
         /// Example:
         /// @code
         ///   query->group_by(make_prop(&class_name::field_name))
         /// @endcode
-        template <class Class, class prop>
-        query group_by(prop_wrapper<Class, prop> key_selector)
+        template <class Class, class Prop>
+        Query group_by(PropWrapper<Class, Prop> key_selector)
         {
             return group_by(key_selector.prop_);
         }
@@ -119,8 +116,8 @@ namespace dot
         /// @code
         ///   query->sort_by(make_prop(&class_name::field_name))
         /// @endcode
-        template <class Class, class prop>
-        query sort_by(prop_wrapper<Class, prop> key_selector)
+        template <class Class, class Prop>
+        Query sort_by(PropWrapper<Class, Prop> key_selector)
         {
             return sort_by(key_selector.prop_);
         }
@@ -131,8 +128,8 @@ namespace dot
         /// @code
         ///   query->sort_by_descending(make_prop(&class_name::field_name))
         /// @endcode
-        template <class Class, class prop>
-        query then_by(prop_wrapper<Class, prop> key_selector)
+        template <class Class, class Prop>
+        Query then_by(PropWrapper<Class, Prop> key_selector)
         {
             return then_by(key_selector.prop_);
         }
@@ -143,8 +140,8 @@ namespace dot
         /// @code
         ///   query->then_by(make_prop(&class_name::field_name))
         /// @endcode
-        template <class Class, class prop>
-        query sort_by_descending(prop_wrapper<Class, prop> key_selector)
+        template <class Class, class Prop>
+        Query sort_by_descending(PropWrapper<Class, Prop> key_selector)
         {
             return sort_by_descending(key_selector.prop_);
         }
@@ -155,8 +152,8 @@ namespace dot
         /// @code
         ///   query->then_by_descending(make_prop(&class_name::field_name))
         /// @endcode
-        template <class Class, class prop>
-        query then_by_descending(prop_wrapper<Class, prop> key_selector)
+        template <class Class, class Prop>
+        Query then_by_descending(PropWrapper<Class, Prop> key_selector)
         {
             return then_by_descending(key_selector.prop_);
         }
@@ -167,7 +164,7 @@ namespace dot
         ///   query->get_cursor<class_name>()
         /// @endcode
         template <class t_record>
-        cursor_wrapper<t_record> get_cursor()
+        CursorWrapper<t_record> get_cursor()
         {
             return make_cursor_wrapper<t_record>(get_cursor());
         }
@@ -180,13 +177,13 @@ namespace dot
         ///   query->select<std::tuple<elem_type1, elemtype2, ...>>(list_with_field_info)
         /// @endcode
         template <class element>
-        cursor_wrapper<element> select(dot::List<dot::FieldInfo> props)
+        CursorWrapper<element> select(dot::List<dot::FieldInfo> props)
         {
             return make_cursor_wrapper<element>(select(props, dot::typeof<element>()));
         }
 
         /// Limits the number of documents passed to the next stage in the pipeline.
-        query limit(int32_t limit_size);
+        Query limit(int32_t limit_size);
 
         Type type_;
 
@@ -194,11 +191,11 @@ namespace dot
 
         /// Base class for query implementation classes.
         /// Derived query impl class is hidden to cpp.
-        class DOT_MONGO_CLASS query_inner_base_impl : public ObjectImpl
+        class DOT_MONGO_CLASS QueryInnerBaseImpl : public ObjectImpl
         {
         public:
 
-            virtual void where(filter_token_base value) = 0;
+            virtual void where(FilterTokenBase value) = 0;
 
             virtual void group_by(dot::FieldInfo key_selectors) = 0;
 
@@ -210,24 +207,24 @@ namespace dot
 
             virtual void then_by_descending(dot::FieldInfo key_selectors) = 0;
 
-            virtual object_cursor_wrapper_base get_cursor() = 0;
+            virtual ObjectCursorWrapperBase get_cursor() = 0;
 
-            virtual object_cursor_wrapper_base select(dot::List<dot::FieldInfo> props, dot::Type element_type) = 0;
+            virtual ObjectCursorWrapperBase select(dot::List<dot::FieldInfo> props, dot::Type element_type) = 0;
 
             virtual void limit(int32_t limit_size) = 0;
         };
 
-        using query_inner_base = Ptr<query_inner_base_impl>;
+        using QueryInnerBase = Ptr<QueryInnerBaseImpl>;
 
-        query_inner_base impl_;
+        QueryInnerBase impl_;
 
-        query_impl(dot::collection collection, dot::Type type);
+        QueryImpl(dot::Collection collection, dot::Type type);
     };
 
     // Returns dot::query consturcted from given collection and type.
-    inline query make_query(dot::collection collection, dot::Type type)
+    inline Query make_query(dot::Collection collection, dot::Type type)
     {
-        return new query_impl(collection, type);
+        return new QueryImpl(collection, type);
     }
 }
 

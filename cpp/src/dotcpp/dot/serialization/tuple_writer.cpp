@@ -212,7 +212,7 @@ namespace dot
             element_type->equals(dot::typeof<bool>()) || element_type->equals(dot::typeof<dot::Nullable<bool>>()) ||
             element_type->equals(dot::typeof<int>()) || element_type->equals(dot::typeof<dot::Nullable<int>>()) ||
             element_type->equals(dot::typeof<int64_t>()) || element_type->equals(dot::typeof<dot::Nullable<int64_t>>())
-            //element_type->equals(dot::typeof<dot::object_id>())
+            //element_type->equals(dot::typeof<dot::ObjectId>())
             )
         {
             // Check Type match
@@ -235,9 +235,9 @@ namespace dot
             {
                 converted_value = static_cast<int>((int64_t) value);
             }
-            //else if (element_type->equals(dot::typeof<dot::object_id>()) && value_type->equals(dot::typeof<dot::String>()))
+            //else if (element_type->equals(dot::typeof<dot::ObjectId>()) && value_type->equals(dot::typeof<dot::String>()))
             //{
-            //    converted_value = dot::object_id((dot::String) value);
+            //    converted_value = dot::ObjectId((dot::String) value);
             //}
 
             // Add to array or dictionary, depending on what we are inside of

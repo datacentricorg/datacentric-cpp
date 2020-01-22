@@ -31,7 +31,7 @@ limitations under the License.
 
 namespace dot
 {
-    class client_impl; using client = Ptr<client_impl>;
+    class ClientImpl; using Client = Ptr<ClientImpl>;
 
     /// Class representing a client connection to MongoDB.
     ///
@@ -39,30 +39,30 @@ namespace dot
     ///
     /// Example:
     /// @code
-    ///   dot::client client = make_client("mongodb://localhost:27017");
+    ///   dot::Client client = make_client("mongodb://localhost:27017");
     /// @endcode
     ///
     /// Note that client is not thread-safe.
-    class DOT_MONGO_CLASS client_impl : public ObjectImpl
+    class DOT_MONGO_CLASS ClientImpl : public ObjectImpl
     {
     private:
 
-        friend class client_inner;
-        friend client make_client(String uri);
+        friend class ClientInner;
+        friend Client make_client(String uri);
 
         /// Base class for client implementation classes.
         /// Derived client impl class is hidden to cpp.
-        class DOT_MONGO_CLASS client_inner_base
+        class DOT_MONGO_CLASS ClientInnerBase
         {
-            friend class client_impl;
+            friend class ClientImpl;
 
         public:
-            virtual ~client_inner_base() = default;
+            virtual ~ClientInnerBase() = default;
 
         protected:
 
             /// Returns Client side representation of a server side database.
-            virtual database get_database(dot::String name) = 0;
+            virtual Database get_database(dot::String name) = 0;
 
             /// Drops the database and all its collections.
             virtual void drop_database(dot::String name) = 0;
@@ -71,21 +71,21 @@ namespace dot
     public:
 
         /// Returns Client side representation of a server side database.
-        database get_database(dot::String name);
+        Database get_database(dot::String name);
 
         /// Drops the database and all its collections.
         void drop_database(dot::String name);
 
     private:
 
-        client_impl(String uri);
+        ClientImpl(String uri);
 
-        std::unique_ptr<client_inner_base> impl_;
+        std::unique_ptr<ClientInnerBase> impl_;
     };
 
     // Returns dot::client consturcted from given db uri.
-    inline client make_client(String uri)
+    inline Client make_client(String uri)
     {
-        return new client_impl(uri);
+        return new ClientImpl(uri);
     }
 }

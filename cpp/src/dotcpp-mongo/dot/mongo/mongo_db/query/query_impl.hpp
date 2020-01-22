@@ -26,14 +26,14 @@ limitations under the License.
 namespace dot
 {
     /// Class implements dot::query.
-/// Holds mongocxx::pipeline.
-/// Has LINQ-like API.
-    class DOT_MONGO_CLASS query_inner_impl : public query_impl::query_inner_base_impl
+    /// Holds mongocxx::pipeline.
+    /// Has LINQ-like API.
+    class DOT_MONGO_CLASS QueryInnerImpl : public QueryImpl::QueryInnerBaseImpl
     {
     public:
 
         /// Adds filter.
-        virtual void where(filter_token_base value) override
+        virtual void where(FilterTokenBase value) override
         {
             flush_sort();
             pipeline_.match(serialize_tokens(value));
@@ -91,14 +91,14 @@ namespace dot
         }
 
         /// Returns cursor constructed from pipeline and document deserializator.
-        virtual object_cursor_wrapper_base get_cursor() override
+        virtual ObjectCursorWrapperBase get_cursor() override
         {
             flush_sort();
 
-            return new object_cursor_wrapper_impl(dynamic_cast<collection_inner*>(collection_->impl_.get())->collection_.aggregate(pipeline_),
+            return new ObjectCursorWrapperImpl(dynamic_cast<CollectionInner*>(collection_->impl_.get())->collection_.aggregate(pipeline_),
                 [](const bsoncxx::document::view& item)->dot::Object
                 {
-                    bson_record_serializer serializer = make_bson_record_serializer();
+                    BsonRecordSerializer serializer = make_bson_record_serializer();
                     Object record = serializer->deserialize(item);
 
                     return record;
@@ -107,7 +107,7 @@ namespace dot
         }
 
         /// Returns cursor constructed from pipeline and tuple deserializator.
-        virtual object_cursor_wrapper_base select(dot::List<dot::FieldInfo> props, dot::Type element_type) override
+        virtual ObjectCursorWrapperBase select(dot::List<dot::FieldInfo> props, dot::Type element_type) override
         {
             flush_sort();
 
@@ -118,10 +118,10 @@ namespace dot
 
             pipeline_.project(selectList.view());
 
-            return new object_cursor_wrapper_impl(dynamic_cast<collection_inner*>(collection_->impl_.get())->collection_.aggregate(pipeline_),
+            return new ObjectCursorWrapperImpl(dynamic_cast<CollectionInner*>(collection_->impl_.get())->collection_.aggregate(pipeline_),
                 [props, element_type](const bsoncxx::document::view& item)->dot::Object
                 {
-                    bson_record_serializer serializer = make_bson_record_serializer();
+                    BsonRecordSerializer serializer = make_bson_record_serializer();
                     dot::Object record = serializer->deserialize_tuple(item, props, element_type);
                     return record;
                 }
@@ -159,7 +159,7 @@ namespace dot
 
     public:
 
-        dot::collection collection_;
+        dot::Collection collection_;
         std::deque<std::pair<String, int>> sort_;
         dot::Type type_;
         dot::Type element_type_;
@@ -168,63 +168,63 @@ namespace dot
         mongocxx::pipeline pipeline_;
     };
 
-    using query_inner = Ptr<query_inner_impl>;
+    using QueryInner = Ptr<QueryInnerImpl>;
 
-    query query_impl::where(filter_token_base value)
+    Query QueryImpl::where(FilterTokenBase value)
     {
         impl_->where(value);
         return this;
     }
 
-    object_cursor_wrapper_base query_impl::get_cursor()
+    ObjectCursorWrapperBase QueryImpl::get_cursor()
     {
         return impl_->get_cursor();
     }
 
-    query query_impl::group_by(dot::FieldInfo key_selector)
+    Query QueryImpl::group_by(dot::FieldInfo key_selector)
     {
         impl_->group_by(key_selector);
         return this;
     }
 
-    query query_impl::sort_by(dot::FieldInfo key_selector)
+    Query QueryImpl::sort_by(dot::FieldInfo key_selector)
     {
         impl_->sort_by(key_selector);
         return this;
     }
 
-    query query_impl::sort_by_descending(dot::FieldInfo key_selector)
+    Query QueryImpl::sort_by_descending(dot::FieldInfo key_selector)
     {
         impl_->sort_by_descending(key_selector);
         return this;
     }
 
-    query query_impl::then_by(dot::FieldInfo key_selector)
+    Query QueryImpl::then_by(dot::FieldInfo key_selector)
     {
         impl_->then_by(key_selector);
         return this;
     }
 
-    query query_impl::then_by_descending(dot::FieldInfo key_selector)
+    Query QueryImpl::then_by_descending(dot::FieldInfo key_selector)
     {
         impl_->then_by_descending(key_selector);
         return this;
     }
 
-    object_cursor_wrapper_base query_impl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
+    ObjectCursorWrapperBase QueryImpl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
     {
         return impl_->select(props, element_type);
     }
 
-    query query_impl::limit(int32_t limit_size)
+    Query QueryImpl::limit(int32_t limit_size)
     {
         impl_->limit(limit_size);
         return this;
     }
 
-    query_impl::query_impl(dot::collection collection, dot::Type type)
+    QueryImpl::QueryImpl(dot::Collection collection, dot::Type type)
     {
-        query_inner impl = new query_inner_impl;
+        QueryInner impl = new QueryInnerImpl;
 
         impl->collection_ = collection;
         impl->type_ = type;

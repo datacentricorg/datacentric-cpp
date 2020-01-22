@@ -41,15 +41,15 @@ limitations under the License.
 
 namespace dot
 {
-    dot::Object bson_record_serializer_impl::deserialize(bsoncxx::document::view doc)
+    dot::Object BsonRecordSerializerImpl::deserialize(bsoncxx::document::view doc)
     {
         // Create instance to which BSON will be deserialized
         dot::String type_name;
-        if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::scalar)
+        if (dot::MongoClientSettings::get_discriminator_convention() == dot::DiscriminatorConvention::scalar)
         {
             type_name = doc["_t"].get_utf8().value.to_string();
         }
-        else if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::hierarchical)
+        else if (dot::MongoClientSettings::get_discriminator_convention() == dot::DiscriminatorConvention::hierarchical)
         {
             bsoncxx::array::view type_array_view = doc["_t"].get_array();
             size_t type_array_length = std::distance(type_array_view.begin(), type_array_view.end());
@@ -63,7 +63,7 @@ namespace dot
         }
         else
         {
-            throw dot::Exception("Unknown discriminator_convention.");
+            throw dot::Exception("Unknown DiscriminatorConvention.");
         }
 
         Object result = dot::Activator::create_instance("", type_name);
@@ -75,7 +75,7 @@ namespace dot
         return result;
     }
 
-    dot::Object bson_record_serializer_impl::deserialize_tuple(bsoncxx::document::view doc, dot::List<dot::FieldInfo> props, dot::Type tuple_type)
+    dot::Object BsonRecordSerializerImpl::deserialize_tuple(bsoncxx::document::view doc, dot::List<dot::FieldInfo> props, dot::Type tuple_type)
     {
         // Create instance to which BSON will be deserialized
         dot::String type_name = tuple_type->name();
@@ -89,7 +89,7 @@ namespace dot
 
     }
 
-    void bson_record_serializer_impl::deserialize_document(const bsoncxx::document::view & doc, tree_writer_base writer)
+    void BsonRecordSerializerImpl::deserialize_document(const bsoncxx::document::view & doc, tree_writer_base writer)
     {
         dot::String type_name;
 
@@ -120,7 +120,7 @@ namespace dot
             }
             else if (bson_type == bsoncxx::type::k_oid)
             {
-                dot::object_id value = elem.get_oid().value;
+                dot::ObjectId value = elem.get_oid().value;
                 writer->write_value_element(element_name, value);
             }
             else if (bson_type == bsoncxx::type::k_utf8)
@@ -191,7 +191,7 @@ namespace dot
         writer->write_end_dict(type_name);
     }
 
-    void bson_record_serializer_impl::deserialize_array(const bsoncxx::array::view & arr, tree_writer_base writer)
+    void BsonRecordSerializerImpl::deserialize_array(const bsoncxx::array::view & arr, tree_writer_base writer)
     {
         // Loop over elements until
         for (auto elem : arr)
@@ -230,7 +230,7 @@ namespace dot
             }
             else if (bson_type == bsoncxx::type::k_oid)
             {
-                dot::object_id value = elem.get_oid().value;
+                dot::ObjectId value = elem.get_oid().value;
                 writer->write_value_array_item(value);
             }
             else if (bson_type == bsoncxx::type::k_binary)
@@ -258,7 +258,7 @@ namespace dot
         }
     }
 
-    void bson_record_serializer_impl::serialize(tree_writer_base writer, dot::Object value)
+    void BsonRecordSerializerImpl::serialize(tree_writer_base writer, dot::Object value)
     {
         // Root name is written in JSON as _t element
         dot::String root_name = value->get_type()->name();
@@ -278,7 +278,7 @@ namespace dot
         writer->write_end_document(root_name);
     }
 
-    void bson_record_serializer_impl::standard_serialize(dot::ListBase obj, dot::String element_name, dot::tree_writer_base writer)
+    void BsonRecordSerializerImpl::standard_serialize(dot::ListBase obj, dot::String element_name, dot::tree_writer_base writer)
     {
         // Write start element tag
         writer->write_start_array_element(element_name);
@@ -321,7 +321,7 @@ namespace dot
                 || item_type->equals(dot::typeof<dot::LocalMinute>())
                 || item_type->equals(dot::typeof<dot::ByteArray>())
                 || item_type->is_enum()
-                || item_type->equals(dot::typeof<dot::object_id>())
+                || item_type->equals(dot::typeof<dot::ObjectId>())
                 )
             {
                 writer->write_start_value();
@@ -346,12 +346,12 @@ namespace dot
         writer->write_end_array_element(element_name);
     }
 
-    ByteArray bson_record_serializer_impl::to_byte_array(const bsoncxx::types::b_binary& bin_array)
+    ByteArray BsonRecordSerializerImpl::to_byte_array(const bsoncxx::types::b_binary& bin_array)
     {
         return make_byte_array((const char*) bin_array.bytes, bin_array.size);
     }
 
-    void bson_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::Object value)
+    void BsonRecordSerializerImpl::standard_serialize(tree_writer_base writer, dot::Object value)
     {
         // Write start tag
         writer->write_start_dict(value->get_type()->name());
@@ -397,7 +397,7 @@ namespace dot
                 || element_type->equals(dot::typeof<dot::LocalMinute>())
                 || element_type->equals(dot::typeof<dot::ByteArray>())
                 || element_type->is_enum()
-                || element_type->equals(dot::typeof<dot::object_id>())
+                || element_type->equals(dot::typeof<dot::ObjectId>())
                 )
             {
                 writer->write_value_element(inner_element_name, inner_element_value);

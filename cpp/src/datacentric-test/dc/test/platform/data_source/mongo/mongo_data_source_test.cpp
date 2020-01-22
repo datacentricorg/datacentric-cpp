@@ -289,8 +289,8 @@ namespace dc
 
     TEST_CASE("smoke")
     {
-        //dot::mongo_client_settings::set_discriminator_convention(dot::discriminator_convention::hierarchical);
-        auto g = dot::mongo_client_settings::get_discriminator_convention();
+        //dot::MongoClientSettings::set_discriminator_convention(dot::DiscriminatorConvention::hierarchical);
+        auto g = dot::MongoClientSettings::get_discriminator_convention();
 
         mongo_data_source_test test = new mongo_data_source_test_impl;
 
@@ -369,7 +369,7 @@ namespace dc
         in_list->add("B");
 
         // Query for record_id=B
-        dot::cursor_wrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_d)
+        dot::CursorWrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_d)
             //->where(p = > p.record_id == "B")
             ->where(make_prop(&mongo_test_data_impl::record_id).in({ "B" }))
             //->where(make_prop(&mongo_test_data_impl::record_id).in(std::vector<std::string>({ "B" })))
@@ -550,7 +550,7 @@ namespace dc
         key->record_id = "BB";
         key->record_index = dot::Nullable<int>(2);
 
-        dot::cursor_wrapper<mongo_test_derived_data> test_query = context->data_source->get_query<mongo_test_derived_data>(data_set_b)
+        dot::CursorWrapper<mongo_test_derived_data> test_query = context->data_source->get_query<mongo_test_derived_data>(data_set_b)
             ->where(make_prop(&mongo_test_derived_data_impl::data_element_list)[0]->*make_prop(&element_sample_data_impl::double_element3) == 1.0)
             ->where(make_prop(&mongo_test_derived_data_impl::data_element_list)[0]->*make_prop(&element_sample_data_impl::string_element3) == "A0")
             ->where(make_prop(&mongo_test_derived_data_impl::local_date_element) < dot::LocalDate(2003, 5, 2))
@@ -668,7 +668,7 @@ namespace dc
         temporal_id data_set_d = context->get_data_set("D", context->data_set);
 
         received << "query by mongo_test_data, sort by record_index descending, then by double_element ascending" << std::endl;
-        dot::cursor_wrapper<mongo_test_data> base_query = context->data_source->get_query<mongo_test_data>(data_set_d)
+        dot::CursorWrapper<mongo_test_data> base_query = context->data_source->get_query<mongo_test_data>(data_set_d)
             ->sort_by_descending(make_prop(&mongo_test_data_impl::record_index))
             ->sort_by(make_prop(&mongo_test_data_impl::double_element))
             ->get_cursor<mongo_test_data>();
@@ -739,7 +739,7 @@ namespace dc
 
         // Query for all records
         {
-            dot::cursor_wrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_b)
+            dot::CursorWrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_b)
                 ->sort_by(make_prop(&mongo_test_data_impl::record_id))
                 ->sort_by(make_prop(&mongo_test_data_impl::record_index))
                 ->get_cursor<mongo_test_data>();
@@ -785,7 +785,7 @@ namespace dc
 
         // Query for revised before the cutoff time
         {
-            dot::cursor_wrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_b)
+            dot::CursorWrapper<mongo_test_data> query = context->data_source->get_query<mongo_test_data>(data_set_b)
                 ->sort_by(make_prop(&mongo_test_data_impl::record_id))
                 ->sort_by(make_prop(&mongo_test_data_impl::record_index))
                 ->get_cursor<mongo_test_data>();

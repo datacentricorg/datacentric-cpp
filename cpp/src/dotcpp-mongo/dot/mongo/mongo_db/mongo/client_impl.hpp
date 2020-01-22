@@ -26,14 +26,14 @@ limitations under the License.
 namespace dot
 {
 
-    /// Class implements dot::client methods.
+    /// Class implements dot::Client methods.
     /// Holds mongocxx::client object.
-    class client_inner : public client_impl::client_inner_base
+    class ClientInner : public ClientImpl::ClientInnerBase
     {
     public:
 
         /// Constructs from String with uri to mongo database.
-        client_inner(String uri)
+        ClientInner(String uri)
         {
             static mongocxx::instance instance{};
 
@@ -43,9 +43,9 @@ namespace dot
     protected:
 
         /// Returns database from client by specified name.
-        virtual database get_database(dot::String name) override
+        virtual Database get_database(dot::String name) override
         {
-            return new database_impl(std::make_unique<database_inner>(client_[*name]));
+            return new DatabaseImpl(std::make_unique<DatabaseInner>(client_[*name]));
         }
 
         /// Drops database from client by specified name.
@@ -60,19 +60,18 @@ namespace dot
 
     };
 
-    client_impl::client_impl(String uri)
+    ClientImpl::ClientImpl(String uri)
     {
-        impl_ = std::make_unique<client_inner>(uri);
+        impl_ = std::make_unique<ClientInner>(uri);
     }
 
-    database client_impl::get_database(dot::String name)
+    Database ClientImpl::get_database(dot::String name)
     {
         return impl_->get_database(name);
     }
 
-    void client_impl::drop_database(dot::String name)
+    void ClientImpl::drop_database(dot::String name)
     {
         impl_->drop_database(name);
     }
-
 }

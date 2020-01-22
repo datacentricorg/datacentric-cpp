@@ -29,8 +29,8 @@ namespace dc
     class mongo_query_cursor_impl; using mongo_query_cursor = dot::Ptr<mongo_query_cursor_impl>;
 
     /// Class implements dot::iterator_wrapper methods.
-    /// Constructs from iterator_inner_base to filter input records and initialize them with context.
-    class DC_CLASS mongo_query_iterator_impl : public dot::iterator_inner_base_impl
+    /// Constructs from IteratorInnerBase to filter input records and initialize them with context.
+    class DC_CLASS mongo_query_iterator_impl : public dot::IteratorInnerBaseImpl
     {
     public:
 
@@ -50,18 +50,18 @@ namespace dc
             current_record_ = skip_records();
         }
 
-        virtual bool operator!=(dot::iterator_inner_base rhs) override
+        virtual bool operator!=(dot::IteratorInnerBase rhs) override
         {
             return *iterator_ != rhs.as<mongo_query_iterator>()->iterator_;
         }
 
-        virtual bool operator==(dot::iterator_inner_base rhs) override
+        virtual bool operator==(dot::IteratorInnerBase rhs) override
         {
             return *iterator_ == rhs.as<mongo_query_iterator>()->iterator_;
         }
 
-        /// Constructs from iterator_inner_base and context_base.
-        mongo_query_iterator_impl(dot::iterator_inner_base iterator, dot::object_cursor_wrapper_base cursor, dot::Type query_type, context_base context)
+        /// Constructs from IteratorInnerBase and context_base.
+        mongo_query_iterator_impl(dot::IteratorInnerBase iterator, dot::ObjectCursorWrapperBase cursor, dot::Type query_type, context_base context)
             : iterator_(iterator)
             , cursor_(cursor)
             , query_type_(query_type)
@@ -127,8 +127,8 @@ namespace dc
 
     private: // FIELDS
 
-        dot::iterator_inner_base iterator_;
-        dot::object_cursor_wrapper_base cursor_;
+        dot::IteratorInnerBase iterator_;
+        dot::ObjectCursorWrapperBase cursor_;
         dot::Type query_type_;
         context_base context_;
 
@@ -136,15 +136,15 @@ namespace dc
         record current_record_;
     };
 
-    /// Class implements dot::object_cursor_wrapper_base.
-    /// Constructs from other object_cursor_wrapper_base and context_base
+    /// Class implements dot::ObjectCursorWrapperBase.
+    /// Constructs from other ObjectCursorWrapperBase and context_base
     /// to use it in iterator.
-    class mongo_query_cursor_impl : public dot::object_cursor_wrapper_base_impl
+    class mongo_query_cursor_impl : public dot::ObjectCursorWrapperBaseImpl
     {
     public:
 
-        /// Constructs from object_cursor_wrapper_base and context_base.
-        mongo_query_cursor_impl(dot::object_cursor_wrapper_base cursor, dot::Type query_type, context_base context)
+        /// Constructs from ObjectCursorWrapperBase and context_base.
+        mongo_query_cursor_impl(dot::ObjectCursorWrapperBase cursor, dot::Type query_type, context_base context)
             : cursor_(cursor)
             , query_type_(query_type)
             , context_(context)
@@ -158,21 +158,21 @@ namespace dc
         /// For a tailable cursor, when cursor.begin() == cursor.end(), no
         /// documents are available.  Each call to cursor.begin() checks again
         /// for newly-available documents.
-        dot::iterator_wrappper<dot::Object> begin()
+        dot::IteratorWrappper<dot::Object> begin()
         {
-            return dot::iterator_wrappper<dot::Object>(new mongo_query_iterator_impl(cursor_->begin().iterator_, cursor_, query_type_, context_));
+            return dot::IteratorWrappper<dot::Object>(new mongo_query_iterator_impl(cursor_->begin().iterator_, cursor_, query_type_, context_));
         }
 
         /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
-        dot::iterator_wrappper<dot::Object> end()
+        dot::IteratorWrappper<dot::Object> end()
         {
-            return dot::iterator_wrappper<dot::Object>(new mongo_query_iterator_impl(cursor_->end().iterator_, cursor_, query_type_, context_));
+            return dot::IteratorWrappper<dot::Object>(new mongo_query_iterator_impl(cursor_->end().iterator_, cursor_, query_type_, context_));
         }
 
     private: // FIELDS
 
-        dot::object_cursor_wrapper_base cursor_;
+        dot::ObjectCursorWrapperBase cursor_;
         dot::Type query_type_;
         context_base context_;
     };

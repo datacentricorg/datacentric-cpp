@@ -30,40 +30,40 @@ limitations under the License.
 
 namespace dot
 {
-    class database_impl; using database = Ptr<database_impl>;
+    class DatabaseImpl; using Database = Ptr<DatabaseImpl>;
 
     /// Class representing a MongoDB database.
-    class DOT_MONGO_CLASS database_impl : public ObjectImpl
+    class DOT_MONGO_CLASS DatabaseImpl : public ObjectImpl
     {
     private:
 
-        friend class database_inner;
-        friend class client_inner;
+        friend class DatabaseInner;
+        friend class ClientInner;
 
         /// Base class for database implementation classes.
         /// Derived database impl class is hidden to cpp.
-        class DOT_MONGO_CLASS database_inner_base
+        class DOT_MONGO_CLASS DatabaseInnerBase
         {
-            friend class database_impl;
+            friend class DatabaseImpl;
 
         public:
-            virtual ~database_inner_base() = default;
+            virtual ~DatabaseInnerBase() = default;
 
         protected:
 
             /// Returns the collection with given name.
-            virtual collection get_collection(dot::String name) = 0;
+            virtual Collection get_collection(dot::String name) = 0;
         };
 
     public:
 
         /// Returns the collection with given name.
-        collection get_collection(dot::String name);
+        Collection get_collection(dot::String name);
 
     private:
 
-        database_impl(std::unique_ptr<database_inner_base> && impl);
+        DatabaseImpl(std::unique_ptr<DatabaseInnerBase> && impl);
 
-        std::unique_ptr<database_inner_base> impl_;
+        std::unique_ptr<DatabaseInnerBase> impl_;
     };
 }

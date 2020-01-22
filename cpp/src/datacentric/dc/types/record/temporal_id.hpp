@@ -139,7 +139,7 @@ namespace dc
 
     private:
 
-        /// Bytes size and structure of object_id.
+        /// Bytes size and structure of ObjectId.
         static const int oid_bytes_size_;
         static const int oid_timestamp_offset_;
         static const int oid_timestamp_size_;

@@ -200,9 +200,9 @@ namespace dc
             dot::ByteArray arr = (dot::ByteArray) value;
             return temporal_id(arr);
         }
-        if (value_type->equals(dot::typeof<dot::object_id>()))
+        if (value_type->equals(dot::typeof<dot::ObjectId>()))
         {
-            return temporal_id(((dot::object_id) value).oid());
+            return temporal_id(((dot::ObjectId) value).oid());
         }
         if (value_type->equals(dot::typeof<dot::String>()))
         {

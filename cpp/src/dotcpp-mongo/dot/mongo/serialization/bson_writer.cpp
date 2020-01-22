@@ -45,7 +45,7 @@ limitations under the License.
 
 namespace dot
 {
-    void bson_writer_impl::write_start_document(dot::String root_element_name)
+    void BsonWriterImpl::write_start_document(dot::String root_element_name)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of write_start_dict, write_start_array_item, or write_start_value calls.
@@ -62,11 +62,11 @@ namespace dot
         bson_writer_.open_document();
         bson_writer_.key_owned("_t");
 
-        if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::scalar)
+        if (dot::MongoClientSettings::get_discriminator_convention() == dot::DiscriminatorConvention::scalar)
         {
             bson_writer_.append(*root_element_name);
         }
-        else if (dot::mongo_client_settings::get_discriminator_convention() == dot::discriminator_convention::hierarchical)
+        else if (dot::MongoClientSettings::get_discriminator_convention() == dot::DiscriminatorConvention::hierarchical)
         {
             // Get Type parrents
             Type root_element_type = dot::TypeImpl::get_type_of(root_element_name);
@@ -81,12 +81,12 @@ namespace dot
         }
         else
         {
-            throw dot::Exception("Unknown discriminator_convention.");
+            throw dot::Exception("Unknown DiscriminatorConvention.");
         }
 
     }
 
-    void bson_writer_impl::write_end_document(dot::String root_element_name)
+    void BsonWriterImpl::write_end_document(dot::String root_element_name)
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::dict_completed && element_stack_.size() == 1)
@@ -111,7 +111,7 @@ namespace dot
                 "write_end_document({0}) follows write_start_document({1}), root element name mismatch.", root_element_name, current_element_name));
     }
 
-    void bson_writer_impl::write_start_element(dot::String element_name)
+    void BsonWriterImpl::write_start_element(dot::String element_name)
     {
         // Push state and name into the element stack. Writing the actual start tag occurs inside
         // one of write_start_dict, write_start_array_item, or write_start_value calls.
@@ -129,7 +129,7 @@ namespace dot
         bson_writer_.key_owned(*(element_stack_.top().first));
     }
 
-    void bson_writer_impl::write_end_element(dot::String element_name)
+    void BsonWriterImpl::write_end_element(dot::String element_name)
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::element_started) current_state_ = TreeWriterState::element_completed;
@@ -156,7 +156,7 @@ namespace dot
         // Nothing to write here but array closing bracket was written above
     }
 
-    void bson_writer_impl::write_start_dict(dot::String type_name)
+    void BsonWriterImpl::write_start_dict(dot::String type_name)
     {
         // Save initial state to be used below
         TreeWriterState prev_state = current_state_;
@@ -186,7 +186,7 @@ namespace dot
         //}
     }
 
-    void bson_writer_impl::write_end_dict(dot::String type_name)
+    void BsonWriterImpl::write_end_dict(dot::String type_name)
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::dict_started) current_state_ = TreeWriterState::dict_completed;
@@ -200,7 +200,7 @@ namespace dot
         bson_writer_.close_document();
     }
 
-    void bson_writer_impl::write_start_array()
+    void BsonWriterImpl::write_start_array()
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::element_started) current_state_ = TreeWriterState::array_started;
@@ -212,7 +212,7 @@ namespace dot
         bson_writer_.open_array();
     }
 
-    void bson_writer_impl::write_end_array()
+    void BsonWriterImpl::write_end_array()
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::array_started) current_state_ = TreeWriterState::array_completed;
@@ -225,7 +225,7 @@ namespace dot
         bson_writer_.close_array();
     }
 
-    void bson_writer_impl::write_start_array_item()
+    void BsonWriterImpl::write_start_array_item()
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::array_started) current_state_ = TreeWriterState::array_item_started;
@@ -236,7 +236,7 @@ namespace dot
         // Nothing to write here
     }
 
-    void bson_writer_impl::write_end_array_item()
+    void BsonWriterImpl::write_end_array_item()
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::array_item_started) current_state_ = TreeWriterState::array_item_completed;
@@ -249,7 +249,7 @@ namespace dot
         // Nothing to write here
     }
 
-    void bson_writer_impl::write_start_value()
+    void BsonWriterImpl::write_start_value()
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::element_started) current_state_ = TreeWriterState::value_started;
@@ -261,7 +261,7 @@ namespace dot
         // Nothing to write here
     }
 
-    void bson_writer_impl::write_end_value()
+    void BsonWriterImpl::write_end_value()
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::value_written) current_state_ = TreeWriterState::value_completed;
@@ -273,7 +273,7 @@ namespace dot
         // Nothing to write here
     }
 
-    void bson_writer_impl::write_value(dot::Object value)
+    void BsonWriterImpl::write_value(dot::Object value)
     {
         // Check state transition matrix
         if (current_state_ == TreeWriterState::value_started) current_state_ = TreeWriterState::value_written;
@@ -321,8 +321,8 @@ namespace dot
         if (value_type->equals(dot::typeof<dot::LocalDateTime>()))
             bson_writer_.append(bsoncxx::types::b_date{ dot::LocalDateTimeUtil::to_std_chrono((dot::LocalDateTime)value) });
         else
-        if (value_type->equals(dot::typeof<dot::object_id>()))
-            bson_writer_.append(((dot::struct_wrapper<dot::object_id>)value)->oid());
+        if (value_type->equals(dot::typeof<dot::ObjectId>()))
+            bson_writer_.append(((dot::struct_wrapper<dot::ObjectId>)value)->oid());
         else
         if (value_type->equals(dot::typeof<dot::ByteArray>()))
             bson_writer_.append(to_bson_binary((ByteArray) value));
@@ -333,17 +333,17 @@ namespace dot
             throw dot::Exception(dot::String::format("Element Type {0} is not supported for BSON serialization.", value_type));
     }
 
-    dot::String bson_writer_impl::to_string()
+    dot::String BsonWriterImpl::to_string()
     {
         return bsoncxx::to_json(bson_writer_.view_array()[0].get_document().view());
     }
 
-    bsoncxx::document::view bson_writer_impl::view()
+    bsoncxx::document::view BsonWriterImpl::view()
     {
         return bson_writer_.view_array()[0].get_document().view();
     }
 
-    bsoncxx::types::b_binary bson_writer_impl::to_bson_binary(ByteArray obj)
+    bsoncxx::types::b_binary BsonWriterImpl::to_bson_binary(ByteArray obj)
     {
         return bsoncxx::types::b_binary
         {
@@ -353,7 +353,7 @@ namespace dot
         };
     }
 
-    List<Type> bson_writer_impl::get_parents_list(Type from_type)
+    List<Type> BsonWriterImpl::get_parents_list(Type from_type)
     {
         List<Type> parents_list = make_list<Type>();
 
@@ -364,7 +364,7 @@ namespace dot
             parents_list->add(base);
 
             // Break on root class
-            if (base->get_custom_attributes(::dot::typeof<bson_root_class_attribute>(), false)->get_length() != 0)
+            if (base->get_custom_attributes(::dot::typeof<BsonRootClassAttribute>(), false)->get_length() != 0)
                 break;
 
             base = base->get_base_type();

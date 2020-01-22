@@ -33,12 +33,12 @@ limitations under the License.
 
 namespace dot
 {
-    class bson_record_serializer_impl; using bson_record_serializer = dot::Ptr<bson_record_serializer_impl>;
+    class BsonRecordSerializerImpl; using BsonRecordSerializer = dot::Ptr<BsonRecordSerializerImpl>;
 
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
-    class DOT_MONGO_CLASS bson_record_serializer_impl : public virtual dot::ObjectImpl
+    class DOT_MONGO_CLASS BsonRecordSerializerImpl : public virtual dot::ObjectImpl
     {
-        friend bson_record_serializer make_bson_record_serializer();
+        friend BsonRecordSerializer make_bson_record_serializer();
 
     public:
 
@@ -67,8 +67,8 @@ namespace dot
         static ByteArray to_byte_array(const bsoncxx::types::b_binary& bin_array);
 
     private:
-        bson_record_serializer_impl() = default;
+        BsonRecordSerializerImpl() = default;
     };
 
-    inline bson_record_serializer make_bson_record_serializer() { return new bson_record_serializer_impl; }
+    inline BsonRecordSerializer make_bson_record_serializer() { return new BsonRecordSerializerImpl; }
 }

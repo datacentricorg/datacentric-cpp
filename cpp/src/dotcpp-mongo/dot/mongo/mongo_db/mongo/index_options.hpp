@@ -29,16 +29,16 @@ limitations under the License.
 
 namespace dot
 {
-    class index_options_impl; using index_options = Ptr<index_options_impl>;
+    class IndexOptionsImpl; using IndexOptions = Ptr<IndexOptionsImpl>;
 
     /// Options for creating an index.
-    class DOT_MONGO_CLASS index_options_impl : public ObjectImpl
+    class DOT_MONGO_CLASS IndexOptionsImpl : public ObjectImpl
     {
-        friend index_options make_index_options();
+        friend IndexOptions make_index_options();
 
     private: // CONSTRUCTORS
 
-        index_options_impl() = default;
+        IndexOptionsImpl() = default;
 
     public: // FIELDS
 
@@ -57,5 +57,5 @@ namespace dot
         Nullable<int> version;
     };
 
-    inline index_options make_index_options() { return new index_options_impl(); }
+    inline IndexOptions make_index_options() { return new IndexOptionsImpl(); }
 }

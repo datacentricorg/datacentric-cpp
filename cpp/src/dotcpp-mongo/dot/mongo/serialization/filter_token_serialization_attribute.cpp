@@ -27,23 +27,23 @@ limitations under the License.
 
 namespace dot
 {
-    Object filter_token_serialization_attribute_impl::serialize(Object obj)
+    Object FilterTokenSerializationAttributeImpl::serialize(Object obj)
     {
         return serializer_(obj);
     }
 
-    Type filter_token_serialization_attribute_impl::typeof()
+    Type FilterTokenSerializationAttributeImpl::typeof()
     {
         static Type result = []()->Type
         {
-            Type t = make_type_builder<filter_token_serialization_attribute_impl>("dot", "filter_token_serialization_attribute")
+            Type t = make_type_builder<FilterTokenSerializationAttributeImpl>("dot", "FilterTokenSerializationAttribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    Type filter_token_serialization_attribute_impl::get_type()
+    Type FilterTokenSerializationAttributeImpl::get_type()
     {
         return typeof();
     }

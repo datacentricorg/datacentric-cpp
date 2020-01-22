@@ -231,7 +231,7 @@ namespace dc
         dot::String data_set_name = get_data_set(2);
         temporal_id data_set = context->get_data_set(data_set_name);
 
-        dot::cursor_wrapper<performance_test_data> query = context->data_source->get_query<performance_test_data>(data_set)
+        dot::CursorWrapper<performance_test_data> query = context->data_source->get_query<performance_test_data>(data_set)
             ->where(make_prop(&performance_test_data_impl::record_id) == record_id)
             ->where(make_prop(&performance_test_data_impl::version) == record_versions - 1)
             ->get_cursor<performance_test_data>();

@@ -104,7 +104,7 @@ namespace dc
         ///
         /// * The constraint on dataset lookup list, restricted by CutoffTime (if not null)
         /// * The constraint on ID being strictly less than CutoffTime (if not null)
-        dot::query apply_final_constraints(dot::query query, temporal_id load_from);
+        dot::Query apply_final_constraints(dot::Query query, temporal_id load_from);
 
         /// Get TemporalId of the dataset with the specified name.
         ///
@@ -181,7 +181,7 @@ namespace dc
     private: // METHODS
 
         /// Get collection with name based on the Type.
-        dot::collection get_or_create_collection(dot::Type data_type);
+        dot::Collection get_or_create_collection(dot::Type data_type);
 
         /// Builds hashset of import datasets for specified dataset data,
         /// including imports of imports to unlimited depth with cyclic

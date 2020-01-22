@@ -40,22 +40,22 @@ namespace dot
 {
     /// Base class for mongo query tokens.
     /// It used for wrapping c++ expressions into mongo query tokens.
-    class filter_token_base_impl : public ObjectImpl
+    class FilterTokenBaseImpl : public ObjectImpl
     {
     };
 
-    using filter_token_base = Ptr<filter_token_base_impl>;
+    using FilterTokenBase = Ptr<FilterTokenBaseImpl>;
 
     /// Saves mongo query operator. For example,
     /// (obj->prop > 10)
     /// expression will be translated to
     /// { "prop" : { "$gt": "10" } }
-    class operator_wrapper_impl : public filter_token_base_impl
+    class OperatorWrapperImpl : public FilterTokenBaseImpl
     {
     public:
 
         /// Constructor from property, operator and value.
-        operator_wrapper_impl(String prop_name, String op, Object rhs)
+        OperatorWrapperImpl(String prop_name, String op, Object rhs)
             : prop_name_(prop_name), op_(op), rhs_(rhs)
         {}
 
@@ -69,23 +69,23 @@ namespace dot
         Object rhs_;
     };
 
-    using operator_wrapper = Ptr<operator_wrapper_impl>;
+    using OperatorWrapper = Ptr<OperatorWrapperImpl>;
 
     /// Holds list of tokens, that will be applied to $and operator.
     /// For example,
     /// (token1 && token2 && token3)
     /// expression will be translated to
     /// "$and": [ token1, token2, token3 ]
-    class and_list_impl : public filter_token_base_impl
+    class AndListImpl : public FilterTokenBaseImpl
     {
     public:
 
         /// Holds list of tokens.
-        List<filter_token_base> values_list_;
+        List<FilterTokenBase> values_list_;
 
         /// Default constructor.
-        and_list_impl()
-            : values_list_(make_list<filter_token_base>())
+        AndListImpl()
+            : values_list_(make_list<FilterTokenBase>())
         {
         }
     };
@@ -95,64 +95,64 @@ namespace dot
     /// (token1 || token2 || token3)
     /// expression will be translated to
     /// "$or": [ token1, token2, token3 ]
-    class or_list_impl : public filter_token_base_impl
+    class OrListImpl : public FilterTokenBaseImpl
     {
     public:
 
         /// Holds list of tokens.
-        List<filter_token_base> values_list_;
+        List<FilterTokenBase> values_list_;
 
         /// Default constructor.
-        or_list_impl()
-            : values_list_(make_list<filter_token_base>())
+        OrListImpl()
+            : values_list_(make_list<FilterTokenBase>())
         {
         }
     };
 
-    using and_list = Ptr<and_list_impl>;
-    using or_list = Ptr<or_list_impl>;
+    using AndList = Ptr<AndListImpl>;
+    using OrList = Ptr<OrListImpl>;
 
-    /// Returns tokens wrapped into and_list.
-    inline and_list operator &&(filter_token_base lhs, filter_token_base rhs)
+    /// Returns tokens wrapped into AndList.
+    inline AndList operator &&(FilterTokenBase lhs, FilterTokenBase rhs)
     {
-        and_list list = new and_list_impl();
+        AndList list = new AndListImpl();
         list->values_list_->add(lhs);
         list->values_list_->add(rhs);
         return list;
     }
 
-    /// Returns tokens wrapped into and_list.
-    inline and_list operator &&(filter_token_base lhs, and_list rhs)
+    /// Returns tokens wrapped into AndList.
+    inline AndList operator &&(FilterTokenBase lhs, AndList rhs)
     {
         rhs->values_list_->add(lhs);
         return rhs;
     }
 
-    /// Returns tokens wrapped into and_list.
-    inline and_list operator &&(and_list lhs, filter_token_base rhs)
+    /// Returns tokens wrapped into AndList.
+    inline AndList operator &&(AndList lhs, FilterTokenBase rhs)
     {
         lhs->values_list_->add(rhs);
         return lhs;
     }
 
-    /// Returns tokens wrapped into or_list.
-    inline or_list operator ||(filter_token_base lhs, filter_token_base rhs)
+    /// Returns tokens wrapped into OrList.
+    inline OrList operator ||(FilterTokenBase lhs, FilterTokenBase rhs)
     {
-        or_list list = new or_list_impl();
+        OrList list = new OrListImpl();
         list->values_list_->add(lhs);
         list->values_list_->add(rhs);
         return list;
     }
 
-    /// Returns tokens wrapped into or_list.
-    inline or_list operator ||(filter_token_base lhs, or_list rhs)
+    /// Returns tokens wrapped into OrList.
+    inline OrList operator ||(FilterTokenBase lhs, OrList rhs)
     {
         rhs->values_list_->add(lhs);
         return std::move(rhs);
     }
 
-    /// Returns tokens wrapped into or_list.
-    inline or_list operator ||(or_list lhs, filter_token_base rhs)
+    /// Returns tokens wrapped into OrList.
+    inline OrList operator ||(OrList lhs, FilterTokenBase rhs)
     {
         lhs->values_list_->add(rhs);
         return lhs;
@@ -162,138 +162,138 @@ namespace dot
     {
         /// Converts specific types into common.
         template <class T>
-        struct in_traits
+        struct InTraits
         {
             typedef T type;
         };
 
         /// Converts std::string into dot::String.
         template <>
-        struct in_traits<std::string>
+        struct InTraits<std::string>
         {
             typedef dot::String type;
         };
 
         /// Converts char* into dot::String.
         template <>
-        struct in_traits<char*>
+        struct InTraits<char*>
         {
             typedef dot::String type;
         };
 
         /// Converts specific const char* into dot::String.
         template <>
-        struct in_traits<const char*>
+        struct InTraits<const char*>
         {
             typedef dot::String type;
         };
     }
 
     template <class Class, class Prop>
-    struct prop_wrapper;
+    struct PropWrapper;
 
     /// Wrapps document property sequence to access inner document properties.
     template <class LastProp>
-    struct props_list
+    struct PropsList
     {
         /// Holds property sequence.
         std::deque<dot::String> props_;
 
-        /// Wraps inner document properties access into props_list.
+        /// Wraps inner document properties access into PropsList.
         template <class ClassR, class PropR>
-        props_list<PropR> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
+        PropsList<PropR> operator->*(const PropWrapper<ClassR, PropR> & rhs)
         {
             // Compile time check
             static_assert(std::is_same<typename LastProp::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
 
-            props_list<PropR> ret;
+            PropsList<PropR> ret;
             ret.props_.swap(props_);
             ret.props_.push_back(rhs.prop_->name());
             return ret;
         }
 
-        /// Wraps inner array item access into props_list.
+        /// Wraps inner array item access into PropsList.
         auto operator[](int rhs)
         {
             using ReturnType = typename std::remove_reference<decltype(std::declval<LastProp>().operator[](rhs))>::type;
 
-            props_list<ReturnType> ret;
+            PropsList<ReturnType> ret;
             ret.props_.swap(props_);
             ret.props_.push_back(std::to_string(rhs));
             return ret;
         }
 
-        /// Applies operator to props_list and rerurns operator_wrapper.
+        /// Applies operator to PropsList and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator==(T rhs) const
+        OperatorWrapper operator==(T rhs) const
         {
-            return new operator_wrapper_impl(get_name(), "$eq", rhs);
+            return new OperatorWrapperImpl(get_name(), "$eq", rhs);
         }
 
-        /// Applies operator to props_list and rerurns operator_wrapper.
+        /// Applies operator to PropsList and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator!=(T rhs) const
+        OperatorWrapper operator!=(T rhs) const
         {
-            return new operator_wrapper_impl(get_name(), "$ne", rhs);
+            return new OperatorWrapperImpl(get_name(), "$ne", rhs);
         }
 
-        /// Applies operator to props_list and rerurns operator_wrapper.
+        /// Applies operator to PropsList and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator<(T rhs) const
+        OperatorWrapper operator<(T rhs) const
         {
-            return new operator_wrapper_impl(get_name(), "$lt", rhs);
+            return new OperatorWrapperImpl(get_name(), "$lt", rhs);
         }
 
-        /// Applies operator to props_list and rerurns operator_wrapper.
+        /// Applies operator to PropsList and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator<=(T rhs) const
+        OperatorWrapper operator<=(T rhs) const
         {
-            return new operator_wrapper_impl(get_name(), "$lte", rhs);
+            return new OperatorWrapperImpl(get_name(), "$lte", rhs);
         }
 
-        /// Applies operator to props_list and rerurns operator_wrapper.
+        /// Applies operator to PropsList and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator>(T rhs) const
+        OperatorWrapper operator>(T rhs) const
         {
-            return new operator_wrapper_impl(get_name(), "$gt", rhs);
+            return new OperatorWrapperImpl(get_name(), "$gt", rhs);
         }
 
-        /// Applies operator to props_list and rerurns operator_wrapper.
+        /// Applies operator to PropsList and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator>=(T rhs) const
+        OperatorWrapper operator>=(T rhs) const
         {
-            return new operator_wrapper_impl(get_name(), "$gte", rhs);
+            return new OperatorWrapperImpl(get_name(), "$gte", rhs);
         }
 
-        /// Applies "$in" operator to props_list and values list and rerurns operator_wrapper.
+        /// Applies "$in" operator to PropsList and values list and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper in(T const& rhs)
+        OperatorWrapper in(T const& rhs)
         {
-            List<typename detail::in_traits<typename T::value_type>::type> l = make_list<typename detail::in_traits<typename T::value_type>::type>();
+            List<typename detail::InTraits<typename T::value_type>::type> l = make_list<typename detail::InTraits<typename T::value_type>::type>();
             for (typename T::value_type item : rhs)
             {
                 l->add(item);
             }
-            return new operator_wrapper_impl(get_name(), "$in", l);
+            return new OperatorWrapperImpl(get_name(), "$in", l);
         }
 
-        /// Applies "$in" operator to props_list and values list and rerurns operator_wrapper.
+        /// Applies "$in" operator to PropsList and values list and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper in(dot::List<T> rhs)
+        OperatorWrapper in(dot::List<T> rhs)
         {
-            return new operator_wrapper_impl(get_name(), "$in", rhs);
+            return new OperatorWrapperImpl(get_name(), "$in", rhs);
         }
 
-        /// Applies "$in" operator to props_list and values list and rerurns operator_wrapper.
+        /// Applies "$in" operator to PropsList and values list and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper in(std::initializer_list<T> const& rhs)
+        OperatorWrapper in(std::initializer_list<T> const& rhs)
         {
-            List<typename detail::in_traits<T>::type> l = make_list<typename detail::in_traits<T>::type>();
+            List<typename detail::InTraits<T>::type> l = make_list<typename detail::InTraits<T>::type>();
             for (T item : rhs)
             {
                 l->add(item);
             }
-            return new operator_wrapper_impl(get_name(), "$in", l);
+            return new OperatorWrapperImpl(get_name(), "$in", l);
         }
 
     private:
@@ -310,107 +310,107 @@ namespace dot
 
     /// Wrapps document property to build mongo query.
     template <class Class, class Prop>
-    struct prop_wrapper
+    struct PropWrapper
     {
         /// Holds property name.
         dot::FieldInfo prop_;
 
-        /// Wraps inner document properties access into props_list.
+        /// Wraps inner document properties access into PropsList.
         template <class ClassR, class PropR>
-        props_list<PropR> operator->*(const prop_wrapper<ClassR, PropR> & rhs)
+        PropsList<PropR> operator->*(const PropWrapper<ClassR, PropR> & rhs)
         {
             // Compile time check
             static_assert(std::is_same<typename Prop::element_type, ClassR>::value, "Wrong ->* sequence. Left operand doesn't have right property.");
-            return props_list<PropR>{{ prop_->name(), rhs.prop_->name() }};
+            return PropsList<PropR>{{ prop_->name(), rhs.prop_->name() }};
         }
 
-        /// Wraps inner array item access into props_list.
+        /// Wraps inner array item access into PropsList.
         auto operator[](int rhs)
         {
             using ReturnType = typename std::remove_reference<decltype(std::declval<Prop>().operator[](rhs))>::type;
-            return props_list<ReturnType>{{ prop_->name(), std::to_string(rhs) }};
+            return PropsList<ReturnType>{{ prop_->name(), std::to_string(rhs) }};
         }
 
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator==(T rhs) const
+        OperatorWrapper operator==(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name(), "$eq", rhs);
+            return new OperatorWrapperImpl(prop_->name(), "$eq", rhs);
         }
 
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator!=(T rhs) const
+        OperatorWrapper operator!=(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name(), "$ne", rhs);
+            return new OperatorWrapperImpl(prop_->name(), "$ne", rhs);
         }
 
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator<(T rhs) const
+        OperatorWrapper operator<(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name(), "$lt", rhs);
+            return new OperatorWrapperImpl(prop_->name(), "$lt", rhs);
         }
 
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator<=(T rhs) const
+        OperatorWrapper operator<=(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name(), "$lte", rhs);
+            return new OperatorWrapperImpl(prop_->name(), "$lte", rhs);
         }
 
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator>(T rhs) const
+        OperatorWrapper operator>(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name(), "$gt", rhs);
+            return new OperatorWrapperImpl(prop_->name(), "$gt", rhs);
         }
 
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper operator>=(T rhs) const
+        OperatorWrapper operator>=(T rhs) const
         {
-            return new operator_wrapper_impl(prop_->name(), "$gte", rhs);
+            return new OperatorWrapperImpl(prop_->name(), "$gte", rhs);
         }
 
-        /// Applies "$in" operator to prop_wrapper and values list and rerurns operator_wrapper.
+        /// Applies "$in" operator to PropWrapper and values list and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper in(T const& rhs)
+        OperatorWrapper in(T const& rhs)
         {
-            List<typename detail::in_traits<typename T::value_type>::type> l = make_list<typename detail::in_traits<typename T::value_type>::type>();
+            List<typename detail::InTraits<typename T::value_type>::type> l = make_list<typename detail::InTraits<typename T::value_type>::type>();
             for (typename T::value_type item : rhs)
             {
                 l->add(item);
             }
-            return new operator_wrapper_impl(prop_->name(), "$in", l);
+            return new OperatorWrapperImpl(prop_->name(), "$in", l);
         }
 
-        /// Applies "$in" operator to prop_wrapper and values list and rerurns operator_wrapper.
+        /// Applies "$in" operator to PropWrapper and values list and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper in(dot::List<T> rhs)
+        OperatorWrapper in(dot::List<T> rhs)
         {
-            return new operator_wrapper_impl(prop_->name(), "$in", rhs);
+            return new OperatorWrapperImpl(prop_->name(), "$in", rhs);
         }
 
-        /// Applies "$in" operator to prop_wrapper and values list and rerurns operator_wrapper.
+        /// Applies "$in" operator to PropWrapper and values list and rerurns OperatorWrapper.
         template <class T>
-        operator_wrapper in(std::initializer_list<T> const& rhs)
+        OperatorWrapper in(std::initializer_list<T> const& rhs)
         {
-            List<typename detail::in_traits<T>::type> l = make_list<typename detail::in_traits<T>::type>();
+            List<typename detail::InTraits<T>::type> l = make_list<typename detail::InTraits<T>::type>();
             for (T item : rhs)
             {
                 l->add(item);
             }
-            return new operator_wrapper_impl(prop_->name(), "$in", l);
+            return new OperatorWrapperImpl(prop_->name(), "$in", l);
         }
     };
 
-    /// Specialization of prop_wrapper class for object_id.
+    /// Specialization of PropWrapper class for ObjectId.
     template <class Class>
-    struct prop_wrapper<Class, dot::object_id>
+    struct PropWrapper<Class, dot::ObjectId>
     {
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
-        operator_wrapper operator==(dot::LocalDateTime rhs) const
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
+        OperatorWrapper operator==(dot::LocalDateTime rhs) const
         {
             char bytes[12] = { 0 };
 
@@ -418,11 +418,11 @@ namespace dot
             boost::posix_time::time_duration d = (boost::posix_time::ptime)rhs - epoch;
             int64_t seconds = d.total_seconds();
             std::memcpy(bytes, &seconds, sizeof(seconds));
-            return new operator_wrapper_impl("_id", "$eq", object_id(bsoncxx::oid(bytes, 12)));
+            return new OperatorWrapperImpl("_id", "$eq", ObjectId(bsoncxx::oid(bytes, 12)));
         }
 
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
-        operator_wrapper operator<(dot::LocalDateTime rhs) const
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
+        OperatorWrapper operator<(dot::LocalDateTime rhs) const
         {
             char bytes[12] = { 0 };
 
@@ -430,25 +430,25 @@ namespace dot
             boost::posix_time::time_duration d = (boost::posix_time::ptime)rhs - epoch;
             int64_t seconds = d.total_seconds();
             std::memcpy(bytes, &seconds, sizeof(seconds));
-            return new operator_wrapper_impl("_id", "$lt", object_id(bsoncxx::oid(bytes, 12)));
+            return new OperatorWrapperImpl("_id", "$lt", ObjectId(bsoncxx::oid(bytes, 12)));
         }
 
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
-        operator_wrapper operator==(dot::object_id rhs) const
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
+        OperatorWrapper operator==(dot::ObjectId rhs) const
         {
-            return new operator_wrapper_impl("_id", "$eq", rhs);
+            return new OperatorWrapperImpl("_id", "$eq", rhs);
         }
 
-        /// Applies operator to prop_wrapper and rerurns operator_wrapper.
-        operator_wrapper operator<(dot::object_id rhs) const
+        /// Applies operator to PropWrapper and rerurns OperatorWrapper.
+        OperatorWrapper operator<(dot::ObjectId rhs) const
         {
-            return new operator_wrapper_impl("_id", "$lt", rhs);
+            return new OperatorWrapperImpl("_id", "$lt", rhs);
         }
     };
 
-    /// Wraps given class property into prop_wrapper class.
+    /// Wraps given class property into PropWrapper class.
     template <class Prop, class Class>
-    prop_wrapper<Class, Prop> make_prop(Prop Class::*prop_)
+    PropWrapper<Class, Prop> make_prop(Prop Class::*prop_)
     {
         dot::Type type = dot::typeof<dot::Ptr<Class>>();
         dot::List<dot::FieldInfo> props = type->get_fields();
@@ -457,16 +457,16 @@ namespace dot
         {
             dot::Ptr<dot::FieldInfoImpl<Prop, Class>> casted_prop = prop.as<dot::Ptr<dot::FieldInfoImpl<Prop, Class>>>();
             if (!casted_prop.is_empty() && casted_prop->field_ == prop_)
-                return prop_wrapper<Class, Prop>{ prop };
+                return PropWrapper<Class, Prop>{ prop };
         }
 
         throw dot::Exception("Unregistered property");
     }
 
-    /// Wraps given class property into prop_wrapper class.
+    /// Wraps given class property into PropWrapper class.
     template <class Class>
-    prop_wrapper<Class, dot::object_id> make_prop(dot::object_id Class::*prop_)
+    PropWrapper<Class, dot::ObjectId> make_prop(dot::ObjectId Class::*prop_)
     {
-        return prop_wrapper<Class, dot::object_id>{};
+        return PropWrapper<Class, dot::ObjectId>{};
     }
 }

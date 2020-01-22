@@ -25,13 +25,13 @@ limitations under the License.
 
 namespace dot
 {
-    class iterator_inner_impl; using iterator_inner = Ptr<iterator_inner_impl>;
+    class IteratorInnerImpl; using IteratorInner = Ptr<IteratorInnerImpl>;
 
     /// Class implements dot::iterator_wrapper methods.
     /// Holds mongocxx::iterator.
     /// Constructs from mongo iterator and function dot::Object(const bsoncxx::document::view&),
     /// this function call bson deserializer to get Object from bson document.
-    class DOT_MONGO_CLASS iterator_inner_impl : public iterator_inner_base_impl
+    class DOT_MONGO_CLASS IteratorInnerImpl : public IteratorInnerBaseImpl
     {
     public:
 
@@ -50,17 +50,17 @@ namespace dot
             iterator_++;
         }
 
-        virtual bool operator!=(iterator_inner_base rhs) override
+        virtual bool operator!=(IteratorInnerBase rhs) override
         {
-            return iterator_ != rhs.as<iterator_inner>()->iterator_;
+            return iterator_ != rhs.as<IteratorInner>()->iterator_;
         }
 
-        virtual bool operator==(iterator_inner_base rhs) override
+        virtual bool operator==(IteratorInnerBase rhs) override
         {
-            return iterator_ == rhs.as<iterator_inner>()->iterator_;
+            return iterator_ == rhs.as<IteratorInner>()->iterator_;
         }
 
-        iterator_inner_impl(mongocxx::cursor::iterator iterator, std::function<dot::Object(const bsoncxx::document::view&)> f)
+        IteratorInnerImpl(mongocxx::cursor::iterator iterator, std::function<dot::Object(const bsoncxx::document::view&)> f)
             : iterator_(iterator)
             , f_(f)
         {
@@ -70,11 +70,11 @@ namespace dot
         std::function<dot::Object(const bsoncxx::document::view&)> f_;
     };
 
-    /// Class implements dot::object_cursor_wrapper_base.
+    /// Class implements dot::ObjectCursorWrapperBase.
     /// Holds mongocxx::cursor.
     /// Constructs from mongo cursor and function dot::Object(const bsoncxx::document::view&),
     /// this function call bson deserializer to get Object from bson document.
-    class DOT_MONGO_CLASS object_cursor_wrapper_impl : public dot::object_cursor_wrapper_base_impl
+    class DOT_MONGO_CLASS ObjectCursorWrapperImpl : public dot::ObjectCursorWrapperBaseImpl
     {
     public:
 
@@ -86,19 +86,19 @@ namespace dot
         /// For a tailable cursor, when cursor.begin() == cursor.end(), no
         /// documents are available.  Each call to cursor.begin() checks again
         /// for newly-available documents.
-        iterator_wrappper<dot::Object> begin()
+        IteratorWrappper<dot::Object> begin()
         {
-            return iterator_wrappper<dot::Object>(new iterator_inner_impl(cursor_->begin(), f_));
+            return IteratorWrappper<dot::Object>(new IteratorInnerImpl(cursor_->begin(), f_));
         }
 
         /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
-        iterator_wrappper<dot::Object> end()
+        IteratorWrappper<dot::Object> end()
         {
-            return iterator_wrappper<dot::Object>(new iterator_inner_impl(cursor_->end(), f_));
+            return IteratorWrappper<dot::Object>(new IteratorInnerImpl(cursor_->end(), f_));
         }
 
-        object_cursor_wrapper_impl(mongocxx::cursor && cursor, const std::function<dot::Object(const bsoncxx::document::view&)>& f)
+        ObjectCursorWrapperImpl(mongocxx::cursor && cursor, const std::function<dot::Object(const bsoncxx::document::view&)>& f)
             : cursor_(std::make_shared<mongocxx::cursor>(std::move(cursor)))
             , f_(f)
         {
@@ -108,5 +108,5 @@ namespace dot
         std::function<dot::Object(const bsoncxx::document::view&)> f_;
     };
 
-    using object_cursor_wrapper = Ptr<object_cursor_wrapper_impl>;
+    using ObjectCursorWrapper = Ptr<ObjectCursorWrapperImpl>;
 }

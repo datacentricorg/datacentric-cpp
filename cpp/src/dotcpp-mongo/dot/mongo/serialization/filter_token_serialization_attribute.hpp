@@ -29,17 +29,17 @@ limitations under the License.
 
 namespace dot
 {
-    class filter_token_serialization_attribute_impl;
-    using filter_token_serialization_attribute = Ptr<filter_token_serialization_attribute_impl>;
+    class FilterTokenSerializationAttributeImpl;
+    using FilterTokenSerializationAttribute = Ptr<FilterTokenSerializationAttributeImpl>;
 
     /// Attribute marks class as root class for writing hierarchical discriminator convention.
-    class DOT_MONGO_CLASS filter_token_serialization_attribute_impl : public AttributeImpl
+    class DOT_MONGO_CLASS FilterTokenSerializationAttributeImpl : public AttributeImpl
     {
     public:
 
         typedef Object (*serializer_func_type)(Object);
 
-        friend filter_token_serialization_attribute make_filter_token_serialization_attribute(serializer_func_type);
+        friend FilterTokenSerializationAttribute make_filter_token_serialization_attribute(serializer_func_type);
 
         Object serialize(Object obj);
 
@@ -51,14 +51,14 @@ namespace dot
     private:
 
         /// Constructs from serializer_func_type.
-        filter_token_serialization_attribute_impl(serializer_func_type serializer)
+        FilterTokenSerializationAttributeImpl(serializer_func_type serializer)
             : serializer_(serializer)
         {}
 
         serializer_func_type serializer_;
     };
 
-    inline filter_token_serialization_attribute make_filter_token_serialization_attribute(filter_token_serialization_attribute_impl::serializer_func_type serializer) {
-        return new filter_token_serialization_attribute_impl(serializer);
+    inline FilterTokenSerializationAttribute make_filter_token_serialization_attribute(FilterTokenSerializationAttributeImpl::serializer_func_type serializer) {
+        return new FilterTokenSerializationAttributeImpl(serializer);
     }
 }
