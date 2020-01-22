@@ -19,6 +19,7 @@ limitations under the License.
 #include <dc/declare.hpp>
 #include <dot/mongo/mongo_db/bson/object_id.hpp>
 #include <dc/platform/data_set/data_set_data.hpp>
+#include <dc/platform/data_set/data_set_flags.hpp>
 #include <dc/platform/data_source/data_source_data.hpp>
 
 namespace dc
@@ -52,6 +53,16 @@ namespace dc
 
         /// Load record by its dot::object_id.
         ///
+        /// Error message if there is no record for the specified object_id,
+        /// or if the record exists but is not derived from TRecord.
+        template <class TRecord>
+        TRecord load(dot::object_id id)
+        {
+            return (TRecord)load(id, ::dot::typeof<TRecord>());
+        }
+
+        /// Load record by its dot::object_id.
+        ///
         /// Return null if not found.
         template <class TRecord>
         TRecord load_or_null(dot::object_id id)
@@ -59,36 +70,123 @@ namespace dc
             return (TRecord) load_or_null(id, ::dot::typeof<TRecord>());
         }
 
-        /// Load record by its dot::object_id and type.
+        /// Load record from context.DataSource, overriding the dataset
+        /// specified in the context with the value specified as the
+        /// second parameter. The lookup occurs in the specified dataset
+        /// and its imports, expanded to arbitrary depth with repetitions
+        /// and cyclic references removed.
         ///
-        /// Return null if not found.
-        record_base load_or_null(dot::object_id id, dot::type data_type);
+        /// This overload of the method loads from from context.DataSet.
+        ///
+        /// If Record property is set, its value is returned without
+        /// performing lookup in the data store; otherwise the record
+        /// is loaded from storage and cached in Record and the
+        /// cached value is returned from subsequent calls.
+        ///
+        /// Once the record has been cached, the same version will be
+        /// returned in subsequent calls with the same key instance.
+        /// Create a new key or call earRecord() method to force
+        /// reloading new version of the record from storage.
+        ///
+        /// Error message if the record is not found or is a DeletedRecord.
+        template <class TKey, class TRecord>
+        TRecord load(typed_key<TKey, TRecord> key)
+        {
+            return (TRecord)load(key, data_set);
+        }
 
-        /// This method does not use cached value inside the key
-        /// and always retrieves a new record from storage. To get
-        /// the record cached inside the key instead (if present), use
-        /// the caching variant of this method:
+        /// Load record from context.DataSource, overriding the dataset
+        /// specified in the context with the value specified as the
+        /// second parameter. The lookup occurs in the specified dataset
+        /// and its imports, expanded to arbitrary depth with repetitions
+        /// and cyclic references removed.
         ///
-        /// load_or_null(key, load_from)
+        /// IMPORTANT - this overload of the method loads from loadFrom
+        /// dataset, not from context.DataSet.
         ///
+        /// If Record property is set, its value is returned without
+        /// performing lookup in the data store; otherwise the record
+        /// is loaded from storage and cached in Record and the
+        /// cached value is returned from subsequent calls.
+        ///
+        /// Once the record has been cached, the same version will be
+        /// returned in subsequent calls with the same key instance.
+        /// Create a new key or call earRecord() method to force
+        /// reloading new version of the record from storage.
+        ///
+        /// Error message if the record is not found or is a DeletedRecord.
+        template <class TKey, class TRecord>
+        TRecord load(typed_key<TKey, TRecord> key, dot::object_id load_from)
+        {
+            return (TRecord)load(key, load_from);
+        }
+
         /// Load record by string key from the specified dataset or
-        /// its parent. The lookup occurs first in the reverse
-        /// chronological order of datasets to one second resolution,
-        /// and then in the reverse chronological order of records
-        /// within the latest dataset that has at least one record.
+        /// its list of imports. The lookup occurs first in descending
+        /// order of dataset TemporalIds, and then in the descending
+        /// order of record TemporalIds within the first dataset that
+        /// has at least one record. Both dataset and record TemporalIds
+        /// are ordered chronologically to one second resolution,
+        /// and are unique within the database server or cluster.
         ///
-        /// The root dataset has empty dot::object_id value that is less
-        /// than any other dot::object_id value. Accordingly, the root
+        /// The root dataset has empty TemporalId value that is less
+        /// than any other TemporalId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         ///
         /// The first record in this lookup order is returned, or null
-        /// if no records are found or if delete marker is the first
+        /// if no records are found or if DeletedRecord is the first
         /// record.
         ///
-        /// Return null if there is no record for the specified dot::object_id;
+        /// Return null if there is no record for the specified TemporalId;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        record_base reload_or_null(key_base key, dot::object_id load_from);
+        template <class TKey, class TRecord>
+        TRecord load_or_null(typed_key<TKey, TRecord> key, dot::object_id load_from)
+        {
+            return (TRecord)load_or_null(key, load_from, ::dot::typeof<TRecord>());
+        }
+
+        /// Get query for the specified type.
+        ///
+        /// After applying query parameters, the lookup occurs first in
+        /// descending order of dataset TemporalIds, and then in the descending
+        /// order of record TemporalIds within the first dataset that
+        /// has at least one record. Both dataset and record TemporalIds
+        /// are ordered chronologically to one second resolution,
+        /// and are unique within the database server or cluster.
+        ///
+        /// The root dataset has empty TemporalId value that is less
+        /// than any other TemporalId value. Accordingly, the root
+        /// dataset is the last one in the lookup order of datasets.
+        ///
+        /// Generic parameter TRecord is not necessarily the root data type;
+        /// it may also be a type derived from the root data type.
+        template <class TRecord>
+        mongo_query get_query()
+        {
+            return get_query(this->data_set, dot::typeof<TRecord>());
+        }
+
+        /// Get query for the specified type.
+        ///
+        /// After applying query parameters, the lookup occurs first in
+        /// descending order of dataset TemporalIds, and then in the descending
+        /// order of record TemporalIds within the first dataset that
+        /// has at least one record. Both dataset and record TemporalIds
+        /// are ordered chronologically to one second resolution,
+        /// and are unique within the database server or cluster.
+        ///
+        /// The root dataset has empty TemporalId value that is less
+        /// than any other TemporalId value. Accordingly, the root
+        /// dataset is the last one in the lookup order of datasets.
+        ///
+        /// Generic parameter TRecord is not necessarily the root data type;
+        /// it may also be a type derived from the root data type.
+        template <class TRecord>
+        mongo_query get_query(dot::object_id load_from)
+        {
+            return get_query(load_from, dot::typeof<TRecord>());
+        }
 
         /// Save record to the specified dataset. After the method exits,
         /// record.data_set will be set to the value of the data_set parameter.
@@ -103,7 +201,7 @@ namespace dc
         /// order for this instance of the data source class always, and across
         /// all processes and machine if they are not created within the same
         /// second.
-        void save(record_base record);
+        void save_one(record record);
 
         /// Save record to the specified dataset. After the method exits,
         /// record.data_set will be set to the value of the data_set parameter.
@@ -118,7 +216,35 @@ namespace dc
         /// order for this instance of the data source class always, and across
         /// all processes and machine if they are not created within the same
         /// second.
-        void save(record_base record, dot::object_id save_to);
+        void save_one(record record, dot::object_id save_to);
+
+        /// Save multiple records to the specified dataset. After the method exits,
+        /// for each record the property record.DataSet will be set to the value of
+        /// the saveTo parameter.
+        ///
+        /// All Save methods ignore the value of record.DataSet before the
+        /// Save method is called. When dataset is not specified explicitly,
+        /// the value of dataset from the context, not from the record, is used.
+        /// The reason for this behavior is that the record may be stored from
+        /// a different dataset than the one where it is used.
+        ///
+        /// This method guarantees that TemporalIds of the saved records will be in
+        /// strictly increasing order.
+        void save_many(dot::list<record> record);
+
+        /// Save multiple records to the specified dataset. After the method exits,
+        /// for each record the property record.DataSet will be set to the value of
+        /// the saveTo parameter.
+        ///
+        /// All Save methods ignore the value of record.DataSet before the
+        /// Save method is called. When dataset is not specified explicitly,
+        /// the value of dataset from the context, not from the record, is used.
+        /// The reason for this behavior is that the record may be stored from
+        /// a different dataset than the one where it is used.
+        ///
+        /// This method guarantees that TemporalIds of the saved records will be in
+        /// strictly increasing order.
+        void save_many(dot::list<record> record, dot::object_id save_to);
 
         /// Write a delete marker for the dataset of the context and the specified
         /// key instead of actually deleting the record. This ensures that
@@ -127,16 +253,16 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        void delete_record(key_base key);
+        void delete_record(key key);
 
-        /// Write a delete marker in delete_in dataset for the specified key
+        /// Write a DeletedRecord in deleteIn dataset for the specified key
         /// instead of actually deleting the record. This ensures that
         /// a record in another dataset does not become visible during
         /// lookup in a sequence of datasets.
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        void delete_record(key_base key, dot::object_id delete_in);
+        void delete_record(key key, dot::object_id delete_in);
 
         /// Permanently deletes (drops) the database with all records
         /// in it without the possibility to recover them later.
@@ -239,6 +365,24 @@ namespace dc
         /// This method updates in-memory cache to the saved dataset.
         dot::object_id create_common();
 
+        /// Create Common dataset with the specified flags.
+        ///
+        /// The flags may be used, among other things, to specify
+        /// that the created dataset will be NonTemporal even if the
+        /// data source is itself temporal. This setting is typically
+        /// used to prevent the accumulation of data where history is
+        /// not needed.
+        ///
+        /// By convention, the Common dataset contains reference and
+        /// configuration data and is included as import in all other
+        /// datasets.
+        ///
+        /// The Common dataset is always stored in root dataset.
+        ///
+        /// This method updates in-memory dataset cache to include
+        /// the created dataset.
+        dot::object_id create_common(data_set_flags flags);
+
         /// Create new version of the dataset with the specified data_set_id
         /// and no parent datasets.
         ///
@@ -267,7 +411,7 @@ namespace dc
         /// uses context.data_set for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        dot::object_id create_data_set(dot::string data_set_id, dot::list<dot::object_id> parentdata_sets);
+        dot::object_id create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets);
 
         /// Create new version of the dataset with the specified data_set_id
         /// and parent dataset dot::object_ids passed as an array, and return
@@ -277,7 +421,59 @@ namespace dc
         /// the save_to parameter explicitly.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        dot::object_id create_data_set(dot::string data_set_id, dot::list<dot::object_id> parentdata_sets, dot::object_id save_to);
+        dot::object_id create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, dot::object_id save_to);
+
+        /// Create dataset with the specified dataSetName and flags
+        /// in context.DataSet, and make context.DataSet its sole import.
+        ///
+        /// The flags may be used, among other things, to specify
+        /// that the created dataset will be NonTemporal even if the
+        /// data source is itself temporal. This setting is typically
+        /// used to prevent the accumulation of data where history is
+        /// not needed.
+        ///
+        /// This method updates in-memory dataset cache to include
+        /// the created dataset.
+        dot::object_id create_data_set(dot::string data_set_id, data_set_flags flags);
+
+        /// Create dataset with the specified dataSetName and flags
+        /// in parentDataSet, and make parentDataSet its sole import.
+        ///
+        /// The flags may be used, among other things, to specify
+        /// that the created dataset will be NonTemporal even if the
+        /// data source is itself temporal. This setting is typically
+        /// used to prevent the accumulation of data where history is
+        /// not needed.
+        ///
+        /// This method updates in-memory dataset cache to include
+        /// the created dataset.
+        dot::object_id create_data_set(dot::string data_set_id, data_set_flags flags, dot::object_id save_to);
+
+        /// Create dataset with the specified dataSetName, imports,
+        /// and flags in context.DataSet.
+        ///
+        /// The flags may be used, among other things, to specify
+        /// that the created dataset will be NonTemporal even if the
+        /// data source is itself temporal. This setting is typically
+        /// used to prevent the accumulation of data where history is
+        /// not needed.
+        ///
+        /// This method updates in-memory dataset cache to include
+        /// the created dataset.
+        dot::object_id create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, data_set_flags flags);
+
+        /// Create dataset with the specified dataSetName, imports,
+        /// and flags in parentDataSet.
+        ///
+        /// The flags may be used, among other things, to specify
+        /// that the created dataset will be NonTemporal even if the
+        /// data source is itself temporal. This setting is typically
+        /// used to prevent the accumulation of data where history is
+        /// not needed.
+        ///
+        /// This method updates in-memory dataset cache to include
+        /// the created dataset.
+        dot::object_id create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, data_set_flags flags, dot::object_id save_to);
 
         /// Save new version of the dataset.
         ///
@@ -303,7 +499,22 @@ namespace dc
         ///
         /// This method updates in-memory cache to the saved dataset.
         void save_data_set(data_set_data value, dot::object_id save_to);
+
+    public: // NON TEMPLATE METHODS
+
+        /// Load record by its dot::object_id and type.
+        ///
+        /// Return null if not found.
+        record load_or_null(dot::object_id id, dot::type data_type);
+
+        record load(dot::object_id id, dot::type data_type);
+
+        record load(key key, dot::object_id load_from);
+
+        record load_or_null(key key, dot::object_id load_from);
+
+        mongo_query get_query(dot::object_id load_from, dot::type data_type);
     };
 }
 
-#include <dc/types/record/key_impl.hpp>
+#include <dc/types/record/typed_key_impl.hpp>

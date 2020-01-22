@@ -27,32 +27,57 @@ namespace dc
         data_source = value;
     }
 
-    record_base context_base_impl::load_or_null(dot::object_id id, dot::type data_type)
+    record context_base_impl::load(dot::object_id id, dot::type data_type)
+    {
+        return data_source->load(id, data_type);
+    }
+
+    record context_base_impl::load_or_null(dot::object_id id, dot::type data_type)
     {
         return data_source->load_or_null(id, data_type);
     }
 
-    record_base context_base_impl::reload_or_null(key_base key, dot::object_id load_from)
+    record context_base_impl::load(key key, dot::object_id load_from)
     {
-        return data_source->reload_or_null(key, load_from);
+        return data_source->load(key, load_from);
     }
 
-    void context_base_impl::save(record_base record)
+    record context_base_impl::load_or_null(key key, dot::object_id load_from)
     {
-        data_source->save(record, data_set);
+        return data_source->load_or_null(key, load_from);
     }
 
-    void context_base_impl::save(record_base record, dot::object_id save_to)
+    mongo_query context_base_impl::get_query(dot::object_id load_from, dot::type data_type)
     {
-        data_source->save(record, save_to);
+        return data_source->get_query(load_from, data_type);
     }
 
-    void context_base_impl::delete_record(key_base key)
+    void context_base_impl::save_one(record record)
+    {
+        data_source->save_one(record, data_set);
+    }
+
+    void context_base_impl::save_one(record record, dot::object_id save_to)
+    {
+        data_source->save_one(record, save_to);
+    }
+
+    void context_base_impl::save_many(dot::list<record> records)
+    {
+        data_source->save_many(records, data_set);
+    }
+
+    void context_base_impl::save_many(dot::list<record> records, dot::object_id save_to)
+    {
+        data_source->save_many(records, save_to);
+    }
+
+    void context_base_impl::delete_record(key key)
     {
         data_source->delete_record(key, data_set);
     }
 
-    void context_base_impl::delete_record(key_base key, dot::object_id delete_in)
+    void context_base_impl::delete_record(key key, dot::object_id delete_in)
     {
         data_source->delete_record(key, delete_in);
     }
@@ -92,6 +117,11 @@ namespace dc
         return data_source->create_common();
     }
 
+    dot::object_id context_base_impl::create_common(data_set_flags flags)
+    {
+        return data_source->create_common(flags);
+    }
+
     dot::object_id context_base_impl::create_data_set(dot::string data_set_id)
     {
         return data_source->create_data_set(data_set_id, data_set);
@@ -110,6 +140,26 @@ namespace dc
     dot::object_id context_base_impl::create_data_set(dot::string data_set_id, dot::list<dot::object_id> parentdata_sets, dot::object_id save_to)
     {
         return data_source->create_data_set(data_set_id, parentdata_sets, save_to);
+    }
+
+    dot::object_id context_base_impl::create_data_set(dot::string data_set_id, data_set_flags flags)
+    {
+        return data_source->create_data_set(data_set_id, flags, data_set);
+    }
+
+    dot::object_id context_base_impl::create_data_set(dot::string data_set_id, data_set_flags flags, dot::object_id save_to)
+    {
+        return data_source->create_data_set(data_set_id, flags, save_to);
+    }
+
+    dot::object_id context_base_impl::create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, data_set_flags flags)
+    {
+        return data_source->create_data_set(data_set_id, parent_data_sets, flags, data_set);
+    }
+
+    dot::object_id context_base_impl::create_data_set(dot::string data_set_id, dot::list<dot::object_id> parent_data_sets, data_set_flags flags, dot::object_id save_to)
+    {
+        return data_source->create_data_set(data_set_id, parent_data_sets, flags, save_to);
     }
 
     void context_base_impl::save_data_set(data_set_data value)
