@@ -208,6 +208,43 @@ namespace dot
         this->name = name;
     }
 
+    list<attribute> type_impl::get_custom_attributes(bool inherit)
+    {
+        if (!inherit)
+        {
+            return custom_attributes_;
+        }
+
+        list<attribute> ret;
+        if (base_.is_empty())
+        {
+            ret = make_list<attribute>();
+        }
+        else
+        {
+            ret = base_->get_custom_attributes(true);
+        }
+
+        for (attribute item : custom_attributes_)
+        {
+            ret->add(item);
+        }
+
+        return ret;
+    }
+
+    list<attribute> type_impl::get_custom_attributes(type attribute_type, bool inherit)
+    {
+        list<attribute> ret = make_list<attribute>();
+
+        for (attribute item : get_custom_attributes(inherit))
+        {
+            if (item->get_type()->equals(attribute_type))
+                ret->add(item);
+        }
+        return ret;
+    }
+
     method_info type_impl::get_method(string name)
     {
         if (methods_.is_empty()) return nullptr;

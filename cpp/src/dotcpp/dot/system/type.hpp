@@ -323,7 +323,10 @@ namespace dot
         bool is_enum; // TODO - replace by method
 
         /// Gets a collection that contains this member's custom attributes.
-        list<attribute> get_custom_attributes() { return custom_attributes_; }
+        list<attribute> get_custom_attributes(bool inherit);
+
+        /// Gets a collection that contains this member's custom attributes that are assignable to specified attribute type.
+        list<attribute> get_custom_attributes(type attribute_type, bool inherit);
 
     public: // METHODS
 

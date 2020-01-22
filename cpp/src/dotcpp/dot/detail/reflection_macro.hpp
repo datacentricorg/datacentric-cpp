@@ -30,7 +30,7 @@ limitations under the License.
         {                                                                       \
             static dot::type result = []()-> dot::type                          \
             {                                                                   \
-                dot::type t = dot::make_type_builder<self>(nspace, name)
+                dot::type t = dot::make_type_builder<self>(nspace, name, __VA_ARGS__)
 
 #define DOT_TYPE_END()                                                          \
                     ->build();                                                  \

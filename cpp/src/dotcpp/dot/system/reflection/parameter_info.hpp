@@ -48,7 +48,7 @@ namespace dot
         int position;  // TODO - convert to method
 
         /// Gets a collection that contains this parameter's custom attributes.
-        list<attribute> get_custom_attributes() { return custom_attributes_; }
+        list<attribute> get_custom_attributes(bool) { return custom_attributes_; }
 
     private: // FIELDS
 
