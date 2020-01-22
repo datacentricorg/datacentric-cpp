@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
         CLI11_PARSE(app, argc, argv);
     }
-    catch (std::exception e)
+    catch (std::exception& e)
     {
         std::cout << e.what() << std::endl;
     }

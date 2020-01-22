@@ -37,7 +37,7 @@ namespace dot
         {
             throw exception("Runtime error");
         }
-        catch(exception e)
+        catch(exception& e)
         {
             received->append_line(e.message());
         }
