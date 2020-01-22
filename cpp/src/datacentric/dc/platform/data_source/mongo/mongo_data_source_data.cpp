@@ -38,14 +38,17 @@ namespace dc
         dot::query query = dot::make_query(get_collection(data_type), data_type);
         dot::object_cursor_wrapper_base cursor = query->where(new dot::operator_wrapper_impl("_id", "$eq", id))
             ->limit(1)
-            ->get_cursor()
-            ;
+            ->get_cursor();
 
         if (cursor->begin() != cursor->end())
         {
             dot::object obj = *(cursor->begin());
             if (!obj.is<delete_marker>())
-                return (record_base)obj;
+            {
+                record_base rec = obj.as<record_base>();
+                rec->init(context);
+                return rec;
+            }
         }
 
         return nullptr;
@@ -71,18 +74,20 @@ namespace dc
             ->sort_by_descending(record_type->get_field("_dataset"))
             ->then_by_descending(record_type->get_field("_id"))
             ->limit(1)
-            ->get_cursor()
-            ;
+            ->get_cursor();
 
         if (cursor->begin() != cursor->end())
         {
             dot::object obj = *(cursor->begin());
             if (!obj.is<delete_marker>())
-                return (record_base)obj;
+            {
+                record_base rec = obj.as<record_base>();
+                rec->init(context);
+                return rec;
+            }
         }
 
         return nullptr;
-
     }
 
     void mongo_data_source_data_impl::save(record_base record, dot::object_id save_to)
@@ -140,6 +145,5 @@ namespace dc
         record->data_set = delete_in;
 
         collection->insert_one(record);
-
     }
 }

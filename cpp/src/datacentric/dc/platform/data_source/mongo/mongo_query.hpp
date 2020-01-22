@@ -117,6 +117,4 @@ namespace dc
     {
         return new mongo_query_impl(collection, type, data_source, data_set);
     }
-
-
 }

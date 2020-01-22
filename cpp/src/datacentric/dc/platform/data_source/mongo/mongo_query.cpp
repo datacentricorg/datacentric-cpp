@@ -167,5 +167,4 @@ namespace dc
 
         return query->select(props, element_type);
     }
-
 }
