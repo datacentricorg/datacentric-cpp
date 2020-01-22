@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mongo_db\bson\object_id.cpp" />
+    <ClCompile Include="mongo_db\mongo\mongo_impl.cpp" />
     <ClCompile Include="precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -22,6 +23,9 @@
     <ClInclude Include="implement.hpp" />
     <ClInclude Include="import.hpp" />
     <ClInclude Include="mongo_db\bson\object_id.hpp" />
+    <ClInclude Include="mongo_db\mongo\client.hpp" />
+    <ClInclude Include="mongo_db\mongo\collection.hpp" />
+    <ClInclude Include="mongo_db\mongo\database.hpp" />
     <ClInclude Include="precompiled.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
