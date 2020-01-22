@@ -305,3 +305,5 @@ namespace dc
         void save_data_set(data_set_data data_set_data, dot::object_id saveTo);
     };
 }
+
+#include <dc/types/record/key_impl.hpp>
