@@ -88,6 +88,11 @@ namespace dot
         return id_ >= rhs.id_;
     }
 
+    bool object_id::operator>(const object_id& rhs) const
+    {
+        return id_ > rhs.id_;
+    }
+
     bool object_id::operator<=(const object_id& rhs) const
     {
         return id_ <= rhs.id_;

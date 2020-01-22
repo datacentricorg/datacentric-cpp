@@ -18,7 +18,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="declare.hpp" />
+    <ClInclude Include="implement.hpp" />
+    <ClInclude Include="import.hpp" />
     <ClInclude Include="mongo_db\bson\object_id.hpp" />
+    <ClInclude Include="precompiled.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ED9333DD-8D40-4103-A01E-B1D26D95AEF8}</ProjectGuid>

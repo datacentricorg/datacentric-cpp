@@ -82,14 +82,14 @@ namespace dot
         /// More of equal operator
         bool operator>=(const object_id& rhs) const;
 
+        /// More operator
+        bool operator>(const object_id& rhs) const;
+
         /// Less or equal operator
         bool operator<=(const object_id& rhs) const;
 
         /// Less operator
         bool operator<(const object_id& rhs) const;
-
-        /// More operator
-        bool operator>(const object_id& rhs) const;
 
         /// Boxing operator
         operator dot::object() const
