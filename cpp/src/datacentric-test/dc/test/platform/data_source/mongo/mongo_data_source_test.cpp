@@ -29,7 +29,7 @@ limitations under the License.
 #include <dc/platform/data_set/data_set_key.hpp>
 #include <dc/platform/data_set/data_set_data.hpp>
 
-#include <dc/test/platform/context/Context.hpp>
+#include <dc/test/platform/context/context.hpp>
 
 #include <dc/test/platform/data_source/mongo/mongo_test_data.hpp>
 #include <bsoncxx/json.hpp>
@@ -318,7 +318,7 @@ namespace dc
         VerifyLoad(context, ( key<MongoTestKeyImpl, MongoTestDataImpl>)keyB0, "A");
         VerifyLoad(context, ( key<MongoTestKeyImpl, MongoTestDataImpl>)keyB0, "B");
 
-        context->KeepDb = true;
+        context->keep_db = true;
 
         std::string toVerify = received.str();
         received.str("");

@@ -28,7 +28,7 @@ limitations under the License.
 #include <dc/platform/data_set/data_set_key.hpp>
 #include <dc/platform/data_set/data_set_data.hpp>
 
-#include <dc/test/platform/context/Context.hpp>
+#include <dc/test/platform/context/context.hpp>
 
 #include <dc/types/record/record.hpp>
 

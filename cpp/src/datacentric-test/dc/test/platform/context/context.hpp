@@ -32,12 +32,12 @@ namespace dc
 
         /// Test database, if accessed during test, is normally
         /// deleted (dropped) on first access and once again on
-        /// Dispose().
+        /// dispose().
         ///
-        /// If KeepDb property is set to true,
+        /// If keep_db property is set to true,
         /// the test database will not be dropped so that its
         /// data can be examined after the test.
-        bool KeepDb;
+        bool keep_db;
     };
 
     class unit_test_context_impl; using unit_test_context = dot::ptr<unit_test_context_impl>;
@@ -48,7 +48,7 @@ namespace dc
     /// with approval test functionality. Attempting to access DataSource
     /// using this context will cause an error.
     ///
-    /// For tests that require MongoDB, use UnitTestDataContext.
+    /// For tests that require MongoDB, use unit_test_data_context.
     class unit_test_context_impl : public unit_test_context_base_impl
     {
     public:
@@ -58,21 +58,21 @@ namespace dc
         /// When ``this'' is passed as the the only argument to the
         /// constructor, the latter two arguments are provided by
         /// the compiler.
-        unit_test_context_impl(dot::object classInstance,
-            dot::string methodName,
-            dot::string sourceFilePath);
+        unit_test_context_impl(dot::object class_instance,
+            dot::string method_name,
+            dot::string source_file_path);
 
-        /// Releases resources and calls base.Dispose().
+        /// Releases resources and calls base.dispose().
         ///
         /// This method will NOT be called by the garbage
         /// collector, therefore instantiating it inside
         /// the ``using'' clause is essential to ensure
-        /// that Dispose() method gets invoked.
+        /// that dispose() method gets invoked.
         ///
         /// ATTENTION:
         ///
-        /// Each class must call base.Dispose() at the end
-        /// of its own Dispose() method.
+        /// Each class must call base.dispose() at the end
+        /// of its own dispose() method.
         ~unit_test_context_impl();
 
     };

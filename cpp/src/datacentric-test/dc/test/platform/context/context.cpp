@@ -16,38 +16,38 @@ limitations under the License.
 
 
 #include <dc/test/implement.hpp>
-#include <dc/test/platform/context/Context.hpp>
+#include <dc/test/platform/context/context.hpp>
 
 #include <dc/platform/data_source/mongo/mongo_data_source_data.hpp>
 #include <dc/platform/data_source/mongo/mongo_default_server_data.hpp>
 
 namespace dc
 {
-    unit_test_context_impl::unit_test_context_impl(dot::object classInstance,
-        dot::string methodName,
-        dot::string sourceFilePath)
+    unit_test_context_impl::unit_test_context_impl(dot::object class_instance,
+        dot::string method_name,
+        dot::string source_file_path)
     {
-        //if (methodName == nullptr) throw dot::exception("Method name passed to unit_test_context is null.");
-        //if (sourceFilePath == nullptr) throw dot::exception("Source file path passed to unit_test_context is null.");
+        //if (method_name == nullptr) throw dot::exception("Method name passed to unit_test_context is null.");
+        //if (source_file_path == nullptr) throw dot::exception("Source file path passed to unit_test_context is null.");
 
         // Test class path is the path to source file followed by
         // subfolder whose name is source file name without extension
-        //if (!sourceFilePath->ends_with(".cs")) throw dot::exception(dot::string::format("Source file path '{0}' does not end with '.cs'", sourceFilePath));
-        dot::string testClassPath = sourceFilePath->substring(0, sourceFilePath->size() - 3);
+        //if (!source_file_path->ends_with(".cs")) throw dot::exception(dot::string::format("Source file path '{0}' does not end with '.cs'", source_file_path));
+        dot::string test_class_path = source_file_path->substring(0, source_file_path->size() - 3);
 
         // Create and initialize data source with TEST instance type.
         //
         // This does not create the database until the data source
         // is actually used to access data.
-        dot::string mappedClassName = classInstance->get_type()->name;
+        dot::string mapped_class_name = class_instance->get_type()->name;
 
         data_source = new mongo_data_source_data_impl();
         data_source->db_server = (make_mongo_default_server_data())->to_key();
         data_source->db_name = new db_name_key_impl();
 
         data_source->db_name->db_instance_type = instance_type::TEST;
-        data_source->db_name->instance_name = mappedClassName;
-        data_source->db_name->env_name = methodName;
+        data_source->db_name->instance_name = mapped_class_name;
+        data_source->db_name->env_name = method_name;
 
         data_source->init(this);
 
@@ -60,10 +60,10 @@ namespace dc
 
     unit_test_context_impl::~unit_test_context_impl()
     {
-        if (!KeepDb)
+        if (!keep_db)
         {
             // Permanently delete the unit test database
-            // unless KeepDb is true
+            // unless keep_db is true
             data_source->delete_db();
         }
     }
