@@ -28,6 +28,11 @@ limitations under the License.
 
 namespace dot
 {
+    class object;
+
+    template <class T>
+    string to_string(const T& value);
+
     /// Wrapper around double to make it convertible to object (boxing).
     template <class T>
     class enum_impl : public virtual object_impl

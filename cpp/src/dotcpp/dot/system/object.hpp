@@ -28,7 +28,6 @@ limitations under the License.
 #include <dot/system/object_impl.hpp>
 #include <dot/system/exception.hpp>
 #include <dot/system/string.hpp>
-#include <dot/system/enum_impl.hpp>
 
 namespace dot
 {
@@ -246,6 +245,7 @@ namespace dot
 
 }
 
+#include <dot/system/enum_impl.hpp>
 #include <dot/detail/struct_wrapper.hpp>
 
 namespace dot
