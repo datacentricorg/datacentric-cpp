@@ -153,7 +153,7 @@ namespace dc
     mongo_test_key make_mongo_test_key();
 
     /// Key class.
-    class mongo_test_key_impl : public typed_key_impl<mongo_test_key_impl, mongo_test_data_impl>
+    class mongo_test_key_impl : public TypedKeyImpl<mongo_test_key_impl, mongo_test_data_impl>
     {
         typedef mongo_test_key_impl self;
 
@@ -165,7 +165,7 @@ namespace dc
         DOT_TYPE_BEGIN("dc", "mongo_test_key")
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_PROP(record_index)
-            DOT_TYPE_BASE(typed_key<mongo_test_key_impl, mongo_test_data_impl>)
+            DOT_TYPE_BASE(TypedKey<mongo_test_key_impl, mongo_test_data_impl>)
             DOT_TYPE_CTOR(make_mongo_test_key)
         DOT_TYPE_END()
     };
@@ -175,7 +175,7 @@ namespace dc
     mongo_test_data make_mongo_test_data();
 
     /// Base data class.
-    class mongo_test_data_impl : public typed_record_impl<mongo_test_key_impl, mongo_test_data_impl>
+    class mongo_test_data_impl : public TypedRecordImpl<mongo_test_key_impl, mongo_test_data_impl>
     {
         typedef mongo_test_data_impl self;
 
@@ -213,7 +213,7 @@ namespace dc
                     ->with_field("local_date_time_element", &mongo_test_data_impl::local_date_time_element)
                     ->with_field("enum_value", &mongo_test_data_impl::enum_value)
                     ->with_field("version", &mongo_test_data_impl::version)
-                    ->template with_base<typed_record<mongo_test_key_impl, mongo_test_data_impl>>()
+                    ->template with_base<TypedRecord<mongo_test_key_impl, mongo_test_data_impl>>()
                     ->with_constructor(&make_mongo_test_data, {})
                     ->build();
                 return t;
@@ -229,7 +229,7 @@ namespace dc
     element_sample_data make_element_sample_data();
 
     /// Element data class.
-    class element_sample_data_impl : public data_impl
+    class element_sample_data_impl : public DataImpl
     {
         typedef element_sample_data_impl self;
     public:
@@ -239,7 +239,7 @@ namespace dc
         DOT_TYPE_BEGIN("dc", "element_sample_data")
             DOT_TYPE_PROP(double_element3)
             DOT_TYPE_PROP(string_element3)
-            DOT_TYPE_BASE(data)
+            DOT_TYPE_BASE(Data)
             DOT_TYPE_CTOR(make_element_sample_data)
         DOT_TYPE_END()
     };

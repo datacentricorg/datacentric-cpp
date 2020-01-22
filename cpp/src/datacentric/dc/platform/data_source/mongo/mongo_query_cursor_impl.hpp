@@ -25,12 +25,12 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_query_iterator_impl; using mongo_query_iterator = dot::Ptr<mongo_query_iterator_impl>;
-    class mongo_query_cursor_impl; using mongo_query_cursor = dot::Ptr<mongo_query_cursor_impl>;
+    class MongoQueryIteratorImpl; using MongoQueryIterator = dot::Ptr<MongoQueryIteratorImpl>;
+    class MongoQueryCursorImpl; using MongoQueryCursor = dot::Ptr<MongoQueryCursorImpl>;
 
     /// Class implements dot::iterator_wrapper methods.
     /// Constructs from IteratorInnerBase to filter input records and initialize them with context.
-    class DC_CLASS mongo_query_iterator_impl : public dot::IteratorInnerBaseImpl
+    class DC_CLASS MongoQueryIteratorImpl : public dot::IteratorInnerBaseImpl
     {
     public:
 
@@ -52,16 +52,16 @@ namespace dc
 
         virtual bool operator!=(dot::IteratorInnerBase rhs) override
         {
-            return *iterator_ != rhs.as<mongo_query_iterator>()->iterator_;
+            return *iterator_ != rhs.as<MongoQueryIterator>()->iterator_;
         }
 
         virtual bool operator==(dot::IteratorInnerBase rhs) override
         {
-            return *iterator_ == rhs.as<mongo_query_iterator>()->iterator_;
+            return *iterator_ == rhs.as<MongoQueryIterator>()->iterator_;
         }
 
-        /// Constructs from IteratorInnerBase and context_base.
-        mongo_query_iterator_impl(dot::IteratorInnerBase iterator, dot::ObjectCursorWrapperBase cursor, dot::Type query_type, context_base context)
+        /// Constructs from IteratorInnerBase and ContextBase.
+        MongoQueryIteratorImpl(dot::IteratorInnerBase iterator, dot::ObjectCursorWrapperBase cursor, dot::Type query_type, ContextBase context)
             : iterator_(iterator)
             , cursor_(cursor)
             , query_type_(query_type)
@@ -73,12 +73,12 @@ namespace dc
     private:
 
         /// Skips old and deleted documents and returns next relevant record.
-        record skip_records()
+        Record skip_records()
         {
             // Iterate over documents returned by the cursor
             for(; *iterator_ != cursor_->end().iterator_; iterator_->operator++())
             {
-                record obj = iterator_->operator*().as<record>();
+                Record obj = iterator_->operator*().as<Record>();
                 dot::String obj_key = obj->get_key();
 
                 if (!current_key_.is_empty() && current_key_ == obj_key)
@@ -96,12 +96,12 @@ namespace dc
                     current_key_ = obj_key;
 
                     // Skip if the result is a delete marker
-                    if(obj.is<deleted_record>()) continue;
+                    if(obj.is<DeletedRecord>()) continue;
 
                     // Check if Object could cast to query_type_.
                     // Skip, do not throw, if the cast fails.
                     //
-                    // This behavior is different from loading by temporal_id or String key
+                    // This behavior is different from loading by TemporalId or String key
                     // using load_or_null method. In case of load_or_null, the API requires
                     // an error when wrong type is requested. Here, we want to proceed
                     // as though the record does not exist because the query is expected
@@ -118,9 +118,9 @@ namespace dc
         }
 
         /// Initializes record with context.
-        record to_record(dot::Object obj) const
+        Record to_record(dot::Object obj) const
         {
-            record rec = obj.as<record>();
+            Record rec = obj.as<Record>();
             rec->init(context_);
             return rec;
         }
@@ -130,21 +130,21 @@ namespace dc
         dot::IteratorInnerBase iterator_;
         dot::ObjectCursorWrapperBase cursor_;
         dot::Type query_type_;
-        context_base context_;
+        ContextBase context_;
 
         dot::String current_key_;
-        record current_record_;
+        Record current_record_;
     };
 
     /// Class implements dot::ObjectCursorWrapperBase.
-    /// Constructs from other ObjectCursorWrapperBase and context_base
+    /// Constructs from other ObjectCursorWrapperBase and ContextBase
     /// to use it in iterator.
-    class mongo_query_cursor_impl : public dot::ObjectCursorWrapperBaseImpl
+    class MongoQueryCursorImpl : public dot::ObjectCursorWrapperBaseImpl
     {
     public:
 
-        /// Constructs from ObjectCursorWrapperBase and context_base.
-        mongo_query_cursor_impl(dot::ObjectCursorWrapperBase cursor, dot::Type query_type, context_base context)
+        /// Constructs from ObjectCursorWrapperBase and ContextBase.
+        MongoQueryCursorImpl(dot::ObjectCursorWrapperBase cursor, dot::Type query_type, ContextBase context)
             : cursor_(cursor)
             , query_type_(query_type)
             , context_(context)
@@ -160,20 +160,20 @@ namespace dc
         /// for newly-available documents.
         dot::IteratorWrappper<dot::Object> begin()
         {
-            return dot::IteratorWrappper<dot::Object>(new mongo_query_iterator_impl(cursor_->begin().iterator_, cursor_, query_type_, context_));
+            return dot::IteratorWrappper<dot::Object>(new MongoQueryIteratorImpl(cursor_->begin().iterator_, cursor_, query_type_, context_));
         }
 
         /// A dot::iterator_wrapper<dot::Object> indicating cursor exhaustion, meaning that
         /// no documents are available from the cursor.
         dot::IteratorWrappper<dot::Object> end()
         {
-            return dot::IteratorWrappper<dot::Object>(new mongo_query_iterator_impl(cursor_->end().iterator_, cursor_, query_type_, context_));
+            return dot::IteratorWrappper<dot::Object>(new MongoQueryIteratorImpl(cursor_->end().iterator_, cursor_, query_type_, context_));
         }
 
     private: // FIELDS
 
         dot::ObjectCursorWrapperBase cursor_;
         dot::Type query_type_;
-        context_base context_;
+        ContextBase context_;
     };
 }

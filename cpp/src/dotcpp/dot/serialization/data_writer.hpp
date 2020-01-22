@@ -36,7 +36,7 @@ namespace dot
     class DataWriterImpl; using DataWriter = dot::Ptr<DataWriterImpl>;
     class TupleWriterImpl; using TupleWriter = dot::Ptr<TupleWriterImpl>;
 
-    /// Implementation of tree_writer_base for data.
+    /// Implementation of tree_writer_base for Data.
     class DOT_CLASS DataWriterImpl : public TreeWriterBaseImpl
     {
         friend DataWriter make_data_writer(Object data_obj);

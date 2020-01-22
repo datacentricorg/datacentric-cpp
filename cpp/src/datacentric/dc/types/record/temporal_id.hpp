@@ -36,10 +36,10 @@ namespace dc
     ///   information to make the identifier unique in combination with the
     ///   first element.
     ///
-    /// temporal_id has the same size as GUID and can be stored in a
+    /// TemporalId has the same size as GUID and can be stored in a
     /// data type designed for GUID.
     ///
-    /// temporal_id is unique in the absence of collision for its randomized
+    /// TemporalId is unique in the absence of collision for its randomized
     /// part, which by design has extremely low probability (similar to GUID).
     /// It has the following ordering guarantees:
     ///
@@ -50,11 +50,11 @@ namespace dc
     ///   underlying tick data type has 100ns resolution, the operating
     ///   system clock more typically has one event per 10-20 ms.
     ///
-    /// Because temporal_id does not rely on auto-incremented database field,
+    /// Because TemporalId does not rely on auto-incremented database field,
     /// it can be used with distributed, web scale databases where getting
     /// a strictly increasing auto-incremented identifier would cause a
     /// performance hit.
-    class DC_CLASS temporal_id
+    class DC_CLASS TemporalId
     {
         template <class T>
         friend inline dot::Type dot::typeof();
@@ -62,47 +62,47 @@ namespace dc
     public: // STATIC
 
         /// Represents empty object id, all bytes are zero
-        static temporal_id empty;
+        static TemporalId empty;
 
     public: // CONSTRUCTORS
 
-        /// Create with value temporal_id::empty.
-        temporal_id();
+        /// Create with value TemporalId::empty.
+        TemporalId();
 
         /// Create from MongoDB driver object id type.
-        temporal_id(bsoncxx::oid id);
+        TemporalId(bsoncxx::oid id);
 
         /// Create from MongoDB driver object id type.
-        temporal_id(dot::Object obj);
+        TemporalId(dot::Object obj);
 
         /// Create from the hexidecimal String representation produced by to_string().
-        temporal_id(dot::String str);
+        TemporalId(dot::String str);
 
         /// Create from byte array.
-        temporal_id(const char* bytes, std::size_t len);
+        TemporalId(const char* bytes, std::size_t len);
 
         /// Create from ByteArray.
-        temporal_id(dot::ByteArray bytes);
+        TemporalId(dot::ByteArray bytes);
 
         /// Create from UTC datetime, with all other components of object id empty.
         /// The created Object is less or equal to any other Object with time timestamp
         /// that falls on the same second.
         ///
         /// Error message if the timestamp does not fall on the second // TODO - need to check
-        explicit temporal_id(dot::LocalDateTime value);
+        explicit TemporalId(dot::LocalDateTime value);
 
     public: // METHODS
 
-        /// Check if temporal_id is empty.
+        /// Check if TemporalId is empty.
         bool is_empty();
 
-        /// Generates new temporal_id.
-        static temporal_id generate_new_id();
+        /// Generates new TemporalId.
+        static TemporalId generate_new_id();
 
-        /// Min method for Nullable temporal_id.
-        static dot::Nullable<temporal_id> min(dot::Nullable<temporal_id> lhs, dot::Nullable<temporal_id> rhs);
+        /// Min method for Nullable TemporalId.
+        static dot::Nullable<TemporalId> min(dot::Nullable<TemporalId> lhs, dot::Nullable<TemporalId> rhs);
 
-        /// Converts temporal_id to ByteArray.
+        /// Converts TemporalId to ByteArray.
         dot::ByteArray to_byte_array();
 
         /// Returns hexadecimal String representation
@@ -111,22 +111,22 @@ namespace dc
     public: // OPERATORS
 
         /// Equality operator
-        bool operator==(const temporal_id& rhs) const;
+        bool operator==(const TemporalId& rhs) const;
 
         /// Inquality operator
-        bool operator!=(const temporal_id& rhs) const;
+        bool operator!=(const TemporalId& rhs) const;
 
         /// More of equal operator
-        bool operator>=(const temporal_id& rhs) const;
+        bool operator>=(const TemporalId& rhs) const;
 
         /// More operator
-        bool operator>(const temporal_id& rhs) const;
+        bool operator>(const TemporalId& rhs) const;
 
         /// Less or equal operator
-        bool operator<=(const temporal_id& rhs) const;
+        bool operator<=(const TemporalId& rhs) const;
 
         /// Less operator
-        bool operator<(const temporal_id& rhs) const;
+        bool operator<(const TemporalId& rhs) const;
 
         /// Boxing operator
         operator dot::Object() const;
@@ -146,7 +146,7 @@ namespace dc
         static const int oid_other_offset_;
         static const int oid_other_size_;
 
-        /// Bytes size and structure of temporal_id.
+        /// Bytes size and structure of TemporalId.
         static const int bytes_size_;
         static const int timestamp_offset_;
         static const int timestamp_size_;
@@ -160,12 +160,12 @@ namespace dc
 namespace dot
 {
     template <>
-    inline Type typeof<dc::temporal_id>()
+    inline Type typeof<dc::TemporalId>()
     {
-        static dot::Type type_ = dot::make_type_builder<dc::temporal_id>("dc", "temporal_id", {
-                make_serialize_class_attribute(&dc::temporal_id::serialize),
-                make_deserialize_class_attribute(&dc::temporal_id::deserialize),
-                make_filter_token_serialization_attribute(&dc::temporal_id::serialize_token) })
+        static dot::Type type_ = dot::make_type_builder<dc::TemporalId>("dc", "TemporalId", {
+                make_serialize_class_attribute(&dc::TemporalId::serialize),
+                make_deserialize_class_attribute(&dc::TemporalId::deserialize),
+                make_filter_token_serialization_attribute(&dc::TemporalId::serialize_token) })
             ->build();
         return type_;
     }
@@ -173,21 +173,21 @@ namespace dot
 
 namespace std
 {
-    /// Implements hash struct used by STL unordered_map for temporal_id.
+    /// Implements hash struct used by STL unordered_map for TemporalId.
     template <>
-    struct hash<dc::temporal_id>
+    struct hash<dc::TemporalId>
     {
-        size_t operator()(const dc::temporal_id& id) const
+        size_t operator()(const dc::TemporalId& id) const
         {
             return hash<string>()(*id.to_string());
         }
     };
 
-    /// Implements equal_to struct used by STL unordered_map for temporal_id.
+    /// Implements equal_to struct used by STL unordered_map for TemporalId.
     template <>
-    struct equal_to<dc::temporal_id>
+    struct equal_to<dc::TemporalId>
     {
-        bool operator()(const dc::temporal_id& lhs, const dc::temporal_id& rhs) const
+        bool operator()(const dc::TemporalId& lhs, const dc::TemporalId& rhs) const
         {
             return lhs == rhs;
         }

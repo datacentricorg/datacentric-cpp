@@ -45,20 +45,20 @@ namespace dc
     };
 
     /// Save record with minimal data for testing how the records are found.
-    temporal_id save_minimal_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index, dot::Nullable<int> version = dot::Nullable<int>())
+    TemporalId save_minimal_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index, dot::Nullable<int> version = dot::Nullable<int>())
     {
         mongo_test_data rec = make_mongo_test_data();
         rec->record_id = record_id;
         rec->record_index = record_index;
         rec->version = version;
 
-        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
+        TemporalId data_set = context->get_data_set(data_set_id, context->data_set);
         context->save_one(rec, data_set);
         return rec->id;
     }
 
     /// Save base record
-    temporal_id save_base_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index)
+    TemporalId save_base_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index)
     {
         mongo_test_data rec = new mongo_test_data_impl();
         rec->record_id = record_id;
@@ -70,7 +70,7 @@ namespace dc
         rec->local_date_time_element = dot::LocalDateTime(2003, 5, 1, 10, 15); // 2003-05-01T10:15:00
         rec->enum_value = mongo_test_enum::enum_value2;
 
-        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
+        TemporalId data_set = context->get_data_set(data_set_id, context->data_set);
         context->save_one(rec, data_set);
 
         mongo_test_data rec2 = context->load_or_null<mongo_test_data>(rec->id);
@@ -80,7 +80,7 @@ namespace dc
     }
 
     /// Save derived record
-    temporal_id save_derived_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index)
+    TemporalId save_derived_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index)
     {
         mongo_test_derived_data rec = make_mongo_test_derived_data();
         rec->record_id = record_id;
@@ -137,13 +137,13 @@ namespace dc
         key_list1->record_index = 4;
         rec->key_element_list->add(key_list1);
 
-        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
+        TemporalId data_set = context->get_data_set(data_set_id, context->data_set);
         context->save_one(rec, data_set);
         return rec->id;
     }
 
     /// Save other derived record.
-    temporal_id save_other_derived_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index)
+    TemporalId save_other_derived_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index)
     {
         mongo_test_other_derived_data rec = make_mongo_test_other_derived_data();
         rec->record_id = record_id;
@@ -156,13 +156,13 @@ namespace dc
         rec->other_string_element2 = dot::String::empty; // Test how empty value is recorded
         rec->other_double_element2 = 200.0;
 
-        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
+        TemporalId data_set = context->get_data_set(data_set_id, context->data_set);
         context->save_one(rec, data_set);
         return rec->id;
     }
 
     /// Save record that is derived from derived.
-    temporal_id save_derived_from_derived_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index)
+    TemporalId save_derived_from_derived_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_index)
     {
         mongo_test_derived_from_derived_data rec = make_mongo_test_derived_from_derived_data();
         rec->record_id = record_id;
@@ -175,7 +175,7 @@ namespace dc
         rec->other_string_element2 = dot::String::empty; // Test how empty value is recorded
         rec->other_double_element3 = 200.0;
 
-        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
+        TemporalId data_set = context->get_data_set(data_set_id, context->data_set);
         context->save_one(rec, data_set);
         return rec->id;
     }
@@ -184,11 +184,11 @@ namespace dc
     void save_basic_data(unit_test_context_base context)
     {
         // Create datasets
-        temporal_id data_set_a = context->create_data_set("A", context->data_set);
-        dot::List<temporal_id> parents = dot::make_list<temporal_id>();
+        TemporalId data_set_a = context->create_data_set("A", context->data_set);
+        dot::List<TemporalId> parents = dot::make_list<TemporalId>();
         parents->add(data_set_a);
 
-        temporal_id data_set_b = context->create_data_set("B", parents, context->data_set);
+        TemporalId data_set_b = context->create_data_set("B", parents, context->data_set);
 
         // Create records with minimal data
         save_base_record(context, "A", "A", 0);
@@ -199,10 +199,10 @@ namespace dc
     void save_complete_data(unit_test_context_base context)
     {
         // Create datasets
-        temporal_id data_set_a = context->create_data_set("A", context->data_set);
-        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
-        temporal_id data_set_c = context->create_data_set("C", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
-        temporal_id data_set_d = context->create_data_set("D", dot::make_list<temporal_id>({ data_set_a, data_set_b, data_set_c }), context->data_set);
+        TemporalId data_set_a = context->create_data_set("A", context->data_set);
+        TemporalId data_set_b = context->create_data_set("B", dot::make_list<TemporalId>({ data_set_a }), context->data_set);
+        TemporalId data_set_c = context->create_data_set("C", dot::make_list<TemporalId>({ data_set_a }), context->data_set);
+        TemporalId data_set_d = context->create_data_set("D", dot::make_list<TemporalId>({ data_set_a, data_set_b, data_set_c }), context->data_set);
 
         // Create records with minimal data
         save_base_record(context, "A", "A", 0);
@@ -227,10 +227,10 @@ namespace dc
     void save_multi_data_set_data(unit_test_context_base context)
     {
         // Create datasets
-        temporal_id data_set_a = context->create_data_set("A", context->data_set);
-        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
-        temporal_id data_set_c = context->create_data_set("C", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
-        temporal_id data_set_d = context->create_data_set("D", dot::make_list<temporal_id>({ data_set_a, data_set_b, data_set_c }), context->data_set);
+        TemporalId data_set_a = context->create_data_set("A", context->data_set);
+        TemporalId data_set_b = context->create_data_set("B", dot::make_list<TemporalId>({ data_set_a }), context->data_set);
+        TemporalId data_set_c = context->create_data_set("C", dot::make_list<TemporalId>({ data_set_a }), context->data_set);
+        TemporalId data_set_d = context->create_data_set("D", dot::make_list<TemporalId>({ data_set_a, data_set_b, data_set_c }), context->data_set);
 
         // Create records
         save_minimal_record(context, "A", "A", 0);
@@ -245,10 +245,10 @@ namespace dc
 
     /// Load the Object and verify the outcome.
     template <class TKey, class TRecord>
-    void verify_load(unit_test_context_base context, typed_key<TKey, TRecord> key, dot::String data_set_id)
+    void verify_load(unit_test_context_base context, TypedKey<TKey, TRecord> key, dot::String data_set_id)
     {
         // Get dataset and try loading the record
-        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
+        TemporalId data_set = context->get_data_set(data_set_id, context->data_set);
         dot::Ptr<TRecord> record = context->load_or_null(key, data_set);
 
         if (record == nullptr)
@@ -272,8 +272,8 @@ namespace dc
     void verify_query(unit_test_context_base context, dot::String data_set_id)
     {
         // Get dataset and query
-        temporal_id data_set = context->get_data_set(data_set_id, context->data_set);
-        mongo_query query = context->data_source->get_query<TRecord>(data_set);
+        TemporalId data_set = context->get_data_set(data_set_id, context->data_set);
+        MongoQuery query = context->data_source->get_query<TRecord>(data_set);
 
         // Iterate over records
         for (TRecord record : query->get_cursor<TRecord>())
@@ -298,8 +298,8 @@ namespace dc
         save_basic_data(context);
 
         // Get dataset identifiers
-        temporal_id data_set_a = context->get_data_set("A", context->data_set);
-        temporal_id data_set_b = context->get_data_set("B", context->data_set);
+        TemporalId data_set_a = context->get_data_set("A", context->data_set);
+        TemporalId data_set_b = context->get_data_set("B", context->data_set);
 
         // Create keys
         mongo_test_key key_a0 = make_mongo_test_key();
@@ -311,10 +311,10 @@ namespace dc
         key_b0->record_index = dot::Nullable<int>(0);
 
         // Verify the result of loading records from datasets A and B
-        verify_load(context, ( typed_key<mongo_test_key_impl, mongo_test_data_impl>)key_a0, "A");
-        verify_load(context, ( typed_key<mongo_test_key_impl, mongo_test_data_impl>)key_a0, "B");
-        verify_load(context, ( typed_key<mongo_test_key_impl, mongo_test_data_impl>)key_b0, "A");
-        verify_load(context, ( typed_key<mongo_test_key_impl, mongo_test_data_impl>)key_b0, "B");
+        verify_load(context, ( TypedKey<mongo_test_key_impl, mongo_test_data_impl>)key_a0, "A");
+        verify_load(context, ( TypedKey<mongo_test_key_impl, mongo_test_data_impl>)key_a0, "B");
+        verify_load(context, ( TypedKey<mongo_test_key_impl, mongo_test_data_impl>)key_b0, "A");
+        verify_load(context, ( TypedKey<mongo_test_key_impl, mongo_test_data_impl>)key_b0, "B");
 
         context->keep_db = true;
 
@@ -330,10 +330,10 @@ namespace dc
         unit_test_context_base context = make_unit_test_context(test, "query", ".");
 
         // Create datasets
-        temporal_id data_set_a = context->create_data_set("A", context->data_set);
-        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
-        temporal_id data_set_c = context->create_data_set("C", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
-        temporal_id data_set_d = context->create_data_set("D", dot::make_list<temporal_id>({ data_set_a, data_set_b, data_set_c }), context->data_set);
+        TemporalId data_set_a = context->create_data_set("A", context->data_set);
+        TemporalId data_set_b = context->create_data_set("B", dot::make_list<TemporalId>({ data_set_a }), context->data_set);
+        TemporalId data_set_c = context->create_data_set("C", dot::make_list<TemporalId>({ data_set_a }), context->data_set);
+        TemporalId data_set_d = context->create_data_set("D", dot::make_list<TemporalId>({ data_set_a, data_set_b, data_set_c }), context->data_set);
 
         // Create initial version of the records
         save_minimal_record(context, "A", "A", 0, 0);
@@ -383,7 +383,7 @@ namespace dc
 
         for (mongo_test_data obj : query)
         {
-            dot::String data_set_id = context->data_source->load_or_null<data_set_data>(obj->data_set)->data_set_id;
+            dot::String data_set_id = context->data_source->load_or_null<DataSet>(obj->data_set)->data_set_id;
             received << *dot::String::format("key={0} data_set={1} version={2}", obj->get_key(), data_set_id, obj->version) << std::endl;
         }
 
@@ -400,8 +400,8 @@ namespace dc
         save_basic_data(context);
 
         // Get dataset identifiers
-        temporal_id data_set_a = context->get_data_set("A", context->data_set);
-        temporal_id data_set_b = context->get_data_set("B", context->data_set);
+        TemporalId data_set_a = context->get_data_set("A", context->data_set);
+        TemporalId data_set_b = context->get_data_set("B", context->data_set);
 
         // Create keys
         mongo_test_key key_a0 = new mongo_test_key_impl();
@@ -414,10 +414,10 @@ namespace dc
 
         // Verify the result of loading records from datasets A and B
         received << "initial load" << std::endl;
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
 
         received << "query in dataset A" << std::endl;
         verify_query<mongo_test_data>(context, "A");
@@ -426,8 +426,8 @@ namespace dc
 
         received << "delete A0 record in B dataset" << std::endl;
         context->delete_record(key_a0, data_set_b);
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
 
         received << "query in dataset A" << std::endl;
         verify_query<mongo_test_data>(context, "A");
@@ -436,8 +436,8 @@ namespace dc
 
         received << "delete A0 record in A dataset" << std::endl;
         context->delete_record(key_a0, data_set_a);
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
 
         received << "query in dataset A" << std::endl;
         verify_query<mongo_test_data>(context, "A");
@@ -446,8 +446,8 @@ namespace dc
 
         received << "delete B0 record in B dataset" << std::endl;
         context->delete_record(key_b0, data_set_b);
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
 
         received << "query in dataset A" << std::endl;
         verify_query<mongo_test_data>(context, "A");
@@ -472,8 +472,8 @@ namespace dc
         unit_test_context_base context = make_unit_test_context(test, "type_change", ".");
 
         // Create datasets
-        temporal_id data_set_a = context->create_data_set("A", context->data_set);
-        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
+        TemporalId data_set_a = context->create_data_set("A", context->data_set);
+        TemporalId data_set_b = context->create_data_set("B", dot::make_list<TemporalId>({ data_set_a }), context->data_set);
 
         // Create records with minimal data
         save_derived_record(context, "A", "A", 0);
@@ -490,10 +490,10 @@ namespace dc
 
         // Verify the result of loading records from datasets A and B
         received << "initial load" << std::endl;
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
 
         received << "query in dataset A for type mongo_test_derived_data" << std::endl;
         verify_query<mongo_test_derived_data>(context, "A");
@@ -502,8 +502,8 @@ namespace dc
 
         received << "change A0 record type in B dataset to C" << std::endl;
         save_other_derived_record(context, "B", "A", 0);
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
 
         received << "query in dataset A for type mongo_test_derived_data" << std::endl;
         verify_query<mongo_test_derived_data>(context, "A");
@@ -512,8 +512,8 @@ namespace dc
 
         received << "change A0 record type in A dataset to C" << std::endl;
         save_other_derived_record(context, "A", "A", 0);
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_a0, "B");
 
         received << "query in dataset A for type mongo_test_derived_data" << std::endl;
         verify_query<mongo_test_derived_data>(context, "A");
@@ -522,8 +522,8 @@ namespace dc
 
         received << "change B0 record type in B dataset to C" << std::endl;
         save_other_derived_record(context, "B", "B", 0);
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
-        verify_load(context, (typed_key<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "A");
+        verify_load(context, (TypedKey<mongo_test_key_impl, mongo_test_data_impl>) key_b0, "B");
 
         received << "query in dataset A for type mongo_test_derived_data" << std::endl;
         verify_query<mongo_test_derived_data>(context, "A");
@@ -544,7 +544,7 @@ namespace dc
         save_complete_data(context);
 
         // Look in B dataset
-        temporal_id data_set_b = context->get_data_set("B", context->data_set);
+        TemporalId data_set_b = context->get_data_set("B", context->data_set);
 
         mongo_test_key key = make_mongo_test_key();
         key->record_id = "BB";
@@ -585,7 +585,7 @@ namespace dc
         save_complete_data(context);
 
         // Look in B dataset
-        temporal_id data_set_d = context->get_data_set("D", context->data_set);
+        TemporalId data_set_d = context->get_data_set("D", context->data_set);
 
         // Load record of derived types by base
         received << "load all types by key to type A" << std::endl;
@@ -593,42 +593,42 @@ namespace dc
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "A";
             key->record_index = dot::Nullable<int>(0);
-            record obj = context->load_or_null(key, data_set_d);
+            Record obj = context->load_or_null(key, data_set_d);
             received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "B";
             key->record_index = dot::Nullable<int>(0);
-            record obj = context->load_or_null(key, data_set_d);
+            Record obj = context->load_or_null(key, data_set_d);
             received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "C";
             key->record_index = dot::Nullable<int>(0);
-            record obj = context->load_or_null(key, data_set_d);
+            Record obj = context->load_or_null(key, data_set_d);
             received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             mongo_test_key key = make_mongo_test_key();
             key->record_id = "D";
             key->record_index = dot::Nullable<int>(0);
-            record obj = context->load_or_null(key, data_set_d);
+            Record obj = context->load_or_null(key, data_set_d);
             received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
         }
         {
             received << "query by mongo_test_data, unconstrained" << std::endl;
-            mongo_query query = context->data_source->get_query<mongo_test_data>(data_set_d);
-            for (record obj : query->get_cursor<record>())
+            MongoQuery query = context->data_source->get_query<mongo_test_data>(data_set_d);
+            for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
         }
         {
             received << "query by mongo_test_derived_data : mongo_test_data which also picks up mongo_test_derived_from_derived_data : mongo_test_derived_data, unconstrained" << std::endl;
-            mongo_query query = context->data_source->get_query<mongo_test_derived_data>(data_set_d);
-            for (record obj : query->get_cursor<record>())
+            MongoQuery query = context->data_source->get_query<mongo_test_derived_data>(data_set_d);
+            for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
@@ -636,16 +636,16 @@ namespace dc
         {
             received << "query by mongo_test_other_derived_data : mongo_test_data, unconstrained" << std::endl;
             mongo_test_other_derived_data_impl::typeof();
-            mongo_query query = context->data_source->get_query<mongo_test_other_derived_data>(data_set_d);
-            for (record obj : query->get_cursor<record>())
+            MongoQuery query = context->data_source->get_query<mongo_test_other_derived_data>(data_set_d);
+            for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
         }
         {
             received << "query by mongo_test_derived_from_derived_data : mongo_test_derived_data, where mongo_test_derived_data : mongo_test_data, unconstrained" << std::endl;
-            mongo_query query = context->data_source->get_query<mongo_test_derived_from_derived_data>(data_set_d);
-            for (record obj : query->get_cursor<record>())
+            MongoQuery query = context->data_source->get_query<mongo_test_derived_from_derived_data>(data_set_d);
+            for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
             }
@@ -665,7 +665,7 @@ namespace dc
         save_complete_data(context);
 
         // Look in B dataset
-        temporal_id data_set_d = context->get_data_set("D", context->data_set);
+        TemporalId data_set_d = context->get_data_set("D", context->data_set);
 
         received << "query by mongo_test_data, sort by record_index descending, then by double_element ascending" << std::endl;
         dot::CursorWrapper<mongo_test_data> base_query = context->data_source->get_query<mongo_test_data>(data_set_d)
@@ -693,32 +693,32 @@ namespace dc
         unit_test_context_base context = make_unit_test_context(test, "cutoff_time", ".");
 
         // Create datasets
-        temporal_id data_set_a = context->create_data_set("A", context->data_set);
-        temporal_id data_set_b = context->create_data_set("B", dot::make_list<temporal_id>({ data_set_a }), context->data_set);
+        TemporalId data_set_a = context->create_data_set("A", context->data_set);
+        TemporalId data_set_b = context->create_data_set("B", dot::make_list<TemporalId>({ data_set_a }), context->data_set);
 
         // Create initial version of the records
-        temporal_id obj_a0 = save_minimal_record(context, "A", "A", 0, 0);
-        temporal_id obj_b0 = save_minimal_record(context, "B", "B", 0, 0);
+        TemporalId obj_a0 = save_minimal_record(context, "A", "A", 0, 0);
+        TemporalId obj_b0 = save_minimal_record(context, "B", "B", 0, 0);
 
         // Create second version of the records
-        temporal_id obj_a1 = save_minimal_record(context, "A", "A", 0, 1);
-        temporal_id obj_b1 = save_minimal_record(context, "B", "B", 0, 1);
+        TemporalId obj_a1 = save_minimal_record(context, "A", "A", 0, 1);
+        TemporalId obj_b1 = save_minimal_record(context, "B", "B", 0, 1);
 
-        temporal_id cutoff_object_id = context->data_source->create_ordered_object_id();
+        TemporalId cutoff_object_id = context->data_source->create_ordered_object_id();
 
         // Create third version of the records
-        temporal_id obj_a2 = save_minimal_record(context, "A", "A", 0, 2);
-        temporal_id obj_b2 = save_minimal_record(context, "B", "B", 0, 2);
+        TemporalId obj_a2 = save_minimal_record(context, "A", "A", 0, 2);
+        TemporalId obj_b2 = save_minimal_record(context, "B", "B", 0, 2);
 
         // Create new records that did not exist before
-        temporal_id obj_c0 = save_minimal_record(context, "A", "C", 0, 0);
-        temporal_id obj_d0 = save_minimal_record(context, "B", "D", 0, 0);
+        TemporalId obj_c0 = save_minimal_record(context, "A", "C", 0, 0);
+        TemporalId obj_d0 = save_minimal_record(context, "B", "D", 0, 0);
 
-        received << "load records by temporal_id without constraint" << std::endl;
-        received << *dot::String::format("    found by temporal_id=A0 = {0}", context->load_or_null<mongo_test_data>(obj_a0) != nullptr) << std::endl;
-        received << *dot::String::format("    found by temporal_id=A1 = {0}", context->load_or_null<mongo_test_data>(obj_a1) != nullptr) << std::endl;
-        received << *dot::String::format("    found by temporal_id=A2 = {0}", context->load_or_null<mongo_test_data>(obj_a2) != nullptr) << std::endl;
-        received << *dot::String::format("    found by temporal_id=C0 = {0}", context->load_or_null<mongo_test_data>(obj_c0) != nullptr) << std::endl;
+        received << "load records by TemporalId without constraint" << std::endl;
+        received << *dot::String::format("    found by TemporalId=A0 = {0}", context->load_or_null<mongo_test_data>(obj_a0) != nullptr) << std::endl;
+        received << *dot::String::format("    found by TemporalId=A1 = {0}", context->load_or_null<mongo_test_data>(obj_a1) != nullptr) << std::endl;
+        received << *dot::String::format("    found by TemporalId=A2 = {0}", context->load_or_null<mongo_test_data>(obj_a2) != nullptr) << std::endl;
+        received << *dot::String::format("    found by TemporalId=C0 = {0}", context->load_or_null<mongo_test_data>(obj_c0) != nullptr) << std::endl;
 
         // Load each record by String key
         {
@@ -747,7 +747,7 @@ namespace dc
             received << "query records without constraint" << std::endl;
             for (mongo_test_data obj : query)
             {
-                dot::String data_set_id = context->load_or_null<data_set_data>(obj->data_set)->data_set_id;
+                dot::String data_set_id = context->load_or_null<DataSet>(obj->data_set)->data_set_id;
                 received << *dot::String::format("    key={0} data_set={1} version={2}", obj->get_key(), data_set_id, obj->version) << std::endl;
             }
         }
@@ -757,14 +757,14 @@ namespace dc
         context->data_source->db_server = make_mongo_default_server_data()->to_key();
 
         // Set revision time constraint
-        context->data_source.as<mongo_data_source_data>()->cutoff_time = cutoff_object_id;
+        context->data_source.as<MongoDataSource>()->cutoff_time = cutoff_object_id;
 
-        // Get each record by temporal_id
-        received << "load records by temporal_id with revised_before_id constraint" << std::endl;
-        received << *dot::String::format("    found by temporal_id=A0 = {0}", context->load_or_null<mongo_test_data>(obj_a0) != nullptr) << std::endl;
-        received << *dot::String::format("    found by temporal_id=A1 = {0}", context->load_or_null<mongo_test_data>(obj_a1) != nullptr) << std::endl;
-        received << *dot::String::format("    found by temporal_id=A2 = {0}", context->load_or_null<mongo_test_data>(obj_a2) != nullptr) << std::endl;
-        received << *dot::String::format("    found by temporal_id=C0 = {0}", context->load_or_null<mongo_test_data>(obj_c0) != nullptr) << std::endl;
+        // Get each record by TemporalId
+        received << "load records by TemporalId with revised_before_id constraint" << std::endl;
+        received << *dot::String::format("    found by TemporalId=A0 = {0}", context->load_or_null<mongo_test_data>(obj_a0) != nullptr) << std::endl;
+        received << *dot::String::format("    found by TemporalId=A1 = {0}", context->load_or_null<mongo_test_data>(obj_a1) != nullptr) << std::endl;
+        received << *dot::String::format("    found by TemporalId=A2 = {0}", context->load_or_null<mongo_test_data>(obj_a2) != nullptr) << std::endl;
+        received << *dot::String::format("    found by TemporalId=C0 = {0}", context->load_or_null<mongo_test_data>(obj_c0) != nullptr) << std::endl;
 
         // Load each record by String key
         {
@@ -793,7 +793,7 @@ namespace dc
             received << "query records with revised_before_id constraint" << std::endl;
             for (mongo_test_data obj : query)
             {
-                dot::String data_set_id = context->load_or_null<data_set_data>(obj->data_set)->data_set_id;
+                dot::String data_set_id = context->load_or_null<DataSet>(obj->data_set)->data_set_id;
                 received << *dot::String::format("    key={0} data_set={1} version={2}", obj->get_key(), data_set_id, obj->version) << std::endl;
             }
         }
@@ -801,7 +801,7 @@ namespace dc
         // Clear revision time constraint before exiting to avoid an error
         // about deleting readonly database. The error occurs because
         // revision time constraint makes the data source readonly.
-        context->data_source.as<mongo_data_source_data>()->cutoff_time = dot::Nullable<temporal_id>();
+        context->data_source.as<MongoDataSource>()->cutoff_time = dot::Nullable<TemporalId>();
 
         std::string to_verify = received.str();
         received.str("");

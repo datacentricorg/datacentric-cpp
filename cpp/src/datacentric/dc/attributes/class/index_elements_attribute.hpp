@@ -23,7 +23,7 @@ limitations under the License.
 
 namespace dc
 {
-    class index_elements_attribute_impl; using index_elements_attribute = dot::Ptr<index_elements_attribute_impl>;
+    class IndexElementsAttributeImpl; using IndexElementsAttribute = dot::Ptr<IndexElementsAttributeImpl>;
 
     /// Use IndexElements attribute to specify database indexes
     /// for the class. A class may have more than one IndexElements
@@ -49,10 +49,10 @@ namespace dc
     /// defined. If the class does not have an an element with the
     /// name specified as part of the definition String, an error
     /// message is given.
-    class DC_CLASS index_elements_attribute_impl : public dot::AttributeImpl
+    class DC_CLASS IndexElementsAttributeImpl : public dot::AttributeImpl
     {
-        friend index_elements_attribute make_index_elements_attribute(dot::String);
-        friend index_elements_attribute make_index_elements_attribute(dot::String, dot::String);
+        friend IndexElementsAttribute make_index_elements_attribute(dot::String);
+        friend IndexElementsAttribute make_index_elements_attribute(dot::String, dot::String);
 
     private:
 
@@ -73,7 +73,7 @@ namespace dc
         /// * -A is an index on element A in descending order;
         /// * A,B,-C is an index on elements A and B in ascending
         ///   order and then element C in descending order.
-        index_elements_attribute_impl(dot::String definition);
+        IndexElementsAttributeImpl(dot::String definition);
 
         /// Create from the index definition String, and optional
         /// custom name for the index.
@@ -94,7 +94,7 @@ namespace dc
         /// name exceeds the maximum index name length, use
         /// this optional property to specify a shorter custom
         /// index name.
-        index_elements_attribute_impl(dot::String definition, dot::String name);
+        IndexElementsAttributeImpl(dot::String definition, dot::String name);
 
     public: // METHODS
 
@@ -140,13 +140,13 @@ namespace dc
         dot::Type get_type() override;
     };
 
-    inline index_elements_attribute make_index_elements_attribute(dot::String definition)
+    inline IndexElementsAttribute make_index_elements_attribute(dot::String definition)
     {
-        return new index_elements_attribute_impl(definition);
+        return new IndexElementsAttributeImpl(definition);
     }
 
-    inline index_elements_attribute make_index_elements_attribute(dot::String definition, dot::String name)
+    inline IndexElementsAttribute make_index_elements_attribute(dot::String definition, dot::String name)
     {
-        return new index_elements_attribute_impl(definition, name);
+        return new IndexElementsAttributeImpl(definition, name);
     }
 }

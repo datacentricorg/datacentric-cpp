@@ -22,10 +22,10 @@ limitations under the License.
 
 namespace dc
 {
-    class data_set_detail_key_impl; using data_set_detail_key = dot::Ptr<data_set_detail_key_impl>;
-    class data_set_detail_data_impl; using data_set_detail_data = dot::Ptr<data_set_detail_data_impl>;
+    class DataSetDetailKeyImpl; using DataSetDetailKey = dot::Ptr<DataSetDetailKeyImpl>;
+    class DataSetDetailImpl; using DataSetDetail = dot::Ptr<DataSetDetailImpl>;
 
-    inline data_set_detail_data make_data_set_detail_data();
+    inline DataSetDetail make_data_set_detail_data();
 
     /// Provides the ability to change data associated with the dataset
     /// without changing the dataset record, which is immutable in a
@@ -39,15 +39,15 @@ namespace dc
     /// as its primary key. It is located in the parent of the dataset
     /// record to which it applies, rather than inside that record, so it
     /// is not affected by its own settings.
-    class DC_CLASS data_set_detail_data_impl : public typed_record_impl<data_set_detail_key_impl, data_set_detail_data_impl>
+    class DC_CLASS DataSetDetailImpl : public TypedRecordImpl<DataSetDetailKeyImpl, DataSetDetailImpl>
     {
-        typedef data_set_detail_data_impl self;
-        friend data_set_detail_data make_data_set_detail_data();
+        typedef DataSetDetailImpl self;
+        friend DataSetDetail make_data_set_detail_data();
 
     public:
 
-        /// temporal_id of the referenced dataset.
-        temporal_id data_set_id;
+        /// TemporalId of the referenced dataset.
+        TemporalId data_set_id;
 
         /// <summary>
         /// If specified, write operations to the referenced dataset
@@ -65,7 +65,7 @@ namespace dc
         /// CutoffTime may be set in data source globally, or for a specific dataset
         /// in its details record. If CutoffTime is set for both, the earlier of the
         /// two values will be used.
-        dot::Nullable<temporal_id> cutoff_time;
+        dot::Nullable<TemporalId> cutoff_time;
 
         /// Imported records (records loaded through the Imports list)
         /// where TemporalId is greater than or equal to CutoffTime
@@ -82,21 +82,21 @@ namespace dc
         ///
         /// If ImportsCutoffTime is set for both data source and dataset,
         /// the earlier of the two values will be used.
-        dot::Nullable<temporal_id> imports_cutoff_time;
+        dot::Nullable<TemporalId> imports_cutoff_time;
 
-        DOT_TYPE_BEGIN("dc", "data_set_detail_data")
+        DOT_TYPE_BEGIN("dc", "DataSetDetail")
             DOT_TYPE_PROP(data_set_id)
             DOT_TYPE_PROP(read_only)
             DOT_TYPE_PROP(cutoff_time)
             DOT_TYPE_PROP(imports_cutoff_time)
             DOT_TYPE_CTOR(make_data_set_detail_data)
-            DOT_TYPE_BASE(typed_record<data_set_detail_key_impl, data_set_detail_data_impl>)
+            DOT_TYPE_BASE(TypedRecord<DataSetDetailKeyImpl, DataSetDetailImpl>)
             DOT_TYPE_END()
 
     protected: // CONSTRUCTORS
 
-        data_set_detail_data_impl() = default;
+        DataSetDetailImpl() = default;
     };
 
-    inline data_set_detail_data make_data_set_detail_data() { return new data_set_detail_data_impl; }
+    inline DataSetDetail make_data_set_detail_data() { return new DataSetDetailImpl; }
 }

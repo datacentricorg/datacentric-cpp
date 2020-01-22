@@ -21,7 +21,7 @@ limitations under the License.
 namespace dc
 {
     /// Enumeration for the atomic value type.
-    enum class value_type : int
+    enum class ValueType : int
     {
         /// Empty
         empty_type,

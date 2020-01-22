@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace dc
 {
-    dot::String mongo_standard_format_server_data_impl::get_mongo_server_uri()
+    dot::String MongoStandardFormatServerImpl::get_mongo_server_uri()
     {
         if (hosts == nullptr || hosts->count() == 0) throw dot::Exception(
             dot::String::format("The list of hosts provided for MongoDB server {0} is null or empty.", db_server_uri));

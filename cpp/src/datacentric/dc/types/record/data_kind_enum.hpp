@@ -21,7 +21,7 @@ limitations under the License.
 namespace dc
 {
     /// Kind of the data type (record, key, or element).
-    enum class data_kind_enum
+    enum class DataKindEnum
     {
         /// Empty.
         empty,

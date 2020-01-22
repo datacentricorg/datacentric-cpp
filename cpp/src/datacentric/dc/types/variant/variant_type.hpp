@@ -20,8 +20,8 @@ limitations under the License.
 
 namespace dc
 {
-    /// Type of atomic value held by variant.
-    enum class DC_CLASS variant_type : int
+    /// Type of atomic value held by Variant.
+    enum class DC_CLASS VariantType : int
     {
         /// Empty value.
         empty_type,

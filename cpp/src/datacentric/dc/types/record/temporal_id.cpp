@@ -21,26 +21,26 @@ limitations under the License.
 
 namespace dc
 {
-    temporal_id temporal_id::empty = temporal_id();
+    TemporalId TemporalId::empty = TemporalId();
 
-    const int temporal_id::oid_bytes_size_ = 12;
-    const int temporal_id::oid_timestamp_offset_ = 0;
-    const int temporal_id::oid_timestamp_size_ = 4;
-    const int temporal_id::oid_other_offset_ = 4;
-    const int temporal_id::oid_other_size_ = 8;
+    const int TemporalId::oid_bytes_size_ = 12;
+    const int TemporalId::oid_timestamp_offset_ = 0;
+    const int TemporalId::oid_timestamp_size_ = 4;
+    const int TemporalId::oid_other_offset_ = 4;
+    const int TemporalId::oid_other_size_ = 8;
 
-    const int temporal_id::bytes_size_ = 16;
-    const int temporal_id::timestamp_offset_ = 0;
-    const int temporal_id::timestamp_size_ = 8;
-    const int temporal_id::other_offset_ = 8;
-    const int temporal_id::other_size_ = 8;
+    const int TemporalId::bytes_size_ = 16;
+    const int TemporalId::timestamp_offset_ = 0;
+    const int TemporalId::timestamp_size_ = 8;
+    const int TemporalId::other_offset_ = 8;
+    const int TemporalId::other_size_ = 8;
 
-    temporal_id::temporal_id()
+    TemporalId::TemporalId()
     {
         bytes_ = dot::make_byte_array(bytes_size_);
     }
 
-    temporal_id::temporal_id(bsoncxx::oid id)
+    TemporalId::TemporalId(bsoncxx::oid id)
     {
         // Copy iod bytes structure
         bytes_ = dot::make_byte_array(bytes_size_);
@@ -49,12 +49,12 @@ namespace dc
         bytes_->copy(other_offset_, id.bytes() + oid_other_offset_, oid_other_size_);
     }
 
-    temporal_id::temporal_id(dot::Object obj)
+    TemporalId::TemporalId(dot::Object obj)
     {
-        bytes_ = ((dot::struct_wrapper<temporal_id>) obj)->bytes_;
+        bytes_ = ((dot::struct_wrapper<TemporalId>) obj)->bytes_;
     }
 
-    temporal_id::temporal_id(dot::String str)
+    TemporalId::TemporalId(dot::String str)
     {
         if (str->length() != 2 * bytes_size_)
             throw dot::Exception("Passed srting shoud be 32 characters long.");
@@ -67,7 +67,7 @@ namespace dc
         bytes_->copy_value(bytes_size_ / 2, p2);
     }
 
-    temporal_id::temporal_id(const char* bytes, std::size_t len)
+    TemporalId::TemporalId(const char* bytes, std::size_t len)
     {
         if (len != bytes_size_)
             throw dot::Exception("Passed byte array shoud be 16 bytes long.");
@@ -75,7 +75,7 @@ namespace dc
         bytes_ = dot::make_byte_array(bytes, len);
     }
 
-    temporal_id::temporal_id(dot::ByteArray bytes)
+    TemporalId::TemporalId(dot::ByteArray bytes)
     {
         if (bytes->get_length() != bytes_size_)
             throw dot::Exception("Passed byte array shoud be 16 bytes long.");
@@ -83,7 +83,7 @@ namespace dc
         bytes_ = bytes;
     }
 
-    temporal_id::temporal_id(dot::LocalDateTime value)
+    TemporalId::TemporalId(dot::LocalDateTime value)
     {
         boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::date_time::Jan, 1));
         boost::posix_time::time_duration d = (boost::posix_time::ptime) value - epoch;
@@ -93,13 +93,13 @@ namespace dc
         bytes_->copy_value(timestamp_offset_, milliseconds);
     }
 
-    bool temporal_id::is_empty()
+    bool TemporalId::is_empty()
     {
         static char empty_bytes[bytes_size_] = { 0 };
         return bytes_->compare(empty_bytes) == 0;
     }
 
-    temporal_id temporal_id::generate_new_id()
+    TemporalId TemporalId::generate_new_id()
     {
         int64_t time_now = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
@@ -109,10 +109,10 @@ namespace dc
         bytes->copy_value(timestamp_offset_, time_now);
         bytes->copy(other_offset_, id.bytes() + oid_other_offset_, oid_other_size_);
 
-        return temporal_id(bytes);
+        return TemporalId(bytes);
     }
 
-    dot::Nullable<temporal_id> temporal_id::min(dot::Nullable<temporal_id> lhs, dot::Nullable<temporal_id> rhs)
+    dot::Nullable<TemporalId> TemporalId::min(dot::Nullable<TemporalId> lhs, dot::Nullable<TemporalId> rhs)
     {
         if (lhs != nullptr && rhs != nullptr)
         {
@@ -131,12 +131,12 @@ namespace dc
         }
     }
 
-    dot::ByteArray temporal_id::to_byte_array()
+    dot::ByteArray TemporalId::to_byte_array()
     {
         return bytes_;
     }
 
-    dot::String temporal_id::to_string() const
+    dot::String TemporalId::to_string() const
     {
         unsigned long long p1, p2;
         p1 = bytes_->to_primitive<unsigned long long>();
@@ -149,72 +149,72 @@ namespace dc
         return ss.str();
     }
 
-    bool temporal_id::operator==(const temporal_id& rhs) const
+    bool TemporalId::operator==(const TemporalId& rhs) const
     {
         return bytes_->compare(rhs.bytes_) == 0;
     }
 
-    bool temporal_id::operator!=(const temporal_id& rhs) const
+    bool TemporalId::operator!=(const TemporalId& rhs) const
     {
         return bytes_->compare(rhs.bytes_) != 0;
     }
 
-    bool temporal_id::operator>=(const temporal_id& rhs) const
+    bool TemporalId::operator>=(const TemporalId& rhs) const
     {
         return bytes_->compare(rhs.bytes_) >= 0;
     }
 
-    bool temporal_id::operator>(const temporal_id& rhs) const
+    bool TemporalId::operator>(const TemporalId& rhs) const
     {
         return bytes_->compare(rhs.bytes_) > 0;
     }
 
-    bool temporal_id::operator<=(const temporal_id& rhs) const
+    bool TemporalId::operator<=(const TemporalId& rhs) const
     {
         return bytes_->compare(rhs.bytes_) <= 0;
     }
 
-    bool temporal_id::operator<(const temporal_id& rhs) const
+    bool TemporalId::operator<(const TemporalId& rhs) const
     {
         return bytes_->compare(rhs.bytes_) < 0;
     }
 
-    temporal_id::operator dot::Object() const
+    TemporalId::operator dot::Object() const
     {
-        return dot::Object(new dot::struct_wrapper_impl<temporal_id>(*this));
+        return dot::Object(new dot::struct_wrapper_impl<TemporalId>(*this));
     }
 
-    void temporal_id::serialize(dot::tree_writer_base writer, dot::Object obj)
+    void TemporalId::serialize(dot::tree_writer_base writer, dot::Object obj)
     {
         writer->write_start_value();
-        writer->write_value(((temporal_id) obj).to_byte_array());
+        writer->write_value(((TemporalId) obj).to_byte_array());
         writer->write_end_value();
     }
 
-    dot::Object temporal_id::deserialize(dot::Object value, dot::Type type)
+    dot::Object TemporalId::deserialize(dot::Object value, dot::Type type)
     {
         dot::Type value_type = value->get_type();
 
         if (value_type->equals(dot::typeof<dot::ByteArray>()))
         {
             dot::ByteArray arr = (dot::ByteArray) value;
-            return temporal_id(arr);
+            return TemporalId(arr);
         }
         if (value_type->equals(dot::typeof<dot::ObjectId>()))
         {
-            return temporal_id(((dot::ObjectId) value).oid());
+            return TemporalId(((dot::ObjectId) value).oid());
         }
         if (value_type->equals(dot::typeof<dot::String>()))
         {
-            return temporal_id((dot::String) value);
+            return TemporalId((dot::String) value);
         }
 
-        throw dot::Exception("Couldn't construct temporal_id from " + value_type->name());
+        throw dot::Exception("Couldn't construct TemporalId from " + value_type->name());
     }
 
-    dot::Object temporal_id::serialize_token(dot::Object obj)
+    dot::Object TemporalId::serialize_token(dot::Object obj)
     {
-        temporal_id tid = (temporal_id) obj;
+        TemporalId tid = (TemporalId) obj;
         return tid.to_byte_array();
     }
 }

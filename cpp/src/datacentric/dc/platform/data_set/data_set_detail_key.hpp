@@ -22,10 +22,10 @@ limitations under the License.
 
 namespace dc
 {
-    class data_set_detail_key_impl; using data_set_detail_key = dot::Ptr<data_set_detail_key_impl>;
-    class data_set_detail_data_impl; using data_set_detail_data = dot::Ptr<data_set_detail_data_impl>;
+    class DataSetDetailKeyImpl; using DataSetDetailKey = dot::Ptr<DataSetDetailKeyImpl>;
+    class DataSetDetailImpl; using DataSetDetail = dot::Ptr<DataSetDetailImpl>;
 
-    inline data_set_detail_key make_data_set_detail_key();
+    inline DataSetDetailKey make_data_set_detail_key();
 
     /// Provides the ability to change data associated with the dataset
     /// without changing the dataset record, which is immutable in a
@@ -39,26 +39,26 @@ namespace dc
     /// as its primary key. It is located in the parent of the dataset
     /// record to which it applies, rather than inside that record, so it
     /// is not affected by its own settings.
-    class DC_CLASS data_set_detail_key_impl : public typed_key_impl<data_set_detail_key_impl, data_set_detail_data_impl>
+    class DC_CLASS DataSetDetailKeyImpl : public TypedKeyImpl<DataSetDetailKeyImpl, DataSetDetailImpl>
     {
-        typedef data_set_detail_key_impl self;
-        friend data_set_detail_key make_data_set_detail_key();
+        typedef DataSetDetailKeyImpl self;
+        friend DataSetDetailKey make_data_set_detail_key();
 
     public:
 
-        /// temporal_id of the referenced dataset.
-        temporal_id data_set_id;
+        /// TemporalId of the referenced dataset.
+        TemporalId data_set_id;
 
-        DOT_TYPE_BEGIN("dc", "data_set_detail_key")
+        DOT_TYPE_BEGIN("dc", "DataSetDetailKey")
             DOT_TYPE_PROP(data_set_id)
             DOT_TYPE_CTOR(make_data_set_detail_key)
-            DOT_TYPE_BASE(typed_key<data_set_detail_key_impl, data_set_detail_data_impl>)
+            DOT_TYPE_BASE(TypedKey<DataSetDetailKeyImpl, DataSetDetailImpl>)
             DOT_TYPE_END()
 
     protected: // CONSTRUCTORS
 
-        data_set_detail_key_impl() = default;
+        DataSetDetailKeyImpl() = default;
     };
 
-    inline data_set_detail_key make_data_set_detail_key() { return new data_set_detail_key_impl; }
+    inline DataSetDetailKey make_data_set_detail_key() { return new DataSetDetailKeyImpl; }
 }

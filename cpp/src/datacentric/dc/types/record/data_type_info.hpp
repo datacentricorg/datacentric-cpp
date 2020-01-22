@@ -24,19 +24,19 @@ limitations under the License.
 
 namespace dc
 {
-    class data_type_info_impl; using data_type_info = dot::Ptr<data_type_info_impl>;
+    class DataTypeInfoImpl; using DataTypeInfo = dot::Ptr<DataTypeInfoImpl>;
 
     /// Information about a data type obtained through reflection.
     ///
     /// This class can be used to obtain type information for classes
     /// derived from Data class, including through Key or Record classes.
     /// Using it with any other type will result in an error.
-    class DC_CLASS data_type_info_impl : public virtual dot::ObjectImpl
+    class DC_CLASS DataTypeInfoImpl : public virtual dot::ObjectImpl
     {
     public: // PROPERTIES
 
         /// Kind of the data type (record, key, or element).
-        data_kind_enum data_kind() { return data_kind_; }
+        DataKindEnum data_kind() { return data_kind_; }
 
         /// Inheritance chain from derived to base, ending
         /// with and inclusive of the RootType. This property
@@ -64,7 +64,7 @@ namespace dc
         /// This Object contains information about the data type
         /// including the list of its elements (public properties
         /// that have one of the supported data types).
-        static data_type_info get_or_create(dot::Object value);
+        static DataTypeInfo get_or_create(dot::Object value);
 
         /// Get cached instance for the specified type, or create
         /// using  and add to thread static cache if does not exist.
@@ -74,7 +74,7 @@ namespace dc
         /// that have one of the supported data types).
         ///
         /// This overload accepts the value of Type as parameter.
-        static data_type_info get_or_create(dot::Type value);
+        static DataTypeInfo get_or_create(dot::Type value);
 
     private: // CONSTRUCTORS
 
@@ -85,15 +85,15 @@ namespace dc
         /// on get_or_create(...) method only which uses thread static
         /// cached value if any, and creates the instance only if
         /// it is not yet cached for the thread.
-        data_type_info_impl(dot::Type value);
+        DataTypeInfoImpl(dot::Type value);
 
     private: // PRIVATE
 
-        static dot::Dictionary<dot::Type, data_type_info>& get_type_dict();
+        static dot::Dictionary<dot::Type, DataTypeInfo>& get_type_dict();
 
     private: // FIELDS
 
-        data_kind_enum data_kind_ = data_kind_enum::empty;
+        DataKindEnum data_kind_ = DataKindEnum::empty;
         dot::List<dot::String> inheritance_chain_;
 
         dot::Type type_;

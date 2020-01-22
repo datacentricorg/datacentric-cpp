@@ -21,15 +21,15 @@ limitations under the License.
 
 namespace dc
 {
-    deleted_record_impl::deleted_record_impl(key key)
+    DeletedRecordImpl::DeletedRecordImpl(Key key)
         : key_(key->to_string())
     {}
 
-    deleted_record_impl::deleted_record_impl()
+    DeletedRecordImpl::DeletedRecordImpl()
         : key_()
     {}
 
-    dot::String deleted_record_impl::get_key()
+    dot::String DeletedRecordImpl::get_key()
     {
         return key_;
     }

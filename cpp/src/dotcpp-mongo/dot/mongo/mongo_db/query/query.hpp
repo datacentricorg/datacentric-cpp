@@ -163,10 +163,10 @@ namespace dot
         /// @code
         ///   query->get_cursor<class_name>()
         /// @endcode
-        template <class t_record>
-        CursorWrapper<t_record> get_cursor()
+        template <class TRecord>
+        CursorWrapper<TRecord> get_cursor()
         {
-            return make_cursor_wrapper<t_record>(get_cursor());
+            return make_cursor_wrapper<TRecord>(get_cursor());
         }
 
         /// Makes projection according to specified fields.

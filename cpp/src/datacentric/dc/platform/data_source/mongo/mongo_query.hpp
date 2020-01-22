@@ -25,32 +25,32 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_query_impl; using mongo_query = dot::Ptr<mongo_query_impl>;
-    class mongo_data_source_data_impl; using mongo_data_source_data = dot::Ptr<mongo_data_source_data_impl>;
+    class MongoQueryImpl; using MongoQuery = dot::Ptr<MongoQueryImpl>;
+    class MongoDataSourceImpl; using MongoDataSource = dot::Ptr<MongoDataSourceImpl>;
 
     /// Implements query for MongoDB.
     /// This implementation combines methods of mongo query with
     /// additional constraints and ordering to retrieve the correct version
     /// of the record across multiple datasets.
-    class DC_CLASS mongo_query_impl : public dot::ObjectImpl
+    class DC_CLASS MongoQueryImpl : public dot::ObjectImpl
     {
-        typedef mongo_query_impl self;
+        typedef MongoQueryImpl self;
 
-        friend mongo_query make_mongo_query(dot::Collection collection,
+        friend MongoQuery make_mongo_query(dot::Collection collection,
             dot::Type type,
-            data_source_data data_source,
-            temporal_id data_set);
+            DataSource data_source,
+            TemporalId data_set);
 
     public: // METHODS
 
         /// Filters a sequence of values based on a predicate.
-        mongo_query where(dot::FilterTokenBase value);
+        MongoQuery where(dot::FilterTokenBase value);
 
         /// Sorts the elements of a sequence in ascending order according to the selected key.
-        mongo_query sort_by(dot::FieldInfo key_selector);
+        MongoQuery sort_by(dot::FieldInfo key_selector);
 
         /// Sorts the elements of a sequence in descending order according to the selected key.
-        mongo_query sort_by_descending(dot::FieldInfo key_selector);
+        MongoQuery sort_by_descending(dot::FieldInfo key_selector);
 
         /// Converts query to cursor so iteration can be performed.
         dot::ObjectCursorWrapperBase get_cursor();
@@ -60,23 +60,23 @@ namespace dc
 
         /// Sorts the elements of a sequence in ascending order according to the selected key.
         template <class Class, class Prop>
-        mongo_query sort_by(dot::PropWrapper<Class, Prop> key_selector)
+        MongoQuery sort_by(dot::PropWrapper<Class, Prop> key_selector)
         {
             return sort_by(key_selector.prop_);
         }
 
         /// Sorts the elements of a sequence in descending order according to the selected key.
         template <class Class, class Prop>
-        mongo_query sort_by_descending(dot::PropWrapper<Class, Prop> key_selector)
+        MongoQuery sort_by_descending(dot::PropWrapper<Class, Prop> key_selector)
         {
             return sort_by_descending(key_selector.prop_);
         }
 
         /// Converts query to typed cursor so iteration can be performed.
-        template <class t_record>
-        dot::CursorWrapper<t_record> get_cursor()
+        template <class TRecord>
+        dot::CursorWrapper<TRecord> get_cursor()
         {
-            return dot::make_cursor_wrapper<t_record>(get_cursor());
+            return dot::make_cursor_wrapper<TRecord>(get_cursor());
         }
 
         /// Makes projection and converts query to typed cursor so iteration can be performed.
@@ -89,10 +89,10 @@ namespace dc
     private:
 
         /// Private query constructor from collection, type, data source and dataset.
-        mongo_query_impl(dot::Collection collection,
+        MongoQueryImpl(dot::Collection collection,
             dot::Type type,
-            data_source_data data_source,
-            temporal_id data_set)
+            DataSource data_source,
+            TemporalId data_set)
             : collection_(collection)
             , type_(type)
             , data_source_(data_source)
@@ -102,19 +102,19 @@ namespace dc
 
         dot::Collection collection_;
         dot::Type type_;
-        mongo_data_source_data data_source_;
-        temporal_id data_set_;
+        MongoDataSource data_source_;
+        TemporalId data_set_;
 
         std::vector<dot::FilterTokenBase> where_;
         std::vector<std::pair<dot::FieldInfo, int>> sort_;
     };
 
     /// Creates query from collection, type, data source and dataset.
-    inline mongo_query make_mongo_query(dot::Collection collection,
+    inline MongoQuery make_mongo_query(dot::Collection collection,
                                         dot::Type type,
-                                        data_source_data data_source,
-                                        temporal_id data_set)
+                                        DataSource data_source,
+                                        TemporalId data_set)
     {
-        return new mongo_query_impl(collection, type, data_source, data_set);
+        return new MongoQueryImpl(collection, type, data_source, data_set);
     }
 }

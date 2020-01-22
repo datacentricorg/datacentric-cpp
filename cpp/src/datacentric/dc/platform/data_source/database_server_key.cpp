@@ -21,9 +21,9 @@ limitations under the License.
 
 namespace dc
 {
-    db_server_key db_server_key_impl::default_key = new db_server_key_impl("mongodb://localhost:27017");
+    DbServerKey DbServerKeyImpl::default_key = new DbServerKeyImpl("mongodb://localhost:27017");
 
-    db_server_key_impl::db_server_key_impl(dot::String value)
+    DbServerKeyImpl::DbServerKeyImpl(dot::String value)
     {
         db_server_uri = value;
     }

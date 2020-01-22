@@ -21,16 +21,16 @@ limitations under the License.
 
 namespace dc
 {
-    class record_impl; using record = dot::Ptr<record_impl>;
+    class RecordImpl; using Record = dot::Ptr<RecordImpl>;
 
-    template <typename TKey, typename TRecord> class typed_record_impl;
-    template <typename TKey, typename TRecord> using typed_record = dot::Ptr<typed_record_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class TypedRecordImpl;
+    template <typename TKey, typename TRecord> using TypedRecord = dot::Ptr<TypedRecordImpl<TKey, TRecord>>;
 
     /// Base class of records stored in data source.
     template <typename TKey, typename TRecord>
-    class typed_record_impl : public virtual record_impl
+    class TypedRecordImpl : public virtual RecordImpl
     {
-        typedef typed_record_impl<TKey, TRecord> self;
+        typedef TypedRecordImpl<TKey, TRecord> self;
 
     public:
 
@@ -63,7 +63,7 @@ namespace dc
                 }
                 else
                 {
-                    if (prop->field_type()->is_subclass_of(dot::typeof<key>()))
+                    if (prop->field_type()->is_subclass_of(dot::typeof<Key>()))
                     {
                         dot::Object empty_key = dot::Activator::create_instance(prop->field_type());
                         ss << *empty_key->to_string();
@@ -107,8 +107,8 @@ namespace dc
         /// and both records are created in-memory without any need to save them to storage.
         operator dot::Ptr<TKey>() { return to_key(); }
 
-        DOT_TYPE_BEGIN("dc", "typed_record")
-            DOT_TYPE_BASE(record)
+        DOT_TYPE_BEGIN("dc", "TypedRecord")
+            DOT_TYPE_BASE(Record)
             DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TRecord>)
         DOT_TYPE_END()

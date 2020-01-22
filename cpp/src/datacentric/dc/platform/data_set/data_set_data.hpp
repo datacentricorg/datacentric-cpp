@@ -22,26 +22,26 @@ limitations under the License.
 
 namespace dc
 {
-    class data_set_key_impl; using data_set_key = dot::Ptr<data_set_key_impl>;
-    class data_set_data_impl; using data_set_data = dot::Ptr<data_set_data_impl>;
+    class DataSetKeyImpl; using DataSetKey = dot::Ptr<DataSetKeyImpl>;
+    class DataSetImpl; using DataSet = dot::Ptr<DataSetImpl>;
 
-    inline data_set_data make_data_set_data();
+    inline DataSet make_data_set_data();
 
     /// data_set key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
     /// same DB collection or table.
-    class DC_CLASS data_set_data_impl : public typed_record_impl<data_set_key_impl, data_set_data_impl>
+    class DC_CLASS DataSetImpl : public TypedRecordImpl<DataSetKeyImpl, DataSetImpl>
     {
-        typedef data_set_data_impl self;
-        friend data_set_data make_data_set_data();
+        typedef DataSetImpl self;
+        friend DataSet make_data_set_data();
 
     public:
 
-        /// temporal_id of the dataset where the record is stored.
+        /// TemporalId of the dataset where the record is stored.
         ///
-        /// This override for the data_set_data record sets data_set to
-        /// temporal_id.empty for the common dataset.
-        temporal_id data_set;
+        /// This override for the DataSet record sets data_set to
+        /// TemporalId.empty for the common dataset.
+        TemporalId data_set;
 
         /// Unique dataset identifier.
         dot::String data_set_id;
@@ -50,22 +50,22 @@ namespace dc
         ///
         /// All derived classes overriding this method must call base.init(context)
         /// before executing the the rest of the code in the method override.
-        virtual void init(context_base context);
+        virtual void init(ContextBase context);
 
         /// data_set parents.
-        dot::List<temporal_id> parents;
+        dot::List<TemporalId> parents;
 
-        DOT_TYPE_BEGIN("dc", "data_set_data")
+        DOT_TYPE_BEGIN("dc", "DataSet")
             DOT_TYPE_PROP(data_set_id)
             DOT_TYPE_PROP(parents)
             DOT_TYPE_CTOR(make_data_set_data)
-            DOT_TYPE_BASE(typed_record<data_set_key_impl, data_set_data_impl>)
+            DOT_TYPE_BASE(TypedRecord<DataSetKeyImpl, DataSetImpl>)
         DOT_TYPE_END()
 
     protected: // CONSTRUCTORS
 
-        data_set_data_impl() = default;
+        DataSetImpl() = default;
     };
 
-    inline data_set_data make_data_set_data() { return new data_set_data_impl; }
+    inline DataSet make_data_set_data() { return new DataSetImpl; }
 }

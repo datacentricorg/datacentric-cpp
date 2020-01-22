@@ -22,7 +22,7 @@ limitations under the License.
 namespace dc
 {
     /// Static helper class for double.
-    class double_util
+    class DC_CLASS DoubleUtil
     {
     public: // STATIC
 

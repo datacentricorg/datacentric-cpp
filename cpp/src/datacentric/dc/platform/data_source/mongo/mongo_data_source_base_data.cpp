@@ -22,18 +22,18 @@ limitations under the License.
 
 namespace dc
 {
-    dot::List<char> mongo_data_source_base_data_impl::prohibited_db_name_symbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
+    dot::List<char> MongoDataSourceBaseImpl::prohibited_db_name_symbols_ = dot::make_list<char>({ '/', '\\', '.', ' ', '"', '$', '*', '<', '>', ':', '|', '?' });
 
-    int mongo_data_source_base_data_impl::max_db_name_length_ = 64;
+    int MongoDataSourceBaseImpl::max_db_name_length_ = 64;
 
-    void mongo_data_source_base_data_impl::init(context_base context)
+    void MongoDataSourceBaseImpl::init(ContextBase context)
     {
         // Initialize the base class
-        data_source_data_impl::init(context);
+        DataSourceImpl::init(context);
 
         // Configures serialization conventions for standard types
         if (db_name == nullptr) throw dot::Exception("DB key is null or empty.");
-        if (db_name->db_instance_type == instance_type::empty) throw dot::Exception("DB instance type is not specified.");
+        if (db_name->db_instance_type == InstanceType::empty) throw dot::Exception("DB instance type is not specified.");
         if (dot::String::is_null_or_empty(db_name->instance_name)) throw dot::Exception("DB instance name is not specified.");
         if (dot::String::is_null_or_empty(db_name->env_name)) throw dot::Exception("DB environment name is not specified.");
 
@@ -58,36 +58,36 @@ namespace dc
         db_ = client_->get_database(db_name_);
     }
 
-    temporal_id mongo_data_source_base_data_impl::create_ordered_object_id()
+    TemporalId MongoDataSourceBaseImpl::create_ordered_object_id()
     {
-        // Generate temporal_id and check that it is later
-        // than the previous generated temporal_id
-        temporal_id result = temporal_id::generate_new_id();
+        // Generate TemporalId and check that it is later
+        // than the previous generated TemporalId
+        TemporalId result = TemporalId::generate_new_id();
         int retry_counter = 0;
         while (result <= prev_object_id_)
         {
             // Getting inside the while loop will be very rare as this would
             // require the increment to roll from max int to min int within
             // the same second, therefore it is a good idea to log the event
-            if (retry_counter++ == 0) std::cerr << "MongoDB generated temporal_id not in increasing order, retrying." << std::endl;
+            if (retry_counter++ == 0) std::cerr << "MongoDB generated TemporalId not in increasing order, retrying." << std::endl;
 
-            // If new temporal_id is not strictly greater than the previous one,
+            // If new TemporalId is not strictly greater than the previous one,
             // keep generating new temporal_ids until it changes
-            result = temporal_id::generate_new_id();
+            result = TemporalId::generate_new_id();
         }
 
         // Report the number of retries
         if (retry_counter != 0)
         {
-            std::cerr << *dot::String::format("Generated temporal_id in increasing order after {0} retries.", retry_counter);
+            std::cerr << *dot::String::format("Generated TemporalId in increasing order after {0} retries.", retry_counter);
         }
 
-        // Update previous temporal_id and return
+        // Update previous TemporalId and return
         prev_object_id_ = result;
         return result;
     }
 
-    void mongo_data_source_base_data_impl::delete_db()
+    void MongoDataSourceBaseImpl::delete_db()
     {
         if (read_only.has_value() && !read_only.value())
         {
@@ -103,9 +103,9 @@ namespace dc
             //
             // Use other tokens such as UAT or PROD to protect the
             // database from accidental deletion
-            if (instance_type_ == instance_type::dev
-                || instance_type_ == instance_type::user
-                || instance_type_ == instance_type::test)
+            if (instance_type_ == InstanceType::dev
+                || instance_type_ == InstanceType::user
+                || instance_type_ == InstanceType::test)
             {
                 // The name is the database key in the standard
                 // semicolon delimited format. However this method

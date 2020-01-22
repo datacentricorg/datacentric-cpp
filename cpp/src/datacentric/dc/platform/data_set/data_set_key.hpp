@@ -21,36 +21,36 @@ limitations under the License.
 
 namespace dc
 {
-    class data_set_key_impl; using data_set_key = dot::Ptr<data_set_key_impl>;
-    class data_set_data_impl; using data_set_data = dot::Ptr<data_set_data_impl>;
+    class DataSetKeyImpl; using DataSetKey = dot::Ptr<DataSetKeyImpl>;
+    class DataSetImpl; using DataSet = dot::Ptr<DataSetImpl>;
 
-    inline data_set_key make_data_set_key();
+    inline DataSetKey make_data_set_key();
 
     /// data_set key is a required field for all stored records.
     /// It is used to separate records into logical groups within the
     /// same DB collection or table.
-    class DC_CLASS data_set_key_impl : public typed_key_impl<data_set_key_impl, data_set_data_impl>
+    class DC_CLASS DataSetKeyImpl : public TypedKeyImpl<DataSetKeyImpl, DataSetImpl>
     {
-        typedef data_set_key_impl self;
-        friend data_set_key make_data_set_key();
+        typedef DataSetKeyImpl self;
+        friend DataSetKey make_data_set_key();
 
     public: // PROPERTIES
 
         /// Unique dataset identifier.
         dot::String data_set_id;
 
-        DOT_TYPE_BEGIN("dc", "data_set_key")
+        DOT_TYPE_BEGIN("dc", "DataSetKey")
             DOT_TYPE_PROP(data_set_id)
             DOT_TYPE_CTOR(make_data_set_key)
-            DOT_TYPE_BASE(typed_key<data_set_key_impl, data_set_data_impl>)
+            DOT_TYPE_BASE(TypedKey<DataSetKeyImpl, DataSetImpl>)
         DOT_TYPE_END()
 
     public: // STATIC
 
-        static data_set_key common;
+        static DataSetKey common;
     };
 
-    inline data_set_key make_data_set_key() { return new data_set_key_impl; }
+    inline DataSetKey make_data_set_key() { return new DataSetKeyImpl; }
 }
 
 #include <dc/platform/data_set/data_set_data.hpp>

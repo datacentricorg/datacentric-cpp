@@ -22,18 +22,18 @@ limitations under the License.
 
 namespace dc
 {
-    class db_server_key_impl; using db_server_key = dot::Ptr<db_server_key_impl>;
-    class db_server_data_impl; using db_server_data = dot::Ptr<db_server_data_impl>;
-    template <typename t_key, typename t_record> class root_record_for_impl;
+    class DbServerKeyImpl; using DbServerKey = dot::Ptr<DbServerKeyImpl>;
+    class DbServerImpl; using DbServer = dot::Ptr<DbServerImpl>;
+    template <typename TKey, typename TRecord> class RootRecordImpl;
 
-    inline db_server_data make_db_server_data();
+    inline DbServer make_db_server_data();
 
     /// Provides a standard way to identify a database server.
     ///
     /// This record is stored in root dataset.
-    class DC_CLASS db_server_data_impl : public root_record_for_impl<db_server_key_impl, db_server_data_impl>
+    class DC_CLASS DbServerImpl : public RootRecordImpl<DbServerKeyImpl, DbServerImpl>
     {
-        typedef db_server_data_impl self;
+        typedef DbServerImpl self;
 
     public: // PROPERTIES
 
@@ -43,14 +43,14 @@ namespace dc
         /// an individual database.
         dot::String db_server_uri;
 
-        DOT_TYPE_BEGIN("dc", "db_server_data")
+        DOT_TYPE_BEGIN("dc", "DbServer")
             DOT_TYPE_PROP(db_server_uri)
             DOT_TYPE_CTOR(make_db_server_data)
         DOT_TYPE_END()
     };
 
-    inline db_server_data make_db_server_data()
+    inline DbServer make_db_server_data()
     {
-        return new db_server_data_impl;
+        return new DbServerImpl;
     }
 }

@@ -23,13 +23,13 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_standard_format_server_data_impl; using mongo_standard_format_server_data = dot::Ptr<mongo_standard_format_server_data_impl>;
+    class MongoStandardFormatServerImpl; using MongoStandardFormatServer = dot::Ptr<MongoStandardFormatServerImpl>;
 
     /// Assembles MongoDB URI using the standard (``mongodb'') connection
     /// String format for a single server or a cluster.
-    class DC_CLASS mongo_standard_format_server_data_impl final : public mongo_server_data_impl
+    class DC_CLASS MongoStandardFormatServerImpl final : public MongoServerImpl
     {
-        typedef mongo_standard_format_server_data_impl self;
+        typedef MongoStandardFormatServerImpl self;
 
     public: // PROPERTIES
 

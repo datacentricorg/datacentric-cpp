@@ -23,10 +23,10 @@ limitations under the License.
 
 namespace dc
 {
-    template <typename TKey, typename TRecord> class typed_key_impl;
-    template <typename TKey, typename TRecord> using typed_key = dot::Ptr<typed_key_impl<TKey, TRecord>>;
+    template <typename TKey, typename TRecord> class TypedKeyImpl;
+    template <typename TKey, typename TRecord> using TypedKey = dot::Ptr<TypedKeyImpl<TKey, TRecord>>;
 
-    class context_base_impl; using context_base = dot::Ptr<context_base_impl>;
+    class ContextBaseImpl; using ContextBase = dot::Ptr<ContextBaseImpl>;
 
     /// Base class of a foreign key.
     ///
@@ -38,17 +38,17 @@ namespace dc
     /// become key tokens. Property Value and method ToString() of
     /// the key consists of key tokens with semicolon delimiter.
     template <typename TKey, typename TRecord>
-    class typed_key_impl : public virtual key_impl
+    class TypedKeyImpl : public virtual KeyImpl
     {
-        typedef typed_key_impl<TKey, TRecord> self;
+        typedef TypedKeyImpl<TKey, TRecord> self;
 
     public: // METHODS
 
         /// Assign key elements from record to key.
-        void populate_from(typed_record<TKey, TRecord> record);
+        void populate_from(TypedRecord<TKey, TRecord> record);
 
-        DOT_TYPE_BEGIN("dc", "typed_key")
-            DOT_TYPE_BASE(key)
+        DOT_TYPE_BEGIN("dc", "TypedKey")
+            DOT_TYPE_BASE(Key)
             DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TKey>)
             DOT_TYPE_GENERIC_ARGUMENT(dot::Ptr<TRecord>)
         DOT_TYPE_END()

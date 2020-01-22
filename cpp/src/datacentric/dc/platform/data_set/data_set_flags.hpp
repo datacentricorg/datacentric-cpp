@@ -20,9 +20,8 @@ limitations under the License.
 
 namespace dc
 {
-
     /// <summary>Binary flags for the dataset create options.</summary>
-    enum class data_set_flags
+    enum class DataSetFlags
     {
         /// <summary>Specifies that no flags are defined.</summary>
         default_option = 0,
@@ -46,5 +45,4 @@ namespace dc
         /// </summary>
         non_temporal = 1
     };
-
 }

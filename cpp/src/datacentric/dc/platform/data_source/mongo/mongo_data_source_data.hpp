@@ -23,21 +23,21 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_data_source_data_impl; using mongo_data_source_data = dot::Ptr<mongo_data_source_data_impl>;
+    class MongoDataSourceImpl; using MongoDataSource = dot::Ptr<MongoDataSourceImpl>;
 
     /// Data source implementation for MongoDB.
-    class DC_CLASS mongo_data_source_data_impl : public mongo_data_source_base_data_impl
+    class DC_CLASS MongoDataSourceImpl : public MongoDataSourceBaseImpl
     {
-        typedef mongo_data_source_data_impl self;
+        typedef MongoDataSourceImpl self;
 
     public: // METHODS
 
-        /// Load record by its temporal_id and Type.
+        /// Load record by its TemporalId and Type.
         ///
-        /// Return null if there is no record for the specified temporal_id;
+        /// Return null if there is no record for the specified TemporalId;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        virtual record load_or_null(temporal_id id, dot::Type data_type) override;
+        virtual Record load_or_null(TemporalId id, dot::Type data_type) override;
 
         /// This method does not use cached value inside the key
         /// and always retrieves a new record from storage. To get
@@ -52,18 +52,18 @@ namespace dc
         /// and then in the reverse chronological order of records
         /// within the latest dataset that has at least one record.
         ///
-        /// The root dataset has empty temporal_id value that is less
-        /// than any other temporal_id value. Accordingly, the root
+        /// The root dataset has empty TemporalId value that is less
+        /// than any other TemporalId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
         ///
         /// The first record in this lookup order is returned, or null
         /// if no records are found or if delete marker is the first
         /// record.
         ///
-        /// Return null if there is no record for the specified temporal_id;
+        /// Return null if there is no record for the specified TemporalId;
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
-        virtual record load_or_null(key key, temporal_id load_from) override;
+        virtual Record load_or_null(Key key, TemporalId load_from) override;
 
         /// Save multiple records to the specified dataset. After the method exits,
         /// for each record the property record.DataSet will be set to the value of
@@ -77,7 +77,7 @@ namespace dc
         ///
         /// This method guarantees that TemporalIds of the saved records will be in
         /// strictly increasing order.
-        virtual void save_many(dot::List<record> records, temporal_id save_to) override;
+        virtual void save_many(dot::List<Record> records, TemporalId save_to) override;
 
         /// Get query for the specified Type.
         ///
@@ -86,10 +86,10 @@ namespace dc
         /// and then in the reverse chronological order of records
         /// within the latest dataset that has at least one record.
         ///
-        /// The root dataset has empty temporal_id value that is less
-        /// than any other temporal_id value. Accordingly, the root
+        /// The root dataset has empty TemporalId value that is less
+        /// than any other TemporalId value. Accordingly, the root
         /// dataset is the last one in the lookup order of datasets.
-        virtual mongo_query get_query(temporal_id data_set, dot::Type type) override;
+        virtual MongoQuery get_query(TemporalId data_set, dot::Type type) override;
 
         /// Write a delete marker for the specified data_set and data_key
         /// instead of actually deleting the record. This ensures that
@@ -98,13 +98,13 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        virtual void delete_record(key key, temporal_id delete_in) override;
+        virtual void delete_record(Key key, TemporalId delete_in) override;
 
         /// Apply the final constraints after all prior Where clauses but before OrderBy clause:
         ///
         /// * The constraint on dataset lookup list, restricted by CutoffTime (if not null)
         /// * The constraint on ID being strictly less than CutoffTime (if not null)
-        dot::Query apply_final_constraints(dot::Query query, temporal_id load_from);
+        dot::Query apply_final_constraints(dot::Query query, TemporalId load_from);
 
         /// Get TemporalId of the dataset with the specified name.
         ///
@@ -114,7 +114,7 @@ namespace dc
         /// calling DataSource.ClearDataSetCache() method.
         ///
         /// Returns null if not found.
-        virtual dot::Nullable<temporal_id> get_data_set_or_empty(dot::String data_set_id, temporal_id load_from) override;
+        virtual dot::Nullable<TemporalId> get_data_set_or_empty(dot::String data_set_id, TemporalId load_from) override;
 
         /// Save new version of the dataset.
         ///
@@ -123,7 +123,7 @@ namespace dc
         /// The timestamp of the new TemporalId is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        virtual void save_data_set(data_set_data data_set_data, temporal_id save_to) override;
+        virtual void save_data_set(DataSet data_set_data, TemporalId save_to) override;
 
         /// Returns enumeration of import datasets for specified dataset data,
         /// including imports of imports to unlimited depth with cyclic
@@ -132,7 +132,7 @@ namespace dc
         /// The list will not include datasets that are after the value of
         /// CutoffTime if specified, or their imports (including
         /// even those imports that are earlier than the constraint).
-        dot::HashSet<temporal_id> get_data_set_lookup_list(temporal_id load_from);
+        dot::HashSet<TemporalId> get_data_set_lookup_list(TemporalId load_from);
 
         /// Get detail of the specified dataset.
         ///
@@ -140,7 +140,7 @@ namespace dc
         ///
         /// The detail is loaded for the dataset specified in the first argument
         /// (detailFor) from the dataset specified in the second argument (loadFrom).
-        data_set_detail_data get_data_set_detail_or_empty(temporal_id detail_for);
+        DataSetDetail get_data_set_detail_or_empty(TemporalId detail_for);
 
         /// <summary>
         /// CutoffTime should only be used via this method which also takes into
@@ -157,7 +157,7 @@ namespace dc
         /// CutoffTime applies to both the records stored in the dataset itself,
         /// and the reports loaded through the Imports list.
         /// </summary>
-        dot::Nullable<temporal_id> get_cutoff_time(temporal_id data_set_id);
+        dot::Nullable<TemporalId> get_cutoff_time(TemporalId data_set_id);
 
         /// <summary>
         /// Gets ImportsCutoffTime from the dataset detail record.
@@ -176,7 +176,7 @@ namespace dc
         /// (part of TemporalId), isolating the dataset from changes to the
         /// data in imported datasets that occur after that time.
         /// </summary>
-        dot::Nullable<temporal_id> get_imports_cutoff_time(temporal_id data_set_id);
+        dot::Nullable<TemporalId> get_imports_cutoff_time(TemporalId data_set_id);
 
     private: // METHODS
 
@@ -196,7 +196,7 @@ namespace dc
         ///
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
-        dot::HashSet<temporal_id> build_data_set_lookup_list(data_set_data data_set_data);
+        dot::HashSet<TemporalId> build_data_set_lookup_list(DataSet data_set_data);
 
         /// Builds hashset of import datasets for specified dataset data,
         /// including imports of imports to unlimited depth with cyclic
@@ -211,7 +211,7 @@ namespace dc
         ///
         /// This private helper method should not be used directly.
         /// It provides functionality for the public API of this class.
-        void build_data_set_lookup_list(data_set_data data_set_data, dot::HashSet<temporal_id> result);
+        void build_data_set_lookup_list(DataSet data_set_data, dot::HashSet<TemporalId> result);
 
         /// Error message if one of the following is the case:
         ///
@@ -219,7 +219,7 @@ namespace dc
         /// * ReadOnly is set for the dataset
         /// * CutoffTime is set for the data source
         /// * CutoffTime is set for the dataset
-        void check_not_read_only(temporal_id dataSetId);
+        void check_not_read_only(TemporalId dataSetId);
 
     public: // FIELDS
 
@@ -233,7 +233,7 @@ namespace dc
         /// CutoffTime may be set in data source globally, or for a specific dataset
         /// in its details record. If CutoffTime is set for both, the earlier of the
         /// two values will be used.
-        dot::Nullable<temporal_id> cutoff_time;
+        dot::Nullable<TemporalId> cutoff_time;
 
     private: // FIELDS
 
@@ -241,17 +241,17 @@ namespace dc
         dot::Dictionary<dot::Type, dot::Object> collection_dict_ = dot::make_dictionary<dot::Type, dot::Object>();
 
         /// Dictionary of dataset temporal_ids stored under String data_set_id.
-        dot::Dictionary<dot::String, temporal_id> data_set_dict_ = dot::make_dictionary<dot::String, temporal_id>();
+        dot::Dictionary<dot::String, TemporalId> data_set_dict_ = dot::make_dictionary<dot::String, TemporalId>();
 
         /// Dictionary of datasets and datasets that holds them
-        dot::Dictionary<temporal_id, temporal_id> data_set_owners_dict_ = dot::make_dictionary<temporal_id, temporal_id>();
+        dot::Dictionary<TemporalId, TemporalId> data_set_owners_dict_ = dot::make_dictionary<TemporalId, TemporalId>();
 
         /// Dictionary of dataset temporal_ids stored under String data_set_id.
-        dot::Dictionary<temporal_id, data_set_detail_data> data_set_detail_dict_ = dot::make_dictionary<temporal_id, data_set_detail_data>();
+        dot::Dictionary<TemporalId, DataSetDetail> data_set_detail_dict_ = dot::make_dictionary<TemporalId, DataSetDetail>();
 
         /// Dictionary of the expanded list of parent temporal_ids of dataset, including
         /// parents of parents to unlimited depth with cyclic references and duplicates
-        /// removed, under temporal_id of the dataset.
-        dot::Dictionary<temporal_id, dot::HashSet<temporal_id>> data_set_parent_dict_ = dot::make_dictionary<temporal_id, dot::HashSet<temporal_id>>();
+        /// removed, under TemporalId of the dataset.
+        dot::Dictionary<TemporalId, dot::HashSet<TemporalId>> data_set_parent_dict_ = dot::make_dictionary<TemporalId, dot::HashSet<TemporalId>>();
     };
 }

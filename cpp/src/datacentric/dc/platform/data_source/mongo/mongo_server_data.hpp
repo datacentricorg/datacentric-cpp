@@ -22,7 +22,7 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_server_data_impl; using mongo_server_data = dot::Ptr<mongo_server_data_impl>;
+    class MongoServerImpl; using MongoServer = dot::Ptr<MongoServerImpl>;
 
     /// Database server definition for MongoDB. This class is responsible
     /// for assembling MongoDB URI from hostname, port, and other parameters.
@@ -30,9 +30,9 @@ namespace dc
     /// Derived classes implement the API for the standard (``mongodb''),
     /// and seedlist (``mongodb+srv'') connection formats as well as for
     /// the default server running on localhost.
-    class DC_CLASS mongo_server_data_impl : public db_server_data_impl
+    class DC_CLASS MongoServerImpl : public DbServerImpl
     {
-        typedef mongo_server_data_impl self;
+        typedef MongoServerImpl self;
 
     public: // METHODS
 

@@ -22,26 +22,26 @@ limitations under the License.
 
 namespace dc
 {
-    index_elements_attribute_impl::index_elements_attribute_impl(dot::String definition)
+    IndexElementsAttributeImpl::IndexElementsAttributeImpl(dot::String definition)
         : definition_(definition)
     {}
 
-    index_elements_attribute_impl::index_elements_attribute_impl(dot::String definition, dot::String name)
+    IndexElementsAttributeImpl::IndexElementsAttributeImpl(dot::String definition, dot::String name)
         : definition_(definition)
         , name_(name)
     {}
 
-    dot::String index_elements_attribute_impl::get_definition()
+    dot::String IndexElementsAttributeImpl::get_definition()
     {
         return definition_;
     }
 
-    dot::String index_elements_attribute_impl::get_neme()
+    dot::String IndexElementsAttributeImpl::get_neme()
     {
         return name_;
     }
 
-    dot::Dictionary<dot::String, dot::String> index_elements_attribute_impl::get_attributes_dict(dot::Type record_type)
+    dot::Dictionary<dot::String, dot::String> IndexElementsAttributeImpl::get_attributes_dict(dot::Type record_type)
     {
         // The dictionary uses definition as key and name as value;
         // the name is the same as definition unless specified in
@@ -52,7 +52,7 @@ namespace dc
         // including index definitions of its base classes, eliminating
         // duplicate definitions.
         dot::Type class_type = record_type;
-        while (!class_type->equals(dot::typeof<record>()) && !class_type->equals(dot::typeof<key>()))
+        while (!class_type->equals(dot::typeof<Record>()) && !class_type->equals(dot::typeof<Key>()))
         {
             if (class_type == nullptr)
                 throw dot::Exception(dot::String::format(
@@ -61,10 +61,10 @@ namespace dc
                     record_type->name()));
 
             // Get class attributes with inheritance
-            dot::List<dot::Attribute> class_attributes = class_type->get_custom_attributes(dot::typeof<index_elements_attribute>(), true);
+            dot::List<dot::Attribute> class_attributes = class_type->get_custom_attributes(dot::typeof<IndexElementsAttribute>(), true);
             for (dot::Attribute attr : class_attributes)
             {
-                index_elements_attribute class_attribute = (index_elements_attribute) attr;
+                IndexElementsAttribute class_attribute = (IndexElementsAttribute) attr;
                 dot::String definition = class_attribute->get_definition();
                 dot::String name = class_attribute->get_neme();
 
@@ -100,7 +100,7 @@ namespace dc
         return index_dict;
     }
 
-    dot::List<std::tuple<dot::String, int>> index_elements_attribute_impl::parse_definition(dot::String definition, dot::Type record_type)
+    dot::List<std::tuple<dot::String, int>> IndexElementsAttributeImpl::parse_definition(dot::String definition, dot::Type record_type)
     {
         dot::List<std::tuple<dot::String, int>> result = dot::make_list<std::tuple<dot::String, int>>();
 
@@ -166,18 +166,18 @@ namespace dc
         return result;
     }
 
-    dot::Type index_elements_attribute_impl::typeof()
+    dot::Type IndexElementsAttributeImpl::typeof()
     {
         static dot::Type result = []()->dot::Type
         {
-            dot::Type t = dot::make_type_builder<index_elements_attribute_impl>("dc", "index_elements_attribute")
+            dot::Type t = dot::make_type_builder<IndexElementsAttributeImpl>("dc", "IndexElementsAttribute")
                 ->build();
             return t;
         }();
         return result;
     }
 
-    dot::Type index_elements_attribute_impl::get_type()
+    dot::Type IndexElementsAttributeImpl::get_type()
     {
         return typeof();
     }

@@ -22,23 +22,23 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_default_server_data_impl; using mongo_default_server_data = dot::Ptr<mongo_default_server_data_impl>;
+    class MongoDefaultServerImpl; using MongoDefaultServer = dot::Ptr<MongoDefaultServerImpl>;
 
     /// Returns MongoDB URI for the server running
     /// on the default port 27017 of localhost:
     ///
     /// mongodb://localhost/
-    class DC_CLASS mongo_default_server_data_impl final : public mongo_server_data_impl
+    class DC_CLASS MongoDefaultServerImpl final : public MongoServerImpl
     {
-        typedef mongo_default_server_data_impl self;
+        typedef MongoDefaultServerImpl self;
 
-        friend mongo_default_server_data make_mongo_default_server_data();
+        friend MongoDefaultServer make_mongo_default_server_data();
 
     protected: // CONSTRUCTORS
 
         /// Assign the value of db_server_id that
         /// the default Mongo server uses by convention.
-        mongo_default_server_data_impl();
+        MongoDefaultServerImpl();
 
     public: // METHODS
 
@@ -46,5 +46,5 @@ namespace dc
         dot::String get_mongo_server_uri() override;
     };
 
-    inline mongo_default_server_data make_mongo_default_server_data() { return new mongo_default_server_data_impl; }
+    inline MongoDefaultServer make_mongo_default_server_data() { return new MongoDefaultServerImpl; }
 }

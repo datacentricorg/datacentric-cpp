@@ -67,7 +67,7 @@ namespace dot
     class DeserializeFieldAttributeImpl; using DeserializeFieldAttribute = Ptr<DeserializeFieldAttributeImpl>;
 
     /// Attribute sets custom deserializator for field
-    /// Constructs from method that accepts field value, field info, and data Object
+    /// Constructs from method that accepts field value, field info, and Data Object
     class DOT_CLASS DeserializeFieldAttributeImpl : public AttributeImpl
     {
 

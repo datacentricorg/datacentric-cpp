@@ -34,7 +34,6 @@ limitations under the License.
 namespace dot
 {
     class JsonRecordSerializerImpl; using JsonRecordSerializer = dot::Ptr<JsonRecordSerializerImpl>;
-    class data_impl; using data = dot::Ptr<data_impl>;
 
     /// Implementation of bson_writer_base using MongoDB bson_writer_base.
     class DOT_CLASS JsonRecordSerializerImpl : public virtual dot::ObjectImpl

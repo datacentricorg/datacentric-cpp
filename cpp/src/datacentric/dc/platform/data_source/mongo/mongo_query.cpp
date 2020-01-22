@@ -23,30 +23,30 @@ limitations under the License.
 namespace dc
 {
 
-    mongo_query mongo_query_impl::where(dot::FilterTokenBase value)
+    MongoQuery MongoQueryImpl::where(dot::FilterTokenBase value)
     {
         // Save filter.
         where_.push_back(value);
         return this;
     }
 
-    mongo_query mongo_query_impl::sort_by(dot::FieldInfo key_selector)
+    MongoQuery MongoQueryImpl::sort_by(dot::FieldInfo key_selector)
     {
         // Save sort key.
         sort_.push_back(std::make_pair(key_selector, 1));
         return this;
     }
 
-    mongo_query mongo_query_impl::sort_by_descending(dot::FieldInfo key_selector)
+    MongoQuery MongoQueryImpl::sort_by_descending(dot::FieldInfo key_selector)
     {
         // Save sort key.
         sort_.push_back(std::make_pair(key_selector, -1));
         return this;
     }
 
-    dot::ObjectCursorWrapperBase mongo_query_impl::get_cursor()
+    dot::ObjectCursorWrapperBase MongoQueryImpl::get_cursor()
     {
-        dot::Type record_type = dot::typeof<record>();
+        dot::Type record_type = dot::typeof<Record>();
 
         // Apply dataset filters to query.
         dot::Query query = dot::make_query(collection_, type_);
@@ -84,16 +84,16 @@ namespace dc
             ->then_by_descending(record_type->get_field("_dataset"))
             ->then_by_descending(record_type->get_field("_id"));
 
-        return new mongo_query_cursor_impl(query->get_cursor(), query->type_, this->data_source_->context);
+        return new MongoQueryCursorImpl(query->get_cursor(), query->type_, this->data_source_->context);
     }
 
-    dot::ObjectCursorWrapperBase mongo_query_impl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
+    dot::ObjectCursorWrapperBase MongoQueryImpl::select(dot::List<dot::FieldInfo> props, dot::Type element_type)
     {
         if (props.is_empty() || props->size() != element_type->get_generic_arguments()->size())
         {
             throw dot::Exception("Wrong number of FieldInfo passed to select method.");
         }
-        dot::Type record_type = dot::typeof<record>();
+        dot::Type record_type = dot::typeof<Record>();
 
         // Apply dataset filters to query.
         dot::Query query = dot::make_query(collection_, type_);

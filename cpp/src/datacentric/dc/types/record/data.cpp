@@ -27,16 +27,16 @@ limitations under the License.
 
 namespace dc
 {
-    dot::Type data_impl::get_type()
+    dot::Type DataImpl::get_type()
     {
         return typeof();
     }
 
-    dot::Type data_impl::typeof()
+    dot::Type DataImpl::typeof()
     {
         static dot::Type result = []()-> dot::Type
         {
-            dot::Type t = dot::make_type_builder<data_impl>("dc", "data")
+            dot::Type t = dot::make_type_builder<DataImpl>("dc", "Data")
                 ->build();
             return t;
         }();

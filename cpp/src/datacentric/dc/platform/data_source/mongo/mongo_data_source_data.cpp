@@ -27,12 +27,12 @@ limitations under the License.
 
 namespace dc
 {
-    record mongo_data_source_data_impl::load_or_null(temporal_id id, dot::Type data_type)
+    Record MongoDataSourceImpl::load_or_null(TemporalId id, dot::Type data_type)
     {
         if (cutoff_time != nullptr)
         {
             // If revision_time_constraint is not null, return null for any
-            // id that is not strictly before the constraint temporal_id
+            // id that is not strictly before the constraint TemporalId
             if (id >= cutoff_time.value()) return nullptr;
         }
 
@@ -44,9 +44,9 @@ namespace dc
         if (cursor->begin() != cursor->end())
         {
             dot::Object obj = *(cursor->begin());
-            if (!obj.is<deleted_record>())
+            if (!obj.is<DeletedRecord>())
             {
-                record rec = obj.as<record>();
+                Record rec = obj.as<Record>();
 
                 if (!data_type->is_assignable_from(rec->get_type()))
                 {
@@ -61,7 +61,7 @@ namespace dc
                 }
 
                 // Now we use get_cutoff_time() for the full check
-                dot::Nullable<temporal_id> cutoff_time = get_cutoff_time(rec->data_set);
+                dot::Nullable<TemporalId> cutoff_time = get_cutoff_time(rec->data_set);
                 if (cutoff_time != nullptr)
                 {
                     // Return null for any record that has TemporalId
@@ -77,12 +77,12 @@ namespace dc
         return nullptr;
     }
 
-    record mongo_data_source_data_impl::load_or_null(key key, temporal_id load_from)
+    Record MongoDataSourceImpl::load_or_null(Key key, TemporalId load_from)
     {
         // dot::String key in semicolon delimited format used in the lookup
         dot::String key_value = key->to_string();
 
-        dot::Type record_type = dot::typeof<record>();
+        dot::Type record_type = dot::typeof<Record>();
 
         dot::Query base_query = dot::make_query(get_or_create_collection(key->get_type()), key->get_type())
             ->where(new dot::OperatorWrapperImpl("_key", "$eq", key_value))
@@ -99,9 +99,9 @@ namespace dc
         if (cursor->begin() != cursor->end())
         {
             dot::Object obj = *(cursor->begin());
-            if (!obj.is<deleted_record>())
+            if (!obj.is<DeletedRecord>())
             {
-                record rec = obj.as<record>();
+                Record rec = obj.as<Record>();
                 rec->init(context);
                 return rec;
             }
@@ -110,7 +110,7 @@ namespace dc
         return nullptr;
     }
 
-    void mongo_data_source_data_impl::save_many(dot::List<record> records, temporal_id save_to)
+    void MongoDataSourceImpl::save_many(dot::List<Record> records, TemporalId save_to)
     {
         check_not_read_only(save_to);
 
@@ -118,20 +118,20 @@ namespace dc
 
 
         // Iterate over list elements to populate fields
-        for(record rec : records)
+        for(Record rec : records)
         {
             // This method guarantees that TemporalIds will be in strictly increasing
             // order for this instance of the data source class always, and across
             // all processes and machine if they are not created within the same
             // second.
-            temporal_id object_id = create_ordered_object_id();
+            TemporalId object_id = create_ordered_object_id();
 
             // TemporalId of the record must be strictly later
             // than TemporalId of the dataset where it is stored
             if (object_id <= save_to)
                 throw dot::Exception(dot::String::format(
-                    "Attempting to save a record with temporal_id={0} that is later "
-                    "than temporal_id={1} of the dataset where it is being saved.", object_id.to_string(), save_to.to_string()));
+                    "Attempting to save a record with TemporalId={0} that is later "
+                    "than TemporalId={1} of the dataset where it is being saved.", object_id.to_string(), save_to.to_string()));
 
             // Assign ID and DataSet, and only then initialize, because
             // initialization code may use record.ID and record.DataSet
@@ -143,28 +143,28 @@ namespace dc
         collection->insert_many(records);
     }
 
-    mongo_query mongo_data_source_data_impl::get_query(temporal_id data_set, dot::Type type)
+    MongoQuery MongoDataSourceImpl::get_query(TemporalId data_set, dot::Type type)
     {
         return make_mongo_query(get_or_create_collection(type), type, this, data_set);
     }
 
 
-    void mongo_data_source_data_impl::delete_record(key key, temporal_id delete_in)
+    void MongoDataSourceImpl::delete_record(Key key, TemporalId delete_in)
     {
         check_not_read_only(delete_in);
 
         dot::Collection collection = get_or_create_collection(key->get_type());
 
-        deleted_record record = make_deleted_record(key);
+        DeletedRecord record = make_deleted_record(key);
 
-        temporal_id object_id = create_ordered_object_id();
+        TemporalId object_id = create_ordered_object_id();
 
-        // temporal_id of the record must be strictly later
-        // than temporal_id of the dataset where it is stored
+        // TemporalId of the record must be strictly later
+        // than TemporalId of the dataset where it is stored
         if (object_id <= delete_in)
             throw dot::Exception(dot::String::format(
-                "Attempting to save a record with temporal_id={0} that is later "
-                "than temporal_id={1} of the dataset where it is being saved.", object_id.to_string(), delete_in.to_string()));
+                "Attempting to save a record with TemporalId={0} that is later "
+                "than TemporalId={1} of the dataset where it is being saved.", object_id.to_string(), delete_in.to_string()));
 
         // Assign id and data_set, and only then initialize, because
         // initialization code may use record.id and record.data_set
@@ -174,7 +174,7 @@ namespace dc
         collection->insert_one(record);
     }
 
-    dot::Query mongo_data_source_data_impl::apply_final_constraints(dot::Query query, temporal_id load_from)
+    dot::Query MongoDataSourceImpl::apply_final_constraints(dot::Query query, TemporalId load_from)
     {
         // Get lookup list by expanding the list of imports to arbitrary
         // depth with duplicates and cyclic references removed.
@@ -182,8 +182,8 @@ namespace dc
         // The list will not include datasets that are after the value of
         // CutoffTime if specified, or their imports (including
         // even those imports that are earlier than the constraint).
-        dot::HashSet<temporal_id> lookup_set = get_data_set_lookup_list(load_from);
-        dot::List<temporal_id> lookup_list = dot::make_list<temporal_id>(std::vector<temporal_id>(lookup_set->begin(), lookup_set->end()));
+        dot::HashSet<TemporalId> lookup_set = get_data_set_lookup_list(load_from);
+        dot::List<TemporalId> lookup_list = dot::make_list<TemporalId>(std::vector<TemporalId>(lookup_set->begin(), lookup_set->end()));
 
 
         // Apply constraint that the value is _dataset is
@@ -195,7 +195,7 @@ namespace dc
         //
         // The property savedBy_ is set using either CutoffTime element.
         // Only one of these two elements can be set at a given time.
-        dot::Nullable<temporal_id> cutoff_time = get_cutoff_time(load_from);
+        dot::Nullable<TemporalId> cutoff_time = get_cutoff_time(load_from);
         if (cutoff_time != nullptr)
         {
             result = result->where(new dot::OperatorWrapperImpl("_id", "$lt", cutoff_time.value()));
@@ -204,9 +204,9 @@ namespace dc
         return result;
     }
 
-    dot::Nullable<temporal_id> mongo_data_source_data_impl::get_data_set_or_empty(dot::String data_set_id, temporal_id load_from)
+    dot::Nullable<TemporalId> MongoDataSourceImpl::get_data_set_or_empty(dot::String data_set_id, TemporalId load_from)
     {
-        temporal_id result;
+        TemporalId result;
         if (data_set_dict_->try_get_value(data_set_id, result))
         {
             // Check if already cached, return if found
@@ -215,17 +215,17 @@ namespace dc
         else
         {
             // Otherwise load from storage (this also updates the dictionaries)
-            data_set_key data_set_key = make_data_set_key();
+            DataSetKey data_set_key = make_data_set_key();
             data_set_key->data_set_id = data_set_id;
-            data_set_data data_set_data = (dc::data_set_data)load_or_null(data_set_key, load_from);
+            DataSet data_set_data = (dc::DataSet)load_or_null(data_set_key, load_from);
 
             // If not found, return TemporalId.Empty
             if (data_set_data == nullptr) return nullptr;
 
             // Get or create dataset detail record
-            data_set_detail_key data_set_detail_key = make_data_set_detail_key();
+            DataSetDetailKey data_set_detail_key = make_data_set_detail_key();
             data_set_detail_key->data_set_id = data_set_data->id;
-            data_set_detail_data data_set_detail_data = (dc::data_set_detail_data)load_or_null(data_set_detail_key, load_from);
+            DataSetDetail data_set_detail_data = (dc::DataSetDetail)load_or_null(data_set_detail_key, load_from);
             if (data_set_detail_data == nullptr)
             {
                 data_set_detail_data = make_data_set_detail_data();
@@ -237,7 +237,7 @@ namespace dc
             data_set_dict_[data_set_id] = data_set_data->id;
             data_set_owners_dict_[data_set_data->id] = data_set_data->data_set;
 
-            dot::HashSet<temporal_id> import_set;
+            dot::HashSet<TemporalId> import_set;
             // Build and cache dataset lookup list if not found
             if (!data_set_parent_dict_->try_get_value(data_set_data->id, import_set))
             {
@@ -249,7 +249,7 @@ namespace dc
         }
     }
 
-    void mongo_data_source_data_impl::save_data_set(data_set_data data_set_data, temporal_id save_to)
+    void MongoDataSourceImpl::save_data_set(DataSet data_set_data, TemporalId save_to)
     {
         // Save dataset to storage. This updates its Id
             // to the new TemporalId created during save
@@ -260,22 +260,22 @@ namespace dc
         data_set_owners_dict_[data_set_data->id] = data_set_data->data_set;
 
         // Update lookup list dictionary
-        dot::HashSet<temporal_id> lookup_list = build_data_set_lookup_list(data_set_data);
+        dot::HashSet<TemporalId> lookup_list = build_data_set_lookup_list(data_set_data);
         data_set_parent_dict_->add(data_set_data->id, lookup_list);
     }
 
-    dot::HashSet<temporal_id> mongo_data_source_data_impl::get_data_set_lookup_list(temporal_id load_from)
+    dot::HashSet<TemporalId> MongoDataSourceImpl::get_data_set_lookup_list(TemporalId load_from)
     {
-        dot::HashSet<temporal_id> result;
+        dot::HashSet<TemporalId> result;
 
         // Root dataset has no imports (there is not even a record
         // where these imports can be specified).
         //
         // Return list containing only the root dataset (TemporalId.Empty) and exit
-        if (load_from == temporal_id::empty)
+        if (load_from == TemporalId::empty)
         {
-            result = dot::make_hash_set<temporal_id>();
-            result->add(temporal_id::empty);
+            result = dot::make_hash_set<TemporalId>();
+            result->add(TemporalId::empty);
             return result;
         }
 
@@ -287,10 +287,10 @@ namespace dc
         else
         {
             // Otherwise load from storage (returns null if not found)
-            data_set_data data_set_data = (dc::data_set_data)load_or_null(load_from, dot::typeof<dc::data_set_data>());
+            DataSet data_set_data = (dc::DataSet)load_or_null(load_from, dot::typeof<dc::DataSet>());
 
             if (data_set_data == nullptr) throw dot::Exception(dot::String::format("Dataset with TemporalId={0} is not found.", load_from.to_string()));
-            if (data_set_data->data_set != temporal_id::empty) throw dot::Exception(dot::String::format("Dataset with TemporalId={0} is not stored in root dataset.", load_from.to_string()));
+            if (data_set_data->data_set != TemporalId::empty) throw dot::Exception(dot::String::format("Dataset with TemporalId={0} is not stored in root dataset.", load_from.to_string()));
 
             // Build the lookup list
             result = build_data_set_lookup_list(data_set_data);
@@ -301,11 +301,11 @@ namespace dc
         }
     }
 
-    data_set_detail_data mongo_data_source_data_impl::get_data_set_detail_or_empty(temporal_id detail_for)
+    DataSetDetail MongoDataSourceImpl::get_data_set_detail_or_empty(TemporalId detail_for)
     {
-        data_set_detail_data result;
+        DataSetDetail result;
 
-        if (detail_for == temporal_id::empty)
+        if (detail_for == TemporalId::empty)
         {
             // Root dataset does not have details
             // as it has no parent where the details
@@ -326,12 +326,12 @@ namespace dc
             // Get dataset parent from the dictionary.
             // We should not get here unless the value
             // is already cached.
-            temporal_id parent_id = data_set_owners_dict_[detail_for];
+            TemporalId parent_id = data_set_owners_dict_[detail_for];
 
             // Otherwise try loading from storage (this also updates the dictionaries)
-            data_set_detail_key data_set_detail_key = make_data_set_detail_key();
+            DataSetDetailKey data_set_detail_key = make_data_set_detail_key();
             data_set_detail_key->data_set_id = detail_for;
-            result = (data_set_detail_data)load_or_null(data_set_detail_key, parent_id);
+            result = (DataSetDetail)load_or_null(data_set_detail_key, parent_id);
 
             // Cache in dictionary even if null
             data_set_detail_dict_[detail_for] = result;
@@ -339,30 +339,30 @@ namespace dc
         }
     }
 
-    dot::Nullable<temporal_id> mongo_data_source_data_impl::get_cutoff_time(temporal_id data_set_id)
+    dot::Nullable<TemporalId> MongoDataSourceImpl::get_cutoff_time(TemporalId data_set_id)
     {
         // Get imports cutoff time for the dataset detail record.
         // If the record is not found, consider its CutoffTime null.
-        data_set_detail_data data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
-        dot::Nullable<temporal_id> data_set_cutoff_time = data_set_detail_data != nullptr ? data_set_detail_data->cutoff_time : nullptr;
+        DataSetDetail data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
+        dot::Nullable<TemporalId> data_set_cutoff_time = data_set_detail_data != nullptr ? data_set_detail_data->cutoff_time : nullptr;
 
         // If CutoffTime is set for both data source and dataset,
         // this method returns the earlier of the two values.
-        dot::Nullable<temporal_id> result = temporal_id::min(cutoff_time, data_set_cutoff_time);
+        dot::Nullable<TemporalId> result = TemporalId::min(cutoff_time, data_set_cutoff_time);
         return result;
     }
 
-    dot::Nullable<temporal_id> mongo_data_source_data_impl::get_imports_cutoff_time(temporal_id data_set_id)
+    dot::Nullable<TemporalId> MongoDataSourceImpl::get_imports_cutoff_time(TemporalId data_set_id)
     {
         // Get dataset detail record
-        data_set_detail_data data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
+        DataSetDetail data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
 
         // Return null if the record is not found
         if (data_set_detail_data != nullptr) return data_set_detail_data->imports_cutoff_time;
         else return nullptr;
     }
 
-    dot::Collection mongo_data_source_data_impl::get_or_create_collection(dot::Type data_type)
+    dot::Collection MongoDataSourceImpl::get_or_create_collection(dot::Type data_type)
     {
         // Check if collection Object has already been cached
         // for this type and return cached result if found
@@ -374,7 +374,7 @@ namespace dc
         }
 
         // Collection name is root class name of the record without prefix
-        dot::String collection_name = data_type_info_impl::get_or_create(data_type)->get_collection_name();
+        dot::String collection_name = DataTypeInfoImpl::get_or_create(data_type)->get_collection_name();
 
         // Get interfaces to base and typed collections for the same name
         dot::Collection typed_collection = db_->get_collection(collection_name);
@@ -400,7 +400,7 @@ namespace dc
         // Additional indices are provided using IndexAttribute for the class.
         // Get a sorted dictionary of (definition, name) pairs
         // for the inheritance chain of the specified type.
-        dot::Dictionary<dot::String, dot::String> index_dict = index_elements_attribute_impl::get_attributes_dict(data_type);
+        dot::Dictionary<dot::String, dot::String> index_dict = IndexElementsAttributeImpl::get_attributes_dict(data_type);
 
         // Iterate over the dictionary to define the index
         for (auto index_info : index_dict)
@@ -409,7 +409,7 @@ namespace dc
             dot::String index_name = index_info.second;
 
             // Parse index definition to get a list of (ElementName,SortOrder) tuples
-            dot::List<std::tuple<dot::String, int>> index_tokens = index_elements_attribute_impl::parse_definition(index_definition, data_type);
+            dot::List<std::tuple<dot::String, int>> index_tokens = IndexElementsAttributeImpl::parse_definition(index_definition, data_type);
 
             if (index_name == nullptr) throw dot::Exception("Index name cannot be null.");
 
@@ -424,26 +424,26 @@ namespace dc
         return typed_collection;
     }
 
-    dot::HashSet<temporal_id> mongo_data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data)
+    dot::HashSet<TemporalId> MongoDataSourceImpl::build_data_set_lookup_list(DataSet data_set_data)
     {
         // Delegate to the second overload
-        dot::HashSet<temporal_id> result = dot::make_hash_set<temporal_id>();
+        dot::HashSet<TemporalId> result = dot::make_hash_set<TemporalId>();
         build_data_set_lookup_list(data_set_data, result);
         return result;
     }
 
-    void mongo_data_source_data_impl::build_data_set_lookup_list(data_set_data data_set_data, dot::HashSet<temporal_id> result)
+    void MongoDataSourceImpl::build_data_set_lookup_list(DataSet data_set_data, dot::HashSet<TemporalId> result)
     {
         // Return if the dataset is null or has no imports
         if (data_set_data == nullptr) return;
 
         // Error message if dataset has no Id or Key set
         if (data_set_data->id.is_empty())
-            throw dot::Exception("Required temporal_id value is not set.");
+            throw dot::Exception("Required TemporalId value is not set.");
         if (data_set_data->get_key().is_empty())
             throw dot::Exception("Required String value is not set.");
 
-        dot::Nullable<temporal_id> cutoff_time = get_cutoff_time(data_set_data->data_set);
+        dot::Nullable<TemporalId> cutoff_time = get_cutoff_time(data_set_data->data_set);
         if (cutoff_time != nullptr && data_set_data->id >= cutoff_time.value())
         {
             // Do not add if revision time constraint is set and is before this dataset.
@@ -458,7 +458,7 @@ namespace dc
         // Add imports to the result
         if (data_set_data->parents != nullptr)
         {
-            for (temporal_id data_set_id : data_set_data->parents)
+            for (TemporalId data_set_id : data_set_data->parents)
             {
                 // Dataset cannot include itself as its import
                 if (data_set_data->id == data_set_id)
@@ -470,8 +470,8 @@ namespace dc
                 {
                     result->add(data_set_id);
                     // Add recursively if not already present in the hashset
-                    dot::HashSet<temporal_id> cached_import_list = get_data_set_lookup_list(data_set_id);
-                    for (temporal_id import_id : cached_import_list)
+                    dot::HashSet<TemporalId> cached_import_list = get_data_set_lookup_list(data_set_id);
+                    for (TemporalId import_id : cached_import_list)
                     {
                         result->add(import_id);
                     }
@@ -480,13 +480,13 @@ namespace dc
         }
     }
 
-    void mongo_data_source_data_impl::check_not_read_only(temporal_id data_set_id)
+    void MongoDataSourceImpl::check_not_read_only(TemporalId data_set_id)
     {
         if (read_only.has_value() && read_only.value())
             throw dot::Exception(dot::String::format(
                 "Attempting write operation for data source {0} where ReadOnly flag is set.", data_source_id));
 
-        data_set_detail_data data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
+        DataSetDetail data_set_detail_data = get_data_set_detail_or_empty(data_set_id);
         if (data_set_detail_data != nullptr && data_set_detail_data->read_only.has_value() && data_set_detail_data->read_only.value())
             throw dot::Exception(dot::String::format(
                 "Attempting write operation for dataset {0} where ReadOnly flag is set.", data_set_id.to_string()));

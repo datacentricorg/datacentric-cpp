@@ -24,9 +24,9 @@ namespace dc
     /// Specifies instance type.
     ///
     /// Some API functions are restricted based on the instance type.
-    class instance_type : public dot::EnumBase
+    class InstanceType : public dot::EnumBase
     {
-        typedef instance_type self;
+        typedef InstanceType self;
 
     public:
 
@@ -71,7 +71,7 @@ namespace dc
             test,
         };
 
-        DOT_ENUM_BEGIN("dc", "instance_type")
+        DOT_ENUM_BEGIN("dc", "InstanceType")
             DOT_ENUM_VALUE(empty)
             DOT_ENUM_VALUE(prod)
             DOT_ENUM_VALUE(uat)

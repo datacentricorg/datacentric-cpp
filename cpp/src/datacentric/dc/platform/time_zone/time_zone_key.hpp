@@ -23,10 +23,10 @@ limitations under the License.
 
 namespace dc
 {
-    class time_zone_key_impl; using time_zone_key = dot::Ptr<time_zone_key_impl>;
-    class time_zone_data_impl; using time_zone_data = dot::Ptr<time_zone_data_impl>;
+    class TimeZoneKeyImpl; using TimeZoneKey = dot::Ptr<TimeZoneKeyImpl>;
+    class TimeZoneImpl; using TimeZone = dot::Ptr<TimeZoneImpl>;
 
-    inline time_zone_key make_time_zone_key();
+    inline TimeZoneKey make_time_zone_key();
 
     /// This interface provides timezone for the conversion between
     /// datetime (by convention, always in UTC) and date, time,
@@ -47,10 +47,10 @@ namespace dc
     /// timezone database precisely. The IANA city timezone code
     /// has two slash-delimited tokens, the first referencing the
     /// country and the other the city, for example America/New_York.
-    class DC_CLASS time_zone_key_impl : public typed_key_impl<time_zone_key_impl,time_zone_data_impl>
+    class DC_CLASS TimeZoneKeyImpl : public TypedKeyImpl<TimeZoneKeyImpl,TimeZoneImpl>
     {
-        typedef time_zone_key_impl self;
-        friend time_zone_key make_time_zone_key();
+        typedef TimeZoneKeyImpl self;
+        friend TimeZoneKey make_time_zone_key();
 
     public: // FIELDS
 
@@ -79,5 +79,5 @@ namespace dc
     };
 
     /// Create an empty instance.
-    inline time_zone_key make_time_zone_key() { return new time_zone_key_impl; }
+    inline TimeZoneKey make_time_zone_key() { return new TimeZoneKeyImpl; }
 }

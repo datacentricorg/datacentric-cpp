@@ -22,152 +22,152 @@ limitations under the License.
 
 namespace dc
 {
-    void context_base_impl::set_data_source(data_source_data value)
+    void ContextBaseImpl::set_data_source(DataSource value)
     {
         data_source = value;
     }
 
-    record context_base_impl::load(temporal_id id, dot::Type data_type)
+    Record ContextBaseImpl::load(TemporalId id, dot::Type data_type)
     {
         return data_source->load(id, data_type);
     }
 
-    record context_base_impl::load_or_null(temporal_id id, dot::Type data_type)
+    Record ContextBaseImpl::load_or_null(TemporalId id, dot::Type data_type)
     {
         return data_source->load_or_null(id, data_type);
     }
 
-    record context_base_impl::load(key key, temporal_id load_from)
+    Record ContextBaseImpl::load(Key key, TemporalId load_from)
     {
         return data_source->load(key, load_from);
     }
 
-    record context_base_impl::load_or_null(key key, temporal_id load_from)
+    Record ContextBaseImpl::load_or_null(Key key, TemporalId load_from)
     {
         return data_source->load_or_null(key, load_from);
     }
 
-    mongo_query context_base_impl::get_query(temporal_id load_from, dot::Type data_type)
+    MongoQuery ContextBaseImpl::get_query(TemporalId load_from, dot::Type data_type)
     {
         return data_source->get_query(load_from, data_type);
     }
 
-    void context_base_impl::save_one(record record)
+    void ContextBaseImpl::save_one(Record record)
     {
         data_source->save_one(record, data_set);
     }
 
-    void context_base_impl::save_one(record record, temporal_id save_to)
+    void ContextBaseImpl::save_one(Record record, TemporalId save_to)
     {
         data_source->save_one(record, save_to);
     }
 
-    void context_base_impl::save_many(dot::List<record> records)
+    void ContextBaseImpl::save_many(dot::List<Record> records)
     {
         data_source->save_many(records, data_set);
     }
 
-    void context_base_impl::save_many(dot::List<record> records, temporal_id save_to)
+    void ContextBaseImpl::save_many(dot::List<Record> records, TemporalId save_to)
     {
         data_source->save_many(records, save_to);
     }
 
-    void context_base_impl::delete_record(key key)
+    void ContextBaseImpl::delete_record(Key key)
     {
         data_source->delete_record(key, data_set);
     }
 
-    void context_base_impl::delete_record(key key, temporal_id delete_in)
+    void ContextBaseImpl::delete_record(Key key, TemporalId delete_in)
     {
         data_source->delete_record(key, delete_in);
     }
 
-    void context_base_impl::delete_db()
+    void ContextBaseImpl::delete_db()
     {
         data_source->delete_db();
     }
 
-    temporal_id context_base_impl::get_common()
+    TemporalId ContextBaseImpl::get_common()
     {
         return data_source->get_common();
     }
 
-    temporal_id context_base_impl::get_data_set(dot::String data_set_id)
+    TemporalId ContextBaseImpl::get_data_set(dot::String data_set_id)
     {
         return data_source->get_data_set(data_set_id, data_set);
     }
 
-    temporal_id context_base_impl::get_data_set(dot::String data_set_id, temporal_id load_from)
+    TemporalId ContextBaseImpl::get_data_set(dot::String data_set_id, TemporalId load_from)
     {
         return data_source->get_data_set(data_set_id, load_from);
     }
 
-    dot::Nullable<temporal_id> context_base_impl::get_data_set_or_empty(dot::String data_set_id)
+    dot::Nullable<TemporalId> ContextBaseImpl::get_data_set_or_empty(dot::String data_set_id)
     {
         return data_source->get_data_set_or_empty(data_set_id, data_set);
     }
 
-    dot::Nullable<temporal_id> context_base_impl::get_data_set_or_empty(dot::String data_set_id, temporal_id load_from)
+    dot::Nullable<TemporalId> ContextBaseImpl::get_data_set_or_empty(dot::String data_set_id, TemporalId load_from)
     {
         return data_source->get_data_set_or_empty(data_set_id, load_from);
     }
 
-    temporal_id context_base_impl::create_common()
+    TemporalId ContextBaseImpl::create_common()
     {
         return data_source->create_common();
     }
 
-    temporal_id context_base_impl::create_common(data_set_flags flags)
+    TemporalId ContextBaseImpl::create_common(DataSetFlags flags)
     {
         return data_source->create_common(flags);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id)
     {
         return data_source->create_data_set(data_set_id, data_set);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, temporal_id save_to)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, TemporalId save_to)
     {
         return data_source->create_data_set(data_set_id, save_to);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parentdata_sets)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parentdata_sets)
     {
         return data_source->create_data_set(data_set_id, parentdata_sets, data_set);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parentdata_sets, temporal_id save_to)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parentdata_sets, TemporalId save_to)
     {
         return data_source->create_data_set(data_set_id, parentdata_sets, save_to);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, data_set_flags flags)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, DataSetFlags flags)
     {
         return data_source->create_data_set(data_set_id, flags, data_set);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, data_set_flags flags, temporal_id save_to)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, DataSetFlags flags, TemporalId save_to)
     {
         return data_source->create_data_set(data_set_id, flags, save_to);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags)
     {
         return data_source->create_data_set(data_set_id, parent_data_sets, flags, data_set);
     }
 
-    temporal_id context_base_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to)
+    TemporalId ContextBaseImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags, TemporalId save_to)
     {
         return data_source->create_data_set(data_set_id, parent_data_sets, flags, save_to);
     }
 
-    void context_base_impl::save_data_set(data_set_data value)
+    void ContextBaseImpl::save_data_set(DataSet value)
     {
         data_source->save_data_set(value, data_set);
     }
 
-    void context_base_impl::save_data_set(data_set_data value, temporal_id save_to)
+    void ContextBaseImpl::save_data_set(DataSet value, TemporalId save_to)
     {
         data_source->save_data_set(value, save_to);
     }

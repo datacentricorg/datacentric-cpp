@@ -21,20 +21,20 @@ limitations under the License.
 
 namespace dc
 {
-    class deleted_record_impl; using deleted_record = dot::Ptr<deleted_record_impl>;
+    class DeletedRecordImpl; using DeletedRecord = dot::Ptr<DeletedRecordImpl>;
 
-    inline deleted_record make_deleted_record(key key);
-    inline deleted_record make_deleted_record();
+    inline DeletedRecord make_deleted_record(Key key);
+    inline DeletedRecord make_deleted_record();
 
     /// When returned by the data source, this record has the same
     /// effect as if no record was found. It is used to indicate
     /// a deleted record when audit log must be preserved.
-    class DC_CLASS deleted_record_impl : public record_impl
+    class DC_CLASS DeletedRecordImpl : public RecordImpl
     {
-        typedef deleted_record_impl self;
+        typedef DeletedRecordImpl self;
 
-        friend deleted_record make_deleted_record(key key);
-        friend deleted_record make_deleted_record();
+        friend DeletedRecord make_deleted_record(Key key);
+        friend DeletedRecord make_deleted_record();
 
     public: // PROPERTIES
 
@@ -50,20 +50,20 @@ namespace dc
 
     private: // CONSTRUCTORS
 
-        deleted_record_impl(key key);
+        DeletedRecordImpl(Key key);
 
-        deleted_record_impl();
+        DeletedRecordImpl();
 
     public:
 
-        DOT_TYPE_BEGIN("dc", "deleted_record")
-            DOT_TYPE_BASE(record)
-            ->with_constructor(static_cast<deleted_record (*)(key)>(&make_deleted_record), { "key" })
-            ->with_constructor(static_cast<deleted_record(*) ()>(&make_deleted_record), {})
-            ->with_field("_key", &deleted_record_impl::key_)
+        DOT_TYPE_BEGIN("dc", "DeletedRecord")
+            DOT_TYPE_BASE(Record)
+            ->with_constructor(static_cast<DeletedRecord (*)(Key)>(&make_deleted_record), { "key" })
+            ->with_constructor(static_cast<DeletedRecord(*) ()>(&make_deleted_record), {})
+            ->with_field("_key", &DeletedRecordImpl::key_)
         DOT_TYPE_END()
     };
 
-    inline deleted_record make_deleted_record(key key) { return new deleted_record_impl(key); }
-    inline deleted_record make_deleted_record() { return new deleted_record_impl(); }
+    inline DeletedRecord make_deleted_record(Key key) { return new DeletedRecordImpl(key); }
+    inline DeletedRecord make_deleted_record() { return new DeletedRecordImpl(); }
 }

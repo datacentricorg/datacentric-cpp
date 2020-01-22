@@ -21,7 +21,7 @@ limitations under the License.
 namespace dc
 {
     /// Verbosity level of log output.
-    enum class log_verbosity : int
+    enum class LogVerbosity : int
     {
         /// Empty
         empty,

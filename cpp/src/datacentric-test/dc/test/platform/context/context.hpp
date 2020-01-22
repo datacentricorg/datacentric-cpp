@@ -23,8 +23,8 @@ namespace dc
 {
     class unit_test_context_base_impl; using unit_test_context_base = dot::Ptr<unit_test_context_base_impl>;
 
-    /// Extends context_base with approval test functionality.
-    class unit_test_context_base_impl : public context_base_impl
+    /// Extends ContextBase with approval test functionality.
+    class unit_test_context_base_impl : public ContextBaseImpl
     {
         typedef unit_test_context_base_impl self;
 
@@ -44,7 +44,7 @@ namespace dc
 
     /// Context for use in test fixtures that do not require MongoDB.
     ///
-    /// This class implements unit_test_context_base which extends context_base
+    /// This class implements unit_test_context_base which extends ContextBase
     /// with approval test functionality. Attempting to access data_source
     /// using this context will cause an error.
     ///

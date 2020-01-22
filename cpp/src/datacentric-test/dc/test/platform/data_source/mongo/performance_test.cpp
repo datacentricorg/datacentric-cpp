@@ -83,7 +83,7 @@ namespace dc
     performance_test_key make_performance_test_key();
 
     /// Key class.
-    class performance_test_key_impl : public typed_key_impl<performance_test_key_impl, performance_test_data_impl>
+    class performance_test_key_impl : public TypedKeyImpl<performance_test_key_impl, performance_test_data_impl>
     {
         typedef performance_test_key_impl self;
 
@@ -93,7 +93,7 @@ namespace dc
 
         DOT_TYPE_BEGIN("dc", "performance_test_key")
             DOT_TYPE_PROP(record_id)
-            DOT_TYPE_BASE(typed_key<performance_test_key_impl, performance_test_data_impl>)
+            DOT_TYPE_BASE(TypedKey<performance_test_key_impl, performance_test_data_impl>)
             DOT_TYPE_CTOR(make_performance_test_key)
         DOT_TYPE_END()
     };
@@ -103,7 +103,7 @@ namespace dc
     performance_test_data make_performance_test_data();
 
     /// Data class.
-    class performance_test_data_impl : public typed_record_impl<performance_test_key_impl, performance_test_data_impl>
+    class performance_test_data_impl : public TypedRecordImpl<performance_test_key_impl, performance_test_data_impl>
     {
         typedef performance_test_data_impl self;
 
@@ -117,7 +117,7 @@ namespace dc
             DOT_TYPE_PROP(record_id)
             DOT_TYPE_PROP(double_list)
             DOT_TYPE_PROP(version)
-            DOT_TYPE_BASE(typed_record<performance_test_key_impl, performance_test_data_impl>)
+            DOT_TYPE_BASE(TypedRecord<performance_test_key_impl, performance_test_data_impl>)
             DOT_TYPE_CTOR(make_performance_test_data)
         DOT_TYPE_END()
     };
@@ -138,7 +138,7 @@ namespace dc
         return dot::String::format(data_set_pattern, index);
     }
 
-    temporal_id save_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_version, int record_size)
+    TemporalId save_record(unit_test_context_base context, dot::String data_set_id, dot::String record_id, int record_version, int record_size)
     {
         performance_test_data rec = make_performance_test_data();
         rec->record_id = record_id;
@@ -149,7 +149,7 @@ namespace dc
         for (int i = 0; i < record_size; ++i)
             rec->double_list->add(std::rand());
 
-        temporal_id data_set = context->get_data_set(data_set_id);
+        TemporalId data_set = context->get_data_set(data_set_id);
         context->save_one(rec, data_set);
         return rec->id;
     }
@@ -157,18 +157,18 @@ namespace dc
     void save_records(unit_test_context_base context, int record_count, int record_size)
     {
         // Create datasets
-        temporal_id common_data_set = context->get_common();
+        TemporalId common_data_set = context->get_common();
         for (int i = 0; i < data_set_count; ++i)
         {
             dot::String data_set_name = get_data_set(i);
-            context->create_data_set(data_set_name, dot::make_list<temporal_id>({ common_data_set }));
+            context->create_data_set(data_set_name, dot::make_list<TemporalId>({ common_data_set }));
         }
 
         // Create records
         for (int i = 0; i < record_count; ++i)
         {
             dot::String record_id = get_record_key(i);
-            save_record(context, data_set_key_impl::common->data_set_id, record_id, 0, record_size);
+            save_record(context, DataSetKeyImpl::common->data_set_id, record_id, 0, record_size);
 
             for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {
@@ -213,7 +213,7 @@ namespace dc
             for (int data_set_index = 0; data_set_index < data_set_count; ++data_set_index)
             {
                 dot::String data_set_name = get_data_set(data_set_index);
-                temporal_id data_set = context->get_data_set(data_set_name);
+                TemporalId data_set = context->get_data_set(data_set_name);
                 context->load_or_null(key, data_set);
             }
         }
@@ -229,7 +229,7 @@ namespace dc
 
         dot::String record_id = get_record_key(2);
         dot::String data_set_name = get_data_set(2);
-        temporal_id data_set = context->get_data_set(data_set_name);
+        TemporalId data_set = context->get_data_set(data_set_name);
 
         dot::CursorWrapper<performance_test_data> query = context->data_source->get_query<performance_test_data>(data_set)
             ->where(make_prop(&performance_test_data_impl::record_id) == record_id)

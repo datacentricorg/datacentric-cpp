@@ -181,7 +181,7 @@ namespace dot
         //if (prev_state == TreeWriterState::document_started)
         //{
         //    dot::String root_element_name = element_stack_.top().first;
-        //    if (!root_element_name->ends_with("key"))  // TODO remove it
+        //    if (!root_element_name->ends_with("Key"))  // TODO remove it
         //        this->write_value_element("_t", root_element_name);
         //}
     }

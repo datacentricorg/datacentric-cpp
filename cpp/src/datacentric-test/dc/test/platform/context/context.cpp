@@ -56,13 +56,13 @@ namespace dc
         // is actually used to access data.
         dot::String mapped_class_name = class_instance->get_type()->name();
 
-        data_source_data data_source = new mongo_data_source_data_impl();
+        DataSource data_source = new MongoDataSourceImpl();
         obj->data_source = data_source;
 
         data_source->db_server = (make_mongo_default_server_data())->to_key();
-        data_source->db_name = new db_name_key_impl();
+        data_source->db_name = new DbNameKeyImpl();
 
-        data_source->db_name->db_instance_type = instance_type::test;
+        data_source->db_name->db_instance_type = InstanceType::test;
         data_source->db_name->instance_name = mapped_class_name;
         data_source->db_name->env_name = method_name;
 

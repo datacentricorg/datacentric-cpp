@@ -22,27 +22,27 @@ limitations under the License.
 
 namespace dc
 {
-    dot::String data_type_info_impl::get_collection_name()
+    dot::String DataTypeInfoImpl::get_collection_name()
     {
-        if (data_kind_ != data_kind_enum::record && data_kind_ != data_kind_enum::key)
+        if (data_kind_ != DataKindEnum::record && data_kind_ != DataKindEnum::key)
             throw dot::Exception(dot::String::format(
                 "get_collection_name() method is called for {0} "
-                "that is not derived from typed_record.", type_->name()));
+                "that is not derived from TypedRecord.", type_->name()));
 
         return root_data_type_->name();
     }
 
-    data_type_info data_type_info_impl::get_or_create(dot::Object value)
+    DataTypeInfo DataTypeInfoImpl::get_or_create(dot::Object value)
     {
         return get_or_create(value->get_type());
     }
 
-    data_type_info data_type_info_impl::get_or_create(dot::Type value)
+    DataTypeInfo DataTypeInfoImpl::get_or_create(dot::Type value)
     {
-        dot::Dictionary<dot::Type, data_type_info> dict_ = data_type_info_impl::get_type_dict();
+        dot::Dictionary<dot::Type, DataTypeInfo> dict_ = DataTypeInfoImpl::get_type_dict();
 
         // Check if a cached instance exists in dictionary
-        data_type_info result;
+        DataTypeInfo result;
         if (dict_->try_get_value(value, result))
         {
             // Return if found
@@ -51,13 +51,13 @@ namespace dc
         else
         {
             // Otherwise create and add to dictionary
-            result = new data_type_info_impl(value);
+            result = new DataTypeInfoImpl(value);
             dict_->add(value, result);
             return result;
         }
     }
 
-    data_type_info_impl::data_type_info_impl(dot::Type value)
+    DataTypeInfoImpl::DataTypeInfoImpl(dot::Type value)
     {
         type_ = value;
 
@@ -73,35 +73,35 @@ namespace dc
             inheritance_chain->add(current_type);
 
             dot::Type base_type = current_type->get_base_type();
-            if (base_type->equals(dot::typeof<data>()))
+            if (base_type->equals(dot::typeof<Data>()))
             {
                 if (root_type_ == nullptr)
                 {
-                    data_kind_ = data_kind_enum::element;
+                    data_kind_ = DataKindEnum::element;
                     root_type_ = current_type;
                 }
             }
-            else if (base_type->equals(dot::typeof<key>()))
+            else if (base_type->equals(dot::typeof<Key>()))
             {
                 if (root_type_ == nullptr)
                 {
-                    data_kind_ = data_kind_enum::key;
+                    data_kind_ = DataKindEnum::key;
                     root_type_ = current_type->get_generic_arguments()[0];
                     root_key_type_ = current_type->get_generic_arguments()[0];
                     root_data_type_ = current_type->get_generic_arguments()[1];
 
                     if (inheritance_chain->count() > 2)
                         throw dot::Exception(dot::String::format(
-                            "Key Type {0} must be derived directly from typed_key<TKey, TRecord> and sealed "
-                            "because key classes cannot have an inheritance hierarchy, only data classes can.",
+                            "Key Type {0} must be derived directly from TypedKey<TKey, TRecord> and sealed "
+                            "because key classes cannot have an inheritance hierarchy, only Data classes can.",
                             value->name()));
                 }
             }
-            else if (base_type->equals(dot::typeof<record>()))
+            else if (base_type->equals(dot::typeof<Record>()))
             {
                 if (root_type_ == nullptr)
                 {
-                    data_kind_ = data_kind_enum::record;
+                    data_kind_ = DataKindEnum::record;
                     root_type_ = current_type->get_generic_arguments()[1];
                     root_key_type_ = current_type->get_generic_arguments()[0];
                     root_data_type_ = current_type->get_generic_arguments()[1];
@@ -118,7 +118,7 @@ namespace dc
         }
 
         // Error message if the type is not derived from one of the permitted base classes
-        if (data_kind_ == data_kind_enum::empty)
+        if (data_kind_ == DataKindEnum::empty)
             throw dot::Exception(dot::String::format(
                 "Data Type {0} is not derived from Data, TypedKey<TKey, TRecord>, or TypedRecord<TKey, TRecord>.", value->name()));
 
@@ -127,9 +127,9 @@ namespace dc
             inheritance_chain_->add(t->name());
     }
 
-    dot::Dictionary<dot::Type, data_type_info>& data_type_info_impl::get_type_dict()
+    dot::Dictionary<dot::Type, DataTypeInfo>& DataTypeInfoImpl::get_type_dict()
     {
-        static dot::Dictionary<dot::Type, data_type_info> dict_ = dot::make_dictionary<dot::Type, data_type_info>();
+        static dot::Dictionary<dot::Type, DataTypeInfo> dict_ = dot::make_dictionary<dot::Type, DataTypeInfo>();
         return dict_;
     }
 }

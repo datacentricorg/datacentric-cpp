@@ -21,13 +21,13 @@ limitations under the License.
 
 namespace dc
 {
-    dot::Type time_zone_data_impl::type() { return typeof(); }
-    dot::Type time_zone_data_impl::typeof()
+    dot::Type TimeZoneImpl::type() { return typeof(); }
+    dot::Type TimeZoneImpl::typeof()
     {
         static dot::Type type_ =
             dot::make_type_builder<self>("dc", "time_zone")
             ->with_field("time_zone_id", &self::time_zone_id)
-            ->template with_base<typed_record<time_zone_key_impl, time_zone_data_impl>>()
+            ->template with_base<TypedRecord<TimeZoneKeyImpl, TimeZoneImpl>>()
             ->with_constructor(&make_time_zone_data, {  })
             ->build();
         return type_;

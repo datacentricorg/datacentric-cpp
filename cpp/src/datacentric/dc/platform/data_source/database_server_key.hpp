@@ -22,17 +22,17 @@ limitations under the License.
 
 namespace dc
 {
-    class db_server_key_impl; using db_server_key = dot::Ptr<db_server_key_impl>;
-    class db_server_data_impl; using db_server_data = dot::Ptr<db_server_data_impl>;
+    class DbServerKeyImpl; using DbServerKey = dot::Ptr<DbServerKeyImpl>;
+    class DbServerImpl; using DbServer = dot::Ptr<DbServerImpl>;
 
-    inline db_server_key make_db_server_key();
+    inline DbServerKey make_db_server_key();
 
     /// Provides a standard way to identify a database server.
     ///
     /// This record is stored in root dataset.
-    class DC_CLASS db_server_key_impl : public root_key_impl<db_server_key_impl, db_server_data_impl>
+    class DC_CLASS DbServerKeyImpl : public RootKeyImpl<DbServerKeyImpl, DbServerImpl>
     {
-        typedef db_server_key_impl self;
+        typedef DbServerKeyImpl self;
 
     public: // PROPERTIES
 
@@ -45,24 +45,24 @@ namespace dc
     public: // STATIC
 
         /// By convention, default_key is the Mongo server running on the default port of localhost.
-        static db_server_key default_key;
+        static DbServerKey default_key;
 
     public: // CONSTRUCTORS
 
         /// Default constructor.
-        db_server_key_impl() = default;
+        DbServerKeyImpl() = default;
 
         /// Keys in which String id is the only element support implicit conversion from value.
-        db_server_key_impl(dot::String value);
+        DbServerKeyImpl(dot::String value);
 
-        DOT_TYPE_BEGIN("dc", "db_server_key")
+        DOT_TYPE_BEGIN("dc", "DbServerKey")
             DOT_TYPE_PROP(db_server_uri)
             DOT_TYPE_CTOR(make_db_server_key)
         DOT_TYPE_END()
     };
 
-    inline db_server_key make_db_server_key()
+    inline DbServerKey make_db_server_key()
     {
-        return new db_server_key_impl;
+        return new DbServerKeyImpl;
     }
 }

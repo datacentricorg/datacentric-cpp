@@ -22,8 +22,8 @@ limitations under the License.
 
 namespace dc
 {
-    class key_impl; using key = dot::Ptr<key_impl>;
-    class data_impl; using data = dot::Ptr<data_impl>;
+    class KeyImpl; using Key = dot::Ptr<KeyImpl>;
+    class DataImpl; using Data = dot::Ptr<DataImpl>;
 
     /// Base class of a foreign key.
     ///
@@ -33,9 +33,9 @@ namespace dc
     /// Any elements of defined in the type specific key record
     /// become key tokens. Property Value and method ToString() of
     /// the key consists of key tokens with semicolon delimiter.
-    class DC_CLASS key_impl : public data_impl
+    class DC_CLASS KeyImpl : public DataImpl
     {
-        typedef key_impl self;
+        typedef KeyImpl self;
 
     public:
 
@@ -77,7 +77,7 @@ namespace dc
         /// can have any atomic type except Double.
         void populate_from(dot::String value);
 
-        temporal_id _id;
+        TemporalId _id;
 
     private:
 
@@ -98,9 +98,9 @@ namespace dc
         {
             static dot::Type result = []()-> dot::Type
             {
-                dot::Type t = dot::make_type_builder<self>("dc", "key", { dot::make_deserialize_class_attribute(&key_impl::deserialize)
-                    , dot::make_serialize_class_attribute(&key_impl::serialize) })
-                          ->with_method("assign_string", static_cast<void (key_impl::*)(dot::String)>(&key_impl::populate_from), {"value"})
+                dot::Type t = dot::make_type_builder<self>("dc", "Key", { dot::make_deserialize_class_attribute(&KeyImpl::deserialize)
+                    , dot::make_serialize_class_attribute(&KeyImpl::serialize) })
+                          ->with_method("assign_string", static_cast<void (KeyImpl::*)(dot::String)>(&KeyImpl::populate_from), {"value"})
                           ->build();
                 return t;
             }();

@@ -25,48 +25,48 @@ limitations under the License.
 
 namespace dc
 {
-    class context_base_impl; using context_base = dot::Ptr<context_base_impl>;
-    class data_source_data_impl; using data_source_data = dot::Ptr<data_source_data_impl>;
-    class data_set_data_impl; using data_set_data = dot::Ptr<data_set_data_impl>;
+    class ContextBaseImpl; using ContextBase = dot::Ptr<ContextBaseImpl>;
+    class DataSourceImpl; using DataSource = dot::Ptr<DataSourceImpl>;
+    class DataSetImpl; using DataSet = dot::Ptr<DataSetImpl>;
 
     /// Context defines dataset and provides access to data,
     /// logging, and other supporting functionality.
-    class DC_CLASS context_base_impl : public virtual dot::ObjectImpl
+    class DC_CLASS ContextBaseImpl : public virtual dot::ObjectImpl
     {
-        typedef context_base_impl self;
+        typedef ContextBaseImpl self;
 
     public: // PROPERTIES
 
         /// Get the default data source of the context.
-        data_source_data data_source;
+        DataSource data_source;
 
-        /// Returns temporal_id of the context dataset.
-        temporal_id data_set;
+        /// Returns TemporalId of the context dataset.
+        TemporalId data_set;
 
     public: // CONSTRUCTORS
 
     protected:
 
         /// Initialize data_source.
-        void set_data_source(data_source_data value);
+        void set_data_source(DataSource value);
 
     public: // METHODS
 
-        /// Load record by its temporal_id.
+        /// Load record by its TemporalId.
         ///
         /// Error message if there is no record for the specified ObjectId,
         /// or if the record exists but is not derived from TRecord.
         template <class TRecord>
-        TRecord load(temporal_id id)
+        TRecord load(TemporalId id)
         {
             return (TRecord)load(id, ::dot::typeof<TRecord>());
         }
 
-        /// Load record by its temporal_id.
+        /// Load record by its TemporalId.
         ///
         /// Return null if not found.
         template <class TRecord>
-        TRecord load_or_null(temporal_id id)
+        TRecord load_or_null(TemporalId id)
         {
             return (TRecord) load_or_null(id, ::dot::typeof<TRecord>());
         }
@@ -91,7 +91,7 @@ namespace dc
         ///
         /// Error message if the record is not found or is a DeletedRecord.
         template <class TKey, class TRecord>
-        dot::Ptr<TRecord> load(typed_key<TKey, TRecord> key)
+        dot::Ptr<TRecord> load(TypedKey<TKey, TRecord> key)
         {
             return (dot::Ptr<TRecord>)load(key, data_set);
         }
@@ -117,7 +117,7 @@ namespace dc
         ///
         /// Error message if the record is not found or is a DeletedRecord.
         template <class TKey, class TRecord>
-        dot::Ptr<TRecord> load(typed_key<TKey, TRecord> key, temporal_id load_from)
+        dot::Ptr<TRecord> load(TypedKey<TKey, TRecord> key, TemporalId load_from)
         {
             return (dot::Ptr<TRecord>)load(key, load_from);
         }
@@ -142,9 +142,9 @@ namespace dc
         /// however an exception will be thrown if the record exists but
         /// is not derived from TRecord.
         template <class TKey, class TRecord>
-        dot::Ptr<TRecord> load_or_null(typed_key<TKey, TRecord> key, temporal_id load_from)
+        dot::Ptr<TRecord> load_or_null(TypedKey<TKey, TRecord> key, TemporalId load_from)
         {
-            return (dot::Ptr<TRecord>)load_or_null((dc::key)key, load_from);
+            return (dot::Ptr<TRecord>)load_or_null((dc::Key)key, load_from);
         }
 
         /// Get query for the specified Type.
@@ -163,7 +163,7 @@ namespace dc
         /// Generic parameter TRecord is not necessarily the root data Type;
         /// it may also be a Type derived from the root data Type.
         template <class TRecord>
-        mongo_query get_query()
+        MongoQuery get_query()
         {
             return get_query(this->data_set, dot::typeof<TRecord>());
         }
@@ -184,7 +184,7 @@ namespace dc
         /// Generic parameter TRecord is not necessarily the root data Type;
         /// it may also be a Type derived from the root data Type.
         template <class TRecord>
-        mongo_query get_query(temporal_id load_from)
+        MongoQuery get_query(TemporalId load_from)
         {
             return get_query(load_from, dot::typeof<TRecord>());
         }
@@ -202,7 +202,7 @@ namespace dc
         /// order for this instance of the data source class always, and across
         /// all processes and machine if they are not created within the same
         /// second.
-        void save_one(record record);
+        void save_one(Record record);
 
         /// Save record to the specified dataset. After the method exits,
         /// record.data_set will be set to the value of the data_set parameter.
@@ -217,7 +217,7 @@ namespace dc
         /// order for this instance of the data source class always, and across
         /// all processes and machine if they are not created within the same
         /// second.
-        void save_one(record record, temporal_id save_to);
+        void save_one(Record record, TemporalId save_to);
 
         /// Save multiple records to the specified dataset. After the method exits,
         /// for each record the property record.DataSet will be set to the value of
@@ -231,7 +231,7 @@ namespace dc
         ///
         /// This method guarantees that TemporalIds of the saved records will be in
         /// strictly increasing order.
-        void save_many(dot::List<record> record);
+        void save_many(dot::List<Record> record);
 
         /// Save multiple records to the specified dataset. After the method exits,
         /// for each record the property record.DataSet will be set to the value of
@@ -245,7 +245,7 @@ namespace dc
         ///
         /// This method guarantees that TemporalIds of the saved records will be in
         /// strictly increasing order.
-        void save_many(dot::List<record> record, temporal_id save_to);
+        void save_many(dot::List<Record> record, TemporalId save_to);
 
         /// Write a delete marker for the dataset of the context and the specified
         /// key instead of actually deleting the record. This ensures that
@@ -254,7 +254,7 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        void delete_record(key key);
+        void delete_record(Key key);
 
         /// Write a DeletedRecord in deleteIn dataset for the specified key
         /// instead of actually deleting the record. This ensures that
@@ -263,7 +263,7 @@ namespace dc
         ///
         /// To avoid an additional roundtrip to the data store, the delete
         /// marker is written even when the record does not exist.
-        void delete_record(key key, temporal_id delete_in);
+        void delete_record(Key key, TemporalId delete_in);
 
         /// Permanently deletes (drops) the database with all records
         /// in it without the possibility to recover them later.
@@ -276,12 +276,12 @@ namespace dc
         /// THE POSSIBILITY OF RECOVERY. USE WITH CAUTION.
         void delete_db();
 
-        /// Return temporal_id of the latest common dataset.
+        /// Return TemporalId of the latest common dataset.
         ///
         /// common dataset is always stored in root dataset.
-        temporal_id get_common();
+        TemporalId get_common();
 
-        /// Return temporal_id for the latest dataset record with
+        /// Return TemporalId for the latest dataset record with
         /// matching data_set_id String from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
@@ -296,9 +296,9 @@ namespace dc
         /// in the data store and will only load it from storage
         /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
-        temporal_id get_data_set(dot::String data_set_id);
+        TemporalId get_data_set(dot::String data_set_id);
 
-        /// Return temporal_id for the latest dataset record with
+        /// Return TemporalId for the latest dataset record with
         /// matching data_set_id String from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
@@ -312,9 +312,9 @@ namespace dc
         /// in the data store and will only load it from storage
         /// if not found in cache. Use load_or_null method to
         /// force reloading the dataset from storage.
-        temporal_id get_data_set(dot::String data_set_id, temporal_id load_from);
+        TemporalId get_data_set(dot::String data_set_id, TemporalId load_from);
 
-        /// Return temporal_id for the latest dataset record with
+        /// Return TemporalId for the latest dataset record with
         /// matching data_set_id String from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
@@ -322,7 +322,7 @@ namespace dc
         /// specify the load_from parameter explicitly and instead
         /// uses context.data_set for its value.
         ///
-        /// Return temporal_id.empty if not found.
+        /// Return TemporalId.empty if not found.
         ///
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
@@ -332,16 +332,16 @@ namespace dc
         ///
         /// Error message if no matching data_set_id String is found
         /// or a delete marker is found instead.
-        dot::Nullable<temporal_id> get_data_set_or_empty(dot::String data_set_id);
+        dot::Nullable<TemporalId> get_data_set_or_empty(dot::String data_set_id);
 
-        /// Return temporal_id for the latest dataset record with
+        /// Return TemporalId for the latest dataset record with
         /// matching data_set_id String from in-memory cache. Try
         /// loading from storage only if not found in cache.
         ///
         /// This overload of the get_data_set_or_empty method specifies
         /// the load_from parameter explicitly.
         ///
-        /// Return temporal_id.empty if not found.
+        /// Return TemporalId.empty if not found.
         ///
         /// This method will return the value from in-memory
         /// cache even if it is no longer the latest version
@@ -351,7 +351,7 @@ namespace dc
         ///
         /// Error message if no matching data_set_id String is found
         /// or a delete marker is found instead.
-        dot::Nullable<temporal_id> get_data_set_or_empty(dot::String data_set_id, temporal_id load_from);
+        dot::Nullable<TemporalId> get_data_set_or_empty(dot::String data_set_id, TemporalId load_from);
 
         /// Create new version of the common dataset. By convention,
         /// the common dataset has no parents and is the ultimate
@@ -360,11 +360,11 @@ namespace dc
         /// is always saved in root dataset.
         ///
         /// This method sets id field of the argument to be the
-        /// new temporal_id assigned to the record when it is saved.
-        /// The timestamp of the new temporal_id is the current time.
+        /// new TemporalId assigned to the record when it is saved.
+        /// The timestamp of the new TemporalId is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        temporal_id create_common();
+        TemporalId create_common();
 
         /// Create Common dataset with the specified flags.
         ///
@@ -382,7 +382,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        temporal_id create_common(data_set_flags flags);
+        TemporalId create_common(DataSetFlags flags);
 
         /// Create new version of the dataset with the specified data_set_id
         /// and no parent datasets.
@@ -392,7 +392,7 @@ namespace dc
         /// uses context.data_set for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        temporal_id create_data_set(dot::String data_set_id);
+        TemporalId create_data_set(dot::String data_set_id);
 
         /// Create new version of the dataset with the specified data_set_id
         /// and no parent datasets.
@@ -401,28 +401,28 @@ namespace dc
         /// the save_to parameter explicitly.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        temporal_id create_data_set(dot::String data_set_id, temporal_id save_to);
+        TemporalId create_data_set(dot::String data_set_id, TemporalId save_to);
 
         /// Create new version of the dataset with the specified data_set_id
         /// and parent dataset temporal_ids passed as an array, and return
-        /// the new temporal_id assigned to the saved dataset.
+        /// the new TemporalId assigned to the saved dataset.
         ///
         /// This overload of the create_data_set method does not
         /// specify the save_to parameter explicitly and instead
         /// uses context.data_set for its value.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets);
+        TemporalId create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets);
 
         /// Create new version of the dataset with the specified data_set_id
         /// and parent dataset temporal_ids passed as an array, and return
-        /// the new temporal_id assigned to the saved dataset.
+        /// the new TemporalId assigned to the saved dataset.
         ///
         /// This overload of the create_data_set method specifies
         /// the save_to parameter explicitly.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, temporal_id save_to);
+        TemporalId create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, TemporalId save_to);
 
         /// Create dataset with the specified dataSetName and flags
         /// in context.DataSet, and make context.DataSet its sole import.
@@ -435,7 +435,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        temporal_id create_data_set(dot::String data_set_id, data_set_flags flags);
+        TemporalId create_data_set(dot::String data_set_id, DataSetFlags flags);
 
         /// Create dataset with the specified dataSetName and flags
         /// in parentDataSet, and make parentDataSet its sole import.
@@ -448,7 +448,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        temporal_id create_data_set(dot::String data_set_id, data_set_flags flags, temporal_id save_to);
+        TemporalId create_data_set(dot::String data_set_id, DataSetFlags flags, TemporalId save_to);
 
         /// Create dataset with the specified dataSetName, imports,
         /// and flags in context.DataSet.
@@ -461,7 +461,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags);
+        TemporalId create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags);
 
         /// Create dataset with the specified dataSetName, imports,
         /// and flags in parentDataSet.
@@ -474,7 +474,7 @@ namespace dc
         ///
         /// This method updates in-memory dataset cache to include
         /// the created dataset.
-        temporal_id create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to);
+        TemporalId create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags, TemporalId save_to);
 
         /// Save new version of the dataset.
         ///
@@ -483,11 +483,11 @@ namespace dc
         /// uses context.data_set for its value.
         ///
         /// This method sets id field of the argument to be the
-        /// new temporal_id assigned to the record when it is saved.
-        /// The timestamp of the new temporal_id is the current time.
+        /// new TemporalId assigned to the record when it is saved.
+        /// The timestamp of the new TemporalId is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        void save_data_set(data_set_data value);
+        void save_data_set(DataSet value);
 
         /// Save new version of the dataset.
         ///
@@ -495,26 +495,26 @@ namespace dc
         /// the save_to parameter explicitly.
         ///
         /// This method sets id field of the argument to be the
-        /// new temporal_id assigned to the record when it is saved.
-        /// The timestamp of the new temporal_id is the current time.
+        /// new TemporalId assigned to the record when it is saved.
+        /// The timestamp of the new TemporalId is the current time.
         ///
         /// This method updates in-memory cache to the saved dataset.
-        void save_data_set(data_set_data value, temporal_id save_to);
+        void save_data_set(DataSet value, TemporalId save_to);
 
     public: // NON TEMPLATE METHODS
 
-        /// Load record by its temporal_id and Type.
+        /// Load record by its TemporalId and Type.
         ///
         /// Return null if not found.
-        record load_or_null(temporal_id id, dot::Type data_type);
+        Record load_or_null(TemporalId id, dot::Type data_type);
 
-        record load(temporal_id id, dot::Type data_type);
+        Record load(TemporalId id, dot::Type data_type);
 
-        record load(key key, temporal_id load_from);
+        Record load(Key key, TemporalId load_from);
 
-        record load_or_null(key key, temporal_id load_from);
+        Record load_or_null(Key key, TemporalId load_from);
 
-        mongo_query get_query(temporal_id load_from, dot::Type data_type);
+        MongoQuery get_query(TemporalId load_from, dot::Type data_type);
     };
 }
 

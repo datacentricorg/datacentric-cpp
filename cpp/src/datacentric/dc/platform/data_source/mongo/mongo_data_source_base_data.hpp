@@ -25,17 +25,17 @@ limitations under the License.
 
 namespace dc
 {
-    class mongo_data_source_base_data_impl; using mongo_data_source_base_data = dot::Ptr<mongo_data_source_base_data_impl>;
-    class context_base_impl; using context_base = dot::Ptr<context_base_impl>;
-    class key_impl; using key = dot::Ptr<key_impl>;
-    class data_impl; using data = dot::Ptr<data_impl>;
+    class MongoDataSourceBaseImpl; using MongoDataSourceBase = dot::Ptr<MongoDataSourceBaseImpl>;
+    class ContextBaseImpl; using ContextBase = dot::Ptr<ContextBaseImpl>;
+    class KeyImpl; using Key = dot::Ptr<KeyImpl>;
+    class DataImpl; using Data = dot::Ptr<DataImpl>;
 
     /// Abstract base class for data source implementations based on MongoDB.
     ///
     /// This class provides functionality shared by all MongoDB data source types.
-    class DC_CLASS mongo_data_source_base_data_impl : public data_source_data_impl
+    class DC_CLASS MongoDataSourceBaseImpl : public DataSourceImpl
     {
-        typedef mongo_data_source_base_data_impl self;
+        typedef MongoDataSourceBaseImpl self;
 
     protected: // FIELDS
 
@@ -51,7 +51,7 @@ namespace dc
 
         /// Type of instance controls the ability to do certain
         /// actions such as deleting (dropping) the database.
-        instance_type instance_type_;
+        InstanceType instance_type_;
 
         /// Full name of the database on Mongo server including delimiters.
         dot::String db_name_;
@@ -62,8 +62,8 @@ namespace dc
         /// Interface to Mongo database in MongoDB C++ driver.
         dot::Database db_;
 
-        /// Previous temporal_id returned by create_ordered_object_id() method.
-        temporal_id prev_object_id_ = temporal_id::empty;
+        /// Previous TemporalId returned by create_ordered_object_id() method.
+        TemporalId prev_object_id_ = TemporalId::empty;
 
     public: // METHODS
 
@@ -71,7 +71,7 @@ namespace dc
         ///
         /// All derived classes overriding this method must call base.init(context)
         /// before executing the the rest of the code in the method override.
-        void init(context_base context) override;
+        void init(ContextBase context) override;
 
         /// The returned temporal_ids have the following order guarantees:
         ///
@@ -82,7 +82,7 @@ namespace dc
         /// the same second by different instances of the data source
         /// class may not be ordered chronologically unless they are at
         /// least one second apart.
-        virtual temporal_id create_ordered_object_id() override;
+        virtual TemporalId create_ordered_object_id() override;
 
         /// Permanently deletes (drops) the database with all records
         /// in it without the possibility to recover them later.
@@ -97,7 +97,7 @@ namespace dc
 
     protected: // PROTECTED
 
-        mongo_data_source_base_data_impl()
+        MongoDataSourceBaseImpl()
         {
             // TODO uncomment
             //if (use_scalar_discriminator_convention_)

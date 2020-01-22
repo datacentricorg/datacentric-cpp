@@ -21,7 +21,7 @@ limitations under the License.
 namespace dc
 {
     /// Enumeration for the log entry type.
-    enum class log_entry_type : int
+    enum class LogEntryType : int
     {
         /// Empty
         empty,

@@ -30,7 +30,7 @@ limitations under the License.
 namespace dot
 {
     /// Wrapper around char to make it convertible to Object (boxing).
-    class CharImpl : public virtual ObjectImpl
+    class DOT_CLASS CharImpl : public virtual ObjectImpl
     {
         friend Object;
         char value_;

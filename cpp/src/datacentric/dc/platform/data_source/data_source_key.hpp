@@ -24,8 +24,8 @@ limitations under the License.
 
 namespace dc
 {
-    class data_source_key_impl; using data_source_key = dot::Ptr<data_source_key_impl>;
-    class data_source_data_impl; using data_source_data = dot::Ptr<data_source_data_impl>;
+    class DataSourceKeyImpl; using DataSourceKey = dot::Ptr<DataSourceKeyImpl>;
+    class DataSourceImpl; using DataSource = dot::Ptr<DataSourceImpl>;
 
     /// Data source is a logical concept similar to database
     /// that can be implemented for a document DB, relational DB,
@@ -38,9 +38,9 @@ namespace dc
     /// (c) query record across a group of datasets.
     ///
     /// This record is stored in root dataset.
-    class DC_CLASS data_source_key_impl : public root_key_impl<data_source_key_impl, data_source_data_impl>
+    class DC_CLASS DataSourceKeyImpl : public RootKeyImpl<DataSourceKeyImpl, DataSourceImpl>
     {
-        typedef data_source_key_impl self;
+        typedef DataSourceKeyImpl self;
 
     public: // PROPERTIES
 
@@ -50,20 +50,20 @@ namespace dc
     public: // STATIC
 
         /// By convention, cache is the name of the Operational Data Store (ODS).
-        static data_source_key cache;
+        static DataSourceKey cache;
 
         /// By convention, master is the name of the Master Data Store (MDS).
-        static data_source_key master;
+        static DataSourceKey master;
 
     public: // CONSTRUCTORS
 
-        data_source_key_impl() = default;
+        DataSourceKeyImpl() = default;
 
-        data_source_key_impl(dot::String value);
+        DataSourceKeyImpl(dot::String value);
 
-        DOT_TYPE_BEGIN("dc", "data_source_key")
+        DOT_TYPE_BEGIN("dc", "DataSourceKey")
             DOT_TYPE_PROP(data_source_id)
-            DOT_TYPE_BASE(root_key<data_source_key_impl, data_source_data_impl>)
+            DOT_TYPE_BASE(RootKey<DataSourceKeyImpl, DataSourceImpl>)
         DOT_TYPE_END()
     };
 }

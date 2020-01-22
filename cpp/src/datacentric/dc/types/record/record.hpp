@@ -22,33 +22,33 @@ limitations under the License.
 
 namespace dc
 {
-    class record_impl; using record = dot::Ptr<record_impl>;
-    class context_base_impl; using context_base = dot::Ptr<context_base_impl>;
+    class RecordImpl; using Record = dot::Ptr<RecordImpl>;
+    class ContextBaseImpl; using ContextBase = dot::Ptr<ContextBaseImpl>;
 
     /// Record objects must derive from this type.
-    class DC_CLASS record_impl : public virtual data_impl
+    class DC_CLASS RecordImpl : public virtual DataImpl
     {
-        typedef record_impl self;
+        typedef RecordImpl self;
 
     public: // FIELDS
 
-        /// temporal_id of the record is specific to its version.
+        /// TemporalId of the record is specific to its version.
         ///
         /// For the record's history to be captured correctly, all
-        /// update operations must assign a new temporal_id with the
+        /// update operations must assign a new TemporalId with the
         /// timestamp that matches update time.
-        temporal_id id;
+        TemporalId id;
 
-        /// temporal_id of the dataset where the record is stored.
+        /// TemporalId of the dataset where the record is stored.
         ///
         /// The records that may be stored in root dataset (including
         /// data source, database, database server, and common dataset
         /// records) must override this property to avoid an error about
         /// dataset not being set for the record.
-        temporal_id data_set;
+        TemporalId data_set;
 
         /// Use context to access resources.
-        dot::WeakPtr<context_base_impl> context;
+        dot::WeakPtr<ContextBaseImpl> context;
 
     public: // PROPERTIES
 
@@ -68,7 +68,7 @@ namespace dc
 
         /// Set context and perform fast initialization or validation
         /// of class data. Must first invoke base.init(context).
-        virtual void init(context_base context);
+        virtual void init(ContextBase context);
 
         dot::String to_string() { return get_key(); }
 

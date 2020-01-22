@@ -18,9 +18,8 @@ limitations under the License.
 
 namespace dc
 {
-
     template <typename TKey, typename TRecord>
-    void typed_key_impl<TKey, TRecord>::populate_from(typed_record<TKey, TRecord> record)
+    void TypedKeyImpl<TKey, TRecord>::populate_from(TypedRecord<TKey, TRecord> record)
     {
         // The remaining code assigns elements of the record
         // to the matching elements of the key. This will also

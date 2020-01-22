@@ -21,20 +21,20 @@ limitations under the License.
 
 namespace dc
 {
-    record data_source_data_impl::load(temporal_id id, dot::Type data_type)
+    Record DataSourceImpl::load(TemporalId id, dot::Type data_type)
     {
-        record result = load_or_null(id, data_type);
+        Record result = load_or_null(id, data_type);
         if (result.is_empty())
             throw dot::Exception(dot::String::format("Record with TemporalId={0} is not found in data store {1}.", id.to_string(), this->data_source_id));
         return result;
     }
 
-    temporal_id data_source_data_impl::get_common()
+    TemporalId DataSourceImpl::get_common()
     {
-        return get_data_set(data_set_key_impl::common->data_set_id, temporal_id::empty);
+        return get_data_set(DataSetKeyImpl::common->data_set_id, TemporalId::empty);
     }
 
-    temporal_id data_source_data_impl::get_data_set(dot::String data_set_id, temporal_id load_from)
+    TemporalId DataSourceImpl::get_data_set(dot::String data_set_id, TemporalId load_from)
     {
         auto result = get_data_set_or_empty(data_set_id, load_from);
         if (result == nullptr) throw dot::Exception(
@@ -42,33 +42,33 @@ namespace dc
         return result.value();
     }
 
-    temporal_id data_source_data_impl::create_common(data_set_flags flags)
+    TemporalId DataSourceImpl::create_common(DataSetFlags flags)
     {
-        return create_data_set("Common", flags, temporal_id::empty);
+        return create_data_set("Common", flags, TemporalId::empty);
     }
 
-    temporal_id data_source_data_impl::create_common()
+    TemporalId DataSourceImpl::create_common()
     {
-        return create_common(data_set_flags::default_option);
+        return create_common(DataSetFlags::default_option);
     }
 
-    temporal_id data_source_data_impl::create_data_set(dot::String data_set_id, temporal_id save_to)
+    TemporalId DataSourceImpl::create_data_set(dot::String data_set_id, TemporalId save_to)
     {
         // Create with default flags in parentDataSet
-        return create_data_set(data_set_id, nullptr, data_set_flags::default_option, save_to);
+        return create_data_set(data_set_id, nullptr, DataSetFlags::default_option, save_to);
     }
 
-    temporal_id data_source_data_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, temporal_id save_to)
+    TemporalId DataSourceImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, TemporalId save_to)
     {
         // Create with default flags in parentDataSet
-        return create_data_set(data_set_id, parent_data_sets, data_set_flags::default_option, save_to);
+        return create_data_set(data_set_id, parent_data_sets, DataSetFlags::default_option, save_to);
     }
-    temporal_id data_source_data_impl::create_data_set(dot::String data_set_id, data_set_flags flags, temporal_id save_to)
+    TemporalId DataSourceImpl::create_data_set(dot::String data_set_id, DataSetFlags flags, TemporalId save_to)
     {
         // Create with specified flags in parentDataSet
         return create_data_set(data_set_id, nullptr, flags, save_to);
     }
-    temporal_id data_source_data_impl::create_data_set(dot::String data_set_id, dot::List<temporal_id> parent_data_sets, data_set_flags flags, temporal_id save_to)
+    TemporalId DataSourceImpl::create_data_set(dot::String data_set_id, dot::List<TemporalId> parent_data_sets, DataSetFlags flags, TemporalId save_to)
     {
         // Create dataset record
         auto result = make_data_set_data();
@@ -77,7 +77,7 @@ namespace dc
         if (parent_data_sets != nullptr)
         {
             // Add parents if second argument is not null
-            result->parents = dot::make_list<temporal_id>();
+            result->parents = dot::make_list<TemporalId>();
             for (auto parent_data_set : parent_data_sets)
             {
                 result->parents->add(parent_data_set);
@@ -87,7 +87,7 @@ namespace dc
         // Save the record (this also updates the dictionaries)
         save_data_set(result, save_to);
 
-        // Return temporal_id that was assigned to the
+        // Return TemporalId that was assigned to the
         // record inside the save_data_set method
         return result->id;
     }
