@@ -69,8 +69,16 @@ namespace dot
 
     void bson_record_serializer_impl::deserialize_document(const bsoncxx::document::view & doc, tree_writer_base writer)
     {
+        auto type_iter = doc.find("_t");
+
+        dot::string type_name;
+        if (type_iter != doc.end())
+        {
+            type_name = type_iter->get_utf8().value.to_string();
+        }
+
         // Each document is a dictionary at root level
-        writer->write_start_dict();
+        writer->write_start_dict(type_name);
 
         // Loop over elements until
 
@@ -159,7 +167,7 @@ namespace dot
         }
 
         // Each document is a dictionary at root level
-        writer->write_end_dict();
+        writer->write_end_dict(type_name);
     }
 
     void bson_record_serializer_impl::deserialize_array(const bsoncxx::array::view & arr, tree_writer_base writer)
@@ -309,9 +317,7 @@ namespace dot
     void bson_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::object value)
     {
         // Write start tag
-        writer->write_start_dict();
-
-        writer->write_value_element("_t", value->get_type()->name);
+        writer->write_start_dict(value->get_type()->name);
 
         // Iterate over the list of elements
         dot::list<dot::field_info> inner_element_info_list = value->get_type()->get_fields();
@@ -359,7 +365,7 @@ namespace dot
         }
 
         // Write end tag
-        writer->write_end_dict();
+        writer->write_end_dict(value->get_type()->name);
     }
 
 }

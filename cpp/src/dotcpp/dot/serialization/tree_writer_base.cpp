@@ -29,18 +29,6 @@ limitations under the License.
 
 namespace dot
 {
-    void tree_writer_base_impl::write_start_dict_element(dot::string element_name)
-    {
-        this->write_start_element(element_name);
-        this->write_start_dict();
-    }
-
-    void tree_writer_base_impl::write_end_dict_element(dot::string element_name)
-    {
-        this->write_end_dict();
-        this->write_end_element(element_name);
-    }
-
     void tree_writer_base_impl::write_start_array_element(dot::string element_name)
     {
         this->write_start_element(element_name);
@@ -51,18 +39,6 @@ namespace dot
     {
         this->write_end_array();
         this->write_end_element(element_name);
-    }
-
-    void tree_writer_base_impl::write_start_dict_array_item()
-    {
-        this->write_start_array_item();
-        this->write_start_dict();
-    }
-
-    void tree_writer_base_impl::write_end_dict_array_item()
-    {
-        this->write_end_dict();
-        this->write_end_array_item();
     }
 
     void tree_writer_base_impl::write_value_element(dot::string element_name, dot::object value)

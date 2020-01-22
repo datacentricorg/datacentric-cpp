@@ -71,7 +71,13 @@ namespace dot
     void json_record_serializer_impl::deserialize_document(rapidjson::Document::ConstObject doc, tree_writer_base writer)
     {
         // Each document is a dictionary at root level
-        writer->write_start_dict();
+        auto type_iter = doc.FindMember("_t");
+        dot::string type_name;
+        if (type_iter != doc.MemberEnd())
+        {
+            type_name = type_iter->value.GetString();
+        }
+        writer->write_start_dict(type_name);
 
         // Loop over elements until
 
@@ -151,7 +157,7 @@ namespace dot
         }
 
         // Each document is a dictionary at root level
-        writer->write_end_dict();
+        writer->write_end_dict(type_name);
     }
 
     void json_record_serializer_impl::deserialize_array(rapidjson::Document::ConstArray arr, tree_writer_base writer)
@@ -296,9 +302,7 @@ namespace dot
     void json_record_serializer_impl::standard_serialize(tree_writer_base writer, dot::object value)
     {
         // Write start tag
-        writer->write_start_dict();
-
-        writer->write_value_element("_t", value->get_type()->name);
+        writer->write_start_dict(value->get_type()->name);
 
         // Iterate over the list of elements
         dot::list<dot::field_info> inner_element_info_list = value->get_type()->get_fields();
@@ -345,6 +349,6 @@ namespace dot
         }
 
         // Write end tag
-        writer->write_end_dict();
+        writer->write_end_dict(value->get_type()->name);
     }
 }

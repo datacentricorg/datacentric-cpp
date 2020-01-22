@@ -35,7 +35,7 @@ limitations under the License.
 #include <dot/noda_time/local_date.hpp>
 #include <dot/noda_time/local_date_time.hpp>
 #include <dot/serialization/data_writer.hpp>
-//#include <dot/mongo/mongo_db/bson/object_id.hpp>
+#include <dot/serialization/deserialize_attribute.hpp>
 
 namespace dot
 {
@@ -81,7 +81,7 @@ namespace dot
                         //writer->write_end_document(type_name);
                     }
 
-                    if (props_[i]->field_type->is_class)
+                    if (props_[i]->field_type->is_class && props_[i]->field_type->get_fields()->size())
                     {
                         object result = dot::activator::create_instance(props_[i]->field_type);
                         data_writer_ = make_data_writer(result);
@@ -109,20 +109,20 @@ namespace dot
         }
     }
 
-    void tuple_writer_impl::write_start_dict()
+    void tuple_writer_impl::write_start_dict(dot::string type_name)
     {
         if (data_writer_ != nullptr)
         {
-            data_writer_->write_start_dict();
+            data_writer_->write_start_dict(type_name);
         }
 
     }
 
-    void tuple_writer_impl::write_end_dict()
+    void tuple_writer_impl::write_end_dict(dot::string type_name)
     {
         if (data_writer_ != nullptr)
         {
-            data_writer_->write_end_dict();
+            data_writer_->write_end_dict(type_name);
             if (data_writer_->current_state_ == tree_writer_state::document_started)
                 data_writer_ = nullptr;
         }
@@ -350,34 +350,18 @@ namespace dot
 
             tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, enum_value }));
         }
+        else if (element_type->get_custom_attributes(dot::typeof<deserialize_class_attribute>(), true)->size())
+        {
+            deserialize_class_attribute attr = (deserialize_class_attribute)element_type->get_custom_attributes(dot::typeof<deserialize_class_attribute>(), true)[0];
+
+            dot::object obj = attr->deserialize(value, element_type);
+
+            tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, obj }));
+        }
         else
         {
-            // We run out of value types at this point, now we can create
-            // a reference type and check that it is derived from key_base
-            dot::object obj = dot::activator::create_instance(element_type);
-            if (/*key_obj.is<key_base>()*/ 1 ) // Check key attribute
-            {
-                //key_base key = (key_base)key_obj;
-
-                // Check type match
-                if (!value_type->equals(dot::typeof<dot::string>()) && !value_type->equals(element_type))
-                    throw dot::exception(
-                        dot::string::format("Attempting to deserialize value of type {0} ", value_type->name) +
-                        dot::string::format("into key type {0}; keys should be serialized into semicolon delimited string.", element_type->name));
-
-                // Populate from semicolon delimited string
-                dot::string string_value = value->to_string();
-                obj->get_type()->get_method("assign_string")->invoke(obj, make_list<object>({ string_value }));
-
-                // Add to array or dictionary, depending on what we are inside of
-                tuple_->get_type()->get_method("set_item")->invoke(tuple_, dot::make_list<dot::object>({ tuple_, index_of_current_, obj }));
-
-            }
-            else
-            {
-                // Argument type is unsupported, error message
-                throw dot::exception(dot::string::format("Element type {0} is not supported for serialization.", value->get_type()));
-            }
+            // Argument type is unsupported, error message
+            throw dot::exception(dot::string::format("Element type {0} is not supported for serialization.", value->get_type()));
         }
     }
 

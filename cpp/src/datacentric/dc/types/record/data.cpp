@@ -109,7 +109,7 @@ namespace dc
     void data_impl::serialize_to(dot::tree_writer_base writer)
     {
         // Write start tag
-        writer->write_start_dict();
+        writer->write_start_dict(class_info_impl::get_or_create(this->get_type())->raw_class_name);
 
         // Iterate over the list of elements
         dot::list<dot::field_info> inner_element_info_list = get_type()->get_fields();
@@ -120,7 +120,6 @@ namespace dc
 
             if (inner_element_name == "_t")
             {
-                writer->write_value_element(inner_element_name, class_info_impl::get_or_create(this->get_type())->raw_class_name);
                 continue;
             }
             if (inner_element_name == "_key")
@@ -181,6 +180,6 @@ namespace dc
         }
 
         // Write end tag
-        writer->write_end_dict();
+        writer->write_end_dict(class_info_impl::get_or_create(this->get_type())->raw_class_name);
     }
 }

@@ -131,7 +131,7 @@ namespace dot
         // Nothing to write here but array closing bracket was written above
     }
 
-    void json_writer_impl::write_start_dict()
+    void json_writer_impl::write_start_dict(dot::string type_name)
     {
         // Save initial state to be used below
         tree_writer_state prev_state = current_state_;
@@ -147,6 +147,9 @@ namespace dot
         // Write {
         json_writer_.StartObject();
 
+        json_writer_.Key("_t");
+        json_writer_.String(*type_name);
+
         // If prev state is document_started, write _t tag
         //if (prev_state == tree_writer_state::document_started)
         //{
@@ -156,7 +159,7 @@ namespace dot
         //}
     }
 
-    void json_writer_impl::write_end_dict()
+    void json_writer_impl::write_end_dict(dot::string type_name)
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::dict_started) current_state_ = tree_writer_state::dict_completed;

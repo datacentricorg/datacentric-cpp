@@ -71,11 +71,11 @@ namespace dot
 
         /// Write dictionary start tag. A call to this method
         /// must follow write_start_element(...) or write_start_array_item().
-        void write_start_dict();
+        void write_start_dict(dot::string type_name);
 
         /// Write dictionary end tag. A call to this method
         /// must be followed by write_end_element(...) or write_end_array_item().
-        void write_end_dict();
+        void write_end_dict(dot::string type_name);
 
         /// Write start tag for an array. A call to this method
         /// must follow write_start_element(name).

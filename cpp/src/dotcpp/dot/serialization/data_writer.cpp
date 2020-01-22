@@ -111,7 +111,7 @@ namespace dot
                 "end_complex_element({0}) follows start_complex_element({1}), element name mismatch.", element_name, current_element_name_));
     }
 
-    void data_writer_impl::write_start_dict()
+    void data_writer_impl::write_start_dict(dot::string type_name)
     {
         // Push state before defining dictionary state
         push_state();
@@ -129,13 +129,22 @@ namespace dot
         else throw dot::exception(
             "A call to write_start_dict() must follow write_start_element(...) or write_start_array_item().");
 
-        // Set dictionary info
-        dot::type created_dict_type = nullptr;
-        if (current_array_ != nullptr) created_dict_type = current_array_item_type_;
-        else if (current_dict_ != nullptr) created_dict_type = current_element_info_->field_type;
-        else throw dot::exception("Value can only be added to a dictionary or array.");
+        dot::object created_dict;
 
-        dot::object created_dict = dot::activator::create_instance(created_dict_type);
+        if (type_name != nullptr && !type_name->empty())
+        {
+            created_dict = dot::activator::create_instance("", type_name);
+        }
+        else
+        {
+            // Set dictionary info
+            dot::type created_dict_type = nullptr;
+            if (current_array_ != nullptr) created_dict_type = current_array_item_type_;
+            else if (current_dict_ != nullptr) created_dict_type = current_element_info_->field_type;
+            else throw dot::exception("Value can only be added to a dictionary or array.");
+
+            created_dict = dot::activator::create_instance(created_dict_type);
+        }
 
         // Add to array or dictionary, depending on what we are inside of
         if (current_array_ != nullptr) current_array_->add_object(created_dict);
@@ -143,14 +152,14 @@ namespace dot
         else throw dot::exception("Value can only be added to a dictionary or array.");
 
         current_dict_ = created_dict;
-        auto current_dict_info_list = created_dict_type->get_fields();
+        auto current_dict_info_list = created_dict->get_type()->get_fields();
         current_dict_elements_ = dot::make_dictionary<dot::string, dot::field_info>();
         for (auto element_info : current_dict_info_list) current_dict_elements_->add(element_info->name, element_info);
         current_array_ = nullptr;
         current_array_item_type_ = nullptr;
     }
 
-    void data_writer_impl::write_end_dict()
+    void data_writer_impl::write_end_dict(dot::string type_name)
     {
         // Check state transition matrix
         if (current_state_ == tree_writer_state::dict_started) current_state_ = tree_writer_state::dict_completed;

@@ -119,11 +119,11 @@ namespace dot
 
         /// Write dictionary start tag. A call to this method
         /// must follow write_start_element(name).
-        virtual void write_start_dict() = 0;
+        virtual void write_start_dict(dot::string type_name) = 0;
 
         /// Write dictionary end tag. A call to this method
         /// must be followed by write_end_element(name).
-        virtual void write_end_dict() = 0;
+        virtual void write_end_dict(dot::string type_name) = 0;
 
         /// Write start tag for an array. A call to this method
         /// must follow write_start_element(name).
@@ -153,23 +153,11 @@ namespace dot
         /// will be inferred from object.get_type().
         virtual void write_value(dot::object value) = 0;
 
-        /// write_start_element(...) followed by write_start_dict().
-        void write_start_dict_element(dot::string element_name);
-
-        /// write_end_dict(...) followed by write_end_element(...).
-        void write_end_dict_element(dot::string element_name);
-
         /// write_start_element(...) followed by write_start_array().
         void write_start_array_element(dot::string element_name);
 
         /// write_end_array(...) followed by write_end_element(...).
         void write_end_array_element(dot::string element_name);
-
-        /// write_start_array_item(...) followed by write_start_dict().
-        void write_start_dict_array_item();
-
-        /// write_end_dict(...) followed by write_end_array_item(...).
-        void write_end_dict_array_item();
 
         /// Write an element with no inner nodes.
         /// Element type is inferred by calling obj.get_type().
