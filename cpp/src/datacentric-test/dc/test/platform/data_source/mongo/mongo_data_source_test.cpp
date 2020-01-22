@@ -618,7 +618,9 @@ namespace dc
         }
         {
             received << "query by MongoTestData, unconstrained" << std::endl;
-            TemporalMongoQuery query = context->data_source->get_query<MongoTestData>(data_set_d);
+            TemporalMongoQuery query = context->data_source->get_query<MongoTestData>(data_set_d)
+                ->sort_by(make_prop(&MongoTestDataImpl::record_id))
+                ->sort_by(make_prop(&MongoTestDataImpl::record_index));
             for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
@@ -626,7 +628,9 @@ namespace dc
         }
         {
             received << "query by MongoTestDerivedData : MongoTestData which also picks up MongoTestDerivedFromDerivedData : MongoTestDerivedData, unconstrained" << std::endl;
-            TemporalMongoQuery query = context->data_source->get_query<MongoTestDerivedData>(data_set_d);
+            TemporalMongoQuery query = context->data_source->get_query<MongoTestDerivedData>(data_set_d)
+                ->sort_by(make_prop(&MongoTestDataImpl::record_id))
+                ->sort_by(make_prop(&MongoTestDataImpl::record_index));
             for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
@@ -635,7 +639,9 @@ namespace dc
         {
             received << "query by MongoTestOtherDerivedData : MongoTestData, unconstrained" << std::endl;
             MongoTestOtherDerivedDataImpl::typeof();
-            TemporalMongoQuery query = context->data_source->get_query<MongoTestOtherDerivedData>(data_set_d);
+            TemporalMongoQuery query = context->data_source->get_query<MongoTestOtherDerivedData>(data_set_d)
+                ->sort_by(make_prop(&MongoTestDataImpl::record_id))
+                ->sort_by(make_prop(&MongoTestDataImpl::record_index));
             for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;
@@ -643,7 +649,9 @@ namespace dc
         }
         {
             received << "query by MongoTestDerivedFromDerivedData : MongoTestDerivedData, where MongoTestDerivedData : MongoTestData, unconstrained" << std::endl;
-            TemporalMongoQuery query = context->data_source->get_query<MongoTestDerivedFromDerivedData>(data_set_d);
+            TemporalMongoQuery query = context->data_source->get_query<MongoTestDerivedFromDerivedData>(data_set_d)
+                ->sort_by(make_prop(&MongoTestDataImpl::record_id))
+                ->sort_by(make_prop(&MongoTestDataImpl::record_index));
             for (Record obj : query->get_cursor<Record>())
             {
                 received << *dot::String::format("    key={0} type={1}", obj->get_key(), obj->get_type()->name()) << std::endl;

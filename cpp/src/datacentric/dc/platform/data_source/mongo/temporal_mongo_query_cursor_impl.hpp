@@ -292,7 +292,7 @@ namespace dc
                 }
 
                 // If the list of record Ids is empty, continue
-                if (record_ids->count() == 0) break;
+                if (record_ids->count() == 0) continue;
 
                 // Finally, retrieve the records only for the Ids in the list
                 //
