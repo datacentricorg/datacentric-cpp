@@ -16,25 +16,25 @@ limitations under the License.
 
 #include <dc/precompiled.hpp>
 #include <dc/implement.hpp>
-#include <dc/platform/reflection/class_info.hpp>
+#include <dc/types/record/data_type_info.hpp>
 #include <dc/platform/settings/class_map_settings.hpp>
 
 namespace dc
 {
-    dot::string class_info_impl::to_string()
+    dot::string data_type_info_impl::to_string()
     {
         return mapped_full_name;
     }
 
-    class_info class_info_impl::get_or_create(dot::object value)
+    data_type_info data_type_info_impl::get_or_create(dot::object value)
     {
         return get_or_create(value->get_type());
     }
 
-    class_info class_info_impl::get_or_create(dot::type value)
+    data_type_info data_type_info_impl::get_or_create(dot::type value)
     {
-        dot::dictionary<dot::type, class_info> dict_ = class_info_impl::get_type_dict();
-        class_info result;
+        dot::dictionary<dot::type, data_type_info> dict_ = data_type_info_impl::get_type_dict();
+        data_type_info result;
 
         // Check if a cached instance exists in dictionary
         if (dict_->try_get_value(value, result))
@@ -45,13 +45,13 @@ namespace dc
         else
         {
             // Otherwise create and add to dictionary
-            result = new class_info_impl(value);
+            result = new data_type_info_impl(value);
             dict_->add(value, result);
             return result;
         }
     }
 
-    class_info_impl::class_info_impl(dot::type value)
+    data_type_info_impl::data_type_info_impl(dot::type value)
     {
         // Set type, raw full name, class name, and namespace
         this->type = value;
@@ -113,9 +113,9 @@ namespace dc
         mapped_full_name = mapped_namespace + dot::string(".") + mapped_class_name;
     }
 
-    dot::dictionary<dot::type, class_info>& class_info_impl::get_type_dict()
+    dot::dictionary<dot::type, data_type_info>& data_type_info_impl::get_type_dict()
     {
-        static dot::dictionary<dot::type, class_info> dict_ = dot::make_dictionary<dot::type, class_info>();
+        static dot::dictionary<dot::type, data_type_info> dict_ = dot::make_dictionary<dot::type, data_type_info>();
         return dict_;
     }
 }

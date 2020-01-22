@@ -23,13 +23,11 @@ limitations under the License.
 
 namespace dc
 {
-    class class_info_impl; using class_info = dot::ptr<class_info_impl>;
+    class data_type_info_impl; using data_type_info = dot::ptr<data_type_info_impl>;
 
     /// Provides the result of applying class map settings to a class.
-    class DC_CLASS class_info_impl : public virtual dot::object_impl
+    class DC_CLASS data_type_info_impl : public virtual dot::object_impl
     {
-        typedef class_info_impl self;
-
     public: // PROPERTIES
 
         /// Type for which class info is provided.
@@ -66,7 +64,7 @@ namespace dc
         ///
         /// This object contains information about the
         /// class including its name, namespace, etc.
-        static class_info get_or_create(dot::object value);
+        static data_type_info get_or_create(dot::object value);
 
         /// Get cached instance for the specified type, or create
         /// using settings from settings.default.class_map
@@ -74,7 +72,7 @@ namespace dc
         ///
         /// This object contains information about the
         /// class including its name, namespace, etc.
-        static class_info get_or_create(dot::type value);
+        static data_type_info get_or_create(dot::type value);
 
     private: // CONSTRUCTORS
 
@@ -85,10 +83,10 @@ namespace dc
         /// on get_or_create(...) method only which uses thread static
         /// cached value if any, and creates the instance only if
         /// it is not yet cached for the thread.
-        class_info_impl(dot::type value);
+        data_type_info_impl(dot::type value);
 
     private: // PRIVATE
 
-        static dot::dictionary<dot::type, class_info>& get_type_dict();
+        static dot::dictionary<dot::type, data_type_info>& get_type_dict();
     };
 }

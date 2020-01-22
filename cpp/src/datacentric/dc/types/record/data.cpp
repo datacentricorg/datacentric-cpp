@@ -20,7 +20,7 @@ limitations under the License.
 #include <dot/system/collections/generic/list.hpp>
 #include <dot/system/reflection/activator.hpp>
 #include <dc/types/record/key.hpp>
-#include <dc/platform/reflection/class_info.hpp>
+#include <dc/types/record/data_type_info.hpp>
 #include <dc/platform/context/context_base.hpp>
 #include <dc/types/record/record.hpp>
 #include <dot/mongo/mongo_db/mongo/settings.hpp>
