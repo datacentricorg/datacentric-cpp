@@ -130,7 +130,7 @@ namespace dc
             if (value_type->equals(dot::typeof<dot::local_time>()))     return variant(dot::local_time_util::parse(value));
             if (value_type->equals(dot::typeof<dot::local_minute>()))   return variant(dot::local_minute_util::parse(value));
             if (value_type->equals(dot::typeof<dot::local_date_time>())) return variant(dot::local_date_time_util::parse(value));
-            if (value_type->is_enum)                               return variant(dot::enum_base::parse(value_type, value));
+            if (value_type->is_enum())                               return variant(dot::enum_base::parse(value_type, value));
 
             // Error message if any other type
             throw dot::exception(get_wrong_type_error_message(T()));

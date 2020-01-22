@@ -31,7 +31,7 @@ namespace dot
         empty,
         scalar,       /// Type represents by scalar string with actual type.
         hierarchical, /// Type represents by string vector with actual type and base type up to root type.
-        default = scalar
+        default_convention = scalar
     };
 
 
@@ -41,7 +41,7 @@ namespace dot
     private:
 
         /// Returns reference to static discriminator convention value.
-        static discriminator_convention& discriminator_convention()
+        static discriminator_convention& discriminator_convention_ref()
         {
             static dot::discriminator_convention convention_ = dot::discriminator_convention::empty;
             return convention_;
@@ -54,10 +54,10 @@ namespace dot
         /// it will be set by default.
         static dot::discriminator_convention get_discriminator_convention()
         {
-            dot::discriminator_convention& convention = discriminator_convention();
+            dot::discriminator_convention& convention = discriminator_convention_ref();
             if (convention == dot::discriminator_convention::empty)
             {
-                convention = dot::discriminator_convention::default;
+                convention = dot::discriminator_convention::default_convention;
             }
 
             return convention;
@@ -68,7 +68,7 @@ namespace dot
         /// If value has already been set, Throws exception.
         static void set_discriminator_convention(dot::discriminator_convention convention)
         {
-            dot::discriminator_convention& convention_ref = discriminator_convention();
+            dot::discriminator_convention& convention_ref = discriminator_convention_ref();
             if (convention_ref == dot::discriminator_convention::empty)
             {
                 convention_ref = convention;
